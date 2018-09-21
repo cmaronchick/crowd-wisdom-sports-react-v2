@@ -1,0 +1,10 @@
+.GamePreview {
+  margin: 1em;
+  border: 1px solid #ccc; }
+  .GamePreview .game-header {
+    border-bottom: 1px solid #ccc;
+    padding: 0.25em 0.5em;
+    font-weight: bold;
+    background-color: #eee; }
+  .GamePreview .game-details {
+    padding: 0.5em; }
