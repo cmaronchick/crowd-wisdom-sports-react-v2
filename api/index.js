@@ -1,9 +1,15 @@
 import express from 'express';
+import games from '../src/games-week3';
 
 const router = express.Router();
 
-router.get('/', (req, res) => {
-  res.send({ data: [] });
+const gamesObjs = games.games.reduce((obj, game) => {
+  obj[game.gameId] = game;
+  return obj;
+}, {});
+
+router.get('/games', (req, res) => {
+  res.send({ games: gamesObjs });
 });
 
 export default router;

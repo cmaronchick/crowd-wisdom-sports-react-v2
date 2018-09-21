@@ -8,3 +8,6 @@
     background-color: #eee; }
   .GamePreview .game-details {
     padding: 0.5em; }
+
+.link {
+  cursor: pointer; }
