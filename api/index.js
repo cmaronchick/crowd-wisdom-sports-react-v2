@@ -12,4 +12,9 @@ router.get('/games', (req, res) => {
   res.send({ games: gamesObjs });
 });
 
+router.get('/games/:gameId', (req, res) => {
+  let game = gamesObjs[req.params.gameId];
+  res.send(game);
+});
+
 export default router;

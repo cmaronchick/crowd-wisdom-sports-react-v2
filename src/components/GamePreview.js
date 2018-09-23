@@ -5,6 +5,7 @@ class GamePreview extends Component {
     this.props.onClick(this.props.gameId);
   }
   render() {
+    //console.log('this.props: ', this.props);
     return (
     <div className="link GamePreview" onClick={this.handleClick}>
       <div className="game-header">
