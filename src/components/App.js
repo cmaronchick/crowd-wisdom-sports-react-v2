@@ -2,6 +2,7 @@ import React from 'react';
 import Header from './Header';
 import GamesList from './GamesList';
 import Game from './Game';
+import Weeks from './Weeks';
 import * as api from '../api';
 
 const pushState = (obj, url) =>
@@ -19,7 +20,6 @@ class App extends React.Component {
   componentDidMount() {
     // timers, listeners
     onPopState((event) => {
-      console.log('event.state: ', event.state);
       this.setState({
         currentGameId: (event.state || {}).currentGameId
       });
@@ -62,11 +62,27 @@ class App extends React.Component {
     });
   }
 
+  fetchGameWeek = (gameWeek) => {
+    pushState(
+      {gameWeek: gameWeek}
+    );
+    api.fetchGameWeek().then((gameWeek, games) => {
+      this.setState({
+        gameWeek: gameWeek,
+        currentGameId: null,
+        data: {
+          ...this.state.games,
+          games
+        }
+      });
+    });
+  }
+
   currentGame() {
     return this.state.games[this.state.currentGameId];
   }
   pageHeader() {
-    console.log('this.state: ', this.state);
+    //console.log('this.state: ', this.state);
     if (this.state.currentGameId) {
       return this.currentGame().awayTeam.shortName + ' vs. ' + this.currentGame().homeTeam.shortName;
     }
@@ -78,9 +94,11 @@ class App extends React.Component {
       gamesListClick={this.fetchGamesList}
       {...this.currentGame()} />;
     }
-    console.log('this.state.games: ', this.state.games);
-    return <GamesList onGameClick={this.fetchGame}
-    games={this.state.games} />;
+    //console.log('this.state.games: ', this.state.games);
+    return <div><Weeks
+    onGameWeekClick={this.fetchGameWeek}
+    weeks={[1,2,3]} /><GamesList onGameClick={this.fetchGame}
+    games={this.state.games} /></div>;
   }
   render() {
     return (

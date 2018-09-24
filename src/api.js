@@ -10,4 +10,9 @@ export const fetchGamesList = () => {
   .then (resp => resp.data.games);
 };
 
+export const fetchGameWeek = gameWeek => {
+  return axios.get(`/api/games/2018/${gameWeek}`)
+  .then (resp => resp.data.games);
+};
+
 //export default fetchGame;

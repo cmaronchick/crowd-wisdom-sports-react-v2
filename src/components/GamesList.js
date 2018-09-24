@@ -17,7 +17,7 @@ const GamesList = ({ games, onGameClick }) => {
 
 GamesList.propTypes = {
   games: React.PropTypes.object,
-  onGameClick: React.PropTypes.func.isRequired,
+  onGameClick: React.PropTypes.func.isRequired
 };
 
 export default GamesList;

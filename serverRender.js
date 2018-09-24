@@ -6,10 +6,13 @@ import App from './src/components/App';
 import config from './config';
 import axios from 'axios';
 
-const getApiUrl = gameId => {
+const getApiUrl = (gameId, year, gameWeek) => {
   
   if (gameId) {
-    return `${config.serverUrl}/api/games/${gameId}`;
+    return `${config.serverUrl}/api/game/${gameId}`;
+  }
+  if (year && gameWeek) {
+    return `${config.serverUrl}/api/games/${year}/${gameWeek}`;
   }
   return `${config.serverUrl}/api/games`;
 };
@@ -28,8 +31,8 @@ const getInitialData = (gameId, apiData) => {
   };
 };
 
-const serverRender = (gameId) =>
-  axios.get(getApiUrl(gameId))
+const serverRender = (gameId, year, gameWeek) =>
+  axios.get(getApiUrl(gameId, year, gameWeek))
   .then(resp => {
     const initialData = getInitialData(gameId, resp.data);
     console.log('initialData: ', initialData);
