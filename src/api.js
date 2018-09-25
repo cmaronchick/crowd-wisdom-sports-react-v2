@@ -1,7 +1,7 @@
 import axios from 'axios';
 
 export const fetchGame = gameId => {
-  return axios.get(`/api/games/${gameId}`)
+  return axios.get(`/api/game/${gameId}`)
     .then(resp => resp.data);
 };
 
@@ -10,8 +10,8 @@ export const fetchGamesList = () => {
   .then (resp => resp.data.games);
 };
 
-export const fetchGameWeek = gameWeek => {
-  return axios.get(`/api/games/2018/${gameWeek}`)
+export const fetchGameWeek = (year, gameWeek) => {
+  return axios.get(`/api/games/${year}/${gameWeek}`)
   .then (resp => resp.data.games);
 };
 

@@ -32,7 +32,7 @@ class App extends React.Component {
   fetchGame = (gameId) => {
     pushState(
       { currentGameId: gameId },
-      `/games/${gameId}`
+      `/game/${gameId}`
     );
     api.fetchGame(gameId).then(game => {
       this.setState({
@@ -62,18 +62,22 @@ class App extends React.Component {
     });
   }
 
-  fetchGameWeek = (gameWeek) => {
+  fetchGameWeek = (year, gameWeek) => {
     pushState(
-      {gameWeek: gameWeek}
+      {
+        currentGameId: null,
+        gameWeek: gameWeek,
+        year: year
+      },
+      `/games/${year}/${gameWeek}`
     );
-    api.fetchGameWeek().then((gameWeek, games) => {
+    api.fetchGameWeek(year, gameWeek).then((games) => {
       this.setState({
+        year: year,
         gameWeek: gameWeek,
         currentGameId: null,
-        data: {
-          ...this.state.games,
-          games
-        }
+        data: games,
+        games: games
       });
     });
   }
@@ -97,7 +101,8 @@ class App extends React.Component {
     //console.log('this.state.games: ', this.state.games);
     return <div><Weeks
     onGameWeekClick={this.fetchGameWeek}
-    weeks={[1,2,3]} /><GamesList onGameClick={this.fetchGame}
+    weeks={[{ year: 2018, week: 1}, { year: 2018, week: 2}, {year: 2018, week: 3}]} />
+    <GamesList onGameClick={this.fetchGame}
     games={this.state.games} /></div>;
   }
   render() {
