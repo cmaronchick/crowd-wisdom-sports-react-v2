@@ -1,4 +1,12 @@
+<div><button onClick='login()'>Login</button></div>
 <script src="/bundle.js" charset="utf-8"></script>
+<script type="text/javascript">
+    function login() {
+        console.log('login clicked')
+        el = document.getElementById("loginModal");
+        el.style.visibility = (el.style.visibility == "visible") ? "hidden" : "visible";
+    }
+</script>
 
 </body>
 </html>

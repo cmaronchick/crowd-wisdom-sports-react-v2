@@ -14,10 +14,10 @@ class Week extends Component {
   }
 }
 
-Week.propTypes = {
-  week: React.PropTypes.number.isRequired,
-  year: React.PropTypes.number.isRequired,
-  onClick: React.PropTypes.func.isRequired
-};
+// Week.propTypes = {
+//   week: React.PropTypes.number.isRequired,
+//   year: React.PropTypes.number.isRequired,
+//   onClick: React.PropTypes.func.isRequired
+// };
 
 export default Week;

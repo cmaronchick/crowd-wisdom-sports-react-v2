@@ -1,4 +1,11 @@
 import React from 'react';
+import Auth from '@aws-amplify/auth';
+
+import awsconfig from '../aws-exports'
+
+// retrieve temporary AWS credentials and sign requests
+Auth.configure(awsconfig);
+
 import Header from './Header';
 import GamesList from './GamesList';
 import Game from './Game';
@@ -13,10 +20,12 @@ const onPopState = handler => {
 };
 
 class App extends React.Component {
-  static propTypes = {
-    initialData: React.PropTypes.object.isRequired
+  constructor(props) {
+    super(props)
+    this.state = this.props.initialData
   }
-  state = this.props.initialData;
+  
+  
   componentDidMount() {
     // timers, listeners
     onPopState((event) => {
@@ -24,11 +33,48 @@ class App extends React.Component {
         currentGameId: (event.state || {}).currentGameId
       });
     });
+  
+    Auth.currentAuthenticatedUser()
+    .then(user => {
+      this.setState({user, authState: 'signedIn'});
+      console.log('user: ', user);
+    })
+    .catch(userError => {
+      this.setState({user: null, authState: 'signIn'})
+    })
   }
   componentWillUnmount() {
     // clean timers, listeners
     onPopState(null);
   }
+
+   signIn = (e) => {
+     e.preventDefault()
+    const { username, password } = this.state;
+    let user = Auth.signIn(username, password)
+    .then(user => {
+      console.log('user: ', user)
+      this.setState({user})
+      return user;
+    })
+    .catch(signInError => {
+      console.log('signInError: ', signInError)
+    })
+  }
+  signOut = (e) => {
+    e.preventDefault()
+    Auth.signOut()
+    .then(() => this.setState({user: null}))
+    .catch(signOutError => console.log('signOutError: ', signOutError))
+  }
+
+  onChangeText = (event) => {
+
+    this.setState({[event.target.name]: event.target.value})
+    console.log('event.target', event.target.name)
+    console.log('this.state: ', this.state)
+  }
+
   fetchGame = (gameId) => {
     pushState(
       { currentGameId: gameId },
@@ -98,6 +144,9 @@ class App extends React.Component {
       gamesListClick={this.fetchGamesList}
       {...this.currentGame()} />;
     }
+    if (this.state.signIn) {
+
+    }
     //console.log('this.state.games: ', this.state.games);
     return <div><Weeks
     onGameWeekClick={this.fetchGameWeek}
@@ -109,14 +158,30 @@ class App extends React.Component {
     return (
       <div className="App">
         <Header message={this.pageHeader()} />
+        
+        {(this.state.authState === 'signedIn') ? (
+          <button onClick={() => this.signOut}>Logout</button>
+        ) : (
+          <form>
+          <label>
+            User Name:
+            <input type="text" name="username" key="username" onChange={this.onChangeText} />
+          </label>
+          <label>
+            Password:
+            <input type="text" name="password" key="username" onChange={this.onChangeText} />
+          </label>
+          <button onClick={this.signIn}>Login</button>
+        </form>
+        )}
         {this.currentContent()}
       </div>
     );
   }
 }
 
-App.propTypes = {
-  initialGames: React.PropTypes.object
-};
+// App.propTypes = {
+//   initialGames: React.PropTypes.object
+// };
 
 export default App;

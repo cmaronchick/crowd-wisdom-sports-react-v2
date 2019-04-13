@@ -13,9 +13,9 @@ const Weeks = ({ weeks, onGameWeekClick }) => {
   );
 };
   
-Weeks.propTypes = {
-  weeks: React.PropTypes.array.isRequired,
-  onGameWeekClick: React.PropTypes.func.isRequired
-};
+// Weeks.propTypes = {
+//   weeks: React.PropTypes.array.isRequired,
+//   onGameWeekClick: React.PropTypes.func.isRequired
+// };
 
 export default Weeks;

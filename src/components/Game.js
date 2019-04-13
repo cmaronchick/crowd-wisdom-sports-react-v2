@@ -16,17 +16,17 @@ class Game extends Component {
   }
 }
 
-Game.propTypes = {
-  gameId: PropTypes.number.isRequired,
-  awayTeam: PropTypes.shape({
-    code: PropTypes.string.isRequired,
-    shortName: PropTypes.string.isRequired
-  }),
-  homeTeam: PropTypes.shape({
-    code: PropTypes.string.isRequired,
-    shortName: PropTypes.string.isRequired
-  }),
-  gamesListClick: PropTypes.func.isRequired
-};
+// Game.propTypes = {
+//   gameId: PropTypes.number.isRequired,
+//   awayTeam: PropTypes.shape({
+//     code: PropTypes.string.isRequired,
+//     shortName: PropTypes.string.isRequired
+//   }),
+//   homeTeam: PropTypes.shape({
+//     code: PropTypes.string.isRequired,
+//     shortName: PropTypes.string.isRequired
+//   }),
+//   gamesListClick: PropTypes.func.isRequired
+// };
 
 export default Game;

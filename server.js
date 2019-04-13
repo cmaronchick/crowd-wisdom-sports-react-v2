@@ -2,9 +2,12 @@ import config from './config';
 import apiRouter from './api';
 import sassMiddleware from 'node-sass-middleware';
 import path from 'path';
-
+import serverRender from './serverRender';
 import express from 'express';
+import bodyParser from 'body-parser';
+
 const server = express();
+server.use(bodyParser.json());
 
 server.use(sassMiddleware({
   src: path.join(__dirname, 'sass'),
@@ -13,17 +16,18 @@ server.use(sassMiddleware({
 
 server.set('view engine', 'ejs');
 
-import serverRender from './serverRender';
-
-server.get(['/', '/games/:year/:gameWeek','/game/:gameId'],(req, res) => {
-  serverRender(req.params.gameId, req.params.year, req.params.gameWeek)
-    .then(({ initialMarkup, initialData } ) => {
+server.get(['/', '/contest/:contestId'], (req, res) => {
+  serverRender(req.params.contestId)
+    .then(({ initialMarkup, initialData }) => {
       res.render('index', {
         initialMarkup,
         initialData
       });
     })
-    .catch(console.error);
+    .catch(error => {
+      console.error(error);
+      res.status(404).send('Bad Request');
+    });
 });
 
 server.use('/api', apiRouter);

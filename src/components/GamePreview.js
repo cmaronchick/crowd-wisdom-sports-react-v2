@@ -20,15 +20,15 @@ class GamePreview extends Component {
   }
 }
 
-GamePreview.propTypes = {
-  gameId: React.PropTypes.number.isRequired,
-  awayTeam: React.PropTypes.shape({
-    code: React.PropTypes.string.isRequired
-  }),
-  homeTeam: React.PropTypes.shape({
-    code: React.PropTypes.string.isRequired
-  }),
-  onClick: React.PropTypes.func.isRequired
-};
+// GamePreview.propTypes = {
+//   gameId: React.PropTypes.number.isRequired,
+//   awayTeam: React.PropTypes.shape({
+//     code: React.PropTypes.string.isRequired
+//   }),
+//   homeTeam: React.PropTypes.shape({
+//     code: React.PropTypes.string.isRequired
+//   }),
+//   onClick: React.PropTypes.func.isRequired
+// };
 
 export default GamePreview;
