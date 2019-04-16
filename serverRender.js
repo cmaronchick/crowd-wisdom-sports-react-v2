@@ -6,15 +6,26 @@ import App from './src/components/App';
 import config from './config';
 import axios from 'axios';
 
-const getApiUrl = (gameId, year, gameWeek) => {
+// const getGameWeekData = axios.get(`${config.serverUrl}/api/gameWeek`)
+//   .then(resp => {
+//     console.log('resp :', resp.data);
+//     return { year: resp.data.gameWeekData.year, week: resp.data.gameWeekData.week }
+//   })
+//   .catch(gameWeekError => console.log('gameWeekError :', gameWeekError));
+
+const getApiUrl = (gameId, gameWeekData) => {
   
   if (gameId) {
     return `${config.serverUrl}/api/game/${gameId}`;
   }
-  if (year && gameWeek) {
-    return `${config.serverUrl}/api/games/${year}/${gameWeek}`;
+  
+  console.log('gameWeekData :', gameWeekData);
+  
+  if (gameWeekData) { 
+    return `${config.serverUrl}/api/games/${gameWeekData.year}/${gameWeekData.week}`;
   }
-  return `${config.serverUrl}/api/games`;
+  return `${config.serverUrl}/api/games`
+  
 };
 
 const getInitialData = (gameId, apiData) => {
@@ -31,16 +42,28 @@ const getInitialData = (gameId, apiData) => {
   };
 };
 
-const serverRender = (gameId, year, gameWeek) =>
-  axios.get(getApiUrl(gameId, year, gameWeek))
-  .then(resp => {
-    const initialData = getInitialData(gameId, resp.data);
-    console.log('initialData: ', initialData);
-    return {
-      initialMarkup: ReactDOMServer.renderToString(
-      <App initialData={initialData} />),
-      initialData
-    };
-  });
+const serverRender = (gameId, year, gameWeek) => 
+  axios.get(`${config.serverUrl}/api/gameWeek`)
+  .then(gameWeekResp  => {
+    const gameWeekData = gameWeekResp.data.gameWeekData;
+    //const gameWeekData = { year: 2018, week: 21 };
+    return gameWeekData;
+  })
+  .then(gameWeekData => {
+    return axios.get(getApiUrl(gameId, gameWeekData))
+      .then(resp => {
+        const initialData = getInitialData(gameId, resp.data);
+        const initialMarkup = ReactDOMServer.renderToString(
+          <App initialData={initialData} />)
+        const respObj = {
+          initialMarkup: initialMarkup,
+          initialData
+        }
+        console.log('respObj ', respObj )
+        return respObj;
+      })
+      //.catch(initialMarkupError => console.log('initialMarkupError :', initialMarkupError))
+    })
+  // .catch(gameWeekRespError => console.log('gameWeekRespError: ', gameWeekRespError))
 
 export default serverRender;

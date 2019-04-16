@@ -15,5 +15,14 @@ export const fetchGameWeek = (year, gameWeek) => {
   .then (resp => resp.data.games);
 };
 
+export const getGameWeek = () => {
+  return axios.get(`/api/gameWeek`)
+  .then(resp => {
+    console.log('api gameWeekResp :', resp);
+    resp.gameWeekData
+  })
+  .catch(gameWeekError => console.log('gameWeekError :', gameWeekError))
+}
+
 
 //export default fetchGame;
