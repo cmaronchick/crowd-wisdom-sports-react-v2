@@ -6,37 +6,64 @@ import App from './src/components/App';
 import config from './config';
 import axios from 'axios';
 
-const getApiUrl = contestId => {
-  if (contestId) {
-    return `${config.serverUrl}/api/contests/${contestId}`;
+// const getGameWeekData = axios.get(`${config.serverUrl}/api/gameWeek`)
+//   .then(resp => {
+//     console.log('resp :', resp.data);
+//     return { year: resp.data.gameWeekData.year, week: resp.data.gameWeekData.week }
+//   })
+//   .catch(gameWeekError => console.log('gameWeekError :', gameWeekError));
+
+const getApiUrl = (gameId, gameWeekData) => {
+  
+  if (gameId) {
+    return `${config.serverUrl}/api/game/${gameId}`;
   }
-  return `${config.serverUrl}/api/contests`;
+  
+  console.log('gameWeekData :', gameWeekData);
+  
+  if (gameWeekData) { 
+    return `${config.serverUrl}/api/games/${gameWeekData.year}/${gameWeekData.week}`;
+  }
+  return `${config.serverUrl}/api/games`
+  
 };
 
-const getInitialData = (contestId, apiData) => {
-  if (contestId) {
+const getInitialData = (gameId, apiData) => {
+  if (gameId) {
     return {
-      currentContestId: apiData._id,
-      contests: {
-        [apiData._id]: apiData
+      currentGameId: apiData.gameId,
+      games: {
+        [apiData.gameId]: apiData
       }
     };
   }
   return {
-    contests: apiData.contests
+    games: apiData.games
   };
 };
 
-const serverRender = (contestId) =>
-  axios.get(getApiUrl(contestId))
-    .then(resp => {
-      const initialData = getInitialData(contestId, resp.data);
-      return {
-        initialMarkup: ReactDOMServer.renderToString(
-          <App initialData={initialData} />
-        ),
-        initialData
-      };
-    });
+const serverRender = (gameId, year, gameWeek) => 
+  axios.get(`${config.serverUrl}/api/gameWeek`)
+  .then(gameWeekResp  => {
+    const gameWeekData = gameWeekResp.data.gameWeekData;
+    //const gameWeekData = { year: 2018, week: 21 };
+    return gameWeekData;
+  })
+  .then(gameWeekData => {
+    return axios.get(getApiUrl(gameId, gameWeekData))
+      .then(resp => {
+        const initialData = getInitialData(gameId, resp.data);
+        const initialMarkup = ReactDOMServer.renderToString(
+          <App initialData={initialData} />)
+        const respObj = {
+          initialMarkup: initialMarkup,
+          initialData
+        }
+        console.log('respObj ', respObj )
+        return respObj;
+      })
+      //.catch(initialMarkupError => console.log('initialMarkupError :', initialMarkupError))
+    })
+  // .catch(gameWeekRespError => console.log('gameWeekRespError: ', gameWeekRespError))
 
 export default serverRender;

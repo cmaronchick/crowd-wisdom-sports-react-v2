@@ -1,84 +1,71 @@
 import express from 'express';
-import { MongoClient, ObjectID } from 'mongodb';
-import assert from 'assert';
-import config from '../config';
-
-let mdb;
-MongoClient.connect(config.mongodbUri, (err, db) => {
-  assert.equal(null, err);
-
-  mdb = db;
-});
+//import games from '../src/games-week3';
+import axios from 'axios';
+import Auth from '@aws-amplify/auth'
+import { userInfo } from 'os';
 
 const router = express.Router();
 
-router.get('/contests', (req, res) => {
-  let contests = {};
-  mdb.collection('contests').find({})
-     .project({
-       categoryName: 1,
-       contestName: 1
-     })
-     .each((err, contest) => {
-       assert.equal(null, err);
-
-       if (!contest) { // no more contests
-         res.send({ contests });
-         return;
-       }
-
-       contests[contest._id] = contest;
-     });
-});
-
-router.get('/names/:nameIds', (req, res) => {
-  const nameIds = req.params.nameIds.split(',').map(ObjectID);
-  let names = {};
-  mdb.collection('names').find({ _id: { $in: nameIds }})
-     .each((err, name) => {
-       assert.equal(null, err);
-
-       if (!name) { // no more names
-         res.send({ names });
-         return;
-       }
-
-       names[name._id] = name;
-     });
-});
+// const gamesObjs = games.games.reduce((obj, game) => {
+//   obj[game.gameId] = game;
+//   return obj;
+// }, {});
 
 
-router.get('/contests/:contestId', (req, res) => {
-  mdb.collection('contests')
-     .findOne({ _id: ObjectID(req.params.contestId) })
-     .then(contest => res.send(contest))
-     .catch(error => {
-       console.error(error);
-       res.status(404).send('Bad Request');
-     });
-});
+const gamesAPIResponse = (year, gameWeek, userToken) => {
+  var getOptions = {};
+  var anonString = '/anon';
+  if (userToken) {
+    anonString = '';
+    getOptions = {
+      headers: {
+        Authorization: userToken
+      }
+    };
+  }
+  console.log('year & gameWeek: ', year, ' & ', gameWeek)
+  if (year && gameWeek) {
+    return axios.get(`https://y5f8dr2inb.execute-api.us-west-2.amazonaws.com/dev/nfl/${year}/${gameWeek}/games${anonString}`, getOptions);
+  }
+  return axios.get(`https://y5f8dr2inb.execute-api.us-west-2.amazonaws.com/dev/nfl/2018/3/games${anonString}`, getOptions);
+};
 
-router.post('/names', (req, res) => {
-  const contestId = ObjectID(req.body.contestId);
-  const name = req.body.newName;
-  // validation ...
-  mdb.collection('names').insertOne({ name }).then(result =>
-    mdb.collection('contests').findAndModify(
-      { _id: contestId },
-      [],
-      { $push: { nameIds: result.insertedId } },
-      { new: true }
-    ).then(doc =>
-      res.send({
-        updatedContest: doc.value,
-        newName: { _id: result.insertedId, name }
+router.get('/gameWeek', (req, res) => {
+  console.log('api index 33 req', req.headers)
+      axios.get(`https://y5f8dr2inb.execute-api.us-west-2.amazonaws.com/dev/nfl/week/anon`)
+      .then((gameWeekResponse) => {
+//        console.log('api/index 35 gameWeekResponse', gameWeekResponse.data)
+        res.send({ gameWeekData: gameWeekResponse.data })
       })
-    )
-  )
-  .catch(error => {
-    console.error(error);
-    res.status(404).send('Bad Request');
-  });
+      .catch(gameWeekResponseError => console.log('api index 38 gameWeekResponseError: ', gameWeekResponseError))
+
+})
+
+router.get(['/games', '/games/:year/:gameWeek'], (req, res) => {
+  //console.log('api index 44 req.headers.authorization: ', req.headers.authorization)
+  gamesAPIResponse(req.params.year, req.params.gameWeek, req.headers.authorization)
+    .then((gamesResponse) => {
+      const gamesResponseObjs = gamesResponse.data.games.reduce((obj, game) => {
+        obj[game.gameId] = game;
+        return obj;
+      }, {});
+      res.send({ games: gamesResponseObjs });
+    })
+    .catch(console.error);
+})
+
+router.get('/game/:gameId', (req, res) => {
+  console.log('api/index 55 req.params: ', req.headers)
+  gamesAPIResponse()
+  .then((gamesResponse) => {
+    const gamesResponseObjs = gamesResponse.data.games.reduce((obj, game) => {
+      obj[game.gameId] = game;
+      return obj;
+    }, {});
+    let game = gamesResponseObjs[req.params.gameId];
+    res.send(game);
+  })
+  .catch(gamesResponseError => console.log('gamesResponseError: ', gamesResponseError));
 });
 
 export default router;

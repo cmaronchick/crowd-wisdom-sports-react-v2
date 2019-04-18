@@ -9,10 +9,12 @@ export const logStars = function(message) {
 };
 
 export default {
-  mongodbUri: 'mongodb://localhost:27017/test',
   port: env.PORT || 8080,
   host: env.HOST || '0.0.0.0',
   get serverUrl() {
     return `http://${this.host}:${this.port}`;
+  },
+  get apiGatewayUrl() {
+    return 'https://y5f8dr2inb.execute-api.us-west-2.amazonaws.com';
   }
 };

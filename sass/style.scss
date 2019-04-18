@@ -1,24 +1,70 @@
-.ContestPreview {
-  margin: 1em;
-  border: 1px solid #ccc;
+.GamePreview {
+    margin: 1em;
+    border: 1px solid #ccc;
 
-  .category-name {
-    border-bottom: 1px solid #ccc;
-    padding: 0.25em 0.5em;
-    font-weight: bold;
-    background-color: #eee;
-  }
+    .game-header {
+        border-bottom: 1px solid #ccc;
+        padding: 0.25em 0.5em;
+        font-weight: bold;
+        background-color: #eee;
+    }
 
-  .contest-name {
-    padding: 0.5em;
-  }
+    .game-details {
+        padding: 0.5em;
+        display: flex;
+        flex-direction: column;
+    }
+        .headerRow {
+            display: flex;
+            flex-direction: row;
+            justify-content: space-between
+        }
+            div {
+                margin: 0 5px;
+                padding: 3px;
+            }
+
+        .team {
+            display: flex;
+            flex-direction: row;
+            justify-content: space-between;
+        }
+            div {        
+                margin: 0 5px;
+                padding: 3px;
+            }
 }
 
 .link {
-  cursor: pointer;
+    cursor: pointer;
+}
+.home-link {
+    margin-top: 1em;
+    color: #0000ee;
 }
 
-.home-link {
-  margin-top: 1em;
-  color: #0000ee;
+
+#loginModal {
+    visibility: hidden;
+    position: absolute;
+    left: 0px;
+    top: 0px;
+    width:100%;
+    height:100%;
+    text-align:center;
+    z-index: 1000;
+}
+
+
+.loginFields input {
+    padding: 3px;
+    margin: 0 5px
+}
+
+/* Weeks */
+
+.weeks {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-evenly;
 }
