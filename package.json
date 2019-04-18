@@ -1,5 +1,5 @@
 {
-  "name": "fulljs",
+  "name": "fulljs-cmaronchick",
   "version": "1.0.0",
   "description": "Learning Fullstack JavaScript Development: MongoDB, Node.js, React.js",
   "main": "index.js",
@@ -12,7 +12,7 @@
     "type": "git",
     "url": "git+https://github.com/jscomplete/learn-fullstack-javascript.git"
   },
-  "author": "",
+  "author": "CMA",
   "license": "GPL-3.0",
   "bugs": {
     "url": "https://github.com/jscomplete/learn-fullstack-javascript/issues"
