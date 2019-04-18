@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 
 class Week extends Component {
   handleClick = () => {
-    this.props.onClick(this.props.year, this.props.week);
+    this.props.onClick(2018, this.props.week);
   }
   render() {
     //console.log('this.props: ', this.props);

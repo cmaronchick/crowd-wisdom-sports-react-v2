@@ -5,6 +5,8 @@ import path from 'path';
 import serverRender from './serverRender';
 import express from 'express';
 import bodyParser from 'body-parser';
+import Auth from '@aws-amplify/auth'
+import { runInNewContext } from 'vm';
 
 const server = express();
 server.use(bodyParser.json());

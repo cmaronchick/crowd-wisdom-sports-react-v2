@@ -6,8 +6,8 @@ const Weeks = ({ weeks, onGameWeekClick }) => {
   return (
     <div className="weeks">
       {weeks.map(week => 
-        <Week key={week.week} className="gameWeek"
-         onClick={onGameWeekClick} {...week}/>
+        <Week key={week} className="gameWeek"
+         onClick={onGameWeekClick} week={week}/>
       )}
     </div>
   );

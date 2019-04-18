@@ -11,7 +11,28 @@
 
     .game-details {
         padding: 0.5em;
+        display: flex;
+        flex-direction: column;
     }
+        .headerRow {
+            display: flex;
+            flex-direction: row;
+            justify-content: space-between
+        }
+            div {
+                margin: 0 5px;
+                padding: 3px;
+            }
+
+        .team {
+            display: flex;
+            flex-direction: row;
+            justify-content: space-between;
+        }
+            div {        
+                margin: 0 5px;
+                padding: 3px;
+            }
 }
 
 .link {
