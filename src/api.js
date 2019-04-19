@@ -29,6 +29,8 @@ export const fetchGamesList = (userSession) => {
 
 export const fetchGameWeekGames = (year, gameWeek, userSession) => {
   const getOptions = callOptions(userSession)
+  console.log('year gameWeek:', year, ' ', gameWeek)
+  console.log('getOptions: ', getOptions)
   return axios.get(`/api/games/${year}/${gameWeek}`, getOptions.callOptions)
   .then (resp => resp.data.games);
 };

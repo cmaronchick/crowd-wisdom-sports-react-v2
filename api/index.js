@@ -11,19 +11,25 @@ const router = express.Router();
 //   return obj;
 // }, {});
 
-
-const gamesAPIResponse = (year, gameWeek, userToken) => {
-  var getOptions = {};
-  var anonString = '/anon';
+const callOptions = (userToken) => {
+  var anonString = '/anon'
+  var callOptions = Object.create(null);
+  //console.log('api index 17 userToken: ', userToken)
   if (userToken) {
-    anonString = '';
-    getOptions = {
+    callOptions = {
       headers: {
         Authorization: userToken
       }
-    };
+    }
+    anonString = '';
   }
-  console.log('year & gameWeek: ', year, ' & ', gameWeek)
+  return { anonString, callOptions };
+}
+
+const gamesAPIResponse = (year, gameWeek, userToken) => {
+  const callOptionsObject = callOptions(userToken);
+  const anonString = callOptionsObject.anonString;
+  const getOptions = callOptionsObject.callOptions;
   if (year && gameWeek) {
     return axios.get(`https://y5f8dr2inb.execute-api.us-west-2.amazonaws.com/dev/nfl/${year}/${gameWeek}/games${anonString}`, getOptions);
   }
@@ -31,8 +37,11 @@ const gamesAPIResponse = (year, gameWeek, userToken) => {
 };
 
 router.get('/gameWeek', (req, res) => {
-  console.log('api index 33 req', req.headers)
-      axios.get(`https://y5f8dr2inb.execute-api.us-west-2.amazonaws.com/dev/nfl/week/anon`)
+  //console.log('api index 33 req', req.headers)
+    const callOptionsObject = callOptions(req.headers.authorization);
+    const anonString = callOptionsObject.anonString;
+    const getOptions = callOptionsObject.callOptions;
+      axios.get(`https://y5f8dr2inb.execute-api.us-west-2.amazonaws.com/dev/nfl/week${anonString}`, getOptions)
       .then((gameWeekResponse) => {
 //        console.log('api/index 35 gameWeekResponse', gameWeekResponse.data)
         res.send({ gameWeekData: gameWeekResponse.data })
@@ -42,7 +51,7 @@ router.get('/gameWeek', (req, res) => {
 })
 
 router.get(['/games', '/games/:year/:gameWeek'], (req, res) => {
-  //console.log('api index 44 req.headers.authorization: ', req.headers.authorization)
+  //console.log('api index 54 req.headers.authorization: ', req.headers.authorization)
   gamesAPIResponse(req.params.year, req.params.gameWeek, req.headers.authorization)
     .then((gamesResponse) => {
       const gamesResponseObjs = gamesResponse.data.games.reduce((obj, game) => {

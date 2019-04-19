@@ -28,7 +28,7 @@ const getApiUrl = (gameId, gameWeekData) => {
   
 };
 
-const getInitialData = (gameId, apiData) => {
+const getInitialData = (gameId, year, week, apiData) => {
   if (gameId) {
     return {
       currentGameId: apiData.gameId,
@@ -38,6 +38,8 @@ const getInitialData = (gameId, apiData) => {
     };
   }
   return {
+    year: year,
+    gameWeek: week,
     games: apiData.games
   };
 };
@@ -52,7 +54,7 @@ const serverRender = (gameId, year, gameWeek) =>
   .then(gameWeekData => {
     return axios.get(getApiUrl(gameId, gameWeekData))
       .then(resp => {
-        const initialData = getInitialData(gameId, resp.data);
+        const initialData = getInitialData(gameId, gameWeekData.year, gameWeekData.week, resp.data);
         const initialMarkup = ReactDOMServer.renderToString(
           <App initialData={initialData} />)
         const respObj = {

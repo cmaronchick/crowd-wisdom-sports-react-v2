@@ -6,10 +6,12 @@ import awsconfig from '../../awsexports'
 // retrieve temporary AWS credentials and sign requests
 Auth.configure(awsconfig);
 
+import Navigation from './Navigation'
 import Header from './Header';
 import GamesList from './GamesList';
 import Game from './Game';
 import Weeks from './Weeks';
+import LoginModal from './LoginModal';
 import * as api from '../api';
 import { APIClass } from 'aws-amplify';
 
@@ -23,7 +25,11 @@ const onPopState = handler => {
 class App extends React.Component {
   constructor(props) {
     super(props)
-    this.state = this.props.initialData;
+    this.state = {
+      ...this.props.initialData,
+      sport: 'nfl'
+    }
+    
   }
   
   
@@ -51,29 +57,46 @@ class App extends React.Component {
         const { year, week } = gameWeekDataResponse.gameWeekData;
         api.fetchGameWeekGames(year, week, userSession)
         .then(games => {
-          console.log('component mount games: ', games)
           this.setState({
             year: year,
             gameWeek: week,
             currentGameId: null,
             data: games,
-            games: games
+            games: games,
+            fetchingGames: false
           });
         });
       })
       .catch(gameWeekDataError => console.log('gameWeekDataError: ', gameWeekDataError))
     })
+  }
+  componentDidUpdate(prevProps, prevState) {
+    console.log('prevState: ', prevState)
+    console.log('this.state: ', this.state)
 
-    // api.getGameWeek()
-    // .then(gameWeekData => this.setState({year: gameWeekData.year, week: gameWeekData.week}))
-    // .catch(gameWeekDataError => console.log('gameWeekDataError2: ', gameWeekDataError))
+    if (prevState.user !== this.state.user) {
+      console.log('app line 75')
+      // if (this.state.year && this.state.gameWeek) {
+      //   this.fetchGameWeekGames(this.state.year, this.state.gameWeek)
+      // } else {
+      //    this.fetchGameWeek()
+      // }
+    }
+    if (prevState.games !== this.state.games) {
+
+    }
+    if (prevState.year !== this.state.year) {
+      console.log('app line 79')
+      //this.fetchGameWeekGames(this.state.year, this.state.gameWeek)
+      
+    }
   }
   componentWillUnmount() {
     // clean timers, listeners
     onPopState(null);
   }
 
-   signIn = (e) => {
+  signIn = (e) => {
      e.preventDefault()
     const { username, password } = this.state;
     let user = Auth.signIn(username, password)
@@ -96,6 +119,10 @@ class App extends React.Component {
     .catch(signOutError => console.log('signOutError: ', signOutError))
   }
 
+  loginClick = () => {
+    return <LoginModal signInClick={this.signIn} signUpClick={this.signUp} />
+  }
+
   
   getUserSession = (callback) => {
     Auth.currentSession()
@@ -111,10 +138,16 @@ class App extends React.Component {
     this.setState({[event.target.name]: event.target.value})
   }
 
+  onYearChange = (event) => {
+    this.setState({ fetchingGames: true })
+    this.fetchGameWeekGames(parseInt(event.target.value), 1)
+  }
+
   fetchGameWeek = () => {
     this.getUserSession(userSession => {
       api.fetchGameWeek(userSession)
       .then(gameWeekData => {
+        console.log('app 141 gameWeekData: ', gameWeekData)
         return api.fetchGameWeekGames(gameWeekData.year, gameWeekData.week, userSession).then(games => games);
       })
       .catch(gameWeekDataError => console.log('gameWeekDataError: ', gameWeekDataError))
@@ -201,19 +234,26 @@ class App extends React.Component {
       gamesListClick={this.fetchGamesList}
       {...this.currentGame()} />;
     }
-    if (this.state.signIn) {
-      //do something
-    }
     //console.log('this.state.games: ', this.state.games);
-    return <div><Weeks
-    onGameWeekClick={this.fetchGameWeekGames}
-    weeks={[1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21]} />
-    <GamesList onGameClick={this.fetchGame}
-    games={this.state.games} /></div>;
+    return (
+      <div>
+        <select onChange={this.onYearChange} id="year" name="year">
+          <option value="2019">2019</option>
+          <option value="2018">2018</option>
+          <option value="2017">2017</option>
+        </select>
+      <Weeks
+      onGameWeekClick={this.fetchGameWeekGames}
+      weeks={[1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21]} />
+      <GamesList onGameClick={this.fetchGame}
+      games={this.state.games} /></div>
+    );
   }
   render() {
+    console.log('252 rendering')
     return (
       <div className="App">
+        <Navigation user={this.state.user} sport={this.state.sport} />
         <Header message={this.pageHeader()} />
         
         {(this.state.authState === 'signedIn') ? (

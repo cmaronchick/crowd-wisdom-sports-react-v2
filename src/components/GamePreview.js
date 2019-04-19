@@ -7,11 +7,16 @@ class GamePreview extends Component {
       ...this.props
     }
   }
+  
+  componentDidUpdate() {
+    console.log('gamePreview updated')
+  }
   handleClick = () => {
     this.props.onClick(this.props.gameId);
   }
   render() {
     const game = this.state;
+    console.log('gamepreview 15 game: ', game)
     return (
     <div className="link GamePreview" onClick={this.handleClick}>
       <div className="game-header">
@@ -19,7 +24,7 @@ class GamePreview extends Component {
       </div>
       <div className="game-details">
         <div className="headerRow">
-          <div></div>
+          <div className="teamName"></div>
           <div>{game.prediction ? (
               'Me'
             ) : ''}</div>
@@ -27,7 +32,7 @@ class GamePreview extends Component {
           <div>Results</div>
         </div>
         <div className="team">
-          <div>{game.awayTeam.shortName}</div>
+          <div className="teamName">{game.awayTeam.shortName}</div>
           <div>{game.prediction ? (
               game.prediction.awayTeam.score
             ) : ''}
@@ -36,7 +41,7 @@ class GamePreview extends Component {
           <div>{game.results.awayTeam.score}</div>
         </div>
         <div className="team">
-          <div>{game.homeTeam.shortName}</div>
+          <div className="teamName">{game.homeTeam.shortName}</div>
           <div>{game.prediction ? (
               game.prediction.homeTeam.score
             ) : ''}
