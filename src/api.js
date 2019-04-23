@@ -1,7 +1,17 @@
 import axios from 'axios';
 
-const callOptions = (userSession) => {
-  console.log('userSession: ', userSession)
+const postOptions = (userSession, body) => {
+  const callOptions = {
+    headers: {
+      Authorization: userSession.getIdToken().getJwtToken(),
+      'Content-type': 'application/json'
+    },
+    body: JSON.stringify(body)
+  }
+  return callOptions;
+}
+
+const getOptions = (userSession) => {
   var anonString = '/anon'
   var callOptions = {}
   if (userSession) {
@@ -21,23 +31,28 @@ export const fetchGame = (gameId, userSession) => {
 };
 
 export const fetchGamesList = (userSession) => {
-  const getOptions = callOptions(userSession)
-  console.log('fetchGamesList getOptions: ', getOptions);
-  return axios.get('/api/games', getOptions)
+  const getOptionsObj = getOptions(userSession)
+  return axios.get('/api/games', getOptionsObj.callOptions)
   .then (resp => resp.data.games);
 };
 
 export const fetchGameWeekGames = (year, gameWeek, userSession) => {
-  const getOptions = callOptions(userSession)
-  console.log('year gameWeek:', year, ' ', gameWeek)
-  console.log('getOptions: ', getOptions)
-  return axios.get(`/api/games/${year}/${gameWeek}`, getOptions.callOptions)
+  const getOptionsObj = getOptions(userSession)
+  return axios.get(`/api/games/${year}/${gameWeek}`, getOptionsObj.callOptions)
   .then (resp => resp.data.games);
 };
 
 export const fetchGameWeek = (userSession) => {
-  const getOptions = callOptions(userSession)
-  return axios.get(`/api/gameWeek`, getOptions.callOptions)
+  const getOptionsObj = getOptions(userSession)
+  return axios.get(`/api/gameWeek`, getOptionsObj.callOptions)
+  .then(resp => resp.data)
+}
+
+export const submitPrediction = (userSession, prediction) => {
+  console.log('api 55: ', prediction)
+  const postOptionsObj = postOptions(userSession, prediction)
+  console.log('postOptionsObj: ', postOptionsObj)
+  return axios.post('/api/submitPrediction', postOptionsObj)
   .then(resp => resp.data)
 }
 

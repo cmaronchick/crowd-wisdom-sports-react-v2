@@ -27,7 +27,8 @@ class App extends React.Component {
     super(props)
     this.state = {
       ...this.props.initialData,
-      sport: 'nfl'
+      sport: 'nfl',
+      gamePredictions: {}
     }
     
   }
@@ -71,8 +72,6 @@ class App extends React.Component {
     })
   }
   componentDidUpdate(prevProps, prevState) {
-    console.log('prevState: ', prevState)
-    console.log('this.state: ', this.state)
 
     if (prevState.user !== this.state.user) {
       console.log('app line 75')
@@ -127,9 +126,11 @@ class App extends React.Component {
   getUserSession = (callback) => {
     Auth.currentSession()
     .then(userSession => {
+      console.log('userSession: ', userSession)
       return callback(userSession)
     })
     .catch(userSessionError => {
+      console.log('userSessionError: ', userSessionError)
       return callback(false)
     })
   }
@@ -141,6 +142,64 @@ class App extends React.Component {
   onYearChange = (event) => {
     this.setState({ fetchingGames: true })
     this.fetchGameWeekGames(parseInt(event.target.value), 1)
+  }
+  
+  onChangeGameScore = (gameId, event) => {
+    const gamePredictions = this.state.gamePredictions
+    gamePredictions[gameId] ? gamePredictions[gameId][event.target.name] = event.target.value : gamePredictions[gameId] = { [event.target.name]: event.target.value }
+    this.setState({ 
+      gamePredictions: { 
+        ...gamePredictions 
+      }
+    })
+  }
+
+  submitPrediction = (gameId) => {
+    console.log(`game: ${gameId}`)
+    this.getUserSession(userSession => {
+      if (!userSession) {
+        console.log('no user session')
+        return { errorMessage: 'Please log in again and resubmit.' }
+      }
+      const game = this.state.games[gameId]
+      const awayTeamScore = parseInt(this.state.gamePredictions[gameId].predictionAwayTeamScore)
+      const homeTeamScore = parseInt(this.state.gamePredictions[gameId].predictionHomeTeamScore)
+      var prediction = {
+        gameId: game.gameId,
+        gameWeek: game.gameWeek,
+        year: game.year,
+        sport: game.sport,
+        season: game.season,
+        awayTeam: {
+          fullName: game.awayTeam.fullName,
+          shortName: game.awayTeam.shortName,
+          code: game.awayTeam.code,
+          score: awayTeamScore ? awayTeamScore : game.prediction.awayTeam.score,
+        },
+        homeTeam: {
+          fullName: game.homeTeam.fullName,
+          shortName: game.homeTeam.shortName,
+          code: game.homeTeam.code,
+          score: homeTeamScore ? homeTeamScore : game.prediction.homeTeam.score,
+        }
+      };
+      console.log('prediction :', prediction);
+      api.submitPrediction(userSession, prediction)
+      .then(predictionResponse => {
+        const games = this.state.games;
+        const data = this.state.data;
+        games[game.gameId] = predictionResponse;
+        data[game.gameId] = predictionResponse;
+        this.setState({
+          games: games,
+          data: data
+        })
+        return predictionResponse;
+      })
+      .catch(predictionError => {
+        return predictionError;
+      })
+    })
   }
 
   fetchGameWeek = () => {
@@ -232,6 +291,8 @@ class App extends React.Component {
     if (this.state.currentGameId) {
       return <Game 
       gamesListClick={this.fetchGamesList}
+      onChangeGameScore={this.onChangeGameScore}
+      onSubmitPrediction={this.onSubmitPrediction}
       {...this.currentGame()} />;
     }
     //console.log('this.state.games: ', this.state.games);
@@ -245,7 +306,7 @@ class App extends React.Component {
       <Weeks
       onGameWeekClick={this.fetchGameWeekGames}
       weeks={[1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21]} />
-      <GamesList onGameClick={this.fetchGame}
+      <GamesList onChangeGameScore={this.onChangeGameScore} onSubmitPrediction={this.submitPrediction} onGameClick={this.fetchGame}
       games={this.state.games} /></div>
     );
   }
