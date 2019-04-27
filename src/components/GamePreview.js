@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import Button from 'react-bootstrap/Button'
 
 class GamePreview extends Component {
   constructor(props) {
@@ -12,7 +13,7 @@ class GamePreview extends Component {
     //console.log('gamePreview updated')
   }
   handleClick = () => {
-    this.props.onClick(this.props.gameId);
+    this.props.onClick(this.props.sport, this.props.year, this.props.season, this.props.gameWeek, this.props.gameId);
   }
 
   handleOnChangeGameScore = (event) => {
@@ -71,9 +72,11 @@ class GamePreview extends Component {
         </div>
         {/* {game.crowd.awayTeam.score}<br/>
         {game.crowd.homeTeam.score} */}
-        <div>
-          <button type='submit' onClick={this.handleSubmit}>{game.prediction ? 'Update' : 'Predict'}</button>
-        </div>
+        {!game.results ? (
+          <div style={{ flex: 1, flexDirection: 'row', alignItems: 'center', justifyContent: 'center' }}>
+            <Button type='submit' onClick={this.handleSubmit}>{game.prediction ? 'Update' : 'Predict'}</Button>
+          </div>
+        ) : null}
       </div>
     </div>
     );

@@ -1,14 +1,15 @@
 import React from 'react';
 import Week from './Week';
 
-const Weeks = ({ weeks, onGameWeekClick }) => {
+const Weeks = ({ sport, year, season, weeks, onGameWeekClick }) => {
     //console.log('games: ', games);
   return (
     <div className="weeks">
-      {weeks.map(week => 
-        <Week key={week} className="gameWeek"
-         onClick={onGameWeekClick} week={week}/>
-      )}
+      {weeks.map((week, index) => {
+        <Week key={index} className="gameWeek"
+         onClick={onGameWeekClick} sport={sport} year={year} season={season} week={week}/>
+      })
+      }
     </div>
   );
 };

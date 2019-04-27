@@ -26,24 +26,25 @@ const callOptions = (userToken) => {
   return { anonString, callOptions };
 }
 
-const gamesAPIResponse = (year, gameWeek, userToken) => {
+const gamesAPIResponse = (sport, year, season, gameWeek, userToken) => {
   const callOptionsObject = callOptions(userToken);
   const anonString = callOptionsObject.anonString;
   const getOptions = callOptionsObject.callOptions;
+  console.log('api index 33 anonString: ', anonString)
   if (year && gameWeek) {
-    return axios.get(`https://y5f8dr2inb.execute-api.us-west-2.amazonaws.com/dev/nfl/${year}/${gameWeek}/games${anonString}`, getOptions);
+    return axios.get(`https://y5f8dr2inb.execute-api.us-west-2.amazonaws.com/dev/${sport}/${year}/${season}/${gameWeek}/games${anonString}`, getOptions);
   }
   return axios.get(`https://y5f8dr2inb.execute-api.us-west-2.amazonaws.com/dev/nfl/2018/3/games${anonString}`, getOptions);
 };
 
 
 
-router.get('/gameWeek', (req, res) => {
-  //console.log('api index 33 req', req.headers)
+router.get('/:sport/gameWeek', (req, res) => {
+  console.log('api index 43 req', req.params.sport)
     const callOptionsObject = callOptions(req.headers.authorization);
     const anonString = callOptionsObject.anonString;
     const getOptions = callOptionsObject.callOptions;
-      axios.get(`https://y5f8dr2inb.execute-api.us-west-2.amazonaws.com/dev/nfl/week${anonString}`, getOptions)
+      axios.get(`https://y5f8dr2inb.execute-api.us-west-2.amazonaws.com/dev/${req.params.sport}/week${anonString}`, getOptions)
       .then((gameWeekResponse) => {
 //        console.log('api/index 35 gameWeekResponse', gameWeekResponse.data)
         res.send({ gameWeekData: gameWeekResponse.data })
@@ -52,9 +53,10 @@ router.get('/gameWeek', (req, res) => {
 
 })
 
-router.get(['/games', '/games/:year/:gameWeek'], (req, res) => {
+router.get(['/:sport/games', '/:sport/games/:year/:season/:gameWeek'], (req, res) => {
   //console.log('api index 54 req.headers.authorization: ', req.headers.authorization)
-  gamesAPIResponse(req.params.year, req.params.gameWeek, req.headers.authorization)
+  console.log('api index 57 params', req.params)
+  gamesAPIResponse(req.params.sport, req.params.year, req.params.season, req.params.gameWeek, req.headers.authorization)
     .then((gamesResponse) => {
       const gamesResponseObjs = gamesResponse.data.games.reduce((obj, game) => {
         obj[game.gameId] = game;
@@ -62,7 +64,7 @@ router.get(['/games', '/games/:year/:gameWeek'], (req, res) => {
       }, {});
       res.send({ games: gamesResponseObjs });
     })
-    .catch(console.error);
+    .catch(getGamesError => console.log('api index 65: ', getGamesError));
 })
 
 router.get('/game/:gameId', (req, res) => {

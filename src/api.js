@@ -30,21 +30,22 @@ export const fetchGame = (gameId, userSession) => {
     .then(resp => resp.data);
 };
 
-export const fetchGamesList = (userSession) => {
+export const fetchGamesList = (sport, userSession) => {
   const getOptionsObj = getOptions(userSession)
-  return axios.get('/api/games', getOptionsObj.callOptions)
+  return axios.get(`/api/${sport}/games`, getOptionsObj.callOptions)
   .then (resp => resp.data.games);
 };
 
-export const fetchGameWeekGames = (year, gameWeek, userSession) => {
+export const fetchGameWeekGames = (sport, year, season, gameWeek, userSession) => {
   const getOptionsObj = getOptions(userSession)
-  return axios.get(`/api/games/${year}/${gameWeek}`, getOptionsObj.callOptions)
+  console.log(`api 41 /api/${sport}/games/${year}/${season}/${gameWeek}`);
+  return axios.get(`/api/${sport}/games/${year}/${season}/${gameWeek}`, getOptionsObj.callOptions)
   .then (resp => resp.data.games);
 };
 
-export const fetchGameWeek = (userSession) => {
+export const fetchGameWeek = (sport, userSession) => {
   const getOptionsObj = getOptions(userSession)
-  return axios.get(`/api/gameWeek`, getOptionsObj.callOptions)
+  return axios.get(`/api/${sport}/gameWeek`, getOptionsObj.callOptions)
   .then(resp => resp.data)
 }
 

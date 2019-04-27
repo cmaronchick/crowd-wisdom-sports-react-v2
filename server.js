@@ -18,8 +18,12 @@ server.use(sassMiddleware({
 
 server.set('view engine', 'ejs');
 
-server.get(['/', '/contest/:contestId'], (req, res) => {
-  serverRender(req.params.contestId)
+server.get(['/', '/:sport/games', '/:sport/games/:year', '/:sport/games/:year/:season', '/:sport/games/:year/:season/:gameWeek', '/:sport/games/:year/:season/:gameWeek/:gameId'], (req, res) => {
+  //console.log('req.params.sport, req.params.year, req.params.season, req.params.gameWeek, req.params.gameId: ', req.params.sport, req.params.year, req.params.season, req.params.gameWeek, req.params.gameId)
+  var sport = '';
+  req.params.sport ? sport = req.params.sport : sport = 'nfl'
+  //console.log('server 25 sport: ', sport)
+  serverRender(sport, req.params.year, req.params.season, req.params.gameWeek, req.params.gameId)
     .then(({ initialMarkup, initialData }) => {
       res.render('index', {
         initialMarkup,
@@ -31,6 +35,8 @@ server.get(['/', '/contest/:contestId'], (req, res) => {
       res.status(404).send('Bad Request');
     });
 });
+
+
 
 server.use('/api', apiRouter);
 server.use(express.static('public'));
