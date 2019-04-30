@@ -1,5 +1,22 @@
 import React, { Component, PropTypes } from 'react';
+import * as api from '../api'
 class Game extends Component {
+  constructor(props) {
+    super(props)
+    this.state = {
+      ...this.props
+    }
+  }
+
+  getGame = () => {
+    api.getUserSession(userSession => {
+      api.fetchGame(this.props.sport, this.props.year, this.props.season, this.props.gameWeek, this.props.gameId, userSession)
+    })
+  }
+
+  componentDidMount() {
+    this.getGame()
+  }
   render() {
     return (
           <div className="Game">

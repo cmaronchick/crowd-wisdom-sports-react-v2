@@ -1,4 +1,5 @@
 import axios from 'axios';
+import Auth from '@aws-amplify/auth'
 
 const postOptions = (userSession, body) => {
   const callOptions = {
@@ -25,8 +26,9 @@ const getOptions = (userSession) => {
   return { anonString, callOptions}
 }
 
-export const fetchGame = (gameId, userSession) => {
-  return axios.get(`/api/game/${gameId}`, userSession)
+export const fetchGame = (sport, year, season, gameWeek, gameId, userSession) => {
+  const getOptionsObj = getOptions(userSession);
+  return axios.get(`/api/${sport}/${year}/${season}/${gameWeek}/${gameId}${getOptionsObj.anonString}`, getOptionsObj.callOptions)
     .then(resp => resp.data);
 };
 
@@ -55,6 +57,18 @@ export const submitPrediction = (userSession, prediction) => {
   console.log('postOptionsObj: ', postOptionsObj)
   return axios.post('/api/submitPrediction', postOptionsObj)
   .then(resp => resp.data)
+}
+
+export const getUserSession = (callback) => {
+  Auth.currentSession()
+  .then(userSession => {
+    console.log('userSession: ', userSession)
+    return callback(userSession)
+  })
+  .catch(userSessionError => {
+    console.log('userSessionError: ', userSessionError)
+    return callback(false)
+  })
 }
 
 

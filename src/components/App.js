@@ -8,6 +8,7 @@ Auth.configure(awsconfig);
 
 import Navigation from './Navigation'
 import Dropdown from 'react-bootstrap/Dropdown'
+import DropdownButton from 'react-bootstrap/DropdownButton'
 import Button from 'react-bootstrap/Button'
 import Spinner from 'react-bootstrap/Spinner'
 import Header from './Header';
@@ -39,7 +40,6 @@ class App extends React.Component {
   
   
   componentDidMount() {
-    this.setState({ fetchingGames: true })
     // timers, listeners
     onPopState((event) => {
       this.setState({
@@ -55,28 +55,30 @@ class App extends React.Component {
       this.setState({user: null, authState: 'signIn'})
     })
 
-    
-    this.getUserSession(userSession => {
-      api.fetchGameWeek(this.state.sport, userSession)
-      .then(gameWeekDataResponse => {
-        const { sport, year, week, season, weeks } = gameWeekDataResponse.gameWeekData;
-        api.fetchGameWeekGames(sport, year, season, week, userSession)
-        .then(games => {
-          this.setState({
-            sport: 'nfl',
-            year: year,
-            gameWeek: week,
-            season: season,
-            weeks: weeks,
-            currentGameId: null,
-            data: games,
-            games: games,
-            fetchingGames: false
+    if (!this.state.currentGameId) {
+      this.setState({ fetchingGames: true })
+      api.getUserSession(userSession => {
+        api.fetchGameWeek(this.state.sport, userSession)
+        .then(gameWeekDataResponse => {
+          const { sport, year, week, season, weeks } = gameWeekDataResponse.gameWeekData;
+          api.fetchGameWeekGames(sport, year, season, week, userSession)
+          .then(games => {
+            this.setState({
+              sport: 'nfl',
+              year: year,
+              gameWeek: week,
+              season: season,
+              weeks: weeks,
+              currentGameId: null,
+              data: games,
+              games: games,
+              fetchingGames: false
+            });
           });
-        });
+        })
+        .catch(gameWeekDataError => console.log('gameWeekDataError: ', gameWeekDataError))
       })
-      .catch(gameWeekDataError => console.log('gameWeekDataError: ', gameWeekDataError))
-    })
+    }
   }
   componentDidUpdate(prevProps, prevState) {
 
@@ -129,27 +131,14 @@ class App extends React.Component {
     return <LoginModal signInClick={this.signIn} signUpClick={this.signUp} />
   }
 
-  
-  getUserSession = (callback) => {
-    Auth.currentSession()
-    .then(userSession => {
-      console.log('userSession: ', userSession)
-      return callback(userSession)
-    })
-    .catch(userSessionError => {
-      console.log('userSessionError: ', userSessionError)
-      return callback(false)
-    })
-  }
-
   onChangeText = (event) => {
     this.setState({[event.target.name]: event.target.value})
   }
 
   onYearChange = (year) => {
-    console.log('year: ', year)
+    const season = (parseInt(year) === 2017 || parseInt(year) === 2018) ? 'reg' : 'pre'
     this.setState({ fetchingGames: true })
-    this.fetchGameWeekGames(this.state.sport, parseInt(year), 1)
+    this.fetchGameWeekGames(this.state.sport, parseInt(year), season, 1)
   }
   
   onChangeGameScore = (gameId, event) => {
@@ -164,7 +153,7 @@ class App extends React.Component {
 
   submitPrediction = (gameId) => {
     console.log(`game: ${gameId}`)
-    this.getUserSession(userSession => {
+    api.getUserSession(userSession => {
       if (!userSession) {
         console.log('no user session')
         return { errorMessage: 'Please log in again and resubmit.' }
@@ -211,7 +200,7 @@ class App extends React.Component {
   }
 
   fetchGameWeek = () => {
-    this.getUserSession(userSession => {
+    api.getUserSession(userSession => {
       api.fetchGameWeek(this.state.sport, userSession)
       .then(gameWeekData => {
         console.log('app 141 gameWeekData: ', gameWeekData)
@@ -226,8 +215,8 @@ class App extends React.Component {
       { currentGameId: gameId },
       `/${sport}/games/${year}/${season}/${gameWeek}/${gameId}`
     );
-    this.getUserSession(userSession => {
-      api.fetchGame(gameId, userSession)
+    api.getUserSession(userSession => {
+      api.fetchGame(sport, year, season, gameWeek, gameId, userSession)
       .then(game => {
         this.setState({
           pageHeader: gameId,
@@ -248,7 +237,7 @@ class App extends React.Component {
       '/'
     );
 
-    this.getUserSession(userSession => {
+    api.getUserSession(userSession => {
       api.fetchGamesList(userSession)
       .then(games => {
         this.setState({
@@ -272,7 +261,7 @@ class App extends React.Component {
       },
       `/${sport}/games/${year}/${season}/${gameWeek}`
     );
-    this.getUserSession(userSession => {
+    api.getUserSession(userSession => {
       api.fetchGameWeekGames(sport, year, gameWeek, userSession).then((games) => {
         this.setState({
           year: year,
@@ -286,7 +275,7 @@ class App extends React.Component {
   }
 
   currentGame() {
-    return this.state.games[this.state.currentGameId];
+    return this.state.games ? this.state.games[this.state.currentGameId] : this.state.game;
   }
   pageHeader() {
     //console.log('this.state: ', this.state);
@@ -296,6 +285,7 @@ class App extends React.Component {
     return `Week ${this.state.gameWeek} Games`;
   }
   currentContent() {
+    console.log('this.state.currentGameId: ', this.state.currentGameId)
     if (this.state.currentGameId) {
       return <Game 
       gamesListClick={this.fetchGamesList}
@@ -306,17 +296,11 @@ class App extends React.Component {
     //console.log('this.state.games: ', this.state.games);
     return (
       <div>
-        <Dropdown>
-          <Dropdown.Toggle variant="success" id="dropdown-basic">
-            Select a Season
-          </Dropdown.Toggle>
-
-          <Dropdown.Menu>
-            <Dropdown.Item onClick={() => this.onYearChange(2019)}>2019</Dropdown.Item>
-            <Dropdown.Item onClick={() => this.onYearChange(2018)}>2018</Dropdown.Item>
-            <Dropdown.Item onClick={() => this.onYearChange(2017)}>2017</Dropdown.Item>
-          </Dropdown.Menu>
-        </Dropdown>
+        <DropdownButton id="dropdown-basic-button" title="Select a season">
+          <Dropdown.Item onClick={() => this.onYearChange(2019)} href='#' className='yearDropdown'>2019</Dropdown.Item>
+          <Dropdown.Item onClick={() => this.onYearChange(2018)} href='#' className='yearDropdown'>2018</Dropdown.Item>
+          <Dropdown.Item onClick={() => this.onYearChange(2017)} href='#' className='yearDropdown'>2017</Dropdown.Item>
+        </DropdownButton>
         <select onChange={(event) => this.onYearChange(event)} id="year" name="year">
           <option value="2019">2019</option>
           <option value="2018">2018</option>
