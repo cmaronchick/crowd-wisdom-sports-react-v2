@@ -1,5 +1,5 @@
 {
-  "name": "fulljs-cmaronchick",
+  "name": "crowd-wisdom-sports-react",
   "version": "1.0.0",
   "description": "Learning Fullstack JavaScript Development: MongoDB, Node.js, React.js",
   "main": "index.js",
@@ -8,10 +8,7 @@
     "dev": "webpack -wd",
     "test": "jest"
   },
-  "repository": {
-    "type": "git",
-    "url": "git+https://github.com/jscomplete/learn-fullstack-javascript.git"
-  },
+  "repository": "git+https://github.com/cmaronchick/crowd-wisdom-sports-react.git",
   "author": "CMA",
   "license": "GPL-3.0",
   "bugs": {
