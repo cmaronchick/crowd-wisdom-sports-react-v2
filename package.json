@@ -23,6 +23,7 @@
     "bootstrap": "^4.3.1",
     "ejs": "^2.6.1",
     "express": "^4.16.4",
+    "jest": "^24.7.1",
     "jquery": "^3.4.0",
     "mongodb": "^3.1.13",
     "node-sass-middleware": "^0.11.0",
