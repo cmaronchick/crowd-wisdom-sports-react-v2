@@ -10,6 +10,8 @@ import Navigation from './Navigation'
 import Dropdown from 'react-bootstrap/Dropdown'
 import DropdownButton from 'react-bootstrap/DropdownButton'
 import Button from 'react-bootstrap/Button'
+import Modal from 'react-bootstrap/Modal'
+import Form from 'react-bootstrap/Form'
 import Spinner from 'react-bootstrap/Spinner'
 import Header from './Header';
 import GamesList from './GamesList';
@@ -33,7 +35,8 @@ class App extends React.Component {
       ...this.props.initialData,
       sport: 'nfl',
       gamePredictions: {},
-      fetchingGames: false
+      fetchingGames: false,
+      loginModalShow: false
     }
     
   }
@@ -128,7 +131,12 @@ class App extends React.Component {
   }
 
   loginClick = () => {
-    return <LoginModal signInClick={this.signIn} signUpClick={this.signUp} />
+    // return <LoginModal show={true} signInClick={this.signIn} signUpClick={this.signUp} />
+    this.setState({ loginModalShow: true})
+  }
+
+  loginModalClosed = () => {
+    this.setState({ loginModalShow: false })
   }
 
   onChangeText = (event) => {
@@ -337,7 +345,45 @@ class App extends React.Component {
               </label>
               <input type="password" name="password" key="password" onChange={this.onChangeText} />
               
-              <Button onClick={this.signIn}>Login</Button>
+              <Button onClick={() => this.signIn()}>Login</Button>
+              <LoginModal show={this.state.loginModalShow} onHide={this.loginModalClosed} signInClick={this.signIn} signUpClick={this.signUp} />
+              
+              <Modal  onHide={this.handleClose}>
+                <Modal.Header closeButton>
+                  <Modal.Title>Sign In</Modal.Title>
+                </Modal.Header>
+                <Modal.Body>
+                  <Form>
+                    <Form.Group controlId="formBasicEmail">
+                      <Form.Label>Email address</Form.Label>
+                      <Form.Control type="email" placeholder="Enter email" />
+                      <Form.Text className="text-muted">
+                        We'll never share your email with anyone else.
+                      </Form.Text>
+                    </Form.Group>
+
+                    <Form.Group controlId="formBasicPassword">
+                      <Form.Label>Password</Form.Label>
+                      <Form.Control type="password" placeholder="Password" />
+                    </Form.Group>
+                    <Form.Group controlId="formBasicChecbox">
+                      <Form.Check type="checkbox" label="Check me out" />
+                    </Form.Group>
+                    <Button variant="primary" type="submit">
+                      Submit
+                    </Button>
+                  </Form>
+                </Modal.Body>
+                <Modal.Footer>
+                  <Button variant="secondary" onClick={this.handleClose}>
+                    Close
+                  </Button>
+                  <Button variant="primary" onClick={this.handleClose}>
+                    Save Changes
+                  </Button>
+                </Modal.Footer>
+              </Modal>
+              <Button onClick={() => this.loginClick()}>Launch Modal</Button>
             </form>
           </div>
         )}
