@@ -314,11 +314,17 @@ class App extends React.Component {
           <option value="2018">2018</option>
           <option value="2017">2017</option>
         </select>
-        <Weeks
-        onGameWeekClick={this.fetchGameWeekGames} sport={this.state.sport} year={this.state.year} season={this.state.season}
-        weeks={this.state.weeks} />
+        {this.state.weeks ? (
+          <Weeks
+          onGameWeekClick={this.fetchGameWeekGames} sport={this.state.sport} year={this.state.year} season={this.state.season}
+          weeks={this.state.weeks} />
+        ) : null}
+        {this.state.games ? (
         <GamesList onChangeGameScore={this.onChangeGameScore} onSubmitPrediction={this.submitPrediction} onGameClick={this.fetchGame}
         games={this.state.games} />
+        ): (
+          <div>No games available</div>
+        )}
       </div>
     );
   }
