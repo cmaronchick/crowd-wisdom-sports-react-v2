@@ -130,12 +130,47 @@ class App extends React.Component {
     .catch(signOutError => console.log('signOutError: ', signOutError))
   }
 
-  loginClick = () => {
+  
+    // Sign up user with AWS Amplify Auth
+  signUp = (e) => {
+      const { username, password, givenName, familyName, email } = this.state
+      // rename variable to conform with Amplify Auth field phone attribute
+      const given_name = givenName;
+      const family_name = familyName
+      Auth.signUp({
+          username,
+          password,
+          attributes: { 
+              given_name,
+              family_name,
+              email}
+        })
+        .then((response) => {
+        this.setState({user: response.user})
+        this.props.handleSignUp('ConfirmUser')
+        })
+        .catch(err => {
+        if (! err.message) {
+            console.log('Error when signing up: ', err)
+            Alert.alert('Error when signing up: ', err)
+        } else {
+            console.log('Error when signing up: ', err, '; ', err.message)
+            Alert.alert('Error when signing up: ', err.message)
+        }
+      })
+  }
+
+  // signUp = (e) => {
+  //   e.preventDefault();
+  //   let user = Auth.signUp()
+  // }
+
+  handleLoginClick = () => {
     // return <LoginModal show={true} signInClick={this.signIn} signUpClick={this.signUp} />
     this.setState({ loginModalShow: true})
   }
 
-  loginModalClosed = () => {
+  handleLoginModalClosed = () => {
     this.setState({ loginModalShow: false })
   }
 
@@ -331,7 +366,7 @@ class App extends React.Component {
   render() {
     return (
       <div className="App">
-        <Navigation user={this.state.user} sport={this.state.sport} />
+        <Navigation user={this.state.user} sport={this.state.sport} handleLoginClick={this.handleLoginClick} />
         <Header message={this.pageHeader()} />
         
         {(this.state.authState === 'signedIn') ? (
@@ -352,44 +387,9 @@ class App extends React.Component {
               <input type="password" name="password" key="password" onChange={this.onChangeText} />
               
               <Button onClick={() => this.signIn()}>Login</Button>
-              <LoginModal show={this.state.loginModalShow} onHide={this.loginModalClosed} signInClick={this.signIn} signUpClick={this.signUp} />
+              <LoginModal onChangeText={this.onChangeText} show={this.state.loginModalShow} onHide={this.handleLoginModalClosed} signInClick={this.signIn} signUpClick={this.signUp} />
               
-              <Modal  onHide={this.handleClose}>
-                <Modal.Header closeButton>
-                  <Modal.Title>Sign In</Modal.Title>
-                </Modal.Header>
-                <Modal.Body>
-                  <Form>
-                    <Form.Group controlId="formBasicEmail">
-                      <Form.Label>Email address</Form.Label>
-                      <Form.Control type="email" placeholder="Enter email" />
-                      <Form.Text className="text-muted">
-                        We'll never share your email with anyone else.
-                      </Form.Text>
-                    </Form.Group>
-
-                    <Form.Group controlId="formBasicPassword">
-                      <Form.Label>Password</Form.Label>
-                      <Form.Control type="password" placeholder="Password" />
-                    </Form.Group>
-                    <Form.Group controlId="formBasicChecbox">
-                      <Form.Check type="checkbox" label="Check me out" />
-                    </Form.Group>
-                    <Button variant="primary" type="submit">
-                      Submit
-                    </Button>
-                  </Form>
-                </Modal.Body>
-                <Modal.Footer>
-                  <Button variant="secondary" onClick={this.handleClose}>
-                    Close
-                  </Button>
-                  <Button variant="primary" onClick={this.handleClose}>
-                    Save Changes
-                  </Button>
-                </Modal.Footer>
-              </Modal>
-              <Button onClick={() => this.loginClick()}>Launch Modal</Button>
+              <Button onClick={() => this.handleLoginClick()}>Launch Modal</Button>
             </form>
           </div>
         )}
