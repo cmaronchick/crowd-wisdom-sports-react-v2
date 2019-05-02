@@ -59,6 +59,13 @@ export const submitPrediction = (userSession, prediction) => {
   .then(resp => resp.data)
 }
 
+export const fetchOverallLeaderboard = (userSession, sport, year, season, week) => {
+  const getOptionsObj = getOptions(userSession)
+  const sportValue = sport ? sport : 'nfl'
+  return axios.get(`/api/${sportValue}/${year}/${season}/${week}/leaderboards`, getOptionsObj.callOptions)
+  .then(resp => resp.data)
+}
+
 export const getUserSession = (callback) => {
   Auth.currentSession()
   .then(userSession => {

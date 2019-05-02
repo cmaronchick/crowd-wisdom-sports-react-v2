@@ -80,6 +80,23 @@ router.get('/:sport/:year/:season/:gameWeek/:gameId', (req, res) => {
   .catch(gamesResponseError => console.log('gamesResponseError: ', gamesResponseError));
 });
 
+router.get('/:sport/:year/:season/:gameWeek/leaderboards', (req, res) => {
+  
+  const callOptionsObject = callOptions(req.headers.authorization);
+  const anonString = callOptionsObject.anonString;
+  const getOptions = callOptionsObject.callOptions;
+  axios.get(`https://y5f8dr2inb.execute-api.us-west-2.amazonaws.com/dev/${req.params.sport}/${req.params.year}/${req.params.season}/${req.params.week}/leaderboards`, getOptions)
+  .then((overallLeaderboardResponse) => {
+    res.send({ leaderboards: {
+      overall: overallLeaderboardResponse.data
+      }
+    })
+  })
+  .catch((overallLeaderboardReject => console.log('overallLeaderboardReject: ', overallLeaderboardReject)))
+})
+
+})
+
 router.post('/submitPrediction', (req, res) => {
   console.log('api/index 81 req.body: ', req.body)
   axios.post(`https://y5f8dr2inb.execute-api.us-west-2.amazonaws.com/dev/predictions`, req.body.body, {headers: 

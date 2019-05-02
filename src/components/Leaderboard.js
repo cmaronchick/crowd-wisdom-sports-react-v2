@@ -7,6 +7,10 @@ export default class Leaderboard extends Component {
             
         }
     }
+
+    componentDidMount() {
+        
+    }
     render() {
         return (
             <div>
