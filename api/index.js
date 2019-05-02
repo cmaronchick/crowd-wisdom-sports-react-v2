@@ -81,7 +81,6 @@ router.get('/:sport/:year/:season/:gameWeek/:gameId', (req, res) => {
 });
 
 router.get('/:sport/:year/:season/:gameWeek/leaderboards', (req, res) => {
-  
   const callOptionsObject = callOptions(req.headers.authorization);
   const anonString = callOptionsObject.anonString;
   const getOptions = callOptionsObject.callOptions;
@@ -93,8 +92,6 @@ router.get('/:sport/:year/:season/:gameWeek/leaderboards', (req, res) => {
     })
   })
   .catch((overallLeaderboardReject => console.log('overallLeaderboardReject: ', overallLeaderboardReject)))
-})
-
 })
 
 router.post('/submitPrediction', (req, res) => {
