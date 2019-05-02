@@ -16,8 +16,8 @@ import Spinner from 'react-bootstrap/Spinner'
 import Header from './Header';
 import GamesList from './GamesList';
 import Game from './Game';
-import Weeks from './Weeks';
 import LoginModal from './LoginModal';
+import Weeks from './Weeks';
 import * as api from '../api';
 import { APIClass } from 'aws-amplify';
 
