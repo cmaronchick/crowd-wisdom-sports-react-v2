@@ -2,6 +2,8 @@ import React, { Component } from 'react'
 import { Auth } from '@aws-amplify/auth';
 import Modal from 'react-bootstrap/Modal'
 import Button from 'react-bootstrap/Button'
+import Tabs from 'react-bootstrap/Tabs'
+import Tab from 'react-bootstrap/Tab'
 import Form from 'react-bootstrap/Form'
 //import 'bootstrap/dist/css/bootstrap.min.css'
 
@@ -34,38 +36,92 @@ export default class LoginModal extends Component {
         return (
           <Modal show={this.props.show} onHide={this.props.onHide}>
             <Modal.Header closeButton>
-              <Modal.Title>Sign In</Modal.Title>
+              <Modal.Title>Sign Up</Modal.Title>
             </Modal.Header>
             <Modal.Body>
-              <Form>
-                <Form.Group controlId="formBasicEmail">
-                  <Form.Label>Email address</Form.Label>
-                  <Form.Control type="email" placeholder="Enter email" />
-                  <Form.Text className="text-muted">
-                    We'll never share your email with anyone else.
-                  </Form.Text>
-                </Form.Group>
+            {!this.props.confirmUser ?
+            
+            <Tabs defaultActiveKey="signIn" id="uncontrolled-tab-example">
+              <Tab eventKey="signIn" title="Sign In">
+                <Form>
+                  <Form.Group controlId="formSignInEmail">
+                    <Form.Label>Username</Form.Label>
+                    <Form.Control type="text" name="username" placeholder="Enter email" onChange={this.props.onChangeText} />
+                    {/* <Form.Text className="text-muted">
+                      We'll never share your email with anyone else.
+                    </Form.Text> */}
+                  </Form.Group>
 
-                <Form.Group controlId="formBasicPassword">
-                  <Form.Label>Password</Form.Label>
-                  <Form.Control type="password" placeholder="Password" />
-                </Form.Group>
-                <Form.Group controlId="formBasicChecbox">
-                  <Form.Check type="checkbox" label="Check me out" />
-                </Form.Group>
-                <Button variant="primary" type="submit">
-                  Submit
-                </Button>
-              </Form>
+                  <Form.Group controlId="formSignInPassword">
+                    <Form.Label>Password</Form.Label>
+                    <Form.Control type="password" name="password" placeholder="Password" onChange={this.props.onChangeText} />
+                  </Form.Group>
+                  {/* <Form.Group controlId="formBasicChecbox">
+                    <Form.Check type="checkbox" label="Check me out" />
+                  </Form.Group> */}
+                  <Button variant="primary" type="submit" onClick={this.props.signInClick}>
+                    Submit
+                  </Button>
+                </Form>
+              </Tab>
+              <Tab eventKey="signUp" title="Sign Up">
+                <Form>
+                  <Form.Group controlId="formSignUpGivenName">
+                    <Form.Label>First Name</Form.Label>
+                    <Form.Control type="text" name="givenName" placeholder="First Name" onChange={this.props.onChangeText} />
+                    {/* <Form.Text className="text-muted">
+                      We'll never share your email with anyone else.
+                    </Form.Text> */}
+                  </Form.Group>
+                  <Form.Group controlId="formSignUpFamilyName">
+                    <Form.Label>Last Name</Form.Label>
+                    <Form.Control type="text" name="familyName" placeholder="Last Name" onChange={this.props.onChangeText} />
+                  </Form.Group>
+                  <Form.Group controlId="formSignUpUsername">
+                    <Form.Label>Username</Form.Label>
+                    <Form.Control type="text" name="username" placeholder="Username" onChange={this.props.onChangeText} />
+                    {/* <Form.Text className="text-muted">
+                      We'll never share your email with anyone else.
+                    </Form.Text> */}
+                  </Form.Group>
+
+                  <Form.Group controlId="formSignUpPassword">
+                    <Form.Label>Password</Form.Label>
+                    <Form.Control type="password" name="password" placeholder="Password" onChange={this.props.onChangeText} />
+                  </Form.Group>
+                  <Form.Group controlId="formSignUpEmail">
+                    <Form.Label>E-mail</Form.Label>
+                    <Form.Control type="e-mail" name="email" placeholder="Enter email" onChange={this.props.onChangeText} />
+                    <Form.Text className="text-muted">
+                      We'll never share your email with anyone else.
+                    </Form.Text>
+                  </Form.Group>
+                  <Form.Group controlId="formSignUpOptIn">
+                    <Form.Check type="checkbox" name="emailOptIn" onChange={this.props.onChangeText} label="Receive weekly predictions reminder e-mails." />
+                  </Form.Group>
+                  <Button variant="primary" type="submit" onClick={this.props.signUpClick}>
+                    Submit
+                  </Button>
+                </Form>
+              </Tab>
+              </Tabs>
+              : (
+                
+                    <Form>
+                      <Form.Group controlId="formConfirmationCode">
+                        <Form.Label>Confirmation Code</Form.Label>
+                        <Form.Control type="number" name="confirmUserCode" placeholder="####" onChange={this.props.onChangeText} />
+                      </Form.Group>
+                      
+                      <Button variant="primary" onClick={this.props.handleConfirmUserClick}>
+                        Confirm
+                      </Button>
+                      <Button variant="secondary" onClick={this.props.handleResendClick}>
+                        Save Changes
+                      </Button>
+                    </Form>
+              )}
             </Modal.Body>
-            <Modal.Footer>
-              <Button variant="secondary" onClick={this.handleClose}>
-                Close
-              </Button>
-              <Button variant="primary" onClick={this.handleClose}>
-                Save Changes
-              </Button>
-            </Modal.Footer>
           </Modal>
         )
         /*<div id="loginModal" tabindex="-1" role="dialog" aria-labelledby="loginModalLabel">

@@ -36,7 +36,8 @@ class App extends React.Component {
       sport: 'nfl',
       gamePredictions: {},
       fetchingGames: false,
-      loginModalShow: false
+      loginModalShow: false,
+      confirmUser: false
     }
     
   }
@@ -107,6 +108,29 @@ class App extends React.Component {
     onPopState(null);
   }
 
+  confirmUser = (e) => {
+    e.preventDefault();
+    const { confirmUserCode, username } = this.state;
+    Auth.confirmSignUp(username, confirmUserCode)
+    .then((confirmResponse) => {
+      console.log('confirmResponse: ', confirmResponse)
+    })
+    .catch((confirmReject) => {
+      console.log('confirmReject: ', confirmReject)
+    })
+  }
+
+  resendConfirmation = (e) => {
+    e.preventDefault();
+    Auth.resendSignUp()
+    .then(resendSignUpResponse => {
+      console.log('resendSignUpResponse: ', resendSignUpResponse)
+    })
+    .catch(resendSignUpReject => {
+      console.log('resendSignUpReject: ', resendSignUpReject)
+    })
+  }
+
   signIn = (e) => {
      e.preventDefault()
     const { username, password } = this.state;
@@ -117,7 +141,12 @@ class App extends React.Component {
       return user;
     })
     .catch(signInError => {
+      if (signInError.code === 'UserNotConfirmedException') {
+        this.setState({ confirmUser: true })
+        return;
+      }
       console.log('signInError: ', signInError)
+
     })
   }
   signOut = (e) => {
@@ -133,29 +162,33 @@ class App extends React.Component {
   
     // Sign up user with AWS Amplify Auth
   signUp = (e) => {
-      const { username, password, givenName, familyName, email } = this.state
+      e.preventDefault();
+      const { username, password, givenName, familyName, email, emailOptIn } = this.state
       // rename variable to conform with Amplify Auth field phone attribute
-      const given_name = givenName;
-      const family_name = familyName
+      var attributes = {
+        email: email,
+        given_name: givenName,
+        family_name: familyName
+      }
+      attributes['custom:reminderMailOptIn'] = emailOptIn ? '1' : '0'
       Auth.signUp({
           username,
           password,
-          attributes: { 
-              given_name,
-              family_name,
-              email}
+          attributes
         })
         .then((response) => {
-        this.setState({user: response.user})
-        this.props.handleSignUp('ConfirmUser')
+          this.setState({
+            user: response.user,
+            confirmUser: true
+          })
         })
         .catch(err => {
         if (! err.message) {
             console.log('Error when signing up: ', err)
-            Alert.alert('Error when signing up: ', err)
+            // Alert.alert('Error when signing up: ', err)
         } else {
             console.log('Error when signing up: ', err, '; ', err.message)
-            Alert.alert('Error when signing up: ', err.message)
+            // Alert.alert('Error when signing up: ', err.message)
         }
       })
   }
@@ -387,7 +420,15 @@ class App extends React.Component {
               <input type="password" name="password" key="password" onChange={this.onChangeText} />
               
               <Button onClick={() => this.signIn()}>Login</Button>
-              <LoginModal onChangeText={this.onChangeText} show={this.state.loginModalShow} onHide={this.handleLoginModalClosed} signInClick={this.signIn} signUpClick={this.signUp} />
+              <LoginModal 
+              onChangeText={this.onChangeText} 
+              show={this.state.loginModalShow} 
+              onHide={this.handleLoginModalClosed} 
+              signInClick={this.signIn} 
+              signUpClick={this.signUp} 
+              confirmUser={this.state.confirmUser}
+              handleConfirmUserClick={this.confirmUser} 
+              handleResendClick={this.resendConfirmation}/>
               
               <Button onClick={() => this.handleLoginClick()}>Launch Modal</Button>
             </form>

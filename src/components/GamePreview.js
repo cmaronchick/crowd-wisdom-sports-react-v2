@@ -28,7 +28,7 @@ class GamePreview extends Component {
 
 
   render() {
-    console.log('gamepreview 30 props: ', this.props)
+    //console.log('gamepreview 30 props: ', this.props)
     const game = this.props;
     return (
     <div className="link GamePreview">
