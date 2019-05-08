@@ -19,10 +19,10 @@ server.use(sassMiddleware({
 server.set('view engine', 'ejs');
 
 server.get(['/', '/:sport/games', '/:sport/games/:year', '/:sport/games/:year/:season', '/:sport/games/:year/:season/:gameWeek', '/:sport/games/:year/:season/:gameWeek/:gameId'], (req, res) => {
-  //console.log('req.params.sport, req.params.year, req.params.season, req.params.gameWeek, req.params.gameId: ', req.params.sport, req.params.year, req.params.season, req.params.gameWeek, req.params.gameId)
+  //console.log('req.query: ', req.query)
   const sport = req.params.sport ? req.params.sport : 'nfl'
   //console.log('server 25 sport: ', sport)
-  serverRender(sport, req.params.year, req.params.season, req.params.gameWeek, req.params.gameId)
+  serverRender(sport, req.params.year, req.params.season, req.params.gameWeek, req.params.gameId, req.query)
     .then(({ initialMarkup, initialData }) => {
       res.render('index', {
         initialMarkup,
