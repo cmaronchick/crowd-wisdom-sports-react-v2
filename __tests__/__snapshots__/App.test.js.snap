@@ -231,8 +231,47 @@ exports[`snapshot test 1`] = `
       </button>
     </form>
   </div>
-  <div
-    className="spinner-undefined"
-  />
+  <div>
+    <div
+      className="dropdown"
+      onKeyDown={[Function]}
+    >
+      <button
+        aria-expanded={false}
+        aria-haspopup={true}
+        className="dropdown-toggle btn btn-primary"
+        disabled={false}
+        id="dropdown-basic-button"
+        onClick={[Function]}
+        type="button"
+      >
+        Select a season
+      </button>
+    </div>
+    <select
+      id="year"
+      name="year"
+      onChange={[Function]}
+    >
+      <option
+        value="2019"
+      >
+        2019
+      </option>
+      <option
+        value="2018"
+      >
+        2018
+      </option>
+      <option
+        value="2017"
+      >
+        2017
+      </option>
+    </select>
+    <div>
+      No games available
+    </div>
+  </div>
 </div>
 `;

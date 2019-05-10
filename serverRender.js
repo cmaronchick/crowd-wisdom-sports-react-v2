@@ -27,7 +27,7 @@ const getApiUrl = (gameId, gameWeekData) => {
   
 };
 
-const getInitialData = (gameId, sport, year, season, week, weeks, apiData) => {
+const getInitialData = (gameId, sport, year, season, week, weeks, code, apiData) => {
   if (gameId) {
     return {
       currentGameId: apiData.game.gameId,
@@ -40,11 +40,12 @@ const getInitialData = (gameId, sport, year, season, week, weeks, apiData) => {
     season: season,
     gameWeek: week,
     weeks: weeks,
-    games: apiData.games
+    games: apiData.games,
+    code: code
   };
 };
 
-const serverRender = (sport, year, season, gameWeek, gameId) => 
+const serverRender = (sport, year, season, gameWeek, gameId, query) => 
 
   axios.get(`${config.serverUrl}/api/${sport}/gameWeek`)
   .then(gameWeekResp  => {
@@ -55,7 +56,7 @@ const serverRender = (sport, year, season, gameWeek, gameId) =>
   .then(gameWeekData => {
     return axios.get(getApiUrl(gameId, gameWeekData))
       .then(resp => {
-        const initialData = getInitialData(gameId, gameWeekData.sport, gameWeekData.year, gameWeekData.season, gameWeekData.week, gameWeekData.weeks, resp.data);
+        const initialData = getInitialData(gameId, gameWeekData.sport, gameWeekData.year, gameWeekData.season, gameWeekData.week, gameWeekData.weeks, query ? query.code : null, resp.data);
         //console.log('initialData: ', initialData)
         
         const initialMarkup = ReactDOMServer.renderToString(
@@ -64,7 +65,7 @@ const serverRender = (sport, year, season, gameWeek, gameId) =>
           initialMarkup: initialMarkup,
           initialData
         }
-        console.log('respObj ', respObj )
+        //console.log('respObj ', respObj )
         return respObj;
       })
       .catch(initialMarkupError => console.log('initialMarkupError :', initialMarkupError))

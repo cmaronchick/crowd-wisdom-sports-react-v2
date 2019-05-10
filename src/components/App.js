@@ -43,21 +43,22 @@ class App extends React.Component {
   }
   
   
-  componentDidMount() {
+  async componentDidMount() {
     // timers, listeners
     onPopState((event) => {
       this.setState({
         currentGameId: (event.state || {}).currentGameId
       });
     });
-  
-    let user = Auth.currentAuthenticatedUser()
-    .then(user => {
-      this.setState({user, authState: 'signedIn'});
-    })
-    .catch(userError => {
+
+    let fbUser = this.state.code ? await api.getFacebookUser(this.state.code) : null
+    
+    try {
+      let user = await Auth.currentAuthenticatedUser()
+      this.setState({user, authState: 'signedIn'})
+    } catch(userError) {
       this.setState({user: null, authState: 'signIn'})
-    })
+    }
 
     if (!this.state.currentGameId) {
       this.setState({ fetchingGames: true })
@@ -193,10 +194,9 @@ class App extends React.Component {
       })
   }
 
-  // signUp = (e) => {
-  //   e.preventDefault();
-  //   let user = Auth.signUp()
-  // }
+  handleFBCode = () => {
+
+  }
 
   handleLoginClick = () => {
     // return <LoginModal show={true} signInClick={this.signIn} signUpClick={this.signUp} />
@@ -257,7 +257,7 @@ class App extends React.Component {
         }
       };
       console.log('prediction :', prediction);
-      api.submitPrediction(userSession, prediction)
+      api.fetchSubmitPrediction(userSession, prediction)
       .then(predictionResponse => {
         const games = this.state.games;
         const data = this.state.data;
