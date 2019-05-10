@@ -17,22 +17,35 @@
         .headerRow {
             display: flex;
             flex-direction: row;
-            justify-content: space-between
-        }
+            justify-content: space-between;
             div {
                 margin: 0 5px;
                 padding: 3px;
+                width: 22%;
             }
+        }
+            
+        @media (max-width: 767px) {
+            .teamName {
+                width: 33%;
+            }       
+        }
+        @media (min-width: 768px) {
+            .teamName {
+                width: 40%;
+            }       
+        }
 
         .team {
             display: flex;
             flex-direction: row;
             justify-content: space-between;
-        }
             div {        
                 margin: 0 5px;
                 padding: 3px;
+                width: 22%;
             }
+        }
 }
 
 .link {

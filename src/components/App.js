@@ -6,9 +6,17 @@ import awsconfig from '../../awsexports'
 // retrieve temporary AWS credentials and sign requests
 Auth.configure(awsconfig);
 
+import Navigation from './Navigation'
+import Dropdown from 'react-bootstrap/Dropdown'
+import DropdownButton from 'react-bootstrap/DropdownButton'
+import Button from 'react-bootstrap/Button'
+import Modal from 'react-bootstrap/Modal'
+import Form from 'react-bootstrap/Form'
+import Spinner from 'react-bootstrap/Spinner'
 import Header from './Header';
 import GamesList from './GamesList';
 import Game from './Game';
+import LoginModal from './LoginModal';
 import Weeks from './Weeks';
 import * as api from '../api';
 import { APIClass } from 'aws-amplify';
@@ -23,57 +31,108 @@ const onPopState = handler => {
 class App extends React.Component {
   constructor(props) {
     super(props)
-    this.state = this.props.initialData;
+    this.state = {
+      ...this.props.initialData,
+      sport: 'nfl',
+      gamePredictions: {},
+      fetchingGames: false,
+      loginModalShow: false,
+      confirmUser: false
+    }
+    
   }
   
   
-  componentDidMount() {
-    console.log('this.state: ', this.state)
+  async componentDidMount() {
     // timers, listeners
     onPopState((event) => {
       this.setState({
         currentGameId: (event.state || {}).currentGameId
       });
     });
-  
-    let user = Auth.currentAuthenticatedUser()
-    .then(user => {
-      this.setState({user, authState: 'signedIn'});
-    })
-    .catch(userError => {
-      this.setState({user: null, authState: 'signIn'})
-    })
 
+    let fbUser = this.state.code ? await api.getFacebookUser(this.state.code) : null
     
-    this.getUserSession(userSession => {
-      api.fetchGameWeek(userSession)
-      .then(gameWeekDataResponse => {
-        const { year, week } = gameWeekDataResponse.gameWeekData;
-        api.fetchGameWeekGames(year, week, userSession)
-        .then(games => {
-          console.log('component mount games: ', games)
-          this.setState({
-            year: year,
-            gameWeek: week,
-            currentGameId: null,
-            data: games,
-            games: games
-          });
-        });
-      })
-      .catch(gameWeekDataError => console.log('gameWeekDataError: ', gameWeekDataError))
-    })
+    try {
+      let user = await Auth.currentAuthenticatedUser()
+      this.setState({user, authState: 'signedIn'})
+    } catch(userError) {
+      this.setState({user: null, authState: 'signIn'})
+    }
 
-    // api.getGameWeek()
-    // .then(gameWeekData => this.setState({year: gameWeekData.year, week: gameWeekData.week}))
-    // .catch(gameWeekDataError => console.log('gameWeekDataError2: ', gameWeekDataError))
+    if (!this.state.currentGameId) {
+      this.setState({ fetchingGames: true })
+      api.getUserSession(userSession => {
+        api.fetchGameWeek(this.state.sport, userSession)
+        .then(gameWeekDataResponse => {
+          const { sport, year, week, season, weeks } = gameWeekDataResponse.gameWeekData;
+          api.fetchGameWeekGames(sport, year, season, week, userSession)
+          .then(games => {
+            this.setState({
+              sport: 'nfl',
+              year: year,
+              gameWeek: week,
+              season: season,
+              weeks: weeks,
+              currentGameId: null,
+              data: games,
+              games: games,
+              fetchingGames: false
+            });
+          });
+        })
+        .catch(gameWeekDataError => console.log('gameWeekDataError: ', gameWeekDataError))
+      })
+    }
+  }
+  componentDidUpdate(prevProps, prevState) {
+
+    if (prevState.user !== this.state.user) {
+      console.log('app line 75')
+      // if (this.state.year && this.state.gameWeek) {
+      //   this.fetchGameWeekGames(this.state.year, this.state.gameWeek)
+      // } else {
+      //    this.fetchGameWeek()
+      // }
+    }
+    if (prevState.games !== this.state.games) {
+
+    }
+    if (prevState.year !== this.state.year) {
+      console.log('app line 79')
+      //this.fetchGameWeekGames(this.state.year, this.state.gameWeek)
+      
+    }
   }
   componentWillUnmount() {
     // clean timers, listeners
     onPopState(null);
   }
 
-   signIn = (e) => {
+  confirmUser = (e) => {
+    e.preventDefault();
+    const { confirmUserCode, username } = this.state;
+    Auth.confirmSignUp(username, confirmUserCode)
+    .then((confirmResponse) => {
+      console.log('confirmResponse: ', confirmResponse)
+    })
+    .catch((confirmReject) => {
+      console.log('confirmReject: ', confirmReject)
+    })
+  }
+
+  resendConfirmation = (e) => {
+    e.preventDefault();
+    Auth.resendSignUp()
+    .then(resendSignUpResponse => {
+      console.log('resendSignUpResponse: ', resendSignUpResponse)
+    })
+    .catch(resendSignUpReject => {
+      console.log('resendSignUpReject: ', resendSignUpReject)
+    })
+  }
+
+  signIn = (e) => {
      e.preventDefault()
     const { username, password } = this.state;
     let user = Auth.signIn(username, password)
@@ -83,7 +142,12 @@ class App extends React.Component {
       return user;
     })
     .catch(signInError => {
+      if (signInError.code === 'UserNotConfirmedException') {
+        this.setState({ confirmUser: true })
+        return;
+      }
       console.log('signInError: ', signInError)
+
     })
   }
   signOut = (e) => {
@@ -97,37 +161,138 @@ class App extends React.Component {
   }
 
   
-  getUserSession = (callback) => {
-    Auth.currentSession()
-    .then(userSession => {
-      return callback(userSession)
-    })
-    .catch(userSessionError => {
-      return callback(false)
-    })
+    // Sign up user with AWS Amplify Auth
+  signUp = (e) => {
+      e.preventDefault();
+      const { username, password, givenName, familyName, email, emailOptIn } = this.state
+      // rename variable to conform with Amplify Auth field phone attribute
+      var attributes = {
+        email: email,
+        given_name: givenName,
+        family_name: familyName
+      }
+      attributes['custom:reminderMailOptIn'] = emailOptIn ? '1' : '0'
+      Auth.signUp({
+          username,
+          password,
+          attributes
+        })
+        .then((response) => {
+          this.setState({
+            user: response.user,
+            confirmUser: true
+          })
+        })
+        .catch(err => {
+        if (! err.message) {
+            console.log('Error when signing up: ', err)
+            // Alert.alert('Error when signing up: ', err)
+        } else {
+            console.log('Error when signing up: ', err, '; ', err.message)
+            // Alert.alert('Error when signing up: ', err.message)
+        }
+      })
+  }
+
+  handleFBCode = () => {
+
+  }
+
+  handleLoginClick = () => {
+    // return <LoginModal show={true} signInClick={this.signIn} signUpClick={this.signUp} />
+    this.setState({ loginModalShow: true})
+  }
+
+  handleLoginModalClosed = () => {
+    this.setState({ loginModalShow: false })
   }
 
   onChangeText = (event) => {
     this.setState({[event.target.name]: event.target.value})
   }
 
+  onYearChange = (year) => {
+    const season = (parseInt(year) === 2017 || parseInt(year) === 2018) ? 'reg' : 'pre'
+    this.setState({ fetchingGames: true })
+    this.fetchGameWeekGames(this.state.sport, parseInt(year), season, 1)
+  }
+  
+  onChangeGameScore = (gameId, event) => {
+    const gamePredictions = this.state.gamePredictions
+    gamePredictions[gameId] ? gamePredictions[gameId][event.target.name] = event.target.value : gamePredictions[gameId] = { [event.target.name]: event.target.value }
+    this.setState({ 
+      gamePredictions: { 
+        ...gamePredictions 
+      }
+    })
+  }
+
+  submitPrediction = (gameId) => {
+    console.log(`game: ${gameId}`)
+    api.getUserSession(userSession => {
+      if (!userSession) {
+        console.log('no user session')
+        return { errorMessage: 'Please log in again and resubmit.' }
+      }
+      const game = this.state.games[gameId]
+      const awayTeamScore = parseInt(this.state.gamePredictions[gameId].predictionAwayTeamScore)
+      const homeTeamScore = parseInt(this.state.gamePredictions[gameId].predictionHomeTeamScore)
+      var prediction = {
+        gameId: game.gameId,
+        gameWeek: game.gameWeek,
+        year: game.year,
+        sport: game.sport,
+        season: game.season,
+        awayTeam: {
+          fullName: game.awayTeam.fullName,
+          shortName: game.awayTeam.shortName,
+          code: game.awayTeam.code,
+          score: awayTeamScore ? awayTeamScore : game.prediction.awayTeam.score,
+        },
+        homeTeam: {
+          fullName: game.homeTeam.fullName,
+          shortName: game.homeTeam.shortName,
+          code: game.homeTeam.code,
+          score: homeTeamScore ? homeTeamScore : game.prediction.homeTeam.score,
+        }
+      };
+      console.log('prediction :', prediction);
+      api.fetchSubmitPrediction(userSession, prediction)
+      .then(predictionResponse => {
+        const games = this.state.games;
+        const data = this.state.data;
+        games[game.gameId] = predictionResponse;
+        data[game.gameId] = predictionResponse;
+        this.setState({
+          games: games,
+          data: data
+        })
+        return predictionResponse;
+      })
+      .catch(predictionError => {
+        return predictionError;
+      })
+    })
+  }
+
   fetchGameWeek = () => {
-    this.getUserSession(userSession => {
-      api.fetchGameWeek(userSession)
+    api.getUserSession(userSession => {
+      api.fetchGameWeek(this.state.sport, userSession)
       .then(gameWeekData => {
-        return api.fetchGameWeekGames(gameWeekData.year, gameWeekData.week, userSession).then(games => games);
+        console.log('app 141 gameWeekData: ', gameWeekData)
+        return api.fetchGameWeekGames(gameWeekData.sport, gameWeekData.year, gameWeekData.week, userSession).then(games => games);
       })
       .catch(gameWeekDataError => console.log('gameWeekDataError: ', gameWeekDataError))
     })
   }
 
-  fetchGame = (gameId) => {
+  fetchGame = (sport, year, season, gameWeek, gameId) => {
     pushState(
       { currentGameId: gameId },
-      `/game/${gameId}`
+      `/${sport}/games/${year}/${season}/${gameWeek}/${gameId}`
     );
-    this.getUserSession(userSession => {
-      api.fetchGame(gameId, userSession)
+    api.getUserSession(userSession => {
+      api.fetchGame(sport, year, season, gameWeek, gameId, userSession)
       .then(game => {
         this.setState({
           pageHeader: gameId,
@@ -148,7 +313,7 @@ class App extends React.Component {
       '/'
     );
 
-    this.getUserSession(userSession => {
+    api.getUserSession(userSession => {
       api.fetchGamesList(userSession)
       .then(games => {
         this.setState({
@@ -162,18 +327,18 @@ class App extends React.Component {
     });
   }
 
-  fetchGameWeekGames = (year, gameWeek) => {
-    console.log('year: ', year)
+  fetchGameWeekGames = (sport, year, season, gameWeek) => {
+    this.setState({ fetchingGames: true })
     pushState(
       {
         currentGameId: null,
         gameWeek: gameWeek,
         year: year
       },
-      `/games/${year}/${gameWeek}`
+      `/${sport}/games/${year}/${season}/${gameWeek}`
     );
-    this.getUserSession(userSession => {
-      api.fetchGameWeekGames(year, gameWeek, userSession).then((games) => {
+    api.getUserSession(userSession => {
+      api.fetchGameWeekGames(sport, year, gameWeek, userSession).then((games) => {
         this.setState({
           year: year,
           gameWeek: gameWeek,
@@ -186,7 +351,7 @@ class App extends React.Component {
   }
 
   currentGame() {
-    return this.state.games[this.state.currentGameId];
+    return this.state.games ? this.state.games[this.state.currentGameId] : this.state.game;
   }
   pageHeader() {
     //console.log('this.state: ', this.state);
@@ -196,30 +361,51 @@ class App extends React.Component {
     return `Week ${this.state.gameWeek} Games`;
   }
   currentContent() {
+    console.log('this.state.currentGameId: ', this.state.currentGameId)
     if (this.state.currentGameId) {
       return <Game 
       gamesListClick={this.fetchGamesList}
+      onChangeGameScore={this.onChangeGameScore}
+      onSubmitPrediction={this.onSubmitPrediction}
       {...this.currentGame()} />;
     }
-    if (this.state.signIn) {
-      //do something
-    }
     //console.log('this.state.games: ', this.state.games);
-    return <div><Weeks
-    onGameWeekClick={this.fetchGameWeekGames}
-    weeks={[1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21]} />
-    <GamesList onGameClick={this.fetchGame}
-    games={this.state.games} /></div>;
+    return (
+      <div>
+        <DropdownButton id="dropdown-basic-button" title="Select a season">
+          <Dropdown.Item onClick={() => this.onYearChange(2019)} href='#' className='yearDropdown'>2019</Dropdown.Item>
+          <Dropdown.Item onClick={() => this.onYearChange(2018)} href='#' className='yearDropdown'>2018</Dropdown.Item>
+          <Dropdown.Item onClick={() => this.onYearChange(2017)} href='#' className='yearDropdown'>2017</Dropdown.Item>
+        </DropdownButton>
+        <select onChange={(event) => this.onYearChange(event)} id="year" name="year">
+          <option value="2019">2019</option>
+          <option value="2018">2018</option>
+          <option value="2017">2017</option>
+        </select>
+        {this.state.weeks ? (
+          <Weeks
+          onGameWeekClick={this.fetchGameWeekGames} sport={this.state.sport} year={this.state.year} season={this.state.season}
+          weeks={this.state.weeks} />
+        ) : null}
+        {this.state.games ? (
+        <GamesList onChangeGameScore={this.onChangeGameScore} onSubmitPrediction={this.submitPrediction} onGameClick={this.fetchGame}
+        games={this.state.games} />
+        ): (
+          <div>No games available</div>
+        )}
+      </div>
+    );
   }
   render() {
     return (
       <div className="App">
+        <Navigation user={this.state.user} sport={this.state.sport} handleLoginClick={this.handleLoginClick} />
         <Header message={this.pageHeader()} />
         
         {(this.state.authState === 'signedIn') ? (
           <div>
             {this.state.user.attributes.preferred_username}
-            <button onClick={this.signOut}>Logout</button>
+            <Button onClick={this.signOut}>Logout</Button>
           </div>
         ) : (
           <div className="loginFields">
@@ -233,11 +419,26 @@ class App extends React.Component {
               </label>
               <input type="password" name="password" key="password" onChange={this.onChangeText} />
               
-              <button onClick={this.signIn}>Login</button>
+              <Button onClick={() => this.signIn()}>Login</Button>
+              <LoginModal 
+              onChangeText={this.onChangeText} 
+              show={this.state.loginModalShow} 
+              onHide={this.handleLoginModalClosed} 
+              signInClick={this.signIn} 
+              signUpClick={this.signUp} 
+              confirmUser={this.state.confirmUser}
+              handleConfirmUserClick={this.confirmUser} 
+              handleResendClick={this.resendConfirmation}/>
+              
+              <Button onClick={() => this.handleLoginClick()}>Launch Modal</Button>
             </form>
           </div>
         )}
-        {this.currentContent()}
+        {this.state.fetchingGames ? (
+          <Spinner />
+        ) : (
+        this.currentContent()
+        )}
       </div>
     );
   }

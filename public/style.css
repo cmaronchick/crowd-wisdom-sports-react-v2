@@ -14,16 +14,24 @@
     display: flex;
     flex-direction: row;
     justify-content: space-between; }
-  .GamePreview div {
-    margin: 0 5px;
-    padding: 3px; }
+    .GamePreview .headerRow div {
+      margin: 0 5px;
+      padding: 3px;
+      width: 22%; }
+  @media (max-width: 767px) {
+    .GamePreview .teamName {
+      width: 33%; } }
+  @media (min-width: 768px) {
+    .GamePreview .teamName {
+      width: 40%; } }
   .GamePreview .team {
     display: flex;
     flex-direction: row;
     justify-content: space-between; }
-  .GamePreview div {
-    margin: 0 5px;
-    padding: 3px; }
+    .GamePreview .team div {
+      margin: 0 5px;
+      padding: 3px;
+      width: 22%; }
 
 .link {
   cursor: pointer; }

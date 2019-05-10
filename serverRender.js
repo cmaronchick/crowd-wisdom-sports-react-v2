@@ -14,36 +14,40 @@ import axios from 'axios';
 //   .catch(gameWeekError => console.log('gameWeekError :', gameWeekError));
 
 const getApiUrl = (gameId, gameWeekData) => {
-  
   if (gameId) {
-    return `${config.serverUrl}/api/game/${gameId}`;
+    return `${config.serverUrl}/api/${gameWeekData.sport}/${gameWeekData.year}/${gameWeekData.season}/${gameWeekData.week}/${gameId}`;
   }
   
   console.log('gameWeekData :', gameWeekData);
   
   if (gameWeekData) { 
-    return `${config.serverUrl}/api/games/${gameWeekData.year}/${gameWeekData.week}`;
+    return `${config.serverUrl}/api/${gameWeekData.sport}/games/${gameWeekData.year}/${gameWeekData.season}/${gameWeekData.week}`;
   }
-  return `${config.serverUrl}/api/games`
+  return `${config.serverUrl}/api/${sport}/games`
   
 };
 
-const getInitialData = (gameId, apiData) => {
+const getInitialData = (gameId, sport, year, season, week, weeks, code, apiData) => {
   if (gameId) {
     return {
-      currentGameId: apiData.gameId,
-      games: {
-        [apiData.gameId]: apiData
-      }
+      currentGameId: apiData.game.gameId,
+      game: apiData.game
     };
   }
   return {
-    games: apiData.games
+    sport: sport,
+    year: year,
+    season: season,
+    gameWeek: week,
+    weeks: weeks,
+    games: apiData.games,
+    code: code
   };
 };
 
-const serverRender = (gameId, year, gameWeek) => 
-  axios.get(`${config.serverUrl}/api/gameWeek`)
+const serverRender = (sport, year, season, gameWeek, gameId, query) => 
+
+  axios.get(`${config.serverUrl}/api/${sport}/gameWeek`)
   .then(gameWeekResp  => {
     const gameWeekData = gameWeekResp.data.gameWeekData;
     //const gameWeekData = { year: 2018, week: 21 };
@@ -52,17 +56,19 @@ const serverRender = (gameId, year, gameWeek) =>
   .then(gameWeekData => {
     return axios.get(getApiUrl(gameId, gameWeekData))
       .then(resp => {
-        const initialData = getInitialData(gameId, resp.data);
+        const initialData = getInitialData(gameId, gameWeekData.sport, gameWeekData.year, gameWeekData.season, gameWeekData.week, gameWeekData.weeks, query ? query.code : null, resp.data);
+        //console.log('initialData: ', initialData)
+        
         const initialMarkup = ReactDOMServer.renderToString(
           <App initialData={initialData} />)
         const respObj = {
           initialMarkup: initialMarkup,
           initialData
         }
-        console.log('respObj ', respObj )
+        //console.log('respObj ', respObj )
         return respObj;
       })
-      //.catch(initialMarkupError => console.log('initialMarkupError :', initialMarkupError))
+      .catch(initialMarkupError => console.log('initialMarkupError :', initialMarkupError))
     })
   // .catch(gameWeekRespError => console.log('gameWeekRespError: ', gameWeekRespError))
 

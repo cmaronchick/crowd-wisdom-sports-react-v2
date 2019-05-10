@@ -1,7 +1,7 @@
 import React from 'react';
 import GamePreview from './GamePreview';
 
-const GamesList = ({ games, onGameClick }) => {
+const GamesList = ({ games, onGameClick, onChangeGameScore, onSubmitPrediction }) => {
   //console.log('games: ', games);
   return (
     <div>
@@ -9,6 +9,8 @@ const GamesList = ({ games, onGameClick }) => {
         <GamePreview
         key={gameId}
         onClick={onGameClick}
+        onChangeGameScore={onChangeGameScore}
+        onSubmitPrediction={onSubmitPrediction}
         {...games[gameId]} />
       )}
     </div>

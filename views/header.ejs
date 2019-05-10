@@ -5,7 +5,8 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <meta http-equiv="X-UA-Compatible" content="ie=edge">
   <title>Naming Contests</title>
-  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
+  <!-- <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous"> -->
+  
   <link rel="stylesheet" href="/style.css" crossorigin="anonymous">
   
     <!--     Fonts and icons     -->
@@ -14,40 +15,31 @@
     <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.3.1/css/all.css" integrity="sha384-mzrmE5qonljUremFsqc01SB46JvROS7bZs3IO2EmfFsd15uHvIt+Y8vEf7N7fWAU" crossorigin="anonymous">
 
     <!-- CSS Files -->
-    <link href="https://www.crowdwisdomsports.com/assets/css/bootstrap.min.css" rel="stylesheet"/>
-    <link href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap.min.css" rel="stylesheet"/>
     <link href="https://www.crowdwisdomsports.com/assets/css/material-kit.css" rel="stylesheet"/>
     <link href="https://www.crowdwisdomsports.com/assets/css/hopscotch.min.css" rel="stylesheet"/>
     <link href="https://www.crowdwisdomsports.com/assets/css/cws.css" rel="stylesheet"/>
-    
+    <script src="https://unpkg.com/react/umd/react.production.min.js" crossorigin />
+    <script
+      src="https://unpkg.com/react-dom/umd/react-dom.production.js"
+      crossorigin
+    />
+    <script
+      src="https://unpkg.com/react-bootstrap@next/dist/react-bootstrap.min.js"
+      crossorigin
+    />
+    <script>var Alert = ReactBootstrap.Alert;</script>
+    <link
+      rel="stylesheet"
+      href="https://maxcdn.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css"
+      integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T"
+      crossorigin="anonymous"
+    />
+    <style type="text/css">
+      .dropdown a {
+        color: #B42135;
+        padding: 2px 10px;
+      }
+    </style>
 </head>
 <body class="container">
-    <div class="row" style='margin-bottom: 100px'>
-        <div class="navbar navbar-default navbar-fixed-top">
-            <div class="container">
-                <div class="header-icon"><a href="/"><img src="https://crowdsourcedscores.files.wordpress.com/2016/11/cropped-css-logo-footballleft-webres-1300px.jpg?w=520" alt="Crowd Wisdom Sports"></a></div>
-                <div class="navbar-header"><a href="/" class="navbar-brand"><span class="hidden-md">Crowd Wisdom Sports</span><span class="visible-md">CW Sports</span></a>
-                <button type="button" data-toggle="collapse" data-target="#navbar-main" class="navbar-toggle"><span class="icon-bar"></span><span class="icon-bar"></span><span class="icon-bar"></span></button>
-                </div>
-                <div id="navbar-main" class="navbar-collapse collapse">
-                <ul class="nav navbar-nav">
-                    <li class="active"><a href="#">Home</a></li>
-                    <li><a href="/">NFL</a></li>
-                    <li><a href="/?sport=ncaaf">College Bowls</a></li>
-                    <li><a href="/?sport=ncaam">March Madness</a></li>
-                    <li><a href="https://blog.crowdsourcedscores.com/" target="blog">Blog</a></li>
-                    <li><a class="dropdown-toggle" data-toggle="dropdown" href="#" id="leaderboards">Leaderboards<span class="caret"></span></a>
-                        <ul class="dropdown-menu">
-                            <li style="text-align: center"><a href="/crowd.html"><span class="glyphicons glyphicons-group"></span> Crowds</a></li>
-                            <li style="text-align: center"><a href="/leaderboard.html"><span><i class="glyphicon glyphicon-user"></i></span> Users</a></li>
-                        </ul>
-                    </li>
-                    <li style="text-align: center">
-                            <button onClick='login()'>Login/Sign Up</button>
-                            
-                    </li>
-                </ul>
-                </div>
-            </div>
-        </div>
-    </div>
+    
