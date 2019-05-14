@@ -37,7 +37,8 @@ class App extends React.Component {
       gamePredictions: {},
       fetchingGames: false,
       loginModalShow: false,
-      confirmUser: false
+      confirmUser: false,
+      authState: 'checkingSignIn'
     }
     
   }
@@ -52,7 +53,6 @@ class App extends React.Component {
     });
 
     let fbUser = this.state.code ? await api.getFacebookUser(this.state.code) : null
-    
     try {
       let user = await Auth.currentAuthenticatedUser()
       this.setState({user, authState: 'signedIn'})
@@ -65,7 +65,9 @@ class App extends React.Component {
       api.getUserSession(userSession => {
         api.fetchGameWeek(this.state.sport, userSession)
         .then(gameWeekDataResponse => {
-          const { sport, year, week, season, weeks } = gameWeekDataResponse.gameWeekData;
+          // console.log('this.state: ', this.state)
+          // console.log('gameWeekDataResponse: ', gameWeekDataResponse)
+          const { sport, year, week, season, weeks } = this.state ? this.state : gameWeekDataResponse.gameWeekData;
           api.fetchGameWeekGames(sport, year, season, week, userSession)
           .then(games => {
             this.setState({
@@ -86,9 +88,11 @@ class App extends React.Component {
     }
   }
   componentDidUpdate(prevProps, prevState) {
+    console.log('this.state: ', this.state)
+    console.log('prevState: ', prevState)
 
     if (prevState.user !== this.state.user) {
-      console.log('app line 75')
+      // console.log('app line 75')
       // if (this.state.year && this.state.gameWeek) {
       //   this.fetchGameWeekGames(this.state.year, this.state.gameWeek)
       // } else {
@@ -99,7 +103,7 @@ class App extends React.Component {
 
     }
     if (prevState.year !== this.state.year) {
-      console.log('app line 79')
+      // console.log('app line 79')
       //this.fetchGameWeekGames(this.state.year, this.state.gameWeek)
       
     }
@@ -338,13 +342,15 @@ class App extends React.Component {
       `/${sport}/games/${year}/${season}/${gameWeek}`
     );
     api.getUserSession(userSession => {
-      api.fetchGameWeekGames(sport, year, gameWeek, userSession).then((games) => {
+      api.fetchGameWeekGames(sport, year, season, gameWeek, userSession).then((games) => {
+        console.log('games: ', games)
         this.setState({
           year: year,
           gameWeek: gameWeek,
           currentGameId: null,
           data: games,
-          games: games
+          games: games,
+          fetchingGames: false
         });
       });
     })
@@ -372,16 +378,21 @@ class App extends React.Component {
     //console.log('this.state.games: ', this.state.games);
     return (
       <div>
-        <DropdownButton id="dropdown-basic-button" title="Select a season">
-          <Dropdown.Item onClick={() => this.onYearChange(2019)} href='#' className='yearDropdown'>2019</Dropdown.Item>
-          <Dropdown.Item onClick={() => this.onYearChange(2018)} href='#' className='yearDropdown'>2018</Dropdown.Item>
-          <Dropdown.Item onClick={() => this.onYearChange(2017)} href='#' className='yearDropdown'>2017</Dropdown.Item>
-        </DropdownButton>
-        <select onChange={(event) => this.onYearChange(event)} id="year" name="year">
+        <Dropdown>
+          <Dropdown.Toggle variant="success" id="dropdown-basic">
+            Select a Season
+          </Dropdown.Toggle>
+          <Dropdown.Menu>
+            <Dropdown.Item onClick={() => this.onYearChange(2019)} href='#' className='yearDropdown'>2019</Dropdown.Item>
+            <Dropdown.Item onClick={() => this.onYearChange(2018)} href='#' className='yearDropdown'>2018</Dropdown.Item>
+            <Dropdown.Item onClick={() => this.onYearChange(2017)} href='#' className='yearDropdown'>2017</Dropdown.Item>
+          </Dropdown.Menu>
+        </Dropdown>
+        {/* <select onChange={(event) => this.onYearChange(event)} id="year" name="year">
           <option value="2019">2019</option>
           <option value="2018">2018</option>
           <option value="2017">2017</option>
-        </select>
+        </select> */}
         {this.state.weeks ? (
           <Weeks
           onGameWeekClick={this.fetchGameWeekGames} sport={this.state.sport} year={this.state.year} season={this.state.season}
@@ -403,13 +414,13 @@ class App extends React.Component {
         <Header message={this.pageHeader()} />
         
         {(this.state.authState === 'signedIn') ? (
-          <div>
+          <div className="row">
             {this.state.user.attributes.preferred_username}
             <Button onClick={this.signOut}>Logout</Button>
           </div>
-        ) : (
+        ) : (this.state.authState === 'signIn') ? (
           <div className="loginFields">
-            <form>
+            {/* <form>
               <label htmlFor='username'>
                 User Name:
               </label>
@@ -420,6 +431,7 @@ class App extends React.Component {
               <input type="password" name="password" key="password" onChange={this.onChangeText} />
               
               <Button onClick={() => this.signIn()}>Login</Button>
+            </form> */}
               <LoginModal 
               onChangeText={this.onChangeText} 
               show={this.state.loginModalShow} 
@@ -430,12 +442,11 @@ class App extends React.Component {
               handleConfirmUserClick={this.confirmUser} 
               handleResendClick={this.resendConfirmation}/>
               
-              <Button onClick={() => this.handleLoginClick()}>Launch Modal</Button>
-            </form>
+              <Button onClick={() => this.handleLoginClick()}>Sign In/Sign Up</Button>
           </div>
-        )}
+        ) : null}
         {this.state.fetchingGames ? (
-          <Spinner />
+          <Spinner animation='border' />
         ) : (
         this.currentContent()
         )}

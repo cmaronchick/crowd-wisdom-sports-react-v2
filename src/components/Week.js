@@ -2,13 +2,12 @@ import React, { Component } from 'react';
 
 class Week extends Component {
   handleClick = () => {
-    this.props.onClick(this.props.sport, this.props.year, this.props.season, this.props.week);
+    this.props.onClick(this.props.sport, this.props.year, this.props.season, this.props.weekIndex);
   }
   render() {
-    //console.log('this.props: ', this.props);
     return (
     <div className="link Week" onClick={this.handleClick}>
-    {this.props.weekName}
+      {this.props.week.weekName}
     </div>
     );
   }

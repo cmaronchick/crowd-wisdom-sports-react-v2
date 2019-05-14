@@ -38,7 +38,7 @@ const getInitialData = (gameId, sport, year, season, week, weeks, code, apiData)
     sport: sport,
     year: year,
     season: season,
-    gameWeek: week,
+    week: week,
     weeks: weeks,
     games: apiData.games,
     code: code
@@ -54,6 +54,9 @@ const serverRender = (sport, year, season, gameWeek, gameId, query) =>
     return gameWeekData;
   })
   .then(gameWeekData => {
+    year ? gameWeekData.year = year : null
+    season ? gameWeekData.season = season : null
+    gameWeek ? gameWeekData.week = gameWeek : null
     return axios.get(getApiUrl(gameId, gameWeekData))
       .then(resp => {
         const initialData = getInitialData(gameId, gameWeekData.sport, gameWeekData.year, gameWeekData.season, gameWeekData.week, gameWeekData.weeks, query ? query.code : null, resp.data);

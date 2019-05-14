@@ -22,7 +22,7 @@ server.get(['/', '/:sport/games', '/:sport/games/:year', '/:sport/games/:year/:s
   //console.log('req.query: ', req.query)
   const sport = req.params.sport ? req.params.sport : 'nfl'
   //console.log('server 25 sport: ', sport)
-  serverRender(sport, req.params.year, req.params.season, req.params.gameWeek, req.params.gameId, req.query)
+  serverRender(sport, parseInt(req.params.year), req.params.season, parseInt(req.params.gameWeek), parseInt(req.params.gameId), req.query)
     .then(({ initialMarkup, initialData }) => {
       res.render('index', {
         initialMarkup,

@@ -2,7 +2,7 @@ import React from 'react';
 import GamePreview from './GamePreview';
 
 const GamesList = ({ games, onGameClick, onChangeGameScore, onSubmitPrediction }) => {
-  //console.log('games: ', games);
+  console.log('games: ', games);
   return (
     <div>
       {Object.keys(games).map(gameId => 
