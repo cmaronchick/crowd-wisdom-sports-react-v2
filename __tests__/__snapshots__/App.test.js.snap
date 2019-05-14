@@ -189,48 +189,6 @@ exports[`snapshot test 1`] = `
       Week undefined Games
     </h2>
   </div>
-  <div
-    className="loginFields"
-  >
-    <form>
-      <label
-        htmlFor="username"
-      >
-        User Name:
-      </label>
-      <input
-        name="username"
-        onChange={[Function]}
-        type="text"
-      />
-      <label
-        htmlFor="password"
-      >
-        Password:
-      </label>
-      <input
-        name="password"
-        onChange={[Function]}
-        type="password"
-      />
-      <button
-        className="btn btn-primary"
-        disabled={false}
-        onClick={[Function]}
-        type="button"
-      >
-        Login
-      </button>
-      <button
-        className="btn btn-primary"
-        disabled={false}
-        onClick={[Function]}
-        type="button"
-      >
-        Launch Modal
-      </button>
-    </form>
-  </div>
   <div>
     <div
       className="dropdown"
@@ -239,36 +197,15 @@ exports[`snapshot test 1`] = `
       <button
         aria-expanded={false}
         aria-haspopup={true}
-        className="dropdown-toggle btn btn-primary"
+        className="dropdown-toggle btn btn-success"
         disabled={false}
-        id="dropdown-basic-button"
+        id="dropdown-basic"
         onClick={[Function]}
         type="button"
       >
-        Select a season
+        Select a Season
       </button>
     </div>
-    <select
-      id="year"
-      name="year"
-      onChange={[Function]}
-    >
-      <option
-        value="2019"
-      >
-        2019
-      </option>
-      <option
-        value="2018"
-      >
-        2018
-      </option>
-      <option
-        value="2017"
-      >
-        2017
-      </option>
-    </select>
     <div>
       No games available
     </div>
