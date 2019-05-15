@@ -5,7 +5,7 @@
   "main": "index.js",
   "scripts": {
     "start": "nodemon --exec babel-node server.js --ignore public/",
-    "dev": "webpack -wd",
+    "dev": "concurrently --kill-others \"webpack -wd\" \"nodemon --exec babel-node server.js --ignore public/\"",
     "test": "jest"
   },
   "repository": "git+https://github.com/cmaronchick/crowd-wisdom-sports-react.git",
@@ -47,6 +47,7 @@
     "babel-loader": "^8.0.5",
     "babel-polyfill": "^6.26.0",
     "babel-preset-env": "^1.7.0",
+    "concurrently": "^4.1.0",
     "eslint": "^5.12.1",
     "eslint-plugin-react": "^7.12.4",
     "nodemon": "^1.18.9",
