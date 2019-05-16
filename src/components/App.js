@@ -65,7 +65,7 @@ class App extends React.Component {
       api.getUserSession(userSession => {
         api.fetchGameWeek(this.state.sport, userSession)
         .then(gameWeekDataResponse => {
-          // console.log('this.state: ', this.state)
+          console.log('this.state: ', this.state)
           // console.log('gameWeekDataResponse: ', gameWeekDataResponse)
           const { sport, year, week, season, weeks } = this.state ? this.state : gameWeekDataResponse.gameWeekData;
           api.fetchGameWeekGames(sport, year, season, week, userSession)
@@ -93,11 +93,8 @@ class App extends React.Component {
 
     if (prevState.user !== this.state.user) {
       // console.log('app line 75')
-      // if (this.state.year && this.state.gameWeek) {
-      //   this.fetchGameWeekGames(this.state.year, this.state.gameWeek)
-      // } else {
-      //    this.fetchGameWeek()
-      // }
+      
+      this.fetchGameWeekGames(this.state.sport, this.state.year, this.state.season, this.state.gameWeek ? this.state.gameWeek : this.state.week)
     }
     if (prevState.games !== this.state.games) {
 

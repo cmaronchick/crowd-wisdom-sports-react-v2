@@ -106,4 +106,19 @@ router.post('/submitPrediction', (req, res) => {
   .catch(predictionError => console.log('predictionError: ', predictionError))
 })
 
+
+router.get('/:sport/:year/:season/:week/leaderboards', (req, res) => {
+  //console.log('api index 43 req', req.params.sport)
+    const callOptionsObject = callOptions(req.headers.authorization);
+    const anonString = callOptionsObject.anonString;
+    const getOptions = callOptionsObject.callOptions;
+      axios.get(`https://y5f8dr2inb.execute-api.us-west-2.amazonaws.com/dev/${req.params.sport}/${req.params.year}/${req.params.season}/${req.params.week}/leaderboards`, getOptions)
+      .then((leaderboardResponse) => {
+       console.log('api/index 35 gameWeekResponse', gameWeekResponse.data)
+        res.send({ leaderboardData: leaderboardResponse.data })
+      })
+      .catch(gameWeekResponseError => console.log('api leaderboard index 38 gameWeekResponseError: ', gameWeekResponseError))
+
+})
+
 export default router;
