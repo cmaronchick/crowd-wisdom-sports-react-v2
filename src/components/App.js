@@ -35,7 +35,7 @@ class App extends React.Component {
       ...this.props.initialData,
       sport: 'nfl',
       gamePredictions: {},
-      fetchingGames: false,
+      fetchingData: false,
       loginModalShow: false,
       confirmUser: false,
       authState: 'checkingSignIn'
@@ -51,6 +51,7 @@ class App extends React.Component {
         currentGameId: (event.state || {}).currentGameId
       });
     });
+    console.log('this.state: ', this.state)
 
     let fbUser = this.state.code ? await api.getFacebookUser(this.state.code) : null
     try {

@@ -67,7 +67,7 @@ router.get(['/:sport/games', '/:sport/games/:year/:season/:gameWeek'], (req, res
     .catch(getGamesError => console.log('api index 65: ', getGamesError));
 })
 
-router.get('/:sport/:year/:season/:gameWeek/:gameId', (req, res) => {
+router.get('/:sport/games/:year/:season/:gameWeek/:gameId', (req, res) => {
   
   const callOptionsObject = callOptions(req.headers.authorization);
   const anonString = callOptionsObject.anonString;
@@ -80,12 +80,13 @@ router.get('/:sport/:year/:season/:gameWeek/:gameId', (req, res) => {
   .catch(gamesResponseError => console.log('gamesResponseError: ', gamesResponseError));
 });
 
-router.get('/:sport/:year/:season/:gameWeek/leaderboards', (req, res) => {
+router.get('/:sport/leaderboards/:year/:season/:week', (req, res) => {
   const callOptionsObject = callOptions(req.headers.authorization);
   const anonString = callOptionsObject.anonString;
   const getOptions = callOptionsObject.callOptions;
   axios.get(`https://y5f8dr2inb.execute-api.us-west-2.amazonaws.com/dev/${req.params.sport}/${req.params.year}/${req.params.season}/${req.params.week}/leaderboards`, getOptions)
   .then((overallLeaderboardResponse) => {
+    console.log('overallLeaderboardResponse: ', overallLeaderboardResponse)
     res.send({ leaderboards: {
       overall: overallLeaderboardResponse.data
       }
@@ -107,7 +108,7 @@ router.post('/submitPrediction', (req, res) => {
 })
 
 
-router.get('/:sport/:year/:season/:week/leaderboards', (req, res) => {
+router.get('/:sport/leaderboards/:year/:season/:week', (req, res) => {
   //console.log('api index 43 req', req.params.sport)
     const callOptionsObject = callOptions(req.headers.authorization);
     const anonString = callOptionsObject.anonString;
