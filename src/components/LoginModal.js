@@ -20,7 +20,7 @@ export default class LoginModal extends Component {
         }
     }
     handleFBClick = () => {
-      window.location.href='https://crowdsourcedscores.auth.us-west-2.amazoncognito.com/oauth2/authorize?identity_provider=Facebook&redirect_uri=http://localhost:8080&response_type=CODE&client_id=2n15lhk845sucm0k4fejjqcbev&state=cws-react&scope=aws.cognito.signin.user.admin email openid phone profile'
+      window.location.href=`https://crowdsourcedscores.auth.us-west-2.amazoncognito.com/oauth2/authorize?identity_provider=Facebook&redirect_uri=${window.origin}&response_type=CODE&client_id=2n15lhk845sucm0k4fejjqcbev&state=cws-react&scope=aws.cognito.signin.user.admin email openid phone profile`
     }
     handleShow() {
       this.setState({ show: true })

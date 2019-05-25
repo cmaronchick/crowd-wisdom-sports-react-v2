@@ -58,7 +58,13 @@
 .weeks {
   display: flex;
   flex-direction: row;
-  justify-content: space-evenly; }
+  justify-content: space-evenly;
+  margin-top: 5px; }
+  .weeks .currentWeek {
+    background-color: #03a9f4;
+    border-color: #03a9f4;
+    box-shadow: 0 4px 5px 0 rgba(3, 169, 244, 0.14), 0 1px 10px 0 rgba(3, 169, 244, 0.12), 0 2px 4px -1px rgba(3, 169, 244, 0.2);
+    color: #fff; }
 
 .row {
   display: flex;

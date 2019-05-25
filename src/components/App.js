@@ -393,7 +393,7 @@ class App extends React.Component {
         </select> */}
         {this.state.weeks ? (
           <Weeks
-          onGameWeekClick={this.fetchGameWeekGames} sport={this.state.sport} year={this.state.year} season={this.state.season}
+          onGameWeekClick={this.fetchGameWeekGames} currentWeek={this.state.week} sport={this.state.sport} year={this.state.year} season={this.state.season}
           weeks={this.state.weeks} />
         ) : null}
         {this.state.games ? (
