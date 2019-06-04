@@ -38,11 +38,28 @@ export default class Leaderboards extends Component {
     }
 
     render() {
+        const { leaderboardData } = this.state
         return (
             <div>
-                {this.state.leaderboardData ? (
-                    <div>LeaderboardData received</div>
-                ) : (
+                {leaderboardData ? 
+                    leaderboardData.leaderboards.overall.weekly.map((week, index) => {
+                        return (index === 0) ? (
+                            <div className="headerRow" key={index}>
+                                {week[0]}<br />
+                                {week[1]}<br />
+                                {week[2]}<br />
+                                {week[3]}<br />
+                            </div>
+                        ) : (
+                            <div className="weekRow" key={index}>
+                                {week[0]}<br />
+                                {week[1]}<br />
+                                {week[2]}<br />
+                                {week[3]}<br />
+                            </div>
+                        )
+                    })
+                 : (
                     <div>No Leaderboard Data received</div>
                 )}
             </div>
