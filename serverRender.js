@@ -36,7 +36,7 @@ const getLeaderboardsUrl = (gameWeekData) => {
   
 };
 
-const getInitialData = (gameId, sport, year, season, week, weeks, code, apiData) => {
+const getInitialData = (gameId, sport, year, season, week, weeks, code, apiData, page) => {
   if (gameId) {
     return {
       currentGameId: apiData.game.gameId,
@@ -50,7 +50,8 @@ const getInitialData = (gameId, sport, year, season, week, weeks, code, apiData)
     week: week,
     weeks: weeks,
     games: apiData.games,
-    code: code
+    code: code,
+    page: page
   };
 };
 
@@ -68,7 +69,7 @@ const serverRender = (sport, year, season, gameWeek, gameId, query, page) => {
       gameWeek ? gameWeekData.week = gameWeek : null
       return axios.get(getLeaderboardsUrl(gameWeekData))
         .then(resp => {
-          const initialData = getInitialData(null, gameWeekData.sport, gameWeekData.year, gameWeekData.season, gameWeekData.week, gameWeekData.weeks, query ? query.code : null, resp.data);
+          const initialData = getInitialData(null, gameWeekData.sport, gameWeekData.year, gameWeekData.season, gameWeekData.week, gameWeekData.weeks, query ? query.code : null, resp.data, page);
           //console.log('initialData: ', initialData)
           
           const initialMarkup = ReactDOMServer.renderToString(
@@ -96,7 +97,7 @@ const serverRender = (sport, year, season, gameWeek, gameId, query, page) => {
         gameWeek ? gameWeekData.week = gameWeek : null
         return axios.get(getApiUrl(gameId, gameWeekData))
           .then(resp => {
-            const initialData = getInitialData(gameId, gameWeekData.sport, gameWeekData.year, gameWeekData.season, gameWeekData.week, gameWeekData.weeks, query ? query.code : null, resp.data);
+            const initialData = getInitialData(gameId, gameWeekData.sport, gameWeekData.year, gameWeekData.season, gameWeekData.week, gameWeekData.weeks, query ? query.code : null, resp.data, 'games');
             //console.log('initialData: ', initialData)
             
             const initialMarkup = ReactDOMServer.renderToString(

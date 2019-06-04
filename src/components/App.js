@@ -16,6 +16,7 @@ import Spinner from 'react-bootstrap/Spinner'
 import Header from './Header';
 import GamesList from './GamesList';
 import Game from './Game';
+import Leaderboards from './Leaderboards'
 import LoginModal from './LoginModal';
 import Weeks from './Weeks';
 import * as api from '../api';
@@ -52,6 +53,7 @@ class App extends React.Component {
       });
     });
     console.log('this.state: ', this.state)
+    console.log('this.props: ', this.props)
 
     let fbUser = this.state.code ? await api.getFacebookUser(this.state.code) : null
     try {
@@ -89,13 +91,11 @@ class App extends React.Component {
     }
   }
   componentDidUpdate(prevProps, prevState) {
-    console.log('this.state: ', this.state)
-    console.log('prevState: ', prevState)
 
     if (prevState.user !== this.state.user) {
       // console.log('app line 75')
-      
-      this.fetchGameWeekGames(this.state.sport, this.state.year, this.state.season, this.state.gameWeek ? this.state.gameWeek : this.state.week)
+      (this.state.page === 'games') ? this.fetchGameWeekGames(this.state.sport, this.state.year, this.state.season, this.state.gameWeek ? this.state.gameWeek : this.state.week)
+      : (this.state.page === 'leaderboards') ? this.fetchLeaderboards('nfl', 2018, 'post', 21) : null
     }
     if (prevState.games !== this.state.games) {
 
@@ -354,6 +354,13 @@ class App extends React.Component {
     })
   }
 
+  fetchLeaderboards = async (sport, year, season, gameWeek) => {
+    let userSession = await Auth.currentSession()
+    let leaderboardData = await api.fetchOverallLeaderboard(userSession, sport, year, season, gameWeek)
+    this.setState({ leaderboardData })
+
+  }
+
   currentGame() {
     return this.state.games ? this.state.games[this.state.currentGameId] : this.state.game;
   }
@@ -365,13 +372,16 @@ class App extends React.Component {
     return `Week ${this.state.gameWeek} Games`;
   }
   currentContent() {
-    console.log('this.state.currentGameId: ', this.state.currentGameId)
+    console.log('this.state: ', this.state)
     if (this.state.currentGameId) {
       return <Game 
       gamesListClick={this.fetchGamesList}
       onChangeGameScore={this.onChangeGameScore}
       onSubmitPrediction={this.onSubmitPrediction}
       {...this.currentGame()} />;
+    }
+    if (this.state.page === 'leaderboards') {
+      return <Leaderboards leaderboardData={this.state.leaderboardData} />
     }
     //console.log('this.state.games: ', this.state.games);
     return (

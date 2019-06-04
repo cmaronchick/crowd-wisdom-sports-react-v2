@@ -86,7 +86,7 @@ router.get('/:sport/leaderboards/:year/:season/:week', (req, res) => {
   const getOptions = callOptionsObject.callOptions;
   axios.get(`https://y5f8dr2inb.execute-api.us-west-2.amazonaws.com/dev/${req.params.sport}/${req.params.year}/${req.params.season}/${req.params.week}/leaderboards`, getOptions)
   .then((overallLeaderboardResponse) => {
-    console.log('overallLeaderboardResponse: ', overallLeaderboardResponse)
+    //console.log('overallLeaderboardResponse: ', overallLeaderboardResponse.data)
     res.send({ leaderboards: {
       overall: overallLeaderboardResponse.data
       }
