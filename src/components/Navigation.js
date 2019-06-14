@@ -12,7 +12,21 @@ export default class Navigation extends Component {
 
     render() {
         return (
-            <div className="row" style={{marginBottom: 100}}>
+            //<!-- Sidebar -->
+            <div id="sidebar">
+                {/* <!-- Logo --> */}
+                <h1 id="logo"><a href="#">STAKEHOUSE SPORTS</a></h1>
+    
+                {/* <-- Nav --> */}
+                        <nav id="nav">
+                            <ul>
+                                <li><a href="#">Home</a></li>
+                                <li className={this.state.sport === 'nfl' ? ('active') : ''}><a href="/">NFL</a></li>
+                                <li><a href="/ncaaf">College Bowls</a></li>
+                                <li><a href="/ncaam">March Madness</a></li>
+                            </ul>
+                        </nav>
+            {/* <div className="row" style={{marginBottom: 100}}>
                 <div className="navbar navbar-default navbar-fixed-top">
                     <div className="container">
                         <div className="header-icon"><a href="/"><img src="https://crowdsourcedscores.files.wordpress.com/2016/11/cropped-css-logo-footballleft-webres-1300px.jpg?w=520" alt="Crowd Wisdom Sports" /></a></div>
@@ -20,11 +34,7 @@ export default class Navigation extends Component {
                         <button type="button" data-toggle="collapse" data-target="#navbar-main" className="navbar-toggle"><span className="icon-bar"></span><span className="icon-bar"></span><span className="icon-bar"></span></button>
                         </div>
                         <div id="navbar-main" className="navbar-collapse collapse">
-                            <ul className="nav navbar-nav">
-                                <li><a href="#">Home</a></li>
-                                <li className={this.state.sport === 'nfl' ? ('active') : ''}><a href="/">NFL</a></li>
-                                <li><a href="/ncaaf">College Bowls</a></li>
-                                <li><a href="/ncaam">March Madness</a></li>
+                            <ul>
                                 <li><a href="https://blog.crowdsourcedscores.com/" target="blog">Blog</a></li>
                                 <li><a className="dropdown-toggle" data-toggle="dropdown" href="#" id="leaderboards">Leaderboards<span className="caret"></span></a>
                                     <ul className="dropdown-menu">
@@ -40,6 +50,7 @@ export default class Navigation extends Component {
                         </div>
                     </div>
                 </div>
+            </div> */}
             </div>
         )
     }
