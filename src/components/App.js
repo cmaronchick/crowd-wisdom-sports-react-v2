@@ -418,46 +418,53 @@ class App extends React.Component {
   render() {
     return (
       <div className="App">
+
+        {/* <!-- Content --> */}
+          <div id="content">
+            <div className="inner">
+            <Header message={this.pageHeader()} />
+            
+            {(this.state.authState === 'signedIn') ? (
+              <div className="row">
+                {this.state.user.attributes.preferred_username}
+                <Button onClick={this.signOut}>Logout</Button>
+              </div>
+            ) : (this.state.authState === 'signIn') ? (
+              <div className="loginFields">
+                {/* <form>
+                  <label htmlFor='username'>
+                    User Name:
+                  </label>
+                    <input type="text" name="username" key="username" onChange={this.onChangeText} />
+                  <label htmlFor='password'>
+                    Password:
+                  </label>
+                  <input type="password" name="password" key="password" onChange={this.onChangeText} />
+                  
+                  <Button onClick={() => this.signIn()}>Login</Button>
+                </form> */}
+                  <LoginModal 
+                  onChangeText={this.onChangeText} 
+                  show={this.state.loginModalShow} 
+                  onHide={this.handleLoginModalClosed} 
+                  signInClick={this.signIn} 
+                  signUpClick={this.signUp} 
+                  confirmUser={this.state.confirmUser}
+                  handleConfirmUserClick={this.confirmUser} 
+                  handleResendClick={this.resendConfirmation}/>
+                  
+                  <Button onClick={() => this.handleLoginClick()}>Sign In/Sign Up</Button>
+              </div>
+            ) : null}
+            {this.state.fetchingGames ? (
+              <Spinner animation='border' />
+            ) : (
+            this.currentContent()
+            )}
+          </div>
+        </div>
+
         <Navigation user={this.state.user} sport={this.state.sport} handleLoginClick={this.handleLoginClick} />
-        <Header message={this.pageHeader()} />
-        
-        {(this.state.authState === 'signedIn') ? (
-          <div className="row">
-            {this.state.user.attributes.preferred_username}
-            <Button onClick={this.signOut}>Logout</Button>
-          </div>
-        ) : (this.state.authState === 'signIn') ? (
-          <div className="loginFields">
-            {/* <form>
-              <label htmlFor='username'>
-                User Name:
-              </label>
-                <input type="text" name="username" key="username" onChange={this.onChangeText} />
-              <label htmlFor='password'>
-                Password:
-              </label>
-              <input type="password" name="password" key="password" onChange={this.onChangeText} />
-              
-              <Button onClick={() => this.signIn()}>Login</Button>
-            </form> */}
-              <LoginModal 
-              onChangeText={this.onChangeText} 
-              show={this.state.loginModalShow} 
-              onHide={this.handleLoginModalClosed} 
-              signInClick={this.signIn} 
-              signUpClick={this.signUp} 
-              confirmUser={this.state.confirmUser}
-              handleConfirmUserClick={this.confirmUser} 
-              handleResendClick={this.resendConfirmation}/>
-              
-              <Button onClick={() => this.handleLoginClick()}>Sign In/Sign Up</Button>
-          </div>
-        ) : null}
-        {this.state.fetchingGames ? (
-          <Spinner animation='border' />
-        ) : (
-        this.currentContent()
-        )}
       </div>
     );
   }

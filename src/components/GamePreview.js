@@ -1,12 +1,16 @@
 import React, { Component } from 'react';
 import Button from 'react-bootstrap/Button'
+import * as apis from '../api'
 
 class GamePreview extends Component {
   constructor(props) {
     super(props)
     this.state = {
-      ...this.props
+      ...this.props,
+      predictionSpread: null,
+      predictionTotal: null,
     }
+
   }
   
   componentDidUpdate() {
@@ -25,11 +29,17 @@ class GamePreview extends Component {
     this.props.onSubmitPrediction(this.state.gameId)
   }
 
+  submitPrediction = async () => {
+    let predictionResponse = await apis.fetchSubmitPrediction()
+    console.log('predictionResponse :', predictionResponse);
+    //this.setState({ game: predictionResponse.game})
+  }
+
 
 
   render() {
-    //console.log('gamepreview 30 props: ', this.props)
-    const game = this.props;
+    console.log('gamepreview 30 props: ', this.state)
+    const game = this.state;
     return (
     <div className="link GamePreview">
       <div className="game-header" onClick={this.handleClick}>
@@ -38,47 +48,65 @@ class GamePreview extends Component {
       <div className="game-details">
         <div className="headerRow">
           <div className="teamName"></div>
-          <div>{(game.prediction || !game.results)  ? (
-              'Me'
-            ) : ''}</div>
-          <div>Crowd</div>
+          <div className="teamName">{game.awayTeam.shortName}</div>
+          <div className="teamName">{game.homeTeam.shortName}</div>
+          <div className="odds">Side</div>
+          <div className="odds">Total</div>
           {game.results ? (
           <div>Results</div>
           ) : null}
         </div>
+
+        {!game.results ? (
         <div className="team">
-          <div className="teamName">{game.awayTeam.shortName}</div>
+          <div className="teamName">{(game.prediction || !game.results)  ? (
+              'Me'
+            ) : ''}
+          </div>
           <div>{game.results ? game.prediction ? game.prediction.awayTeam.score : '' : (
-            <input onChange={this.handleOnChangeGameScore} name='predictionAwayTeamScore' placeholder={game.prediction ? game.prediction.awayTeam.score : '##'} />
+            <input style={{width: 50}} onChange={this.handleOnChangeGameScore} name='predictionAwayTeamScore' placeholder={!game.prediction ? '##' : null} value={game.prediction ? game.prediction.awayTeam.score : null} />
           )}
           </div>
-          <div>
-            {game.crowd ? game.crowd.awayTeam.score : 'No Crowd Prediction Yet'}
-          </div>
-          {game.results ? (
-            <div>{game.results.awayTeam.score}</div>
-          ) : null}
-        </div>
-        <div className="team">
-          <div className="teamName">{game.homeTeam.shortName}</div>
           <div>{game.results ? game.prediction ? game.prediction.homeTeam.score : '' : (
-            <input onChange={this.handleOnChangeGameScore} name='predictionHomeTeamScore' placeholder={game.prediction ? game.prediction.homeTeam.score : '##'} />
+            <input style={{width: 50}} onChange={this.handleOnChangeGameScore} name='predictionHomeTeamScore' placeholder={!game.prediction ? '##' : null} value={game.prediction ? game.prediction.homeTeam.score : null}  />
           )}
           </div>
-          <div>{game.crowd ? game.crowd.homeTeam.score : 'No Crowd Prediction Yet'}</div>
-          {game.results ? (
-            <div>{game.results.homeTeam.score}</div>
-          ) : null}
+          <div>{game.prediction ? game.prediction.spread : null}</div>
+          <div>{game.prediction ? game.prediction.total : null}</div>
         </div>
+        ) : (
+          <div>No prediction for this game</div>
+        )}
+        </div>
+        {(game.crowd && game.crowd.total) ? (
+          <div className="team">
+            <div>Crowd</div>
+            <div>{game.crowd.awayTeam.score}</div>
+            <div>{game.crowd.homeTeam.score}</div>
+            <div>{game.crowd.spread}</div>
+            <div>{game.crowd.total}</div>
+          </div>
+          ) : (
+            <div className="team">
+              No Crowd Prediction Yet
+            </div>
+          )}
         {/* {game.crowd.awayTeam.score}<br/>
         {game.crowd.homeTeam.score} */}
-        {!game.results ? (
+        {game.results ? (
+          <div className="team">
+            <div></div>
+            <div>{game.results.awayTeam.score}</div>
+            <div>{game.results.homeTeam.score}</div>
+            <div>{game.results.spread}</div>
+            <div>{game.results.total}</div>
+          </div>
+        ) : (
           <div style={{ flex: 1, flexDirection: 'row', alignItems: 'center', justifyContent: 'center' }}>
             <Button type='submit' onClick={this.handleSubmit}>{game.prediction ? 'Update' : 'Predict'}</Button>
           </div>
-        ) : null}
+        )}
       </div>
-    </div>
     );
   }
 }

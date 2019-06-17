@@ -96,13 +96,14 @@ router.get('/:sport/leaderboards/:year/:season/:week', (req, res) => {
 })
 
 router.post('/submitPrediction', (req, res) => {
-  console.log('api/index 81 req.body: ', req.body)
+  //console.log('api/index 81 req.body: ', req.body)
   axios.post(`https://y5f8dr2inb.execute-api.us-west-2.amazonaws.com/dev/predictions`, req.body.body, {headers: 
     req.body.headers
   })
   .then(predictionResponse => {
-    //console.log('predictionResponse: ', predictionResponse)
-    res.send(predictionResponse)
+    //let predictionJSON = predictionResponse.data.json()
+    console.log('predictionJSON: ', predictionResponse)
+    res.send({ prediction: JSON.stringify(predictionResponse.data) } )
   })
   .catch(predictionError => console.log('predictionError: ', predictionError))
 })
