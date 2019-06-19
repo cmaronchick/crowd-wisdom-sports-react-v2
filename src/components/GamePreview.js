@@ -64,11 +64,11 @@ class GamePreview extends Component {
             ) : ''}
           </div>
           <div>{game.results ? game.prediction ? game.prediction.awayTeam.score : '' : (
-            <input style={{width: 50}} onChange={this.handleOnChangeGameScore} name='predictionAwayTeamScore' placeholder={!game.prediction ? '##' : null} value={game.prediction ? game.prediction.awayTeam.score : null} />
+            <input style={{width: 50}} onChange={this.handleOnChangeGameScore} name='predictionAwayTeamScore' placeholder={!game.prediction ? '##' : null} value={game.prediction ? game.prediction.awayTeam.score : ''} />
           )}
           </div>
           <div>{game.results ? game.prediction ? game.prediction.homeTeam.score : '' : (
-            <input style={{width: 50}} onChange={this.handleOnChangeGameScore} name='predictionHomeTeamScore' placeholder={!game.prediction ? '##' : null} value={game.prediction ? game.prediction.homeTeam.score : null}  />
+            <input style={{width: 50}} onChange={this.handleOnChangeGameScore} name='predictionHomeTeamScore' placeholder={!game.prediction ? '##' : null} value={game.prediction ? game.prediction.homeTeam.score : ''}  />
           )}
           </div>
           <div>{game.prediction ? game.prediction.spread : null}</div>

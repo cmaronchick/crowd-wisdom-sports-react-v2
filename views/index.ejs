@@ -4,5 +4,44 @@
 <script src="http://localhost:8097"></script>
 
 <%- include('header') -%>
-  <div id="root"><%- initialMarkup -%></div>
+  <div id="content"><%- initialMarkup -%></div>
+  <div id="sidebar">
+      <!-- Logo -->
+      <h1 id="logo"><a href="#">STAKEHOUSE SPORTS</a></h1>
+
+      <!-- Nav -->
+              <nav id="nav">
+                  <ul>
+                      <li><a href="#">Home</a></li>
+                      <li><a href="/nfl">NFL</a></li>
+                      <li><a href="/ncaaf">College Bowls</a></li>
+                      <li><a href="/ncaam">March Madness</a></li>
+                  </ul>
+              </nav>
+    <!-- <div class="row" style='margin-bottom: 100px'>
+      <div class="navbar navbar-default navbar-fixed-top">
+          <div class="container">
+              <div class="header-icon"><a href="/"><img src="https://crowdsourcedscores.files.wordpress.com/2016/11/cropped-css-logo-footballleft-webres-1300px.jpg?w=520" alt="Crowd Wisdom Sports" /></a></div>
+              <div class="navbar-header"><a href="/" class="navbar-brand"><span class="hidden-md">Crowd Wisdom Sports</span><span class="visible-md">CW Sports</span></a>
+              <button type="button" data-toggle="collapse" data-target="#navbar-main" class="navbar-toggle"><span class="icon-bar"></span><span class="icon-bar"></span><span class="icon-bar"></span></button>
+              </div>
+              <div id="navbar-main" class="navbar-collapse collapse">
+                  <ul>
+                      <li><a href="https://blog.crowdsourcedscores.com/" target="blog">Blog</a></li>
+                      <li><a class="dropdown-toggle" data-toggle="dropdown" href="#" id="leaderboards">Leaderboards<span class="caret"></span></a>
+                          <ul class="dropdown-menu">
+                              <li style='text-align: "center"'><a href="/crowd.html"><span class="glyphicons glyphicons-group"></span> Crowds</a></li>
+                              <li style='text-align: "center"'><a href="/leaderboard.html"><span><i class="glyphicon glyphicon-user"></i></span> Users</a></li>
+                          </ul>
+                      </li>
+                      <li style='text-align: "center"'>
+                              <Button onClick={this.props.handleLoginClick}>Login/Sign Up</Button>
+                              
+                      </li>
+                  </ul>
+              </div>
+          </div>
+      </div>
+    </div> -->
+  </div>
 <%- include('footer') -%>

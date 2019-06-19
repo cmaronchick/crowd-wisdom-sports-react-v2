@@ -369,7 +369,7 @@ class App extends React.Component {
     if (this.state.currentGameId) {
       return this.currentGame().awayTeam.shortName + ' vs. ' + this.currentGame().homeTeam.shortName;
     }
-    return `Week ${this.state.gameWeek} Games`;
+    return !this.state.fetchingGames ? `Week ${this.state.gameWeek} Games` : 'Loading Games ...';
   }
   currentContent() {
     console.log('this.state: ', this.state)
@@ -403,7 +403,7 @@ class App extends React.Component {
         </select> */}
         {this.state.weeks ? (
           <Weeks
-          onGameWeekClick={this.fetchGameWeekGames} currentWeek={this.state.week} sport={this.state.sport} year={this.state.year} season={this.state.season}
+          onGameWeekClick={this.fetchGameWeekGames} currentWeek={this.state.gameWeek} sport={this.state.sport} year={this.state.year} season={this.state.season}
           weeks={this.state.weeks} />
         ) : null}
         {this.state.games ? (
@@ -417,15 +417,13 @@ class App extends React.Component {
   }
   render() {
     return (
-      <div className="App">
+      <div className="App inner">
 
         {/* <!-- Content --> */}
-          <div id="content">
-            <div className="inner">
-            <Header message={this.pageHeader()} />
-            
+          {/* <div id="content">
+            <div className="inner"> */}
             {(this.state.authState === 'signedIn') ? (
-              <div className="row">
+              <div className="row loginFields">
                 {this.state.user.attributes.preferred_username}
                 <Button onClick={this.signOut}>Logout</Button>
               </div>
@@ -456,16 +454,17 @@ class App extends React.Component {
                   <Button onClick={() => this.handleLoginClick()}>Sign In/Sign Up</Button>
               </div>
             ) : null}
+            <Header message={this.pageHeader()} />
+            
             {this.state.fetchingGames ? (
               <Spinner animation='border' />
             ) : (
             this.currentContent()
             )}
           </div>
-        </div>
+        // </div>
 
-        <Navigation user={this.state.user} sport={this.state.sport} handleLoginClick={this.handleLoginClick} />
-      </div>
+      // </div>
     );
   }
 }

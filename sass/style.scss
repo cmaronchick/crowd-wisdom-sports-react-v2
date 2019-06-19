@@ -68,9 +68,12 @@
     z-index: 1000;
 }
 
-.loginFields input {
-    padding: 3px;
-    margin: 0 5px
+.loginFields {
+    margin-top: 30px;
+    input {
+        padding: 3px;
+        margin: 0 5px
+    }
 }
 
 /* Weeks */

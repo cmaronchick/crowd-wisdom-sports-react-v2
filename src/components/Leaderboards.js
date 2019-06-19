@@ -39,25 +39,16 @@ export default class Leaderboards extends Component {
 
     render() {
         const { leaderboardData } = this.state
+        console.log('Leaderboards leaderboardData: ', JSON.stringify(leaderboardData))
         return (
             <div>
                 {leaderboardData ? 
-                    leaderboardData.leaderboards.overall.weekly.map((week, index) => {
-                        return (index === 0) ? (
-                            <div className="headerRow" key={index}>
-                                {week[0]}<br />
-                                {week[1]}<br />
-                                {week[2]}<br />
-                                {week[3]}<br />
+                    leaderboardData.leaderboardData.map((user, index) => {
+                        return (
+                            <div key={index}>
+                                {user.preferred_username} {user.results.overall.predictionScore}
                             </div>
-                        ) : (
-                            <div className="weekRow" key={index}>
-                                {week[0]}<br />
-                                {week[1]}<br />
-                                {week[2]}<br />
-                                {week[3]}<br />
-                            </div>
-                        )
+                        ) 
                     })
                  : (
                     <div>No Leaderboard Data received</div>

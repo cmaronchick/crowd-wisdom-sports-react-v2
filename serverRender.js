@@ -27,7 +27,7 @@ const getApiUrl = (gameId, gameWeekData) => {
   
 };
 const getLeaderboardsUrl = (gameWeekData) => {
-  //console.log('leaderboard gameWeekData: ', gameWeekData)
+  console.log('leaderboard gameWeekData: ', gameWeekData)
   if (gameWeekData) { 
     //return `${config.serverUrl}/api/${gameWeekData.sport}/leaderboards/${gameWeekData.year}/${gameWeekData.season}/${gameWeekData.week}`;
     return `${config.serverUrl}/api/${gameWeekData.sport}/leaderboards/2018/post/21`;
@@ -43,16 +43,30 @@ const getInitialData = (gameId, sport, year, season, week, weeks, code, apiData,
       game: apiData.game
     };
   }
-  return {
-    sport: sport,
-    year: year,
-    season: season,
-    week: week,
-    weeks: weeks,
-    games: apiData.games,
-    code: code,
-    page: page
-  };
+  switch(page) {
+    case 'leaderboards':
+      return {
+        sport: sport,
+        year: year,
+        season: season,
+        week: week,
+        weeks: weeks,
+        leaderboardData: apiData,
+        code: code,
+        page: page
+      }
+    default:
+      return {
+        sport: sport,
+        year: year,
+        season: season,
+        week: week,
+        weeks: weeks,
+        games: apiData.games,
+        code: code,
+        page: page
+      };
+  }
 };
 
 const serverRender = (sport, year, season, gameWeek, gameId, query, page) => {
@@ -70,7 +84,7 @@ const serverRender = (sport, year, season, gameWeek, gameId, query, page) => {
       return axios.get(getLeaderboardsUrl(gameWeekData))
         .then(resp => {
           const initialData = getInitialData(null, gameWeekData.sport, gameWeekData.year, gameWeekData.season, gameWeekData.week, gameWeekData.weeks, query ? query.code : null, resp.data, page);
-          //console.log('initialData: ', initialData)
+          console.log('serverRender 87 leaderboardData: ', initialData)
           
           const initialMarkup = ReactDOMServer.renderToString(
             <App initialData={initialData} />

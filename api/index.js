@@ -80,20 +80,20 @@ router.get('/:sport/games/:year/:season/:gameWeek/:gameId', (req, res) => {
   .catch(gamesResponseError => console.log('gamesResponseError: ', gamesResponseError));
 });
 
-router.get('/:sport/leaderboards/:year/:season/:week', (req, res) => {
-  const callOptionsObject = callOptions(req.headers.authorization);
-  const anonString = callOptionsObject.anonString;
-  const getOptions = callOptionsObject.callOptions;
-  axios.get(`https://y5f8dr2inb.execute-api.us-west-2.amazonaws.com/dev/${req.params.sport}/${req.params.year}/${req.params.season}/${req.params.week}/leaderboards`, getOptions)
-  .then((overallLeaderboardResponse) => {
-    //console.log('overallLeaderboardResponse: ', overallLeaderboardResponse.data)
-    res.send({ leaderboards: {
-      overall: overallLeaderboardResponse.data
-      }
-    })
-  })
-  .catch((overallLeaderboardReject => console.log('overallLeaderboardReject: ', overallLeaderboardReject)))
-})
+// router.get('/:sport/leaderboards/:year/:season/:week', (req, res) => {
+//   const callOptionsObject = callOptions(req.headers.authorization);
+//   const anonString = callOptionsObject.anonString;
+//   const getOptions = callOptionsObject.callOptions;
+//   axios.get(`https://y5f8dr2inb.execute-api.us-west-2.amazonaws.com/dev/${req.params.sport}/${req.params.year}/${req.params.season}/${req.params.week}/leaderboards`, getOptions)
+//   .then((overallLeaderboardResponse) => {
+//     //console.log('overallLeaderboardResponse: ', overallLeaderboardResponse.data)
+//     res.send({ leaderboards: {
+//       overall: overallLeaderboardResponse.data
+//       }
+//     })
+//   })
+//   .catch((overallLeaderboardReject => console.log('overallLeaderboardReject: ', overallLeaderboardReject)))
+// })
 
 router.post('/submitPrediction', (req, res) => {
   //console.log('api/index 81 req.body: ', req.body)
@@ -114,12 +114,12 @@ router.get('/:sport/leaderboards/:year/:season/:week', (req, res) => {
     const callOptionsObject = callOptions(req.headers.authorization);
     const anonString = callOptionsObject.anonString;
     const getOptions = callOptionsObject.callOptions;
-      axios.get(`https://y5f8dr2inb.execute-api.us-west-2.amazonaws.com/dev/${req.params.sport}/${req.params.year}/${req.params.season}/${req.params.week}/leaderboards`, getOptions)
+      axios.get(`https://y5f8dr2inb.execute-api.us-west-2.amazonaws.com/dev/extendedprofile/getallusers${anonString}?sport=${req.params.sport}&year=${req.params.year}&gameWeek=${req.params.week}&limit=10`, getOptions)
       .then((leaderboardResponse) => {
-       console.log('api/index 35 gameWeekResponse', gameWeekResponse.data)
+       //console.log('api/index 119 gameWeekResponse', leaderboardResponse.data)
         res.send({ leaderboardData: leaderboardResponse.data })
       })
-      .catch(gameWeekResponseError => console.log('api leaderboard index 38 gameWeekResponseError: ', gameWeekResponseError))
+      .catch(leaderboardResponseError => console.log('api leaderboard index 122 leaderboardResponseError: ', leaderboardResponseError))
 
 })
 
