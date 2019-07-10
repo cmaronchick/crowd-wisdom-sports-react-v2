@@ -2,186 +2,8 @@
 
 exports[`snapshot test 1`] = `
 <div
-  className="App"
+  className="App inner"
 >
-  <div
-    className="row"
-    style={
-      Object {
-        "marginBottom": 100,
-      }
-    }
-  >
-    <div
-      className="navbar navbar-default navbar-fixed-top"
-    >
-      <div
-        className="container"
-      >
-        <div
-          className="header-icon"
-        >
-          <a
-            href="/"
-          >
-            <img
-              alt="Crowd Wisdom Sports"
-              src="https://crowdsourcedscores.files.wordpress.com/2016/11/cropped-css-logo-footballleft-webres-1300px.jpg?w=520"
-            />
-          </a>
-        </div>
-        <div
-          className="navbar-header"
-        >
-          <a
-            className="navbar-brand"
-            href="/"
-          >
-            <span
-              className="hidden-md"
-            >
-              Crowd Wisdom Sports
-            </span>
-            <span
-              className="visible-md"
-            >
-              CW Sports
-            </span>
-          </a>
-          <button
-            className="navbar-toggle"
-            data-target="#navbar-main"
-            data-toggle="collapse"
-            type="button"
-          >
-            <span
-              className="icon-bar"
-            />
-            <span
-              className="icon-bar"
-            />
-            <span
-              className="icon-bar"
-            />
-          </button>
-        </div>
-        <div
-          className="navbar-collapse collapse"
-          id="navbar-main"
-        >
-          <ul
-            className="nav navbar-nav"
-          >
-            <li>
-              <a
-                href="#"
-              >
-                Home
-              </a>
-            </li>
-            <li
-              className="active"
-            >
-              <a
-                href="/"
-              >
-                NFL
-              </a>
-            </li>
-            <li>
-              <a
-                href="/ncaaf"
-              >
-                College Bowls
-              </a>
-            </li>
-            <li>
-              <a
-                href="/ncaam"
-              >
-                March Madness
-              </a>
-            </li>
-            <li>
-              <a
-                href="https://blog.crowdsourcedscores.com/"
-                target="blog"
-              >
-                Blog
-              </a>
-            </li>
-            <li>
-              <a
-                className="dropdown-toggle"
-                data-toggle="dropdown"
-                href="#"
-                id="leaderboards"
-              >
-                Leaderboards
-                <span
-                  className="caret"
-                />
-              </a>
-              <ul
-                className="dropdown-menu"
-              >
-                <li
-                  style={
-                    Object {
-                      "textAlign": "center",
-                    }
-                  }
-                >
-                  <a
-                    href="/crowd.html"
-                  >
-                    <span
-                      className="glyphicons glyphicons-group"
-                    />
-                     Crowds
-                  </a>
-                </li>
-                <li
-                  style={
-                    Object {
-                      "textAlign": "center",
-                    }
-                  }
-                >
-                  <a
-                    href="/leaderboard.html"
-                  >
-                    <span>
-                      <i
-                        className="glyphicon glyphicon-user"
-                      />
-                    </span>
-                     Users
-                  </a>
-                </li>
-              </ul>
-            </li>
-            <li
-              style={
-                Object {
-                  "textAlign": "center",
-                }
-              }
-            >
-              <button
-                className="btn btn-primary"
-                disabled={false}
-                onClick={[Function]}
-                type="button"
-              >
-                Login/Sign Up
-              </button>
-            </li>
-          </ul>
-        </div>
-      </div>
-    </div>
-  </div>
   <div>
     <h2
       className="Header text-center"
@@ -208,6 +30,13 @@ exports[`snapshot test 1`] = `
     </div>
     <div>
       No games available
+    </div>
+    <div
+      className="homeLeaderboards"
+    >
+      <div>
+        Loading Overall Leaderboards
+      </div>
     </div>
   </div>
 </div>
