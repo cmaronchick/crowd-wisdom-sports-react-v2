@@ -9,6 +9,7 @@ class GamePreview extends Component {
       ...this.props,
       predictionSpread: null,
       predictionTotal: null,
+      oddsPrefix: (this.props.odds.spread > 0) ? '+' : ''
     }
 
   }
@@ -71,8 +72,8 @@ class GamePreview extends Component {
             <input style={{width: 50}} onChange={this.handleOnChangeGameScore} name='predictionHomeTeamScore' placeholder={!game.prediction ? '##' : null} value={game.prediction ? game.prediction.homeTeam.score : ''}  />
           )}
           </div>
-          <div>{game.prediction ? game.prediction.spread : null}</div>
-          <div>{game.prediction ? game.prediction.total : null}</div>
+          <div>{(game.prediction && game.odds) ? (game.prediction.spread > game.odds.spread) ? `${game.awayTeam.code} ${this.state.oddsPrefix}${game.odds.spread}` : (game.prediction.spread < game.odds.spread) ? `${game.homeTeam.code} ${this.state.oddsPrefix}${game.odds.spread}` : (game.prediction.spread === game.odds.spread) ? 'PUSH' : null : null}</div>
+          <div>{(game.prediction && game.odds) ? game.prediction.total : null}</div>
         </div>
         ) : (
           <div>No prediction for this game</div>
