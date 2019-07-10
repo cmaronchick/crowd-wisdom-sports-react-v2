@@ -17,6 +17,7 @@ import Header from './Header';
 import GamesList from './GamesList';
 import Game from './Game';
 import Leaderboards from './Leaderboards'
+import HomeLeaderboards from './Home.Leaderboards';
 import LoginModal from './LoginModal';
 import Weeks from './Weeks';
 import * as api from '../api';
@@ -74,6 +75,7 @@ class App extends React.Component {
           api.fetchGameWeekGames(sport, year, season, week, userSession)
           .then(games => {
             this.setState({
+              userSession: userSession,
               sport: 'nfl',
               year: year,
               gameWeek: week,
@@ -412,6 +414,11 @@ class App extends React.Component {
         ): (
           <div>No games available</div>
         )}
+        <HomeLeaderboards 
+          sport={this.state.sport}
+          year={2018}
+          season={this.state.season}
+          week={this.state.week} />
       </div>
     );
   }

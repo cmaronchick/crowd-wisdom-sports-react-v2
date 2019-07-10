@@ -4,7 +4,7 @@ import GamePreview from './GamePreview';
 const GamesList = ({ games, onGameClick, onChangeGameScore, onSubmitPrediction }) => {
   console.log('games: ', games);
   return (
-    <div>
+    <div className="gamesList">
       {Object.keys(games).map(gameId => 
         <GamePreview
         key={gameId}

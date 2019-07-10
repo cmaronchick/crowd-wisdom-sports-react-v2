@@ -51,7 +51,7 @@ class Contest extends Component {
                    className="form-control" />
                 <span className="input-group-btn">
                   <button type="submit" className="btn btn-info">
-                     Sumbit
+                     Submit
                   </button>
                 </span>
               </div>

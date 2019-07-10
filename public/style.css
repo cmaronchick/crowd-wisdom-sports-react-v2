@@ -1,3 +1,11 @@
+@media (min-width: 768px) {
+  .gamesList {
+    width: 66%;
+    float: left; }
+  .homeLeaderboards {
+    width: 33%;
+    float: right; } }
+
 .GamePreview {
   margin: 1em;
   border: 1px solid #ccc; }
@@ -32,6 +40,28 @@
       margin: 0 5px;
       padding: 3px;
       flex: 1; }
+
+.rwd-table {
+  background: #3A3B6C;
+  color: #fff;
+  border-radius: .4em;
+  overflow: hidden; }
+
+.rwd-table tr {
+  border-color: #B22438; }
+
+.rwd-table th, .rwd-table td {
+  margin: .5em 1em; }
+
+.rwd-table th, .rwd-table td:before {
+  color: #fff; }
+
+.rwd-table .alt-tr {
+  background: #fff;
+  color: #3A3B6C; }
+
+.alt-tr td, .alt-tr td:before, .alt-tr td a {
+  color: #3A3B6C; }
 
 .link {
   cursor: pointer; }
