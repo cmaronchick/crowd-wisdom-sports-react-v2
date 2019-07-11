@@ -4,7 +4,7 @@
   "description": "Learning Fullstack JavaScript Development: MongoDB, Node.js, React.js",
   "main": "index.js",
   "scripts": {
-    "start": "nodemon --exec babel-node server.js --ignore public/",
+    "start": "concurrently --kill-others \"webpack -wd\" \"nodemon --exec babel-node server.js --ignore public/\"",
     "dev": "concurrently --kill-others \"webpack -wd\" \"nodemon --exec babel-node server.js --ignore public/\"",
     "test": "jest"
   },
