@@ -1,3 +1,11 @@
+@media (min-width: 768px) {
+  .gamesList {
+    width: 66%;
+    float: left; }
+  .homeLeaderboards {
+    width: 33%;
+    float: right; } }
+
 .GamePreview {
   margin: 1em;
   border: 1px solid #ccc; }
@@ -31,7 +39,29 @@
     .GamePreview .team div {
       margin: 0 5px;
       padding: 3px;
-      width: 22%; }
+      flex: 1; }
+
+.rwd-table {
+  background: #3A3B6C;
+  color: #fff;
+  border-radius: .4em;
+  overflow: hidden; }
+
+.rwd-table tr {
+  border-color: #B22438; }
+
+.rwd-table th, .rwd-table td {
+  margin: .5em 1em; }
+
+.rwd-table th, .rwd-table td:before {
+  color: #fff; }
+
+.rwd-table .alt-tr {
+  background: #fff;
+  color: #3A3B6C; }
+
+.alt-tr td, .alt-tr td:before, .alt-tr td a {
+  color: #3A3B6C; }
 
 .link {
   cursor: pointer; }
@@ -50,15 +80,23 @@
   text-align: center;
   z-index: 1000; }
 
-.loginFields input {
-  padding: 3px;
-  margin: 0 5px; }
+.loginFields {
+  margin-top: 30px; }
+  .loginFields input {
+    padding: 3px;
+    margin: 0 5px; }
 
 /* Weeks */
 .weeks {
   display: flex;
   flex-direction: row;
-  justify-content: space-evenly; }
+  justify-content: space-evenly;
+  margin-top: 5px; }
+  .weeks .currentWeek {
+    background-color: #03a9f4;
+    border-color: #03a9f4;
+    box-shadow: 0 4px 5px 0 rgba(3, 169, 244, 0.14), 0 1px 10px 0 rgba(3, 169, 244, 0.12), 0 2px 4px -1px rgba(3, 169, 244, 0.2);
+    color: #fff; }
 
 .row {
   display: flex;

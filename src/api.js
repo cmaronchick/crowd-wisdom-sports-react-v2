@@ -88,14 +88,14 @@ export const getUserSession = (callback) => {
 export const fetchOverallLeaderboard = (userSession, sport, year, season, week) => {
   const getOptionsObj = getOptions(userSession)
   const sportValue = sport ? sport : 'nfl'
-  return axios.get(`/api/${sportValue}/${year}/${season}/${week}/leaderboards`, getOptionsObj.callOptions)
+  return axios.get(`/api/${sportValue}/leaderboards/${year}/${season}/${week}`, getOptionsObj.callOptions)
   .then(resp => resp.data)
 }
 
 export const fetchWeeklyLeaderboard = (userSession, sport, year, season, week) => {
   const getOptionsObj = getOptions(userSession)
   const sportValue = sport ? sport : 'nfl'
-  return axios.get(`/api/${sportValue}/${year}/${season}/${week}/leaderboards`, getOptionsObj.callOptions)
+  return axios.get(`/api/${sportValue}/leaderboards/${year}/${season}/${week}`, getOptionsObj.callOptions)
   .then(resp => resp.data)
 }
 

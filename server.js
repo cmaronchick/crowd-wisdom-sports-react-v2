@@ -22,7 +22,7 @@ server.get(['/', '/:sport/games', '/:sport/games/:year', '/:sport/games/:year/:s
   //console.log('req.query: ', req.query)
   const sport = req.params.sport ? req.params.sport : 'nfl'
   //console.log('server 25 sport: ', sport)
-  serverRender(sport, parseInt(req.params.year), req.params.season, parseInt(req.params.gameWeek), parseInt(req.params.gameId), req.query)
+  serverRender(sport, parseInt(req.params.year), req.params.season, parseInt(req.params.gameWeek), parseInt(req.params.gameId), req.query, 'games')
     .then(({ initialMarkup, initialData }) => {
       res.render('index', {
         initialMarkup,
@@ -34,26 +34,27 @@ server.get(['/', '/:sport/games', '/:sport/games/:year', '/:sport/games/:year/:s
       res.status(404).send('Bad Request');
     });
 });
-// server.get(['/:sport/leaderboards', '/:sport/leaderboards/:year', '/:sport/leaderboards/:year/:season', '/:sport/leaderboards/:year/:season/:gameWeek', '/:sport/leaderboards/:year/:season/:gameWeek/'], (req, res) => {
-//   //console.log('req.query: ', req.query)
-//   const sport = req.params.sport ? req.params.sport : 'nfl'
-//   //console.log('server 25 sport: ', sport)
-//   serverRender(sport, parseInt(req.params.year), req.params.season, parseInt(req.params.gameWeek), parseInt(req.params.gameId), req.query, 'leaderboards')
-//     .then(({ initialMarkup, initialData }) => {
-//       res.render('index', {
-//         initialMarkup,
-//         initialData
-//       });
-//     })
-//     .catch(error => {
-//       console.error(error);
-//       res.status(404).send('Bad Request');
-//     });
-// });
+server.get(['/:sport/leaderboards', '/:sport/leaderboards/:year', '/:sport/leaderboards/:year/:season', '/:sport/leaderboards/:year/:season/:gameWeek', '/:sport/leaderboards/:year/:season/:gameWeek/'], (req, res) => {
+  //console.log('req.url: ', req.url)
+  const sport = req.params.sport ? req.params.sport : 'nfl'
+  //console.log('server 25 sport: ', sport)
+  serverRender(sport, parseInt(req.params.year), req.params.season, parseInt(req.params.gameWeek), parseInt(req.params.gameId), req.query, 'leaderboards')
+    .then(({ initialMarkup, initialData }) => {
+      res.render('index', {
+        initialMarkup,
+        initialData
+      });
+    })
+    .catch(error => {
+      console.error(error);
+      res.status(404).send('Bad Request');
+    });
+});
 
 server.use('/api', apiRouter);
 server.use(express.static('public'));
 
 server.listen(config.port, config.host, () => {
+  console.log('config: ', config)
   console.info('Express listening on port', config.port);
 });

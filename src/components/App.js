@@ -16,6 +16,8 @@ import Spinner from 'react-bootstrap/Spinner'
 import Header from './Header';
 import GamesList from './GamesList';
 import Game from './Game';
+import Leaderboards from './Leaderboards'
+import HomeLeaderboards from './Home.Leaderboards';
 import LoginModal from './LoginModal';
 import Weeks from './Weeks';
 import * as api from '../api';
@@ -35,7 +37,7 @@ class App extends React.Component {
       ...this.props.initialData,
       sport: 'nfl',
       gamePredictions: {},
-      fetchingGames: false,
+      fetchingData: false,
       loginModalShow: false,
       confirmUser: false,
       authState: 'checkingSignIn'
@@ -51,6 +53,8 @@ class App extends React.Component {
         currentGameId: (event.state || {}).currentGameId
       });
     });
+    console.log('this.state: ', this.state)
+    console.log('this.props: ', this.props)
 
     let fbUser = this.state.code ? await api.getFacebookUser(this.state.code) : null
     try {
@@ -71,6 +75,7 @@ class App extends React.Component {
           api.fetchGameWeekGames(sport, year, season, week, userSession)
           .then(games => {
             this.setState({
+              userSession: userSession,
               sport: 'nfl',
               year: year,
               gameWeek: week,
@@ -88,13 +93,11 @@ class App extends React.Component {
     }
   }
   componentDidUpdate(prevProps, prevState) {
-    console.log('this.state: ', this.state)
-    console.log('prevState: ', prevState)
 
     if (prevState.user !== this.state.user) {
       // console.log('app line 75')
-      
-      this.fetchGameWeekGames(this.state.sport, this.state.year, this.state.season, this.state.gameWeek ? this.state.gameWeek : this.state.week)
+      (this.state.page === 'games') ? this.fetchGameWeekGames(this.state.sport, this.state.year, this.state.season, this.state.gameWeek ? this.state.gameWeek : this.state.week)
+      : (this.state.page === 'leaderboards') ? this.fetchLeaderboards('nfl', 2018, 'post', 21) : null
     }
     if (prevState.games !== this.state.games) {
 
@@ -353,6 +356,13 @@ class App extends React.Component {
     })
   }
 
+  fetchLeaderboards = async (sport, year, season, gameWeek) => {
+    let userSession = await Auth.currentSession()
+    let leaderboardData = await api.fetchOverallLeaderboard(userSession, sport, year, season, gameWeek)
+    this.setState({ leaderboardData })
+
+  }
+
   currentGame() {
     return this.state.games ? this.state.games[this.state.currentGameId] : this.state.game;
   }
@@ -361,16 +371,19 @@ class App extends React.Component {
     if (this.state.currentGameId) {
       return this.currentGame().awayTeam.shortName + ' vs. ' + this.currentGame().homeTeam.shortName;
     }
-    return `Week ${this.state.gameWeek} Games`;
+    return !this.state.fetchingGames ? `Week ${this.state.gameWeek} Games` : 'Loading Games ...';
   }
   currentContent() {
-    console.log('this.state.currentGameId: ', this.state.currentGameId)
+    console.log('this.state: ', this.state)
     if (this.state.currentGameId) {
       return <Game 
       gamesListClick={this.fetchGamesList}
       onChangeGameScore={this.onChangeGameScore}
       onSubmitPrediction={this.onSubmitPrediction}
       {...this.currentGame()} />;
+    }
+    if (this.state.page === 'leaderboards') {
+      return <Leaderboards leaderboardData={this.state.leaderboardData} />
     }
     //console.log('this.state.games: ', this.state.games);
     return (
@@ -392,7 +405,7 @@ class App extends React.Component {
         </select> */}
         {this.state.weeks ? (
           <Weeks
-          onGameWeekClick={this.fetchGameWeekGames} sport={this.state.sport} year={this.state.year} season={this.state.season}
+          onGameWeekClick={this.fetchGameWeekGames} currentWeek={this.state.gameWeek} sport={this.state.sport} year={this.state.year} season={this.state.season}
           weeks={this.state.weeks} />
         ) : null}
         {this.state.games ? (
@@ -401,53 +414,64 @@ class App extends React.Component {
         ): (
           <div>No games available</div>
         )}
+        <HomeLeaderboards 
+          sport={this.state.sport}
+          year={2018}
+          season={this.state.season}
+          week={this.state.week} />
       </div>
     );
   }
   render() {
     return (
-      <div className="App">
-        <Navigation user={this.state.user} sport={this.state.sport} handleLoginClick={this.handleLoginClick} />
-        <Header message={this.pageHeader()} />
-        
-        {(this.state.authState === 'signedIn') ? (
-          <div className="row">
-            {this.state.user.attributes.preferred_username}
-            <Button onClick={this.signOut}>Logout</Button>
+      <div className="App inner">
+
+        {/* <!-- Content --> */}
+          {/* <div id="content">
+            <div className="inner"> */}
+            {(this.state.authState === 'signedIn') ? (
+              <div className="row loginFields">
+                {this.state.user.attributes.preferred_username}
+                <Button onClick={this.signOut}>Logout</Button>
+              </div>
+            ) : (this.state.authState === 'signIn') ? (
+              <div className="loginFields">
+                {/* <form>
+                  <label htmlFor='username'>
+                    User Name:
+                  </label>
+                    <input type="text" name="username" key="username" onChange={this.onChangeText} />
+                  <label htmlFor='password'>
+                    Password:
+                  </label>
+                  <input type="password" name="password" key="password" onChange={this.onChangeText} />
+                  
+                  <Button onClick={() => this.signIn()}>Login</Button>
+                </form> */}
+                  <LoginModal 
+                  onChangeText={this.onChangeText} 
+                  show={this.state.loginModalShow} 
+                  onHide={this.handleLoginModalClosed} 
+                  signInClick={this.signIn} 
+                  signUpClick={this.signUp} 
+                  confirmUser={this.state.confirmUser}
+                  handleConfirmUserClick={this.confirmUser} 
+                  handleResendClick={this.resendConfirmation}/>
+                  
+                  <Button onClick={() => this.handleLoginClick()}>Sign In/Sign Up</Button>
+              </div>
+            ) : null}
+            <Header message={this.pageHeader()} />
+            
+            {this.state.fetchingGames ? (
+              <Spinner animation='border' />
+            ) : (
+            this.currentContent()
+            )}
           </div>
-        ) : (this.state.authState === 'signIn') ? (
-          <div className="loginFields">
-            {/* <form>
-              <label htmlFor='username'>
-                User Name:
-              </label>
-                <input type="text" name="username" key="username" onChange={this.onChangeText} />
-              <label htmlFor='password'>
-                Password:
-              </label>
-              <input type="password" name="password" key="password" onChange={this.onChangeText} />
-              
-              <Button onClick={() => this.signIn()}>Login</Button>
-            </form> */}
-              <LoginModal 
-              onChangeText={this.onChangeText} 
-              show={this.state.loginModalShow} 
-              onHide={this.handleLoginModalClosed} 
-              signInClick={this.signIn} 
-              signUpClick={this.signUp} 
-              confirmUser={this.state.confirmUser}
-              handleConfirmUserClick={this.confirmUser} 
-              handleResendClick={this.resendConfirmation}/>
-              
-              <Button onClick={() => this.handleLoginClick()}>Sign In/Sign Up</Button>
-          </div>
-        ) : null}
-        {this.state.fetchingGames ? (
-          <Spinner animation='border' />
-        ) : (
-        this.currentContent()
-        )}
-      </div>
+        // </div>
+
+      // </div>
     );
   }
 }
