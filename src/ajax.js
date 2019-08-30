@@ -1,5 +1,5 @@
 
-export const submitPrediction = (game, awayScore, homeScore) => {
+export const submitPrediction = (game, awayScore, homeScore, starsSpread, starsTotal) => {
       var prediction = {
         gameId: game.gameId,
         gameWeek: game.gameWeek,
@@ -17,6 +17,10 @@ export const submitPrediction = (game, awayScore, homeScore) => {
           shortName: game.homeTeam.shortName,
           code: game.homeTeam.code,
           score: homeScore
+        },
+        stars: {
+          spread: starsSpread,
+          total: starsTotal
         }
       };
       return prediction;

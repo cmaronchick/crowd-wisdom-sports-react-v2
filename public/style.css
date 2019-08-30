@@ -25,7 +25,9 @@
     .GamePreview .headerRow div {
       margin: 0 5px;
       padding: 3px;
-      width: 22%; }
+      flex: 1; }
+    .GamePreview .headerRow .gameTime {
+      flex: 2; }
   @media (max-width: 767px) {
     .GamePreview .teamName {
       width: 33%; } }

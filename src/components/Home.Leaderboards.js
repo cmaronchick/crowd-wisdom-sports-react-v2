@@ -28,9 +28,10 @@ export default class HomeLeaderboards extends Component {
         
         const { sport, year, season, week, } = this.state;
         try {
+            let userSession = await api.getUserSessionAsync()
             //console.log({ user ? user, sport, year, season, week })
-            let overallLeaderboardData = await api.fetchOverallLeaderboard(user ? user.currentSession() : null, 'nfl', 2018, 'reg', 1);
-            let weeklyLeaderboardData = await api.fetchWeeklyLeaderboard(user ? user.currentSession() : null, sport, year, season, week)
+            let overallLeaderboardData = await api.fetchOverallLeaderboard(userSession ? userSession : null, 'nfl', 2018, 'reg', 1);
+            let weeklyLeaderboardData = await api.fetchWeeklyLeaderboard(userSession ? userSession : null, sport, year, season, week)
             console.log({ overallLeaderboardData, weeklyLeaderboardData })
             if (this._isMounted) {
                 this.setState({

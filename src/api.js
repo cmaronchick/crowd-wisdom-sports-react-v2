@@ -42,7 +42,7 @@ const getOptions = (userSession) => {
 
 export const fetchGame = (sport, year, season, gameWeek, gameId, userSession) => {
   const getOptionsObj = getOptions(userSession);
-  return axios.get(`/api/${sport}/${year}/${season}/${gameWeek}/${gameId}${getOptionsObj.anonString}`, getOptionsObj.callOptions)
+  return axios.get(`/api/${sport}/games/${year}/${season}/${gameWeek}/${gameId}${getOptionsObj.anonString}`, getOptionsObj.callOptions)
     .then(resp => resp.data);
 };
 
@@ -65,12 +65,13 @@ export const fetchGameWeek = (sport, userSession) => {
   .then(resp => resp.data)
 }
 
-export const fetchSubmitPrediction = (userSession, prediction) => {
-  console.log('api 55: ', prediction)
+export const fetchSubmitPrediction = async (userSession, prediction) => {
+  console.log({prediction})
   const postOptionsObj = postOptions(userSession, prediction)
   console.log('postOptionsObj: ', postOptionsObj)
-  return axios.post('/api/submitPrediction', postOptionsObj)
-  .then(resp => resp.data)
+  let resp = await axios.post('/api/submitPrediction', postOptionsObj)
+  console.log({resp})
+  return resp.data
 }
 
 export const getUserSession = (callback) => {
@@ -83,6 +84,11 @@ export const getUserSession = (callback) => {
     console.log('userSessionError: ', userSessionError)
     return callback(false)
   })
+}
+
+export const getUserSessionAsync = async () => {
+  let userSession = await Auth.currentSession()
+  return userSession;
 }
 
 export const fetchOverallLeaderboard = (userSession, sport, year, season, week) => {
@@ -152,6 +158,15 @@ export const getFacebookUser = async (code) => {
     catch (error) {
       console.log('userSession error: ', error);
     }
+  }
+
+  export const gameCannotBeUpdated = (startDateTime) => {
+    //cutoff for odds updates is 1 hour prior to start
+    const msHour = 3600000;
+    var now = new Date();
+    var start = Date.parse(startDateTime);
+    var cutoff = start - msHour;
+    return (Date.parse(now) > cutoff)
   }
 
 

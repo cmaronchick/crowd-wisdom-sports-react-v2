@@ -14,7 +14,7 @@ const router = express.Router();
 const callOptions = (userToken) => {
   var anonString = '/anon'
   var callOptions = Object.create(null);
-  //console.log('api index 17 userToken: ', userToken)
+  console.log('api index 17 userToken: ', userToken)
   if (userToken) {
     callOptions = {
       headers: {
@@ -96,14 +96,14 @@ router.get('/:sport/games/:year/:season/:gameWeek/:gameId', (req, res) => {
 // })
 
 router.post('/submitPrediction', (req, res) => {
-  //console.log('api/index 81 req.body: ', req.body)
+  console.log('api/index 81 req.body: ', req.body)
   axios.post(`https://y5f8dr2inb.execute-api.us-west-2.amazonaws.com/dev/predictions`, req.body.body, {headers: 
     req.body.headers
   })
-  .then(predictionResponse => {
-    //let predictionJSON = predictionResponse.data.json()
-    console.log('predictionJSON: ', predictionResponse)
-    res.send({ prediction: JSON.stringify(predictionResponse.data) } )
+  .then(async predictionResponse => {
+    //let predictionJSON = await predictionResponse.json()
+    //console.log({predictionResponse: predictionResponse.data})
+    res.send({ prediction: predictionResponse.data } )
   })
   .catch(predictionError => console.log('predictionError: ', predictionError))
 })

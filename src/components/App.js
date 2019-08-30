@@ -58,7 +58,7 @@ class App extends React.Component {
 
     let fbUser = this.state.code ? await api.getFacebookUser(this.state.code) : null
     try {
-      let user = await Auth.currentAuthenticatedUser()
+      let user = await Auth.currentAuthenticatedUser({bypassCache: true})
       this.setState({user, authState: 'signedIn'})
     } catch(userError) {
       this.setState({user: null, authState: 'signIn'})
@@ -223,59 +223,86 @@ class App extends React.Component {
   
   onChangeGameScore = (gameId, event) => {
     const gamePredictions = this.state.gamePredictions
-    gamePredictions[gameId] ? gamePredictions[gameId][event.target.name] = event.target.value : gamePredictions[gameId] = { [event.target.name]: event.target.value }
+    gamePredictions[gameId] ? gamePredictions[gameId][event.target.name] = parseInt(event.target.value) : gamePredictions[gameId] = { [event.target.name]: parseInt(event.target.value) }
     this.setState({ 
       gamePredictions: { 
         ...gamePredictions 
       }
     })
+    //console.log({gamePredictions: this.state.gamePredictions})
   }
 
   submitPrediction = (gameId) => {
-    console.log(`game: ${gameId}`)
+    console.log(`game: ${gameId}, gamePrediction: ${this.state.gamePredictions[gameId]}`)
     api.getUserSession(userSession => {
       if (!userSession) {
         console.log('no user session')
         return { errorMessage: 'Please log in again and resubmit.' }
       }
       const game = this.state.games[gameId]
-      const awayTeamScore = parseInt(this.state.gamePredictions[gameId].predictionAwayTeamScore)
-      const homeTeamScore = parseInt(this.state.gamePredictions[gameId].predictionHomeTeamScore)
-      var prediction = {
-        gameId: game.gameId,
-        gameWeek: game.gameWeek,
-        year: game.year,
-        sport: game.sport,
-        season: game.season,
-        awayTeam: {
-          fullName: game.awayTeam.fullName,
-          shortName: game.awayTeam.shortName,
-          code: game.awayTeam.code,
-          score: awayTeamScore ? awayTeamScore : game.prediction.awayTeam.score,
-        },
-        homeTeam: {
-          fullName: game.homeTeam.fullName,
-          shortName: game.homeTeam.shortName,
-          code: game.homeTeam.code,
-          score: homeTeamScore ? homeTeamScore : game.prediction.homeTeam.score,
-        }
-      };
-      console.log('prediction :', prediction);
-      api.fetchSubmitPrediction(userSession, prediction)
-      .then(predictionResponse => {
-        const games = this.state.games;
-        const data = this.state.data;
-        games[game.gameId] = predictionResponse;
-        data[game.gameId] = predictionResponse;
-        this.setState({
-          games: games,
-          data: data
+      const { sport, year, season, gameWeek } = game;
+      const gamePrediction = this.state.gamePredictions[gameId]
+      if (gamePrediction || game.prediction) {
+
+        const awayTeamScore = (gamePrediction && parseInt(gamePrediction.predictionAwayTeamScore)) ? parseInt(gamePrediction.predictionAwayTeamScore) : parseInt(game.prediction.awayTeam.score)
+        const homeTeamScore = (gamePrediction && parseInt(gamePrediction.predictionHomeTeamScore)) ? parseInt(gamePrediction.predictionHomeTeamScore) : parseInt(game.prediction.homeTeam.score)
+        var prediction = {
+          gameId: game.gameId,
+          gameWeek: game.gameWeek,
+          year: game.year,
+          sport: game.sport,
+          season: game.season,
+          awayTeam: {
+            fullName: game.awayTeam.fullName,
+            shortName: game.awayTeam.shortName,
+            code: game.awayTeam.code,
+            score: awayTeamScore ? awayTeamScore : game.prediction.awayTeam.score,
+          },
+          homeTeam: {
+            fullName: game.homeTeam.fullName,
+            shortName: game.homeTeam.shortName,
+            code: game.homeTeam.code,
+            score: homeTeamScore ? homeTeamScore : game.prediction.homeTeam.score,
+          },
+          stars: {
+            spread: 0,
+            total: 0
+          }
+        };
+        api.fetchSubmitPrediction(userSession, prediction)
+        .then(predictionResponse => {
+          //console.log({predictionResponse: predictionResponse.prediction.game})
+            let game = predictionResponse.prediction.game;
+
+            let games = this.state.games;
+            let data = this.state.data;
+            let gamePredictions = this.state.gamePredictions;
+            games[game.gameId] = game;
+            data[game.gameId] = game;
+
+            if (gamePredictions[gameId]) {
+              gamePredictions[gameId].predictionAwayTeamScore = prediction.awayTeam.score;
+              gamePredictions[gameId].predictionHomeTeamScore = prediction.homeTeam.score;
+            } else {
+              gamePredictions[gameId] = {
+                predictionAwayTeamScore: prediction.awayTeam.score,
+                predictionHomeTeamScore: prediction.homeTeam.score
+              }
+            } 
+            this.setState({
+              games: games,
+              data: data,
+              gamePredictions: gamePredictions
+            })
+            return predictionResponse;
         })
-        return predictionResponse;
-      })
-      .catch(predictionError => {
-        return predictionError;
-      })
+        .catch(predictionError => {
+          console.log({predictionError})
+          return predictionError;
+        })
+      } else {
+        return { predictionError: 'Please update your prediction.'}
+      }      
     })
   }
 
@@ -386,6 +413,7 @@ class App extends React.Component {
       return <Leaderboards leaderboardData={this.state.leaderboardData} />
     }
     //console.log('this.state.games: ', this.state.games);
+    const { games, gamePredictions } = this.state;
     return (
       <div>
         <Dropdown>
@@ -410,7 +438,7 @@ class App extends React.Component {
         ) : null}
         {this.state.games ? (
         <GamesList onChangeGameScore={this.onChangeGameScore} onSubmitPrediction={this.submitPrediction} onGameClick={this.fetchGame}
-        games={this.state.games} />
+        games={games} gamePredictions={gamePredictions} />
         ): (
           <div>No games available</div>
         )}
