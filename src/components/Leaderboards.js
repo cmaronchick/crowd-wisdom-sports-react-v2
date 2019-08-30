@@ -7,9 +7,10 @@ export default class Leaderboards extends Component {
         super(props)
         this.state = {
             leaderboardData: this.props.leaderboardData,
-            _isMounted: false
+            
         }
     }
+    _isMounted = false;
 
     getLeaderboard = async (sport, year, season, gameWeek) => {
         console.log('this.state._isMounted: ', this.state._isMounted)
@@ -17,7 +18,7 @@ export default class Leaderboards extends Component {
             try {
                 let userSession = await Auth.currentSession()
                 let leaderboardData = await api.fetchOverallLeaderboard(userSession, sport, year, season, gameWeek)
-                this.state._isMounted ? this.setState({leaderboardData}) : null
+                this._isMounted ? this.setState({leaderboardData}) : null
                 
             } catch(leaderboardDataError) {
                 console.error('leaderboardDataError: ', leaderboardDataError)
@@ -27,6 +28,7 @@ export default class Leaderboards extends Component {
 
 
     componentDidMount() {
+        this._isMounted = true;
         //this.getLeaderboard('nfl', 2018, 'post', 21)
     }
     componentDidUpdate(prevProps, prevState) {

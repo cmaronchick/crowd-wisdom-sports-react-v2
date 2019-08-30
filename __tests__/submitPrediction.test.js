@@ -18,7 +18,7 @@ test('should submit the proper prediction information', () => {
             code: 'ATL'
         }
     };
-    const prediction = ajax.submitPrediction(game, 20, 24)
+    const prediction = ajax.submitPrediction(game, 20, 24, 1, 2)
     expect(prediction).toEqual({
         gameId: 1108878,
         gameWeek: 1,
@@ -36,6 +36,10 @@ test('should submit the proper prediction information', () => {
             shortName: 'Falcons',
             code: 'ATL',
             score: 24
+        },
+        stars: {
+            spread: 1,
+            total: 2
         }
     })
 });
