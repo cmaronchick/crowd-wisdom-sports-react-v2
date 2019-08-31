@@ -169,5 +169,30 @@ export const getFacebookUser = async (code) => {
     return (Date.parse(now) > cutoff)
   }
 
+  export const oddsPrediction = (game, gamePrediction) => {
+    const { homeTeam, awayTeam } = game
+    const awayTeamScore = gamePrediction.predictionAwayTeamScore,
+      homeTeamScore = gamePrediction.predictionHomeTeamScore
+    const {spread, total} = game.odds
+    if (game.odds.spread > 0) { // away team favored; e.g. spread = 3.5
+      if ((awayTeamScore - homeTeamScore) < spread) { // user predicted home team to cover
+        return `${homeTeam.code} +${spread}`
+      } else if ((awayTeamScore - homeTeamScore) === spread) {
+        return 'PUSH'
+      } else {
+        return `${awayTeam.code} -${spread}`
+      }
+    }
+    if (game.odds.spread < 0) { // home team favored; e.g. spread = -3.5
+      if ((awayTeamScore - homeTeamScore) > spread) { //user predicted away team to cover
+        return `${awayTeam.code} +${spread * -1}`
+      } else if ((awayTeamScore - homeTeamScore) === spread) {
+        return 'PUSH'
+      } else {
+        return `${homeTeam.code} ${spread}`
+      }
+    }
+  }
+
 
 //export default fetchGame;

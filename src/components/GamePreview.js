@@ -59,14 +59,14 @@ class GamePreview extends Component {
 
 
   render() {
-    const { game, gamePrediction } = this.props;
+    const { game, gamePrediction } = this.state;
     
     const date = new Date(game.startDateTime)
     const gameCannotBeUpdated = apis.gameCannotBeUpdated(date)
     const options = { weekday: 'short', month: 'short', day: 'numeric', year: '2-digit', hour: 'numeric', minute: 'numeric', timeZoneName: 'short' };
     const gameDate = date.toLocaleString('en-US', options);
     //console.log({gamePreviewGame: game, gamePreviewPrediction: gamePrediction})
-    if (gamePrediction && gamePrediction.predictionAwayTeamScore) console.log(`gamePrediction.predictionAwayTeamScore: ${gamePrediction.predictionAwayTeamScore}`)
+    
     if (game) { 
       return (
       <div className="link GamePreview">
@@ -108,7 +108,7 @@ class GamePreview extends Component {
                 game.prediction ? game.prediction.homeTeam.score : ''}  />
             )}
             </div>
-            <div>{(game.prediction && game.odds) ? (game.prediction.spread > game.odds.spread) ? `${game.awayTeam.code} ${this.state.oddsPrefix}${game.odds.spread}` : (game.prediction.spread < game.odds.spread) ? `${game.homeTeam.code} ${this.state.oddsPrefix}${game.odds.spread}` : (game.prediction.spread === game.odds.spread) ? 'PUSH' : null : null}</div>
+            <div>{(game.prediction && game.odds) ? apis.oddsPrediction(game, gamePrediction) : null}</div>
             <div>{(game.prediction && game.odds) ? game.prediction.total : null}</div>
           </div>
           ) : (
@@ -139,7 +139,9 @@ class GamePreview extends Component {
             </div>
           ) : (
             <div style={{ flex: 1, flexDirection: 'row', alignItems: 'center', justifyContent: 'center' }}>
-              <Button type='submit' onClick={this.handleSubmit}>{game.prediction ? 'Update' : 'Predict'}</Button>
+              {!gameCannotBeUpdated ? (
+                <Button type='submit' style={{width: '100%'}} onClick={this.handleSubmit}>{game.prediction ? 'Update' : 'Predict'}</Button>
+              ) : null}
             </div>
           )}
           </div>
