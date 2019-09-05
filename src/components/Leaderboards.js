@@ -29,7 +29,6 @@ export default class Leaderboards extends Component {
 
     componentDidMount() {
         this._isMounted = true;
-        //this.getLeaderboard('nfl', 2018, 'post', 21)
     }
     componentDidUpdate(prevProps, prevState) {
         
