@@ -84,8 +84,8 @@ class GamePreview extends Component {
           </div>
           <div className="headerRow">
             <div className="teamName"></div>
-            <div className="teamName">{game.awayTeam.shortName}</div>
-            <div className="teamName">{game.homeTeam.shortName}</div>
+            <div className="teamName">{game.awayTeam.rank ? `#${game.awayTeam.rank}` : ''} {game.awayTeam.shortName}</div>
+            <div className="teamName">{game.homeTeam.rank ? `#${game.homeTeam.rank}` : ''} {game.homeTeam.shortName}</div>
             <div className="odds">Side</div>
             <div className="odds">Total</div>
           </div>

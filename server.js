@@ -15,24 +15,26 @@ server.use(sassMiddleware({
   src: path.join(__dirname, 'sass'),
   dest: path.join(__dirname, 'public')
 }));
+server.use(express.static('public'));
 
 server.set('view engine', 'ejs');
 
-server.get(['/', '/:sport/games', '/:sport/games/:year', '/:sport/games/:year/:season', '/:sport/games/:year/:season/:gameWeek', '/:sport/games/:year/:season/:gameWeek/:gameId'], (req, res) => {
+server.get(['/', '/:sport', '/:sport/games', '/:sport/games/:year', '/:sport/games/:year/:season', '/:sport/games/:year/:season/:gameWeek', '/:sport/games/:year/:season/:gameWeek/:gameId'], (req, res) => {
   //console.log('req.query: ', req.query)
-  const sport = req.params.sport ? req.params.sport : 'nfl'
-  //console.log('server 25 sport: ', sport)
-  serverRender(sport, parseInt(req.params.year), req.params.season, parseInt(req.params.gameWeek), parseInt(req.params.gameId), req.query, 'games')
-    .then(({ initialMarkup, initialData }) => {
-      res.render('index', {
-        initialMarkup,
-        initialData
+  
+    const sport = req.params.sport ? req.params.sport : 'nfl'
+    // console.log('server 25 sport: ', sport)
+    serverRender(sport, parseInt(req.params.year), req.params.season, parseInt(req.params.gameWeek), parseInt(req.params.gameId), req.query, 'games')
+      .then(({ initialMarkup, initialData }) => {
+        res.render('index', {
+          initialMarkup,
+          initialData
+        });
+      })
+      .catch(error => {
+        console.error(error);
+        res.status(404).send('Bad Request');
       });
-    })
-    .catch(error => {
-      console.error(error);
-      res.status(404).send('Bad Request');
-    });
 });
 server.get(['/:sport/leaderboards', '/:sport/leaderboards/:year', '/:sport/leaderboards/:year/:season', '/:sport/leaderboards/:year/:season/:gameWeek', '/:sport/leaderboards/:year/:season/:gameWeek/'], (req, res) => {
   //console.log('req.url: ', req.url)
@@ -52,7 +54,6 @@ server.get(['/:sport/leaderboards', '/:sport/leaderboards/:year', '/:sport/leade
 });
 
 server.use('/api', apiRouter);
-server.use(express.static('public'));
 
 server.listen(config.port, config.host, () => {
   console.log('config: ', config)

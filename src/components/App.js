@@ -35,7 +35,7 @@ class App extends React.Component {
     super(props)
     this.state = {
       ...this.props.initialData,
-      sport: 'nfl',
+      sport: (this.props.initialData && this.props.initialData.sport) ? this.props.initialData.sport : 'nfl',
       gamePredictions: {},
       fetchingData: false,
       loginModalShow: false,
@@ -53,8 +53,8 @@ class App extends React.Component {
         currentGameId: (event.state || {}).currentGameId
       });
     });
-    console.log('this.state: ', this.state)
-    console.log('this.props: ', this.props)
+    // console.log('this.state: ', this.state)
+    console.log('this.props: ', this.props.initialData)
 
     let fbUser = this.state.code ? await api.getFacebookUser(this.state.code) : null
     try {
@@ -97,7 +97,7 @@ class App extends React.Component {
     if (prevState.user !== this.state.user) {
       // console.log('app line 75')
       (this.state.page === 'games') ? this.fetchGameWeekGames(this.state.sport, this.state.year, this.state.season, this.state.gameWeek ? this.state.gameWeek : this.state.week)
-      : (this.state.page === 'leaderboards') ? this.fetchLeaderboards('nfl', 2018, 'post', 21) : null
+      : (this.state.page === 'leaderboards') ? this.fetchLeaderboards(this.state.sport, this.state.year, this.state.season, this.state.gameWeek) : null
     }
     if (prevState.games !== this.state.games) {
 
@@ -444,7 +444,7 @@ class App extends React.Component {
         )}
         <HomeLeaderboards 
           sport={this.state.sport}
-          year={2018}
+          year={this.state.year}
           season={this.state.season}
           week={this.state.week} />
       </div>
