@@ -28,6 +28,9 @@
       flex: 1; }
     .GamePreview .headerRow .gameTime {
       flex: 2; }
+  .GamePreview .predictionSpread {
+    font-size: 0.8em;
+    font-weight: bold; }
   @media (max-width: 767px) {
     .GamePreview .teamName {
       width: 33%; } }

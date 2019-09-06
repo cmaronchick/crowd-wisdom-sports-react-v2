@@ -162,18 +162,16 @@ export const getFacebookUser = async (code) => {
 
   export const gameCannotBeUpdated = (startDateTime) => {
     //cutoff for odds updates is 1 hour prior to start
-    const msHour = 3600000;
+    const msHour = 300000;
     var now = new Date();
     var start = Date.parse(startDateTime);
     var cutoff = start - msHour;
     return (Date.parse(now) > cutoff)
   }
 
-  export const oddsPrediction = (game, gamePrediction) => {
+  export const spreadPrediction = (game, awayTeamScore, homeTeamScore) => {
     const { homeTeam, awayTeam } = game
-    const awayTeamScore = gamePrediction.predictionAwayTeamScore,
-      homeTeamScore = gamePrediction.predictionHomeTeamScore
-    const {spread, total} = game.odds
+    const {spread } = game.odds
     if (game.odds.spread > 0) { // away team favored; e.g. spread = 3.5
       if ((awayTeamScore - homeTeamScore) < spread) { // user predicted home team to cover
         return `${homeTeam.code} +${spread}`
@@ -192,6 +190,17 @@ export const getFacebookUser = async (code) => {
         return `${homeTeam.code} ${spread}`
       }
     }
+  }
+  export const totalPrediction = (game, awayTeamScore, homeTeamScore) => {
+    const { homeTeam, awayTeam } = game
+    const {total} = game.odds
+      if ((awayTeamScore > homeTeamScore) > total) { //user predicted game to go over
+        return `O${total}`
+      } else if ((awayTeamScore - homeTeamScore) === total) {
+        return `PUSH`
+      } else {
+        return `U${total}`
+      }
   }
 
 
