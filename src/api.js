@@ -66,9 +66,9 @@ export const fetchGameWeek = (sport, userSession) => {
 }
 
 export const fetchSubmitPrediction = async (userSession, prediction) => {
-  console.log({prediction})
+  // console.log({prediction})
   const postOptionsObj = postOptions(userSession, prediction)
-  console.log('postOptionsObj: ', postOptionsObj)
+  //console.log('postOptionsObj: ', postOptionsObj)
   let resp = await axios.post('/api/submitPrediction', postOptionsObj)
   console.log({resp})
   return resp.data
@@ -92,6 +92,7 @@ export const getUserSessionAsync = async () => {
 }
 
 export const fetchOverallLeaderboard = (userSession, sport, year, season, week) => {
+  console.log({overallLeaderboard: {sport, year, season, week}})
   const getOptionsObj = getOptions(userSession)
   const sportValue = sport ? sport : 'nfl'
   return axios.get(`/api/${sportValue}/leaderboards/${year}/${season}/${week}`, getOptionsObj.callOptions)
@@ -99,6 +100,7 @@ export const fetchOverallLeaderboard = (userSession, sport, year, season, week) 
 }
 
 export const fetchWeeklyLeaderboard = (userSession, sport, year, season, week) => {
+  console.log({weeklyLeaderboard: { sport, year, season, week}})
   const getOptionsObj = getOptions(userSession)
   const sportValue = sport ? sport : 'nfl'
   return axios.get(`/api/${sportValue}/leaderboards/${year}/${season}/${week}`, getOptionsObj.callOptions)

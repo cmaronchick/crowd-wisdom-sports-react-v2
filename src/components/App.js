@@ -271,8 +271,9 @@ class App extends React.Component {
         };
         api.fetchSubmitPrediction(userSession, prediction)
         .then(predictionResponse => {
-          //console.log({predictionResponse: predictionResponse.prediction.game})
+          console.log({predictionResponse: predictionResponse.prediction.game})
             let game = predictionResponse.prediction.game;
+            game.prediction = predictionResponse.prediction.prediction;
 
             let games = this.state.games;
             let data = this.state.data;
@@ -288,7 +289,8 @@ class App extends React.Component {
                 predictionAwayTeamScore: prediction.awayTeam.score,
                 predictionHomeTeamScore: prediction.homeTeam.score
               }
-            } 
+            }
+            gamePredictions[gameId].submittingPrediction = false;
             this.setState({
               games: games,
               data: data,

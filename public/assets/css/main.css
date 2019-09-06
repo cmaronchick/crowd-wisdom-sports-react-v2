@@ -1675,7 +1675,8 @@ input, select, textarea {
 	}
 
 		table tbody tr:nth-child(2n+2) {
-			background: #f4f4f4;
+			background: #f6dfa4;
+			color: #231f20;
 		}
 
 		table td {

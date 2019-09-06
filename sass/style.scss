@@ -30,13 +30,16 @@
             display: flex;
             flex-direction: row;
             justify-content: space-between;
+            overflow: hidden;
+            font-size: 0.9em;
             div {
                 margin: 0 5px;
                 padding: 3px;
                 flex: 1
             }
             .gameTime {
-                flex: 2
+                flex: 2;
+                font-size: 0.9em;
             }
         }
 
@@ -70,13 +73,13 @@
 
 
 .rwd-table {
-    background: #3A3B6C;
+    background: #0a1f8f;
     color: #fff;
     border-radius: .4em;
     overflow: hidden;
 }
 .rwd-table tr {
-    border-color: #B22438;
+    border-color: #e04403;
 }
 
 .rwd-table th, .rwd-table td {
@@ -88,11 +91,11 @@
 
 .rwd-table .alt-tr {
     background: #fff;
-    color: #3A3B6C;
+    color: #0a1f8f;
 }
 
 .alt-tr td, .alt-tr td:before, .alt-tr td a {
-    color: #3A3B6C;
+    color: #0a1f8f;
 }
 
 .link {
