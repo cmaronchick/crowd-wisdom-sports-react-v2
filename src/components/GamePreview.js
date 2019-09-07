@@ -109,7 +109,7 @@ class GamePreview extends Component {
             )}
             </div>
             <div>{(game.prediction && game.odds) ? apis.oddsPrediction(game, gamePrediction) : null}</div>
-            <div>{(game.prediction && game.odds) ? game.prediction.total : null}</div>
+            <div>{(game.prediction && game.odds) ? (game.prediction.total === game.odds.total) ? `PUSH` : (game.prediction.total > game.odds.total) ? `O${game.odds.total}`: `U${game.odds.total}`: null}</div>
           </div>
           ) : (
             <div>No prediction for this game</div>

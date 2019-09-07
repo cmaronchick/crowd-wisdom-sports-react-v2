@@ -174,24 +174,30 @@ export const getFacebookUser = async (code) => {
     const awayTeamScore = gamePrediction.predictionAwayTeamScore,
       homeTeamScore = gamePrediction.predictionHomeTeamScore
     const {spread, total} = game.odds
+    let oddsPredictionText = ''
     if (game.odds.spread > 0) { // away team favored; e.g. spread = 3.5
       if ((awayTeamScore - homeTeamScore) < spread) { // user predicted home team to cover
-        return `${homeTeam.code} +${spread}`
+        oddsPrediction = `${homeTeam.code} +${spread}`
       } else if ((awayTeamScore - homeTeamScore) === spread) {
-        return 'PUSH'
+        oddsPredictionText = 'PUSH'
       } else {
-        return `${awayTeam.code} -${spread}`
+        oddsPredictionText = `${awayTeam.code} -${spread}`
       }
     }
     if (game.odds.spread < 0) { // home team favored; e.g. spread = -3.5
       if ((awayTeamScore - homeTeamScore) > spread) { //user predicted away team to cover
-        return `${awayTeam.code} +${spread * -1}`
+        oddsPredictionText = `${awayTeam.code} +${spread * -1}`
       } else if ((awayTeamScore - homeTeamScore) === spread) {
-        return 'PUSH'
+        oddsPredictionText = 'PUSH'
       } else {
-        return `${homeTeam.code} ${spread}`
+        oddsPredictionText = `${homeTeam.code} ${spread}`
       }
     }
+    if ((awayTeamScore - homeTeamScore) < spread) {
+      oddsPredictionText += `<br/><span className="predictionDetails">(${(awayTeamScore > homeTeamScore) ? game.awayTeam.code : game.homeTeam.code} by ${(awayTeamScore > homeTeamScore) ? (awayTeamScore - homeTeamScore) : (homeTeamScore - awayTeamScore)}</span>`
+    }
+    return oddsPredictionText;
+
   }
 
 
