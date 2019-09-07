@@ -96,7 +96,7 @@ router.get('/:sport/games/:year/:season/:gameWeek/:gameId', (req, res) => {
 // })
 
 router.post('/submitPrediction', (req, res) => {
-  console.log('api/index 81 req.body: ', req.body)
+  // console.log('api/index 81 req.body: ', req.body)
   axios.post(`https://y5f8dr2inb.execute-api.us-west-2.amazonaws.com/dev/predictions`, req.body.body, {headers: 
     req.body.headers
   })
@@ -111,10 +111,11 @@ router.post('/submitPrediction', (req, res) => {
 
 router.get('/:sport/leaderboards/:year/:season/:week', (req, res) => {
   //console.log('api index 43 req', req.params.sport)
+  const { sport, year, season, week } = req.params;
     const callOptionsObject = callOptions(req.headers.authorization);
     const anonString = callOptionsObject.anonString;
     const getOptions = callOptionsObject.callOptions;
-      axios.get(`https://y5f8dr2inb.execute-api.us-west-2.amazonaws.com/dev/extendedprofile/getallusers${anonString}?sport=${req.params.sport}&year=${req.params.year}&gameWeek=${req.params.week}&limit=10`, getOptions)
+      axios.get(`https://y5f8dr2inb.execute-api.us-west-2.amazonaws.com/dev/${sport}/${year}/${season}/${week}/leaderboards?limit=10`, getOptions)
       .then((leaderboardResponse) => {
        //console.log('api/index 119 gameWeekResponse', leaderboardResponse.data)
         res.send({ leaderboardData: leaderboardResponse.data })

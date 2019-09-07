@@ -52,10 +52,12 @@ export default class HomeLeaderboards extends Component {
 
     render() {
         const { overallLeaderboardData, weeklyLeaderboardData } = this.state;
+        const overallLeaderboard = overallLeaderboardData && overallLeaderboardData.leaderboardData ? overallLeaderboardData.leaderboardData : null,
+            weeklyLeaderboard = weeklyLeaderboardData && weeklyLeaderboardData.leaderboardData ? weeklyLeaderboardData.leaderboardData : null
         //console.log({ HomeLeaderboardState: this.state })
         return (
             <div className="homeLeaderboards">
-                {overallLeaderboardData ? (
+                {overallLeaderboard ? (
                     
                     <table className="rwd-table">
                     <thead>
@@ -67,20 +69,19 @@ export default class HomeLeaderboards extends Component {
                         </tr>
                     </thead>
                     <tbody>
-                        {overallLeaderboardData.leaderboardData.map((user, index) => {
-                            let results = user.results.overall;
-                            let userCorrect = results.winner.correct + results.spread.correct + results.total.correct;
-                            let userIncorrect = ((results.totalPredictions * 3) - (results.spread.push + results.total.push)) - userCorrect;
+                        {overallLeaderboard.overall.users.map((user, index) => {
+                            let userCorrect = user.winner.correct + user.spread.correct + user.total.correct;
+                            let userIncorrect = ((user.totalPredictions * 3) - (user.spread.push + user.total.push)) - userCorrect;
                             return (
                                 <tr key={index} className={((index%2) === 0) ? ' alt-tr' : null}>
                                 <td data-th="Rank">{index + 1}</td>
                                 <td data-th="Username">{user.preferred_username}</td>
                                 <td data-th="Record">{userCorrect}-{userIncorrect}</td>
-                                <td data-th="Score">{results.predictionScore}
+                                <td data-th="Score">{user.predictionScore}
                                     <div className='leaderboard userScoreDetails'>
-                                        S/U: {results.winner.correct}<br/>
-                                        ATS: {results.spread.correct}<br/>
-                                        O/U: {results.total.correct}
+                                        S/U: {user.winner.correct}<br/>
+                                        ATS: {user.spread.correct}<br/>
+                                        O/U: {user.total.correct}
                                     </div></td>
                                 </tr>
                             )
