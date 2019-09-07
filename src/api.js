@@ -93,11 +93,17 @@ export const getUserSessionAsync = async () => {
 
 export const fetchOverallLeaderboard = (userSession, sport, year, season, week) => {
   console.log({overallLeaderboard: {sport, year, season, week}})
+  if (userSession === "test") {
+    return overallLeaderboardData
+  }
+  console.log('userSession2:', userSession);
   const getOptionsObj = getOptions(userSession)
   const sportValue = sport ? sport : 'nfl'
   return axios.get(`/api/${sportValue}/leaderboards/${year}/${season}/${week}`, getOptionsObj.callOptions)
   .then(resp => resp.data)
 }
+
+
 
 export const fetchWeeklyLeaderboard = (userSession, sport, year, season, week) => {
   console.log({weeklyLeaderboard: { sport, year, season, week}})
@@ -174,9 +180,10 @@ export const getFacebookUser = async (code) => {
   export const spreadPrediction = (game, awayTeamScore, homeTeamScore) => {
     const { homeTeam, awayTeam } = game
     const {spread } = game.odds
+    let oddsPredictionText = ''
     if (game.odds.spread > 0) { // away team favored; e.g. spread = 3.5
       if ((awayTeamScore - homeTeamScore) < spread) { // user predicted home team to cover
-        oddsPrediction = `${homeTeam.code} +${spread}`
+        oddsPredictionText = `${homeTeam.code} +${spread}`
       } else if ((awayTeamScore - homeTeamScore) === spread) {
         oddsPredictionText = 'PUSH'
       } else {
@@ -191,9 +198,6 @@ export const getFacebookUser = async (code) => {
       } else {
         oddsPredictionText = `${homeTeam.code} ${spread}`
       }
-    }
-    if ((awayTeamScore - homeTeamScore) < spread) {
-      oddsPredictionText += `<br/><span className="predictionDetails">(${(awayTeamScore > homeTeamScore) ? game.awayTeam.code : game.homeTeam.code} by ${(awayTeamScore > homeTeamScore) ? (awayTeamScore - homeTeamScore) : (homeTeamScore - awayTeamScore)}</span>`
     }
     return oddsPredictionText;
 

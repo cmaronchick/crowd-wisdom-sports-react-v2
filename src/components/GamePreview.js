@@ -169,7 +169,12 @@ class GamePreview extends Component {
                     : ''}
               )</span>
               </div>
-              <div>{(game.prediction && game.crowd && game.odds) ? apis.totalPrediction(game, crowdAwayTeamScore, crowdHomeTeamScore) : ''}</div>
+              <div>{(game.prediction && game.crowd && game.odds) ? (
+                <div>
+                {apis.totalPrediction(game, crowdAwayTeamScore, crowdHomeTeamScore)}
+                <br/><span className="predictionSpread">({game.crowd.total})</span>
+                </div>
+              ) : ''}</div>
             </div>
             ) : (
               <div className="team">
