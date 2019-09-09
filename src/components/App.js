@@ -6,12 +6,8 @@ import awsconfig from '../../awsexports'
 // retrieve temporary AWS credentials and sign requests
 Auth.configure(awsconfig);
 
-import Navigation from './Navigation'
 import Dropdown from 'react-bootstrap/Dropdown'
-import DropdownButton from 'react-bootstrap/DropdownButton'
 import Button from 'react-bootstrap/Button'
-import Modal from 'react-bootstrap/Modal'
-import Form from 'react-bootstrap/Form'
 import Spinner from 'react-bootstrap/Spinner'
 import Header from './Header';
 import GamesList from './GamesList';
@@ -21,7 +17,6 @@ import HomeLeaderboards from './Home.Leaderboards';
 import LoginModal from './LoginModal';
 import Weeks from './Weeks';
 import * as api from '../api';
-import { APIClass } from 'aws-amplify';
 
 const pushState = (obj, url) =>
   window.history.pushState(obj, '', url);

@@ -1,6 +1,4 @@
 import React, { Component } from 'react'
-import Auth from '@aws-amplify/auth'
-import Button from 'react-bootstrap/Button'
 
 export default class Navigation extends Component {
     constructor(props) {

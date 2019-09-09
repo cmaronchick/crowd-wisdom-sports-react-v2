@@ -6,7 +6,9 @@
   "scripts": {
     "start": "concurrently --kill-others \"webpack -wd\" \"nodemon --exec babel-node server.js --ignore public/\"",
     "dev": "concurrently --kill-others \"webpack -wd\" \"nodemon --exec babel-node server.js --ignore public/\"",
-    "test": "jest"
+    "build": "webpack",
+    "test": "jest",
+    "analyze": "source-map-explorer 'public/bundle.js'"
   },
   "repository": "git+https://github.com/cmaronchick/crowd-wisdom-sports-react.git",
   "author": "CMA",
@@ -35,7 +37,8 @@
     "react-bootstrap": "^1.0.0-beta.8",
     "react-chartjs-2": "^2.7.6",
     "react-dom": "^16.7.0",
-    "react-test-renderer": "^16.8.6"
+    "react-test-renderer": "^16.8.6",
+    "source-map-explorer": "^2.0.1"
   },
   "devDependencies": {
     "@babel/core": "^7.2.2",
