@@ -124,4 +124,17 @@ router.get('/:sport/leaderboards/:year/:season/:week', (req, res) => {
 
 })
 
+router.get('/:sport/leaderboards/:year/:season/:week/crowdOverall', (req, res) => {
+  const { sport, year, season, week } = req.params;
+  const callOptionsObject = callOptions(req.headers.authorization);
+  const anonString = callOptionsObject.anonString;
+  const getOptions = callOptionsObject.callOptions;
+  axios.get(`https://y5f8dr2inb.execute-api.us-west-2.amazonaws.com/dev/${sport}/${year}/${season}/${week}/leaderboards/crowdoverall`, getOptions)
+  .then((crowdOverallResponse) => {
+    console.log('api/index 119 gameWeekResponse', crowdOverallResponse)
+     res.send({ crowd: crowdOverallResponse.data })
+   })
+   .catch(crowdOverallResponseError => console.log('api leaderboard index 137 crowdOverallResponse: ', crowdOverallResponseError))
+})
+
 export default router;

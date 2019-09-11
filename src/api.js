@@ -113,6 +113,12 @@ export const fetchWeeklyLeaderboard = (userSession, sport, year, season, week) =
   .then(resp => resp.data)
 }
 
+export const fetchCrowdOverall = (sport, year, season, week) => {
+  const sportValue = sport ? sport : 'nfl'
+  return axios.get(`/api/${sportValue}/leaderboards/${year}/${season}/${week}/crowdOverall`)
+  .then(resp => resp.data)
+}
+
 export const getFacebookUser = async (code) => {
   const details = {
     grant_type: 'authorization_code',

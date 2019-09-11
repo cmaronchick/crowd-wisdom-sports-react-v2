@@ -60,31 +60,39 @@ class App extends React.Component {
     }
 
     if (!this.state.currentGameId) {
-      this.setState({ fetchingGames: true })
-      api.getUserSession(userSession => {
-        api.fetchGameWeek(this.state.sport, userSession)
-        .then(gameWeekDataResponse => {
-          console.log('this.state: ', this.state)
-          // console.log('gameWeekDataResponse: ', gameWeekDataResponse)
-          const { sport, year, week, season, weeks } = this.state ? this.state : gameWeekDataResponse.gameWeekData;
-          api.fetchGameWeekGames(sport, year, season, week, userSession)
-          .then(games => {
-            this.setState({
-              userSession: userSession,
-              sport: 'nfl',
-              year: year,
-              gameWeek: week,
-              season: season,
-              weeks: weeks,
-              currentGameId: null,
-              data: games,
-              games: games,
-              fetchingGames: false
-            });
+      try {
+        this.setState({ fetchingGames: true })
+        let userSession = await Auth.currentSession();
+        let gameWeekDataResponse = await api.fetchGameWeek(this.state.sport, userSession)
+        const { sport, year, week, season, weeks } = this.state ? this.state : gameWeekDataResponse.gameWeekData;
+        let games = await api.fetchGameWeekGames(sport, year, season, week, userSession);
+          this.setState({
+            userSession: userSession,
+            sport: 'nfl',
+            year: year,
+            gameWeek: week,
+            season: season,
+            weeks: weeks,
+            currentGameId: null,
+            data: games,
+            games: games,
+            fetchingGames: false
           });
-        })
-        .catch(gameWeekDataError => console.log('gameWeekDataError: ', gameWeekDataError))
-      })
+        } catch (gameWeekDataError) {
+          console.log('gameWeekDataError: ', gameWeekDataError)
+        }
+        try {
+          let userSession = await Auth.currentSession();
+          let gameWeekDataResponse = await api.fetchGameWeek(this.state.sport, userSession)
+          const { sport, year, week, season } = this.state ? this.state : gameWeekDataResponse.gameWeekData;
+          let crowdOverallData = await api.fetchCrowdOverall(sport, year, season, week)
+          console.log({crowdOverallData})
+          this.setState({
+            crowd: crowdOverallData.crowd
+          })
+        } catch (crowdOverallDataError) {
+          console.log({crowdOverallDataError})
+        }
     }
   }
   componentDidUpdate(prevProps, prevState) {

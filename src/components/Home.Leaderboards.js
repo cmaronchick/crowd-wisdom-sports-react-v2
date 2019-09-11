@@ -57,7 +57,7 @@ export default class HomeLeaderboards extends Component {
         //console.log({ HomeLeaderboardState: this.state })
         return (
             <div className="homeLeaderboards">
-                {overallLeaderboard ? (
+                {overallLeaderboard && overallLeaderboard.overall ? (
                     
                     <table className="rwd-table">
                     <thead>
