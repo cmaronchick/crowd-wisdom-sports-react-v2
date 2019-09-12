@@ -139,9 +139,10 @@ class App extends React.Component {
 
   resendConfirmation = (e) => {
     e.preventDefault();
-    Auth.resendSignUp()
+    Auth.resendSignUp(this.state.username)
     .then(resendSignUpResponse => {
       console.log('resendSignUpResponse: ', resendSignUpResponse)
+      this.setState({user, authState: 'signIn'})
     })
     .catch(resendSignUpReject => {
       console.log('resendSignUpReject: ', resendSignUpReject)
@@ -242,6 +243,34 @@ class App extends React.Component {
       }
     })
     //console.log({gamePredictions: this.state.gamePredictions})
+  }
+
+  onChangeStarSpread = (gameId, event) => {
+    const gamePredictions = this.state.gamePredictions
+    gamePredictions[gameId] 
+      ? gamePredictions[gameId].stars 
+        ? gamePredictions[gameId].stars.spread = parseInt(event) 
+      : gamePredictions[gameId].stars = { spread: parseInt(event), total: 0 }
+    : gamePredictions[gameId] = { stars: { spread: parseInt(event)} }
+    this.setState({ 
+      gamePredictions: { 
+        ...gamePredictions
+      }
+    })    
+  }
+  
+  onChangeStarTotal = (gameId, event) => {
+    const gamePredictions = this.state.gamePredictions
+    gamePredictions[gameId] 
+      ? gamePredictions[gameId].stars 
+        ? gamePredictions[gameId].stars.total = parseInt(event) 
+      : gamePredictions[gameId].stars = { total: parseInt(event), total: 0 }
+    : gamePredictions[gameId] = { stars: { total: parseInt(event)} }
+    this.setState({ 
+      gamePredictions: { 
+        ...gamePredictions
+      }
+    })    
   }
 
   submitPrediction = (gameId) => {
@@ -443,6 +472,8 @@ class App extends React.Component {
       return <Game 
       gamesListClick={this.fetchGamesList}
       onChangeGameScore={this.onChangeGameScore}
+      onChangeStarSpread={this.onChangeStarSpread}
+      onChangeStarTotal={this.onChangeStarTotal}
       onSubmitPrediction={this.onSubmitPrediction}
       {...this.currentGame()} />;
     }
@@ -477,8 +508,13 @@ class App extends React.Component {
           <CrowdOverallCompare week={this.state.week} userStats={this.state.userStats} crowd={this.state.crowd} />
         ) : null}
         {this.state.games ? (
-        <GamesList onChangeGameScore={this.onChangeGameScore} onSubmitPrediction={this.submitPrediction} onGameClick={this.fetchGame}
-        games={games} gamePredictions={gamePredictions} />
+        <GamesList 
+          onChangeGameScore={this.onChangeGameScore}
+          onChangeStarSpread={this.onChangeStarSpread}
+          onChangeStarTotal={this.onChangeStarTotal}
+          onSubmitPrediction={this.submitPrediction}
+          onGameClick={this.fetchGame}
+          games={games} gamePredictions={gamePredictions} />
         ): (
           <div>No games available</div>
         )}

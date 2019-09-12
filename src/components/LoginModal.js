@@ -142,7 +142,7 @@ export default class LoginModal extends Component {
                         Confirm
                       </Button>
                       <Button variant="secondary" onClick={this.props.handleResendClick}>
-                        Save Changes
+                        Resend Code
                       </Button>
                     </Form>
               )}

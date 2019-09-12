@@ -14,7 +14,7 @@ export default function CrowdOverallCompare(props) {
                 <div>O/U</div>
                 <div>Score</div>
             </div>
-                {(userStats && userStats.results.weekly.spread) ? (
+                {(userStats && userStats.results && userStats.results.weekly && userStats.results.weekly.spread) ? (
                 <div className="compareRow userStats">
                     <div>Me</div>
                     <div>{userStats.results.weekly.winner.correct}</div>
