@@ -48,6 +48,10 @@
       margin: 0 5px;
       padding: 3px;
       flex: 1; }
+  .GamePreview .correctPick {
+    background-color: #124734;
+    color: #fff;
+    padding: 2px 5px; }
 
 .CrowdOverallCompare {
   display: flex;

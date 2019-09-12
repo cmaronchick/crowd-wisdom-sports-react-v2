@@ -223,7 +223,7 @@ export const getFacebookUser = async (code) => {
   export const totalPrediction = (game, awayTeamScore, homeTeamScore) => {
     const { homeTeam, awayTeam } = game
     const {total} = game.odds
-      if ((awayTeamScore > homeTeamScore) > total) { //user predicted game to go over
+      if ((awayTeamScore + homeTeamScore) > total) { //user predicted game to go over
         return `O${total}`
       } else if ((awayTeamScore - homeTeamScore) === total) {
         return `PUSH`
