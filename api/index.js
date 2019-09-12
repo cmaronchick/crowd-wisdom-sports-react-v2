@@ -4,6 +4,7 @@ import axios from 'axios';
 import Auth from '@aws-amplify/auth'
 import { userInfo } from 'os';
 
+const apiHost = `https://y5f8dr2inb.execute-api.us-west-2.amazonaws.com/dev/`
 const router = express.Router();
 
 // const gamesObjs = games.games.reduce((obj, game) => {
@@ -131,10 +132,24 @@ router.get('/:sport/leaderboards/:year/:season/:week/crowdOverall', (req, res) =
   const getOptions = callOptionsObject.callOptions;
   axios.get(`https://y5f8dr2inb.execute-api.us-west-2.amazonaws.com/dev/${sport}/${year}/${season}/${week}/leaderboards/crowdoverall`, getOptions)
   .then((crowdOverallResponse) => {
-    console.log('api/index 119 gameWeekResponse', crowdOverallResponse)
+    // console.log('api/index 134 crowdOverallResponse', crowdOverallResponse)
      res.send({ crowd: crowdOverallResponse.data })
    })
    .catch(crowdOverallResponseError => console.log('api leaderboard index 137 crowdOverallResponse: ', crowdOverallResponseError))
+})
+
+router.get('/extendedprofile', (req, res) => {
+  console.log({req});
+  let { sport, year, season, week } = req.query;
+  const callOptionsObject = callOptions(req.headers.authorization);
+  const getOptions = callOptionsObject.callOptions;
+  axios.get(`${apiHost}extendedprofile?sport=${sport}&year=${year}&season=${season}&week=${week}`, getOptions)
+  .then((userStatsResponse) => {
+    // console.log('api/index 134 crowdOverallResponse', crowdOverallResponse)
+     res.send({ userStatsResponse: userStatsResponse.data })
+   })
+   .catch(userStatsResponseError => console.log('api leaderboard index 150 userStatsResponseError: ', userStatsResponseError))
+
 })
 
 export default router;

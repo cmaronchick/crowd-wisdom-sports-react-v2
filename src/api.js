@@ -119,6 +119,18 @@ export const fetchCrowdOverall = (sport, year, season, week) => {
   .then(resp => resp.data)
 }
 
+export const getUserDetails = async (userSession, sport, year, season, week) => {
+  try {
+    const getOptionsObj = getOptions(userSession)
+    const sportValue = sport ? sport : 'nfl'
+    return axios.get(`/api/extendedprofile?sport=${sport}&year=${year}&season=${season}&week=${week}`,getOptionsObj.callOptions)
+    .then(resp => resp.data)
+  } catch (error) {
+    console.error(error)
+  }
+
+}
+
 export const getFacebookUser = async (code) => {
   const details = {
     grant_type: 'authorization_code',

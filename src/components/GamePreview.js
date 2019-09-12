@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import Button from 'react-bootstrap/Button'
 import Spinner from 'react-bootstrap/Spinner'
 import * as apis from '../api'
+import * as utils from '../utils'
 
 class GamePreview extends Component {
   constructor(props) {
@@ -149,8 +150,18 @@ class GamePreview extends Component {
           {(game.crowd && game.crowd.total) ? (
             <div className="team">
               <div>Crowd</div>
-              <div>{crowdAwayTeamScore}</div>
-              <div>{crowdHomeTeamScore}</div>
+              <div style={{position: 'relative'}}>
+                {crowdAwayTeamScore}
+                {((game.results.awayTeam.score > game.results.homeTeam.score) && (game.crowd.awayTeam.score > game.crowd.homeTeam.score)) ? (
+                  <span style={{position: 'absolute', width: 3, height: 3, borderRadius: 3, backgroundColor: 'green', top: 2, left: 10}}></span>
+                ) : ''}
+              </div>
+              <div style={{position: 'relative'}}>
+                {crowdHomeTeamScore}
+                {((game.results.awayTeam.score < game.results.homeTeam.score) && (game.crowd.awayTeam.score < game.crowd.homeTeam.score)) ? (
+                  <span style={{position: 'absolute', width: 3, height: 3, borderRadius: 3, backgroundColor: 'green', top: 2, left: 10}}></span>
+                ) : ''}
+              </div>
               <div>{(game.prediction && game.crowd && game.odds) ? apis.spreadPrediction(game, crowdAwayTeamScore, crowdHomeTeamScore) : ''}<br/>
               
               <span className="predictionSpread">(

@@ -14,6 +14,7 @@ import GamesList from './GamesList';
 import Game from './Game';
 import Leaderboards from './Leaderboards'
 import HomeLeaderboards from './Home.Leaderboards';
+import CrowdOverallCompare from './Home.CrowdOverallCompare'
 import LoginModal from './LoginModal';
 import Weeks from './Weeks';
 import * as api from '../api';
@@ -92,6 +93,14 @@ class App extends React.Component {
           })
         } catch (crowdOverallDataError) {
           console.log({crowdOverallDataError})
+        }
+
+        try {
+          let userSession = await Auth.currentSession()
+          let userStatsResponse = userSession ? await api.getUserDetails(userSession, this.state.sport, this.state.year, this.state.season, this.state.week) : null
+          console.log({userStatsResponse})
+        } catch(userStatsResponseError) {
+          console.log({userStatsResponseError})
         }
     }
   }
@@ -311,15 +320,14 @@ class App extends React.Component {
     })
   }
 
-  fetchGameWeek = () => {
-    api.getUserSession(userSession => {
-      api.fetchGameWeek(this.state.sport, userSession)
-      .then(gameWeekData => {
-        console.log('app 141 gameWeekData: ', gameWeekData)
-        return api.fetchGameWeekGames(gameWeekData.sport, gameWeekData.year, gameWeekData.week, userSession).then(games => games);
-      })
-      .catch(gameWeekDataError => console.log('gameWeekDataError: ', gameWeekDataError))
-    })
+  fetchGameWeek = async () => {
+    try {
+      let userSession = await Auth.currentSession()
+      let gameWeekData = await api.fetchGameWeek(this.state.sport, userSession)
+      let games = await api.fetchGameWeekGames(gameWeekData.sport, gameWeekData.year, gameWeekData.week, userSession);
+    } catch(gameWeekDataError) {
+       console.log('gameWeekDataError: ', gameWeekDataError)
+    }
   }
 
   fetchGame = (sport, year, season, gameWeek, gameId) => {
@@ -363,7 +371,7 @@ class App extends React.Component {
     });
   }
 
-  fetchGameWeekGames = (sport, year, season, gameWeek) => {
+  fetchGameWeekGames = async (sport, year, season, gameWeek) => {
     this.setState({ fetchingGames: true })
     pushState(
       {
@@ -373,19 +381,43 @@ class App extends React.Component {
       },
       `/${sport}/games/${year}/${season}/${gameWeek}`
     );
-    api.getUserSession(userSession => {
-      api.fetchGameWeekGames(sport, year, season, gameWeek, userSession).then((games) => {
-        console.log('games: ', games)
-        this.setState({
-          year: year,
-          gameWeek: gameWeek,
-          currentGameId: null,
-          data: games,
-          games: games,
-          fetchingGames: false
-        });
+    try {
+      let userSession = await Auth.currentSession()
+      let games = await api.fetchGameWeekGames(sport, year, season, gameWeek, userSession);
+    
+      this.setState({
+        year: year,
+        gameWeek: gameWeek,
+        currentGameId: null,
+        data: games,
+        games: games,
+        fetchingGames: false
       });
-    })
+    } catch (getGamesError) {
+      console.log({getGamesError});
+      let games = await api.fetchGameWeekGames(sport, year, season, gameWeek);
+      
+      this.setState({
+        year: year,
+        gameWeek: gameWeek,
+        currentGameId: null,
+        data: games,
+        games: games,
+        fetchingGames: false
+      });
+
+    }
+    try {
+      let userSession = await Auth.currentSession()
+      let userStatsResponse = await api.getUserDetails(userSession, sport, year, season, gameWeek);
+      let userStats = userStatsResponse.userStatsResponse;
+    
+      this.setState({
+        userStats
+      });
+    } catch (getGamesError) {
+      console.log({getGamesError});
+    }
   }
 
   fetchLeaderboards = async (sport, year, season, gameWeek) => {
@@ -440,6 +472,9 @@ class App extends React.Component {
           <Weeks
           onGameWeekClick={this.fetchGameWeekGames} currentWeek={this.state.gameWeek} sport={this.state.sport} year={this.state.year} season={this.state.season}
           weeks={this.state.weeks} />
+        ) : null}
+        {(this.state.crowd || this.state.userStats) ? (
+          <CrowdOverallCompare week={this.state.week} userStats={this.state.userStats} crowd={this.state.crowd} />
         ) : null}
         {this.state.games ? (
         <GamesList onChangeGameScore={this.onChangeGameScore} onSubmitPrediction={this.submitPrediction} onGameClick={this.fetchGame}
