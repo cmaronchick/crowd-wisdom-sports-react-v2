@@ -15,7 +15,7 @@ const router = express.Router();
 const callOptions = (userToken) => {
   var anonString = '/anon'
   var callOptions = Object.create(null);
-  console.log('api index 17 userToken: ', userToken)
+  //console.log('api index 17 userToken: ', userToken)
   if (userToken) {
     callOptions = {
       headers: {
