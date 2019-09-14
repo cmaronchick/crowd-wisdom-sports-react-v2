@@ -34,10 +34,10 @@ class GamePreview extends Component {
   componentDidUpdate(prevProps, prevState) {
     //console.log('gamePreview updated')
     
-    if (this.props.game !== prevProps.game) {
+    if ((this.props.game !== prevProps.game) || (this.state.game !== prevState.game)) {
       this.setState({game: this.props.game})
     }
-    if (this.props.gamePrediction !== prevProps.gamePrediction) {
+    if ((this.props.gamePrediction !== prevProps.gamePrediction) || (this.state.gamePrediction !== prevState.gamePrediction)) {
       this.setState({gamePrediction: this.props.gamePrediction})
     }
   }
@@ -154,34 +154,32 @@ class GamePreview extends Component {
               ) : ''}
               </div>
             </div>
+            {((game.prediction && game.prediction.awayTeam.score && game.prediction.homeTeam.score) || (gamePrediction && gamePrediction.predictionAwayTeamScore && gamePrediction.predictionHomeTeamScore)) ? (
             <div style={{display: 'flex', flexDirection: 'column'}}>
               <div>
-                Spread: {game.prediction ? (
+                Spread: 
                 <StarRatingComponent 
                   name={'starsSpread'}
-                  value={(gamePrediction && gamePrediction.stars) ? gamePrediction.stars.spread : game.prediction.stars ? game.prediction.stars.spread : 0}
+                  value={(gamePrediction && gamePrediction.stars) ? gamePrediction.stars.spread : (game.prediction && game.prediction.stars) ? game.prediction.stars.spread : 0}
                   starCount={5}
                   starColor={'#124734'} /* color of selected icons, default `#ffb400` */
                   emptyStarColor={'#f6dfa4'}
                   onStarClick={this.handleOnChangeStarSpread}
                   />
-                ) : null}
               </div>
               <div>
                 Total: 
-                {game.prediction ? (
                 <StarRatingComponent 
                   name='starsTotal'
-                  value={(gamePrediction && gamePrediction.stars) ? gamePrediction.stars.total : game.prediction.stars ? game.prediction.stars.total : 0}
+                  value={(gamePrediction && gamePrediction.stars) ? gamePrediction.stars.total : (game.prediction && game.prediction.stars) ? game.prediction.stars.total : 0}
                   starCount={5}
                   starColor={'#124734'} /* color of selected icons, default `#ffb400` */
                   emptyStarColor={'#f6dfa4'}
                   onStarClick={this.handleOnChangeStarTotal}
                   />
-                ) : null}
-              
               </div>
             </div>
+            ) : null}
           </div>
           ) : (
             <div>No prediction for this game</div>

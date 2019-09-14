@@ -288,8 +288,16 @@ class App extends React.Component {
         const awayTeamScore = (gamePrediction && parseInt(gamePrediction.predictionAwayTeamScore)) ? parseInt(gamePrediction.predictionAwayTeamScore) : parseInt(game.prediction.awayTeam.score)
         const homeTeamScore = (gamePrediction && parseInt(gamePrediction.predictionHomeTeamScore)) ? parseInt(gamePrediction.predictionHomeTeamScore) : parseInt(game.prediction.homeTeam.score)
         const stars = {
-          spread: (gamePrediction && gamePrediction.stars && gamePrediction.stars.spread) ? gamePrediction.stars.spread : game.prediction.stars.spread ? game.prediction.stars.spread : 0,
-          total: (gamePrediction && gamePrediction.stars && gamePrediction.stars.total) ? gamePrediction.stars.total : game.prediction.stars.total ? game.prediction.stars.total : 0
+          spread: (gamePrediction && gamePrediction.stars && gamePrediction.stars.spread) 
+          ? gamePrediction.stars.spread 
+            : (game.prediction && game.prediction.stars && game.prediction.stars.spread) 
+            ? game.prediction.stars.spread 
+          : 0,
+          total: (gamePrediction && gamePrediction.stars && gamePrediction.stars.total) 
+            ? gamePrediction.stars.total 
+              : (game.prediction && game.prediction.stars && game.prediction.stars.total) 
+            ? game.prediction.stars.total 
+          : 0
         }
         var prediction = {
           gameId: game.gameId,
