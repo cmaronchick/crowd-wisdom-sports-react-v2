@@ -73,6 +73,7 @@ router.get('/:sport/games/:year/:season/:gameWeek/:gameId', (req, res) => {
   const callOptionsObject = callOptions(req.headers.authorization);
   const anonString = callOptionsObject.anonString;
   const getOptions = callOptionsObject.callOptions;
+  console.log(`https://y5f8dr2inb.execute-api.us-west-2.amazonaws.com/dev/nfl/${req.params.year}/${req.params.gameWeek}/games/${req.params.gameId}${anonString}`, getOptions);
   axios.get(`https://y5f8dr2inb.execute-api.us-west-2.amazonaws.com/dev/nfl/${req.params.year}/${req.params.gameWeek}/games/${req.params.gameId}${anonString}`, getOptions)
   .then((gameResponse) => {
     // console.log('api index 77 game: ', gameResponse)

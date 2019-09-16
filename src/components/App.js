@@ -389,24 +389,21 @@ class App extends React.Component {
     });
   }
 
-  fetchGamesList = () => {
+  fetchGamesList = async (sport, year, season, week) => {
     pushState(
       {currentGameId: null},
       '/'
     );
 
-    api.getUserSession(userSession => {
-      api.fetchGamesList(userSession)
-      .then(games => {
-        this.setState({
-          currentGameId: null,
-          data: {
-            ...this.state.games,
-            games
-          }
-        });
-      })
-    });
+    let userSession = Auth.currentSession()
+    let games = await api.fetchGamesList(sport, year, season, week, userSession)
+      this.setState({
+        currentGameId: null,
+        data: {
+          ...this.state.games,
+          games
+        }
+      });
   }
 
   fetchGameWeekGames = async (sport, year, season, gameWeek) => {
@@ -484,6 +481,7 @@ class App extends React.Component {
       onChangeStarSpread={this.onChangeStarSpread}
       onChangeStarTotal={this.onChangeStarTotal}
       onSubmitPrediction={this.onSubmitPrediction}
+      gamePrediction={this.state.gamePredictions[this.state.currentGameId]}
       {...this.currentGame()} />;
     }
     if (this.state.page === 'leaderboards') {

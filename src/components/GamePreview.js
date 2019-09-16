@@ -161,7 +161,7 @@ class GamePreview extends Component {
                 <StarRatingComponent 
                   name={'starsSpread'}
                   value={(gamePrediction && gamePrediction.stars) ? gamePrediction.stars.spread : (game.prediction && game.prediction.stars) ? game.prediction.stars.spread : 0}
-                  starCount={5}
+                  starCount={3}
                   starColor={'#124734'} /* color of selected icons, default `#ffb400` */
                   emptyStarColor={'#f6dfa4'}
                   onStarClick={this.handleOnChangeStarSpread}
@@ -172,7 +172,7 @@ class GamePreview extends Component {
                 <StarRatingComponent 
                   name='starsTotal'
                   value={(gamePrediction && gamePrediction.stars) ? gamePrediction.stars.total : (game.prediction && game.prediction.stars) ? game.prediction.stars.total : 0}
-                  starCount={5}
+                  starCount={3}
                   starColor={'#124734'} /* color of selected icons, default `#ffb400` */
                   emptyStarColor={'#f6dfa4'}
                   onStarClick={this.handleOnChangeStarTotal}
