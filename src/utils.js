@@ -20,3 +20,10 @@ export const predictionResultSpreadEval = (game, prediction) => {
     if (homeTeamWin && homeTeamPredictionWin) return true;
     return false;
 }
+
+export const formatDate = (startDateTime) => {
+    var gameDate = new Date(startDateTime);
+    var options = { weekday: 'short', month: 'short', day: 'numeric', year: '2-digit', hour: 'numeric', minute: 'numeric', timeZoneName: 'short' };
+    var newstartDateTime = gameDate.toLocaleString('en-US', options);
+    return newstartDateTime;
+  }
