@@ -1719,6 +1719,7 @@ input, select, textarea {
 		padding: 0.5em 0.75em;
 		width: 100%;
 		line-height: 1.25em;
+		font-family: escrow-text, serif;
 	}
 
 		form input[type="text"]:focus,
