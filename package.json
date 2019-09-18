@@ -4,8 +4,8 @@
   "description": "Learning Fullstack JavaScript Development: MongoDB, Node.js, React.js",
   "main": "index.js",
   "scripts": {
-    "start": "concurrently --kill-others \"webpack -wd\" \"nodemon --exec babel-node server.js --ignore public/\"",
-    "dev": "concurrently --kill-others \"webpack -wd\" \"nodemon --exec babel-node server.js --ignore public/\"",
+    "start": "nodemon --exec babel-node server.js --ignore public/",
+    "dev": "webpack -wd",
     "build": "webpack",
     "test": "jest",
     "analyze": "source-map-explorer 'public/bundle.js'"
@@ -37,6 +37,7 @@
     "react-bootstrap": "^1.0.0-beta.8",
     "react-chartjs-2": "^2.7.6",
     "react-dom": "^16.7.0",
+    "react-star-rating-component": "^1.4.1",
     "react-test-renderer": "^16.8.6",
     "source-map-explorer": "^2.0.1"
   },

@@ -15,7 +15,7 @@ import axios from 'axios';
 
 const getApiUrl = (gameId, gameWeekData) => {
   if (gameId) {
-    return `${config.serverUrl}/api/${gameWeekData.sport}/${gameWeekData.year}/${gameWeekData.season}/${gameWeekData.week}/${gameId}`;
+    return `${config.serverUrl}/api/${gameWeekData.sport}/games/${gameWeekData.year}/${gameWeekData.season}/${gameWeekData.week}/${gameId}`;
   }
   
   console.log('gameWeekData :', gameWeekData);

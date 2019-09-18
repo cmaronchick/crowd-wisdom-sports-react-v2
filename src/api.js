@@ -46,9 +46,9 @@ export const fetchGame = (sport, year, season, gameWeek, gameId, userSession) =>
     .then(resp => resp.data);
 };
 
-export const fetchGamesList = (sport, userSession) => {
+export const fetchGamesList = (sport, year, season, week, userSession) => {
   const getOptionsObj = getOptions(userSession)
-  return axios.get(`/api/${sport}/games`, getOptionsObj.callOptions)
+  return axios.get(`/api/${sport}/games/${year}/${season}/${week}`, getOptionsObj.callOptions)
   .then (resp => resp.data.games);
 };
 
@@ -111,6 +111,24 @@ export const fetchWeeklyLeaderboard = (userSession, sport, year, season, week) =
   const sportValue = sport ? sport : 'nfl'
   return axios.get(`/api/${sportValue}/leaderboards/${year}/${season}/${week}`, getOptionsObj.callOptions)
   .then(resp => resp.data)
+}
+
+export const fetchCrowdOverall = (sport, year, season, week) => {
+  const sportValue = sport ? sport : 'nfl'
+  return axios.get(`/api/${sportValue}/leaderboards/${year}/${season}/${week}/crowdOverall`)
+  .then(resp => resp.data)
+}
+
+export const getUserDetails = async (userSession, sport, year, season, week) => {
+  try {
+    const getOptionsObj = getOptions(userSession)
+    const sportValue = sport ? sport : 'nfl'
+    return axios.get(`/api/extendedprofile?sport=${sport}&year=${year}&season=${season}&week=${week}`,getOptionsObj.callOptions)
+    .then(resp => resp.data)
+  } catch (error) {
+    console.error(error)
+  }
+
 }
 
 export const getFacebookUser = async (code) => {
@@ -205,7 +223,7 @@ export const getFacebookUser = async (code) => {
   export const totalPrediction = (game, awayTeamScore, homeTeamScore) => {
     const { homeTeam, awayTeam } = game
     const {total} = game.odds
-      if ((awayTeamScore > homeTeamScore) > total) { //user predicted game to go over
+      if ((awayTeamScore + homeTeamScore) > total) { //user predicted game to go over
         return `O${total}`
       } else if ((awayTeamScore - homeTeamScore) === total) {
         return `PUSH`

@@ -1,3 +1,4 @@
+import * as utils from '../src/utils'
 import * as ajax from '../src/ajax'
 
 test('should submit the proper prediction information', () => {

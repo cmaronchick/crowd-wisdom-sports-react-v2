@@ -4,6 +4,7 @@ import axios from 'axios';
 import Auth from '@aws-amplify/auth'
 import { userInfo } from 'os';
 
+const apiHost = `https://y5f8dr2inb.execute-api.us-west-2.amazonaws.com/dev/`
 const router = express.Router();
 
 // const gamesObjs = games.games.reduce((obj, game) => {
@@ -14,7 +15,7 @@ const router = express.Router();
 const callOptions = (userToken) => {
   var anonString = '/anon'
   var callOptions = Object.create(null);
-  console.log('api index 17 userToken: ', userToken)
+  //console.log('api index 17 userToken: ', userToken)
   if (userToken) {
     callOptions = {
       headers: {
@@ -72,6 +73,7 @@ router.get('/:sport/games/:year/:season/:gameWeek/:gameId', (req, res) => {
   const callOptionsObject = callOptions(req.headers.authorization);
   const anonString = callOptionsObject.anonString;
   const getOptions = callOptionsObject.callOptions;
+  console.log(`https://y5f8dr2inb.execute-api.us-west-2.amazonaws.com/dev/nfl/${req.params.year}/${req.params.gameWeek}/games/${req.params.gameId}${anonString}`, getOptions);
   axios.get(`https://y5f8dr2inb.execute-api.us-west-2.amazonaws.com/dev/nfl/${req.params.year}/${req.params.gameWeek}/games/${req.params.gameId}${anonString}`, getOptions)
   .then((gameResponse) => {
     // console.log('api index 77 game: ', gameResponse)
@@ -121,6 +123,33 @@ router.get('/:sport/leaderboards/:year/:season/:week', (req, res) => {
         res.send({ leaderboardData: leaderboardResponse.data })
       })
       .catch(leaderboardResponseError => console.log('api leaderboard index 122 leaderboardResponseError: ', leaderboardResponseError))
+
+})
+
+router.get('/:sport/leaderboards/:year/:season/:week/crowdOverall', (req, res) => {
+  const { sport, year, season, week } = req.params;
+  const callOptionsObject = callOptions(req.headers.authorization);
+  const anonString = callOptionsObject.anonString;
+  const getOptions = callOptionsObject.callOptions;
+  axios.get(`https://y5f8dr2inb.execute-api.us-west-2.amazonaws.com/dev/${sport}/${year}/${season}/${week}/leaderboards/crowdoverall`, getOptions)
+  .then((crowdOverallResponse) => {
+    // console.log('api/index 134 crowdOverallResponse', crowdOverallResponse)
+     res.send({ crowd: crowdOverallResponse.data })
+   })
+   .catch(crowdOverallResponseError => console.log('api leaderboard index 137 crowdOverallResponse: ', crowdOverallResponseError))
+})
+
+router.get('/extendedprofile', (req, res) => {
+  console.log({req});
+  let { sport, year, season, week } = req.query;
+  const callOptionsObject = callOptions(req.headers.authorization);
+  const getOptions = callOptionsObject.callOptions;
+  axios.get(`${apiHost}extendedprofile?sport=${sport}&year=${year}&season=${season}&week=${week}`, getOptions)
+  .then((userStatsResponse) => {
+    // console.log('api/index 134 crowdOverallResponse', crowdOverallResponse)
+     res.send({ userStatsResponse: userStatsResponse.data })
+   })
+   .catch(userStatsResponseError => console.log('api leaderboard index 150 userStatsResponseError: ', userStatsResponseError))
 
 })
 

@@ -18,7 +18,9 @@ export default class Leaderboards extends Component {
             try {
                 let userSession = await Auth.currentSession()
                 let leaderboardData = await api.fetchOverallLeaderboard(userSession, sport, year, season, gameWeek)
-                this._isMounted ? this.setState({leaderboardData}) : null
+                leaderboardData ? 
+                    this._isMounted ? this.setState({leaderboardData}) : null
+                : null
                 
             } catch(leaderboardDataError) {
                 console.error('leaderboardDataError: ', leaderboardDataError)
