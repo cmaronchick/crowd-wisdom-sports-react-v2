@@ -54,7 +54,7 @@ class Game extends Component {
               game={game} gamePrediction={this.props.gamePrediction} />
             <GameOddsChart game={game} />
 
-            <div className="home-link link" onClick={() => this.props.gamesListClick(this.props.game.sport, this.props.game.year, this.props.game.season, this.props.game.gameWeek)}>
+            <div className="home-link link" onClick={() => this.props.gamesListClick(this.props.sport, this.props.year, this.props.season, this.props.gameWeek)}>
                 Games List
             </div>
 

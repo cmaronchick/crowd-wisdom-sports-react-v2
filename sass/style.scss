@@ -74,6 +74,15 @@
         color: #fff;
         padding: 2px 5px;
     }
+    .stars {
+        display: flex;
+        flex-direction: row;
+        justify-content: center;
+        align-items: center;
+        div {
+            padding: 0 5px;
+        }
+    }
 }
 
 .CrowdOverallCompare {

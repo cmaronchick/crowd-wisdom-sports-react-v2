@@ -34,6 +34,7 @@ class App extends React.Component {
       sport: (this.props.initialData && this.props.initialData.sport) ? this.props.initialData.sport : 'nfl',
       gamePredictions: {},
       fetchingData: false,
+      fetchingLeaderboards: false,
       loginModalShow: false,
       confirmUser: false,
       authState: 'checkingSignIn'
@@ -104,22 +105,33 @@ class App extends React.Component {
         }
     }
   }
-  componentDidUpdate(prevProps, prevState) {
-
-    if (prevState.user !== this.state.user) {
-      // console.log('app line 75')
-      (this.state.page === 'games') ? this.fetchGameWeekGames(this.state.sport, this.state.year, this.state.season, this.state.gameWeek ? this.state.gameWeek : this.state.week)
-      : (this.state.page === 'leaderboards') ? this.fetchLeaderboards(this.state.sport, this.state.year, this.state.season, this.state.gameWeek) : null
-    }
-    if (prevState.games !== this.state.games) {
-
-    }
-    if (prevState.year !== this.state.year) {
-      // console.log('app line 79')
-      //this.fetchGameWeekGames(this.state.year, this.state.gameWeek)
-      
-    }
+  
+  shouldComponentUpdate(prevProps, prevState) {
+    if (this.state.sport!==prevState.sport) return true;
+    if (this.state.year!==prevState.year) return true;
+    if (this.state.season!==prevState.season) return true;
+    if (this.state.week!== prevState.week) return true;
+    if (this.state.gamePredictions !== prevState.gamePredictions) return true;
+    if (this.state.games!==prevState.games) return true;
+    if (this.state.leaderboardData!==prevState.leaderboardData) return true;
+    if (this.state.fetchingGames!==prevState.fetchingGames) return true;
+    if (this.state.fetchingData!==prevState.fetchingData) return true;
+    if (this.state.fetchingLeaderboards!==prevState.fetchingLeaderboards) return true;
+    if (this.state.loginModalShow!==prevState.loginModalShow) return true;
+    if (this.state.confirmUser!==prevState.confirmUser) return true;
+    if (this.state.authState!==prevState.authState) return true;
+    if (this.state.user!==prevState.user) return true;
+    if (this.state.userStats!==prevState.userStats) return true;
+    if (this.state.page!==prevState.page) return true;
+    if (this.state.currentGameId!==prevState.currentGameId) return true;
+    if (this.state.crowd!==prevState.crowd) return true;
+    return false;
   }
+
+  // componentDidUpdate(prevProps, prevState) {
+  //     this.fetchGameWeekGames(this.state.sport, this.state.year, this.state.season, this.state.gameWeek ? this.state.gameWeek : this.state.week)
+  //     this.fetchLeaderboards(this.state.sport, this.state.year, this.state.season, this.state.gameWeek)
+  // }
   componentWillUnmount() {
     // clean timers, listeners
     onPopState(null);
@@ -236,7 +248,8 @@ class App extends React.Component {
   
   onChangeGameScore = (gameId, event) => {
     const gamePredictions = this.state.gamePredictions
-    gamePredictions[gameId] ? gamePredictions[gameId][event.target.name] = parseInt(event.target.value) : gamePredictions[gameId] = { [event.target.name]: parseInt(event.target.value) }
+    const predictionValue = event.target.value.length === 0 ? '' : parseInt(event.target.value) ? parseInt(event.target.value) : ''
+    gamePredictions[gameId] ? gamePredictions[gameId][event.target.name] = predictionValue : gamePredictions[gameId] = { [event.target.name]: predictionValue }
     this.setState({ 
       gamePredictions: { 
         ...gamePredictions 
@@ -392,10 +405,10 @@ class App extends React.Component {
   fetchGamesList = async (sport, year, season, week) => {
     pushState(
       {currentGameId: null},
-      '/'
+      `/${sport}/games/${year}/${season}/${week}`
     );
 
-    let userSession = Auth.currentSession()
+    let userSession = await Auth.currentSession()
     let games = await api.fetchGamesList(sport, year, season, week, userSession)
       this.setState({
         currentGameId: null,
@@ -428,6 +441,7 @@ class App extends React.Component {
         games: games,
         fetchingGames: false
       });
+      let leaderboard
     } catch (getGamesError) {
       console.log({getGamesError});
       let games = await api.fetchGameWeekGames(sport, year, season, gameWeek);
@@ -458,7 +472,7 @@ class App extends React.Component {
   fetchLeaderboards = async (sport, year, season, gameWeek) => {
     let userSession = await Auth.currentSession()
     let leaderboardData = await api.fetchOverallLeaderboard(userSession, sport, year, season, gameWeek)
-    this.setState({ leaderboardData })
+    this.setState({ leaderboardData, fetchingLeaderboards: false })
 
   }
 

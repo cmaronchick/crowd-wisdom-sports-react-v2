@@ -126,7 +126,7 @@ class GamePreview extends Component {
                   game.prediction ? game.prediction.homeTeam.score : ''}  />
               )}
               </div>
-              <div>{(game.prediction && game.odds) ? (
+              <div>{((game.prediction || (gamePrediction.predictionAwayTeamScore && gamePrediction.predictionHomeTeamScore)) && game.odds) ? (
                 <div>
                   {apis.spreadPrediction(game, parseInt(gamePrediction.predictionAwayTeamScore), parseInt(gamePrediction.predictionHomeTeamScore))}<br/>
                   <span className="predictionSpread">(
@@ -146,17 +146,17 @@ class GamePreview extends Component {
                 </div>) : ''}
               
               </div>
-              <div>{(game.prediction && game.odds) ? (
+              <div>{((game.prediction || (gamePrediction.predictionAwayTeamScore && gamePrediction.predictionHomeTeamScore)) && game.odds) ? (
                 <div>
                 {apis.totalPrediction(game, parseInt(gamePrediction.predictionAwayTeamScore), parseInt(gamePrediction.predictionHomeTeamScore))} 
-                <br/><span className="predictionSpread">({(game.prediction && game.odds) ? `${gamePrediction.predictionAwayTeamScore + gamePrediction.predictionHomeTeamScore}` : ''})</span>
+                <br/><span className="predictionSpread">({((game.prediction || (gamePrediction.predictionAwayTeamScore + gamePrediction.predictionHomeTeamScore)) && game.odds) ? `${gamePrediction.predictionAwayTeamScore + gamePrediction.predictionHomeTeamScore}` : ''})</span>
                 </div>
               ) : ''}
               </div>
             </div>
             {((game.prediction && game.prediction.awayTeam.score && game.prediction.homeTeam.score) || (gamePrediction && gamePrediction.predictionAwayTeamScore && gamePrediction.predictionHomeTeamScore)) ? (
             <div style={{display: 'flex', flexDirection: 'column'}}>
-              <div>
+              <div className='stars'>
                 Spread: 
                 <StarRatingComponent 
                   name={'starsSpread'}
@@ -167,7 +167,7 @@ class GamePreview extends Component {
                   onStarClick={this.handleOnChangeStarSpread}
                   />
               </div>
-              <div>
+              <div className='stars'>
                 Total: 
                 <StarRatingComponent 
                   name='starsTotal'
@@ -222,7 +222,11 @@ class GamePreview extends Component {
                 </div>
               ) : ''}</div>
             </div>
-            ) : (
+            ) : !game.prediction ? (
+                <div className="team">
+                  Predict to see the Crowd Wisdom
+                </div>
+              ) : (
               <div className="team">
                 No Crowd Prediction Yet
               </div>
@@ -241,7 +245,7 @@ class GamePreview extends Component {
           ) : (
             <div style={{ flex: 1, flexDirection: 'row', alignItems: 'center', justifyContent: 'center' }}>
               {!gameCannotBeUpdated ? (
-                <Button type='submit' style={{width: '100%'}} onClick={this.handleSubmit}>
+                <Button type='submit' style={{width: '100%'}} onClick={this.handleSubmit} disabled={!game.prediction && !(gamePrediction.predictionAwayTeamScore && gamePrediction.predictionHomeTeamScore)}>
                   {this.state.gamePrediction.submittingPrediction ? <Spinner animation='border' /> : game.prediction ? 'Update' : 'Predict'}
                 </Button>
               ) : null}

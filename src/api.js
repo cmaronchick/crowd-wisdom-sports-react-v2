@@ -47,6 +47,7 @@ export const fetchGame = (sport, year, season, gameWeek, gameId, userSession) =>
 };
 
 export const fetchGamesList = (sport, year, season, week, userSession) => {
+  console.log({userSession});
   const getOptionsObj = getOptions(userSession)
   return axios.get(`/api/${sport}/games/${year}/${season}/${week}`, getOptionsObj.callOptions)
   .then (resp => resp.data.games);

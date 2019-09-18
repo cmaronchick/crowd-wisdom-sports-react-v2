@@ -7,20 +7,18 @@ const GamesList = ({ games, gamePredictions, onGameClick, onChangeGameScore, onC
   Object.keys(games).sort((a,b) => {
     return (games[a].results === games[b].results) ? 0 : games[a].results ? -1 : 1
   }).forEach((key) => {
-    console.log({key});
     orderedGames[key] = games[key]
   })
-  console.log({orderedGames})
 
   return (
     <div className="gamesList">
       {Object.keys(games).sort((a,b) => {
         return (games[b].status === games[a].status) ? new Date(games[a].startDateTime) - new Date(games[b].startDateTime) : new Date(games[b].startDateTime) - new Date(games[a].startDateTime)
       }).map(gameId => {
-        console.log({gameId});
-        if (gamePredictions[gameId]) {
-          console.log(`gamePredictions[gameId]: ${JSON.stringify(gamePredictions[gameId])}`)
-        }
+        //console.log({gameId});
+        // if (gamePredictions[gameId]) {
+        //   console.log(`gamePredictions[gameId]: ${JSON.stringify(gamePredictions[gameId])}`)
+        // }
 
         //console.log({ gameId, game: games[gameId], gamePrediction: gamePredictions[gameId]})
         return <GamePreview

@@ -52,6 +52,13 @@
     background-color: #124734;
     color: #fff;
     padding: 2px 5px; }
+  .GamePreview .stars {
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    align-items: center; }
+    .GamePreview .stars div {
+      padding: 0 5px; }
 
 .CrowdOverallCompare {
   display: flex;

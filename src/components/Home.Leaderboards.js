@@ -9,6 +9,7 @@ export default class HomeLeaderboards extends Component {
         this.state = {
             overallLeaderboardData: null,
             weeklyLeaderboardData: null,
+            fetchingLeaderboards: this.props.fetchingLeaderboards,
             sport: this.props.sport,
             year: this.props.year,
             week: this.props.week,
