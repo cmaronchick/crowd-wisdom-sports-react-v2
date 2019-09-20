@@ -51,7 +51,6 @@ class App extends React.Component {
       });
     });
     // console.log('this.state: ', this.state)
-    console.log('this.props: ', this.props.initialData)
 
     let fbUser = this.state.code ? await api.getFacebookUser(this.state.code) : null
     try {
@@ -86,7 +85,8 @@ class App extends React.Component {
         try {
           let userSession = await Auth.currentSession();
           let gameWeekDataResponse = await api.fetchGameWeek(this.state.sport, userSession)
-          const { sport, year, week, season } = this.state ? this.state : gameWeekDataResponse.gameWeekData;
+          const { sport, year, season } = this.state ? this.state : gameWeekDataResponse.gameWeekData;
+          const week = this.state.gameWeek ? this.state.gameWeek : gameWeekDataResponse.gameWeekData.week;
           let crowdOverallData = await api.fetchCrowdOverall(sport, year, season, week)
           console.log({crowdOverallData})
           this.setState({
@@ -128,10 +128,12 @@ class App extends React.Component {
     return false;
   }
 
-  // componentDidUpdate(prevProps, prevState) {
-  //     this.fetchGameWeekGames(this.state.sport, this.state.year, this.state.season, this.state.gameWeek ? this.state.gameWeek : this.state.week)
-  //     this.fetchLeaderboards(this.state.sport, this.state.year, this.state.season, this.state.gameWeek)
-  // }
+  componentDidUpdate(prevProps, prevState) {
+    if (this.state.user!==prevState.user || this.state.week!== prevState.week) {
+      this.fetchGameWeekGames(this.state.sport, this.state.year, this.state.season, this.state.gameWeek ? this.state.gameWeek : this.state.week)
+      this.fetchLeaderboards(this.state.sport, this.state.year, this.state.season, this.state.gameWeek ? this.state.gameWeek : this.state.week) 
+    }
+  }
   componentWillUnmount() {
     // clean timers, listeners
     onPopState(null);
@@ -286,14 +288,28 @@ class App extends React.Component {
     })    
   }
 
-  submitPrediction = (gameId) => {
-    console.log(`game: ${gameId}, gamePrediction: ${this.state.gamePredictions[gameId]}`)
-    api.getUserSession(userSession => {
+  submitPrediction = async (gameId) => {
+    const game = this.state.games[gameId]
+    let tempGamePredictions = this.state.gamePredictions ? this.state.gamePredictions : {};
+
+    if (tempGamePredictions[gameId]) {
+      tempGamePredictions[gameId].submittingPrediction = true 
+    } else {
+      tempGamePredictions[gameId] = { 
+        predictionAwayTeamScore: game.prediction.awayTeam.score, 
+        predictionHomeTeamScore: game.prediction.homeTeam.score, 
+        submittingPrediction: true 
+      }
+      // console.log({tempGamePredictions_gameId: tempGamePredictions[gameId]})
+    }
+    console.log({tempGamePredictions: tempGamePredictions[gameId]})
+    this.setState({ gamePredictions: tempGamePredictions })
+    try {
+      let userSession = await Auth.currentSession();
       if (!userSession) {
         console.log('no user session')
         return { errorMessage: 'Please log in again and resubmit.' }
       }
-      const game = this.state.games[gameId]
       const { sport, year, season, gameWeek } = game;
       const gamePrediction = this.state.gamePredictions[gameId]
       if (gamePrediction || game.prediction) {
@@ -332,43 +348,39 @@ class App extends React.Component {
           },
           stars: stars
         };
-        api.fetchSubmitPrediction(userSession, prediction)
-        .then(predictionResponse => {
-          console.log({predictionResponse: predictionResponse.prediction.game})
-            let game = predictionResponse.prediction.game;
-            game.prediction = predictionResponse.prediction.prediction;
+        let predictionResponse = await api.fetchSubmitPrediction(userSession, prediction);
+        let gameUpdate = predictionResponse.prediction.game;
+        gameUpdate.prediction = predictionResponse.prediction.prediction;
 
-            let games = this.state.games;
-            let data = this.state.data;
-            let gamePredictions = this.state.gamePredictions;
-            games[game.gameId] = game;
-            data[game.gameId] = game;
+        let games = this.state.games;
+        let data = this.state.data;
+        let gamePredictions = this.state.gamePredictions;
+        games[game.gameId] = gameUpdate;
+        data[game.gameId] = gameUpdate;
 
-            if (gamePredictions[gameId]) {
-              gamePredictions[gameId].predictionAwayTeamScore = prediction.awayTeam.score;
-              gamePredictions[gameId].predictionHomeTeamScore = prediction.homeTeam.score;
-            } else {
-              gamePredictions[gameId] = {
-                predictionAwayTeamScore: prediction.awayTeam.score,
-                predictionHomeTeamScore: prediction.homeTeam.score
-              }
-            }
-            gamePredictions[gameId].submittingPrediction = false;
-            this.setState({
-              games: games,
-              data: data,
-              gamePredictions: gamePredictions
-            })
-            return predictionResponse;
+        if (gamePredictions[gameId]) {
+          gamePredictions[gameId].predictionAwayTeamScore = prediction.awayTeam.score;
+          gamePredictions[gameId].predictionHomeTeamScore = prediction.homeTeam.score;
+        } else {
+          gamePredictions[gameId] = {
+            predictionAwayTeamScore: prediction.awayTeam.score,
+            predictionHomeTeamScore: prediction.homeTeam.score
+          }
+        }
+        console.log('here')
+        gamePredictions[gameId].submittingPrediction = false;
+        this.setState({
+          games: games,
+          data: data,
+          gamePredictions: gamePredictions
         })
-        .catch(predictionError => {
-          console.log({predictionError})
-          return predictionError;
-        })
+        return predictionResponse;
       } else {
         return { predictionError: 'Please update your prediction.'}
       }      
-    })
+    } catch(submitPredictionError) {
+      console.log({submitPredictionError});
+    }
   }
 
   fetchGameWeek = async () => {
@@ -470,10 +482,17 @@ class App extends React.Component {
   }
 
   fetchLeaderboards = async (sport, year, season, gameWeek) => {
-    let userSession = await Auth.currentSession()
-    let leaderboardData = await api.fetchOverallLeaderboard(userSession, sport, year, season, gameWeek)
-    this.setState({ leaderboardData, fetchingLeaderboards: false })
-
+    
+    let week = gameWeek ? gameWeek : this.state.gameWeek ? this.state.gameWeekData : await
+    console.log({week});
+    try {
+      let userSession = await Auth.currentSession()
+      let leaderboardData = await api.fetchOverallLeaderboard(userSession, sport, year, season, week)
+      this.setState({ leaderboardData, fetchingLeaderboards: false })
+    } catch(getUserSession) {
+      let leaderboardData = await api.fetchOverallLeaderboard(null, sport, year, season, week)
+      this.setState({ leaderboardData, fetchingLeaderboards: false })
+    }
   }
 
   currentGame() {
@@ -487,7 +506,6 @@ class App extends React.Component {
     return !this.state.fetchingGames ? `Week ${this.state.gameWeek} Games` : 'Loading Games ...';
   }
   currentContent() {
-    console.log('this.state: ', this.state)
     if (this.state.currentGameId) {
       return <Game 
       gamesListClick={this.fetchGamesList}

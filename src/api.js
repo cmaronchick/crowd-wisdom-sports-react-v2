@@ -55,7 +55,6 @@ export const fetchGamesList = (sport, year, season, week, userSession) => {
 
 export const fetchGameWeekGames = (sport, year, season, gameWeek, userSession) => {
   const getOptionsObj = getOptions(userSession)
-  console.log(`api 41 /api/${sport}/games/${year}/${season}/${gameWeek}`);
   return axios.get(`/api/${sport}/games/${year}/${season}/${gameWeek}`, getOptionsObj.callOptions)
   .then (resp => resp.data.games);
 };
@@ -97,7 +96,6 @@ export const fetchOverallLeaderboard = (userSession, sport, year, season, week) 
   if (userSession === "test") {
     return overallLeaderboardData
   }
-  console.log('userSession2:', userSession);
   const getOptionsObj = getOptions(userSession)
   const sportValue = sport ? sport : 'nfl'
   return axios.get(`/api/${sportValue}/leaderboards/${year}/${season}/${week}`, getOptionsObj.callOptions)

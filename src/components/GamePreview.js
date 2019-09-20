@@ -13,7 +13,7 @@ class GamePreview extends Component {
       gamePrediction: {
         predictionAwayTeamScore: (this.props.gamePrediction && this.props.gamePrediction.predictionAwayTeamScore) ? this.props.gamePrediction.predictionAwayTeamScore : this.props.game.prediction ? this.props.game.prediction.awayTeam.score : null,
         predictionHomeTeamScore: (this.props.gamePrediction && this.props.gamePrediction.predictionHomeTeamScore) ? this.props.gamePrediction.predictionHomeTeamScore : this.props.game.prediction ? this.props.game.prediction.homeTeam.score : null,
-        submittingPrediction: false
+        submittingPrediction: (this.props.gamePrediction && this.props.gamePrediction.submittingPrediction) ? this.props.gamePrediction.submittingPrediction : false,
       },
       predictionSpread: null,
       predictionTotal: null,
@@ -35,9 +35,11 @@ class GamePreview extends Component {
     //console.log('gamePreview updated')
     
     if ((this.props.game !== prevProps.game) || (this.state.game !== prevState.game)) {
+      console.log({newgame: this.props.game});
       this.setState({game: this.props.game})
     }
     if ((this.props.gamePrediction !== prevProps.gamePrediction) || (this.state.gamePrediction !== prevState.gamePrediction)) {
+      console.log({newgamePrediction: this.props.gamePrediction})
       this.setState({gamePrediction: this.props.gamePrediction})
     }
   }
@@ -59,16 +61,13 @@ class GamePreview extends Component {
 
   handleSubmit = (event) => {
     event.preventDefault()
-    let tempgamePrediction = this.state.gamePrediction
-    tempgamePrediction.submittingPrediction = true;
-    this.setState({gamePrediction: tempgamePrediction})
     this.props.onSubmitPrediction(this.props.game.gameId)
   }
 
   submitPrediction = async () => {
     let predictionResponse = await apis.fetchSubmitPrediction()
     console.log('predictionResponse :', predictionResponse);
-    this.setState({ submittingPrediction: false})
+    // this.setState({ submittingPrediction: false})
   }
 
 
@@ -80,7 +79,7 @@ class GamePreview extends Component {
     const gameCannotBeUpdated = apis.gameCannotBeUpdated(date)
     const options = { weekday: 'short', month: 'short', day: 'numeric', year: '2-digit', hour: 'numeric', minute: 'numeric', timeZoneName: 'short' };
     const gameDate = date.toLocaleString('en-US', options);
-    //console.log({gamePreviewGame: game, gamePreviewPrediction: gamePrediction})
+    // console.log({gamePreviewPrediction: gamePrediction})
     
     if (game) { 
       const crowdAwayTeamScore = game.crowd ? parseFloat(game.crowd.awayTeam.score).toFixed(2) : null,
@@ -158,6 +157,10 @@ class GamePreview extends Component {
             <div style={{display: 'flex', flexDirection: 'column'}}>
               <div className='stars'>
                 Spread: 
+                <input className="dv-star-rating-input" type="radio" name="starsSpread" id="starsSpread_0" value="0" style={{display: 'none', position: 'absolute', marginLeft: -9999}}></input>
+                <label className="dv-star-rating-star dv-star-rating-empty-star dv-star-rating-null" htmlFor="starsSpread_0" >
+                  <i className="fa fa-minus-circle" aria-hidden="true" onClick={this.handleOnChangeStarTotal}></i>
+                </label>
                 <StarRatingComponent 
                   name={'starsSpread'}
                   value={(gamePrediction && gamePrediction.stars) ? gamePrediction.stars.spread : (game.prediction && game.prediction.stars) ? game.prediction.stars.spread : 0}
@@ -169,6 +172,10 @@ class GamePreview extends Component {
               </div>
               <div className='stars'>
                 Total: 
+                <input className="dv-star-rating-input" type="radio" name="starsSpread" id="starsTotal_0" value="0" style={{display: 'none', position: 'absolute', marginLeft: -9999}}></input>
+                <label className="dv-star-rating-star dv-star-rating-empty-star dv-star-rating-null" htmlFor="starsTotal_0" >
+                  <i className="fa fa-minus-circle" aria-hidden="true" onClick={this.handleOnChangeStarTotal}></i>
+                </label>
                 <StarRatingComponent 
                   name='starsTotal'
                   value={(gamePrediction && gamePrediction.stars) ? gamePrediction.stars.total : (game.prediction && game.prediction.stars) ? game.prediction.stars.total : 0}

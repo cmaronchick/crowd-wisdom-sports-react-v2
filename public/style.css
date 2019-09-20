@@ -59,6 +59,11 @@
     align-items: center; }
     .GamePreview .stars div {
       padding: 0 5px; }
+    .GamePreview .stars .dv-star-rating-null {
+      cursor: pointer;
+      color: #000;
+      margin-left: 5px;
+      font-size: 0.8em; }
 
 .CrowdOverallCompare {
   display: flex;

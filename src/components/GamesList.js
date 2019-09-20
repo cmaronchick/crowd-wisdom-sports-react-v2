@@ -2,7 +2,7 @@ import React from 'react';
 import GamePreview from './GamePreview';
 
 const GamesList = ({ games, gamePredictions, onGameClick, onChangeGameScore, onChangeStarSpread, onChangeStarTotal, onSubmitPrediction }) => {
-  //console.log({ games, gamePredictions });
+  console.log({ games, gamePredictions });
   let orderedGames = {}
   Object.keys(games).sort((a,b) => {
     return (games[a].results === games[b].results) ? 0 : games[a].results ? -1 : 1
@@ -16,9 +16,9 @@ const GamesList = ({ games, gamePredictions, onGameClick, onChangeGameScore, onC
         return (games[b].status === games[a].status) ? new Date(games[a].startDateTime) - new Date(games[b].startDateTime) : new Date(games[b].startDateTime) - new Date(games[a].startDateTime)
       }).map(gameId => {
         //console.log({gameId});
-        // if (gamePredictions[gameId]) {
-        //   console.log(`gamePredictions[gameId]: ${JSON.stringify(gamePredictions[gameId])}`)
-        // }
+        if (gamePredictions[gameId]) {
+          console.log(`gamePredictions[gameId]: ${JSON.stringify(gamePredictions[gameId])}`)
+        }
 
         //console.log({ gameId, game: games[gameId], gamePrediction: gamePredictions[gameId]})
         return <GamePreview

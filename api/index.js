@@ -112,7 +112,7 @@ router.post('/submitPrediction', (req, res) => {
 
 
 router.get('/:sport/leaderboards/:year/:season/:week', (req, res) => {
-  //console.log('api index 43 req', req.params.sport)
+  console.log('api index 43 req', {params: req.params})
   const { sport, year, season, week } = req.params;
     const callOptionsObject = callOptions(req.headers.authorization);
     const anonString = callOptionsObject.anonString;
