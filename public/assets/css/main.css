@@ -2176,6 +2176,18 @@ input, select, textarea {
 		.icon.brands:before {
 			font-family: 'Font Awesome 5 Brands';
 		}
+	.resultIcon {
+		position: absolute;
+		font-size: 0.8rem;
+		top: 0.5rem;
+		right: 0.5rem;
+	}
+	.resultWin {
+		color:#124734;
+	}
+	.resultLoss {
+		color: red;
+	}
 
 /* Nav */
 

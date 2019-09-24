@@ -119,8 +119,13 @@ class GamePreview extends Component {
                   game.prediction ? parseInt(game.prediction.awayTeam.score) : ''} />
               )}
               </div>
-              <div>{game.results ? game.prediction ? game.prediction.homeTeam.score : '' : (
-                <input style={{width: 50}} onChange={this.handleOnChangeGameScore} name='predictionHomeTeamScore' placeholder={(!game.prediction && !gamePrediction && (gamePrediction && !gamePrediction.predictionHomeTeamScore)) ? '##' : null}
+              <div>{game.results ? game.prediction ? (
+                <div style={{position: 'relative'}}>
+                  {game.prediction.homeTeam.score}
+                  <i className={`ion-md-add resultIcon ${game.prediction.homeTeam.score > game.prediction.awayTeam.score ? 'resultWin' : ''}`}></i>
+                  </div>
+                ) : '' : (
+                <input style={{width: 50}} onChange={this.handleOnChangeGameScore} name='predictionAwayTeamScore' placeholder={(!game.prediction && !gamePrediction && (gamePrediction && !gamePrediction.predictionHomeTeamScore)) ? '##' : null}
                 value={(gamePrediction && gamePrediction.predictionHomeTeamScore) ? parseInt(gamePrediction.predictionHomeTeamScore) : 
                   game.prediction ? game.prediction.homeTeam.score : ''}  />
               )}
@@ -243,10 +248,22 @@ class GamePreview extends Component {
               <div>FINAL</div>
               <div>{game.results.awayTeam.score}</div>
               <div>{game.results.homeTeam.score}</div>
-              <div>{apis.spreadPrediction(game,game.results.awayTeam.score, game.results.homeTeam.score)}<br/> ({((game.results.awayTeam.score + game.odds.spread) > game.results.homeTeam.score) // away team won
-              ? `${game.awayTeam.code} by ${game.results.awayTeam.score - game.results.homeTeam.score}` 
-              : ((game.results.homeTeam.score + game.odds.spread) > game.results.awayTeam.score) ? `${game.homeTeam.code} by ${game.results.homeTeam.score - game.results.awayTeam.score}`
-              : `PUSH`})</div>
+              <div>{apis.spreadPrediction(game,game.results.awayTeam.score, game.results.homeTeam.score)}<br/>
+              <span className="predictionSpread">(
+              {(game.results.homeTeam.score + game.odds.spread) > game.results.awayTeam.score // home team covers
+                ? game.results.awayTeam.score > game.results.homeTeam.score 
+                  ? `${game.awayTeam.code} by ${(game.results.awayTeam.score - game.results.homeTeam.score)}`
+                  : `${game.homeTeam.code} by ${(game.results.homeTeam.score - game.results.awayTeam.score)}`
+                : (game.results.homeTeam.score + game.odds.spread) < game.results.awayTeam.score 
+                  ? game.results.awayTeam.score > game.results.homeTeam.score 
+                    ? `${game.awayTeam.code} by ${(game.results.awayTeam.score - game.results.homeTeam.score)}`
+                    : `${game.homeTeam.code} by ${(game.results.homeTeam.score - game.results.awayTeam.score)}`
+                  : (game.results.homeTeam.score + game.odds.spread) === game.results.awayTeam.score
+                    ? game.results.awayTeam.score > game.results.homeTeam.score 
+                      ? `${game.awayTeam.code} by ${(game.results.awayTeam.score - game.results.homeTeam.score)}`
+                      : `${game.homeTeam.code} by ${(game.results.homeTeam.score - game.results.awayTeam.score)}`
+                    : ''}
+              )</span></div>
               <div>{apis.totalPrediction(game,game.results.awayTeam.score, game.results.homeTeam.score)}<br/>({game.results.awayTeam.score + game.results.homeTeam.score})</div>
             </div>
           ) : (

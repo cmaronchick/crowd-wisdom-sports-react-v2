@@ -196,9 +196,12 @@ export const getFacebookUser = async (code) => {
 
   export const spreadPrediction = (game, awayTeamScore, homeTeamScore) => {
     const { homeTeam, awayTeam } = game
+    awayTeamScore = parseFloat(awayTeamScore)
+    homeTeamScore = parseFloat(homeTeamScore)
     const {spread } = game.odds
+
     let oddsPredictionText = ''
-    if (game.odds.spread > 0) { // away team favored; e.g. spread = 3.5
+    if (spread > 0) { // away team favored; e.g. spread = 3.5
       if ((awayTeamScore - homeTeamScore) < spread) { // user predicted home team to cover
         oddsPredictionText = `${homeTeam.code} +${spread}`
       } else if ((awayTeamScore - homeTeamScore) === spread) {
@@ -207,10 +210,11 @@ export const getFacebookUser = async (code) => {
         oddsPredictionText = `${awayTeam.code} -${spread}`
       }
     }
-    if (game.odds.spread < 0) { // home team favored; e.g. spread = -3.5
+    if (spread <= 0) { // home team favored; e.g. spread = -3.5
       if ((awayTeamScore - homeTeamScore) > spread) { //user predicted away team to cover
         oddsPredictionText = `${awayTeam.code} +${spread * -1}`
-      } else if ((awayTeamScore - homeTeamScore) === spread) {
+      } else if ((awayTeamScore - homeTeamScore) === spread) {            
+        console.log(`predicted spread: ${awayTeamScore - homeTeamScore} odds spread: ${spread}`)
         oddsPredictionText = 'PUSH'
       } else {
         oddsPredictionText = `${homeTeam.code} ${spread}`
@@ -221,10 +225,12 @@ export const getFacebookUser = async (code) => {
   }
   export const totalPrediction = (game, awayTeamScore, homeTeamScore) => {
     const { homeTeam, awayTeam } = game
+    awayTeamScore = parseFloat(awayTeamScore)
+    homeTeamScore = parseFloat(homeTeamScore)
     const {total} = game.odds
       if ((awayTeamScore + homeTeamScore) > total) { //user predicted game to go over
         return `O${total}`
-      } else if ((awayTeamScore - homeTeamScore) === total) {
+      } else if ((awayTeamScore + homeTeamScore) === total) {
         return `PUSH`
       } else {
         return `U${total}`
