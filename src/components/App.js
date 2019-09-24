@@ -290,20 +290,7 @@ class App extends React.Component {
 
   submitPrediction = async (gameId) => {
     const game = this.state.games[gameId]
-    let tempGamePredictions = this.state.gamePredictions ? this.state.gamePredictions : {};
 
-    if (tempGamePredictions[gameId]) {
-      tempGamePredictions[gameId].submittingPrediction = true 
-    } else {
-      tempGamePredictions[gameId] = { 
-        predictionAwayTeamScore: game.prediction.awayTeam.score, 
-        predictionHomeTeamScore: game.prediction.homeTeam.score, 
-        submittingPrediction: true 
-      }
-      // console.log({tempGamePredictions_gameId: tempGamePredictions[gameId]})
-    }
-    console.log({tempGamePredictions: tempGamePredictions[gameId]})
-    this.setState({ gamePredictions: tempGamePredictions })
     try {
       let userSession = await Auth.currentSession();
       if (!userSession) {
@@ -364,7 +351,7 @@ class App extends React.Component {
         } else {
           gamePredictions[gameId] = {
             predictionAwayTeamScore: prediction.awayTeam.score,
-            predictionHomeTeamScore: prediction.homeTeam.score
+            predictionHomeTeamScore: prediction.homeTeam.score,
           }
         }
         console.log('here')

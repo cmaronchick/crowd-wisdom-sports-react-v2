@@ -140,7 +140,7 @@ router.get('/:sport/leaderboards/:year/:season/:week/crowdOverall', (req, res) =
 })
 
 router.get('/extendedprofile', (req, res) => {
-  console.log({req});
+  //console.log({req: req.params});
   let { sport, year, season, week } = req.query;
   const callOptionsObject = callOptions(req.headers.authorization);
   const getOptions = callOptionsObject.callOptions;
