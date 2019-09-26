@@ -65,11 +65,11 @@ class GamePreview extends Component {
     //console.log('gamePreview updated')
     
     if ((this.props.game !== prevProps.game) || (this.state.game !== prevState.game)) {
-      console.log({newgame: this.props.game});
+      //console.log({newgame: this.props.game});
       this.setState({game: this.props.game})
     }
     if ((this.props.gamePrediction !== prevProps.gamePrediction) || (this.state.gamePrediction !== prevState.gamePrediction)) {
-      console.log({newgamePrediction: this.props.gamePrediction})
+      //console.log({newgamePrediction: this.props.gamePrediction})
       this.setState({gamePrediction: this.props.gamePrediction})
     }
   }
@@ -151,7 +151,7 @@ class GamePreview extends Component {
                   {(game.prediction.awayTeam.score === game.results.awayTeam.score) ? (
                     <i className={`add-circle bullseyeIcon`}></i>
                   ) : null}
-                  {(game.prediction.awayTeam.score > game.prediction.homeTeam.score) ? straightUpResults(game.results, game.prediction) : null}
+                  {game.results && (game.prediction.awayTeam.score > game.prediction.homeTeam.score) ? straightUpResults(game.results, game.prediction) : null}
                   {game.prediction.awayTeam.score}
                 </div>
                 ) : 'N/A' : (
@@ -263,18 +263,18 @@ class GamePreview extends Component {
               <div>Crowd</div>
               <div style={{position: 'relative'}}>
                 <span className={(game.results && (game.results.awayTeam.score > game.results.homeTeam.score) && (game.crowd.awayTeam.score > game.crowd.homeTeam.score)) ? 'correctPick' : ''}>
-                  {(game.crowd.awayTeam.score > game.crowd.homeTeam.score) ? straightUpResults(game.results, game.crowd) : ''}
+                  {game.results && (game.crowd.awayTeam.score > game.crowd.homeTeam.score) ? straightUpResults(game.results, game.crowd) : ''}
                   {crowdAwayTeamScore}
                 </span>
               </div>
               <div style={{position: 'relative'}}>
                 <span className={(game.results && (game.results.awayTeam.score < game.results.homeTeam.score) && (game.crowd.awayTeam.score < game.crowd.homeTeam.score)) ? 'correctPick' : ''}>
-                  {(game.crowd.awayTeam.score < game.crowd.homeTeam.score) ? straightUpResults(game.results, game.crowd) : ''}
+                  {game.results && (game.crowd.awayTeam.score < game.crowd.homeTeam.score) ? straightUpResults(game.results, game.crowd) : ''}
                   {crowdHomeTeamScore}
                 </span>
               </div>
               <div style={{position: 'relative'}}>
-                {spreadResults(game.odds,game.results, game.crowd)}
+                {game.results ? spreadResults(game.odds,game.results, game.crowd) : null}
                 {(game.prediction && game.crowd && game.odds) ? apis.spreadPrediction(game, crowdAwayTeamScore, crowdHomeTeamScore) : ''}<br/>
 
               <span className="predictionSpread">(
@@ -296,7 +296,7 @@ class GamePreview extends Component {
               <div>{(game.prediction && game.crowd && game.odds) ? (
                 <div style={{position: 'relative'}}>
                   
-                {totalResults(game.odds,game.results, game.crowd)}
+                {game.results ? totalResults(game.odds,game.results, game.crowd) : null}
                 {apis.totalPrediction(game, crowdAwayTeamScore, crowdHomeTeamScore)}
                 <br/><span className="predictionSpread">({game.crowd.total})</span>
                 </div>
