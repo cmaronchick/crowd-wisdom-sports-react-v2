@@ -257,7 +257,7 @@ class App extends React.Component {
   }
   
   onChangeGameScore = (gameId, event) => {
-    //console.log({gameId, value: event.target.value});
+    console.log({gameId, value: event.target.value});
     const gamePredictions = this.state.gamePredictions
     const predictionValue = event.target.value.length === 0 ? '' : parseInt(event.target.value) ? parseInt(event.target.value) : ''
     gamePredictions[gameId] ? gamePredictions[gameId][event.target.name] = predictionValue : gamePredictions[gameId] = { [event.target.name]: predictionValue }

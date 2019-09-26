@@ -164,7 +164,6 @@ class GamePreview extends Component {
               </div>
               <div>{game.results ? game.prediction ? (
                 <div style={{position: 'relative'}}>
-                  
                   {(game.prediction.homeTeam.score === game.results.homeTeam.score) ? (
                     <i className={`add-circle bullseyeIcon`}></i>
                   ) : null}
