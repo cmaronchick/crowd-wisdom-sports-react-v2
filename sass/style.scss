@@ -69,10 +69,14 @@
                 flex: 1;
             }
         }
-    .correctPick {
+    .predictionScoreBox {
+        width: 100%;
         background-color: #124734;
+        text-align: center;
+        font-weight: bold;
         color: #fff;
-        padding: 2px 5px;
+        padding: 5px 0;
+        margin: 5px 0;
     }
     .stars {
         display: flex;

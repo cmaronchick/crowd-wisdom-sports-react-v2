@@ -2179,14 +2179,20 @@ input, select, textarea {
 	.resultIcon {
 		position: absolute;
 		font-size: 0.8rem;
-		top: 0.5rem;
-		right: 0.5rem;
+		top: 0.3rem;
+		left: -0.4rem;
 	}
 	.resultWin {
 		color:#124734;
 	}
 	.resultLoss {
 		color: red;
+	}
+	.bullseyeIcon {
+		position: absolute;
+		font-size: 0.8rem;
+		bottom:0.3rem;
+		left:-0.4rem;
 	}
 
 /* Nav */
