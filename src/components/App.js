@@ -34,6 +34,7 @@ class App extends React.Component {
       sport: (this.props.initialData && this.props.initialData.sport) ? this.props.initialData.sport : 'nfl',
       gamePredictions: {},
       fetchingData: false,
+      fetchingSingleGame: false,
       fetchingLeaderboards: false,
       loginModalShow: false,
       confirmUser: false,
@@ -44,6 +45,7 @@ class App extends React.Component {
   
   
   async componentDidMount() {
+    console.log({stateOnMount: this.state});
     // timers, listeners
     onPopState((event) => {
       this.setState({
@@ -255,6 +257,7 @@ class App extends React.Component {
   }
   
   onChangeGameScore = (gameId, event) => {
+    //console.log({gameId, value: event.target.value});
     const gamePredictions = this.state.gamePredictions
     const predictionValue = event.target.value.length === 0 ? '' : parseInt(event.target.value) ? parseInt(event.target.value) : ''
     gamePredictions[gameId] ? gamePredictions[gameId][event.target.name] = predictionValue : gamePredictions[gameId] = { [event.target.name]: predictionValue }
@@ -386,25 +389,28 @@ class App extends React.Component {
     }
   }
 
-  fetchGame = (sport, year, season, gameWeek, gameId) => {
+  fetchGame = async (sport, year, season, gameWeek, gameId) => {
     pushState(
       { currentGameId: gameId },
       `/${sport}/games/${year}/${season}/${gameWeek}/${gameId}`
     );
-    api.getUserSession(userSession => {
-      api.fetchGame(sport, year, season, gameWeek, gameId, userSession)
-      .then(game => {
-        this.setState({
-          pageHeader: gameId,
-          currentGameId: gameId,
-          data: {
-            ...this.state.games,
-            [game.gameId]: game
-          }
-        });
-      })
-      .catch(fetchGameError => console.log('App 115 fetchGameError: ', fetchGameError))
-    });
+    this.setState({currentGameId: gameId, fetchingSingleGame: true})
+    try {
+      let userSession = await Auth.currentSession();
+      let game = await api.fetchGame(sport, year, season, gameWeek, gameId, userSession)
+      this.setState({
+        pageHeader: gameId,
+        currentGameId: gameId,
+        data: {
+          ...this.state.games,
+          [game.gameId]: game,
+          fetchingSingleGame: false
+        }
+      });
+    } catch(fetchGameError) {
+      console.log('App 115 fetchGameError: ', fetchGameError);
+      this.setState({fetchingSingleGame: false})
+    }
   }
 
   fetchGamesList = async (sport, year, season, week) => {
@@ -510,7 +516,7 @@ class App extends React.Component {
       onChangeGameScore={this.onChangeGameScore}
       onChangeStarSpread={this.onChangeStarSpread}
       onChangeStarTotal={this.onChangeStarTotal}
-      onSubmitPrediction={this.onSubmitPrediction}
+      onSubmitPrediction={this.submitPrediction}
       gamePrediction={this.state.gamePredictions[this.state.currentGameId]}
       {...this.currentGame()} />;
     }

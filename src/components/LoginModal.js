@@ -5,6 +5,7 @@ import Button from 'react-bootstrap/Button'
 import Tabs from 'react-bootstrap/Tabs'
 import Tab from 'react-bootstrap/Tab'
 import Form from 'react-bootstrap/Form'
+import Spinner from 'react-bootstrap/Spinner'
 //import 'bootstrap/dist/css/bootstrap.min.css'
 
 
@@ -63,7 +64,12 @@ export default class LoginModal extends Component {
                     <Form.Check type="checkbox" label="Check me out" />
                   </Form.Group> */}
                   <Button variant="primary" type="submit" onClick={this.props.signInClick}>
-                    Submit
+                    {this.props.signingInUser ? (
+                      <Spinner />
+                    ) : (
+                      <div>Submit</div>
+                    )}
+
                   </Button>
                   <Button name="facebookSignInButton" onClick={() => this.handleFBClick()} className="btn facebook-button socialButton-customizable">
                     <span><svg className="social-logo" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 216 216" color="#ffffff">

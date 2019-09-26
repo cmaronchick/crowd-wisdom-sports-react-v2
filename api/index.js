@@ -69,7 +69,6 @@ router.get(['/:sport/games', '/:sport/games/:year/:season/:gameWeek'], (req, res
 })
 
 router.get('/:sport/games/:year/:season/:gameWeek/:gameId', (req, res) => {
-  
   const callOptionsObject = callOptions(req.headers.authorization);
   const anonString = callOptionsObject.anonString;
   const getOptions = callOptionsObject.callOptions;
