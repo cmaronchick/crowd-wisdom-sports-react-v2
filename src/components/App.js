@@ -171,23 +171,23 @@ class App extends React.Component {
     })
   }
 
-  signIn = (e) => {
+  signIn = async (e) => {
      e.preventDefault()
     const { username, password } = this.state;
-    let user = Auth.signIn(username, password)
-    .then(user => {
+    try {
+    let user = await Auth.signIn(username, password)
+    
       console.log('user: ', user)
       this.setState({user, authState: 'signedIn'})
       return user;
-    })
-    .catch(signInError => {
+    } catch(signInError) {
       if (signInError.code === 'UserNotConfirmedException') {
         this.setState({ confirmUser: true })
         return;
       }
       console.log('signInError: ', signInError)
 
-    })
+    }
   }
   signOut = (e) => {
     e.preventDefault()
