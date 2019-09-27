@@ -71,7 +71,7 @@ class App extends React.Component {
         let games = await api.fetchGameWeekGames(sport, year, season, week, userSession);
         let gamePredictions = {};
         Object.keys(games).forEach(gameKey => {
-          gamePredictions[gameKey] = games[gameKey].prediction ? { predictionAwayTeamScore: games[gameKey].prediction.awayTeam.score, predictionHomeTeamScore: games[gameKey].prediction.homeTeam.score } : { predictionAwayTeamScore: '', predictionHomeTeamScore: '' }
+          gamePredictions[gameKey] = games[gameKey].prediction ? { predictionAwayTeamScore: games[gameKey].prediction.awayTeam.score, predictionHomeTeamScore: games[gameKey].prediction.homeTeam.score } : null
         })
           this.setState({
             userSession: userSession,
@@ -126,6 +126,7 @@ class App extends React.Component {
     if (this.state.fetchingData!==prevState.fetchingData) return true;
     if (this.state.fetchingLeaderboards!==prevState.fetchingLeaderboards) return true;
     if (this.state.loginModalShow!==prevState.loginModalShow) return true;
+    if (this.state.signingInUser!==prevState.signingInUser) return true;
     if (this.state.confirmUser!==prevState.confirmUser) return true;
     if (this.state.authState!==prevState.authState) return true;
     if (this.state.user!==prevState.user) return true;
@@ -173,20 +174,21 @@ class App extends React.Component {
 
   signIn = async (e) => {
      e.preventDefault()
+    this.setState({signingInUser: true})
     const { username, password } = this.state;
     try {
-    let user = await Auth.signIn(username, password)
+      let user = await Auth.signIn(username, password)
     
       console.log('user: ', user)
-      this.setState({user, authState: 'signedIn'})
+      this.setState({user, signingInUser: false, authState: 'signedIn'})
       return user;
     } catch(signInError) {
       if (signInError.code === 'UserNotConfirmedException') {
-        this.setState({ confirmUser: true })
+        this.setState({ confirmUser: true, signingInUser: false })
         return;
       }
+      this.setState({ signingInUser: false, signInError })
       console.log('signInError: ', signInError)
-
     }
   }
   signOut = (e) => {
@@ -307,7 +309,16 @@ class App extends React.Component {
         return { errorMessage: 'Please log in again and resubmit.' }
       }
       const { sport, year, season, gameWeek } = game;
-      const gamePrediction = this.state.gamePredictions[gameId]
+      const gamePredictions = this.state.gamePredictions
+      const gamePrediction = gamePredictions[gameId]
+      gamePredictions[gameId].submittingPrediction = true;
+
+      
+      this.setState({
+        gamePredictions: {
+          ...gamePredictions
+        }
+      })
       if (gamePrediction || game.prediction) {
 
         const awayTeamScore = (gamePrediction && parseInt(gamePrediction.predictionAwayTeamScore)) ? parseInt(gamePrediction.predictionAwayTeamScore) : parseInt(game.prediction.awayTeam.score)
@@ -368,7 +379,9 @@ class App extends React.Component {
         this.setState({
           games: games,
           data: data,
-          gamePredictions: gamePredictions
+          gamePredictions: {
+            ...gamePredictions
+          }
         })
         return predictionResponse;
       } else {
@@ -445,7 +458,7 @@ class App extends React.Component {
       let games = await api.fetchGameWeekGames(sport, year, season, gameWeek, userSession);
       let gamePredictions = {}
       Object.keys(games).forEach(gameKey => {
-        gamePredictions[gameKey] = games[gameKey].prediction ? { predictionAwayTeamScore: games[gameKey].prediction.awayTeam.score, predictionHomeTeamScore: games[gameKey].prediction.homeTeam.score } : { predictionAwayTeamScore: '', predictionHomeTeamScore: '' }
+        gamePredictions[gameKey] = games[gameKey].prediction ? { predictionAwayTeamScore: games[gameKey].prediction.awayTeam.score, predictionHomeTeamScore: games[gameKey].prediction.homeTeam.score } : null
       })
     
       this.setState({
@@ -598,7 +611,9 @@ class App extends React.Component {
                   <LoginModal 
                   onChangeText={this.onChangeText} 
                   show={this.state.loginModalShow} 
-                  onHide={this.handleLoginModalClosed} 
+                  onHide={this.handleLoginModalClosed}
+                  signingInUser={this.state.signingInUser}
+                  signInError={this.state.signInError}
                   signInClick={this.signIn} 
                   signUpClick={this.signUp} 
                   confirmUser={this.state.confirmUser}

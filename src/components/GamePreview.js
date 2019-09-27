@@ -91,12 +91,7 @@ class GamePreview extends Component {
 
   handleSubmit = (event) => {
     event.preventDefault()
-    let gamePrediction = this.state.gamePrediction
-    gamePrediction.submittingPrediction = true
-    this.setState({gamePrediction})
     this.props.onSubmitPrediction(this.props.game.gameId)
-    gamePrediction.submittingPrediction = false
-    this.setState({gamePrediction})
   }
 
   submitPrediction = async () => {
