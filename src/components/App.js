@@ -71,7 +71,7 @@ class App extends React.Component {
         let games = await api.fetchGameWeekGames(sport, year, season, week, userSession);
         let gamePredictions = {};
         Object.keys(games).forEach(gameKey => {
-          gamePredictions[gameKey] = games[gameKey].prediction ? { predictionAwayTeamScore: games[gameKey].prediction.awayTeam.score, predictionHomeTeamScore: games[gameKey].prediction.homeTeam.score } : { predictionAwayTeamScore: '', predictionHomeTeamScore: '' }
+          gamePredictions[gameKey] = games[gameKey].prediction ? { predictionAwayTeamScore: games[gameKey].prediction.awayTeam.score, predictionHomeTeamScore: games[gameKey].prediction.homeTeam.score } : null
         })
           this.setState({
             userSession: userSession,
@@ -307,7 +307,16 @@ class App extends React.Component {
         return { errorMessage: 'Please log in again and resubmit.' }
       }
       const { sport, year, season, gameWeek } = game;
-      const gamePrediction = this.state.gamePredictions[gameId]
+      const gamePredictions = this.state.gamePredictions
+      const gamePrediction = gamePredictions[gameId]
+      gamePredictions[gameId].submittingPrediction = true;
+
+      
+      this.setState({
+        gamePredictions: {
+          ...gamePredictions
+        }
+      })
       if (gamePrediction || game.prediction) {
 
         const awayTeamScore = (gamePrediction && parseInt(gamePrediction.predictionAwayTeamScore)) ? parseInt(gamePrediction.predictionAwayTeamScore) : parseInt(game.prediction.awayTeam.score)
@@ -368,7 +377,9 @@ class App extends React.Component {
         this.setState({
           games: games,
           data: data,
-          gamePredictions: gamePredictions
+          gamePredictions: {
+            ...gamePredictions
+          }
         })
         return predictionResponse;
       } else {
@@ -445,7 +456,7 @@ class App extends React.Component {
       let games = await api.fetchGameWeekGames(sport, year, season, gameWeek, userSession);
       let gamePredictions = {}
       Object.keys(games).forEach(gameKey => {
-        gamePredictions[gameKey] = games[gameKey].prediction ? { predictionAwayTeamScore: games[gameKey].prediction.awayTeam.score, predictionHomeTeamScore: games[gameKey].prediction.homeTeam.score } : { predictionAwayTeamScore: '', predictionHomeTeamScore: '' }
+        gamePredictions[gameKey] = games[gameKey].prediction ? { predictionAwayTeamScore: games[gameKey].prediction.awayTeam.score, predictionHomeTeamScore: games[gameKey].prediction.homeTeam.score } : null
       })
     
       this.setState({

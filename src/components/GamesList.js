@@ -16,9 +16,9 @@ const GamesList = ({ games, gamePredictions, onGameClick, onChangeGameScore, onC
         return (games[b].status === games[a].status) ? new Date(games[a].startDateTime) - new Date(games[b].startDateTime) : new Date(games[b].startDateTime) - new Date(games[a].startDateTime)
       }).map(gameId => {
         //console.log({gameId});
-        // if (gamePredictions[gameId]) {
-        //   console.log(`gamePredictions[gameId]: ${JSON.stringify(gamePredictions[gameId])}`)
-        // }
+        if (gamePredictions[gameId]) {
+          console.log(`gamePredictions[gameId]: ${JSON.stringify(gamePredictions[gameId])}`)
+        }
 
         //console.log({ gameId, game: games[gameId], gamePrediction: gamePredictions[gameId]})
         return <GamePreview
@@ -28,7 +28,8 @@ const GamesList = ({ games, gamePredictions, onGameClick, onChangeGameScore, onC
         onChangeStarSpread={onChangeStarSpread}
         onChangeStarTotal={onChangeStarTotal}
         onSubmitPrediction={onSubmitPrediction}
-        game={games[gameId]} gamePrediction={gamePredictions[gameId]} />
+        game={games[gameId]}
+        gamePrediction={gamePredictions[gameId]} />
       }
       )}
     </div>
