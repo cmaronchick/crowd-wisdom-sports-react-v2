@@ -65,7 +65,7 @@ export default class LoginModal extends Component {
                   </Form.Group> */}
                   <Button variant="primary" type="submit" onClick={this.props.signInClick}>
                     {this.props.signingInUser ? (
-                      <Spinner />
+                      <Spinner animation='border' />
                     ) : (
                       <div>Submit</div>
                     )}
@@ -82,6 +82,9 @@ export default class LoginModal extends Component {
                     </svg></span>
                     <span>Continue with Facebook</span>
                   </Button>
+                  {this.props.signInError ? (
+                    <div>{this.props.signInError.message}</div>
+                  ) : null}
                 </Form>
               </Tab>
               <Tab eventKey="signUp" title="Sign Up">

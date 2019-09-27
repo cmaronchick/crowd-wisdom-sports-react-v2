@@ -126,6 +126,7 @@ class App extends React.Component {
     if (this.state.fetchingData!==prevState.fetchingData) return true;
     if (this.state.fetchingLeaderboards!==prevState.fetchingLeaderboards) return true;
     if (this.state.loginModalShow!==prevState.loginModalShow) return true;
+    if (this.state.signingInUser!==prevState.signingInUser) return true;
     if (this.state.confirmUser!==prevState.confirmUser) return true;
     if (this.state.authState!==prevState.authState) return true;
     if (this.state.user!==prevState.user) return true;
@@ -171,23 +172,24 @@ class App extends React.Component {
     })
   }
 
-  signIn = (e) => {
+  signIn = async (e) => {
      e.preventDefault()
+    this.setState({signingInUser: true})
     const { username, password } = this.state;
-    let user = Auth.signIn(username, password)
-    .then(user => {
+    try {
+      let user = await Auth.signIn(username, password)
+    
       console.log('user: ', user)
-      this.setState({user, authState: 'signedIn'})
+      this.setState({user, signingInUser: false, authState: 'signedIn'})
       return user;
-    })
-    .catch(signInError => {
+    } catch(signInError) {
       if (signInError.code === 'UserNotConfirmedException') {
-        this.setState({ confirmUser: true })
+        this.setState({ confirmUser: true, signingInUser: false })
         return;
       }
+      this.setState({ signingInUser: false, signInError })
       console.log('signInError: ', signInError)
-
-    })
+    }
   }
   signOut = (e) => {
     e.preventDefault()
@@ -609,7 +611,9 @@ class App extends React.Component {
                   <LoginModal 
                   onChangeText={this.onChangeText} 
                   show={this.state.loginModalShow} 
-                  onHide={this.handleLoginModalClosed} 
+                  onHide={this.handleLoginModalClosed}
+                  signingInUser={this.state.signingInUser}
+                  signInError={this.state.signInError}
                   signInClick={this.signIn} 
                   signUpClick={this.signUp} 
                   confirmUser={this.state.confirmUser}
