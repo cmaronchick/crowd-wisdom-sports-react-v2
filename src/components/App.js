@@ -75,7 +75,7 @@ class App extends React.Component {
         })
           this.setState({
             userSession: userSession,
-            sport: 'nfl',
+            sport: sport,
             year: year,
             gameWeek: week,
             season: season,
@@ -557,7 +557,11 @@ class App extends React.Component {
         </select> */}
         {this.state.weeks ? (
           <Weeks
-          onGameWeekClick={this.fetchGameWeekGames} currentWeek={this.state.gameWeek} sport={this.state.sport} year={this.state.year} season={this.state.season}
+          onGameWeekClick={this.fetchGameWeekGames}
+          currentWeek={this.state.gameWeek}
+          sport={this.state.sport}
+          year={this.state.year}
+          season={this.state.season}
           weeks={this.state.weeks} />
         ) : null}
         {(this.state.crowd || this.state.userStats) ? (

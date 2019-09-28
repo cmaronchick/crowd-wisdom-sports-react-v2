@@ -23,7 +23,7 @@ export default function CrowdOverallCompare(props) {
                     <div>{userStats.results.weekly.predictionScore}</div>
                 </div>
                 ) : null}
-                {crowd ? 
+                {crowd && crowd.weeklyRecord ? 
                     (
                     <div className="compareRow crowdStats">
                         <div>Crowd</div>
