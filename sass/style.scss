@@ -1,4 +1,4 @@
-@media (min-width: 768px) {
+@media (min-width: 1025px) {
     .gamesList {
         width: 66%;
         float: left;
@@ -7,6 +7,14 @@
     .homeLeaderboards {
         width: 33%;
         float: right;
+    }
+}
+@media(max-width: 1024px) {
+    .gamesList{
+        width: 100%;
+    }
+    .homeLeaderboards {
+        width: 100%;
     }
 }
 
