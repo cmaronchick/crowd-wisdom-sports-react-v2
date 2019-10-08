@@ -37,6 +37,8 @@
     "react-bootstrap": "^1.0.0-beta.8",
     "react-chartjs-2": "^2.7.6",
     "react-dom": "^16.7.0",
+    "react-ga": "^2.6.0",
+    "react-router-dom": "^5.1.2",
     "react-star-rating-component": "^1.4.1",
     "react-test-renderer": "^16.8.6",
     "source-map-explorer": "^2.0.1"

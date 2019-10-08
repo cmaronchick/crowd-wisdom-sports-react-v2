@@ -16,10 +16,13 @@ class Game extends Component {
     let user = await Auth.currentAuthenticatedUser()
     let userSession = await Auth.currentSession()
     try {
+      
+      if (this._isMounted) {
       let gameObj = await api.fetchGame(this.props.sport, this.props.year, this.props.season, this.props.gameWeek, this.props.gameId, userSession)
       console.log({game: gameObj.game});
       let gamePrediction = gameObj.game ? gameObj.game.prediction : null;
       this.setState({game: gameObj.game, gamePrediction, user})
+      }
     } catch(getGameError) {
       console.log({getGameError});
     }
@@ -29,10 +32,17 @@ class Game extends Component {
 
   }
 
+  _isMounted = true;
+
   componentDidMount() {
     console.log({GameStateOnMount: this.state})
     this.getGame()
   }
+
+  componentWillUnmount() {
+    this._isMounted = false;
+  }
+
   render() {
     const { game } = this.state;
     if (!game) {

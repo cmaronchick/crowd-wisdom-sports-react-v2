@@ -1,4 +1,5 @@
 import React from 'react';
+import { BrowserRouter as Router, Switch, Route, Link } from "react-router-dom";
 import Auth from '@aws-amplify/auth';
 
 import awsconfig from '../../awsexports'
@@ -17,7 +18,13 @@ import HomeLeaderboards from './Home.Leaderboards';
 import CrowdOverallCompare from './Home.CrowdOverallCompare'
 import LoginModal from './LoginModal';
 import Weeks from './Weeks';
+import Navigation from './Navigation'
 import * as api from '../api';
+
+
+import ReactGA from 'react-ga'
+import * as analytics from '../constants/analytics'
+
 
 const pushState = (obj, url) =>
   window.history.pushState(obj, '', url);
@@ -55,6 +62,7 @@ class App extends React.Component {
     // console.log('this.state: ', this.state)
 
     let fbUser = this.state.code ? await api.getFacebookUser(this.state.code) : null
+    ReactGA.initialize(analytics.config);
     try {
       let user = await Auth.currentAuthenticatedUser({bypassCache: true})
       this.setState({user, authState: 'signedIn'})
@@ -62,12 +70,15 @@ class App extends React.Component {
       this.setState({user: null, authState: 'signIn'})
     }
 
+    console.log({currentGameId: this.state.currentGameId});
+
     if (!this.state.currentGameId) {
       try {
         this.setState({ fetchingGames: true })
         let userSession = await Auth.currentSession();
         let gameWeekDataResponse = await api.fetchGameWeek(this.state.sport, userSession)
         const { sport, year, week, season, weeks } = this.state ? this.state : gameWeekDataResponse.gameWeekData;
+        ReactGA.pageview(`/${sport}/${year}/${season}/${week}`)
         let games = await api.fetchGameWeekGames(sport, year, season, week, userSession);
         let gamePredictions = {};
         Object.keys(games).forEach(gameKey => {
@@ -138,9 +149,14 @@ class App extends React.Component {
   }
 
   componentDidUpdate(prevProps, prevState) {
-    if (this.state.user!==prevState.user || this.state.week!== prevState.week) {
-      this.fetchGameWeekGames(this.state.sport, this.state.year, this.state.season, this.state.gameWeek ? this.state.gameWeek : this.state.week)
-      this.fetchLeaderboards(this.state.sport, this.state.year, this.state.season, this.state.gameWeek ? this.state.gameWeek : this.state.week) 
+    if (this.state.user!==prevState.user || this.state.week!== prevState.week || this.state.gameWeek!== prevState.gameWeek) {
+      const { sport, year, season, week } = this.state
+      if (!this.state.currentGameId) {
+        console.log(`/${sport}/${year}/${season}/${week}`);
+        ReactGA.pageview(`/${sport}/${year}/${season}/${week}`)
+        this.fetchGameWeekGames(this.state.sport, this.state.year, this.state.season, this.state.gameWeek ? this.state.gameWeek : this.state.week)
+        this.fetchLeaderboards(this.state.sport, this.state.year, this.state.season, this.state.gameWeek ? this.state.gameWeek : this.state.week) 
+      }
     }
   }
   componentWillUnmount() {
@@ -148,28 +164,26 @@ class App extends React.Component {
     onPopState(null);
   }
 
-  confirmUser = (e) => {
+  confirmUser = async (e) => {
     e.preventDefault();
     const { confirmUserCode, username } = this.state;
-    Auth.confirmSignUp(username, confirmUserCode)
-    .then((confirmResponse) => {
+    try {
+      let confirmResponse = await Auth.confirmSignUp(username, confirmUserCode)
       console.log('confirmResponse: ', confirmResponse)
-    })
-    .catch((confirmReject) => {
+    } catch(confirmReject) {
       console.log('confirmReject: ', confirmReject)
-    })
+    }
   }
 
-  resendConfirmation = (e) => {
+  resendConfirmation = async (e) => {
     e.preventDefault();
-    Auth.resendSignUp(this.state.username)
-    .then(resendSignUpResponse => {
+    try {
+      let resendSignUpResponse = await Auth.resendSignUp(this.state.username)
       console.log('resendSignUpResponse: ', resendSignUpResponse)
       this.setState({user, authState: 'signIn'})
-    })
-    .catch(resendSignUpReject => {
+    } catch(resendSignUpReject) {
       console.log('resendSignUpReject: ', resendSignUpReject)
-    })
+    }
   }
 
   signIn = async (e) => {
@@ -191,19 +205,20 @@ class App extends React.Component {
       console.log('signInError: ', signInError)
     }
   }
-  signOut = (e) => {
+  signOut = async (e) => {
     e.preventDefault()
     console.log('signOut clicked')
-    Auth.signOut()
-    .then(() => {
+    try{
+      let signOutResponse = await Auth.signOut();
       this.setState({user: null, authState: 'signIn'})
-    })
-    .catch(signOutError => console.log('signOutError: ', signOutError))
+    } catch(signOutError) {
+      console.log('signOutError: ', signOutError)
+    }
   }
 
   
     // Sign up user with AWS Amplify Auth
-  signUp = (e) => {
+  signUp = async (e) => {
       e.preventDefault();
       const { username, password, givenName, familyName, email, emailOptIn } = this.state
       // rename variable to conform with Amplify Auth field phone attribute
@@ -213,18 +228,17 @@ class App extends React.Component {
         family_name: familyName
       }
       attributes['custom:reminderMailOptIn'] = emailOptIn ? '1' : '0'
-      Auth.signUp({
+      try {
+        let signUpResponse = await Auth.signUp({
           username,
           password,
           attributes
-        })
-        .then((response) => {
-          this.setState({
-            user: response.user,
+        });
+        this.setState({
+            user: signUpResponse.user,
             confirmUser: true
-          })
         })
-        .catch(err => {
+      } catch(err) {
         if (! err.message) {
             console.log('Error when signing up: ', err)
             // Alert.alert('Error when signing up: ', err)
@@ -232,7 +246,7 @@ class App extends React.Component {
             console.log('Error when signing up: ', err, '; ', err.message)
             // Alert.alert('Error when signing up: ', err.message)
         }
-      })
+      }
   }
 
   handleFBCode = () => {
@@ -524,17 +538,25 @@ class App extends React.Component {
   }
   currentContent() {
     if (this.state.currentGameId) {
-      return <Game 
-      gamesListClick={this.fetchGamesList}
-      onChangeGameScore={this.onChangeGameScore}
-      onChangeStarSpread={this.onChangeStarSpread}
-      onChangeStarTotal={this.onChangeStarTotal}
-      onSubmitPrediction={this.submitPrediction}
-      gamePrediction={this.state.gamePredictions[this.state.currentGameId]}
-      {...this.currentGame()} />;
+      return (
+      <div id="content">
+        <Game 
+        gamesListClick={this.fetchGamesList}
+        onChangeGameScore={this.onChangeGameScore}
+        onChangeStarSpread={this.onChangeStarSpread}
+        onChangeStarTotal={this.onChangeStarTotal}
+        onSubmitPrediction={this.submitPrediction}
+        gamePrediction={this.state.gamePredictions[this.state.currentGameId]}
+        {...this.currentGame()} />
+      </div>
+      )
     }
     if (this.state.page === 'leaderboards') {
-      return <Leaderboards leaderboardData={this.state.leaderboardData} />
+      return (
+        <div id="content">
+          <Leaderboards leaderboardData={this.state.leaderboardData} />
+        </div>
+      )
     }
     //console.log('this.state.games: ', this.state.games);
     const { games, gamePredictions } = this.state;
@@ -584,7 +606,7 @@ class App extends React.Component {
   }
   render() {
     return (
-      <div className="App inner">
+      <div id="content" className="App inner">
 
         {/* <!-- Content --> */}
           {/* <div id="content">
