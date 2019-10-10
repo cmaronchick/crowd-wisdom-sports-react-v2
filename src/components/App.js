@@ -149,7 +149,7 @@ class App extends React.Component {
   }
 
   componentDidUpdate(prevProps, prevState) {
-    if (this.state.user!==prevState.user || this.state.week!== prevState.week || this.state.gameWeek!== prevState.gameWeek) {
+    if (this.state.user!==prevState.user || this.state.week!== prevState.week || this.state.gameWeek!== prevState.gameWeek || this.state.sport !==prevState.sport) {
       const { sport, year, season, week } = this.state
       if (!this.state.currentGameId) {
         console.log(`/${sport}/${year}/${season}/${week}`);
@@ -162,6 +162,12 @@ class App extends React.Component {
   componentWillUnmount() {
     // clean timers, listeners
     onPopState(null);
+  }
+
+  selectSport = (e, sport) => {
+    e.preventDefault();
+    console.log({sport})
+    this.setState({sport: sport})
   }
 
   confirmUser = async (e) => {
@@ -445,16 +451,20 @@ class App extends React.Component {
       {currentGameId: null},
       `/${sport}/games/${year}/${season}/${week}`
     );
+    try {
 
-    let userSession = await Auth.currentSession()
-    let games = await api.fetchGamesList(sport, year, season, week, userSession)
-      this.setState({
-        currentGameId: null,
-        data: {
-          ...this.state.games,
-          games
-        }
-      });
+      let userSession = await Auth.currentSession()
+      let games = await api.fetchGamesList(sport, year, season, week, userSession)
+        this.setState({
+          currentGameId: null,
+          data: {
+            ...this.state.games,
+            games
+          }
+        });
+    } catch (fetchGamesListError) {
+      console.log({fetchGamesListError})
+    }
   }
 
   fetchGameWeekGames = async (sport, year, season, gameWeek) => {
@@ -514,7 +524,7 @@ class App extends React.Component {
 
   fetchLeaderboards = async (sport, year, season, gameWeek) => {
     
-    let week = gameWeek ? gameWeek : this.state.gameWeek ? this.state.gameWeekData : await
+    let week = gameWeek ? gameWeek : this.state.gameWeekData ? this.state.gameWeekData.week : null
     console.log({week});
     try {
       let userSession = await Auth.currentSession()
@@ -606,7 +616,33 @@ class App extends React.Component {
   }
   render() {
     return (
-      <div id="content" className="App inner">
+      <div className="App inner">
+      <div id="sidebar">
+          <h1 id="logo"><a href="/">STAKEHOUSE SPORTS</a></h1>
+            <div id="nav">
+                <ul>
+                    <li><Button onClick={(e) => {
+                      console.log({sport: this.state.sport})
+                      this.selectSport(e, this.state.sport)
+                    }}>Home</Button></li>
+                    <li><Button disabled={this.state.sport === 'nfl'} onClick={(e) => this.selectSport(e, 'nfl')}>NFL</Button></li>
+                    <li><Button onClick={(e) => this.selectSport(e, 'ncaaf')}>College Football</Button></li>
+                    <li><Button onClick={(e) => this.selectSport(e, 'ncaam')}>March Madness</Button></li>
+                </ul>
+            </div>
+        </div>
+        <div id="content">
+          <div style={{flex: 1, flexDirection: 'row', justifyContent: 'space-evenly'}}>
+            <div style={{flex: 1}}>
+              <Button disabled={this.state.sport === 'nfl'} onClick={(e) => this.selectSport(e, 'nfl')}>NFL</Button>
+            </div>
+            <div style={{flex: 1}}>
+              <Button onClick={(e) => this.selectSport(e, 'ncaaf')}>College Football</Button>
+            </div>
+            <div style={{flex: 1}}>
+              <Button onClick={(e) => this.selectSport(e, 'ncaam')}>March Madness</Button>
+            </div>
+          </div>
 
         {/* <!-- Content --> */}
           {/* <div id="content">
@@ -653,9 +689,8 @@ class App extends React.Component {
             this.currentContent()
             )}
           </div>
-        // </div>
 
-      // </div>
+      </div>
     );
   }
 }

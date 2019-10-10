@@ -6,7 +6,7 @@ const Navigation = (props) => {
         //<!-- Sidebar -->
         <div id="sidebar">
             {/* <!-- Logo --> */}
-            <h1 id="logo"><a href="#">STAKEHOUSE SPORTS</a></h1>
+            <h1 id="logo"><a href="/">STAKEHOUSE SPORTS</a></h1>
 
             {/* <-- Nav --> */}
                     <nav id="nav">

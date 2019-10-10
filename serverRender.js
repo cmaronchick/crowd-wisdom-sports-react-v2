@@ -1,5 +1,6 @@
 import React from 'react';
 import ReactDOMServer from 'react-dom/server';
+import { StaticRouter } from 'react-router-dom'
 
 import App from './src/components/App';
 
@@ -98,7 +99,7 @@ const getInitialData = (gameId, sport, year, season, week, weeks, code, apiData,
   }
 };
 
-const serverRender = (sport, year, season, gameWeek, query, page, gameId, crowdId) => {
+const serverRender = (req, sport, year, season, gameWeek, query, page, gameId, crowdId) => {
   switch (page) {
     case 'leaderboards':
       return axios.get(`${config.serverUrl}/api/${sport}/gameWeek`)
@@ -116,7 +117,9 @@ const serverRender = (sport, year, season, gameWeek, query, page, gameId, crowdI
           console.log('serverRender 87 leaderboardData: ', initialData)
           
           const initialMarkup = ReactDOMServer.renderToString(
-            <App initialData={initialData} />
+            <StaticRouter location={req.url} context={{}}>
+              <App initialData={initialData} />
+            </StaticRouter>
           )
           const respObj = {
             initialMarkup: initialMarkup,
@@ -143,7 +146,9 @@ const serverRender = (sport, year, season, gameWeek, query, page, gameId, crowdI
           console.log('serverRender 87 leaderboardData: ', initialData)
           
           const initialMarkup = ReactDOMServer.renderToString(
-            <App initialData={initialData} />
+            <StaticRouter location={req.url} context={{}}>
+              <App initialData={initialData} />
+            </StaticRouter>
           )
           const respObj = {
             initialMarkup: initialMarkup,
@@ -171,7 +176,9 @@ const serverRender = (sport, year, season, gameWeek, query, page, gameId, crowdI
             //console.log('initialData: ', initialData)
             
             const initialMarkup = ReactDOMServer.renderToString(
-              <App initialData={initialData} />
+              <StaticRouter location={req.url} context={{}}>
+                <App initialData={initialData} />
+              </StaticRouter>
             )
             const respObj = {
               initialMarkup: initialMarkup,
