@@ -7,6 +7,9 @@ import Navigation from './components/Navigation'
 
 
 ReactDOM.hydrate(
-  <App initialData={window.initialData} />,
+  <BrowserRouter>
+    <App initialData={window.initialData} />
+    <Navigation />
+  </BrowserRouter>,
   document.getElementById('app')
 );

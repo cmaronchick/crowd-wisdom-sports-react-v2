@@ -1,5 +1,7 @@
 import React from 'react';
 import { BrowserRouter as Router, Switch, Route, Link } from "react-router-dom";
+import { createMemoryHistory } from 'history'
+const history = createMemoryHistory()
 import Auth from '@aws-amplify/auth';
 
 import awsconfig from '../../awsexports'
@@ -88,6 +90,7 @@ class App extends React.Component {
             userSession: userSession,
             sport: 'nfl',
             year: year,
+            currentWeek: week,
             gameWeek: week,
             season: season,
             weeks: weeks,
@@ -107,7 +110,6 @@ class App extends React.Component {
           const { sport, year, season } = this.state ? this.state : gameWeekDataResponse.gameWeekData;
           const week = this.state.gameWeek ? this.state.gameWeek : gameWeekDataResponse.gameWeekData.week;
           let crowdOverallData = await api.fetchCrowdOverall(sport, year, season, week)
-          console.log({crowdOverallData})
           this.setState({
             crowd: crowdOverallData.crowd
           })
@@ -148,14 +150,25 @@ class App extends React.Component {
     return false;
   }
 
-  componentDidUpdate(prevProps, prevState) {
-    if (this.state.user!==prevState.user || this.state.week!== prevState.week || this.state.gameWeek!== prevState.gameWeek || this.state.sport !==prevState.sport) {
-      const { sport, year, season, week } = this.state
+  async componentDidUpdate(prevProps, prevState) {
+    if (this.state.user!==prevState.user || this.state.week!== prevState.week || this.state.gameWeek!== prevState.gameWeek || this.state.sport !== prevState.sport) {
+
+      let { sport, year, season, week } = this.state
+      if (this.state.sport !== prevState.sport) {
+        let userSession = await Auth.currentSession();
+        let gameWeekDataResponse = await api.fetchGameWeek(this.state.sport, userSession)
+        let { sport, year, season, week  } = gameWeekDataResponse.gameWeekData;
+      }
+      
       if (!this.state.currentGameId) {
         console.log(`/${sport}/${year}/${season}/${week}`);
-        ReactGA.pageview(`/${sport}/${year}/${season}/${week}`)
+        //ReactGA.pageview(`/${sport}/${year}/${season}/${week}`)
         this.fetchGameWeekGames(this.state.sport, this.state.year, this.state.season, this.state.gameWeek ? this.state.gameWeek : this.state.week)
         this.fetchLeaderboards(this.state.sport, this.state.year, this.state.season, this.state.gameWeek ? this.state.gameWeek : this.state.week) 
+        this.fetchCrowdOverallCompare(sport, year, season, week)
+          
+      } else {
+        ReactGA.pageview(`/${sport}/${year}/${season}/${week}/${this.state.currentGameId}`)
       }
     }
   }
@@ -376,6 +389,12 @@ class App extends React.Component {
           stars: stars
         };
         let predictionResponse = await api.fetchSubmitPrediction(userSession, prediction);
+        ReactGA.event({
+          category: 'prediction',
+          action: 'submitted',
+          label: game.gameId,
+          value: 'success'
+        })
         let gameUpdate = predictionResponse.prediction.game;
         gameUpdate.prediction = predictionResponse.prediction.prediction;
 
@@ -409,6 +428,12 @@ class App extends React.Component {
       }      
     } catch(submitPredictionError) {
       console.log({submitPredictionError});
+      ReactGA.event({
+        category: 'prediction',
+        action: 'submitted',
+        label: game.gameId,
+        value: 'failure'
+      })
     }
   }
 
@@ -494,7 +519,6 @@ class App extends React.Component {
         gamePredictions,
         fetchingGames: false
       });
-      let leaderboard
     } catch (getGamesError) {
       console.log({getGamesError});
       let games = await api.fetchGameWeekGames(sport, year, season, gameWeek);
@@ -535,6 +559,14 @@ class App extends React.Component {
       this.setState({ leaderboardData, fetchingLeaderboards: false })
     }
   }
+  fetchCrowdOverallCompare = async (sport, year, season, week) => {
+    try {
+      let crowdOverallData = await api.fetchCrowdOverall(sport, year, season, week)
+      this.setState({crowd: crowdOverallData.crowd})
+    } catch (crowdOverallCompareError) {
+      console.log({crowdOverallCompareError});
+    }
+  }
 
   currentGame() {
     return this.state.games ? this.state.games[this.state.currentGameId] : this.state.game;
@@ -547,92 +579,91 @@ class App extends React.Component {
     return !this.state.fetchingGames ? `Week ${this.state.gameWeek} Games` : 'Loading Games ...';
   }
   currentContent() {
-    if (this.state.currentGameId) {
+    
+      const { games, gamePredictions } = this.state;
       return (
-      <div id="content">
-        <Game 
-        gamesListClick={this.fetchGamesList}
-        onChangeGameScore={this.onChangeGameScore}
-        onChangeStarSpread={this.onChangeStarSpread}
-        onChangeStarTotal={this.onChangeStarTotal}
-        onSubmitPrediction={this.submitPrediction}
-        gamePrediction={this.state.gamePredictions[this.state.currentGameId]}
-        {...this.currentGame()} />
-      </div>
-      )
-    }
-    if (this.state.page === 'leaderboards') {
-      return (
-        <div id="content">
-          <Leaderboards leaderboardData={this.state.leaderboardData} />
+        <div>
+          <Route path="/:sport/games/:year/:season/:gameWeek/:gameId">
+            <Game 
+            gamesListClick={this.fetchGamesList}
+            onChangeGameScore={this.onChangeGameScore}
+            onChangeStarSpread={this.onChangeStarSpread}
+            onChangeStarTotal={this.onChangeStarTotal}
+            onSubmitPrediction={this.submitPrediction}
+            gamePrediction={this.state.gamePredictions[this.state.currentGameId]}
+            {...this.currentGame()} />
+          </Route>
+          <Route path="/:sport/leaderboards/:year/:season">
+            <Leaderboards leaderboardData={this.state.leaderboardData} />
+          </Route>
+          <Route path="/:sport">
+            <Dropdown>
+              <Dropdown.Toggle variant="success" id="dropdown-basic">
+                Select a Season
+              </Dropdown.Toggle>
+              <Dropdown.Menu>
+                <Dropdown.Item onClick={() => this.onYearChange(2019)} href='#' className='yearDropdown'>2019</Dropdown.Item>
+                <Dropdown.Item onClick={() => this.onYearChange(2018)} href='#' className='yearDropdown'>2018</Dropdown.Item>
+                <Dropdown.Item onClick={() => this.onYearChange(2017)} href='#' className='yearDropdown'>2017</Dropdown.Item>
+              </Dropdown.Menu>
+            </Dropdown>
+            {/* <select onChange={(event) => this.onYearChange(event)} id="year" name="year">
+              <option value="2019">2019</option>
+              <option value="2018">2018</option>
+              <option value="2017">2017</option>
+            </select> */}
+            {this.state.weeks ? (
+              <Weeks
+              onGameWeekClick={this.fetchGameWeekGames} currentWeek={this.state.gameWeek} sport={this.state.sport} year={this.state.year} season={this.state.season}
+              weeks={this.state.weeks} />
+            ) : null}
+            {(this.state.crowd || this.state.userStats) ? (
+              <CrowdOverallCompare week={this.state.week} userStats={this.state.userStats} crowd={this.state.crowd} />
+            ) : null}
+            {this.state.games ? (
+            <GamesList 
+              onChangeGameScore={this.onChangeGameScore}
+              onChangeStarSpread={this.onChangeStarSpread}
+              onChangeStarTotal={this.onChangeStarTotal}
+              onSubmitPrediction={this.submitPrediction}
+              onGameClick={this.fetchGame}
+              games={games} gamePredictions={gamePredictions} />
+            ): (
+              <div>No games available</div>
+            )}
+            <HomeLeaderboards 
+              sport={this.state.sport}
+              year={this.state.year}
+              season={this.state.season}
+              week={this.state.week} />
+          </Route>
         </div>
-      )
-    }
-    //console.log('this.state.games: ', this.state.games);
-    const { games, gamePredictions } = this.state;
-    return (
-      <div>
-        <Dropdown>
-          <Dropdown.Toggle variant="success" id="dropdown-basic">
-            Select a Season
-          </Dropdown.Toggle>
-          <Dropdown.Menu>
-            <Dropdown.Item onClick={() => this.onYearChange(2019)} href='#' className='yearDropdown'>2019</Dropdown.Item>
-            <Dropdown.Item onClick={() => this.onYearChange(2018)} href='#' className='yearDropdown'>2018</Dropdown.Item>
-            <Dropdown.Item onClick={() => this.onYearChange(2017)} href='#' className='yearDropdown'>2017</Dropdown.Item>
-          </Dropdown.Menu>
-        </Dropdown>
-        {/* <select onChange={(event) => this.onYearChange(event)} id="year" name="year">
-          <option value="2019">2019</option>
-          <option value="2018">2018</option>
-          <option value="2017">2017</option>
-        </select> */}
-        {this.state.weeks ? (
-          <Weeks
-          onGameWeekClick={this.fetchGameWeekGames} currentWeek={this.state.gameWeek} sport={this.state.sport} year={this.state.year} season={this.state.season}
-          weeks={this.state.weeks} />
-        ) : null}
-        {(this.state.crowd || this.state.userStats) ? (
-          <CrowdOverallCompare week={this.state.week} userStats={this.state.userStats} crowd={this.state.crowd} />
-        ) : null}
-        {this.state.games ? (
-        <GamesList 
-          onChangeGameScore={this.onChangeGameScore}
-          onChangeStarSpread={this.onChangeStarSpread}
-          onChangeStarTotal={this.onChangeStarTotal}
-          onSubmitPrediction={this.submitPrediction}
-          onGameClick={this.fetchGame}
-          games={games} gamePredictions={gamePredictions} />
-        ): (
-          <div>No games available</div>
-        )}
-        <HomeLeaderboards 
-          sport={this.state.sport}
-          year={this.state.year}
-          season={this.state.season}
-          week={this.state.week} />
-      </div>
     );
   }
   render() {
     return (
-      <div className="App inner">
-      <div id="sidebar">
-          <h1 id="logo"><a href="/">STAKEHOUSE SPORTS</a></h1>
-            <div id="nav">
-                <ul>
-                    <li><Button onClick={(e) => {
+      /* <div id="sidebar">
+        <h1 id="logo"><a href="/">STAKEHOUSE SPORTS</a></h1>
+          <nav id="nav">
+            <a href="/nfl" onClick={(e) => {
+              console.log({e})
+              e.preventDefault();
+              this.selectSport(e, 'nfl')
+            }}>NFL</a>
+            <Button onClick={(e) => {
                       console.log({sport: this.state.sport})
                       this.selectSport(e, this.state.sport)
-                    }}>Home</Button></li>
-                    <li><Button disabled={this.state.sport === 'nfl'} onClick={(e) => this.selectSport(e, 'nfl')}>NFL</Button></li>
-                    <li><Button onClick={(e) => this.selectSport(e, 'ncaaf')}>College Football</Button></li>
-                    <li><Button onClick={(e) => this.selectSport(e, 'ncaam')}>March Madness</Button></li>
-                </ul>
-            </div>
-        </div>
+                    }}>Home</Button>
+            <Button disabled={this.state.sport === 'nfl'} onClick={(e) => this.selectSport(e, 'nfl')}>NFL</Button>
+            <Button onClick={(e) => this.selectSport(e, 'ncaaf')}>College Football</Button>
+            <Button onClick={(e) => this.selectSport(e, 'ncaam')}>March Madness</Button>
+          </nav>
+      </div> */
+      <div>
+      <div className="App inner">
+        
         <div id="content">
-          <div style={{flex: 1, flexDirection: 'row', justifyContent: 'space-evenly'}}>
+          <div style={{display: 'flex', flexDirection: 'row', justifyContent: 'space-evenly'}}>
             <div style={{flex: 1}}>
               <Button disabled={this.state.sport === 'nfl'} onClick={(e) => this.selectSport(e, 'nfl')}>NFL</Button>
             </div>
@@ -690,6 +721,7 @@ class App extends React.Component {
             )}
           </div>
 
+        </div>
       </div>
     );
   }

@@ -2190,9 +2190,9 @@ input, select, textarea {
 	}
 	.bullseyeIcon {
 		position: absolute;
-		font-size: 0.8rem;
+		font-size: 0.7rem;
 		bottom:0.3rem;
-		left:-0.4rem;
+		left:-0.5rem;
 	}
 
 /* Nav */
