@@ -1,5 +1,6 @@
 import React from 'react';
 import ReactDOMServer from 'react-dom/server';
+import { StaticRouter as Router } from 'react-router-dom'
 
 import App from './src/components/App';
 
@@ -37,12 +38,8 @@ const getLeaderboardsUrl = (gameWeekData) => {
   
 };
 const getCrowdsUrl = (gameWeekData) => {
-  console.log('crowd gameWeekData: ', gameWeekData)
-  if (gameWeekData) { 
-    //return `${config.serverUrl}/api/${gameWeekData.sport}/leaderboards/${gameWeekData.year}/${gameWeekData.season}/${gameWeekData.week}`;
-    return `${config.serverUrl}/api/${gameWeekData.sport}/leaderboards/2018/post/21`;
-  }
-  return `${config.serverUrl}/api/${sport}/leaderboards`
+  const { sport, year, season } = gameWeekData
+  return `${config.serverUrl}/group/${sport}/${year}`
   
 };
 
@@ -80,7 +77,7 @@ const getInitialData = (gameId, sport, year, season, week, weeks, code, apiData,
         season: season,
         week: week,
         weeks: weeks,
-        leaderboardData: apiData,
+        crowdData: apiData,
         code: code,
         page: page
       }
@@ -116,7 +113,9 @@ const serverRender = (sport, year, season, gameWeek, query, page, gameId, crowdI
           console.log('serverRender 87 leaderboardData: ', initialData)
           
           const initialMarkup = ReactDOMServer.renderToString(
-            <App initialData={initialData} />
+            <Router>
+              <App initialData={initialData} />
+            </Router>
           )
           const respObj = {
             initialMarkup: initialMarkup,
@@ -139,11 +138,13 @@ const serverRender = (sport, year, season, gameWeek, query, page, gameId, crowdI
       gameWeek ? gameWeekData.week = gameWeek : null
       return axios.get(getCrowdsUrl(gameWeekData))
         .then(resp => {
-          const initialData = getInitialData(null, gameWeekData.sport, gameWeekData.year, gameWeekData.season, gameWeekData.week, gameWeekData.weeks, query ? query.code : null, resp.data, page);
+          const initialData = getInitialData(gameWeekData.sport, gameWeekData.year, gameWeekData.season, gameWeekData.week, gameWeekData.weeks, query ? query.code : null, resp.data, page, null, crowdId);
           console.log('serverRender 87 leaderboardData: ', initialData)
           
           const initialMarkup = ReactDOMServer.renderToString(
-            <App initialData={initialData} />
+            <Router>
+              <App initialData={initialData} />
+            </Router>
           )
           const respObj = {
             initialMarkup: initialMarkup,
@@ -171,7 +172,9 @@ const serverRender = (sport, year, season, gameWeek, query, page, gameId, crowdI
             //console.log('initialData: ', initialData)
             
             const initialMarkup = ReactDOMServer.renderToString(
-              <App initialData={initialData} />
+              <Router>
+                <App initialData={initialData} />
+              </Router>
             )
             const respObj = {
               initialMarkup: initialMarkup,
