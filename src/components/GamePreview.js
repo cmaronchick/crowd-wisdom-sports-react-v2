@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import { Link } from 'react-router-dom'
 import Button from 'react-bootstrap/Button'
 import Spinner from 'react-bootstrap/Spinner'
 import * as apis from '../api'
@@ -120,9 +121,11 @@ class GamePreview extends Component {
         crowdHomeTeamScore = game.crowd ? parseFloat(game.crowd.homeTeam.score).toFixed(2) : null
       return (
       <div className="link GamePreview">
-        <div className="game-header" onClick={this.handleClick}>
-        {game.awayTeam.rank ? `#${game.awayTeam.rank} ` : ''}{game.awayTeam.fullName} vs. {game.homeTeam.rank ? `#${game.homeTeam.rank} ` : ''}{game.homeTeam.fullName}
-        </div>
+        <Link to={`/${game.sport}/games/${game.year}/${game.season}/${game.gameWeek}/${game.gameId}`}>
+          <div className="game-header">
+          {game.awayTeam.rank ? `#${game.awayTeam.rank} ` : ''}{game.awayTeam.fullName} vs. {game.homeTeam.rank ? `#${game.homeTeam.rank} ` : ''}{game.homeTeam.fullName}
+          </div>
+        </Link>
         <div className="game-details">
           <div className="headerRow">
             <div className="gameTime">

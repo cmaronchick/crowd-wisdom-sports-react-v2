@@ -35,6 +35,10 @@ body {
 	line-height: 1;
 }
 
+#app {
+	display: flex;
+}
+
 ol, ul {
 	list-style: none;
 }
