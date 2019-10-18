@@ -1,4 +1,5 @@
 import React, { Component, PropTypes } from 'react';
+import { Link } from 'react-router-dom'
 import * as api from '../api'
 import Auth from '@aws-amplify/auth'
 import GamePreview from './GamePreview'
@@ -64,9 +65,9 @@ class Game extends Component {
               game={game} gamePrediction={this.props.gamePrediction} />
             <GameOddsChart game={game} />
 
-            <div className="home-link link" onClick={() => this.props.gamesListClick(this.props.sport, this.props.year, this.props.season, this.props.gameWeek)}>
+            <Link className="home-link link" to={`/${this.props.sport}/${this.props.year}/${this.props.season}/${this.props.gameWeek}`}>
                 Games List
-            </div>
+            </Link>
 
           </div>
     );

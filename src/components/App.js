@@ -392,8 +392,8 @@ class App extends React.Component {
         ReactGA.event({
           category: 'prediction',
           action: 'submitted',
-          label: game.gameId,
-          value: 'success'
+          label: 'success',
+          value: game.gameId
         })
         let gameUpdate = predictionResponse.prediction.game;
         gameUpdate.prediction = predictionResponse.prediction.prediction;
@@ -568,8 +568,8 @@ class App extends React.Component {
     }
   }
 
-  currentGame() {
-    return this.state.games ? this.state.games[this.state.currentGameId] : this.state.game;
+  currentGame(gameId) {
+    return this.state.games ? this.state.games[gameId] : this.state.game;
   }
   pageHeader() {
     //console.log('this.state: ', this.state);
@@ -582,62 +582,71 @@ class App extends React.Component {
     
       const { games, gamePredictions } = this.state;
       return (
-        <div>
-          <Route path="/:sport/games/:year/:season/:gameWeek/:gameId">
-            <Game 
-            gamesListClick={this.fetchGamesList}
-            onChangeGameScore={this.onChangeGameScore}
-            onChangeStarSpread={this.onChangeStarSpread}
-            onChangeStarTotal={this.onChangeStarTotal}
-            onSubmitPrediction={this.submitPrediction}
-            gamePrediction={this.state.gamePredictions[this.state.currentGameId]}
-            {...this.currentGame()} />
-          </Route>
-          <Route path="/:sport/leaderboards/:year/:season">
-            <Leaderboards leaderboardData={this.state.leaderboardData} />
-          </Route>
-          <Route path="/:sport">
-            <Dropdown>
-              <Dropdown.Toggle variant="success" id="dropdown-basic">
-                Select a Season
-              </Dropdown.Toggle>
-              <Dropdown.Menu>
-                <Dropdown.Item onClick={() => this.onYearChange(2019)} href='#' className='yearDropdown'>2019</Dropdown.Item>
-                <Dropdown.Item onClick={() => this.onYearChange(2018)} href='#' className='yearDropdown'>2018</Dropdown.Item>
-                <Dropdown.Item onClick={() => this.onYearChange(2017)} href='#' className='yearDropdown'>2017</Dropdown.Item>
-              </Dropdown.Menu>
-            </Dropdown>
-            {/* <select onChange={(event) => this.onYearChange(event)} id="year" name="year">
-              <option value="2019">2019</option>
-              <option value="2018">2018</option>
-              <option value="2017">2017</option>
-            </select> */}
-            {this.state.weeks ? (
-              <Weeks
-              onGameWeekClick={this.fetchGameWeekGames} currentWeek={this.state.gameWeek} sport={this.state.sport} year={this.state.year} season={this.state.season}
-              weeks={this.state.weeks} />
-            ) : null}
-            {(this.state.crowd || this.state.userStats) ? (
-              <CrowdOverallCompare week={this.state.week} userStats={this.state.userStats} crowd={this.state.crowd} />
-            ) : null}
-            {this.state.games ? (
-            <GamesList 
+          <Switch>
+          <Route path="/:sport/games/:year/:season/:gameWeek/:gameId" render={({match}) => {
+            const { gameId } = match.params;
+            return (
+              <Game 
+              gamesListClick={this.fetchGamesList}
               onChangeGameScore={this.onChangeGameScore}
               onChangeStarSpread={this.onChangeStarSpread}
               onChangeStarTotal={this.onChangeStarTotal}
               onSubmitPrediction={this.submitPrediction}
-              onGameClick={this.fetchGame}
-              games={games} gamePredictions={gamePredictions} />
-            ): (
-              <div>No games available</div>
-            )}
-            <HomeLeaderboards 
-              sport={this.state.sport}
-              year={this.state.year}
-              season={this.state.season}
-              week={this.state.week} />
-          </Route>
-        </div>
+              gamePrediction={this.state.gamePredictions[match.params.gameId]}
+              {...this.currentGame(gameId)} />
+              )
+          }
+          }/>
+          <Route path="/:sport/leaderboards/:year/:season" render={() => 
+            <Leaderboards leaderboardData={this.state.leaderboardData} />
+          } />
+          <Route path="/:sport" render={({match}) => {
+            console.log({match})
+            return (
+              <div>
+                <Dropdown>
+                  <Dropdown.Toggle variant="success" id="dropdown-basic">
+                    Select a Season
+                  </Dropdown.Toggle>
+                  <Dropdown.Menu>
+                    <Dropdown.Item onClick={() => this.onYearChange(2019)} href='#' className='yearDropdown'>2019</Dropdown.Item>
+                    <Dropdown.Item onClick={() => this.onYearChange(2018)} href='#' className='yearDropdown'>2018</Dropdown.Item>
+                    <Dropdown.Item onClick={() => this.onYearChange(2017)} href='#' className='yearDropdown'>2017</Dropdown.Item>
+                  </Dropdown.Menu>
+                </Dropdown>
+                {/* <select onChange={(event) => this.onYearChange(event)} id="year" name="year">
+                  <option value="2019">2019</option>
+                  <option value="2018">2018</option>
+                  <option value="2017">2017</option>
+                </select> */}
+                {this.state.weeks ? (
+                  <Weeks
+                  onGameWeekClick={this.fetchGameWeekGames} currentWeek={this.state.gameWeek} sport={this.state.sport} year={this.state.year} season={this.state.season}
+                  weeks={this.state.weeks} />
+                ) : null}
+                {(this.state.crowd || this.state.userStats) ? (
+                  <CrowdOverallCompare week={this.state.week} userStats={this.state.userStats} crowd={this.state.crowd} />
+                ) : null}
+                {this.state.games ? (
+                <GamesList 
+                  onChangeGameScore={this.onChangeGameScore}
+                  onChangeStarSpread={this.onChangeStarSpread}
+                  onChangeStarTotal={this.onChangeStarTotal}
+                  onSubmitPrediction={this.submitPrediction}
+                  onGameClick={this.fetchGame}
+                  games={games} gamePredictions={gamePredictions} />
+                ): (
+                  <div>No games available</div>
+                )}
+                <HomeLeaderboards 
+                  sport={this.state.sport}
+                  year={this.state.year}
+                  season={this.state.season}
+                  week={this.state.week} />
+              </div>
+              )
+            }} />
+          </Switch>
     );
   }
   render() {
@@ -659,22 +668,8 @@ class App extends React.Component {
             <Button onClick={(e) => this.selectSport(e, 'ncaam')}>March Madness</Button>
           </nav>
       </div> */
-      <div>
-      <div className="App inner">
-        
-        <div id="content">
-          <div style={{display: 'flex', flexDirection: 'row', justifyContent: 'space-evenly'}}>
-            <div style={{flex: 1}}>
-              <Button disabled={this.state.sport === 'nfl'} onClick={(e) => this.selectSport(e, 'nfl')}>NFL</Button>
-            </div>
-            <div style={{flex: 1}}>
-              <Button onClick={(e) => this.selectSport(e, 'ncaaf')}>College Football</Button>
-            </div>
-            <div style={{flex: 1}}>
-              <Button onClick={(e) => this.selectSport(e, 'ncaam')}>March Madness</Button>
-            </div>
-          </div>
-
+      <div id="content">
+        <div className="App inner">
         {/* <!-- Content --> */}
           {/* <div id="content">
             <div className="inner"> */}
@@ -722,7 +717,6 @@ class App extends React.Component {
           </div>
 
         </div>
-      </div>
     );
   }
 }

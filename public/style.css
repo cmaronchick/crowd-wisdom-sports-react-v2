@@ -68,6 +68,8 @@
       color: #000;
       margin-left: 5px;
       font-size: 0.8em; }
+  .GamePreview a, .GamePreview a:visited {
+    color: #231f20; }
 
 .CrowdOverallCompare {
   display: flex;
