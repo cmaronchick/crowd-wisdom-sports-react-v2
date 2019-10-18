@@ -392,8 +392,8 @@ class App extends React.Component {
         ReactGA.event({
           category: 'prediction',
           action: 'submitted',
-          label: game.gameId,
-          value: 'success'
+          label: 'success',
+          value: game.gameId
         })
         let gameUpdate = predictionResponse.prediction.game;
         gameUpdate.prediction = predictionResponse.prediction.prediction;
@@ -670,19 +670,6 @@ class App extends React.Component {
       </div> */
       <div id="content">
         <div className="App inner">
-        
-          <div style={{display: 'flex', flexDirection: 'row', justifyContent: 'space-evenly'}}>
-            <div style={{flex: 1}}>
-              <Button disabled={this.state.sport === 'nfl'} onClick={(e) => this.selectSport(e, 'nfl')}>NFL</Button>
-            </div>
-            <div style={{flex: 1}}>
-              <Button onClick={(e) => this.selectSport(e, 'ncaaf')}>College Football</Button>
-            </div>
-            <div style={{flex: 1}}>
-              <Button onClick={(e) => this.selectSport(e, 'ncaam')}>March Madness</Button>
-            </div>
-          </div>
-
         {/* <!-- Content --> */}
           {/* <div id="content">
             <div className="inner"> */}

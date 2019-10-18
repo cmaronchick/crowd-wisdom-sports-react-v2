@@ -1,5 +1,5 @@
 import React, { Component } from 'react'
-import { BrowserRouter as Router, Switch, Route, Link } from "react-router-dom";
+import { BrowserRouter as Router, Switch, Route, Link, NavLink } from "react-router-dom";
 
 const Navigation = (props) => {
     return (
@@ -11,10 +11,10 @@ const Navigation = (props) => {
             {/* <-- Nav --> */}
                     <nav id="nav">
                         <ul>
-                            <li><Link to={`/`}>Home</Link></li>
-                            <li><Link to={`/nfl`}>NFL</Link></li>
-                            <li><Link to={`/ncaaf`}>College Bowls</Link></li>
-                            <li><Link to={`/ncaam`}>March Madness</Link></li>
+                            <li><NavLink to={`/`}>Home</NavLink></li>
+                            <li><NavLink to={`/nfl`}>NFL</NavLink></li>
+                            <li><NavLink to={`/ncaaf`}>College Bowls</NavLink></li>
+                            {/* <li><Link to={`/ncaam`}>March Madness</Link></li> */}
                         </ul>
                     </nav>
         {/* <div className="row" style={{marginBottom: 100}}>
