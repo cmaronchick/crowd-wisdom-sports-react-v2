@@ -3,6 +3,7 @@
 exports[`snapshot test 1`] = `
 <div
   className="App inner"
+  id="content"
 >
   <div>
     <h2
