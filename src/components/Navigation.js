@@ -13,7 +13,7 @@ const Navigation = (props) => {
                         <ul>
                             <li><NavLink to={`/`}>Home</NavLink></li>
                             <li><NavLink to={`/nfl`}>NFL</NavLink></li>
-                            <li><NavLink to={`/ncaaf`}>College Bowls</NavLink></li>
+                            <li><NavLink to={`/ncaaf`}>NCAAF</NavLink></li>
                             {/* <li><Link to={`/ncaam`}>March Madness</Link></li> */}
                         </ul>
                     </nav>
