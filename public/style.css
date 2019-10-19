@@ -122,7 +122,9 @@
 
 .home-link {
   margin-top: 1em;
-  color: #0000ee; }
+  color: #0a1f8f; }
+  .home-link a, .home-link a:visited {
+    color: #0a1f8f; }
 
 #loginModal {
   visibility: hidden;

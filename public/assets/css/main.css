@@ -119,6 +119,10 @@ input, select, textarea {
 		color: #E04403;
 	}
 
+	.home-link a, a:visited {
+		color: #0a1f8f
+	}
+
 	strong, b {
 		font-weight: 700;
 		color: #232323;

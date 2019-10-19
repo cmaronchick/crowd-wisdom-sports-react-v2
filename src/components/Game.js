@@ -65,7 +65,7 @@ class Game extends Component {
               game={game} gamePrediction={this.props.gamePrediction} />
             <GameOddsChart game={game} />
 
-            <Link className="home-link link" to={`/${this.props.sport}/${this.props.year}/${this.props.season}/${this.props.gameWeek}`}>
+            <Link className="home-link link" to={`/${this.props.sport}/games/${this.props.year}/${this.props.season}/${this.props.gameWeek}`}>
                 Games List
             </Link>
 
