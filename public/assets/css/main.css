@@ -35,6 +35,10 @@ body {
 	line-height: 1;
 }
 
+#app {
+	display: flex;
+}
+
 ol, ul {
 	list-style: none;
 }
@@ -113,6 +117,10 @@ input, select, textarea {
 
 	a {
 		color: #E04403;
+	}
+
+	.home-link a, a:visited {
+		color: #0a1f8f
 	}
 
 	strong, b {
@@ -2190,9 +2198,9 @@ input, select, textarea {
 	}
 	.bullseyeIcon {
 		position: absolute;
-		font-size: 0.8rem;
+		font-size: 0.7rem;
 		bottom:0.3rem;
-		left:-0.4rem;
+		left:-0.5rem;
 	}
 
 /* Nav */

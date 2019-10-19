@@ -26,6 +26,7 @@
     "chart.js": "^2.8.0",
     "ejs": "^2.6.1",
     "express": "^4.16.4",
+    "history": "^4.10.1",
     "jest": "^24.8.0",
     "jquery": "^3.4.0",
     "mongodb": "^3.1.13",
@@ -37,6 +38,8 @@
     "react-bootstrap": "^1.0.0-beta.8",
     "react-chartjs-2": "^2.7.6",
     "react-dom": "^16.7.0",
+    "react-ga": "^2.6.0",
+    "react-router-dom": "^5.1.2",
     "react-star-rating-component": "^1.4.1",
     "react-test-renderer": "^16.8.6",
     "source-map-explorer": "^2.0.1"

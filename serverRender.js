@@ -1,5 +1,6 @@
 import React from 'react';
 import ReactDOMServer from 'react-dom/server';
+import { StaticRouter } from 'react-router-dom'
 
 import App from './src/components/App';
 
@@ -36,8 +37,13 @@ const getLeaderboardsUrl = (gameWeekData) => {
   return `${config.serverUrl}/api/${sport}/leaderboards`
   
 };
+const getCrowdsUrl = (gameWeekData) => {
+  const { sport, year, season } = gameWeekData
+  return `${config.serverUrl}/group/${sport}/${year}`
+  
+};
 
-const getInitialData = (gameId, sport, year, season, week, weeks, code, apiData, page) => {
+const getInitialData = (gameId, sport, year, season, week, weeks, code, apiData, page, crowdId) => {
   if (gameId) {
     return {
       currentGameId: apiData.game.gameId,
@@ -64,6 +70,17 @@ const getInitialData = (gameId, sport, year, season, week, weeks, code, apiData,
         code: code,
         page: page
       }
+    case 'crowds':
+      return {
+        sport: sport,
+        year: year,
+        season: season,
+        week: week,
+        weeks: weeks,
+        crowdData: apiData,
+        code: code,
+        page: page
+      }
     default:
       return {
         sport: sport,
@@ -78,7 +95,7 @@ const getInitialData = (gameId, sport, year, season, week, weeks, code, apiData,
   }
 };
 
-const serverRender = (sport, year, season, gameWeek, gameId, query, page) => {
+const serverRender = (req, sport, year, season, gameWeek, query, page, gameId, crowdId) => {
   switch (page) {
     case 'leaderboards':
       return axios.get(`${config.serverUrl}/api/${sport}/gameWeek`)
@@ -96,7 +113,38 @@ const serverRender = (sport, year, season, gameWeek, gameId, query, page) => {
           console.log('serverRender 87 leaderboardData: ', initialData)
           
           const initialMarkup = ReactDOMServer.renderToString(
-            <App initialData={initialData} />
+            <StaticRouter location={req.url} context={{}}>
+              <App initialData={initialData} />
+            </StaticRouter>
+          )
+          const respObj = {
+            initialMarkup: initialMarkup,
+            initialData
+          }
+          //console.log('respObj ', respObj )
+          return respObj;
+        })
+        .catch(initialMarkupError => console.log('initialMarkupError :', initialMarkupError))
+      })
+    case 'crowds':
+      return axios.get(`${config.serverUrl}/api/${sport}/gameWeek`)
+      .then(gameWeekResp => {
+        const gameWeekData = gameWeekResp.data.gameWeekData;
+        return gameWeekData;
+      })
+      .then(gameWeekData => {
+      year ? gameWeekData.year = year : null
+      season ? gameWeekData.season = season : null
+      gameWeek ? gameWeekData.week = gameWeek : null
+      return axios.get(getCrowdsUrl(gameWeekData))
+        .then(resp => {
+          const initialData = getInitialData(gameWeekData.sport, gameWeekData.year, gameWeekData.season, gameWeekData.week, gameWeekData.weeks, query ? query.code : null, resp.data, page, null, crowdId);
+          console.log('serverRender 87 leaderboardData: ', initialData)
+          
+          const initialMarkup = ReactDOMServer.renderToString(
+            <StaticRouter location={req.url} context={{}}>
+              <App initialData={initialData} />
+            </StaticRouter>
           )
           const respObj = {
             initialMarkup: initialMarkup,
@@ -124,7 +172,9 @@ const serverRender = (sport, year, season, gameWeek, gameId, query, page) => {
             //console.log('initialData: ', initialData)
             
             const initialMarkup = ReactDOMServer.renderToString(
-              <App initialData={initialData} />
+              <StaticRouter location={req.url} context={{}}>
+                <App initialData={initialData} />
+              </StaticRouter>
             )
             const respObj = {
               initialMarkup: initialMarkup,

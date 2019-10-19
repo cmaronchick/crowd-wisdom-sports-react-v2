@@ -1,4 +1,5 @@
 import React, { Component, PropTypes } from 'react';
+import { Link } from 'react-router-dom'
 import * as api from '../api'
 import Auth from '@aws-amplify/auth'
 import GamePreview from './GamePreview'
@@ -16,10 +17,13 @@ class Game extends Component {
     let user = await Auth.currentAuthenticatedUser()
     let userSession = await Auth.currentSession()
     try {
+      
+      if (this._isMounted) {
       let gameObj = await api.fetchGame(this.props.sport, this.props.year, this.props.season, this.props.gameWeek, this.props.gameId, userSession)
       console.log({game: gameObj.game});
       let gamePrediction = gameObj.game ? gameObj.game.prediction : null;
       this.setState({game: gameObj.game, gamePrediction, user})
+      }
     } catch(getGameError) {
       console.log({getGameError});
     }
@@ -29,10 +33,17 @@ class Game extends Component {
 
   }
 
+  _isMounted = true;
+
   componentDidMount() {
     console.log({GameStateOnMount: this.state})
     this.getGame()
   }
+
+  componentWillUnmount() {
+    this._isMounted = false;
+  }
+
   render() {
     const { game } = this.state;
     if (!game) {
@@ -54,9 +65,9 @@ class Game extends Component {
               game={game} gamePrediction={this.props.gamePrediction} />
             <GameOddsChart game={game} />
 
-            <div className="home-link link" onClick={() => this.props.gamesListClick(this.props.sport, this.props.year, this.props.season, this.props.gameWeek)}>
+            <Link className="home-link link" to={`/${this.props.sport}/games/${this.props.year}/${this.props.season}/${this.props.gameWeek}`}>
                 Games List
-            </div>
+            </Link>
 
           </div>
     );

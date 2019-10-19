@@ -1,7 +1,7 @@
 import React, { Component } from 'react'
 import PropTypes from 'prop-types'
 
-export default function CrowdOverallCompare(props) {
+const CrowdOverallCompare = (props) => {
     console.log({CrowdOverallCompare: props})
     const crowd = props.crowd
     const userStats = props.userStats
@@ -37,3 +37,5 @@ export default function CrowdOverallCompare(props) {
             </div>
         )
 }
+
+export default CrowdOverallCompare;

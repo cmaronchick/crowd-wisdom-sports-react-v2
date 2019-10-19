@@ -1,4 +1,7 @@
 import React from 'react';
+import { BrowserRouter as Router, Switch, Route, Link } from "react-router-dom";
+import { createMemoryHistory } from 'history'
+const history = createMemoryHistory()
 import Auth from '@aws-amplify/auth';
 
 import awsconfig from '../../awsexports'
@@ -17,7 +20,13 @@ import HomeLeaderboards from './Home.Leaderboards';
 import CrowdOverallCompare from './Home.CrowdOverallCompare'
 import LoginModal from './LoginModal';
 import Weeks from './Weeks';
+import Navigation from './Navigation'
 import * as api from '../api';
+
+
+import ReactGA from 'react-ga'
+import * as analytics from '../constants/analytics'
+
 
 const pushState = (obj, url) =>
   window.history.pushState(obj, '', url);
@@ -55,6 +64,7 @@ class App extends React.Component {
     // console.log('this.state: ', this.state)
 
     let fbUser = this.state.code ? await api.getFacebookUser(this.state.code) : null
+    ReactGA.initialize(analytics.config);
     try {
       let user = await Auth.currentAuthenticatedUser({bypassCache: true})
       this.setState({user, authState: 'signedIn'})
@@ -62,12 +72,15 @@ class App extends React.Component {
       this.setState({user: null, authState: 'signIn'})
     }
 
+    console.log({currentGameId: this.state.currentGameId});
+
     if (!this.state.currentGameId) {
       try {
         this.setState({ fetchingGames: true })
         let userSession = await Auth.currentSession();
         let gameWeekDataResponse = await api.fetchGameWeek(this.state.sport, userSession)
         const { sport, year, week, season, weeks } = this.state ? this.state : gameWeekDataResponse.gameWeekData;
+        ReactGA.pageview(`/${sport}/${year}/${season}/${week}`)
         let games = await api.fetchGameWeekGames(sport, year, season, week, userSession);
         let gamePredictions = {};
         Object.keys(games).forEach(gameKey => {
@@ -77,6 +90,7 @@ class App extends React.Component {
             userSession: userSession,
             sport: sport,
             year: year,
+            currentWeek: week,
             gameWeek: week,
             season: season,
             weeks: weeks,
@@ -96,7 +110,6 @@ class App extends React.Component {
           const { sport, year, season } = this.state ? this.state : gameWeekDataResponse.gameWeekData;
           const week = this.state.gameWeek ? this.state.gameWeek : gameWeekDataResponse.gameWeekData.week;
           let crowdOverallData = await api.fetchCrowdOverall(sport, year, season, week)
-          console.log({crowdOverallData})
           this.setState({
             crowd: crowdOverallData.crowd
           })
@@ -137,10 +150,26 @@ class App extends React.Component {
     return false;
   }
 
-  componentDidUpdate(prevProps, prevState) {
-    if (this.state.user!==prevState.user || this.state.week!== prevState.week) {
-      this.fetchGameWeekGames(this.state.sport, this.state.year, this.state.season, this.state.gameWeek ? this.state.gameWeek : this.state.week)
-      this.fetchLeaderboards(this.state.sport, this.state.year, this.state.season, this.state.gameWeek ? this.state.gameWeek : this.state.week) 
+  async componentDidUpdate(prevProps, prevState) {
+    if (this.state.user!==prevState.user || this.state.week!== prevState.week || this.state.gameWeek!== prevState.gameWeek || this.state.sport !== prevState.sport) {
+
+      let { sport, year, season, week } = this.state
+      if (this.state.sport !== prevState.sport) {
+        let userSession = await Auth.currentSession();
+        let gameWeekDataResponse = await api.fetchGameWeek(this.state.sport, userSession)
+        let { sport, year, season, week  } = gameWeekDataResponse.gameWeekData;
+      }
+      
+      if (!this.state.currentGameId) {
+        console.log(`/${sport}/${year}/${season}/${week}`);
+        //ReactGA.pageview(`/${sport}/${year}/${season}/${week}`)
+        this.fetchGameWeekGames(this.state.sport, this.state.year, this.state.season, this.state.gameWeek ? this.state.gameWeek : this.state.week)
+        this.fetchLeaderboards(this.state.sport, this.state.year, this.state.season, this.state.gameWeek ? this.state.gameWeek : this.state.week) 
+        this.fetchCrowdOverallCompare(sport, year, season, week)
+          
+      } else {
+        ReactGA.pageview(`/${sport}/${year}/${season}/${week}/${this.state.currentGameId}`)
+      }
     }
   }
   componentWillUnmount() {
@@ -148,28 +177,32 @@ class App extends React.Component {
     onPopState(null);
   }
 
-  confirmUser = (e) => {
+  selectSport = (e, sport) => {
     e.preventDefault();
-    const { confirmUserCode, username } = this.state;
-    Auth.confirmSignUp(username, confirmUserCode)
-    .then((confirmResponse) => {
-      console.log('confirmResponse: ', confirmResponse)
-    })
-    .catch((confirmReject) => {
-      console.log('confirmReject: ', confirmReject)
-    })
+    console.log({sport})
+    this.setState({sport: sport})
   }
 
-  resendConfirmation = (e) => {
+  confirmUser = async (e) => {
     e.preventDefault();
-    Auth.resendSignUp(this.state.username)
-    .then(resendSignUpResponse => {
+    const { confirmUserCode, username } = this.state;
+    try {
+      let confirmResponse = await Auth.confirmSignUp(username, confirmUserCode)
+      console.log('confirmResponse: ', confirmResponse)
+    } catch(confirmReject) {
+      console.log('confirmReject: ', confirmReject)
+    }
+  }
+
+  resendConfirmation = async (e) => {
+    e.preventDefault();
+    try {
+      let resendSignUpResponse = await Auth.resendSignUp(this.state.username)
       console.log('resendSignUpResponse: ', resendSignUpResponse)
       this.setState({user, authState: 'signIn'})
-    })
-    .catch(resendSignUpReject => {
+    } catch(resendSignUpReject) {
       console.log('resendSignUpReject: ', resendSignUpReject)
-    })
+    }
   }
 
   signIn = async (e) => {
@@ -191,19 +224,20 @@ class App extends React.Component {
       console.log('signInError: ', signInError)
     }
   }
-  signOut = (e) => {
+  signOut = async (e) => {
     e.preventDefault()
     console.log('signOut clicked')
-    Auth.signOut()
-    .then(() => {
+    try{
+      let signOutResponse = await Auth.signOut();
       this.setState({user: null, authState: 'signIn'})
-    })
-    .catch(signOutError => console.log('signOutError: ', signOutError))
+    } catch(signOutError) {
+      console.log('signOutError: ', signOutError)
+    }
   }
 
   
     // Sign up user with AWS Amplify Auth
-  signUp = (e) => {
+  signUp = async (e) => {
       e.preventDefault();
       const { username, password, givenName, familyName, email, emailOptIn } = this.state
       // rename variable to conform with Amplify Auth field phone attribute
@@ -213,18 +247,17 @@ class App extends React.Component {
         family_name: familyName
       }
       attributes['custom:reminderMailOptIn'] = emailOptIn ? '1' : '0'
-      Auth.signUp({
+      try {
+        let signUpResponse = await Auth.signUp({
           username,
           password,
           attributes
-        })
-        .then((response) => {
-          this.setState({
-            user: response.user,
+        });
+        this.setState({
+            user: signUpResponse.user,
             confirmUser: true
-          })
         })
-        .catch(err => {
+      } catch(err) {
         if (! err.message) {
             console.log('Error when signing up: ', err)
             // Alert.alert('Error when signing up: ', err)
@@ -232,7 +265,7 @@ class App extends React.Component {
             console.log('Error when signing up: ', err, '; ', err.message)
             // Alert.alert('Error when signing up: ', err.message)
         }
-      })
+      }
   }
 
   handleFBCode = () => {
@@ -356,6 +389,12 @@ class App extends React.Component {
           stars: stars
         };
         let predictionResponse = await api.fetchSubmitPrediction(userSession, prediction);
+        ReactGA.event({
+          category: 'prediction',
+          action: 'submitted',
+          label: 'success',
+          value: game.gameId
+        })
         let gameUpdate = predictionResponse.prediction.game;
         gameUpdate.prediction = predictionResponse.prediction.prediction;
 
@@ -389,6 +428,12 @@ class App extends React.Component {
       }      
     } catch(submitPredictionError) {
       console.log({submitPredictionError});
+      ReactGA.event({
+        category: 'prediction',
+        action: 'submitted',
+        label: game.gameId,
+        value: 'failure'
+      })
     }
   }
 
@@ -431,16 +476,20 @@ class App extends React.Component {
       {currentGameId: null},
       `/${sport}/games/${year}/${season}/${week}`
     );
+    try {
 
-    let userSession = await Auth.currentSession()
-    let games = await api.fetchGamesList(sport, year, season, week, userSession)
-      this.setState({
-        currentGameId: null,
-        data: {
-          ...this.state.games,
-          games
-        }
-      });
+      let userSession = await Auth.currentSession()
+      let games = await api.fetchGamesList(sport, year, season, week, userSession)
+        this.setState({
+          currentGameId: null,
+          data: {
+            ...this.state.games,
+            games
+          }
+        });
+    } catch (fetchGamesListError) {
+      console.log({fetchGamesListError})
+    }
   }
 
   fetchGameWeekGames = async (sport, year, season, gameWeek) => {
@@ -470,7 +519,6 @@ class App extends React.Component {
         gamePredictions,
         fetchingGames: false
       });
-      let leaderboard
     } catch (getGamesError) {
       console.log({getGamesError});
       let games = await api.fetchGameWeekGames(sport, year, season, gameWeek);
@@ -500,7 +548,7 @@ class App extends React.Component {
 
   fetchLeaderboards = async (sport, year, season, gameWeek) => {
     
-    let week = gameWeek ? gameWeek : this.state.gameWeek ? this.state.gameWeekData : await
+    let week = gameWeek ? gameWeek : this.state.gameWeekData ? this.state.gameWeekData.week : null
     console.log({week});
     try {
       let userSession = await Auth.currentSession()
@@ -511,9 +559,17 @@ class App extends React.Component {
       this.setState({ leaderboardData, fetchingLeaderboards: false })
     }
   }
+  fetchCrowdOverallCompare = async (sport, year, season, week) => {
+    try {
+      let crowdOverallData = await api.fetchCrowdOverall(sport, year, season, week)
+      this.setState({crowd: crowdOverallData.crowd})
+    } catch (crowdOverallCompareError) {
+      console.log({crowdOverallCompareError});
+    }
+  }
 
-  currentGame() {
-    return this.state.games ? this.state.games[this.state.currentGameId] : this.state.game;
+  currentGame(gameId) {
+    return this.state.games ? this.state.games[gameId] : this.state.game;
   }
   pageHeader() {
     //console.log('this.state: ', this.state);
@@ -523,73 +579,96 @@ class App extends React.Component {
     return !this.state.fetchingGames ? `Week ${this.state.gameWeek} Games` : 'Loading Games ...';
   }
   currentContent() {
-    if (this.state.currentGameId) {
-      return <Game 
-      gamesListClick={this.fetchGamesList}
-      onChangeGameScore={this.onChangeGameScore}
-      onChangeStarSpread={this.onChangeStarSpread}
-      onChangeStarTotal={this.onChangeStarTotal}
-      onSubmitPrediction={this.submitPrediction}
-      gamePrediction={this.state.gamePredictions[this.state.currentGameId]}
-      {...this.currentGame()} />;
-    }
-    if (this.state.page === 'leaderboards') {
-      return <Leaderboards leaderboardData={this.state.leaderboardData} />
-    }
-    //console.log('this.state.games: ', this.state.games);
-    const { games, gamePredictions } = this.state;
-    return (
-      <div>
-        <Dropdown>
-          <Dropdown.Toggle variant="success" id="dropdown-basic">
-            Select a Season
-          </Dropdown.Toggle>
-          <Dropdown.Menu>
-            <Dropdown.Item onClick={() => this.onYearChange(2019)} href='#' className='yearDropdown'>2019</Dropdown.Item>
-            <Dropdown.Item onClick={() => this.onYearChange(2018)} href='#' className='yearDropdown'>2018</Dropdown.Item>
-            <Dropdown.Item onClick={() => this.onYearChange(2017)} href='#' className='yearDropdown'>2017</Dropdown.Item>
-          </Dropdown.Menu>
-        </Dropdown>
-        {/* <select onChange={(event) => this.onYearChange(event)} id="year" name="year">
-          <option value="2019">2019</option>
-          <option value="2018">2018</option>
-          <option value="2017">2017</option>
-        </select> */}
-        {this.state.weeks ? (
-          <Weeks
-          onGameWeekClick={this.fetchGameWeekGames}
-          currentWeek={this.state.gameWeek}
-          sport={this.state.sport}
-          year={this.state.year}
-          season={this.state.season}
-          weeks={this.state.weeks} />
-        ) : null}
-        {(this.state.crowd || this.state.userStats) ? (
-          <CrowdOverallCompare week={this.state.week} userStats={this.state.userStats} crowd={this.state.crowd} />
-        ) : null}
-        {this.state.games ? (
-        <GamesList 
-          onChangeGameScore={this.onChangeGameScore}
-          onChangeStarSpread={this.onChangeStarSpread}
-          onChangeStarTotal={this.onChangeStarTotal}
-          onSubmitPrediction={this.submitPrediction}
-          onGameClick={this.fetchGame}
-          games={games} gamePredictions={gamePredictions} />
-        ): (
-          <div>No games available</div>
-        )}
-        <HomeLeaderboards 
-          sport={this.state.sport}
-          year={this.state.year}
-          season={this.state.season}
-          week={this.state.week} />
-      </div>
+      const { games, gamePredictions } = this.state;
+      return (
+          <Switch>
+          <Route path="/:sport/games/:year/:season/:gameWeek/:gameId" render={({match}) => {
+            const { gameId } = match.params;
+            return (
+              <Game 
+              gamesListClick={this.fetchGamesList}
+              onChangeGameScore={this.onChangeGameScore}
+              onChangeStarSpread={this.onChangeStarSpread}
+              onChangeStarTotal={this.onChangeStarTotal}
+              onSubmitPrediction={this.submitPrediction}
+              gamePrediction={this.state.gamePredictions[match.params.gameId]}
+              {...this.currentGame(gameId)} />
+              )
+          }
+          }/>
+          <Route path="/:sport/leaderboards/:year/:season" render={() => 
+            <Leaderboards leaderboardData={this.state.leaderboardData} />
+          } />
+          <Route path="/:sport" render={({match}) => {
+            console.log({match})
+            return (
+              <div>
+                <Dropdown>
+                  <Dropdown.Toggle variant="success" id="dropdown-basic">
+                    Select a Season
+                  </Dropdown.Toggle>
+                  <Dropdown.Menu>
+                    <Dropdown.Item onClick={() => this.onYearChange(2019)} href='#' className='yearDropdown'>2019</Dropdown.Item>
+                    <Dropdown.Item onClick={() => this.onYearChange(2018)} href='#' className='yearDropdown'>2018</Dropdown.Item>
+                    <Dropdown.Item onClick={() => this.onYearChange(2017)} href='#' className='yearDropdown'>2017</Dropdown.Item>
+                  </Dropdown.Menu>
+                </Dropdown>
+                {/* <select onChange={(event) => this.onYearChange(event)} id="year" name="year">
+                  <option value="2019">2019</option>
+                  <option value="2018">2018</option>
+                  <option value="2017">2017</option>
+                </select> */}
+                {this.state.weeks ? (
+                  <Weeks
+                  onGameWeekClick={this.fetchGameWeekGames} currentWeek={this.state.gameWeek} sport={this.state.sport} year={this.state.year} season={this.state.season}
+                  weeks={this.state.weeks} />
+                ) : null}
+                {(this.state.crowd || this.state.userStats) ? (
+                  <CrowdOverallCompare week={this.state.week} userStats={this.state.userStats} crowd={this.state.crowd} />
+                ) : null}
+                {this.state.games ? (
+                <GamesList 
+                  onChangeGameScore={this.onChangeGameScore}
+                  onChangeStarSpread={this.onChangeStarSpread}
+                  onChangeStarTotal={this.onChangeStarTotal}
+                  onSubmitPrediction={this.submitPrediction}
+                  onGameClick={this.fetchGame}
+                  games={games} gamePredictions={gamePredictions} />
+                ): (
+                  <div>No games available</div>
+                )}
+                <HomeLeaderboards 
+                  sport={this.state.sport}
+                  year={this.state.year}
+                  season={this.state.season}
+                  week={this.state.week} />
+              </div>
+              )
+            }} />
+          </Switch>
     );
   }
   render() {
     return (
-      <div className="App inner">
-
+      /* <div id="sidebar">
+        <h1 id="logo"><a href="/">STAKEHOUSE SPORTS</a></h1>
+          <nav id="nav">
+            <a href="/nfl" onClick={(e) => {
+              console.log({e})
+              e.preventDefault();
+              this.selectSport(e, 'nfl')
+            }}>NFL</a>
+            <Button onClick={(e) => {
+                      console.log({sport: this.state.sport})
+                      this.selectSport(e, this.state.sport)
+                    }}>Home</Button>
+            <Button disabled={this.state.sport === 'nfl'} onClick={(e) => this.selectSport(e, 'nfl')}>NFL</Button>
+            <Button onClick={(e) => this.selectSport(e, 'ncaaf')}>College Football</Button>
+            <Button onClick={(e) => this.selectSport(e, 'ncaam')}>March Madness</Button>
+          </nav>
+      </div> */
+      <div id="content">
+        <div className="App inner">
         {/* <!-- Content --> */}
           {/* <div id="content">
             <div className="inner"> */}
@@ -635,9 +714,8 @@ class App extends React.Component {
             this.currentContent()
             )}
           </div>
-        // </div>
 
-      // </div>
+        </div>
     );
   }
 }
