@@ -88,7 +88,7 @@ class App extends React.Component {
         })
           this.setState({
             userSession: userSession,
-            sport: 'nfl',
+            sport: sport,
             year: year,
             currentWeek: week,
             gameWeek: week,
@@ -579,7 +579,6 @@ class App extends React.Component {
     return !this.state.fetchingGames ? `Week ${this.state.gameWeek} Games` : 'Loading Games ...';
   }
   currentContent() {
-    
       const { games, gamePredictions } = this.state;
       return (
           <Switch>
