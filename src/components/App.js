@@ -627,22 +627,24 @@ class App extends React.Component {
                 {(this.state.crowd || this.state.userStats) ? (
                   <CrowdOverallCompare week={this.state.week} userStats={this.state.userStats} crowd={this.state.crowd} />
                 ) : null}
-                {this.state.games ? (
-                <GamesList 
-                  onChangeGameScore={this.onChangeGameScore}
-                  onChangeStarSpread={this.onChangeStarSpread}
-                  onChangeStarTotal={this.onChangeStarTotal}
-                  onSubmitPrediction={this.submitPrediction}
-                  onGameClick={this.fetchGame}
-                  games={games} gamePredictions={gamePredictions} />
-                ): (
-                  <div>No games available</div>
-                )}
-                <HomeLeaderboards 
-                  sport={this.state.sport}
-                  year={this.state.year}
-                  season={this.state.season}
-                  week={this.state.week} />
+                <div className='homeContent'>
+                  {this.state.games ? (
+                  <GamesList 
+                    onChangeGameScore={this.onChangeGameScore}
+                    onChangeStarSpread={this.onChangeStarSpread}
+                    onChangeStarTotal={this.onChangeStarTotal}
+                    onSubmitPrediction={this.submitPrediction}
+                    onGameClick={this.fetchGame}
+                    games={games} gamePredictions={gamePredictions} />
+                  ): (
+                    <div>No games available</div>
+                  )}
+                  <HomeLeaderboards 
+                    sport={this.state.sport}
+                    year={this.state.year}
+                    season={this.state.season}
+                    week={this.state.week} />
+                </div>
               </div>
               )
             }} />

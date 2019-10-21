@@ -1,12 +1,10 @@
 @media (min-width: 768px) {
     .gamesList {
-        width: 66%;
-        float: left;
+        flex: 2;
     }
 
     .homeLeaderboards {
-        width: 33%;
-        float: right;
+        flex: 1;
     }
 }
 

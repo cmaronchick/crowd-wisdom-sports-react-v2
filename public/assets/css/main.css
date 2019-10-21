@@ -2409,6 +2409,8 @@ input, select, textarea {
 
 	#content {
 		position: relative;
+		display: flex;
+		flex-direction: column;
 		background-color: #fff;
 		/*background-image: url("images/bg02.png");*/
 		width: 100%;
@@ -2426,6 +2428,22 @@ input, select, textarea {
 			position: relative;
 			z-index: 1;
 		}
+
+		.homeContent {
+			display: flex;
+		}
+
+		@media (min-width: 1024px) {
+			.homeContent {
+				flex-direction: row;
+			}
+		}
+		@media (max-width: 1023px) {
+			.homeContent {
+				flex-direction: column;
+			}
+		}
+
 
 /* Copyright */
 
@@ -2463,7 +2481,6 @@ input, select, textarea {
 		/* Basic */
 
 			body {
-				height: 100%;
 				line-height: 1.75em;
 			}
 
