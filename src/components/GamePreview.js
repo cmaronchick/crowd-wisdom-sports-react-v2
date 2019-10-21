@@ -225,7 +225,7 @@ class GamePreview extends Component {
                   name={'starsSpread'}
                   value={(gamePrediction && gamePrediction.stars) ? gamePrediction.stars.spread : (game.prediction && game.prediction.stars) ? game.prediction.stars.spread : 0}
                   starCount={3}
-                  starColor={'#124734'} /* color of selected icons, default `#ffb400` */
+                  starColor={(!game.results || (gamePrediction && gamePrediction.results && gamePrediction.results.spread.correct === 1)) ? '#124734' : '#e04403'} /* color of selected icons, default `#ffb400` */
                   emptyStarColor={'#f6dfa4'}
                   onStarClick={this.handleOnChangeStarSpread}
                   />
