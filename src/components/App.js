@@ -18,6 +18,7 @@ import Game from './Game';
 import Leaderboards from './Leaderboards'
 import HomeLeaderboards from './Home.Leaderboards';
 import CrowdOverallCompare from './Home.CrowdOverallCompare'
+import HomeStarResults from './Home.StarsResults'
 import LoginModal from './LoginModal';
 import Weeks from './Weeks';
 import Navigation from './Navigation'
@@ -47,6 +48,7 @@ class App extends React.Component {
       fetchingLeaderboards: false,
       loginModalShow: false,
       confirmUser: false,
+      compareTable: 'crowd',
       authState: 'checkingSignIn'
     }
     
@@ -147,6 +149,7 @@ class App extends React.Component {
     if (this.state.page!==prevState.page) return true;
     if (this.state.currentGameId!==prevState.currentGameId) return true;
     if (this.state.crowd!==prevState.crowd) return true;
+    if (this.state.compareTable!==prevState.compareTable) return true;
     return false;
   }
 
@@ -281,6 +284,10 @@ class App extends React.Component {
     this.setState({ loginModalShow: false })
   }
 
+  handleCompareButtonClick = (compare) => {
+    this.setState({ compareTable: compare })
+  }
+
   onChangeText = (event) => {
     this.setState({[event.target.name]: event.target.value})
   }
@@ -392,8 +399,7 @@ class App extends React.Component {
         ReactGA.event({
           category: 'prediction',
           action: 'submitted',
-          label: 'success',
-          value: game.gameId
+          label: game.gameId.toString()
         })
         let gameUpdate = predictionResponse.prediction.game;
         gameUpdate.prediction = predictionResponse.prediction.prediction;
@@ -623,8 +629,22 @@ class App extends React.Component {
                   onGameWeekClick={this.fetchGameWeekGames} currentWeek={this.state.gameWeek} sport={this.state.sport} year={this.state.year} season={this.state.season}
                   weeks={this.state.weeks} />
                 ) : null}
-                {(this.state.crowd || this.state.userStats) ? (
-                  <CrowdOverallCompare week={this.state.week} userStats={this.state.userStats} crowd={this.state.crowd} />
+                {(this.state.crowd || (this.state.userStats && this.state.userStats.results)) ? (
+                    (this.state.compareTable === 'crowd') ? (
+                      <div className='compareDiv'>
+                        <Button onClick={() => this.handleCompareButtonClick('stars')}>
+                          Show My Stars Results
+                        </Button>
+                        <CrowdOverallCompare week={this.state.week} userStats={this.state.userStats} crowd={this.state.crowd} />
+                      </div>
+                    ) : (
+                      <div style={{display: 'flex', flexDirection: 'column', justifyContent: 'center', alignItems: 'center'}}>
+                        <Button onClick={() => this.handleCompareButtonClick('crowd')}>
+                          Show Me vs. the Crowd Results
+                        </Button>
+                        <HomeStarResults week={this.state.week} userStats={this.state.userStats} crowd={this.state.crowd} />
+                      </div>
+                    )
                 ) : null}
                 <div className='homeContent'>
                   {this.state.games ? (

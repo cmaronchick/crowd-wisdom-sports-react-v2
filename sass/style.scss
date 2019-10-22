@@ -105,9 +105,20 @@
     }
 }
 
+.compareDiv {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    button {
+        margin: 5px;
+    }
+}
+
 .CrowdOverallCompare {
     display: flex;
     flex-direction: column;
+    width: 100%;
     .compareRow {
         display: flex;
         flex: 1;

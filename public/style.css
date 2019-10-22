@@ -75,9 +75,18 @@
   .GamePreview a, .GamePreview a:visited {
     color: #231f20; }
 
+.compareDiv {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center; }
+  .compareDiv button {
+    margin: 5px; }
+
 .CrowdOverallCompare {
   display: flex;
-  flex-direction: column; }
+  flex-direction: column;
+  width: 100%; }
   .CrowdOverallCompare .compareRow {
     display: flex;
     flex: 1;
