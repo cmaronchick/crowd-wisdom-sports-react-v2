@@ -1,10 +1,7 @@
 import React, { Component } from 'react'
 import PropTypes from 'prop-types'
 
-const CrowdOverallCompare = (props) => {
-    console.log({CrowdOverallCompare: props})
-    const crowd = props.crowd
-    const userStats = props.userStats
+const CrowdOverallCompare = ({ crowd, userStats }) => {
         return (
             <div className="crowdOverallCompare">
             <div className="compareRow userStats">
