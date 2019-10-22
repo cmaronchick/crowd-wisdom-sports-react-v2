@@ -272,7 +272,7 @@ class GamePreview extends Component {
               <div style={{position: 'relative'}}>
                 {game.results ? checkBullseye(game.crowd.spread, game.results.spread) : null}
                 {game.results ? spreadResults(game.odds,game.results, game.crowd) : null}
-                {(game.prediction && game.crowd && game.odds) ? apis.spreadPrediction(game, crowdAwayTeamScore, crowdHomeTeamScore) : ''}<br/>
+                {((game.prediction || game.results) && game.crowd && game.odds) ? apis.spreadPrediction(game, crowdAwayTeamScore, crowdHomeTeamScore) : ''}<br/>
 
               <span className="predictionSpread">(
               {(crowdHomeTeamScore + game.odds.spread) > crowdAwayTeamScore // home team covers
