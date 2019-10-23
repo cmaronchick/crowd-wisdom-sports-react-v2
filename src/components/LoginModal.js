@@ -26,6 +26,7 @@ export default class LoginModal extends Component {
     handleShow() {
       this.setState({ show: true })
     }
+
     // handleClose() {
     //   this.setState({ show: false });
     // }
@@ -43,14 +44,14 @@ export default class LoginModal extends Component {
               <Modal.Title>Sign Up</Modal.Title>
             </Modal.Header>
             <Modal.Body>
-            {!this.props.confirmUser ?
+            {!this.props.confirmUser && !this.props.forgotPassword ?
             
             <Tabs defaultActiveKey="signIn" id="uncontrolled-tab-example">
               <Tab eventKey="signIn" title="Sign In">
                 <Form>
                   <Form.Group controlId="formSignInEmail">
                     <Form.Label>Username</Form.Label>
-                    <Form.Control type="text" name="username" placeholder="Enter email" onChange={this.props.onChangeText} />
+                    <Form.Control type="text" name="username" placeholder="Enter username" onChange={this.props.onChangeText} />
                     {/* <Form.Text className="text-muted">
                       We'll never share your email with anyone else.
                     </Form.Text> */}
@@ -63,7 +64,7 @@ export default class LoginModal extends Component {
                   {/* <Form.Group controlId="formBasicChecbox">
                     <Form.Check type="checkbox" label="Check me out" />
                   </Form.Group> */}
-                  <Button variant="primary" type="submit" onClick={this.props.signInClick}>
+                  <Button className="loginButton" variant="primary" type="submit" onClick={this.props.signInClick}>
                     {this.props.signingInUser ? (
                       <Spinner animation='border' />
                     ) : (
@@ -71,7 +72,7 @@ export default class LoginModal extends Component {
                     )}
 
                   </Button>
-                  <Button name="facebookSignInButton" onClick={() => this.handleFBClick()} className="btn facebook-button socialButton-customizable">
+                  <Button name="facebookSignInButton" onClick={() => this.handleFBClick()} className="btn facebook-button socialButton-customizable loginButton">
                     <span><svg className="social-logo" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 216 216" color="#ffffff">
                         <path fill="#ffffff" d="
                             M204.1 0H11.9C5.3 0 0 5.3 0 11.9v192.2c0 6.6 5.3 11.9 11.9
@@ -82,6 +83,9 @@ export default class LoginModal extends Component {
                     </svg></span>
                     <span>Continue with Facebook</span>
                   </Button>
+                  <div onClick={() => this.props.handleForgotPasswordClick()} className="forgotPasswordLink">
+                    Forgot Password?
+                  </div>
                   {this.props.signInError ? (
                     <div>{this.props.signInError.message}</div>
                   ) : null}
@@ -122,10 +126,10 @@ export default class LoginModal extends Component {
                   <Form.Group controlId="formSignUpOptIn">
                     <Form.Check type="checkbox" name="emailOptIn" onChange={this.props.onChangeText} label="Receive weekly predictions reminder e-mails." />
                   </Form.Group>
-                  <Button variant="primary" type="submit" onClick={this.props.signUpClick}>
+                  <Button className="loginButton" variant="primary" type="submit" onClick={this.props.signUpClick}>
                     Submit
                   </Button>
-                  <Button name="facebookSignUpButton" onClick={() => this.handleFBClick()} className="btn facebook-button socialButton-customizable">
+                  <Button name="facebookSignUpButton" onClick={() => this.handleFBClick()} className="btn facebook-button socialButton-customizable loginButton">
                     <span><svg className="social-logo" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 216 216" color="#ffffff">
                         <path fill="#ffffff" d="
                             M204.1 0H11.9C5.3 0 0 5.3 0 11.9v192.2c0 6.6 5.3 11.9 11.9
@@ -139,7 +143,7 @@ export default class LoginModal extends Component {
                 </Form>
               </Tab>
               </Tabs>
-              : (
+              : this.props.confirmUser ? (
                 
                     <Form>
                       <Form.Group controlId="formConfirmationCode">
@@ -147,14 +151,45 @@ export default class LoginModal extends Component {
                         <Form.Control type="number" name="confirmUserCode" placeholder="####" onChange={this.props.onChangeText} />
                       </Form.Group>
                       
-                      <Button variant="primary" onClick={this.props.handleConfirmUserClick}>
+                      <Button className="loginButton" variant="primary" onClick={this.props.handleConfirmUserClick}>
                         Confirm
                       </Button>
-                      <Button variant="secondary" onClick={this.props.handleResendClick}>
+                      <Button className="loginButton" variant="secondary" onClick={this.props.handleResendClick}>
                         Resend Code
                       </Button>
                     </Form>
-              )}
+              ) : this.props.forgotPassword ? (
+                <Form>
+                  <Form.Group controlId="formForgotPassword">
+                    <Form.Label>Enter Your Username</Form.Label>
+                    <Form.Control type="text" name="username" placeholder="Enter username" onChange={this.props.onChangeText} />
+                  </Form.Group>
+                  
+                  <Button className="loginButton" variant="primary" onClick={this.props.resetPassword}>
+                    {this.state.sendingPasswordReset ? (
+                      <Spinner />
+                    ) : (
+                      <span>Reset Password</span>
+                    )}                    
+                  </Button>
+                  {this.props.resetCodeSent ? (
+                    
+                    <Form.Group controlId="formForgotPassword">
+                      <Form.Label>Enter Your New Password</Form.Label>
+                      <Form.Control type="text" name="newPassword" placeholder="Enter username" onChange={this.props.onChangeText} />
+                      <Form.Label>Confirmation Code</Form.Label>
+                      <Form.Control type="number" name="authCode" placeholder="######" onChange={this.props.onChangeText} />
+                      <Button className="loginButton" variant="primary" onClick={this.props.handleConfirmUserClick}>
+                        {this.state.sendingNewPassword ? (
+                          <Spinner />
+                        ) : (
+                          <span>Submit</span>
+                        )}                    
+                      </Button>
+                    </Form.Group>
+                  ) : null}
+                </Form>
+              ) : null}
             </Modal.Body>
           </Modal>
         )

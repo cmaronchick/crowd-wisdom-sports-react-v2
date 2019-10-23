@@ -156,6 +156,14 @@
     padding: 3px;
     margin: 0 5px; }
 
+.loginButton {
+  margin: 10px 0;
+  width: 100%; }
+
+.forgotPasswordLink {
+  text-align: center;
+  cursor: pointer; }
+
 /* Weeks */
 .weeks {
   display: flex;

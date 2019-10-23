@@ -150,6 +150,7 @@ class App extends React.Component {
     if (this.state.currentGameId!==prevState.currentGameId) return true;
     if (this.state.crowd!==prevState.crowd) return true;
     if (this.state.compareTable!==prevState.compareTable) return true;
+    if (this.state.forgotPassword!==prevState.forgotPassword || this.state.sendingNewPassword!==prevState.sendingNewPassword || this.state.sendingPasswordReset!==prevState.sendingPasswordReset) return true;
     return false;
   }
 
@@ -191,6 +192,7 @@ class App extends React.Component {
     const { confirmUserCode, username } = this.state;
     try {
       let confirmResponse = await Auth.confirmSignUp(username, confirmUserCode)
+      this.setState({ confirmUser: false })
       console.log('confirmResponse: ', confirmResponse)
     } catch(confirmReject) {
       console.log('confirmReject: ', confirmReject)
@@ -238,6 +240,28 @@ class App extends React.Component {
     }
   }
 
+  resetPassword = async(e) => {
+    e.preventDefault();
+    this.setState({sendingPasswordReset: true})
+    try {
+      let forgotPasswordResponse = await Auth.forgotPassword(this.state.username)
+      this.setState({sendingPasswordReset: false,
+      resetCodeSent: true})
+    } catch (forgotPasswordError) {
+      console.log({forgotPasswordError})
+    }
+  }
+
+  submitNewPassword = async(e) => {
+    e.preventDefault();
+    this.setState({sendingNewPassword: true})
+    try {
+      let sendingNewPasswordResponse = await Auth.forgotPasswordSubmit(this.state.username, this.state.authCode, this.state.newPassword)
+      this.setState({sendingPasswordReset: false})
+    } catch (forgotPasswordError) {
+      console.log({forgotPasswordError})
+    }
+  }
   
     // Sign up user with AWS Amplify Auth
   signUp = async (e) => {
@@ -278,6 +302,12 @@ class App extends React.Component {
   handleLoginClick = () => {
     // return <LoginModal show={true} signInClick={this.signIn} signUpClick={this.signUp} />
     this.setState({ loginModalShow: true})
+  }
+  
+  handleForgotPasswordClick = () => {
+    this.setState({
+      forgotPassword: true
+    })
   }
 
   handleLoginModalClosed = () => {
@@ -722,8 +752,15 @@ class App extends React.Component {
                   signInClick={this.signIn} 
                   signUpClick={this.signUp} 
                   confirmUser={this.state.confirmUser}
+                  forgotPassword={this.state.forgotPassword}
+                  sendingNewPassword={this.state.sendingNewPassword}
+                  sendingPasswordReset={this.state.sendingPasswordReset}
                   handleConfirmUserClick={this.confirmUser} 
-                  handleResendClick={this.resendConfirmation}/>
+                  handleResendClick={this.resendConfirmation}
+                  handleForgotPasswordClick={this.handleForgotPasswordClick}
+                  resetPassword={this.resetPassword}
+                  submitNewPassword={this.submitNewPassword}
+                  />
                   
                   <Button onClick={() => this.handleLoginClick()}>Sign In/Sign Up</Button>
               </div>
