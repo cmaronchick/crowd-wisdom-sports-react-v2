@@ -2,42 +2,17 @@
 
 exports[`snapshot test 1`] = `
 <div
-  className="App inner"
   id="content"
 >
-  <div>
-    <h2
-      className="Header text-center"
-    >
-      Week undefined Games
-    </h2>
-  </div>
-  <div>
-    <div
-      className="dropdown"
-      onKeyDown={[Function]}
-    >
-      <button
-        aria-expanded={false}
-        aria-haspopup={true}
-        className="dropdown-toggle btn btn-success"
-        disabled={false}
-        id="dropdown-basic"
-        onClick={[Function]}
-        type="button"
-      >
-        Select a Season
-      </button>
-    </div>
+  <div
+    className="App inner"
+  >
     <div>
-      No games available
-    </div>
-    <div
-      className="homeLeaderboards"
-    >
-      <div>
-        Loading Overall Leaderboards
-      </div>
+      <h2
+        className="Header text-center"
+      >
+        Week undefined Games
+      </h2>
     </div>
   </div>
 </div>
