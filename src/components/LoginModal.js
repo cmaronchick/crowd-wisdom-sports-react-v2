@@ -160,33 +160,36 @@ export default class LoginModal extends Component {
                     </Form>
               ) : this.props.forgotPassword ? (
                 <Form>
-                  <Form.Group controlId="formForgotPassword">
+                  <Form.Group controlId="formForgotPasswordUsername">
                     <Form.Label>Enter Your Username</Form.Label>
                     <Form.Control type="text" name="username" placeholder="Enter username" onChange={this.props.onChangeText} />
                   </Form.Group>
                   
                   <Button className="loginButton" variant="primary" onClick={this.props.resetPassword}>
-                    {this.state.sendingPasswordReset ? (
-                      <Spinner />
+                    {this.props.sendingPasswordReset ? (
+                      <Spinner animation='border' />
                     ) : (
                       <span>Reset Password</span>
                     )}                    
                   </Button>
                   {this.props.resetCodeSent ? (
-                    
-                    <Form.Group controlId="formForgotPassword">
-                      <Form.Label>Enter Your New Password</Form.Label>
-                      <Form.Control type="text" name="newPassword" placeholder="Enter username" onChange={this.props.onChangeText} />
-                      <Form.Label>Confirmation Code</Form.Label>
-                      <Form.Control type="number" name="authCode" placeholder="######" onChange={this.props.onChangeText} />
+                    <div>
+                      <Form.Group controlId="formForgotPassword">
+                        <Form.Label>Enter Your New Password</Form.Label>
+                        <Form.Control type="password" name="newPassword" placeholder="Enter password" onChange={this.props.onChangeText} />
+                      </Form.Group>
+                      <Form.Group controlId="formForgotPasswordConfirmCode">
+                        <Form.Label>Confirmation Code</Form.Label>
+                        <Form.Control type="number" name="confirmUserCode" placeholder="######" onChange={this.props.onChangeText} />
+                      </Form.Group>
                       <Button className="loginButton" variant="primary" onClick={this.props.handleConfirmUserClick}>
-                        {this.state.sendingNewPassword ? (
-                          <Spinner />
+                        {this.props.sendingNewPassword ? (
+                          <Spinner animation='border' />
                         ) : (
                           <span>Submit</span>
                         )}                    
                       </Button>
-                    </Form.Group>
+                    </div>
                   ) : null}
                 </Form>
               ) : null}

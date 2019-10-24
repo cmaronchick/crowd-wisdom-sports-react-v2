@@ -150,7 +150,7 @@ class App extends React.Component {
     if (this.state.currentGameId!==prevState.currentGameId) return true;
     if (this.state.crowd!==prevState.crowd) return true;
     if (this.state.compareTable!==prevState.compareTable) return true;
-    if (this.state.forgotPassword!==prevState.forgotPassword || this.state.sendingNewPassword!==prevState.sendingNewPassword || this.state.sendingPasswordReset!==prevState.sendingPasswordReset) return true;
+    if (this.state.forgotPassword!==prevState.forgotPassword || this.state.resetCodeSent!==prevState.resetCodeSent || this.state.sendingNewPassword!==prevState.sendingNewPassword || this.state.sendingPasswordReset!==prevState.sendingPasswordReset) return true;
     return false;
   }
 
@@ -256,8 +256,9 @@ class App extends React.Component {
     e.preventDefault();
     this.setState({sendingNewPassword: true})
     try {
-      let sendingNewPasswordResponse = await Auth.forgotPasswordSubmit(this.state.username, this.state.authCode, this.state.newPassword)
-      this.setState({sendingPasswordReset: false})
+      let sendingNewPasswordResponse = await Auth.forgotPasswordSubmit(this.state.username, this.state.confirmUserCode, this.state.newPassword)
+      console.log({sendingNewPasswordResponse});
+      this.setState({sendingPasswordReset: false,})
     } catch (forgotPasswordError) {
       console.log({forgotPasswordError})
     }
@@ -311,7 +312,15 @@ class App extends React.Component {
   }
 
   handleLoginModalClosed = () => {
-    this.setState({ loginModalShow: false })
+    this.setState({
+      loginModalShow: false,
+      forgotPassword: false,
+      resetCodeSent: false,
+      sendingPasswordReset: false,
+      newPassword: '',
+      confirmUserCode: '',
+      confirmUser: false
+    })
   }
 
   handleCompareButtonClick = (compare) => {
@@ -319,6 +328,7 @@ class App extends React.Component {
   }
 
   onChangeText = (event) => {
+    console.log({[event.target.name]: event.target.value});
     this.setState({[event.target.name]: event.target.value})
   }
 
@@ -758,6 +768,7 @@ class App extends React.Component {
                   handleConfirmUserClick={this.confirmUser} 
                   handleResendClick={this.resendConfirmation}
                   handleForgotPasswordClick={this.handleForgotPasswordClick}
+                  resetCodeSent={this.state.resetCodeSent}
                   resetPassword={this.resetPassword}
                   submitNewPassword={this.submitNewPassword}
                   />

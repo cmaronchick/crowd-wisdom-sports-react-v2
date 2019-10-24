@@ -127,6 +127,7 @@ router.get('/:sport/leaderboards/:year/:season/:week', (req, res) => {
 
 router.get('/:sport/leaderboards/:year/:season/:week/crowdOverall', (req, res) => {
   const { sport, year, season, week } = req.params;
+  console.log({ sport, year, season, week });
   const callOptionsObject = callOptions(req.headers.authorization);
   const anonString = callOptionsObject.anonString;
   const getOptions = callOptionsObject.callOptions;
