@@ -1,4 +1,4 @@
-import fetchCrowdOverall from '../api'
+import {fetchCrowdOverall} from '../src/api'
 
 describe('it should have a sport, year, season, and week', () => {
     
