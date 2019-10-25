@@ -133,7 +133,6 @@ router.get(['/:sport/crowds/:year', '/:sport/crowds/:year/:season'], (req, res) 
     const getOptions = callOptionsObject.callOptions;
       axios.get(`https://y5f8dr2inb.execute-api.us-west-2.amazonaws.com/dev/group/${sport}/${year}${anonString}`, getOptions)
       .then((crowdsResponse) => {
-       console.log({crowdsResponse})
         const crowdsResponseObjs = crowdsResponse.data.reduce((obj, crowd) => {
           obj[crowd.groupId] = crowd;
           return obj;
