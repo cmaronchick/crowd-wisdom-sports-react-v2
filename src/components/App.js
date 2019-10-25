@@ -16,6 +16,8 @@ import Header from './Header';
 import GamesList from './GamesList';
 import Game from './Game';
 import Leaderboards from './Leaderboards'
+import Crowds from './Crowds'
+import Crowd from './Crowd'
 import HomeLeaderboards from './Home.Leaderboards';
 import CrowdOverallCompare from './Home.CrowdOverallCompare'
 import HomeStarResults from './Home.StarsResults'
@@ -75,11 +77,12 @@ class App extends React.Component {
     }
 
     console.log({currentGameId: this.state.currentGameId});
+    const { currentGameId, page, sport, year, season, week } = this.state;
+    let userSession = await Auth.currentSession();
 
-    if (!this.state.currentGameId) {
+    if (!this.state.currentGameId && page !== 'crowds') {
       try {
         this.setState({ fetchingGames: true })
-        let userSession = await Auth.currentSession();
         let gameWeekDataResponse = await api.fetchGameWeek(this.state.sport, userSession)
         const { sport, year, week, season, weeks } = this.state ? this.state : gameWeekDataResponse.gameWeekData;
         ReactGA.pageview(`/${sport}/${year}/${season}/${week}`)
@@ -107,7 +110,6 @@ class App extends React.Component {
           console.log('gameWeekDataError: ', gameWeekDataError)
         }
         try {
-          let userSession = await Auth.currentSession();
           let gameWeekDataResponse = await api.fetchGameWeek(this.state.sport, userSession)
           const { sport, year, season } = this.state ? this.state : gameWeekDataResponse.gameWeekData;
           const week = this.state.gameWeek ? this.state.gameWeek : gameWeekDataResponse.gameWeekData.week;
@@ -120,14 +122,21 @@ class App extends React.Component {
         }
 
         try {
-          let userSession = await Auth.currentSession()
           let userStatsResponse = userSession ? await api.getUserDetails(userSession, this.state.sport, this.state.year, this.state.season, this.state.week) : null
           console.log({userStatsResponse})
         } catch(userStatsResponseError) {
           console.log({userStatsResponseError})
         }
     }
+    if (page === 'crowds') {
+      this.fetchCrowds(sport, year, season)
+    }
+    if (this.state.currentCrowdId) {
+
+    }
   }
+
+
   
   shouldComponentUpdate(prevProps, prevState) {
     if (this.state.sport!==prevState.sport) return true;
@@ -157,22 +166,25 @@ class App extends React.Component {
   async componentDidUpdate(prevProps, prevState) {
     if (this.state.user!==prevState.user || this.state.week!== prevState.week || this.state.gameWeek!== prevState.gameWeek || this.state.sport !== prevState.sport) {
 
-      let { sport, year, season, week } = this.state
+      let { sport, year, season, gameWeek, week, currentGameId, page } = this.state
       if (this.state.sport !== prevState.sport) {
         let userSession = await Auth.currentSession();
         let gameWeekDataResponse = await api.fetchGameWeek(this.state.sport, userSession)
         let { sport, year, season, week  } = gameWeekDataResponse.gameWeekData;
       }
       
-      if (!this.state.currentGameId) {
+      if (!this.state.currentGameId && page !== 'crowds') {
         console.log(`/${sport}/${year}/${season}/${week}`);
         //ReactGA.pageview(`/${sport}/${year}/${season}/${week}`)
-        this.fetchGameWeekGames(this.state.sport, this.state.year, this.state.season, this.state.gameWeek ? this.state.gameWeek : this.state.week)
-        this.fetchLeaderboards(this.state.sport, this.state.year, this.state.season, this.state.gameWeek ? this.state.gameWeek : this.state.week) 
+        this.fetchGameWeekGames(sport, year, season, gameWeek ? gameWeek : week)
+        this.fetchLeaderboards(sport, year, season, gameWeek ? gameWeek : week) 
         this.fetchCrowdOverallCompare(sport, year, season, week)
           
       } else {
         ReactGA.pageview(`/${sport}/${year}/${season}/${week}/${this.state.currentGameId}`)
+      }
+      if (page === 'crowds') {
+        this.fetchCrowds(sport, year, season)
       }
     }
   }
@@ -204,7 +216,6 @@ class App extends React.Component {
     try {
       let resendSignUpResponse = await Auth.resendSignUp(this.state.username)
       console.log('resendSignUpResponse: ', resendSignUpResponse)
-      this.setState({user, authState: 'signIn'})
     } catch(resendSignUpReject) {
       console.log('resendSignUpReject: ', resendSignUpReject)
     }
@@ -548,8 +559,8 @@ class App extends React.Component {
       },
       `/${sport}/games/${year}/${season}/${gameWeek}`
     );
+    let userSession = await Auth.currentSession()
     try {
-      let userSession = await Auth.currentSession()
       let games = await api.fetchGameWeekGames(sport, year, season, gameWeek, userSession);
       let gamePredictions = {}
       Object.keys(games).forEach(gameKey => {
@@ -567,17 +578,6 @@ class App extends React.Component {
       });
     } catch (getGamesError) {
       console.log({getGamesError});
-      let games = await api.fetchGameWeekGames(sport, year, season, gameWeek);
-      
-      this.setState({
-        year: year,
-        gameWeek: gameWeek,
-        currentGameId: null,
-        data: games,
-        games: games,
-        fetchingGames: false
-      });
-
     }
     try {
       let userSession = await Auth.currentSession()
@@ -614,6 +614,46 @@ class App extends React.Component {
     }
   }
 
+  fetchCrowds = async (sport, year, season) => {
+    //gameweek is not necessary
+    // call the getCrowds api endpoint
+    // returns an array of crowds
+    try {
+      let crowdsData = await api.fetchCrowds(sport, year, season);
+      console.log({crowdsData});
+      this.setState({
+        fetchingCrowds: false,
+        crowds: crowdsData.crowds
+      })
+    } catch (fetchCrowdsError) {
+      console.log({appJS635: fetchCrowdsError})
+    }
+  }
+
+  fetchCrowd = async (sport, year, season, groupId) => {
+    pushState(
+      { currentCrowdId: groupId },
+      `/${sport}/crowds/${year}/${season}/${groupId}`
+    );
+    this.setState({currentCrowdId: groupId, fetchingSingleCrowd: true})
+    try {
+      let userSession = await Auth.currentSession();
+      let crowd = await api.fetchCrowd(sport, year, season, groupId, userSession)
+      this.setState({
+        pageHeader: crowd.groupName,
+        currentCrowdId: groupId,
+        crowds: {
+          ...this.state.crowds,
+          [crowd.groupId]: crowd,
+          fetchingSingleCrowd: false
+        }
+      });
+    } catch(fetchGameError) {
+      console.log('App 115 fetchGameError: ', fetchGameError);
+      this.setState({fetchingSingleGame: false})
+    }
+  }
+
   currentGame(gameId) {
     return this.state.games ? this.state.games[gameId] : this.state.game;
   }
@@ -645,6 +685,12 @@ class App extends React.Component {
           <Route path="/:sport/leaderboards/:year/:season" render={() => 
             <Leaderboards leaderboardData={this.state.leaderboardData} />
           } />
+          <Route path={["/:sport/crowds", "/:sport/crowds/:year", "/:sport/crowds/:year/:season"]} render={({match}) => {
+            <Crowds crowds={this.state.crowds} {...match.params} />
+          }}/>
+          <Route path="/:sport/crowds/:year/:season/:crowdId" render={({match}) => 
+            <Crowd crowd={this.state.crowd} {...match.params} />
+          } />
           <Route path="/:sport" render={({match}) => {
             console.log({match})
             return (
@@ -672,9 +718,15 @@ class App extends React.Component {
                 {(this.state.crowd || (this.state.userStats && this.state.userStats.results)) ? (
                     (this.state.compareTable === 'crowd') ? (
                       <div className='compareDiv'>
-                        <Button onClick={() => this.handleCompareButtonClick('stars')}>
-                          Show My Stars Results
-                        </Button>
+                        {(this.state.userStats && this.state.userStats.results && this.state.userStats.results.stars && this.state.userStats.results.stars.wagered > 0) ? (
+                          <Button onClick={() => this.handleCompareButtonClick('stars')}>
+                            Show My Stars Results
+                          </Button>
+                        ) : (
+                          <Button>
+                            Wager Stars to See Your Stake Results
+                          </Button>
+                        )}
                         <CrowdOverallCompare week={this.state.week} userStats={this.state.userStats} crowd={this.state.crowd} />
                       </div>
                     ) : (

@@ -39,25 +39,11 @@ const getLeaderboardsUrl = (gameWeekData) => {
 };
 const getCrowdsUrl = (gameWeekData) => {
   const { sport, year, season } = gameWeekData
-  return `${config.serverUrl}/group/${sport}/${year}`
+  return `${config.serverUrl}/api/${sport}/crowds/${year}`
   
 };
 
-const getInitialData = (gameId, sport, year, season, week, weeks, code, apiData, page, crowdId) => {
-  if (gameId) {
-    return {
-      currentGameId: apiData.game.gameId,
-      game: apiData.game,
-      sport,
-      year,
-      season,
-      gameWeek: week,
-      week, 
-      weeks,
-      code,
-      page: 'game'
-    };
-  }
+const getInitialData = (id, sport, year, season, week, weeks, code, apiData, page) => {
   switch(page) {
     case 'leaderboards':
       return {
@@ -71,17 +57,45 @@ const getInitialData = (gameId, sport, year, season, week, weeks, code, apiData,
         page: page
       }
     case 'crowds':
+      if (id) {
+        return {
+          sport: sport,
+          year: year,
+          season: season,
+          week: week,
+          weeks: weeks,
+          crowds: apiData.crowds,
+          code: code,
+          page: page,
+          currentCrowdId: id
+        }
+      }
       return {
         sport: sport,
         year: year,
         season: season,
         week: week,
         weeks: weeks,
-        crowdData: apiData,
+        crowds: apiData.crowds,
         code: code,
-        page: page
+        page: page,
+        currentCrowdId: null
       }
     default:
+      if (id) {
+        return {
+          currentGameId: apiData.game.gameId,
+          game: apiData.game,
+          sport,
+          year,
+          season,
+          gameWeek: week,
+          week, 
+          weeks,
+          code,
+          page: 'game'
+        };
+      }
       return {
         sport: sport,
         year: year,
@@ -95,7 +109,7 @@ const getInitialData = (gameId, sport, year, season, week, weeks, code, apiData,
   }
 };
 
-const serverRender = (req, sport, year, season, gameWeek, query, page, gameId, crowdId) => {
+const serverRender = (req, sport, year, season, gameWeek, query, page, id) => {
   switch (page) {
     case 'leaderboards':
       return axios.get(`${config.serverUrl}/api/${sport}/gameWeek`)
@@ -138,7 +152,7 @@ const serverRender = (req, sport, year, season, gameWeek, query, page, gameId, c
       gameWeek ? gameWeekData.week = gameWeek : null
       return axios.get(getCrowdsUrl(gameWeekData))
         .then(resp => {
-          const initialData = getInitialData(gameWeekData.sport, gameWeekData.year, gameWeekData.season, gameWeekData.week, gameWeekData.weeks, query ? query.code : null, resp.data, page, null, crowdId);
+          const initialData = getInitialData(id, gameWeekData.sport, gameWeekData.year, gameWeekData.season, gameWeekData.week, gameWeekData.weeks, query ? query.code : null, resp.data, page);
           console.log('serverRender 87 leaderboardData: ', initialData)
           
           const initialMarkup = ReactDOMServer.renderToString(
@@ -166,9 +180,9 @@ const serverRender = (req, sport, year, season, gameWeek, query, page, gameId, c
         year ? gameWeekData.year = year : null
         season ? gameWeekData.season = season : null
         gameWeek ? gameWeekData.week = gameWeek : null
-        return axios.get(getApiUrl(gameId, gameWeekData))
+        return axios.get(getApiUrl(id, gameWeekData))
           .then(resp => {
-            const initialData = getInitialData(gameId, gameWeekData.sport, gameWeekData.year, gameWeekData.season, gameWeekData.week, gameWeekData.weeks, query ? query.code : null, resp.data, 'games');
+            const initialData = getInitialData(id, gameWeekData.sport, gameWeekData.year, gameWeekData.season, gameWeekData.week, gameWeekData.weeks, query ? query.code : null, resp.data, 'games');
             //console.log('initialData: ', initialData)
             
             const initialMarkup = ReactDOMServer.renderToString(

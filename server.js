@@ -21,10 +21,10 @@ server.set('view engine', 'ejs');
 
 server.get(['/', '/:sport', '/:sport/games', '/:sport/games/:year', '/:sport/games/:year/:season', '/:sport/games/:year/:season/:gameWeek', '/:sport/games/:year/:season/:gameWeek/:gameId'], (req, res) => {
   //console.log('req.query: ', req.query)
-  
-    const sport = req.params.sport ? req.params.sport : 'nfl'
+    const sportsArray = ['nfl', 'ncaaf', 'ncaam']
+    const sport = (req.params.sport && sportsArray.indexOf(req.params.sport) > -1) ? req.params.sport : 'nfl'
     // console.log('server 25 sport: ', sport)
-    serverRender(req, sport, parseInt(req.params.year), req.params.season, parseInt(req.params.gameWeek), req.query, 'games', parseInt(req.params.gameId), null)
+    serverRender(req, sport, parseInt(req.params.year), req.params.season, parseInt(req.params.gameWeek), req.query, 'games', parseInt(req.params.gameId))
       .then(({ initialMarkup, initialData }) => {
         res.render('index', {
           initialMarkup,
@@ -40,7 +40,7 @@ server.get(['/:sport/leaderboards', '/:sport/leaderboards/:year', '/:sport/leade
   //console.log('req.url: ', req.url)
   const sport = req.params.sport ? req.params.sport : 'nfl'
   //console.log('server 25 sport: ', sport)
-  serverRender(req, sport, parseInt(req.params.year), req.params.season, parseInt(req.params.gameWeek), parseInt(req.params.gameId), req.query, 'leaderboards', null, null)
+  serverRender(req, sport, parseInt(req.params.year), req.params.season, parseInt(req.params.gameWeek), req.query, 'leaderboards', null, null)
     .then(({ initialMarkup, initialData }) => {
       res.render('index', {
         initialMarkup,
@@ -57,7 +57,7 @@ server.get(['/:sport/crowds', '/:sport/crowds/:year', '/:sport/crowds/:year/:sea
   
     const sport = req.params.sport ? req.params.sport : 'nfl'
     // console.log('server 25 sport: ', sport)
-    serverRender(req, sport, parseInt(req.params.year), req.params.season, parseInt(req.params.gameWeek), req.query, 'crowds', null, parseInt(req.params.crowdId))
+    serverRender(req, sport, parseInt(req.params.year), req.params.season, parseInt(req.params.gameWeek), req.query, 'crowds', parseInt(req.params.crowdId))
       .then(({ initialMarkup, initialData }) => {
         res.render('index', {
           initialMarkup,

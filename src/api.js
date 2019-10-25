@@ -118,6 +118,22 @@ export const fetchCrowdOverall = (sport, year, season, week) => {
   .then(resp => resp.data)
 }
 
+export const fetchCrowds = (sport, year, season) => {
+  const sportValue = sport ? sport : 'nfl'
+  return axios.get(`/api/${sportValue}/crowds/${year}/${season}`)
+  .then(resp => resp.data)
+  .catch(fetchCrowdsError => console.log({fetchCrowdsError}))
+}
+
+export const fetchCrowd = (sport, year, season, crowdId) => {
+  return axios.get(`/api/${sportValue}/crowds/${year}/${season}/${crowdId}`)
+  .then(resp => resp.data)
+  .catch(fetchCrowdError => {
+    console.log({fetchCrowdError})
+      return {data: null}
+  })
+}
+
 export const getUserDetails = async (userSession, sport, year, season, week) => {
   try {
     const getOptionsObj = getOptions(userSession)

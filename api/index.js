@@ -111,7 +111,7 @@ router.post('/submitPrediction', (req, res) => {
 
 
 router.get('/:sport/leaderboards/:year/:season/:week', (req, res) => {
-  console.log('api index 43 req', {params: req.params})
+  console.log('api index 114 req', {params: req.params})
   const { sport, year, season, week } = req.params;
     const callOptionsObject = callOptions(req.headers.authorization);
     const anonString = callOptionsObject.anonString;
@@ -123,6 +123,38 @@ router.get('/:sport/leaderboards/:year/:season/:week', (req, res) => {
       })
       .catch(leaderboardResponseError => console.log('api leaderboard index 122 leaderboardResponseError: ', leaderboardResponseError))
 
+})
+
+router.get(['/:sport/crowds/:year', '/:sport/crowds/:year/:season'], (req, res) => {
+  console.log('api index 129 req', {params: req.params})
+  const { sport, year, season } = req.params;
+    const callOptionsObject = callOptions(req.headers.authorization);
+    const anonString = callOptionsObject.anonString;
+    const getOptions = callOptionsObject.callOptions;
+      axios.get(`https://y5f8dr2inb.execute-api.us-west-2.amazonaws.com/dev/group/${sport}/${year}${anonString}`, getOptions)
+      .then((crowdsResponse) => {
+       console.log({crowdsResponse})
+        const crowdsResponseObjs = crowdsResponse.data.reduce((obj, crowd) => {
+          obj[crowd.groupId] = crowd;
+          return obj;
+        }, {});
+        res.send({ crowds: crowdsResponseObjs })
+      })
+      .catch(crowdsResponseError => console.log('api leaderboard index 139 leaderboardResponseError: ', crowdsResponseError))
+})
+
+router.get('/:sport/crowds/:year/:season/:crowdId', (req, res) => {
+  console.log('api index 143 req', {params: req.params})
+  const { sport, year, season, crowdId } = req.params;
+    const callOptionsObject = callOptions(req.headers.authorization);
+    const anonString = callOptionsObject.anonString;
+    const getOptions = callOptionsObject.callOptions;
+      axios.get(`https://y5f8dr2inb.execute-api.us-west-2.amazonaws.com/dev/group/${sport}/${year}/${crowdId}${anonString}`, getOptions)
+      .then((crowdResponse) => {
+       //console.log('api/index 119 gameWeekResponse', leaderboardResponse.data)
+        res.send({ crowd: crowdResponse.data })
+      })
+      .catch(crowdResponseError => console.log('api leaderboard index 153 crowdResponseError: ', crowdResponseError))
 })
 
 router.get('/:sport/leaderboards/:year/:season/:week/crowdOverall', (req, res) => {
