@@ -759,6 +759,7 @@ class App extends React.Component {
                   ): (
                     <div>No games available</div>
                   )}
+                  {this.state.overallLeaderboardData && this.state.overallLeaderboardData.weekly && this.state.overallLeaderboardData.overall ? (
                   <HomeLeaderboards 
                     sport={this.state.sport}
                     year={this.state.year}
@@ -768,6 +769,7 @@ class App extends React.Component {
                     weeklyLeaderboardData={this.state.weeklyLeaderboardData}
                     selectedLeaderboard={this.state.selectedLeaderboard}
                     handleSwitchLeaderboard={this.handleSwitchLeaderboard} />
+                  ) : null}
                 </div>
               </div>
               )

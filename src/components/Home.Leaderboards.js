@@ -16,7 +16,7 @@ const HomeLeaderboards = (props) => {
     const overallLeaderboard = overallLeaderboardData && overallLeaderboardData.leaderboardData ? overallLeaderboardData.leaderboardData : null,
         weeklyLeaderboard = weeklyLeaderboardData && weeklyLeaderboardData.leaderboardData ? weeklyLeaderboardData.leaderboardData : null
     if (!overallLeaderboard) return (
-        <div>Loading Overall Leaderboards</div>
+        <div>Loading Leaderboard</div>
     )
     let leaderboardUsers = selectedLeaderboard === "weekly" ? overallLeaderboard.weekly.users : overallLeaderboard.overall.users
     console.log({leaderboardUsers});
