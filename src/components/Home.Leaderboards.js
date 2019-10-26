@@ -1,65 +1,31 @@
 import React, { Component } from 'react'
 import Auth from '@aws-amplify/auth'
+import Button from 'react-bootstrap/Button'
 import * as api from '../api'
 
 
-export default class HomeLeaderboards extends Component {
-    constructor(props) {
-        super(props)
-        this.state = {
-            overallLeaderboardData: null,
-            weeklyLeaderboardData: null,
-            fetchingLeaderboards: this.props.fetchingLeaderboards,
-            sport: this.props.sport,
-            year: this.props.year,
-            week: this.props.week,
-            season: this.props.season,
-            user: this.props.user,
-        }
-    }
-    _isMounted = true;
-
-    async componentDidMount() {
-        let user;
-        try {
-            user = await Auth.currentAuthenticatedUser()
-        } catch (getAuthenticatedUserError) {
-            user = null; 
-        }
+const HomeLeaderboards = (props) => {
+    const { overallLeaderboardData, weeklyLeaderboardData, fetchingLeaderboards, selectedLeaderboard,
+        sport,
+        year,
+        week,
+        season,
+        handleSwitchLeaderboard
+        } = props;
         
-        const { sport, year, season, week, } = this.state;
-        try {
-            let userSession = await api.getUserSessionAsync()
-            //console.log({ user ? user, sport, year, season, week })
-            let overallLeaderboardData = await api.fetchOverallLeaderboard(userSession ? userSession : null, sport, year, season, week);
-            let weeklyLeaderboardData = await api.fetchWeeklyLeaderboard(userSession ? userSession : null, sport, year, season, week)
-            console.log({ overallLeaderboardData, weeklyLeaderboardData })
-            if (this._isMounted) {
-                this.setState({
-                    overallLeaderboardData, weeklyLeaderboardData
-                })
-            }
-
-
-        } catch (fetchLeaderboardDataError) {
-            console.log({ fetchLeaderboardDataError });
-        }
-
-    }
-
-    componentWillUnmount() {
-        this._isMounted = false;
-    }
-
-    render() {
-        const { overallLeaderboardData, weeklyLeaderboardData } = this.state;
-        const overallLeaderboard = overallLeaderboardData && overallLeaderboardData.leaderboardData ? overallLeaderboardData.leaderboardData : null,
-            weeklyLeaderboard = weeklyLeaderboardData && weeklyLeaderboardData.leaderboardData ? weeklyLeaderboardData.leaderboardData : null
-        //console.log({ HomeLeaderboardState: this.state })
-        return (
-            <div className="homeLeaderboards">
-                {overallLeaderboard && overallLeaderboard.overall ? (
-                    
+    const overallLeaderboard = overallLeaderboardData && overallLeaderboardData.leaderboardData ? overallLeaderboardData.leaderboardData : null,
+        weeklyLeaderboard = weeklyLeaderboardData && weeklyLeaderboardData.leaderboardData ? weeklyLeaderboardData.leaderboardData : null
+    if (!overallLeaderboard) return (
+        <div>Loading Overall Leaderboards</div>
+    )
+    let leaderboardUsers = selectedLeaderboard === "weekly" ? overallLeaderboard.weekly.users : overallLeaderboard.overall.users
+    console.log({leaderboardUsers});
+    return (
+            leaderboardUsers ? (
+                <div className="homeLeaderboards">
+                    <Button onClick={() => handleSwitchLeaderboard(selectedLeaderboard === "weekly" ? 'overall' : 'weekly')}>
+                        Show {selectedLeaderboard === "weekly" ? "Overall" : "Weekly"} Leaderboard
+                    </Button>
                     <table className="rwd-table">
                     <thead>
                         <tr>
@@ -70,7 +36,7 @@ export default class HomeLeaderboards extends Component {
                         </tr>
                     </thead>
                     <tbody>
-                        {overallLeaderboard.overall.users.map((user, index) => {
+                        {leaderboardUsers.map((user, index) => {
                             let userCorrect = user.winner.correct + user.spread.correct + user.total.correct;
                             let userIncorrect = ((user.totalPredictions * 3) - (user.spread.push + user.total.push)) - userCorrect;
                             return (
@@ -90,11 +56,13 @@ export default class HomeLeaderboards extends Component {
                         
                     </tbody>
                     </table>
-                ) : (
-                    <div>Loading Overall Leaderboards</div>
-                )}
-            </div>
+                </div>
+            ) : (
+                <div>Loading Overall Leaderboards</div>
+            )
 
-        )
-    }
+
+    )
 }
+
+export default HomeLeaderboards

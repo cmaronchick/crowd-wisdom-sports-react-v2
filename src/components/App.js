@@ -149,6 +149,7 @@ class App extends React.Component {
     if (this.state.fetchingGames!==prevState.fetchingGames) return true;
     if (this.state.fetchingData!==prevState.fetchingData) return true;
     if (this.state.fetchingLeaderboards!==prevState.fetchingLeaderboards) return true;
+    if (this.state.selectedLeaderboard!==prevState.selectedLeaderboard) return true;
     if (this.state.loginModalShow!==prevState.loginModalShow) return true;
     if (this.state.signingInUser!==prevState.signingInUser) return true;
     if (this.state.confirmUser!==prevState.confirmUser) return true;
@@ -336,6 +337,10 @@ class App extends React.Component {
 
   handleCompareButtonClick = (compare) => {
     this.setState({ compareTable: compare })
+  }
+
+  handleSwitchLeaderboard = (selectedLeaderboard) => {
+    this.setState({ selectedLeaderboard })
   }
 
   onChangeText = (event) => {
@@ -599,10 +604,14 @@ class App extends React.Component {
     try {
       let userSession = await Auth.currentSession()
       let leaderboardData = await api.fetchOverallLeaderboard(userSession, sport, year, season, week)
-      this.setState({ leaderboardData, fetchingLeaderboards: false })
+      let overallLeaderboardData = await api.fetchOverallLeaderboard(userSession ? userSession : null, sport, year, season, week);
+      let weeklyLeaderboardData = await api.fetchWeeklyLeaderboard(userSession ? userSession : null, sport, year, season, week)
+      this.setState({ leaderboardData, overallLeaderboardData, weeklyLeaderboardData, fetchingLeaderboards: false })
     } catch(getUserSession) {
       let leaderboardData = await api.fetchOverallLeaderboard(null, sport, year, season, week)
-      this.setState({ leaderboardData, fetchingLeaderboards: false })
+      let overallLeaderboardData = await api.fetchOverallLeaderboard(userSession ? userSession : null, sport, year, season, week);
+      let weeklyLeaderboardData = await api.fetchWeeklyLeaderboard(userSession ? userSession : null, sport, year, season, week)
+      this.setState({ leaderboardData, overallLeaderboardData, weeklyLeaderboardData, fetchingLeaderboards: false })
     }
   }
   fetchCrowdOverallCompare = async (sport, year, season, week) => {
@@ -754,7 +763,11 @@ class App extends React.Component {
                     sport={this.state.sport}
                     year={this.state.year}
                     season={this.state.season}
-                    week={this.state.week} />
+                    week={this.state.week}
+                    overallLeaderboardData={this.state.overallLeaderboardData}
+                    weeklyLeaderboardData={this.state.weeklyLeaderboardData}
+                    selectedLeaderboard={this.state.selectedLeaderboard}
+                    handleSwitchLeaderboard={this.handleSwitchLeaderboard} />
                 </div>
               </div>
               )
