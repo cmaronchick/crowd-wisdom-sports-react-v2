@@ -13,8 +13,8 @@ const HomeLeaderboards = (props) => {
         handleSwitchLeaderboard
         } = props;
         
-    const overallLeaderboard = overallLeaderboardData && overallLeaderboardData.leaderboardData ? overallLeaderboardData.leaderboardData : null,
-        weeklyLeaderboard = weeklyLeaderboardData && weeklyLeaderboardData.leaderboardData ? weeklyLeaderboardData.leaderboardData : null
+    const overallLeaderboard = overallLeaderboardData ? overallLeaderboardData : null,
+        weeklyLeaderboard = weeklyLeaderboardData ? weeklyLeaderboardData : null
     if (!overallLeaderboard) return (
         <div>Loading Leaderboard</div>
     )

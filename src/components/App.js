@@ -145,7 +145,8 @@ class App extends React.Component {
     if (this.state.week!== prevState.week) return true;
     if (this.state.gamePredictions !== prevState.gamePredictions) return true;
     if (this.state.games!==prevState.games) return true;
-    if (this.state.leaderboardData!==prevState.leaderboardData) return true;
+    //Leaderboard Data Update
+    if (this.state.leaderboardData!==prevState.leaderboardData || this.state.overallLeaderboardData!==prevState.overallLeaderboardData || this.state.weeklyLeaderboardData!==prevState.weeklyLeaderboardData) return true;
     if (this.state.fetchingGames!==prevState.fetchingGames) return true;
     if (this.state.fetchingData!==prevState.fetchingData) return true;
     if (this.state.fetchingLeaderboards!==prevState.fetchingLeaderboards) return true;
@@ -603,15 +604,14 @@ class App extends React.Component {
     console.log({week});
     try {
       let userSession = await Auth.currentSession()
-      let leaderboardData = await api.fetchOverallLeaderboard(userSession, sport, year, season, week)
       let overallLeaderboardData = await api.fetchOverallLeaderboard(userSession ? userSession : null, sport, year, season, week);
       let weeklyLeaderboardData = await api.fetchWeeklyLeaderboard(userSession ? userSession : null, sport, year, season, week)
-      this.setState({ leaderboardData, overallLeaderboardData, weeklyLeaderboardData, fetchingLeaderboards: false })
+      this.setState({ overallLeaderboardData: overallLeaderboardData.leaderboardData, weeklyLeaderboardData: weeklyLeaderboardData.leaderboardData, fetchingLeaderboards: false })
     } catch(getUserSession) {
       let leaderboardData = await api.fetchOverallLeaderboard(null, sport, year, season, week)
-      let overallLeaderboardData = await api.fetchOverallLeaderboard(userSession ? userSession : null, sport, year, season, week);
-      let weeklyLeaderboardData = await api.fetchWeeklyLeaderboard(userSession ? userSession : null, sport, year, season, week)
-      this.setState({ leaderboardData, overallLeaderboardData, weeklyLeaderboardData, fetchingLeaderboards: false })
+      let overallLeaderboardData = await api.fetchOverallLeaderboard(null, sport, year, season, week);
+      let weeklyLeaderboardData = await api.fetchWeeklyLeaderboard(null, sport, year, season, week)
+      this.setState({ leaderboardData, overallLeaderboardData: overallLeaderboardData.leaderboardData, weeklyLeaderboardData: weeklyLeaderboardData.leaderboardData, fetchingLeaderboards: false })
     }
   }
   fetchCrowdOverallCompare = async (sport, year, season, week) => {
@@ -701,7 +701,6 @@ class App extends React.Component {
             <Crowd crowd={this.state.crowd} {...match.params} />
           } />
           <Route path="/:sport" render={({match}) => {
-            console.log({match})
             return (
               <div>
                 <Dropdown>
