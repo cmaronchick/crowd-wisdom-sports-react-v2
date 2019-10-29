@@ -12,10 +12,10 @@ variables:
   azureSubscription: '5ccf36ea-4bf3-4700-ad99-8ade57a0d997'
   
   # Web app name
-  webAppName: 'crowd-wisdom-sports-react'
+  webAppName: ''
   
   # Environment name
-  environmentName: ''
+  environmentName: 'edit'
 
   # Agent VM image name
   vmImageName: 'ubuntu-latest'
