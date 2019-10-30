@@ -1,0 +1,7 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`it should present the Home Leaderboards present a blank leaderboard when there is no data 1`] = `
+<div>
+  Loading Leaderboard
+</div>
+`;
