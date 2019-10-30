@@ -45,6 +45,7 @@
     "source-map-explorer": "^2.0.1"
   },
   "devDependencies": {
+    "@babel/cli": "7.6.4",
     "@babel/core": "^7.2.2",
     "@babel/node": "7.x",
     "@babel/plugin-proposal-class-properties": "^7.3.0",
