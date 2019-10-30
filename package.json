@@ -9,6 +9,7 @@
     "build": "webpack",
     "test": "jest",
     "analyze": "source-map-explorer 'public/bundle.js'",
+    "client": "npm start --prefix client",
     "heroku-postbuild": "npm install --prefix client && npm run build --prefix client"
   },
   "repository": "git+https://github.com/cmaronchick/crowd-wisdom-sports-react.git",
