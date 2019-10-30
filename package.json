@@ -21,6 +21,7 @@
     "aws-amplify": "^1.1.26",
     "aws-amplify-react": "^2.3.6",
     "axios": "^0.18.0",
+    "@babel/cli": "7.6.4",
     "body-parser": "^1.18.3",
     "bootstrap": "^4.3.1",
     "chart.js": "^2.8.0",
@@ -45,7 +46,6 @@
     "source-map-explorer": "^2.0.1"
   },
   "devDependencies": {
-    "@babel/cli": "7.6.4",
     "@babel/core": "^7.2.2",
     "@babel/node": "7.x",
     "@babel/plugin-proposal-class-properties": "^7.3.0",
