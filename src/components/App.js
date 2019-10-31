@@ -739,7 +739,7 @@ class App extends React.Component {
           <Route path="/:sport/crowds/:year/:season/:crowdId" render={({match}) => 
             <Crowd crowd={this.state.crowd} {...match.params} />
           } />
-          <Route path="/:sport" render={({match}) => {
+          <Route path={["/", "/:sport"]} render={({match}) => {
             return (
               <div>
                 <Dropdown>
