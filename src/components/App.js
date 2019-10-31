@@ -78,10 +78,10 @@ class App extends React.Component {
 
     console.log({currentGameId: this.state.currentGameId});
     const { currentGameId, page, sport, year, season, week } = this.state;
-    let userSession = await Auth.currentSession();
 
     if (!this.state.currentGameId && page !== 'crowds') {
       try {
+        let userSession = await Auth.currentSession();
         this.setState({ fetchingGames: true })
         let gameWeekDataResponse = await api.fetchGameWeek(this.state.sport, userSession)
         const { sport, year, week, season, weeks } = this.state ? this.state : gameWeekDataResponse.gameWeekData;
@@ -107,10 +107,33 @@ class App extends React.Component {
           });
 
         } catch (gameWeekDataError) {
+          this.setState({ fetchingGames: true })
+          let gameWeekDataResponse = await api.fetchGameWeek(this.state.sport, null)
+          const { sport, year, week, season, weeks } = this.state ? this.state : gameWeekDataResponse.gameWeekData;
+          ReactGA.pageview(`/${sport}/${year}/${season}/${week}`)
+          let games = await api.fetchGameWeekGames(sport, year, season, week, null);
+          let gamePredictions = {};
+          Object.keys(games).forEach(gameKey => {
+            gamePredictions[gameKey] = games[gameKey].prediction ? { predictionAwayTeamScore: games[gameKey].prediction.awayTeam.score, predictionHomeTeamScore: games[gameKey].prediction.homeTeam.score } : null
+          })
+          this.setState({
+            userSession: null,
+            sport: sport,
+            year: year,
+            currentWeek: week,
+            gameWeek: week,
+            season: season,
+            weeks: weeks,
+            currentGameId: null,
+            data: games,
+            games: games,
+            fetchingGames: false,
+            gamePredictions
+          });
           console.log('gameWeekDataError: ', gameWeekDataError)
         }
         try {
-          let gameWeekDataResponse = await api.fetchGameWeek(this.state.sport, userSession)
+          let gameWeekDataResponse = await api.fetchGameWeek(this.state.sport, null)
           const { sport, year, season } = this.state ? this.state : gameWeekDataResponse.gameWeekData;
           const week = this.state.gameWeek ? this.state.gameWeek : gameWeekDataResponse.gameWeekData.week;
           let crowdOverallData = await api.fetchCrowdOverall(sport, year, season, week)
@@ -122,6 +145,7 @@ class App extends React.Component {
         }
 
         try {
+          let userSession = await Auth.currentSession()
           let userStatsResponse = userSession ? await api.getUserDetails(userSession, this.state.sport, this.state.year, this.state.season, this.state.week) : null
           console.log({userStatsResponse})
         } catch(userStatsResponseError) {
@@ -565,8 +589,8 @@ class App extends React.Component {
       },
       `/${sport}/games/${year}/${season}/${gameWeek}`
     );
-    let userSession = await Auth.currentSession()
     try {
+      let userSession = await Auth.currentSession()
       let games = await api.fetchGameWeekGames(sport, year, season, gameWeek, userSession);
       let gamePredictions = {}
       Object.keys(games).forEach(gameKey => {
@@ -584,6 +608,21 @@ class App extends React.Component {
       });
     } catch (getGamesError) {
       console.log({getGamesError});
+      let games = await api.fetchGameWeekGames(sport, year, season, gameWeek, null);
+      let gamePredictions = {}
+      Object.keys(games).forEach(gameKey => {
+        gamePredictions[gameKey] = games[gameKey].prediction ? { predictionAwayTeamScore: games[gameKey].prediction.awayTeam.score, predictionHomeTeamScore: games[gameKey].prediction.homeTeam.score } : null
+      })
+    
+      this.setState({
+        year: year,
+        gameWeek: gameWeek,
+        currentGameId: null,
+        data: games,
+        games: games,
+        gamePredictions,
+        fetchingGames: false
+      });
     }
     try {
       let userSession = await Auth.currentSession()
