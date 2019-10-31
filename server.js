@@ -72,6 +72,8 @@ server.get(['/:sport/crowds', '/:sport/crowds/:year', '/:sport/crowds/:year/:sea
 
 server.use('/api', apiRouter);
 
+// serve static assets if in production
+
 if (process.env.NODE_ENV === "production") {
   server.use(express.static('client/build'));
 

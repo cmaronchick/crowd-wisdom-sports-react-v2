@@ -4,11 +4,14 @@
   "description": "Learning Fullstack JavaScript Development: MongoDB, Node.js, React.js",
   "main": "index.js",
   "scripts": {
+    "client-install": "yarn install --prefix client",
     "start": "nodemon --exec babel-node server.js --ignore public/",
     "dev": "concurrently --kill-others \"webpack -wd\" \"nodemon --exec babel-node server.js --ignore public/\"",
     "build": "webpack",
+    "client": "yarn start --prefix client",
     "test": "jest",
-    "analyze": "source-map-explorer 'public/bundle.js'"
+    "analyze": "source-map-explorer 'public/bundle.js'",
+    "heroku-postbuild": "NPM_CONFIG_PRODUCTION=false yarn install --prefix client && yarn run build --prefix client"
   },
   "repository": "git+https://github.com/cmaronchick/crowd-wisdom-sports-react.git",
   "author": "CMA",
