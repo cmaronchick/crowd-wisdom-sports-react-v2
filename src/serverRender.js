@@ -2,7 +2,7 @@ import React from 'react';
 import ReactDOMServer from 'react-dom/server';
 import { StaticRouter } from 'react-router-dom'
 
-import App from './src/components/App';
+import App from './components/App';
 
 import config from './config';
 import axios from 'axios';

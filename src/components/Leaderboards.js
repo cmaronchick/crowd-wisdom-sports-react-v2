@@ -1,6 +1,6 @@
 import React, { Component } from 'react'
 import Auth from '@aws-amplify/auth'
-import * as api from '../api'
+import * as api from '../apis'
 
 export default class Leaderboards extends Component {
     constructor(props) {

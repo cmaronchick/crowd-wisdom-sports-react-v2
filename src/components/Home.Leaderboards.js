@@ -1,7 +1,7 @@
 import React, { Component } from 'react'
 import Auth from '@aws-amplify/auth'
 import Button from 'react-bootstrap/Button'
-import * as api from '../api'
+import * as api from '../apis'
 
 
 const HomeLeaderboards = (props) => {

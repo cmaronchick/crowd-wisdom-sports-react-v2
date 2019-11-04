@@ -1,6 +1,6 @@
 import React, { Component, PropTypes } from 'react';
 import { Link } from 'react-router-dom'
-import * as api from '../api'
+import * as api from '../apis'
 import Auth from '@aws-amplify/auth'
 import GamePreview from './GamePreview'
 import GameOddsChart from '../components/GameOddsChart'

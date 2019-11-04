@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import { Link } from 'react-router-dom'
 import Button from 'react-bootstrap/Button'
 import Spinner from 'react-bootstrap/Spinner'
-import * as apis from '../api'
+import * as apis from '../apis'
 import * as utils from '../utils'
 import StarRatingComponent from 'react-star-rating-component'
 
@@ -158,7 +158,7 @@ class GamePreview extends Component {
                 </div>
                 ) : 'N/A' : (
                 <input style={{width: 50}} onChange={this.handleOnChangeGameScore} name='predictionAwayTeamScore' placeholder={(!game.prediction && !gamePrediction && (gamePrediction && !gamePrediction.predictionAwayTeamScore)) ? '##' : null}
-                value={(gamePrediction && gamePrediction.predictionAwayTeamScore) ? parseInt(gamePrediction.predictionAwayTeamScore) : 
+                value={(gamePrediction && (gamePrediction.predictionAwayTeamScore || gamePrediction.predictionAwayTeamScore === 0)) ? parseInt(gamePrediction.predictionAwayTeamScore) : 
                   game.prediction ? parseInt(game.prediction.awayTeam.score) : ''} />
               )}
               </div>
@@ -170,7 +170,7 @@ class GamePreview extends Component {
                   </div>
                 ) : '' : (
                 <input style={{width: 50}} onChange={this.handleOnChangeGameScore} name='predictionHomeTeamScore' placeholder={(!game.prediction && !gamePrediction && (gamePrediction && !gamePrediction.predictionHomeTeamScore)) ? '##' : null}
-                value={(gamePrediction && gamePrediction.predictionHomeTeamScore) ? parseInt(gamePrediction.predictionHomeTeamScore) : 
+                value={(gamePrediction && (gamePrediction.predictionHomeTeamScore || gamePrediction.predictionHomeTeamScore === 0)) ? parseInt(gamePrediction.predictionHomeTeamScore) : 
                   game.prediction ? game.prediction.homeTeam.score : ''}  />
               )}
               </div>

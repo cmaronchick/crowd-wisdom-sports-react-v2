@@ -1,7 +1,7 @@
 import React from 'react';
 import { Link } from 'react-router-dom'
 import JoinCrowdButton from './Crowd.JoinCrowdButton'
-import * as api from '../api'
+import * as api from '../apis'
 
 const Crowd = ({crowd}) => {
     const { groupId, sport, year } = crowd
