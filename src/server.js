@@ -34,6 +34,7 @@ server.get(['/', '/:sport', '/:sport/games', '/:sport/games/:year', '/:sport/gam
         res.status(404).send('Bad Request');
       });
 });
+
 server.get(['/:sport/leaderboards', '/:sport/leaderboards/:year', '/:sport/leaderboards/:year/:season', '/:sport/leaderboards/:year/:season/:gameWeek', '/:sport/leaderboards/:year/:season/:gameWeek/'], (req, res) => {
   //console.log('req.url: ', req.url)
   const sport = req.params.sport ? req.params.sport : 'nfl'
