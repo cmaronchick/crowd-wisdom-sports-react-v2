@@ -5,10 +5,9 @@
   "main": "index.js",
   "scripts": {
     "client-install": "yarn install --prefix client",
-    "start": "nodemon --exec babel-node server.js --ignore public/",
-    "dev": "concurrently --kill-others \"webpack -wd\" \"nodemon --exec babel-node server.js --ignore public/\"",
-    "build": "webpack",
-    "client": "yarn start --prefix client",
+    "start": "npm run build && node ./dist/server.js --ignore public/",
+    "dev": "concurrently --kill-others \"webpack -wd\" \"nodemon --exec babel-node ./src/server.js --ignore public/\"",
+    "build": "babel ./src --out-dir dist",
     "test": "jest",
     "analyze": "source-map-explorer 'public/bundle.js'",
     "heroku-postbuild": "NPM_CONFIG_PRODUCTION=false yarn install --prefix client && yarn run build --prefix client"

@@ -37,6 +37,7 @@ jspm_packages
 .node_repl_history
 public/bundle.js
 public/bundle.js.map
+client
 
 #amplify
 amplify/\#current-cloud-backend

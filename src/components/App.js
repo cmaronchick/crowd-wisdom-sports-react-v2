@@ -4,7 +4,7 @@ import { createMemoryHistory } from 'history'
 const history = createMemoryHistory()
 import Auth from '@aws-amplify/auth';
 
-import awsconfig from '../../awsexports'
+import awsconfig from '../awsexports'
 
 // retrieve temporary AWS credentials and sign requests
 Auth.configure(awsconfig);
@@ -380,9 +380,10 @@ class App extends React.Component {
   }
   
   onChangeGameScore = (gameId, event) => {
-    console.log({gameId, value: event.target.value});
     const gamePredictions = this.state.gamePredictions
-    const predictionValue = event.target.value.length === 0 ? '' : parseInt(event.target.value) ? parseInt(event.target.value) : ''
+    const predictionValue = event.target.value.length === 0 ? '' : (parseInt(event.target.value) || parseInt(event.target.value) === 0) ? parseInt(event.target.value) : ''
+    
+    console.log({gameId, value: event.target.value, predictionValue});
     gamePredictions[gameId] ? gamePredictions[gameId][event.target.name] = predictionValue : gamePredictions[gameId] = { [event.target.name]: predictionValue }
     this.setState({ 
       gamePredictions: { 
