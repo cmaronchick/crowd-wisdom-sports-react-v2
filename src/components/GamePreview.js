@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import { Link } from 'react-router-dom'
 import Button from 'react-bootstrap/Button'
 import Spinner from 'react-bootstrap/Spinner'
-import * as apis from '../api'
+import * as apis from '../apis'
 import * as utils from '../utils'
 import StarRatingComponent from 'react-star-rating-component'
 

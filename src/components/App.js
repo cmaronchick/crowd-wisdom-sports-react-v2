@@ -24,7 +24,7 @@ import HomeStarResults from './Home.StarsResults'
 import LoginModal from './LoginModal';
 import Weeks from './Weeks';
 import Navigation from './Navigation'
-import * as api from '../api';
+import * as api from '../apis';
 
 
 import ReactGA from 'react-ga'
