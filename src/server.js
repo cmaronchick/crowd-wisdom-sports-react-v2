@@ -14,6 +14,7 @@ server.use(sassMiddleware({
   dest: path.join(__dirname, 'public')
 }));
 server.use(express.static('public'));
+server.use(express.static('dist'));
 
 server.set('view engine', 'ejs');
 
