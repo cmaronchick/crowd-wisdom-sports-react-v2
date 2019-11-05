@@ -7,7 +7,7 @@
     "client-install": "yarn install --prefix client",
     "start": "npm run build && node ./dist/server.js --ignore public/",
     "dev": "concurrently --kill-others \"webpack -wd\" \"nodemon --exec babel-node ./src/server.js --ignore public/\"",
-    "build": "babel ./src --out-dir dist",
+    "build": "babel ./src --out-dir dist && webpack",
     "test": "jest",
     "analyze": "source-map-explorer 'public/bundle.js'",
     "heroku-postbuild": "NPM_CONFIG_PRODUCTION=false yarn install --prefix client && yarn run build --prefix client"
