@@ -8,13 +8,6 @@ exports[`snapshot test 1`] = `
     className="App inner"
   >
     <div>
-      <h2
-        className="Header text-center"
-      >
-        Week undefined Games
-      </h2>
-    </div>
-    <div>
       <div
         className="dropdown"
         onKeyDown={[Function]}
