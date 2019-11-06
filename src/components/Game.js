@@ -44,6 +44,10 @@ class Game extends Component {
     this._isMounted = false;
   }
 
+  handleGamesListClick = () => {
+    this.props.gamesListClick(this.props.sport, this.props.year, this.props.season, this.props.gameWeek, this.props.ref);
+  }
+
   render() {
     const { game } = this.state;
     if (!game) {
@@ -53,10 +57,9 @@ class Game extends Component {
     }
     return (
           <div className="Game">
-            {this.props.gameId}
-            <div className="game-header">
-                {this.props.awayTeam.shortName} vs. {this.props.homeTeam.shortName}
-            </div>
+            <Link onClick={this.handleGamesListClick} className="home-link link" to={`/${this.props.sport}/games/${this.props.year}/${this.props.season}/${this.props.gameWeek}`}>
+              <i className="fas fa-arrow-left" style={{fontSize: '1.2em', fontWeight: 'bold' }}></i>
+            </Link>
             <GamePreview
               onChangeGameScore={this.props.onChangeGameScore}
               onChangeStarSpread={this.props.onChangeStarSpread}
@@ -65,7 +68,7 @@ class Game extends Component {
               game={game} gamePrediction={this.props.gamePrediction} />
             <GameOddsChart game={game} />
 
-            <Link className="home-link link" to={`/${this.props.sport}/games/${this.props.year}/${this.props.season}/${this.props.gameWeek}`}>
+            <Link onClick={this.handleGamesListClick} className="home-link link" to={`/${this.props.sport}/games/${this.props.year}/${this.props.season}/${this.props.gameWeek}`}>
                 Games List
             </Link>
 

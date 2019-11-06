@@ -536,6 +536,7 @@ class App extends React.Component {
   }
 
   fetchGame = async (sport, year, season, gameWeek, gameId) => {
+    console.log({sport, year, season, gameWeek, gameId});
     pushState(
       { currentGameId: gameId },
       `/${sport}/games/${year}/${season}/${gameWeek}/${gameId}`
@@ -580,7 +581,11 @@ class App extends React.Component {
     }
   }
 
-  fetchGameWeekGames = async (sport, year, season, gameWeek) => {
+  scrollToRef = (gameId) => window.scrollTo({
+    top: document.getElementById(gameId).offsetTop
+  })
+
+  fetchGameWeekGames = async (sport, year, season, gameWeek, ref) => {
     this.setState({ fetchingGames: true })
     pushState(
       {
@@ -624,6 +629,7 @@ class App extends React.Component {
         gamePredictions,
         fetchingGames: false
       });
+      (ref) ? this.scrollToRef(ref) : null
     }
     try {
       let userSession = await Auth.currentSession()
@@ -709,9 +715,9 @@ class App extends React.Component {
   pageHeader() {
     //console.log('this.state: ', this.state);
     if (this.state.currentGameId) {
-      return this.currentGame().awayTeam.shortName + ' vs. ' + this.currentGame().homeTeam.shortName;
+      return this.currentGame(this.state.currentGameId).awayTeam.shortName + ' vs. ' + this.currentGame(this.state.currentGameId).homeTeam.shortName;
     }
-    return !this.state.fetchingGames ? `Week ${this.state.gameWeek} Games` : 'Loading Games ...';
+    return this.state.fetchingGames ? 'Loading Games ...' : this.state.gameWeek ? `Week ${this.state.gameWeek} Games` : (this.props.initialData && this.props.initialData.week) ? `Week ${this.props.initialData.week} Games` : ''
   }
   currentContent() {
       const { games, gamePredictions } = this.state;
@@ -720,14 +726,17 @@ class App extends React.Component {
           <Route path="/:sport/games/:year/:season/:gameWeek/:gameId" render={({match}) => {
             const { gameId } = match.params;
             return (
-              <Game 
-              gamesListClick={this.fetchGamesList}
-              onChangeGameScore={this.onChangeGameScore}
-              onChangeStarSpread={this.onChangeStarSpread}
-              onChangeStarTotal={this.onChangeStarTotal}
-              onSubmitPrediction={this.submitPrediction}
-              gamePrediction={this.state.gamePredictions[match.params.gameId]}
-              {...this.currentGame(gameId)} />
+              <div>
+                <Header message={this.pageHeader()} />
+                <Game 
+                gamesListClick={this.fetchGameWeekGames}
+                onChangeGameScore={this.onChangeGameScore}
+                onChangeStarSpread={this.onChangeStarSpread}
+                onChangeStarTotal={this.onChangeStarTotal}
+                onSubmitPrediction={this.submitPrediction}
+                gamePrediction={this.state.gamePredictions[match.params.gameId]}
+                {...this.currentGame(gameId)} />
+              </div>
               )
           }
           }/>
@@ -882,7 +891,6 @@ class App extends React.Component {
                   <Button onClick={() => this.handleLoginClick()}>Sign In/Sign Up</Button>
               </div>
             ) : null}
-            <Header message={this.pageHeader()} />
             
             {this.state.fetchingGames ? (
               <Spinner animation='border' />
