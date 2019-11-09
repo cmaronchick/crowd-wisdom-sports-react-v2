@@ -19,6 +19,11 @@ function GameOddsChart(props) {
         date: null,
         spread: null
     }
+    if (!odds.history || odds.history.length === 0) {
+        return (
+            <div></div>
+        )
+    }
     odds.history.forEach(odds => {
         if (!firstSpread.date && (odds.spread || odds.spread === 0 || odds.spread !== "")) {
             firstSpread = {
