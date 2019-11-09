@@ -369,7 +369,6 @@ class App extends React.Component {
   }
 
   onChangeText = (event) => {
-    console.log({[event.target.name]: event.target.value});
     this.setState({[event.target.name]: event.target.value})
   }
 
@@ -383,7 +382,6 @@ class App extends React.Component {
     const gamePredictions = this.state.gamePredictions
     const predictionValue = event.target.value.length === 0 ? '' : (parseInt(event.target.value) || parseInt(event.target.value) === 0) ? parseInt(event.target.value) : ''
     
-    console.log({gameId, value: event.target.value, predictionValue});
     gamePredictions[gameId] ? gamePredictions[gameId][event.target.name] = predictionValue : gamePredictions[gameId] = { [event.target.name]: predictionValue }
     this.setState({ 
       gamePredictions: { 
