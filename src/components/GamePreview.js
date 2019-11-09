@@ -138,9 +138,9 @@ class GamePreview extends Component {
             </div>
           </div>
           <div className="headerRow">
-            <div className="teamName"></div>
-            <div className="teamName">{game.awayTeam.code}</div>
-            <div className="teamName">{game.homeTeam.code}</div>
+            <div></div>
+            <div className={`teamName ${game.awayTeam.code.toLowerCase()} secondary`}>{game.awayTeam.code}</div>
+            <div className={`teamName ${game.homeTeam.code.toLowerCase()} primary`}>{game.homeTeam.code}</div>
             <div className="odds">Side</div>
             <div className="odds">Total</div>
           </div>
@@ -176,7 +176,7 @@ class GamePreview extends Component {
                   game.prediction ? game.prediction.homeTeam.score : ''}  />
               )}
               </div>
-              <div>{((game.prediction || (gamePrediction.predictionAwayTeamScore && gamePrediction.predictionHomeTeamScore)) && game.odds) ? (
+              <div className="odds">{((game.prediction || (gamePrediction.predictionAwayTeamScore && gamePrediction.predictionHomeTeamScore)) && game.odds) ? (
                 <div style={{position: 'relative'}}>
                   {game.results ? spreadResults(game.odds, game.results,game.prediction) : null}
                   
@@ -199,7 +199,7 @@ class GamePreview extends Component {
                 </div>) : ''}
               
               </div>
-              <div>{((game.prediction || (gamePrediction.predictionAwayTeamScore && gamePrediction.predictionHomeTeamScore)) && game.odds) ? (
+              <div className="odds">{((game.prediction || (gamePrediction.predictionAwayTeamScore && gamePrediction.predictionHomeTeamScore)) && game.odds) ? (
                 <div style={{position: 'relative'}}>
                   
                 {game.results ? totalResults(game.odds, game.results,game.prediction) : null}
