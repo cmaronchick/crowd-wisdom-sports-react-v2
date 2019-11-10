@@ -39,7 +39,7 @@
     font-size: 0.8em;
     font-weight: bold; }
   .GamePreview .teamName {
-    opacity: 0.3; }
+    font-family: "mono45-headline", monospace, sans-serif; }
   @media (max-width: 767px) {
     .GamePreview .teamName {
       width: 33%; } }
