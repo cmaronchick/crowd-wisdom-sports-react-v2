@@ -4,11 +4,13 @@
   "description": "Learning Fullstack JavaScript Development: MongoDB, Node.js, React.js",
   "main": "index.js",
   "scripts": {
-    "start": "nodemon --exec babel-node server.js --ignore public/",
-    "dev": "concurrently --kill-others \"webpack -wd\" \"nodemon --exec babel-node server.js --ignore public/\"",
-    "build": "webpack",
+    "client-install": "yarn install --prefix client",
+    "start": "npm run build && node ./dist/server.js --ignore public/",
+    "dev": "concurrently --kill-others \"webpack -wd\" \"nodemon --exec babel-node ./src/server.js --ignore public/\"",
+    "build": "babel ./src --out-dir dist && webpack",
     "test": "jest",
-    "analyze": "source-map-explorer 'public/bundle.js'"
+    "analyze": "source-map-explorer 'public/bundle.js'",
+    "heroku-postbuild": "NPM_CONFIG_PRODUCTION=false yarn install --prefix client && yarn run build --prefix client"
   },
   "repository": "git+https://github.com/cmaronchick/crowd-wisdom-sports-react.git",
   "author": "CMA",
@@ -18,15 +20,18 @@
   },
   "homepage": "https://github.com/jscomplete/learn-fullstack-javascript#readme",
   "dependencies": {
+    "@babel/cli": "7.6.4",
     "aws-amplify": "^1.1.26",
     "aws-amplify-react": "^2.3.6",
     "axios": "^0.18.0",
     "body-parser": "^1.18.3",
     "bootstrap": "^4.3.1",
     "chart.js": "^2.8.0",
+    "clean-webpack-plugin": "^3.0.0",
     "ejs": "^2.6.1",
     "express": "^4.16.4",
     "history": "^4.10.1",
+    "html-webpack-plugin": "^3.2.0",
     "jest": "^24.8.0",
     "jquery": "^3.4.0",
     "mongodb": "^3.1.13",
@@ -42,12 +47,13 @@
     "react-router-dom": "^5.1.2",
     "react-star-rating-component": "^1.4.1",
     "react-test-renderer": "^16.8.6",
-    "source-map-explorer": "^2.0.1"
+    "source-map-explorer": "^2.0.1",
+    "webpack-merge": "^4.2.2"
   },
   "devDependencies": {
     "@babel/core": "^7.2.2",
     "@babel/node": "7.x",
-    "@babel/plugin-proposal-class-properties": "^7.3.0",
+    "@babel/plugin-proposal-class-properties": "^7.7.0",
     "@babel/preset-env": "^7.3.1",
     "@babel/preset-react": "^7.0.0",
     "babel-core": "^6.26.3",

@@ -7,7 +7,7 @@ import {
   CognitoRefreshToken, 
   CognitoUserSession, 
   CognitoUserPool } from 'amazon-cognito-identity-js'
-import config from '../awsexports'
+import config from './awsexports'
 
 const userPool = new CognitoUserPool({
   UserPoolId: config.aws_user_pools_id,

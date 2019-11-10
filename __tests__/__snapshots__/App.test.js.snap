@@ -8,11 +8,29 @@ exports[`snapshot test 1`] = `
     className="App inner"
   >
     <div>
-      <h2
-        className="Header text-center"
+      <div
+        className="dropdown"
+        onKeyDown={[Function]}
       >
-        Week undefined Games
-      </h2>
+        <button
+          aria-expanded={false}
+          aria-haspopup={true}
+          className="dropdown-toggle btn btn-success"
+          disabled={false}
+          id="dropdown-basic"
+          onClick={[Function]}
+          type="button"
+        >
+          Select a Season
+        </button>
+      </div>
+      <div
+        className="homeContent"
+      >
+        <div>
+          No games available
+        </div>
+      </div>
     </div>
   </div>
 </div>

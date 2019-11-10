@@ -1,7 +1,7 @@
 import React, { Component } from 'react'
 import Auth from '@aws-amplify/auth'
 import Button from 'react-bootstrap/Button'
-import * as api from '../api'
+import * as api from '../apis'
 
 
 const HomeLeaderboards = (props) => {
@@ -13,8 +13,8 @@ const HomeLeaderboards = (props) => {
         handleSwitchLeaderboard
         } = props;
         
-    const overallLeaderboard = overallLeaderboardData && overallLeaderboardData.leaderboardData ? overallLeaderboardData.leaderboardData : null,
-        weeklyLeaderboard = weeklyLeaderboardData && weeklyLeaderboardData.leaderboardData ? weeklyLeaderboardData.leaderboardData : null
+    const overallLeaderboard = overallLeaderboardData ? overallLeaderboardData : null,
+        weeklyLeaderboard = weeklyLeaderboardData ? weeklyLeaderboardData : null
     if (!overallLeaderboard) return (
         <div>Loading Leaderboard</div>
     )

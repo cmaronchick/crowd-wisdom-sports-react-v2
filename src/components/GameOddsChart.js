@@ -12,6 +12,32 @@ const propTypes = {
 function GameOddsChart(props) {
     const { game } = props;
     const { odds } = game;
+    let firstSpread = {
+        date: null,
+        spread: null
+    }, firstTotal = {
+        date: null,
+        spread: null
+    }
+    if (!odds.history || odds.history.length === 0) {
+        return (
+            <div></div>
+        )
+    }
+    odds.history.forEach(odds => {
+        if (!firstSpread.date && (odds.spread || odds.spread === 0 || odds.spread !== "")) {
+            firstSpread = {
+                date: odds.date,
+                spread: odds.spread
+            }
+        }
+        if (!firstTotal.date && (odds.total || odds.total !== "")) {
+            firstTotal = {
+                date: odds.date,
+                total: odds.total
+            }
+        }
+    })
     let labels = []
     let dataSpread = []
     let dataTotal = []
@@ -73,8 +99,8 @@ function GameOddsChart(props) {
     console.log({chartData})
     return (
         <div>
-            Open: {(odds.history && odds.history.length > 0) ? `${odds.history[0].date} Spread: ${odds.history[0].spread} Total: ${odds.history[0].total}` : null}<br/>
-            Last: {(odds.history && odds.history.length > 0) ? `${odds.history[odds.history.length-1].date} Spread: ${odds.history[odds.history.length-1].spread} Total: ${odds.history[odds.history.length-1].total}` : null}<br/>
+            Open: {(odds.history && odds.history.length > 0) ? `${utils.formatDate(firstSpread.date)} Spread: ${firstSpread.spread} Total: ${firstTotal.total}` : null}<br/>
+            Last: {(odds.history && odds.history.length > 0) ? `${utils.formatDate(odds.history[odds.history.length-1].date)} Spread: ${odds.history[odds.history.length-1].spread} Total: ${odds.history[odds.history.length-1].total}` : null}<br/>
             Number of Predictions: {game.predictions.length}
             <Line data={chartData} options={chartOptions} />
         </div>

@@ -4,7 +4,7 @@ import { createMemoryHistory } from 'history'
 const history = createMemoryHistory()
 import Auth from '@aws-amplify/auth';
 
-import awsconfig from '../../awsexports'
+import awsconfig from '../awsexports'
 
 // retrieve temporary AWS credentials and sign requests
 Auth.configure(awsconfig);
@@ -24,7 +24,7 @@ import HomeStarResults from './Home.StarsResults'
 import LoginModal from './LoginModal';
 import Weeks from './Weeks';
 import Navigation from './Navigation'
-import * as api from '../api';
+import * as api from '../apis';
 
 
 import ReactGA from 'react-ga'
@@ -78,7 +78,6 @@ class App extends React.Component {
 
     console.log({currentGameId: this.state.currentGameId});
     const { currentGameId, page, sport, year, season, week } = this.state;
-    
 
     if (!this.state.currentGameId && page !== 'crowds') {
       try {
@@ -117,20 +116,20 @@ class App extends React.Component {
           Object.keys(games).forEach(gameKey => {
             gamePredictions[gameKey] = games[gameKey].prediction ? { predictionAwayTeamScore: games[gameKey].prediction.awayTeam.score, predictionHomeTeamScore: games[gameKey].prediction.homeTeam.score } : null
           })
-            this.setState({
-              userSession: null,
-              sport: sport,
-              year: year,
-              currentWeek: week,
-              gameWeek: week,
-              season: season,
-              weeks: weeks,
-              currentGameId: null,
-              data: games,
-              games: games,
-              fetchingGames: false,
-              gamePredictions
-            });
+          this.setState({
+            userSession: null,
+            sport: sport,
+            year: year,
+            currentWeek: week,
+            gameWeek: week,
+            season: season,
+            weeks: weeks,
+            currentGameId: null,
+            data: games,
+            games: games,
+            fetchingGames: false,
+            gamePredictions
+          });
           console.log('gameWeekDataError: ', gameWeekDataError)
         }
         try {
@@ -146,6 +145,7 @@ class App extends React.Component {
         }
 
         try {
+          let userSession = await Auth.currentSession()
           let userStatsResponse = userSession ? await api.getUserDetails(userSession, this.state.sport, this.state.year, this.state.season, this.state.week) : null
           console.log({userStatsResponse})
         } catch(userStatsResponseError) {
@@ -169,7 +169,8 @@ class App extends React.Component {
     if (this.state.week!== prevState.week) return true;
     if (this.state.gamePredictions !== prevState.gamePredictions) return true;
     if (this.state.games!==prevState.games) return true;
-    if (this.state.leaderboardData!==prevState.leaderboardData) return true;
+    //Leaderboard Data Update
+    if (this.state.leaderboardData!==prevState.leaderboardData || this.state.overallLeaderboardData!==prevState.overallLeaderboardData || this.state.weeklyLeaderboardData!==prevState.weeklyLeaderboardData) return true;
     if (this.state.fetchingGames!==prevState.fetchingGames) return true;
     if (this.state.fetchingData!==prevState.fetchingData) return true;
     if (this.state.fetchingLeaderboards!==prevState.fetchingLeaderboards) return true;
@@ -368,7 +369,6 @@ class App extends React.Component {
   }
 
   onChangeText = (event) => {
-    console.log({[event.target.name]: event.target.value});
     this.setState({[event.target.name]: event.target.value})
   }
 
@@ -379,9 +379,9 @@ class App extends React.Component {
   }
   
   onChangeGameScore = (gameId, event) => {
-    console.log({gameId, value: event.target.value});
     const gamePredictions = this.state.gamePredictions
-    const predictionValue = event.target.value.length === 0 ? '' : parseInt(event.target.value) ? parseInt(event.target.value) : ''
+    const predictionValue = event.target.value.length === 0 ? '' : (parseInt(event.target.value) || parseInt(event.target.value) === 0) ? parseInt(event.target.value) : ''
+    
     gamePredictions[gameId] ? gamePredictions[gameId][event.target.name] = predictionValue : gamePredictions[gameId] = { [event.target.name]: predictionValue }
     this.setState({ 
       gamePredictions: { 
@@ -534,6 +534,7 @@ class App extends React.Component {
   }
 
   fetchGame = async (sport, year, season, gameWeek, gameId) => {
+    console.log({sport, year, season, gameWeek, gameId});
     pushState(
       { currentGameId: gameId },
       `/${sport}/games/${year}/${season}/${gameWeek}/${gameId}`
@@ -578,7 +579,11 @@ class App extends React.Component {
     }
   }
 
-  fetchGameWeekGames = async (sport, year, season, gameWeek) => {
+  scrollToRef = (gameId) => window.scrollTo({
+    top: document.getElementById(gameId).offsetTop
+  })
+
+  fetchGameWeekGames = async (sport, year, season, gameWeek, ref) => {
     this.setState({ fetchingGames: true })
     pushState(
       {
@@ -607,6 +612,22 @@ class App extends React.Component {
       });
     } catch (getGamesError) {
       console.log({getGamesError});
+      let games = await api.fetchGameWeekGames(sport, year, season, gameWeek, null);
+      let gamePredictions = {}
+      Object.keys(games).forEach(gameKey => {
+        gamePredictions[gameKey] = games[gameKey].prediction ? { predictionAwayTeamScore: games[gameKey].prediction.awayTeam.score, predictionHomeTeamScore: games[gameKey].prediction.homeTeam.score } : null
+      })
+    
+      this.setState({
+        year: year,
+        gameWeek: gameWeek,
+        currentGameId: null,
+        data: games,
+        games: games,
+        gamePredictions,
+        fetchingGames: false
+      });
+      (ref) ? this.scrollToRef(ref) : null
     }
     try {
       let userSession = await Auth.currentSession()
@@ -627,15 +648,14 @@ class App extends React.Component {
     console.log({week});
     try {
       let userSession = await Auth.currentSession()
-      let leaderboardData = await api.fetchOverallLeaderboard(userSession, sport, year, season, week)
       let overallLeaderboardData = await api.fetchOverallLeaderboard(userSession ? userSession : null, sport, year, season, week);
       let weeklyLeaderboardData = await api.fetchWeeklyLeaderboard(userSession ? userSession : null, sport, year, season, week)
-      this.setState({ leaderboardData, overallLeaderboardData, weeklyLeaderboardData, fetchingLeaderboards: false })
+      this.setState({ overallLeaderboardData: overallLeaderboardData.leaderboardData, weeklyLeaderboardData: weeklyLeaderboardData.leaderboardData, fetchingLeaderboards: false })
     } catch(getUserSession) {
       let leaderboardData = await api.fetchOverallLeaderboard(null, sport, year, season, week)
       let overallLeaderboardData = await api.fetchOverallLeaderboard(null, sport, year, season, week);
       let weeklyLeaderboardData = await api.fetchWeeklyLeaderboard(null, sport, year, season, week)
-      this.setState({ leaderboardData, overallLeaderboardData, weeklyLeaderboardData, fetchingLeaderboards: false })
+      this.setState({ leaderboardData, overallLeaderboardData: overallLeaderboardData.leaderboardData, weeklyLeaderboardData: weeklyLeaderboardData.leaderboardData, fetchingLeaderboards: false })
     }
   }
   fetchCrowdOverallCompare = async (sport, year, season, week) => {
@@ -693,9 +713,9 @@ class App extends React.Component {
   pageHeader() {
     //console.log('this.state: ', this.state);
     if (this.state.currentGameId) {
-      return this.currentGame().awayTeam.shortName + ' vs. ' + this.currentGame().homeTeam.shortName;
+      return this.currentGame(this.state.currentGameId).awayTeam.shortName + ' vs. ' + this.currentGame(this.state.currentGameId).homeTeam.shortName;
     }
-    return !this.state.fetchingGames ? `Week ${this.state.gameWeek} Games` : 'Loading Games ...';
+    return this.state.fetchingGames ? 'Loading Games ...' : this.state.gameWeek ? `Week ${this.state.gameWeek} Games` : (this.props.initialData && this.props.initialData.week) ? `Week ${this.props.initialData.week} Games` : ''
   }
   currentContent() {
       const { games, gamePredictions } = this.state;
@@ -704,14 +724,17 @@ class App extends React.Component {
           <Route path="/:sport/games/:year/:season/:gameWeek/:gameId" render={({match}) => {
             const { gameId } = match.params;
             return (
-              <Game 
-              gamesListClick={this.fetchGamesList}
-              onChangeGameScore={this.onChangeGameScore}
-              onChangeStarSpread={this.onChangeStarSpread}
-              onChangeStarTotal={this.onChangeStarTotal}
-              onSubmitPrediction={this.submitPrediction}
-              gamePrediction={this.state.gamePredictions[match.params.gameId]}
-              {...this.currentGame(gameId)} />
+              <div>
+                <Header message={this.pageHeader()} />
+                <Game 
+                gamesListClick={this.fetchGameWeekGames}
+                onChangeGameScore={this.onChangeGameScore}
+                onChangeStarSpread={this.onChangeStarSpread}
+                onChangeStarTotal={this.onChangeStarTotal}
+                onSubmitPrediction={this.submitPrediction}
+                gamePrediction={this.state.gamePredictions[match.params.gameId]}
+                {...this.currentGame(gameId)} />
+              </div>
               )
           }
           }/>
@@ -724,8 +747,7 @@ class App extends React.Component {
           <Route path="/:sport/crowds/:year/:season/:crowdId" render={({match}) => 
             <Crowd crowd={this.state.crowd} {...match.params} />
           } />
-          <Route path="/:sport" render={({match}) => {
-            console.log({match})
+          <Route path={["/", "/:sport"]} render={({match}) => {
             return (
               <div>
                 <Dropdown>
@@ -867,7 +889,6 @@ class App extends React.Component {
                   <Button onClick={() => this.handleLoginClick()}>Sign In/Sign Up</Button>
               </div>
             ) : null}
-            <Header message={this.pageHeader()} />
             
             {this.state.fetchingGames ? (
               <Spinner animation='border' />

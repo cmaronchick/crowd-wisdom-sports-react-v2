@@ -2,8 +2,8 @@ import React, { Component } from 'react'
 import PropTypes from 'prop-types'
 
 const CrowdOverallCompare = ({ crowd, userStats }) => {
-        return (
-            <div className="crowdOverallCompare">
+        return crowd ? (
+            <div className="CrowdOverallCompare">
             <div className="compareRow userStats">
                 <div></div>
                 <div>Wins</div>
@@ -32,6 +32,8 @@ const CrowdOverallCompare = ({ crowd, userStats }) => {
                 ) : null}
 
             </div>
+        ) : (
+            <div>Loading Crowd Results ...</div>
         )
 }
 

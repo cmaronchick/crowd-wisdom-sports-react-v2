@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import { Link } from 'react-router-dom'
 import Button from 'react-bootstrap/Button'
 import Spinner from 'react-bootstrap/Spinner'
-import * as apis from '../api'
+import * as apis from '../apis'
 import * as utils from '../utils'
 import StarRatingComponent from 'react-star-rating-component'
 
@@ -105,6 +105,8 @@ class GamePreview extends Component {
     // this.setState({ submittingPrediction: false})
   }
 
+  myRef = React.createRef()
+
 
 
   render() {
@@ -120,8 +122,8 @@ class GamePreview extends Component {
       const crowdAwayTeamScore = game.crowd ? parseFloat(game.crowd.awayTeam.score).toFixed(2) : null,
         crowdHomeTeamScore = game.crowd ? parseFloat(game.crowd.homeTeam.score).toFixed(2) : null
       return (
-      <div className="link GamePreview">
-        <Link to={`/${game.sport}/games/${game.year}/${game.season}/${game.gameWeek}/${game.gameId}`}>
+      <div ref={this.myRef} className="link GamePreview">
+        <Link to={`/${game.sport}/games/${game.year}/${game.season}/${game.gameWeek}/${game.gameId}`} onClick={this.handleClick}>
           <div className="game-header">
           {game.awayTeam.rank ? `#${game.awayTeam.rank} ` : ''}{game.awayTeam.fullName} vs. {game.homeTeam.rank ? `#${game.homeTeam.rank} ` : ''}{game.homeTeam.fullName}
           </div>
@@ -136,9 +138,9 @@ class GamePreview extends Component {
             </div>
           </div>
           <div className="headerRow">
-            <div className="teamName"></div>
-            <div className="teamName">{game.awayTeam.code}</div>
-            <div className="teamName">{game.homeTeam.code}</div>
+            <div></div>
+            <div className={`teamName ${game.awayTeam.code.toLowerCase()} secondary`}>{game.awayTeam.code}</div>
+            <div className={`teamName ${game.homeTeam.code.toLowerCase()} primary`}>{game.homeTeam.code}</div>
             <div className="odds">Side</div>
             <div className="odds">Total</div>
           </div>
@@ -158,7 +160,7 @@ class GamePreview extends Component {
                 </div>
                 ) : 'N/A' : (
                 <input style={{width: 50}} onChange={this.handleOnChangeGameScore} name='predictionAwayTeamScore' placeholder={(!game.prediction && !gamePrediction && (gamePrediction && !gamePrediction.predictionAwayTeamScore)) ? '##' : null}
-                value={(gamePrediction && gamePrediction.predictionAwayTeamScore) ? parseInt(gamePrediction.predictionAwayTeamScore) : 
+                value={(gamePrediction && (gamePrediction.predictionAwayTeamScore || gamePrediction.predictionAwayTeamScore === 0)) ? parseInt(gamePrediction.predictionAwayTeamScore) : 
                   game.prediction ? parseInt(game.prediction.awayTeam.score) : ''} />
               )}
               </div>
@@ -170,11 +172,11 @@ class GamePreview extends Component {
                   </div>
                 ) : '' : (
                 <input style={{width: 50}} onChange={this.handleOnChangeGameScore} name='predictionHomeTeamScore' placeholder={(!game.prediction && !gamePrediction && (gamePrediction && !gamePrediction.predictionHomeTeamScore)) ? '##' : null}
-                value={(gamePrediction && gamePrediction.predictionHomeTeamScore) ? parseInt(gamePrediction.predictionHomeTeamScore) : 
+                value={(gamePrediction && (gamePrediction.predictionHomeTeamScore || gamePrediction.predictionHomeTeamScore === 0)) ? parseInt(gamePrediction.predictionHomeTeamScore) : 
                   game.prediction ? game.prediction.homeTeam.score : ''}  />
               )}
               </div>
-              <div>{((game.prediction || (gamePrediction.predictionAwayTeamScore && gamePrediction.predictionHomeTeamScore)) && game.odds) ? (
+              <div className="odds">{((game.prediction || (gamePrediction.predictionAwayTeamScore && gamePrediction.predictionHomeTeamScore)) && game.odds) ? (
                 <div style={{position: 'relative'}}>
                   {game.results ? spreadResults(game.odds, game.results,game.prediction) : null}
                   
@@ -197,7 +199,7 @@ class GamePreview extends Component {
                 </div>) : ''}
               
               </div>
-              <div>{((game.prediction || (gamePrediction.predictionAwayTeamScore && gamePrediction.predictionHomeTeamScore)) && game.odds) ? (
+              <div className="odds">{((game.prediction || (gamePrediction.predictionAwayTeamScore && gamePrediction.predictionHomeTeamScore)) && game.odds) ? (
                 <div style={{position: 'relative'}}>
                   
                 {game.results ? totalResults(game.odds, game.results,game.prediction) : null}
@@ -217,30 +219,40 @@ class GamePreview extends Component {
             <div style={{display: 'flex', flexDirection: 'column'}}>
               <div className='stars'>
                 Spread: 
-                <input className="dv-star-rating-input" type="radio" name="starsSpread" id="starsSpread_0" value="0" style={{display: 'none', position: 'absolute', marginLeft: -9999}}></input>
-                <label className="dv-star-rating-star dv-star-rating-empty-star dv-star-rating-null" htmlFor="starsSpread_0" >
-                  <i className="fa fa-minus-circle" aria-hidden="true" onClick={this.handleOnChangeStarTotal}></i>
-                </label>
+                {!game.results ? (
+                  <span>
+                    <input className="dv-star-rating-input" type="radio" name="starsSpread" id="starsSpread_0" value="0" style={{display: 'none', position: 'absolute', marginLeft: -9999}}></input>
+                    <label className="dv-star-rating-star dv-star-rating-empty-star dv-star-rating-null" htmlFor="starsSpread_0" >
+                      <i className="fa fa-minus-circle" aria-hidden="true" onClick={this.handleOnChangeStarTotal}></i>
+                    </label>
+                  </span>
+                ) : null}
                 <StarRatingComponent 
                   name={'starsSpread'}
+                  editing={!game.results}
                   value={(gamePrediction && gamePrediction.stars) ? gamePrediction.stars.spread : (game.prediction && game.prediction.stars) ? game.prediction.stars.spread : 0}
                   starCount={3}
-                  starColor={(!game.results || (gamePrediction && gamePrediction.results && gamePrediction.results.spread.correct === 1)) ? '#124734' : '#e04403'} /* color of selected icons, default `#ffb400` */
+                  starColor={(!game.results || (game.prediction && game.prediction.results && game.prediction.results.spread.correct === 1)) ? '#124734' : '#e04403'} /* color of selected icons, default `#ffb400` */
                   emptyStarColor={'#f6dfa4'}
                   onStarClick={this.handleOnChangeStarSpread}
                   />
               </div>
               <div className='stars'>
                 Total: 
-                <input className="dv-star-rating-input" type="radio" name="starsSpread" id="starsTotal_0" value="0" style={{display: 'none', position: 'absolute', marginLeft: -9999}}></input>
-                <label className="dv-star-rating-star dv-star-rating-empty-star dv-star-rating-null" htmlFor="starsTotal_0" >
-                  <i className="fa fa-minus-circle" aria-hidden="true" onClick={this.handleOnChangeStarTotal}></i>
-                </label>
+                {!game.results ? (
+                  <span>
+                    <input className="dv-star-rating-input" type="radio" name="starsSpread" id="starsTotal_0" value="0" style={{display: 'none', position: 'absolute', marginLeft: -9999}}></input>
+                    <label className="dv-star-rating-star dv-star-rating-empty-star dv-star-rating-null" htmlFor="starsTotal_0" >
+                      <i className="fa fa-minus-circle" aria-hidden="true" onClick={this.handleOnChangeStarTotal}></i>
+                    </label>
+                  </span>
+                ) : null}
                 <StarRatingComponent 
                   name='starsTotal'
+                  editing={!game.results}
                   value={(gamePrediction && gamePrediction.stars) ? gamePrediction.stars.total : (game.prediction && game.prediction.stars) ? game.prediction.stars.total : 0}
                   starCount={3}
-                  starColor={'#124734'} /* color of selected icons, default `#ffb400` */
+                  starColor={(!game.results || (game.prediction && game.prediction.results && game.prediction.results.total.correct === 1)) ? '#124734' : '#e04403'} /* color of selected icons, default `#ffb400` */
                   emptyStarColor={'#f6dfa4'}
                   onStarClick={this.handleOnChangeStarTotal}
                   />

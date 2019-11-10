@@ -5,8 +5,6 @@ import path from 'path';
 import serverRender from './serverRender';
 import express from 'express';
 import bodyParser from 'body-parser';
-import Auth from '@aws-amplify/auth'
-import { runInNewContext } from 'vm';
 
 const server = express();
 server.use(bodyParser.json());
@@ -16,6 +14,7 @@ server.use(sassMiddleware({
   dest: path.join(__dirname, 'public')
 }));
 server.use(express.static('public'));
+server.use(express.static('dist'));
 
 server.set('view engine', 'ejs');
 
@@ -36,6 +35,7 @@ server.get(['/', '/:sport', '/:sport/games', '/:sport/games/:year', '/:sport/gam
         res.status(404).send('Bad Request');
       });
 });
+
 server.get(['/:sport/leaderboards', '/:sport/leaderboards/:year', '/:sport/leaderboards/:year/:season', '/:sport/leaderboards/:year/:season/:gameWeek', '/:sport/leaderboards/:year/:season/:gameWeek/'], (req, res) => {
   //console.log('req.url: ', req.url)
   const sport = req.params.sport ? req.params.sport : 'nfl'
@@ -71,6 +71,16 @@ server.get(['/:sport/crowds', '/:sport/crowds/:year', '/:sport/crowds/:year/:sea
 });
 
 server.use('/api', apiRouter);
+
+// serve static assets if in production
+
+if (process.env.NODE_ENV === "production") {
+  server.use(express.static('client/build'));
+
+  server.get('*', (req, res) => {
+    res.sendFile(path.resolve(__dirname, "client", "build", "index.html"))
+  })
+}
 
 server.listen(config.port, config.host, () => {
   console.log('config: ', config)
