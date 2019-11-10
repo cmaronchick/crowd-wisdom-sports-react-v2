@@ -10,7 +10,7 @@ const server = express();
 server.use(bodyParser.json());
 
 server.use(sassMiddleware({
-  src: path.join(__dirname, 'sass'),
+  src: path.join(__dirname, '../sass'),
   dest: path.join(__dirname, 'public')
 }));
 server.use(express.static('public'));
