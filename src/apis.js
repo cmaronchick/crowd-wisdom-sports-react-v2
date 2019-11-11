@@ -178,7 +178,7 @@ export const getFacebookUser = async (code, url) => {
     const RefreshToken = new CognitoRefreshToken({ RefreshToken: tokenRequestJson.refresh_token })
     console.log({ IdToken, AccessToken, RefreshToken});
       try {
-        let userSession = new CognitoUserSession({ IdToken, AccessToken, RefreshToken });
+        let userSession = new CognitoUserSession({ IdToken: IdToken, AccessToken: AccessToken, RefreshToken: RefreshToken });
         console.log({userSession});
         let IdToken2 = userSession.getIdToken()
         const userData = {
