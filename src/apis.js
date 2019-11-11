@@ -172,14 +172,11 @@ export const getFacebookUser = async (code, url) => {
       }
     )
     let tokenRequestJson = await res.json();
-    console.log('tokenRequestJson: ', tokenRequestJson)
-    const IdToken = new CognitoIdToken({ IdToken: tokenRequestJson.id_token });
-    const AccessToken = new CognitoAccessToken({ AccessToken: tokenRequestJson.access_token });
-    const RefreshToken = new CognitoRefreshToken({ RefreshToken: tokenRequestJson.refresh_token })
-    console.log({ IdToken, AccessToken, RefreshToken});
-      try {
-        let userSession = new CognitoUserSession({ IdToken: IdToken, AccessToken: AccessToken, RefreshToken: RefreshToken });
-        console.log({userSession});
+    
+        let id_token = new CognitoIdToken({ IdToken: tokenRequestJson.id_token });
+        let access_token = new CognitoAccessToken({ AccessToken: tokenRequestJson.access_token });
+        let refresh_token = new CognitoRefreshToken({ RefreshToken: tokenRequestJson.refresh_token })
+        let userSession = new CognitoUserSession({ IdToken: id_token, AccessToken: access_token, RefreshToken: refresh_token});
         let IdToken2 = userSession.getIdToken()
         const userData = {
           Username: IdToken2.payload['cognito:username'],
@@ -191,12 +188,6 @@ export const getFacebookUser = async (code, url) => {
         let authUser = Auth.createCognitoUser(userData.Username)
         authUser.setSignInUserSession(userSession);
         return cognitoUser;
-      }
-      catch (FBSignInError) {
-        //logger.debug('Logger FB: ', FBSignInError)
-        console.log('FBSignInError: ', FBSignInError)
-        return false;
-      }
     }
     catch (error) {
       console.log('userSession error: ', error);
