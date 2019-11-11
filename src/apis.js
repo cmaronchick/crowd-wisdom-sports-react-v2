@@ -146,12 +146,12 @@ export const getUserDetails = async (userSession, sport, year, season, week) => 
 
 }
 
-export const getFacebookUser = async (code) => {
+export const getFacebookUser = async (code, url) => {
   const details = {
     grant_type: 'authorization_code',
     code,
     client_id: userPool.clientId,
-    redirect_uri: 'http://localhost:8080'
+    redirect_uri: url.indexOf('localhost') > -1 ? 'http://localhost:8080' : `https://${url}`
   }
   const formBody = Object.keys(details)
     .map(
@@ -159,7 +159,7 @@ export const getFacebookUser = async (code) => {
     )
     .join("&");
 
-  //console.log("getTokensOptions: ", getTokensOptions)
+  console.log({formBody});
   try {
     let res = await fetch(
     'https://crowdsourcedscores.auth.us-west-2.amazoncognito.com/oauth2/token',

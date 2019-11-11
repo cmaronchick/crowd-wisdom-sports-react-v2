@@ -38,6 +38,8 @@ const onPopState = handler => {
   window.onpopstate = handler;
 };
 
+// const location = document
+
 class App extends React.Component {
   constructor(props) {
     super(props)
@@ -51,7 +53,7 @@ class App extends React.Component {
       loginModalShow: false,
       confirmUser: false,
       compareTable: 'crowd',
-      authState: 'checkingSignIn'
+      authState: 'checkingSignIn',
     }
     
   }
@@ -66,8 +68,8 @@ class App extends React.Component {
       });
     });
     // console.log('this.state: ', this.state)
-
-    let fbUser = this.state.code ? await api.getFacebookUser(this.state.code) : null
+    let url = this.props.initialData.url
+    let fbUser = this.state.code ? await api.getFacebookUser(this.state.code, url) : null
     ReactGA.initialize(analytics.config);
     try {
       let user = await Auth.currentAuthenticatedUser({bypassCache: true})

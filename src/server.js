@@ -23,7 +23,7 @@ server.get(['/', '/:sport', '/:sport/games', '/:sport/games/:year', '/:sport/gam
     const sportsArray = ['nfl', 'ncaaf', 'ncaam']
     const sport = (req.params.sport && sportsArray.indexOf(req.params.sport) > -1) ? req.params.sport : 'nfl'
     // console.log('server 25 sport: ', sport)
-    serverRender(req, sport, parseInt(req.params.year), req.params.season, parseInt(req.params.gameWeek), req.query, 'games', parseInt(req.params.gameId))
+    serverRender(req, sport, parseInt(req.params.year), req.params.season, parseInt(req.params.gameWeek), req.query, 'games', `${req.hostname}${req.port ? `:${req.port}` : ''}`, parseInt(req.params.gameId))
       .then(({ initialMarkup, initialData }) => {
         res.render('index', {
           initialMarkup,
@@ -40,7 +40,7 @@ server.get(['/:sport/leaderboards', '/:sport/leaderboards/:year', '/:sport/leade
   //console.log('req.url: ', req.url)
   const sport = req.params.sport ? req.params.sport : 'nfl'
   //console.log('server 25 sport: ', sport)
-  serverRender(req, sport, parseInt(req.params.year), req.params.season, parseInt(req.params.gameWeek), req.query, 'leaderboards', null, null)
+  serverRender(req, sport, parseInt(req.params.year), req.params.season, parseInt(req.params.gameWeek), req.query, 'leaderboards', `${req.hostname}${req.port ? `:${req.port}` : ''}`, null, null)
     .then(({ initialMarkup, initialData }) => {
       res.render('index', {
         initialMarkup,
@@ -57,7 +57,7 @@ server.get(['/:sport/crowds', '/:sport/crowds/:year', '/:sport/crowds/:year/:sea
   
     const sport = req.params.sport ? req.params.sport : 'nfl'
     // console.log('server 25 sport: ', sport)
-    serverRender(req, sport, parseInt(req.params.year), req.params.season, parseInt(req.params.gameWeek), req.query, 'crowds', parseInt(req.params.crowdId))
+    serverRender(req, sport, parseInt(req.params.year), req.params.season, parseInt(req.params.gameWeek), req.query, 'crowds', `${req.hostname}${req.port ? `:${req.port}` : ''}`, parseInt(req.params.crowdId))
       .then(({ initialMarkup, initialData }) => {
         res.render('index', {
           initialMarkup,
