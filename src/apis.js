@@ -146,12 +146,12 @@ export const getUserDetails = async (userSession, sport, year, season, week) => 
 
 }
 
-export const getFacebookUser = async (code) => {
+export const getFacebookUser = async (code, uri) => {
   const details = {
     grant_type: 'authorization_code',
     code,
     client_id: userPool.clientId,
-    redirect_uri: 'http://localhost:8080'
+    redirect_uri: uri ? uri : 'http://localhost:8080'
   }
   const formBody = Object.keys(details)
     .map(
