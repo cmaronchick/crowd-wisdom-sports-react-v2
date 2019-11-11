@@ -11,7 +11,7 @@ server.use(bodyParser.json());
 
 server.use(sassMiddleware({
   src: path.join(__dirname, '../sass'),
-  dest: path.join(__dirname, '/')
+  dest: path.join(__dirname, 'public')
 }));
 server.use(express.static('public'));
 server.use(express.static('dist'));

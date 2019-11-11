@@ -179,9 +179,10 @@ export const getFacebookUser = async (code, url) => {
     console.log({ IdToken, AccessToken, RefreshToken});
       try {
         let userSession = new CognitoUserSession({ IdToken, AccessToken, RefreshToken });
-        
+        console.log({userSession});
+        let IdToken2 = userSession.getIdToken()
         const userData = {
-          Username: IdToken.payload['cognito:username'],
+          Username: IdToken2.payload['cognito:username'],
           Pool: userPool
         };
         
