@@ -10,7 +10,7 @@ const server = express();
 server.use(bodyParser.json());
 
 server.use(sassMiddleware({
-  src: path.join(__dirname, 'sass'),
+  src: path.join(__dirname, '../sass'),
   dest: path.join(__dirname, 'public')
 }));
 server.use(express.static('public'));
@@ -74,13 +74,13 @@ server.use('/api', apiRouter);
 
 // serve static assets if in production
 
-if (process.env.NODE_ENV === "production") {
-  server.use(express.static('client/build'));
+// if (process.env.NODE_ENV === "production") {
+//   server.use(express.static('client/build'));
 
-  server.get('*', (req, res) => {
-    res.sendFile(path.resolve(__dirname, "client", "build", "index.html"))
-  })
-}
+//   server.get('*', (req, res) => {
+//     res.sendFile(path.resolve(__dirname, "client", "build", "index.html"))
+//   })
+// }
 
 server.listen(config.port, config.host, () => {
   console.log('config: ', config)
