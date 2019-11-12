@@ -27,7 +27,11 @@
 
     <!-- CSS Files -->
     
-  <link rel="stylesheet" href="/style.css" crossorigin="anonymous">
+  <% if (environment === 'production') { %>
+    <link rel="stylesheet" href="/public/style.css" crossorigin="anonymous">
+  <% } else { %>
+    <link rel="stylesheet" href="/style.css" crossorigin="anonymous">
+  <% } %>
     <!-- <link href="https://www.crowdwisdomsports.com/assets/css/material-kit.css" rel="stylesheet"/> -->
     <link href="https://www.crowdwisdomsports.com/assets/css/hopscotch.min.css" rel="stylesheet"/>
     <script src="https://unpkg.com/react/umd/react.production.min.js" crossorigin/>

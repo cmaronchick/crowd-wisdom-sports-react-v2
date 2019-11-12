@@ -27,7 +27,8 @@ server.get(['/', '/:sport', '/:sport/games', '/:sport/games/:year', '/:sport/gam
       .then(({ initialMarkup, initialData }) => {
         res.render('index', {
           initialMarkup,
-          initialData
+          initialData,
+          environment: process.env.NODE_ENV === "production" ? "production" : "dev"
         });
       })
       .catch(error => {
