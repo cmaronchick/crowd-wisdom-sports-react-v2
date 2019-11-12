@@ -45,7 +45,8 @@ server.get(['/:sport/leaderboards', '/:sport/leaderboards/:year', '/:sport/leade
     .then(({ initialMarkup, initialData }) => {
       res.render('index', {
         initialMarkup,
-        initialData
+        initialData,
+        environment: process.env.NODE_ENV === "production" ? "production" : "dev"
       });
     })
     .catch(error => {
@@ -62,7 +63,8 @@ server.get(['/:sport/crowds', '/:sport/crowds/:year', '/:sport/crowds/:year/:sea
       .then(({ initialMarkup, initialData }) => {
         res.render('index', {
           initialMarkup,
-          initialData
+          initialData,
+          environment: process.env.NODE_ENV === "production" ? "production" : "dev"
         });
       })
       .catch(error => {
