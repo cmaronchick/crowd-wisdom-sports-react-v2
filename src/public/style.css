@@ -62,6 +62,10 @@
     color: #fff;
     padding: 5px 0;
     margin: 5px 0; }
+    .GamePreview .predictionScoreBox.crowd {
+      color: #231f20;
+      border: 1px solid #124734;
+      background-color: #fff; }
   .GamePreview .stars {
     display: flex;
     flex-direction: row;
@@ -76,6 +80,9 @@
       font-size: 0.8em; }
   .GamePreview a, .GamePreview a:visited {
     color: #231f20; }
+  .GamePreview .results {
+    color: #fff;
+    background-color: #231f20; }
 
 .compareDiv {
   display: flex;

@@ -86,6 +86,11 @@
         color: #fff;
         padding: 5px 0;
         margin: 5px 0;
+        &.crowd {
+            color:#231f20;
+            border: 1px solid #124734;
+            background-color: #fff;
+        }
     }
     .stars {
         display: flex;
@@ -105,6 +110,10 @@
     
     a, a:visited {
         color: #231f20;
+    }
+    .results {
+        color: #fff;
+        background-color: #231f20;
     }
 }
 
