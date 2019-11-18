@@ -3,7 +3,7 @@ import PropTypes from 'prop-types'
 
 const CrowdOverallCompare = ({ crowd, userStats }) => {
         return crowd ? (
-            <div className="CrowdOverallCompare">
+            <div className="crowdOverallCompare">
             <div className="compareRow userStats">
                 <div></div>
                 <div>Wins</div>
