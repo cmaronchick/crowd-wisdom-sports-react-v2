@@ -775,12 +775,12 @@ class App extends React.Component {
                 {(this.state.crowd || (this.state.userStats && this.state.userStats.results)) ? (
                     (this.state.compareTable === 'crowd') ? (
                       <div className='compareDiv'>
-                        {(this.state.userStats && this.state.userStats.results && this.state.userStats.results.stars && this.state.userStats.results.stars.wagered > 0) ? (
+                        {(this.state.userStats && this.state.userStats.results && this.state.userStats.results.weekly.stars && this.state.userStats.results.weekly.stars.wagered > 0) ? (
                           <Button onClick={() => this.handleCompareButtonClick('stars')}>
                             Show My Stars Results
                           </Button>
                         ) : (
-                          <Button>
+                          <Button disabled={true}>
                             Wager Stars to See Your Stake Results
                           </Button>
                         )}
