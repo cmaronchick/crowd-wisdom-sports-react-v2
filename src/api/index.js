@@ -27,15 +27,15 @@ const callOptions = (userToken) => {
   return { anonString, callOptions };
 }
 
-const gamesAPIResponse = (sport, year, season, gameWeek, userToken) => {
+const gamesAPIResponse = (sport, year, season, gameWeek, userToken, query) => {
   const callOptionsObject = callOptions(userToken);
   const anonString = callOptionsObject.anonString;
   const getOptions = callOptionsObject.callOptions;
   //console.log('api index 33 anonString: ', anonString)
   if (year && gameWeek) {
-    return axios.get(`https://y5f8dr2inb.execute-api.us-west-2.amazonaws.com/dev/${sport}/${year}/${season}/${gameWeek}/games${anonString}`, getOptions);
+    return axios.get(`https://y5f8dr2inb.execute-api.us-west-2.amazonaws.com/dev/${sport}/${year}/${season}/${gameWeek}/games${anonString}${query && query.compareUsername ? `?compareUsername=${query.compareUsername}` : ''}`, getOptions);
   }
-  return axios.get(`https://y5f8dr2inb.execute-api.us-west-2.amazonaws.com/dev/nfl/2018/3/games${anonString}`, getOptions);
+  return axios.get(`https://y5f8dr2inb.execute-api.us-west-2.amazonaws.com/dev/nfl/2018/3/games${anonString}${query && query.compareUsername ? `?compareUsername=${query.compareUsername}` : ''}`, getOptions);
 };
 
 
@@ -56,8 +56,8 @@ router.get('/:sport/gameWeek', (req, res) => {
 
 router.get(['/:sport/games', '/:sport/games/:year/:season/:gameWeek'], (req, res) => {
   //console.log('api index 54 req.headers.authorization: ', req.headers.authorization)
-  //console.log('api index 57 params', req.params)
-  gamesAPIResponse(req.params.sport, req.params.year, req.params.season, req.params.gameWeek, req.headers.authorization)
+  console.log('api index 57 query', req.query)
+  gamesAPIResponse(req.params.sport, req.params.year, req.params.season, req.params.gameWeek, req.headers.authorization, req.query)
     .then((gamesResponse) => {
       const gamesResponseObjs = gamesResponse.data.games.reduce((obj, game) => {
         obj[game.gameId] = game;
@@ -69,11 +69,12 @@ router.get(['/:sport/games', '/:sport/games/:year/:season/:gameWeek'], (req, res
 })
 
 router.get('/:sport/games/:year/:season/:gameWeek/:gameId', (req, res) => {
+  const { compareUsername } = req.query;
   const callOptionsObject = callOptions(req.headers.authorization);
   const anonString = callOptionsObject.anonString;
   const getOptions = callOptionsObject.callOptions;
-  console.log(`https://y5f8dr2inb.execute-api.us-west-2.amazonaws.com/dev/nfl/${req.params.year}/${req.params.gameWeek}/games/${req.params.gameId}${anonString}`, getOptions);
-  axios.get(`https://y5f8dr2inb.execute-api.us-west-2.amazonaws.com/dev/nfl/${req.params.year}/${req.params.gameWeek}/games/${req.params.gameId}${anonString}`, getOptions)
+  console.log(`https://y5f8dr2inb.execute-api.us-west-2.amazonaws.com/dev/${req.params.sport}/${req.params.year}/${req.params.season}/${req.params.gameWeek}/games/${req.params.gameId}${anonString}${compareUsername ? `?compareUsername=${compareUsername}` : ''}`, getOptions);
+  axios.get(`https://y5f8dr2inb.execute-api.us-west-2.amazonaws.com/dev/${req.params.sport}/${req.params.year}/${req.params.season}/${req.params.gameWeek}/games/${req.params.gameId}${anonString}`, getOptions)
   .then((gameResponse) => {
     // console.log('api index 77 game: ', gameResponse)
     res.send({ game: gameResponse.data });

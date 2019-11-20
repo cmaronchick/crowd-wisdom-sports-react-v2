@@ -40,9 +40,9 @@ const getOptions = (userSession) => {
   return { anonString, callOptions}
 }
 
-export const fetchGame = (sport, year, season, gameWeek, gameId, userSession) => {
+export const fetchGame = (sport, year, season, gameWeek, gameId, userSession, compareUsername) => {
   const getOptionsObj = getOptions(userSession);
-  return axios.get(`/api/${sport}/games/${year}/${season}/${gameWeek}/${gameId}${getOptionsObj.anonString}`, getOptionsObj.callOptions)
+  return axios.get(`/api/${sport}/games/${year}/${season}/${gameWeek}/${gameId}${getOptionsObj.anonString}${compareUsername ? `?compareUsername=${compareUsername}` : ''}`, getOptionsObj.callOptions)
     .then(resp => resp.data);
 };
 
@@ -53,9 +53,11 @@ export const fetchGamesList = (sport, year, season, week, userSession) => {
   .then (resp => resp.data.games);
 };
 
-export const fetchGameWeekGames = (sport, year, season, gameWeek, userSession) => {
+// get the games for the default or chosen week
+// if you are viewing 
+export const fetchGameWeekGames = (sport, year, season, gameWeek, userSession, compareUsername) => {
   const getOptionsObj = getOptions(userSession)
-  return axios.get(`/api/${sport}/games/${year}/${season}/${gameWeek}`, getOptionsObj.callOptions)
+  return axios.get(`/api/${sport}/games/${year}/${season}/${gameWeek}${compareUsername ? `?compareUsername=${compareUsername}` : ''}`, getOptionsObj.callOptions)
   .then (resp => resp.data.games);
 };
 

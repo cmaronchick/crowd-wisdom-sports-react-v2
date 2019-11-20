@@ -23,7 +23,6 @@ import CrowdOverallCompare from './Home.CrowdOverallCompare'
 import HomeStarResults from './Home.StarsResults'
 import LoginModal from './LoginModal';
 import Weeks from './Weeks';
-import Navigation from './Navigation'
 import * as api from '../apis';
 
 
@@ -79,7 +78,7 @@ class App extends React.Component {
     }
 
     console.log({currentGameId: this.state.currentGameId});
-    const { currentGameId, page, sport, year, season, week } = this.state;
+    const { currentGameId, page, sport, year, season, week, query } = this.state;
 
     if (!this.state.currentGameId && page !== 'crowds') {
       try {
@@ -88,7 +87,7 @@ class App extends React.Component {
         let gameWeekDataResponse = await api.fetchGameWeek(this.state.sport, userSession)
         const { sport, year, week, season, weeks } = this.state ? this.state : gameWeekDataResponse.gameWeekData;
         ReactGA.pageview(`/${sport}/${year}/${season}/${week}`)
-        let games = await api.fetchGameWeekGames(sport, year, season, week, userSession);
+        let games = await api.fetchGameWeekGames(sport, year, season, week, userSession, query && query.compareUsername ? query.compareUsername : null);
         let gamePredictions = {};
         Object.keys(games).forEach(gameKey => {
           gamePredictions[gameKey] = games[gameKey].prediction ? { predictionAwayTeamScore: games[gameKey].prediction.awayTeam.score, predictionHomeTeamScore: games[gameKey].prediction.homeTeam.score } : null
@@ -194,7 +193,7 @@ class App extends React.Component {
   async componentDidUpdate(prevProps, prevState) {
     if (this.state.user!==prevState.user || this.state.week!== prevState.week || this.state.gameWeek!== prevState.gameWeek || this.state.sport !== prevState.sport) {
 
-      let { sport, year, season, gameWeek, week, currentGameId, page } = this.state
+      let { sport, year, season, gameWeek, week, currentGameId, page, query } = this.state
       if (this.state.sport !== prevState.sport) {
         let userSession = await Auth.currentSession();
         let gameWeekDataResponse = await api.fetchGameWeek(this.state.sport, userSession)
@@ -204,7 +203,7 @@ class App extends React.Component {
       if (!this.state.currentGameId && page !== 'crowds') {
         console.log(`/${sport}/${year}/${season}/${week}`);
         //ReactGA.pageview(`/${sport}/${year}/${season}/${week}`)
-        this.fetchGameWeekGames(sport, year, season, gameWeek ? gameWeek : week)
+        this.fetchGameWeekGames(sport, year, season, gameWeek ? gameWeek : week, query && query.compareUsername ? query.compareUsername : null)
         this.fetchLeaderboards(sport, year, season, gameWeek ? gameWeek : week) 
         this.fetchCrowdOverallCompare(sport, year, season, week)
           
@@ -377,7 +376,8 @@ class App extends React.Component {
   onYearChange = (year) => {
     const season = (parseInt(year) === 2017 || parseInt(year) === 2018) ? 'reg' : 'pre'
     this.setState({ fetchingGames: true })
-    this.fetchGameWeekGames(this.state.sport, parseInt(year), season, 1)
+    // omitting compare username when switching years - argument 5 is always null
+    this.fetchGameWeekGames(this.state.sport, parseInt(year), season, 1, null)
   }
   
   onChangeGameScore = (gameId, event) => {
@@ -527,9 +527,10 @@ class App extends React.Component {
 
   fetchGameWeek = async () => {
     try {
+      const { query } = this.state
       let userSession = await Auth.currentSession()
       let gameWeekData = await api.fetchGameWeek(this.state.sport, userSession)
-      let games = await api.fetchGameWeekGames(gameWeekData.sport, gameWeekData.year, gameWeekData.week, userSession);
+      let games = await api.fetchGameWeekGames(gameWeekData.sport, gameWeekData.year, gameWeekData.week, userSession, query && query.compareUsername ? query.compareUsername : null);
     } catch(gameWeekDataError) {
        console.log('gameWeekDataError: ', gameWeekDataError)
     }
@@ -593,11 +594,12 @@ class App extends React.Component {
         gameWeek: gameWeek,
         year: year
       },
-      `/${sport}/games/${year}/${season}/${gameWeek}`
+      `/${sport}/games/${year}/${season}/${gameWeek}${this.state.query ? `?compareUsername=${this.state.query.compareUsername}` : ''}`
     );
     try {
+      const { query } = this.state
       let userSession = await Auth.currentSession()
-      let games = await api.fetchGameWeekGames(sport, year, season, gameWeek, userSession);
+      let games = await api.fetchGameWeekGames(sport, year, season, gameWeek, userSession, query && query.compareUsername ? query.compareUsername : null);
       let gamePredictions = {}
       Object.keys(games).forEach(gameKey => {
         gamePredictions[gameKey] = games[gameKey].prediction ? { predictionAwayTeamScore: games[gameKey].prediction.awayTeam.score, predictionHomeTeamScore: games[gameKey].prediction.homeTeam.score } : null
