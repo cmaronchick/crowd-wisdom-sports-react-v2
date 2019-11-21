@@ -29,8 +29,8 @@ const GamePreviewPrediction = ({ game, prediction, gamePrediction, onChangeGameS
         <div className="team">
           <div>{(prediction || !results) 
             ? prediction 
-                ? prediction.preferred_username ? prediction.preferred_username : 'Me'
-            : '' : ''}
+                ? !prediction.preferred_username || prediction.userId ? 'Me' : prediction.preferred_username
+            : 'Me' : ''}
           </div>
           <div>{gameCannotBeUpdated ? prediction ? (
             <div style={{position: 'relative'}}>

@@ -594,7 +594,7 @@ class App extends React.Component {
         gameWeek: gameWeek,
         year: year
       },
-      `/${sport}/games/${year}/${season}/${gameWeek}${this.state.query ? `?compareUsername=${this.state.query.compareUsername}` : ''}`
+      `/${sport}/games/${year}/${season}/${gameWeek}${this.state.query && this.state.query.compareUsername ? `?compareUsername=${this.state.query.compareUsername}` : ''}`
     );
     try {
       const { query } = this.state
