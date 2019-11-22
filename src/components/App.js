@@ -170,6 +170,7 @@ class App extends React.Component {
     if (this.state.week!== prevState.week) return true;
     if (this.state.gamePredictions !== prevState.gamePredictions) return true;
     if (this.state.games!==prevState.games) return true;
+    if (this.state.query!==prevState.query) return true;
     //Leaderboard Data Update
     if (this.state.leaderboardData!==prevState.leaderboardData || this.state.overallLeaderboardData!==prevState.overallLeaderboardData || this.state.weeklyLeaderboardData!==prevState.weeklyLeaderboardData) return true;
     if (this.state.fetchingGames!==prevState.fetchingGames) return true;
@@ -191,7 +192,7 @@ class App extends React.Component {
   }
 
   async componentDidUpdate(prevProps, prevState) {
-    if (this.state.user!==prevState.user || this.state.week!== prevState.week || this.state.gameWeek!== prevState.gameWeek || this.state.sport !== prevState.sport) {
+    if (this.state.user!==prevState.user || this.state.week!== prevState.week || this.state.gameWeek!== prevState.gameWeek || this.state.sport !== prevState.sport || this.state.query !== prevState.query) {
 
       let { sport, year, season, gameWeek, week, currentGameId, page, query } = this.state
       if (this.state.sport !== prevState.sport) {
@@ -536,6 +537,39 @@ class App extends React.Component {
     }
   }
 
+  fetchGamesCompareUser = async (sport, year, season, gameWeek, compareUsername) => {
+    
+    pushState(
+      { query: {
+        compareUsername
+       }
+      },
+      `/${sport}/games/${year}/${season}/${gameWeek}?compareUsername=${compareUsername}`
+    );
+    this.setState({
+      query: {
+        compareUsername
+      },
+      fetchingSingleGame: true});
+      
+    try {
+      let userSession = await Auth.currentSession();
+      let game = await this.fetchGameWeekGames(sport, year, season, gameWeek, userSession)
+      this.setState({
+        pageHeader: gameId,
+        currentGameId: gameId,
+        data: {
+          ...this.state.games,
+          [game.gameId]: game,
+          fetchingSingleGame: false
+        }
+      });
+    } catch(fetchGameError) {
+      console.log('App 115 fetchGameError: ', fetchGameError);
+      this.setState({fetchingSingleGame: false})
+    }
+  }
+
   fetchGame = async (sport, year, season, gameWeek, gameId) => {
     console.log({sport, year, season, gameWeek, gameId});
     pushState(
@@ -818,7 +852,8 @@ class App extends React.Component {
                     overallLeaderboardData={this.state.overallLeaderboardData}
                     weeklyLeaderboardData={this.state.weeklyLeaderboardData}
                     selectedLeaderboard={this.state.selectedLeaderboard}
-                    handleSwitchLeaderboard={this.handleSwitchLeaderboard} />
+                    handleSwitchLeaderboard={this.handleSwitchLeaderboard}
+                    handleOnUserClick={this.fetchGamesCompareUser} />
                   ) : null}
                 </div>
               </div>

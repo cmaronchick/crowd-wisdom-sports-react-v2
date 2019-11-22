@@ -13,7 +13,8 @@ const HomeLeaderboards = ({ overallLeaderboardData,
     year,
     week,
     season,
-    handleSwitchLeaderboard
+    handleSwitchLeaderboard,
+    handleOnUserClick
     }) => {
     // const { overallLeaderboardData, weeklyLeaderboardData, fetchingLeaderboards, selectedLeaderboard,
     //     sport,
@@ -29,7 +30,11 @@ const HomeLeaderboards = ({ overallLeaderboardData,
         <div>Loading Leaderboard</div>
     )
     let leaderboardUsers = selectedLeaderboard === "weekly" ? overallLeaderboard.weekly.users : overallLeaderboard.overall.users
-    console.log({leaderboardUsers});
+    
+    const onUserClick = (compareUsername) => {
+        handleOnUserClick(sport, year, season, week, compareUsername)
+    }
+
     return (
             leaderboardUsers ? (
                 <div className="homeLeaderboards">
@@ -52,7 +57,7 @@ const HomeLeaderboards = ({ overallLeaderboardData,
                             return (
                                 <tr key={index} className={((index%2) === 0) ? ' alt-tr' : null}>
                                 <td data-th="Rank">{index + 1}</td>
-                                <td data-th="Username"><Link to={`/${sport}/games/${year}/${season}/${week}?compareUsername=${user.preferred_username}`}>{user.preferred_username}</Link></td>
+                                <td data-th="Username"><Link onClick={() => onUserClick(user.preferred_username) } to={`/${sport}/games/${year}/${season}/${week}?compareUsername=${user.preferred_username}`}>{user.preferred_username}</Link></td>
                                 <td data-th="Record">{userCorrect}-{userIncorrect}</td>
                                 <td data-th="Score">{user.predictionScore}
                                     <div className='leaderboard userScoreDetails'>
