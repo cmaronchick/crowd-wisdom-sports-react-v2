@@ -1,17 +1,28 @@
 import React, { Component } from 'react'
+import { Link } from 'react-router-dom'
 import Auth from '@aws-amplify/auth'
 import Button from 'react-bootstrap/Button'
 import * as api from '../apis'
 
 
-const HomeLeaderboards = (props) => {
-    const { overallLeaderboardData, weeklyLeaderboardData, fetchingLeaderboards, selectedLeaderboard,
-        sport,
-        year,
-        week,
-        season,
-        handleSwitchLeaderboard
-        } = props;
+const HomeLeaderboards = ({ overallLeaderboardData, 
+    weeklyLeaderboardData,
+    fetchingLeaderboards,
+    selectedLeaderboard,
+    sport,
+    year,
+    week,
+    season,
+    handleSwitchLeaderboard,
+    handleOnUserClick
+    }) => {
+    // const { overallLeaderboardData, weeklyLeaderboardData, fetchingLeaderboards, selectedLeaderboard,
+    //     sport,
+    //     year,
+    //     week,
+    //     season,
+    //     handleSwitchLeaderboard
+    //     } = props;
         
     const overallLeaderboard = overallLeaderboardData ? overallLeaderboardData : null,
         weeklyLeaderboard = weeklyLeaderboardData ? weeklyLeaderboardData : null
@@ -19,7 +30,11 @@ const HomeLeaderboards = (props) => {
         <div>Loading Leaderboard</div>
     )
     let leaderboardUsers = selectedLeaderboard === "weekly" ? overallLeaderboard.weekly.users : overallLeaderboard.overall.users
-    console.log({leaderboardUsers});
+    
+    const onUserClick = (compareUsername) => {
+        handleOnUserClick(sport, year, season, week, compareUsername)
+    }
+
     return (
             leaderboardUsers ? (
                 <div className="homeLeaderboards">
@@ -42,7 +57,7 @@ const HomeLeaderboards = (props) => {
                             return (
                                 <tr key={index} className={((index%2) === 0) ? ' alt-tr' : null}>
                                 <td data-th="Rank">{index + 1}</td>
-                                <td data-th="Username">{user.preferred_username}</td>
+                                <td data-th="Username"><Link onClick={() => onUserClick(user.preferred_username) } to={`/${sport}/games/${year}/${season}/${week}?compareUsername=${user.preferred_username}`}>{user.preferred_username}</Link></td>
                                 <td data-th="Record">{userCorrect}-{userIncorrect}</td>
                                 <td data-th="Score">{user.predictionScore}
                                     <div className='leaderboard userScoreDetails'>

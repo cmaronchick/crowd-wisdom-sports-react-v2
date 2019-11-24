@@ -23,7 +23,6 @@ import CrowdOverallCompare from './Home.CrowdOverallCompare'
 import HomeStarResults from './Home.StarsResults'
 import LoginModal from './LoginModal';
 import Weeks from './Weeks';
-import Navigation from './Navigation'
 import * as api from '../apis';
 
 
@@ -79,7 +78,7 @@ class App extends React.Component {
     }
 
     console.log({currentGameId: this.state.currentGameId});
-    const { currentGameId, page, sport, year, season, week } = this.state;
+    const { currentGameId, page, sport, year, season, week, query } = this.state;
 
     if (!this.state.currentGameId && page !== 'crowds') {
       try {
@@ -88,7 +87,7 @@ class App extends React.Component {
         let gameWeekDataResponse = await api.fetchGameWeek(this.state.sport, userSession)
         const { sport, year, week, season, weeks } = this.state ? this.state : gameWeekDataResponse.gameWeekData;
         ReactGA.pageview(`/${sport}/${year}/${season}/${week}`)
-        let games = await api.fetchGameWeekGames(sport, year, season, week, userSession);
+        let games = await api.fetchGameWeekGames(sport, year, season, week, userSession, query && query.compareUsername ? query.compareUsername : null);
         let gamePredictions = {};
         Object.keys(games).forEach(gameKey => {
           gamePredictions[gameKey] = games[gameKey].prediction ? { predictionAwayTeamScore: games[gameKey].prediction.awayTeam.score, predictionHomeTeamScore: games[gameKey].prediction.homeTeam.score } : null
@@ -171,6 +170,7 @@ class App extends React.Component {
     if (this.state.week!== prevState.week) return true;
     if (this.state.gamePredictions !== prevState.gamePredictions) return true;
     if (this.state.games!==prevState.games) return true;
+    if (this.state.query!==prevState.query) return true;
     //Leaderboard Data Update
     if (this.state.leaderboardData!==prevState.leaderboardData || this.state.overallLeaderboardData!==prevState.overallLeaderboardData || this.state.weeklyLeaderboardData!==prevState.weeklyLeaderboardData) return true;
     if (this.state.fetchingGames!==prevState.fetchingGames) return true;
@@ -192,9 +192,9 @@ class App extends React.Component {
   }
 
   async componentDidUpdate(prevProps, prevState) {
-    if (this.state.user!==prevState.user || this.state.week!== prevState.week || this.state.gameWeek!== prevState.gameWeek || this.state.sport !== prevState.sport) {
+    if (this.state.user!==prevState.user || this.state.week!== prevState.week || this.state.gameWeek!== prevState.gameWeek || this.state.sport !== prevState.sport || this.state.query !== prevState.query) {
 
-      let { sport, year, season, gameWeek, week, currentGameId, page } = this.state
+      let { sport, year, season, gameWeek, week, currentGameId, page, query } = this.state
       if (this.state.sport !== prevState.sport) {
         let userSession = await Auth.currentSession();
         let gameWeekDataResponse = await api.fetchGameWeek(this.state.sport, userSession)
@@ -204,7 +204,7 @@ class App extends React.Component {
       if (!this.state.currentGameId && page !== 'crowds') {
         console.log(`/${sport}/${year}/${season}/${week}`);
         //ReactGA.pageview(`/${sport}/${year}/${season}/${week}`)
-        this.fetchGameWeekGames(sport, year, season, gameWeek ? gameWeek : week)
+        this.fetchGameWeekGames(sport, year, season, gameWeek ? gameWeek : week, query && query.compareUsername ? query.compareUsername : null)
         this.fetchLeaderboards(sport, year, season, gameWeek ? gameWeek : week) 
         this.fetchCrowdOverallCompare(sport, year, season, week)
           
@@ -377,7 +377,8 @@ class App extends React.Component {
   onYearChange = (year) => {
     const season = (parseInt(year) === 2017 || parseInt(year) === 2018) ? 'reg' : 'pre'
     this.setState({ fetchingGames: true })
-    this.fetchGameWeekGames(this.state.sport, parseInt(year), season, 1)
+    // omitting compare username when switching years - argument 5 is always null
+    this.fetchGameWeekGames(this.state.sport, parseInt(year), season, 1, null)
   }
   
   onChangeGameScore = (gameId, event) => {
@@ -527,11 +528,45 @@ class App extends React.Component {
 
   fetchGameWeek = async () => {
     try {
+      const { query } = this.state
       let userSession = await Auth.currentSession()
       let gameWeekData = await api.fetchGameWeek(this.state.sport, userSession)
-      let games = await api.fetchGameWeekGames(gameWeekData.sport, gameWeekData.year, gameWeekData.week, userSession);
+      let games = await api.fetchGameWeekGames(gameWeekData.sport, gameWeekData.year, gameWeekData.week, userSession, query && query.compareUsername ? query.compareUsername : null);
     } catch(gameWeekDataError) {
        console.log('gameWeekDataError: ', gameWeekDataError)
+    }
+  }
+
+  fetchGamesCompareUser = async (sport, year, season, gameWeek, compareUsername) => {
+    
+    pushState(
+      { query: {
+        compareUsername
+       }
+      },
+      `/${sport}/games/${year}/${season}/${gameWeek}?compareUsername=${compareUsername}`
+    );
+    this.setState({
+      query: {
+        compareUsername
+      },
+      fetchingSingleGame: true});
+      
+    try {
+      let userSession = await Auth.currentSession();
+      let game = await this.fetchGameWeekGames(sport, year, season, gameWeek, userSession)
+      this.setState({
+        pageHeader: gameId,
+        currentGameId: gameId,
+        data: {
+          ...this.state.games,
+          [game.gameId]: game,
+          fetchingSingleGame: false
+        }
+      });
+    } catch(fetchGameError) {
+      console.log('App 115 fetchGameError: ', fetchGameError);
+      this.setState({fetchingSingleGame: false})
     }
   }
 
@@ -593,11 +628,12 @@ class App extends React.Component {
         gameWeek: gameWeek,
         year: year
       },
-      `/${sport}/games/${year}/${season}/${gameWeek}`
+      `/${sport}/games/${year}/${season}/${gameWeek}${this.state.query && this.state.query.compareUsername ? `?compareUsername=${this.state.query.compareUsername}` : ''}`
     );
     try {
+      const { query } = this.state
       let userSession = await Auth.currentSession()
-      let games = await api.fetchGameWeekGames(sport, year, season, gameWeek, userSession);
+      let games = await api.fetchGameWeekGames(sport, year, season, gameWeek, userSession, query && query.compareUsername ? query.compareUsername : null);
       let gamePredictions = {}
       Object.keys(games).forEach(gameKey => {
         gamePredictions[gameKey] = games[gameKey].prediction ? { predictionAwayTeamScore: games[gameKey].prediction.awayTeam.score, predictionHomeTeamScore: games[gameKey].prediction.homeTeam.score } : null
@@ -775,12 +811,12 @@ class App extends React.Component {
                 {(this.state.crowd || (this.state.userStats && this.state.userStats.results)) ? (
                     (this.state.compareTable === 'crowd') ? (
                       <div className='compareDiv'>
-                        {(this.state.userStats && this.state.userStats.results && this.state.userStats.results.stars && this.state.userStats.results.stars.wagered > 0) ? (
+                        {(this.state.userStats && this.state.userStats.results && this.state.userStats.results.weekly.stars && this.state.userStats.results.weekly.stars.wagered > 0) ? (
                           <Button onClick={() => this.handleCompareButtonClick('stars')}>
                             Show My Stars Results
                           </Button>
                         ) : (
-                          <Button>
+                          <Button disabled={true}>
                             Wager Stars to See Your Stake Results
                           </Button>
                         )}
@@ -816,7 +852,8 @@ class App extends React.Component {
                     overallLeaderboardData={this.state.overallLeaderboardData}
                     weeklyLeaderboardData={this.state.weeklyLeaderboardData}
                     selectedLeaderboard={this.state.selectedLeaderboard}
-                    handleSwitchLeaderboard={this.handleSwitchLeaderboard} />
+                    handleSwitchLeaderboard={this.handleSwitchLeaderboard}
+                    handleOnUserClick={this.fetchGamesCompareUser} />
                   ) : null}
                 </div>
               </div>

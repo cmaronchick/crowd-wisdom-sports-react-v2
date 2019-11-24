@@ -43,7 +43,7 @@ const getCrowdsUrl = (gameWeekData) => {
   
 };
 
-const getInitialData = (id, sport, year, season, week, weeks, code, apiData, page, url) => {
+const getInitialData = (id, sport, year, season, week, weeks, code, apiData, page, url, query) => {
   switch(page) {
     case 'leaderboards':
       return {
@@ -97,6 +97,7 @@ const getInitialData = (id, sport, year, season, week, weeks, code, apiData, pag
           weeks,
           code,
           page: 'game',
+          compareUsername: query && query.compareUsername ? query.compareUsername : null,
           url
         };
       }
@@ -109,7 +110,8 @@ const getInitialData = (id, sport, year, season, week, weeks, code, apiData, pag
         games: apiData.games,
         code,
         page,
-        url
+        url,
+        query
       };
   }
 };
@@ -128,7 +130,7 @@ const serverRender = (req, sport, year, season, gameWeek, query, page, url, id) 
       gameWeek ? gameWeekData.week = gameWeek : null
       return axios.get(getLeaderboardsUrl(gameWeekData))
         .then(resp => {
-          const initialData = getInitialData(null, gameWeekData.sport, gameWeekData.year, gameWeekData.season, gameWeekData.week, gameWeekData.weeks, query ? query.code : null, resp.data, page, url);
+          const initialData = getInitialData(null, gameWeekData.sport, gameWeekData.year, gameWeekData.season, gameWeekData.week, gameWeekData.weeks, query ? query.code : null, resp.data, page, url, query);
           console.log('serverRender 87 leaderboardData: ', initialData)
           
           const initialMarkup = ReactDOMServer.renderToString(
@@ -157,7 +159,7 @@ const serverRender = (req, sport, year, season, gameWeek, query, page, url, id) 
       gameWeek ? gameWeekData.week = gameWeek : null
       return axios.get(getCrowdsUrl(gameWeekData))
         .then(resp => {
-          const initialData = getInitialData(id, gameWeekData.sport, gameWeekData.year, gameWeekData.season, gameWeekData.week, gameWeekData.weeks, query ? query.code : null, resp.data, page, url);
+          const initialData = getInitialData(id, gameWeekData.sport, gameWeekData.year, gameWeekData.season, gameWeekData.week, gameWeekData.weeks, query ? query.code : null, resp.data, page, url, query);
           console.log('serverRender 87 leaderboardData: ', initialData)
           
           const initialMarkup = ReactDOMServer.renderToString(
@@ -185,9 +187,9 @@ const serverRender = (req, sport, year, season, gameWeek, query, page, url, id) 
         year ? gameWeekData.year = year : null
         season ? gameWeekData.season = season : null
         gameWeek ? gameWeekData.week = gameWeek : null
-        return axios.get(getApiUrl(id, gameWeekData))
+        return axios.get(`${getApiUrl(id, gameWeekData)}${query && query.compareUsername ? `?compareUsername=${query.compareUsername}` : ''}`)
           .then(resp => {
-            const initialData = getInitialData(id, gameWeekData.sport, gameWeekData.year, gameWeekData.season, gameWeekData.week, gameWeekData.weeks, query ? query.code : null, resp.data, 'games', url);
+            const initialData = getInitialData(id, gameWeekData.sport, gameWeekData.year, gameWeekData.season, gameWeekData.week, gameWeekData.weeks, query ? query.code : null, resp.data, 'games', url, query);
             //console.log('initialData: ', initialData)
             
             const initialMarkup = ReactDOMServer.renderToString(

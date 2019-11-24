@@ -14,9 +14,9 @@ class Game extends Component {
   }
 
   getGame = async () => {
-    let user = await Auth.currentAuthenticatedUser()
-    let userSession = await Auth.currentSession()
     try {
+      let user = await Auth.currentAuthenticatedUser()
+      let userSession = await Auth.currentSession()
       
       if (this._isMounted) {
       let gameObj = await api.fetchGame(this.props.sport, this.props.year, this.props.season, this.props.gameWeek, this.props.gameId, userSession)
@@ -26,6 +26,12 @@ class Game extends Component {
       }
     } catch(getGameError) {
       console.log({getGameError});
+      if (this._isMounted) {
+      let gameObj = await api.fetchGame(this.props.sport, this.props.year, this.props.season, this.props.gameWeek, this.props.gameId, null)
+      console.log({game: gameObj.game});
+      let gamePrediction = gameObj.game ? gameObj.game.prediction : null;
+      this.setState({game: gameObj.game, gamePrediction, user})
+      }
     }
   }
 
