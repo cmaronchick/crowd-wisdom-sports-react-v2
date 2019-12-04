@@ -23,8 +23,16 @@ const GamePreviewPrediction = ({ game, prediction, gamePrediction, onChangeGameS
 
     const date = new Date(game.startDateTime)
     const gameCannotBeUpdated = apis.gameCannotBeUpdated(date)
+    if (!prediction && !gamePrediction && results) {
+      return (<div>
+        No prediction submitted
+      </div>)
+    }
+
+    console.log('prediction :', prediction);
+    // return (<div></div>)
     return (
-        
+
         <div>
         <div className="team">
           <div>{(prediction || !results) 
@@ -32,7 +40,7 @@ const GamePreviewPrediction = ({ game, prediction, gamePrediction, onChangeGameS
                 ? !prediction.preferred_username || prediction.userId ? 'Me' : prediction.preferred_username
             : 'Me' : ''}
           </div>
-          <div>{gameCannotBeUpdated ? prediction ? (
+          <div>{game.results ? prediction ? (
             <div style={{position: 'relative'}}>
               {ResultsCheck.checkBullseye(prediction.awayTeam.score, results.awayTeam.score)}
               {results && (prediction.awayTeam.score > prediction.homeTeam.score) ? ResultsCheck.straightUpResults(results, prediction) : null}
@@ -44,7 +52,7 @@ const GamePreviewPrediction = ({ game, prediction, gamePrediction, onChangeGameS
               gamePrediction.predictionAwayTeamScore === "" ? gamePrediction.predictionAwayTeamScore : prediction ? parseInt(prediction.awayTeam.score) : ''} />
           )}
           </div>
-          <div>{gameCannotBeUpdated ? prediction ? (
+          <div>{game.results ? prediction ? (
             <div style={{position: 'relative'}}>
               {ResultsCheck.checkBullseye(prediction.homeTeam.score, results.homeTeam.score)}
               {(prediction.homeTeam.score > prediction.awayTeam.score) ? ResultsCheck.straightUpResults(results, prediction) : null}

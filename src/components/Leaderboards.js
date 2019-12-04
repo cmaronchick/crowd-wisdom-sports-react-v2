@@ -14,7 +14,7 @@ export default class Leaderboards extends Component {
 
     getLeaderboard = async (sport, year, season, gameWeek) => {
         console.log('this.state._isMounted: ', this.state._isMounted)
-        if (this.state._isMounted) { 
+        if (this._isMounted) { 
             try {
                 let userSession = await Auth.currentSession()
                 let leaderboardData = await api.fetchOverallLeaderboard(userSession, sport, year, season, gameWeek)
