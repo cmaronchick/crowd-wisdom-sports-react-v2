@@ -30,6 +30,8 @@ const GamePreviewPrediction = ({ game, prediction, gamePrediction, onChangeGameS
     }
 
     console.log('prediction :', prediction);
+    console.log({awayTeamScoreOrZero: gamePrediction.predictionAwayTeamScore || gamePrediction.predictionAwayTeamScore === 0,
+    awayTeamScoreIsInt: parseInt(gamePrediction.predictionAwayTeamScore)});
     // return (<div></div>)
     return (
 

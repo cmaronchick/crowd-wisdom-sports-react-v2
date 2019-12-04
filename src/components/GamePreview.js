@@ -16,9 +16,9 @@ class GamePreview extends Component {
     super(props)
     this.state = {
       game: this.props.game,
-      gamePrediction: {
-        predictionAwayTeamScore: (this.props.gamePrediction && this.props.gamePrediction.predictionAwayTeamScore) ? this.props.gamePrediction.predictionAwayTeamScore : this.props.game.prediction ? this.props.game.prediction.awayTeam.score : null,
-        predictionHomeTeamScore: (this.props.gamePrediction && this.props.gamePrediction.predictionHomeTeamScore) ? this.props.gamePrediction.predictionHomeTeamScore : this.props.game.prediction ? this.props.game.prediction.homeTeam.score : null,
+      gamePrediction: this.props.gamePrediction ? this.props.gamePrediction : {
+        predictionAwayTeamScore: this.props.game.prediction ? this.props.game.prediction.awayTeam.score : null,
+        predictionHomeTeamScore: this.props.game.prediction ? this.props.game.prediction.homeTeam.score : null,
         submittingPrediction: (this.props.gamePrediction && this.props.gamePrediction.submittingPrediction) ? this.props.gamePrediction.submittingPrediction : false,
       },
       predictionSpread: null,
