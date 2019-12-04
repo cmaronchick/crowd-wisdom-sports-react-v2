@@ -130,7 +130,7 @@ class GamePreview extends Component {
               />
             ) : 
           (game.crowd && game.crowd.total) ? 
-            !game.prediction ? 
+            !game.prediction && !game.results ? 
               (
                 <div className="team">
                   Predict to see the Crowd Wisdom
