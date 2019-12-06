@@ -29,9 +29,9 @@ const GamePreviewPrediction = ({ game, prediction, gamePrediction, onChangeGameS
       </div>)
     }
 
-    console.log('prediction :', prediction);
-    console.log({awayTeamScoreOrZero: gamePrediction.predictionAwayTeamScore || gamePrediction.predictionAwayTeamScore === 0,
-    awayTeamScoreIsInt: parseInt(gamePrediction.predictionAwayTeamScore)});
+    // console.log('prediction :', prediction);
+    // console.log({awayTeamScoreOrZero: gamePrediction.predictionAwayTeamScore || gamePrediction.predictionAwayTeamScore === 0,
+    // awayTeamScoreIsInt: parseInt(gamePrediction.predictionAwayTeamScore)});
     // return (<div></div>)
     return (
 
@@ -106,7 +106,7 @@ const GamePreviewPrediction = ({ game, prediction, gamePrediction, onChangeGameS
           </div>
         ) : null}
         {((prediction && prediction.awayTeam.score && prediction.homeTeam.score) || (gamePrediction && gamePrediction.predictionAwayTeamScore && gamePrediction.predictionHomeTeamScore)) ? (
-        <div style={{display: 'flex', flexDirection: 'column'}}>
+        <div style={{display: 'flex', flexDirection: 'rew', justifyContent: 'space-evenly'}}>
           <div className='stars'>
             Spread: 
             {!results ? (

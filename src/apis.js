@@ -68,7 +68,7 @@ export const fetchGameWeek = (sport, userSession) => {
 }
 
 export const fetchSubmitPrediction = async (userSession, prediction) => {
-  // console.log({prediction})
+  console.log({prediction})
   const postOptionsObj = postOptions(userSession, prediction)
   //console.log('postOptionsObj: ', postOptionsObj)
   let resp = await axios.post('/api/submitPrediction', postOptionsObj)

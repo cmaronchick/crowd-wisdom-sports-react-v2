@@ -10,7 +10,7 @@ const GamePreviewCrowd = ({game}) => {
 
     return (
         <div>
-            <div className="team">
+            <div className="crowd">
                 <div>Crowd</div>
                 <div style={{position: 'relative'}}>
                 <span className={(results && (results.awayTeam.score > results.homeTeam.score) && (crowd.awayTeam.score > crowd.homeTeam.score)) ? 'correctPick' : ''}>

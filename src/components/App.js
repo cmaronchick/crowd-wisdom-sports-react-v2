@@ -460,6 +460,10 @@ class App extends React.Component {
         }
         var prediction = {
           gameId: game.gameId,
+          odds: {
+            spread: game.odds.spread,
+            total: game.odds.total
+          },
           gameWeek: game.gameWeek,
           year: game.year,
           sport: game.sport,
@@ -502,7 +506,7 @@ class App extends React.Component {
             predictionHomeTeamScore: prediction.homeTeam.score,
           }
         }
-        console.log('here')
+        //console.log('here')
         gamePredictions[gameId].submittingPrediction = false;
         this.setState({
           games: games,

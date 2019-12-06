@@ -48,6 +48,10 @@
                 font-size: 0.9em;
             }
         }
+        .odds {
+            flex: 2;
+            text-align: left;
+        }
 
         .predictionSpread {
             font-size: 0.8em;
@@ -68,7 +72,7 @@
             }       
         }
 
-        .team {
+        .team, .crowd {
             display: flex;
             flex-direction: row;
             justify-content: space-between;
@@ -77,6 +81,9 @@
                 padding: 3px;
                 flex: 1;
             }
+        }
+        .crowd {
+            border-top: 1px dashed #231f20;
         }
     .predictionScoreBox {
         width: 100%;
