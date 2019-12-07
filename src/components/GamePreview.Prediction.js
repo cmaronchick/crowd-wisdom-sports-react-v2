@@ -49,7 +49,7 @@ const GamePreviewPrediction = ({ game, prediction, gamePrediction, onChangeGameS
               {prediction.awayTeam.score}
             </div>
             ) : '' : (
-            <input style={{width: 50}} onChange={handleOnChangeGameScore} name='predictionAwayTeamScore' placeholder={(!prediction && !gamePrediction && (gamePrediction && !gamePrediction.predictionAwayTeamScore)) ? '##' : null}
+            <input style={{width: '100%'}} onChange={handleOnChangeGameScore} name='predictionAwayTeamScore' placeholder={(!prediction && !gamePrediction && (gamePrediction && !gamePrediction.predictionAwayTeamScore)) ? '##' : null}
             value={(gamePrediction && ((gamePrediction.predictionAwayTeamScore || gamePrediction.predictionAwayTeamScore === 0) && parseInt(gamePrediction.predictionAwayTeamScore))) ? parseInt(gamePrediction.predictionAwayTeamScore) : 
               gamePrediction.predictionAwayTeamScore === "" ? gamePrediction.predictionAwayTeamScore : prediction ? parseInt(prediction.awayTeam.score) : ''} />
           )}
@@ -61,7 +61,7 @@ const GamePreviewPrediction = ({ game, prediction, gamePrediction, onChangeGameS
               {prediction.homeTeam.score}
               </div>
             ) : '' : (
-            <input style={{width: 50}} onChange={handleOnChangeGameScore} name='predictionHomeTeamScore' placeholder={(!prediction && !gamePrediction && (gamePrediction && !gamePrediction.predictionHomeTeamScore)) ? '##' : null}
+            <input style={{width: '100%'}} onChange={handleOnChangeGameScore} name='predictionHomeTeamScore' placeholder={(!prediction && !gamePrediction && (gamePrediction && !gamePrediction.predictionHomeTeamScore)) ? '##' : null}
             value={(gamePrediction && (gamePrediction.predictionHomeTeamScore || gamePrediction.predictionHomeTeamScore === 0)) ? parseInt(gamePrediction.predictionHomeTeamScore) : 
               prediction ? prediction.homeTeam.score : ''}  />
           )}

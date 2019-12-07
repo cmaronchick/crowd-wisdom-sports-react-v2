@@ -47,10 +47,12 @@
                 flex: 2;
                 font-size: 0.9em;
             }
-        }
-        .odds {
-            flex: 2;
-            text-align: left;
+            .odds {
+                flex: 2;
+                text-align: center;
+                background-color: #231f20;
+                color: #fff
+            }
         }
 
         .predictionSpread {
@@ -81,6 +83,10 @@
                 padding: 3px;
                 flex: 1;
             }
+            .odds {
+                flex: 2;
+                text-align: left;
+            }
         }
         .crowd {
             border-top: 1px dashed #231f20;
@@ -93,6 +99,8 @@
         color: #fff;
         padding: 5px 0;
         margin: 5px 0;
+        flex-direction: row;
+        justify-content: center;
         &.crowd {
             color:#231f20;
             border: 1px solid #124734;
