@@ -45,9 +45,9 @@ function GameOddsChart(props) {
         game.odds.history.forEach(odds => {
             let startDate = new Date(game.startDateTime)
             let oddsDate = new Date(odds.date)
-            console.log({startDate: new Date(startDate.setDate(startDate.getDate() - 7)),
-            oddsDate: oddsDate,
-        compare: new Date(odds.date) >= new Date(startDate.setDate(startDate.getDate() - 7))});
+        //     console.log({startDate: new Date(startDate.setDate(startDate.getDate() - 7)),
+        //     oddsDate: oddsDate,
+        // compare: new Date(odds.date) >= new Date(startDate.setDate(startDate.getDate() - 7))});
             if (new Date(odds.date) >= new Date(startDate.setDate(startDate.getDate()))) {
                 labels.push(`${new Date(odds.date).getMonth() + 1}/${new Date(odds.date).getDate()}`)
                 dataSpread.push(odds.spread ? odds.spread : null)
@@ -64,7 +64,6 @@ function GameOddsChart(props) {
     let spreadMax = (dataSpreadMax > 0) ? Math.floor(dataSpreadMax * 1.5) : Math.floor(dataSpreadMax * 0.5);
     let totalMin = Math.floor(dataTotalMin * 0.5);
     let totalMax = Math.floor(dataTotalMax * 1.2);
-    console.log({spreadMin, spreadMax, totalMin, totalMax});
 
     let chartData = {
         labels: labels,
