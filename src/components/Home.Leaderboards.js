@@ -29,7 +29,7 @@ const HomeLeaderboards = ({ overallLeaderboardData,
     if (!overallLeaderboard) return (
         <div>Loading Leaderboard</div>
     )
-    let leaderboardUsers = selectedLeaderboard === "weekly" ? overallLeaderboard.weekly.users : overallLeaderboard.overall.users
+    let leaderboardUsers = selectedLeaderboard === "overall" ? overallLeaderboard.overall.users : overallLeaderboard.weekly.users
     
     const onUserClick = (compareUsername) => {
         handleOnUserClick(sport, year, season, week, compareUsername)
@@ -38,8 +38,8 @@ const HomeLeaderboards = ({ overallLeaderboardData,
     return (
             leaderboardUsers ? (
                 <div className="homeLeaderboards">
-                    <Button onClick={() => handleSwitchLeaderboard(selectedLeaderboard === "weekly" ? 'overall' : 'weekly')}>
-                        Show {selectedLeaderboard === "weekly" ? "Overall" : "Weekly"} Leaderboard
+                    <Button onClick={() => handleSwitchLeaderboard(selectedLeaderboard === "overall" ? 'weekly' : 'overall')}>
+                        Show {selectedLeaderboard === "overall" ? "Weekly" : "Overall"} Leaderboard
                     </Button>
                     <table className="rwd-table">
                     <thead>
