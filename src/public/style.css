@@ -38,9 +38,11 @@
     .GamePreview .headerRow .gameTime {
       flex: 2;
       font-size: 0.9em; }
-  .GamePreview .odds {
-    flex: 2;
-    text-align: left; }
+    .GamePreview .headerRow .odds {
+      flex: 2;
+      text-align: center;
+      background-color: #231f20;
+      color: #fff; }
   .GamePreview .predictionSpread {
     font-size: 0.8em;
     font-weight: bold; }
@@ -60,6 +62,9 @@
       margin: 0 5px;
       padding: 3px;
       flex: 1; }
+    .GamePreview .team .odds, .GamePreview .crowd .odds {
+      flex: 2;
+      text-align: left; }
   .GamePreview .crowd {
     border-top: 1px dashed #231f20; }
   .GamePreview .predictionScoreBox {
@@ -69,7 +74,9 @@
     font-weight: bold;
     color: #fff;
     padding: 5px 0;
-    margin: 5px 0; }
+    margin: 5px 0;
+    flex-direction: row;
+    justify-content: center; }
     .GamePreview .predictionScoreBox.crowd {
       color: #231f20;
       border: 1px solid #124734;
