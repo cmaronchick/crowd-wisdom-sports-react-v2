@@ -60,7 +60,7 @@ class App extends React.Component {
   
   
   async componentDidMount() {
-    console.log({stateOnMount: this.state});
+    //console.log({stateOnMount: this.state});
     // timers, listeners
     onPopState((event) => {
       this.setState({
@@ -68,7 +68,7 @@ class App extends React.Component {
       });
     });
     // console.log('this.state: ', this.state)
-    let url = this.props.initialData.url
+    let url = this.props.initialData ? this.props.initialData.url : null
     let fbUser = this.state.code ? await api.getFacebookUser(this.state.code, url) : null
     ReactGA.initialize(analytics.config);
     try {
@@ -87,6 +87,7 @@ class App extends React.Component {
         this.setState({ fetchingGames: true })
         let gameWeekDataResponse = await api.fetchGameWeek(this.state.sport, userSession)
         const { sport, year, week, season, weeks } = this.state ? this.state : gameWeekDataResponse.gameWeekData;
+        console.log({weekApp90: week});
         ReactGA.pageview(`/${sport}/${year}/${season}/${week}`)
         let games = await api.fetchGameWeekGames(sport, year, season, week, userSession, query && query.compareUsername ? query.compareUsername : null);
         let gamePredictions = {};
@@ -112,6 +113,7 @@ class App extends React.Component {
           this.setState({ fetchingGames: true })
           let gameWeekDataResponse = await api.fetchGameWeek(this.state.sport, null)
           const { sport, year, week, season, weeks } = this.state ? this.state : gameWeekDataResponse.gameWeekData;
+          console.log({weekApp116: week});
           ReactGA.pageview(`/${sport}/${year}/${season}/${week}`)
           let games = await api.fetchGameWeekGames(sport, year, season, week, null);
           let gamePredictions = {};
@@ -699,6 +701,8 @@ class App extends React.Component {
       let userSession = await Auth.currentSession()
       let overallLeaderboardData = await api.fetchOverallLeaderboard(userSession ? userSession : null, sport, year, season, week);
       let weeklyLeaderboardData = await api.fetchWeeklyLeaderboard(userSession ? userSession : null, sport, year, season, week)
+      console.log(JSON.stringify(overallLeaderboardData));
+      console.log(JSON.stringify(weeklyLeaderboardData));
       this.setState({ overallLeaderboardData: overallLeaderboardData.leaderboardData, weeklyLeaderboardData: weeklyLeaderboardData.leaderboardData, fetchingLeaderboards: false })
     } catch(getUserSession) {
       let leaderboardData = await api.fetchOverallLeaderboard(null, sport, year, season, week)

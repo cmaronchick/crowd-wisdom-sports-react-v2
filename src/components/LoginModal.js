@@ -31,10 +31,10 @@ export default class LoginModal extends Component {
     //   this.setState({ show: false });
     // }
     componentDidMount() {
-      console.log('modal mounted', this.props)
+      //console.log('modal mounted', this.props)
     }
     componentDidUpdate() {
-      console.log('modal updated ', this.props)
+      //console.log('modal updated ', this.props)
     }
   
     render() {
