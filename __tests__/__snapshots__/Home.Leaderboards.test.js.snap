@@ -5,3 +5,207 @@ exports[`it should present the Home Leaderboards present a blank leaderboard whe
   Loading Leaderboard
 </div>
 `;
+
+exports[`it should present the Home Leaderboards present a leaderboard when there is valid data 1`] = `
+<div
+  className="homeLeaderboards"
+>
+  <button
+    className="btn btn-primary"
+    disabled={false}
+    onClick={[Function]}
+    type="button"
+  >
+    Show 
+    Overall
+     Leaderboard
+  </button>
+  <table
+    className="rwd-table"
+  >
+    <thead>
+      <tr>
+        <th
+          className="rank"
+        >
+          <span
+            className="full abbrev"
+          >
+            Rank
+          </span>
+        </th>
+        <th
+          className="entryowner"
+        >
+          <span
+            className="full"
+          >
+            Username
+          </span>
+        </th>
+        <th
+          className="Record"
+        >
+          <span
+            className="full"
+          >
+            Record
+          </span>
+        </th>
+        <th
+          className="total"
+        >
+          <span
+            className="full"
+          >
+            Score
+          </span>
+        </th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr
+        className=" alt-tr"
+      >
+        <td
+          data-th="Rank"
+        >
+          1
+        </td>
+        <td
+          data-th="Username"
+        >
+          <a
+            href="/nfl/games/2019/reg/15?compareUsername=cmaronchick"
+            onClick={[Function]}
+          >
+            cmaronchick
+          </a>
+        </td>
+        <td
+          data-th="Record"
+        >
+          30
+          -
+          17
+        </td>
+        <td
+          data-th="Score"
+        >
+          64
+          <div
+            className="leaderboard userScoreDetails"
+          >
+            S/U: 
+            13
+            <br />
+            ATS: 
+            11
+            <br />
+            O/U: 
+            6
+          </div>
+        </td>
+      </tr>
+      <tr
+        className={null}
+      >
+        <td
+          data-th="Rank"
+        >
+          2
+        </td>
+        <td
+          data-th="Username"
+        >
+          <a
+            href="/nfl/games/2019/reg/15?compareUsername=CBSPetePrisco"
+            onClick={[Function]}
+          >
+            CBSPetePrisco
+          </a>
+        </td>
+        <td
+          data-th="Record"
+        >
+          28
+          -
+          19
+        </td>
+        <td
+          data-th="Score"
+        >
+          59
+          <div
+            className="leaderboard userScoreDetails"
+          >
+            S/U: 
+            10
+            <br />
+            ATS: 
+            9
+            <br />
+            O/U: 
+            9
+          </div>
+        </td>
+      </tr>
+      <tr
+        className=" alt-tr"
+      >
+        <td
+          data-th="Rank"
+        >
+          3
+        </td>
+        <td
+          data-th="Username"
+        >
+          <a
+            href="/nfl/games/2019/reg/15?compareUsername=ElliePeterson"
+            onClick={[Function]}
+          >
+            ElliePeterson
+          </a>
+        </td>
+        <td
+          data-th="Record"
+        >
+          125
+          -
+          107
+        </td>
+        <td
+          data-th="Score"
+        >
+          262
+          <div
+            className="leaderboard userScoreDetails"
+          >
+            S/U: 
+            53
+            <br />
+            ATS: 
+            35
+            <br />
+            O/U: 
+            37
+          </div>
+        </td>
+      </tr>
+    </tbody>
+  </table>
+</div>
+`;
+
+exports[`it should present the Home Leaderboards when everything but data is provided 1`] = `
+<div>
+  Loading Leaderboard
+</div>
+`;
+
+exports[`it should present the Home Leaderboards when sport and data are missing 1`] = `
+<div>
+  Loading Leaderboard
+</div>
+`;
