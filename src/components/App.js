@@ -774,6 +774,7 @@ class App extends React.Component {
                 onChangeStarSpread={this.onChangeStarSpread}
                 onChangeStarTotal={this.onChangeStarTotal}
                 onSubmitPrediction={this.submitPrediction}
+                onGameClick={this.fetchGame}
                 gamePrediction={this.state.gamePredictions[match.params.gameId]}
                 {...this.currentGame(gameId)} />
               </div>

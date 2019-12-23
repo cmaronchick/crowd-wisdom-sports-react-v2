@@ -71,6 +71,7 @@ class Game extends Component {
               onChangeStarSpread={this.props.onChangeStarSpread}
               onChangeStarTotal={this.props.onChangeStarTotal}
               onSubmitPrediction={this.props.onSubmitPrediction}
+              onClick={this.props.onGameClick}
               game={game} gamePrediction={this.props.gamePrediction} />
             <GameOddsChart game={game} />
 
