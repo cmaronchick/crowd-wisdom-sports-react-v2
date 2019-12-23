@@ -2,7 +2,7 @@ import React from 'react';
 import GamePreview from './GamePreview';
 
 const GamesList = ({ games, gamePredictions, onGameClick, onChangeGameScore, onChangeStarSpread, onChangeStarTotal, onSubmitPrediction }) => {
-  console.log({ games, gamePredictions });
+  //console.log({ games, gamePredictions });
   let orderedGames = {}
   Object.keys(games).sort((a,b) => {
     return (games[a].results === games[b].results) ? 0 : games[a].results ? -1 : 1

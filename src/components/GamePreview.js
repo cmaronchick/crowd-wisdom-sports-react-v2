@@ -94,6 +94,12 @@ class GamePreview extends Component {
       <div ref={this.myRef} className="link GamePreview">
         <Link to={`/${game.sport}/games/${game.year}/${game.season}/${game.gameWeek}/${game.gameId}`} onClick={this.handleClick}>
           <div className="game-header">
+            
+          {game.bowlName ? (
+            <div className="bowlName">
+            {game.bowlName}
+            </div>
+            ) : null}
           {game.awayTeam.rank ? `#${game.awayTeam.rank} ` : ''}{game.awayTeam.fullName} vs. {game.homeTeam.rank ? `#${game.homeTeam.rank} ` : ''}{game.homeTeam.fullName}
           </div>
         </Link>

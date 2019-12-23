@@ -17,7 +17,10 @@
     border-bottom: 1px solid #ccc;
     padding: 0.25em 0.5em;
     font-weight: bold;
-    background-color: #eee; }
+    background-color: #eee;
+    text-align: center; }
+    .GamePreview .game-header .bowlName {
+      text-align: center; }
   .GamePreview .game-details {
     padding: 0.5em;
     display: flex;

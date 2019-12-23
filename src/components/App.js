@@ -49,6 +49,7 @@ class App extends React.Component {
       fetchingData: false,
       fetchingSingleGame: false,
       fetchingLeaderboards: false,
+      selectedLeaderboard: 'weekly',
       loginModalShow: false,
       confirmUser: false,
       compareTable: 'crowd',
@@ -59,7 +60,7 @@ class App extends React.Component {
   
   
   async componentDidMount() {
-    console.log({stateOnMount: this.state});
+    //console.log({stateOnMount: this.state});
     // timers, listeners
     onPopState((event) => {
       this.setState({
@@ -67,7 +68,7 @@ class App extends React.Component {
       });
     });
     // console.log('this.state: ', this.state)
-    let url = this.props.initialData.url
+    let url = this.props.initialData ? this.props.initialData.url : null
     let fbUser = this.state.code ? await api.getFacebookUser(this.state.code, url) : null
     ReactGA.initialize(analytics.config);
     try {
@@ -86,6 +87,7 @@ class App extends React.Component {
         this.setState({ fetchingGames: true })
         let gameWeekDataResponse = await api.fetchGameWeek(this.state.sport, userSession)
         const { sport, year, week, season, weeks } = this.state ? this.state : gameWeekDataResponse.gameWeekData;
+        console.log({weekApp90: week});
         ReactGA.pageview(`/${sport}/${year}/${season}/${week}`)
         let games = await api.fetchGameWeekGames(sport, year, season, week, userSession, query && query.compareUsername ? query.compareUsername : null);
         let gamePredictions = {};
@@ -111,6 +113,7 @@ class App extends React.Component {
           this.setState({ fetchingGames: true })
           let gameWeekDataResponse = await api.fetchGameWeek(this.state.sport, null)
           const { sport, year, week, season, weeks } = this.state ? this.state : gameWeekDataResponse.gameWeekData;
+          console.log({weekApp116: week});
           ReactGA.pageview(`/${sport}/${year}/${season}/${week}`)
           let games = await api.fetchGameWeekGames(sport, year, season, week, null);
           let gamePredictions = {};
@@ -206,7 +209,7 @@ class App extends React.Component {
         //ReactGA.pageview(`/${sport}/${year}/${season}/${week}`)
         this.fetchGameWeekGames(sport, year, season, gameWeek ? gameWeek : week, query && query.compareUsername ? query.compareUsername : null)
         this.fetchLeaderboards(sport, year, season, gameWeek ? gameWeek : week) 
-        this.fetchCrowdOverallCompare(sport, year, season, week)
+        this.fetchCrowdOverallCompare(sport, year, season, gameWeek ? gameWeek : week)
           
       } else {
         ReactGA.pageview(`/${sport}/${year}/${season}/${week}/${this.state.currentGameId}`)
@@ -379,6 +382,12 @@ class App extends React.Component {
     this.setState({ fetchingGames: true })
     // omitting compare username when switching years - argument 5 is always null
     this.fetchGameWeekGames(this.state.sport, parseInt(year), season, 1, null)
+  }
+
+  onSeasonChange = (season) => {
+    const { year, sport } = this.state
+    this.setState({ fetchingGames: true })
+    this.fetchGameWeekGames(sport, year, season, 1, null)
   }
   
   onChangeGameScore = (gameId, event) => {
@@ -692,6 +701,8 @@ class App extends React.Component {
       let userSession = await Auth.currentSession()
       let overallLeaderboardData = await api.fetchOverallLeaderboard(userSession ? userSession : null, sport, year, season, week);
       let weeklyLeaderboardData = await api.fetchWeeklyLeaderboard(userSession ? userSession : null, sport, year, season, week)
+      console.log(JSON.stringify(overallLeaderboardData));
+      console.log(JSON.stringify(weeklyLeaderboardData));
       this.setState({ overallLeaderboardData: overallLeaderboardData.leaderboardData, weeklyLeaderboardData: weeklyLeaderboardData.leaderboardData, fetchingLeaderboards: false })
     } catch(getUserSession) {
       let leaderboardData = await api.fetchOverallLeaderboard(null, sport, year, season, week)
@@ -702,6 +713,7 @@ class App extends React.Component {
   }
   fetchCrowdOverallCompare = async (sport, year, season, week) => {
     try {
+      console.log({ crowdOverallCompare: { sport, year, season, week }});
       let crowdOverallData = await api.fetchCrowdOverall(sport, year, season, week)
       this.setState({crowd: crowdOverallData.crowd})
     } catch (crowdOverallCompareError) {
@@ -760,7 +772,7 @@ class App extends React.Component {
     return this.state.fetchingGames ? 'Loading Games ...' : this.state.gameWeek ? `Week ${this.state.gameWeek} Games` : (this.props.initialData && this.props.initialData.week) ? `Week ${this.props.initialData.week} Games` : ''
   }
   currentContent() {
-      const { games, gamePredictions } = this.state;
+      const { games, gamePredictions, sport, season, year } = this.state;
       return (
           <Switch>
           <Route path="/:sport/games/:year/:season/:gameWeek/:gameId" render={({match}) => {
@@ -793,16 +805,20 @@ class App extends React.Component {
           <Route path={["/", "/:sport"]} render={({match}) => {
             return (
               <div>
+                {sport === 'ncaaf' ? (
                 <Dropdown>
                   <Dropdown.Toggle variant="success" id="dropdown-basic">
                     Select a Season
                   </Dropdown.Toggle>
                   <Dropdown.Menu>
-                    <Dropdown.Item onClick={() => this.onYearChange(2019)} href='#' className='yearDropdown'>2019</Dropdown.Item>
-                    <Dropdown.Item onClick={() => this.onYearChange(2018)} href='#' className='yearDropdown'>2018</Dropdown.Item>
-                    <Dropdown.Item onClick={() => this.onYearChange(2017)} href='#' className='yearDropdown'>2017</Dropdown.Item>
+                      {sport === 'nfl' ? (
+                      <Dropdown.Item onClick={() => this.onSeasonChange('pre')} href='#' className='yearDropdown'>Pre</Dropdown.Item>
+                      ) : null}
+                      <Dropdown.Item onClick={() => this.onSeasonChange('reg')} href='#' className='yearDropdown'>Regular</Dropdown.Item>
+                      <Dropdown.Item onClick={() => this.onSeasonChange('post')} href='#' className='yearDropdown'>Post</Dropdown.Item>
                   </Dropdown.Menu>
                 </Dropdown>
+                ) : null}
                 {/* <select onChange={(event) => this.onYearChange(event)} id="year" name="year">
                   <option value="2019">2019</option>
                   <option value="2018">2018</option>
