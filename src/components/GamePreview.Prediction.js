@@ -50,8 +50,7 @@ const GamePreviewPrediction = ({ game, prediction, gamePrediction, onChangeGameS
             </div>
             ) : '' : (
             <input style={{width: '100%'}} onChange={handleOnChangeGameScore} name='predictionAwayTeamScore' placeholder={(!prediction && !gamePrediction && (gamePrediction && !gamePrediction.predictionAwayTeamScore)) ? '##' : null}
-            value={(gamePrediction && ((gamePrediction.predictionAwayTeamScore || gamePrediction.predictionAwayTeamScore === 0) && parseInt(gamePrediction.predictionAwayTeamScore))) ? parseInt(gamePrediction.predictionAwayTeamScore) : 
-              gamePrediction.predictionAwayTeamScore === "" ? gamePrediction.predictionAwayTeamScore : prediction ? parseInt(prediction.awayTeam.score) : ''} />
+            value={(gamePrediction && gamePrediction.predictionAwayTeamScore !== null) ? gamePrediction.predictionAwayTeamScore : prediction ? parseInt(prediction.awayTeam.score) : ''} />
           )}
           </div>
           <div>{game.results ? prediction ? (
@@ -62,10 +61,11 @@ const GamePreviewPrediction = ({ game, prediction, gamePrediction, onChangeGameS
               </div>
             ) : '' : (
             <input style={{width: '100%'}} onChange={handleOnChangeGameScore} name='predictionHomeTeamScore' placeholder={(!prediction && !gamePrediction && (gamePrediction && !gamePrediction.predictionHomeTeamScore)) ? '##' : null}
-            value={(gamePrediction && (gamePrediction.predictionHomeTeamScore || gamePrediction.predictionHomeTeamScore === 0)) ? parseInt(gamePrediction.predictionHomeTeamScore) : 
+            value={(gamePrediction && gamePrediction.predictionHomeTeamScore !== null) ? gamePrediction.predictionHomeTeamScore : 
               prediction ? prediction.homeTeam.score : ''}  />
           )}
           </div>
+          {((gamePrediction && gamePrediction.predictionAwayTeamScore && gamePrediction.predictionHomeTeamScore) || (game.prediction)) ? (
           <div className="odds">{((prediction || (gamePrediction.predictionAwayTeamScore && gamePrediction.predictionHomeTeamScore)) && odds) ? (
             <div style={{position: 'relative'}}>
               {results ? ResultsCheck.spreadResults(odds, results,prediction) : null}
@@ -89,6 +89,8 @@ const GamePreviewPrediction = ({ game, prediction, gamePrediction, onChangeGameS
             </div>) : ''}
           
           </div>
+          ) : null}
+          {((gamePrediction && gamePrediction.predictionAwayTeamScore && gamePrediction.predictionHomeTeamScore) || (game.prediction)) ? (
           <div className="odds">{((prediction || (gamePrediction.predictionAwayTeamScore && gamePrediction.predictionHomeTeamScore)) && odds) ? (
             <div style={{position: 'relative'}}>
               
@@ -99,6 +101,7 @@ const GamePreviewPrediction = ({ game, prediction, gamePrediction, onChangeGameS
             </div>
           ) : ''}
           </div>
+          ) : null}
         </div>
         {prediction && prediction.results ? (
           <div className='predictionScoreBox'>
