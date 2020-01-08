@@ -111,6 +111,18 @@ class GamePreview extends Component {
             <div className="gameLocation">
               {game.location}
             </div>
+            {game.weather ? (
+            <div className="gameWeather">
+              <div>
+              {game.weather.icon === '01d' || game.weather.icon === '01n' ? (
+                <i className={`ion-md-sunny`} style={{padding: 6}} />
+              ) : (
+                <img src={`http://openweathermap.org/img/wn/${game.weather.icon}.png`} className="weatherIcon" />
+              )}
+              </div>
+              <div>{Math.round((game.weather.temp * 1.8) - 459.67)}&deg;F</div>
+            </div>
+            ) : null}
           </div>
           <div className="headerRow">
             <div></div>

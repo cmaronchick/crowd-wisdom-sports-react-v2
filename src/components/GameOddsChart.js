@@ -41,8 +41,8 @@ function GameOddsChart(props) {
     let labels = []
     let dataSpread = []
     let dataTotal = []
-    if (game.odds && game.odds.history && game.odds.history.length > 0) {
-        game.odds.history.forEach(odds => {
+    if (odds && odds.history && odds.history.length > 0) {
+        odds.history.forEach(odds => {
             let startDate = new Date(game.startDateTime)
             let oddsDate = new Date(odds.date)
         //     console.log({startDate: new Date(startDate.setDate(startDate.getDate() - 7)),
@@ -102,13 +102,19 @@ function GameOddsChart(props) {
                 }]
             }
         }
-    console.log({chartData})
+    console.log({chartData: JSON.stringify(chartData), chartOptions: JSON.stringify(chartOptions)})
     return (
         <div>
-            Open: {(odds.history && odds.history.length > 0) ? `${utils.formatDate(firstSpread.date)} Spread: ${firstSpread.spread} Total: ${firstTotal.total}` : null}<br/>
-            Last: {(odds.history && odds.history.length > 0) ? `${utils.formatDate(odds.history[odds.history.length-1].date)} Spread: ${odds.history[odds.history.length-1].spread} Total: ${odds.history[odds.history.length-1].total}` : null}<br/>
-            Number of Predictions: {game.predictions.length}
-            <Line data={chartData} options={chartOptions} />
+            <div>Open: {(odds.history && odds.history.length > 0) ? `${utils.formatDate(firstSpread.date)} Spread: ${firstSpread.spread} Total: ${firstTotal.total}` : null}</div>
+            <div>Last: {(odds.history && odds.history.length > 0) ? `${utils.formatDate(odds.history[odds.history.length-1].date)} Spread: ${odds.history[odds.history.length-1].spread} Total: ${odds.history[odds.history.length-1].total}` : null}</div>
+            {game.predictions ? (
+                <div>Number of Predictions: {game.predictions.length}</div>
+            ) : null}
+            {chartData && chartOptions ? (
+                <div>
+                    <Line data={chartData} options={chartOptions} />
+                </div>
+            ) : null}
         </div>
     )
 }
