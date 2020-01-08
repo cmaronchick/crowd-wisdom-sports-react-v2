@@ -120,7 +120,7 @@ class GamePreview extends Component {
                 <img src={`http://openweathermap.org/img/wn/${game.weather.icon}.png`} className="weatherIcon" />
               )}
               </div>
-              <div>{Math.round((game.weather.temp * 1.8) - 459.67)} &deg;F</div>
+              <div>{Math.round((game.weather.temp * 1.8) - 459.67)}&deg;F</div>
             </div>
             ) : null}
           </div>

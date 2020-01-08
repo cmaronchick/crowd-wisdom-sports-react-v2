@@ -43,6 +43,14 @@
       text-align: center;
       background-color: #231f20;
       color: #fff; }
+    .GamePreview .headerRow .gameWeather {
+      flex-direction: row;
+      justify-content: flex-start;
+      align-items: center;
+      display: flex; }
+    .GamePreview .headerRow .weatherIcon {
+      height: 30px;
+      width: 30px; }
   .GamePreview .predictionSpread {
     font-size: 0.8em;
     font-weight: bold; }

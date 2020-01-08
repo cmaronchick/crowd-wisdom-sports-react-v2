@@ -63,6 +63,9 @@
                 align-items: center;
                 display: flex;
                 font-size: 0.9em;
+                i {
+                    font-size: 2.0em;
+                }
             }
             .weatherIcon {
                 height: 30px;
