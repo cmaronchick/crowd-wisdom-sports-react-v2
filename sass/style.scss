@@ -57,6 +57,17 @@
                 background-color: #231f20;
                 color: #fff
             }
+            .gameWeather {
+                flex-direction: row;
+                justify-content: flex-start;
+                align-items: center;
+                display: flex;
+                font-size: 0.9em;
+            }
+            .weatherIcon {
+                height: 30px;
+                width: 30px;
+            }
         }
 
         .predictionSpread {
