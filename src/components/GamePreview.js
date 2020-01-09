@@ -128,8 +128,12 @@ class GamePreview extends Component {
             <div></div>
             <div className={`teamName ${game.awayTeam.code.toLowerCase()} secondary`}>{game.awayTeam.code}</div>
             <div className={`teamName ${game.homeTeam.code.toLowerCase()} primary`}>{game.homeTeam.code}</div>
+            {(gamePrediction && gamePrediction.predictionAwayTeamScore && gamePrediction.predictionHomeTeamScore) || game.prediction ? (
             <div className="odds">Side</div>
+            ) : null}
+            {(gamePrediction && gamePrediction.predictionAwayTeamScore && gamePrediction.predictionHomeTeamScore) || game.prediction ? (
             <div className="odds">Total</div>
+            ) : null} 
           </div>
 
           {(!game.results || game.prediction) ? (
