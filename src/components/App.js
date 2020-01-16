@@ -111,30 +111,34 @@ class App extends React.Component {
 
         } catch (gameWeekDataError) {
           this.setState({ fetchingGames: true })
-          let gameWeekDataResponse = await api.fetchGameWeek(this.state.sport, null)
-          const { sport, year, week, season, weeks } = this.state ? this.state : gameWeekDataResponse.gameWeekData;
-          console.log({weekApp116: week});
-          ReactGA.pageview(`/${sport}/${year}/${season}/${week}`)
-          let games = await api.fetchGameWeekGames(sport, year, season, week, null);
-          let gamePredictions = {};
-          Object.keys(games).forEach(gameKey => {
-            gamePredictions[gameKey] = games[gameKey].prediction ? { predictionAwayTeamScore: games[gameKey].prediction.awayTeam.score, predictionHomeTeamScore: games[gameKey].prediction.homeTeam.score } : null
-          })
-          this.setState({
-            userSession: null,
-            sport: sport,
-            year: year,
-            currentWeek: week,
-            gameWeek: week,
-            season: season,
-            weeks: weeks,
-            currentGameId: null,
-            data: games,
-            games: games,
-            fetchingGames: false,
-            gamePredictions
-          });
-          console.log('gameWeekDataError: ', gameWeekDataError)
+          try {
+            let gameWeekDataResponse = await api.fetchGameWeek(this.state.sport, null)
+            const { sport, year, week, season, weeks } = this.state ? this.state : gameWeekDataResponse.gameWeekData;
+            console.log({weekApp116: week});
+            ReactGA.pageview(`/${sport}/${year}/${season}/${week}`)
+            let games = await api.fetchGameWeekGames(sport, year, season, week, null);
+            let gamePredictions = {};
+            Object.keys(games).forEach(gameKey => {
+              gamePredictions[gameKey] = games[gameKey].prediction ? { predictionAwayTeamScore: games[gameKey].prediction.awayTeam.score, predictionHomeTeamScore: games[gameKey].prediction.homeTeam.score } : null
+            })
+            this.setState({
+              userSession: null,
+              sport: sport,
+              year: year,
+              currentWeek: week,
+              gameWeek: week,
+              season: season,
+              weeks: weeks,
+              currentGameId: null,
+              data: games,
+              games: games,
+              fetchingGames: false,
+              gamePredictions
+            });
+            console.log('gameWeekDataError: ', gameWeekDataError)
+          } catch (fetchGameWeekErrorUnauth) {
+            console.log({fetchGameWeekErrorUnauth});
+          }
         }
         try {
           let gameWeekDataResponse = await api.fetchGameWeek(this.state.sport, null)
