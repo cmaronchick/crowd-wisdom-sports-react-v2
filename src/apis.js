@@ -50,7 +50,7 @@ export const fetchGamesList = (sport, year, season, week, userSession) => {
   console.log({userSession});
   const getOptionsObj = getOptions(userSession)
   return axios.get(`/api/${sport}/games/${year}/${season}/${week}`, getOptionsObj.callOptions)
-  .then (resp => resp.data.games);
+  .then (resp => { return { games: resp.data.games, gameResults: resp.data.gameResults } });
 };
 
 // get the games for the default or chosen week
@@ -58,7 +58,7 @@ export const fetchGamesList = (sport, year, season, week, userSession) => {
 export const fetchGameWeekGames = (sport, year, season, gameWeek, userSession, compareUsername) => {
   const getOptionsObj = getOptions(userSession)
   return axios.get(`/api/${sport}/games/${year}/${season}/${gameWeek}${compareUsername ? `?compareUsername=${compareUsername}` : ''}`, getOptionsObj.callOptions)
-  .then (resp => resp.data.games);
+  .then (resp => { return { games: resp.data.games, gameResults: resp.data.gameResults } });
 };
 
 export const fetchGameWeek = (sport, userSession) => {

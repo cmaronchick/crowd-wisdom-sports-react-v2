@@ -1,9 +1,10 @@
 import React, { Component } from 'react'
 import PropTypes from 'prop-types'
 
-const CrowdOverallCompare = ({ crowd, userStats }) => {
+const CrowdOverallCompare = ({ crowd, userStats, selectedLeaderboard }) => {
     
-    console.log({crowd});
+    const userResults = userStats && userStats.results ? selectedLeaderboard === 'overall' ? userStats.results.overall : userStats.results.weekly : null
+    const crowdResults = crowd ? selectedLeaderboard === 'overall' ? crowd.overallRecord : crowd.weeklyRecord : null
         return crowd ? (
             <div className="crowdOverallCompare">
             <div className="compareRow userStats">
@@ -13,23 +14,23 @@ const CrowdOverallCompare = ({ crowd, userStats }) => {
                 <div>O/U</div>
                 <div>Score</div>
             </div>
-                {(userStats && userStats.results && userStats.results.weekly && userStats.results.weekly.spread) ? (
+                {(userResults && userResults.winner) ? (
                 <div className="compareRow userStats">
                     <div>Me</div>
-                    <div>{userStats.results.weekly.winner.correct}</div>
-                    <div>{userStats.results.weekly.spread.correct}</div>
-                    <div>{userStats.results.weekly.total.correct}</div>
-                    <div>{userStats.results.weekly.predictionScore}</div>
+                    <div>{userResults.winner.correct}</div>
+                    <div>{userResults.spread.correct}</div>
+                    <div>{userResults.total.correct}</div>
+                    <div>{userResults.predictionScore}</div>
                 </div>
                 ) : null}
-                {crowd && crowd.weeklyRecord && crowd.weeklyRecord.winner ? 
+                {crowdResults && crowdResults.winner ? 
                     (
                     <div className="compareRow crowdStats">
                         <div>Crowd</div>
-                        <div>{crowd.weeklyRecord.winner.correct}</div>
-                        <div>{crowd.weeklyRecord.spread.correct}</div>
-                        <div>{crowd.weeklyRecord.total.correct}</div>
-                        <div>{crowd.weeklyRecord.predictionScore}</div>
+                        <div>{crowdResults.winner.correct}</div>
+                        <div>{crowdResults.spread.correct}</div>
+                        <div>{crowdResults.total.correct}</div>
+                        <div>{crowdResults.predictionScore}</div>
                     </div>
                 ) : null}
 
