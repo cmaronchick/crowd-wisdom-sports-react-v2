@@ -2,6 +2,10 @@ import React, { Component, PropTypes } from 'react';
 import { Link } from 'react-router-dom'
 import * as api from '../apis'
 import Auth from '@aws-amplify/auth'
+import awsconfig from '../awsexports'
+
+// retrieve temporary AWS credentials and sign requests
+Auth.configure(awsconfig);
 import GamePreview from './GamePreview'
 import GameOddsChart from '../components/GameOddsChart'
 class Game extends Component {
