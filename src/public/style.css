@@ -47,7 +47,10 @@
       flex-direction: row;
       justify-content: flex-start;
       align-items: center;
-      display: flex; }
+      display: flex;
+      font-size: 0.9em; }
+      .GamePreview .headerRow .gameWeather i {
+        font-size: 2.0em; }
     .GamePreview .headerRow .weatherIcon {
       height: 30px;
       width: 30px; }

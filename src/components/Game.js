@@ -27,10 +27,14 @@ class Game extends Component {
     } catch(getGameError) {
       console.log({getGameError});
       if (this._isMounted) {
-      let gameObj = await api.fetchGame(this.props.sport, this.props.year, this.props.season, this.props.gameWeek, this.props.gameId, null)
-      console.log({game: gameObj.game});
-      let gamePrediction = gameObj.game ? gameObj.game.prediction : null;
-      this.setState({game: gameObj.game, gamePrediction, user})
+        try {
+          let gameObj = await api.fetchGame(this.props.sport, this.props.year, this.props.season, this.props.gameWeek, this.props.gameId, null)
+          console.log({game: gameObj.game});
+          let gamePrediction = gameObj.game ? gameObj.game.prediction : null;
+          this.setState({game: gameObj.game, gamePrediction, user: null})
+        } catch (getUnauthenticatedGameError) {
+          console.log('getUnauthenticatedGameError :', getUnauthenticatedGameError);
+        }
       }
     }
   }

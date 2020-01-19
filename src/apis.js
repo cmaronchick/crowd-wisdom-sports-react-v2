@@ -42,7 +42,7 @@ const getOptions = (userSession) => {
 
 export const fetchGame = (sport, year, season, gameWeek, gameId, userSession, compareUsername) => {
   const getOptionsObj = getOptions(userSession);
-  return axios.get(`/api/${sport}/games/${year}/${season}/${gameWeek}/${gameId}${getOptionsObj.anonString}${compareUsername ? `?compareUsername=${compareUsername}` : ''}`, getOptionsObj.callOptions)
+  return axios.get(`/api/${sport}/games/${year}/${season}/${gameWeek}/${gameId}${compareUsername ? `?compareUsername=${compareUsername}` : ''}`, getOptionsObj.callOptions)
     .then(resp => resp.data);
 };
 
