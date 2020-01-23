@@ -244,9 +244,21 @@ class App extends React.Component {
     try {
       let confirmResponse = await Auth.confirmSignUp(username, confirmUserCode)
       this.setState({ confirmUser: false })
+      ReactGA.event({
+        category: 'account',
+        action: 'signup',
+        label: 'complete',
+        value: 'true'
+      })
       console.log('confirmResponse: ', confirmResponse)
     } catch(confirmReject) {
       console.log('confirmReject: ', confirmReject)
+      ReactGA.event({
+        category: 'account',
+        action: 'signup',
+        label: 'complete',
+        value: JSON.stringify(confirmReject)
+      })
     }
   }
 
@@ -254,9 +266,21 @@ class App extends React.Component {
     e.preventDefault();
     try {
       let resendSignUpResponse = await Auth.resendSignUp(this.state.username)
+      ReactGA.event({
+        category: 'account',
+        action: 'signup',
+        label: 'resendConfirmation',
+        value: 'true'
+      })
       console.log('resendSignUpResponse: ', resendSignUpResponse)
     } catch(resendSignUpReject) {
       console.log('resendSignUpReject: ', resendSignUpReject)
+      ReactGA.event({
+        category: 'account',
+        action: 'signup',
+        label: 'resendConfirmation',
+        value: JSON.stringify(resendSignUpReject)
+      })
     }
   }
 
@@ -268,14 +292,32 @@ class App extends React.Component {
       let user = await Auth.signIn(username, password)
     
       console.log('user: ', user)
+      ReactGA.event({
+        category: 'account',
+        action: 'signin',
+        label: 'complete',
+        value: 'true'
+      })
       this.setState({user, signingInUser: false, authState: 'signedIn'})
       return user;
     } catch(signInError) {
       if (signInError.code === 'UserNotConfirmedException') {
         this.setState({ confirmUser: true, signingInUser: false })
+        ReactGA.event({
+          category: 'account',
+          action: 'signin',
+          label: 'failed',
+          value: signInError ? signInError.code : 'false'
+        })
         return;
       }
       this.setState({ signingInUser: false, signInError })
+      ReactGA.event({
+        category: 'account',
+        action: 'signin',
+        label: 'failed',
+        value: JSON.stringify(signInError)
+      })
       console.log('signInError: ', signInError)
     }
   }
@@ -284,8 +326,20 @@ class App extends React.Component {
     console.log('signOut clicked')
     try{
       let signOutResponse = await Auth.signOut();
+      ReactGA.event({
+        category: 'account',
+        action: 'signout',
+        label: 'complete',
+        value: 'true'
+      })
       this.setState({user: null, authState: 'signIn'})
     } catch(signOutError) {
+      ReactGA.event({
+        category: 'account',
+        action: 'signout',
+        label: 'failed',
+        value: JSON.stringify(signOutError)
+      })
       console.log('signOutError: ', signOutError)
     }
   }
@@ -295,9 +349,21 @@ class App extends React.Component {
     this.setState({sendingPasswordReset: true})
     try {
       let forgotPasswordResponse = await Auth.forgotPassword(this.state.username)
+      ReactGA.event({
+        category: 'account',
+        action: 'forgotpassword',
+        label: 'complete',
+        value: 'true'
+      })
       this.setState({sendingPasswordReset: false,
       resetCodeSent: true})
     } catch (forgotPasswordError) {
+      ReactGA.event({
+        category: 'account',
+        action: 'forgotpassword',
+        label: 'failed',
+        value: JSON.stringify(forgotPasswordError)
+      })
       console.log({forgotPasswordError})
     }
   }
@@ -308,8 +374,20 @@ class App extends React.Component {
     try {
       let sendingNewPasswordResponse = await Auth.forgotPasswordSubmit(this.state.username, this.state.confirmUserCode, this.state.newPassword)
       console.log({sendingNewPasswordResponse});
+      ReactGA.event({
+        category: 'account',
+        action: 'submitnewpassword',
+        label: 'complete',
+        value: 'true'
+      })
       this.setState({sendingPasswordReset: false,})
     } catch (forgotPasswordError) {
+      ReactGA.event({
+        category: 'account',
+        action: 'submitnewpassword',
+        label: 'failed',
+        value: JSON.stringify(forgotPasswordError)
+      })
       console.log({forgotPasswordError})
     }
   }
@@ -331,6 +409,12 @@ class App extends React.Component {
           password,
           attributes
         });
+        ReactGA.event({
+          category: 'account',
+          action: 'signup',
+          label: 'submit',
+          value: 'true'
+        })
         this.setState({
             user: signUpResponse.user,
             confirmUser: true
@@ -343,6 +427,12 @@ class App extends React.Component {
             console.log('Error when signing up: ', err, '; ', err.message)
             // Alert.alert('Error when signing up: ', err.message)
         }
+        ReactGA.event({
+          category: 'account',
+          action: 'signup',
+          label: 'submitFail',
+          value: JSON.stringify(err)
+        })
       }
   }
 
@@ -352,6 +442,11 @@ class App extends React.Component {
 
   handleLoginClick = () => {
     // return <LoginModal show={true} signInClick={this.signIn} signUpClick={this.signUp} />
+        ReactGA.event({
+          category: 'account',
+          action: 'modal',
+          label: 'open'
+        })
     this.setState({ loginModalShow: true})
   }
   
@@ -362,6 +457,11 @@ class App extends React.Component {
   }
 
   handleLoginModalClosed = () => {
+    ReactGA.event({
+      category: 'account',
+      action: 'modal',
+      label: 'close'
+    })
     this.setState({
       loginModalShow: false,
       forgotPassword: false,

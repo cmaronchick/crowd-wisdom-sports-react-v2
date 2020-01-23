@@ -1,5 +1,11 @@
 import axios from 'axios';
 import Auth from '@aws-amplify/auth'
+
+import awsconfig from './awsexports'
+
+// retrieve temporary AWS credentials and sign requests
+Auth.configure(awsconfig);
+
 import { 
   CognitoUser, 
   CognitoIdToken, 
