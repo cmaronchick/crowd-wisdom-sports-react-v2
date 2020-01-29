@@ -12,7 +12,6 @@ class Game extends Component {
     super(props)
     this.state = {
       ...this.props.initialData
-
     }
   }
 
@@ -49,7 +48,7 @@ class Game extends Component {
   _isMounted = true;
 
   componentDidMount() {
-    console.log({GameStateOnMount: this.state})
+    console.log({initialData: this.props.initialData})
     this.getGame()
   }
 

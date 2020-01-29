@@ -53,14 +53,14 @@ class App extends React.Component {
       loginModalShow: false,
       confirmUser: false,
       compareTable: 'crowd',
-      authState: 'checkingSignIn',
+      authState: 'checkingSignIn'
     }
     
   }
   
   
   async componentDidMount() {
-    //console.log({stateOnMount: this.state});
+    //console.log({initialData: this.props.initialData});
     // timers, listeners
     onPopState((event) => {
       this.setState({
