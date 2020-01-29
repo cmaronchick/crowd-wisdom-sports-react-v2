@@ -4,6 +4,7 @@ import { BrowserRouter as Router } from 'react-router-dom'
 import App from '../src/components/App'
 import renderer from 'react-test-renderer'
 import Auth from '@aws-amplify/auth'
+import 'babel-polyfill'
 
 test(" null Auth test", async () => {
     try {
