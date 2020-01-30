@@ -3,7 +3,6 @@ import { Link } from 'react-router-dom'
 import * as api from '../apis'
 import Auth from '@aws-amplify/auth'
 import awsconfig from '../awsexports'
-
 // retrieve temporary AWS credentials and sign requests
 Auth.configure(awsconfig);
 import GamePreview from './GamePreview'
@@ -13,7 +12,6 @@ class Game extends Component {
     super(props)
     this.state = {
       ...this.props.initialData
-
     }
   }
 
@@ -50,7 +48,7 @@ class Game extends Component {
   _isMounted = true;
 
   componentDidMount() {
-    console.log({GameStateOnMount: this.state})
+    console.log({initialData: this.props.initialData})
     this.getGame()
   }
 

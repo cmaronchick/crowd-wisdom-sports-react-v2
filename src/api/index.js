@@ -59,11 +59,12 @@ router.get(['/:sport/games', '/:sport/games/:year/:season/:gameWeek'], (req, res
   console.log('api index 57 query', req.query)
   gamesAPIResponse(req.params.sport, req.params.year, req.params.season, req.params.gameWeek, req.headers.authorization, req.query)
     .then((gamesResponse) => {
+      //console.log({gamesResponse: gamesResponse.data.gameResults});
       const gamesResponseObjs = gamesResponse.data.games.reduce((obj, game) => {
         obj[game.gameId] = game;
         return obj;
       }, {});
-      res.send({ games: gamesResponseObjs });
+      res.send({ games: gamesResponseObjs, gameResults: gamesResponse.data.gameResults});
     })
     .catch(getGamesError => console.log('api index 65: ', getGamesError));
 })

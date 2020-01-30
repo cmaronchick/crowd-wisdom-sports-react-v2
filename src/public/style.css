@@ -1,10 +1,10 @@
-@media (min-width: 1025px) {
+@media (min-width: 1601px) {
   .gamesList {
     flex: 2; }
   .homeLeaderboards {
     flex: 1; } }
 
-@media (max-width: 1024px) {
+@media (max-width: 1600px) {
   .gamesList {
     width: 100%; }
   .homeLeaderboards {

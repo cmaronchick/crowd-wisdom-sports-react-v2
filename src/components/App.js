@@ -53,14 +53,14 @@ class App extends React.Component {
       loginModalShow: false,
       confirmUser: false,
       compareTable: 'crowd',
-      authState: 'checkingSignIn',
+      authState: 'checkingSignIn'
     }
     
   }
   
   
   async componentDidMount() {
-    //console.log({stateOnMount: this.state});
+    //console.log({initialData: this.props.initialData});
     // timers, listeners
     onPopState((event) => {
       this.setState({
@@ -89,7 +89,8 @@ class App extends React.Component {
         const { sport, year, week, season, weeks } = this.state ? this.state : gameWeekDataResponse.gameWeekData;
         console.log({weekApp90: week});
         ReactGA.pageview(`/${sport}/${year}/${season}/${week}`)
-        let games = await api.fetchGameWeekGames(sport, year, season, week, userSession, query && query.compareUsername ? query.compareUsername : null);
+        let gamesData = await api.fetchGameWeekGames(sport, year, season, week, userSession, query && query.compareUsername ? query.compareUsername : null);
+        const { games, gameResults } = gamesData
         let gamePredictions = {};
         Object.keys(games).forEach(gameKey => {
           gamePredictions[gameKey] = games[gameKey].prediction ? { predictionAwayTeamScore: games[gameKey].prediction.awayTeam.score, predictionHomeTeamScore: games[gameKey].prediction.homeTeam.score } : null
@@ -104,37 +105,44 @@ class App extends React.Component {
             weeks: weeks,
             currentGameId: null,
             data: games,
-            games: games,
+            games,
+            gameResults,
             fetchingGames: false,
             gamePredictions
           });
 
         } catch (gameWeekDataError) {
           this.setState({ fetchingGames: true })
-          let gameWeekDataResponse = await api.fetchGameWeek(this.state.sport, null)
-          const { sport, year, week, season, weeks } = this.state ? this.state : gameWeekDataResponse.gameWeekData;
-          console.log({weekApp116: week});
-          ReactGA.pageview(`/${sport}/${year}/${season}/${week}`)
-          let games = await api.fetchGameWeekGames(sport, year, season, week, null);
-          let gamePredictions = {};
-          Object.keys(games).forEach(gameKey => {
-            gamePredictions[gameKey] = games[gameKey].prediction ? { predictionAwayTeamScore: games[gameKey].prediction.awayTeam.score, predictionHomeTeamScore: games[gameKey].prediction.homeTeam.score } : null
-          })
-          this.setState({
-            userSession: null,
-            sport: sport,
-            year: year,
-            currentWeek: week,
-            gameWeek: week,
-            season: season,
-            weeks: weeks,
-            currentGameId: null,
-            data: games,
-            games: games,
-            fetchingGames: false,
-            gamePredictions
-          });
-          console.log('gameWeekDataError: ', gameWeekDataError)
+          try {
+            let gameWeekDataResponse = await api.fetchGameWeek(this.state.sport, null)
+            const { sport, year, week, season, weeks } = this.state ? this.state : gameWeekDataResponse.gameWeekData;
+            console.log({weekApp116: week});
+            ReactGA.pageview(`/${sport}/${year}/${season}/${week}`)
+            let gamesData = await api.fetchGameWeekGames(sport, year, season, week, null);
+            const { games, gameResults } = gamesData
+            let gamePredictions = {};
+            Object.keys(games).forEach(gameKey => {
+              gamePredictions[gameKey] = games[gameKey].prediction ? { predictionAwayTeamScore: games[gameKey].prediction.awayTeam.score, predictionHomeTeamScore: games[gameKey].prediction.homeTeam.score } : null
+            })
+            this.setState({
+              userSession: null,
+              sport: sport,
+              year: year,
+              currentWeek: week,
+              gameWeek: week,
+              season: season,
+              weeks: weeks,
+              currentGameId: null,
+              data: games,
+              games,
+              gameResults,
+              fetchingGames: false,
+              gamePredictions
+            });
+            console.log('gameWeekDataError: ', gameWeekDataError)
+          } catch (fetchGameWeekErrorUnauth) {
+            console.log({fetchGameWeekErrorUnauth});
+          }
         }
         try {
           let gameWeekDataResponse = await api.fetchGameWeek(this.state.sport, null)
@@ -236,9 +244,21 @@ class App extends React.Component {
     try {
       let confirmResponse = await Auth.confirmSignUp(username, confirmUserCode)
       this.setState({ confirmUser: false })
+      ReactGA.event({
+        category: 'account',
+        action: 'signup',
+        label: 'complete',
+        value: 'true'
+      })
       console.log('confirmResponse: ', confirmResponse)
     } catch(confirmReject) {
       console.log('confirmReject: ', confirmReject)
+      ReactGA.event({
+        category: 'account',
+        action: 'signup',
+        label: 'complete',
+        value: JSON.stringify(confirmReject)
+      })
     }
   }
 
@@ -246,9 +266,21 @@ class App extends React.Component {
     e.preventDefault();
     try {
       let resendSignUpResponse = await Auth.resendSignUp(this.state.username)
+      ReactGA.event({
+        category: 'account',
+        action: 'signup',
+        label: 'resendConfirmation',
+        value: 'true'
+      })
       console.log('resendSignUpResponse: ', resendSignUpResponse)
     } catch(resendSignUpReject) {
       console.log('resendSignUpReject: ', resendSignUpReject)
+      ReactGA.event({
+        category: 'account',
+        action: 'signup',
+        label: 'resendConfirmation',
+        value: JSON.stringify(resendSignUpReject)
+      })
     }
   }
 
@@ -260,14 +292,32 @@ class App extends React.Component {
       let user = await Auth.signIn(username, password)
     
       console.log('user: ', user)
+      ReactGA.event({
+        category: 'account',
+        action: 'signin',
+        label: 'complete',
+        value: 'true'
+      })
       this.setState({user, signingInUser: false, authState: 'signedIn'})
       return user;
     } catch(signInError) {
       if (signInError.code === 'UserNotConfirmedException') {
         this.setState({ confirmUser: true, signingInUser: false })
+        ReactGA.event({
+          category: 'account',
+          action: 'signin',
+          label: 'failed',
+          value: signInError ? signInError.code : 'false'
+        })
         return;
       }
       this.setState({ signingInUser: false, signInError })
+      ReactGA.event({
+        category: 'account',
+        action: 'signin',
+        label: 'failed',
+        value: JSON.stringify(signInError)
+      })
       console.log('signInError: ', signInError)
     }
   }
@@ -276,8 +326,20 @@ class App extends React.Component {
     console.log('signOut clicked')
     try{
       let signOutResponse = await Auth.signOut();
+      ReactGA.event({
+        category: 'account',
+        action: 'signout',
+        label: 'complete',
+        value: 'true'
+      })
       this.setState({user: null, authState: 'signIn'})
     } catch(signOutError) {
+      ReactGA.event({
+        category: 'account',
+        action: 'signout',
+        label: 'failed',
+        value: JSON.stringify(signOutError)
+      })
       console.log('signOutError: ', signOutError)
     }
   }
@@ -287,9 +349,21 @@ class App extends React.Component {
     this.setState({sendingPasswordReset: true})
     try {
       let forgotPasswordResponse = await Auth.forgotPassword(this.state.username)
+      ReactGA.event({
+        category: 'account',
+        action: 'forgotpassword',
+        label: 'complete',
+        value: 'true'
+      })
       this.setState({sendingPasswordReset: false,
       resetCodeSent: true})
     } catch (forgotPasswordError) {
+      ReactGA.event({
+        category: 'account',
+        action: 'forgotpassword',
+        label: 'failed',
+        value: JSON.stringify(forgotPasswordError)
+      })
       console.log({forgotPasswordError})
     }
   }
@@ -300,8 +374,20 @@ class App extends React.Component {
     try {
       let sendingNewPasswordResponse = await Auth.forgotPasswordSubmit(this.state.username, this.state.confirmUserCode, this.state.newPassword)
       console.log({sendingNewPasswordResponse});
+      ReactGA.event({
+        category: 'account',
+        action: 'submitnewpassword',
+        label: 'complete',
+        value: 'true'
+      })
       this.setState({sendingPasswordReset: false,})
     } catch (forgotPasswordError) {
+      ReactGA.event({
+        category: 'account',
+        action: 'submitnewpassword',
+        label: 'failed',
+        value: JSON.stringify(forgotPasswordError)
+      })
       console.log({forgotPasswordError})
     }
   }
@@ -323,6 +409,12 @@ class App extends React.Component {
           password,
           attributes
         });
+        ReactGA.event({
+          category: 'account',
+          action: 'signup',
+          label: 'submit',
+          value: 'true'
+        })
         this.setState({
             user: signUpResponse.user,
             confirmUser: true
@@ -335,6 +427,12 @@ class App extends React.Component {
             console.log('Error when signing up: ', err, '; ', err.message)
             // Alert.alert('Error when signing up: ', err.message)
         }
+        ReactGA.event({
+          category: 'account',
+          action: 'signup',
+          label: 'submitFail',
+          value: JSON.stringify(err)
+        })
       }
   }
 
@@ -344,6 +442,11 @@ class App extends React.Component {
 
   handleLoginClick = () => {
     // return <LoginModal show={true} signInClick={this.signIn} signUpClick={this.signUp} />
+        ReactGA.event({
+          category: 'account',
+          action: 'modal',
+          label: 'open'
+        })
     this.setState({ loginModalShow: true})
   }
   
@@ -354,6 +457,11 @@ class App extends React.Component {
   }
 
   handleLoginModalClosed = () => {
+    ReactGA.event({
+      category: 'account',
+      action: 'modal',
+      label: 'close'
+    })
     this.setState({
       loginModalShow: false,
       forgotPassword: false,
@@ -646,9 +754,10 @@ class App extends React.Component {
     try {
       const { query } = this.state
       let userSession = await Auth.currentSession()
-      let games = await api.fetchGameWeekGames(sport, year, season, gameWeek, userSession, query && query.compareUsername ? query.compareUsername : null);
+      let gamesData = await api.fetchGameWeekGames(sport, year, season, gameWeek, userSession, query && query.compareUsername ? query.compareUsername : null);
+      const { games, gameResults } = gamesData
       let gamePredictions = {}
-      Object.keys(games).forEach(gameKey => {
+      Object.keys(gamesData.games).forEach(gameKey => {
         gamePredictions[gameKey] = games[gameKey].prediction ? { predictionAwayTeamScore: games[gameKey].prediction.awayTeam.score, predictionHomeTeamScore: games[gameKey].prediction.homeTeam.score } : null
       })
     
@@ -658,23 +767,27 @@ class App extends React.Component {
         currentGameId: null,
         data: games,
         games: games,
+        gameResults,
         gamePredictions,
         fetchingGames: false
       });
     } catch (getGamesError) {
       console.log({getGamesError});
-      let games = await api.fetchGameWeekGames(sport, year, season, gameWeek, null);
+      let gamesData = await api.fetchGameWeekGames(sport, year, season, gameWeek, null);
+      const { games, gameResults } = gamesData
       let gamePredictions = {}
       Object.keys(games).forEach(gameKey => {
         gamePredictions[gameKey] = games[gameKey].prediction ? { predictionAwayTeamScore: games[gameKey].prediction.awayTeam.score, predictionHomeTeamScore: games[gameKey].prediction.homeTeam.score } : null
       })
+
     
       this.setState({
         year: year,
         gameWeek: gameWeek,
         currentGameId: null,
         data: games,
-        games: games,
+        games,
+        gameResults,
         gamePredictions,
         fetchingGames: false
       });
@@ -701,8 +814,8 @@ class App extends React.Component {
       let userSession = await Auth.currentSession()
       let overallLeaderboardData = await api.fetchOverallLeaderboard(userSession ? userSession : null, sport, year, season, week);
       let weeklyLeaderboardData = await api.fetchWeeklyLeaderboard(userSession ? userSession : null, sport, year, season, week)
-      console.log(JSON.stringify(overallLeaderboardData));
-      console.log(JSON.stringify(weeklyLeaderboardData));
+      // console.log(JSON.stringify(overallLeaderboardData));
+      // console.log(JSON.stringify(weeklyLeaderboardData));
       this.setState({ overallLeaderboardData: overallLeaderboardData.leaderboardData, weeklyLeaderboardData: weeklyLeaderboardData.leaderboardData, fetchingLeaderboards: false })
     } catch(getUserSession) {
       let leaderboardData = await api.fetchOverallLeaderboard(null, sport, year, season, week)
@@ -772,7 +885,7 @@ class App extends React.Component {
     return this.state.fetchingGames ? 'Loading Games ...' : this.state.gameWeek ? `Week ${this.state.gameWeek} Games` : (this.props.initialData && this.props.initialData.week) ? `Week ${this.props.initialData.week} Games` : ''
   }
   currentContent() {
-      const { games, gamePredictions, sport, season, year } = this.state;
+      const { games, gamePredictions, gameResults, crowd, crowds, userStats, weeks, sport, season, year } = this.state;
       return (
           <Switch>
           <Route path="/:sport/games/:year/:season/:gameWeek/:gameId" render={({match}) => {
@@ -829,7 +942,7 @@ class App extends React.Component {
                   onGameWeekClick={this.fetchGameWeekGames} currentWeek={this.state.gameWeek} sport={this.state.sport} year={this.state.year} season={this.state.season}
                   weeks={this.state.weeks} />
                 ) : null}
-                {(this.state.crowd || (this.state.userStats && this.state.userStats.results)) ? (
+                {gameResults && gameResults > 0 && (crowd || (this.state.userStats && this.state.userStats.results)) ? (
                     (this.state.compareTable === 'crowd') ? (
                       <div className='compareDiv'>
                         {(this.state.userStats && this.state.userStats.results && this.state.userStats.results.weekly.stars && this.state.userStats.results.weekly.stars.wagered > 0) ? (
@@ -841,14 +954,14 @@ class App extends React.Component {
                             Wager Stars to See Your Stake Results
                           </Button>
                         )}
-                        <CrowdOverallCompare week={this.state.week} userStats={this.state.userStats} crowd={this.state.crowd} />
+                        <CrowdOverallCompare selectedLeaderboard={this.state.selectedLeaderboard} week={this.state.week} userStats={this.state.userStats} crowd={this.state.crowd} />
                       </div>
                     ) : (
                       <div style={{display: 'flex', flexDirection: 'column', justifyContent: 'center', alignItems: 'center'}}>
                         <Button onClick={() => this.handleCompareButtonClick('crowd')}>
                           Show Me vs. the Crowd Results
                         </Button>
-                        <HomeStarResults week={this.state.week} userStats={this.state.userStats} crowd={this.state.crowd} />
+                        <HomeStarResults selectedLeaderboard={this.selectedLeaderboard} week={this.state.week} userStats={this.state.userStats} crowd={this.state.crowd} />
                       </div>
                     )
                 ) : null}

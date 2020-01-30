@@ -45,6 +45,7 @@ function GameOddsChart(props) {
     if (odds && odds.history && odds.history.length > 0) {
         odds.history.forEach(odds => {
             let startDate = new Date(game.startDateTime)
+            let firstOddsDate = new Date(new Date(game.startDateTime).getDate() - 14)
             let oddsDate = new Date(odds.date)
             console.log({startDate: new Date(startDate.setDate(startDate.getDate() - 7)),
             oddsDate: oddsDate,
@@ -62,8 +63,8 @@ function GameOddsChart(props) {
         dataTotalMin = Math.min(...dataTotal),
         dataTotalMax = Math.max(...dataTotal);
 
-    let spreadMin = (dataSpreadMin > 0) ? Math.floor(dataSpreadMin * 0.5) : Math.floor(dataSpreadMin * 1.5);
-    let spreadMax = (dataSpreadMax > 0) ? Math.floor(dataSpreadMax * 1.5) : Math.floor(dataSpreadMax * 0.5);
+    let spreadMin = (dataSpreadMin > 0) ? 0 : Math.floor(dataSpreadMin * 1.5);
+    let spreadMax = (dataSpreadMax > 0) ? Math.floor(dataSpreadMax * 1.5) : 0
     let totalMin = Math.floor(dataTotalMin * 0.5);
     let totalMax = Math.floor(dataTotalMax * 1.2);
 
