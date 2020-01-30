@@ -8,6 +8,7 @@ import StarRatingComponent from 'react-star-rating-component'
 import GamePreviewCrowd from './GamePreview.Crowd'
 import GamePreviewResults from './GamePreview.Results'
 import GamePreviewPrediction from './GamePreview.Prediction'
+import GamePreviewPredictionQuarters from './GamePreview.Prediction.Quarters'
 import * as ResultsCheck from './GamePreview.ResultsCheck'
 
 
@@ -24,6 +25,7 @@ class GamePreview extends Component {
       predictionSpread: null,
       predictionTotal: null,
       oddsPrefix: (this.props.game.odds.spread > 0) ? '+' : '',
+      showQuarters: this.props.game.season === "post" && this.props.game.gameWeek === 4 ? true : false
     }
 
   }
@@ -37,6 +39,30 @@ class GamePreview extends Component {
     // }
   //   return true;
   // }
+  componentDidMount() {
+    const { season, gameWeek } = this.state.game
+    //check for super bowl and set quarters state
+    if (gameWeek === 4 && season === 'post') {
+      this.setState({
+        periods: this.state.game.prediction.periods ? {...this.state.game.prediction.periods} : {
+          awayTeam: {
+            q1: '',
+            q2: '',
+            q3: '',
+            q4: ''
+          },
+          homeTeam: {
+            q1: '',
+            q2: '',
+            q3: '',
+            q4: ''
+          }
+        },
+        showQuarters: true,
+      })
+    }
+
+  }
   componentDidUpdate(prevProps, prevState) {
     //console.log('gamePreview updated')
     
@@ -63,6 +89,30 @@ class GamePreview extends Component {
 
   handleOnChangeGameScore = (event) => {
     this.props.onChangeGameScore(this.props.game.gameId, event)
+  }
+  handleOnChangeTextQuarters = (team, quarter, value) => {
+    let periodsObj = {...this.state.periods}
+    let teamScore = 0
+    let teamKey = team === 'awayTeam' ? 'awayTeamScore' : 'homeTeamScore'
+    if (parseInt(value)) {
+      periodsObj[team][quarter] = parseInt(value)
+      Object.keys(periodsObj[team]).forEach(key => {
+        teamScore += parseInt(periodsObj[team][key]) ? parseInt(periodsObj[team][key]) : 0
+      })
+      console.log({periodsObj, teamScore})
+      this.setState({[teamKey]: teamScore, periods: periodsObj})
+    }
+    if (value === '') {
+      periodsObj[team][quarter] = value
+      this.setState({periods: periodsObj})
+    }
+  }
+  
+  handleShowQuarters = () => {
+    this.setState({ showQuarters: true})
+  }
+  handleHideQuarters = () => {
+    this.setState({ showQuarters: false})
   }
 
   handleSubmit = (event) => {
@@ -141,6 +191,20 @@ class GamePreview extends Component {
           ) : (
             <div>No prediction for this game</div>
           )}
+          
+          {(game.season === 'post' && game.gameWeek === 4) && (game.prediction || !game.results) ? (
+            <div>
+              <Button onClick={()=> {
+                this.state.showQuarters ? this.handleHideQuarters() : this.handleShowQuarters()
+              }}>{this.state.showQuarters ? 'Hide Quarters' : 'Show Quarters'}</Button>
+              <GamePreviewPredictionQuarters
+                game={game}
+                periods={this.state.periods}
+                type={{type: 'user', title: 'Me'}} 
+                onChangeTextQuarters={this.onChangeTextQuarters}
+                />
+            </div>
+          ) : null} 
           {game.comparePrediction ? 
             (
               <GamePreviewPrediction game={game} 
@@ -151,7 +215,7 @@ class GamePreview extends Component {
               onChangeStarTotal={this.props.onChangeStarTotal}
               />
             ) : 
-          (game.crowd && game.crowd.total) ? 
+          (game.crowd && game.crowd.awayTeam) ? 
             !game.prediction && !game.results ? 
               (
                 <div className="team">
