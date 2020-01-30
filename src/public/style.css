@@ -110,6 +110,11 @@
     color: #fff;
     background-color: #231f20; }
 
+.oddsRow {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-evenly; }
+
 .compareDiv {
   display: flex;
   flex-direction: column;

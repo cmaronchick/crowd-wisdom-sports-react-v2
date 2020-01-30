@@ -24,6 +24,7 @@ class GamePreview extends Component {
       predictionSpread: null,
       predictionTotal: null,
       oddsPrefix: (this.props.game.odds.spread > 0) ? '+' : '',
+      oddsChangeModalShow: false
     }
 
   }
@@ -52,6 +53,7 @@ class GamePreview extends Component {
   handleClick = () => {
     this.props.onClick(this.props.game.sport, this.props.game.year, this.props.game.season, this.props.game.gameWeek, this.props.game.gameId);
   }
+
   
   handleOnChangeStarSpread = (event) => {
     this.props.onChangeStarSpread(this.props.game.gameId, event)
@@ -63,6 +65,15 @@ class GamePreview extends Component {
 
   handleOnChangeGameScore = (event) => {
     this.props.onChangeGameScore(this.props.game.gameId, event)
+  }
+
+
+  handleOddsChangeModalShow = () => {
+    this.setState({ oddsChangeModalShow: true})
+  }
+
+  handleOddsChangeModalHide = () => {
+    this.setState({ oddsChangeModalShow: false })
   }
 
   handleSubmit = (event) => {
@@ -137,7 +148,16 @@ class GamePreview extends Component {
           </div>
 
           {(!game.results || game.prediction) ? (
-            <GamePreviewPrediction game={game} prediction={game.prediction} gamePrediction={gamePrediction} onChangeGameScore={this.props.onChangeGameScore} onChangeStarSpread={this.props.onChangeStarSpread} onChangeStarTotal={this.props.onChangeStarTotal} />            
+            <GamePreviewPrediction
+              game={game}
+              prediction={game.prediction}
+              gamePrediction={gamePrediction}
+              onChangeGameScore={this.props.onChangeGameScore}
+              onChangeStarSpread={this.props.onChangeStarSpread}
+              onChangeStarTotal={this.props.onChangeStarTotal}
+              handleOddsChangeModalShow={this.handleOddsChangeModalShow}
+              handleOddsChangeModalHide={this.handleOddsChangeModalHide}
+              oddsChangeModalShow={this.state.oddsChangeModalShow} />            
           ) : (
             <div>No prediction for this game</div>
           )}
@@ -178,6 +198,7 @@ class GamePreview extends Component {
             </div>
           )}
           </div>
+          
         </div>
       );
     }

@@ -1,10 +1,11 @@
 import React from 'react'
 import StarRatingComponent from 'react-star-rating-component'
+import OddsChangeModal from './Game.OddsChangeModal';
 import * as ResultsCheck from './GamePreview.ResultsCheck'
 
 import * as apis from '../apis'
 
-const GamePreviewPrediction = ({ game, prediction, gamePrediction, onChangeGameScore, onChangeStarSpread, onChangeStarTotal }) => {
+const GamePreviewPrediction = ({ game, prediction, gamePrediction, onChangeGameScore, onChangeStarSpread, onChangeStarTotal, handleOddsChangeModalShow, handleOddsChangeModalHide, oddsChangeModalShow }) => {
     
   
     const handleOnChangeStarSpread = (event) => {
@@ -19,7 +20,8 @@ const GamePreviewPrediction = ({ game, prediction, gamePrediction, onChangeGameS
         onChangeGameScore(game.gameId, event)
     }
     
-    const { results, odds } = game
+    const { results } = game
+    const { odds } = prediction && prediction.odds ? prediction : game
 
     const date = new Date(game.startDateTime)
     const gameCannotBeUpdated = apis.gameCannotBeUpdated(date)
@@ -35,7 +37,7 @@ const GamePreviewPrediction = ({ game, prediction, gamePrediction, onChangeGameS
     // return (<div></div>)
     return (
 
-        <div>
+      <div>
         <div className="team">
           <div>{(prediction || !results) 
             ? prediction 
@@ -151,6 +153,23 @@ const GamePreviewPrediction = ({ game, prediction, gamePrediction, onChangeGameS
               />
           </div>
         </div>
+        ) : null}
+
+        {prediction && prediction.odds && ((game.odds.spread !== game.prediction.odds.spread) || (game.odds.total !== game.prediction.odds.total)) ? (
+          !game.results ? (
+            <div className="oddsChangeAlert alertText" onClick={() => handleOddsChangeModalShow()}>
+              Alert - Odds have changed
+            </div>
+          ) : (
+            <div className="oddsChangeAlert">
+              Final Game Odds:<br/>
+              Spread: {game.odds.spread} | Total: {game.odds.total}
+            </div>
+          )
+        ) : null}
+
+        {prediction && prediction.odds && ((game.odds.spread !== game.prediction.spread) || (game.odds.total !== game.prediction.total)) ? (
+          <OddsChangeModal oddsChangeModalShow={oddsChangeModalShow} handleOddsChangeModalShow={handleOddsChangeModalShow} handleOddsChangeModalHide={handleOddsChangeModalHide} game={game} prediction={prediction} />
         ) : null}
       </div>
     )
