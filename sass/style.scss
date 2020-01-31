@@ -72,6 +72,26 @@
                 width: 30px;
             }
         }
+        .quartersRow {
+            display: flex;
+            flex-direction: row;
+            justify-content: center;
+            align-items: center;
+            div {
+                flex: 1;
+                width: 50px;
+            }
+        }
+        .quartersCol {
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            margin: 0 10px;
+            input {
+                width: 50px;
+            }
+        }
 
         .predictionSpread {
             font-size: 0.8em;
@@ -79,6 +99,8 @@
         }
         .teamName {
             font-family: "mono45-headline", monospace, sans-serif;
+            min-width: 50px;
+            text-align: center;
         }
 
         @media (max-width: 767px) {
