@@ -96,10 +96,10 @@ class GamePreview extends Component {
     let periodsObj = {...this.state.periods}
     let teamScore = 0
     let teamKey = team === 'awayTeam' ? 'awayTeamScore' : 'homeTeamScore'
-    if (parseInt(value)) {
+    if (!isNaN(value)) {
       periodsObj[team][quarter] = parseInt(value)
       Object.keys(periodsObj[team]).forEach(key => {
-        teamScore += parseInt(periodsObj[team][key]) ? parseInt(periodsObj[team][key]) : 0
+        teamScore += isNaN(periodsObj[team][key]) ? 0 : parseInt(periodsObj[team][key])
       })
       console.log({periodsObj, teamScore})
       this.setState({periods: periodsObj})
