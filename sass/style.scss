@@ -324,9 +324,11 @@
         padding: 5px 10px;
         display: flex;
         flex-direction: row;
+        flex: 1;
     }
     .profileCol {
         text-align: center;
+        flex: 1;
 
     }
 }

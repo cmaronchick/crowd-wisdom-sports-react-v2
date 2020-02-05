@@ -61,7 +61,7 @@ class App extends React.Component {
   
   
   async componentDidMount() {
-    //console.log({initialData: this.props.initialData});
+    console.log({initialData: this.props.initialData.page});
     // timers, listeners
     onPopState((event) => {
       this.setState({
