@@ -93,7 +93,32 @@ class App extends React.Component {
         const { games, gameResults } = gamesData
         let gamePredictions = {};
         Object.keys(games).forEach(gameKey => {
-          gamePredictions[gameKey] = games[gameKey].prediction ? { predictionAwayTeamScore: games[gameKey].prediction.awayTeam.score, predictionHomeTeamScore: games[gameKey].prediction.homeTeam.score } : null
+          let gamePrediction = {}
+          gamePrediction = games[gameKey].prediction 
+            ? { predictionAwayTeamScore: games[gameKey].prediction.awayTeam.score, predictionHomeTeamScore: games[gameKey].prediction.homeTeam.score } : null
+
+          if (games[gameKey].gameWeek === 4 && games[gameKey].season === "post") {
+            if (games[gameKey].prediction) {
+              gamePrediction.periods = games[gameKey].prediction.awayTeam.periods ? {
+                awayTeam: {...games[gameKey].prediction.awayTeam.periods},
+                homeTeam: {...games[gameKey].prediction.homeTeam.periods}
+              } : {
+                awayTeam: {
+                  q1: '',
+                  q2: '',
+                  q3: '',
+                  q4: ''
+                },
+                homeTeam: {
+                  q1: '',
+                  q2: '',
+                  q3: '',
+                  q4: ''
+                }
+              }
+              gamePredictions[gameKey] = gamePrediction
+            }
+          }
         })
           this.setState({
             userSession: userSession,
@@ -121,9 +146,35 @@ class App extends React.Component {
             let gamesData = await api.fetchGameWeekGames(sport, year, season, week, null);
             const { games, gameResults } = gamesData
             let gamePredictions = {};
-            Object.keys(games).forEach(gameKey => {
-              gamePredictions[gameKey] = games[gameKey].prediction ? { predictionAwayTeamScore: games[gameKey].prediction.awayTeam.score, predictionHomeTeamScore: games[gameKey].prediction.homeTeam.score } : null
-            })
+            
+        Object.keys(games).forEach(gameKey => {
+          let gamePrediction = {}
+          gamePrediction = games[gameKey].prediction 
+            ? { predictionAwayTeamScore: games[gameKey].prediction.awayTeam.score, predictionHomeTeamScore: games[gameKey].prediction.homeTeam.score } : null
+
+          if (games[gameKey].gameWeek === 4 && games[gameKey].season === "post") {
+            if (games[gameKey].prediction) {
+              gamePrediction.periods = games[gameKey].prediction.awayTeam.periods ? {
+                awayTeam: {...games[gameKey].prediction.awayTeam.periods},
+                homeTeam: {...games[gameKey].prediction.homeTeam.periods}
+              } : {
+                awayTeam: {
+                  q1: '',
+                  q2: '',
+                  q3: '',
+                  q4: ''
+                },
+                homeTeam: {
+                  q1: '',
+                  q2: '',
+                  q3: '',
+                  q4: ''
+                }
+              }
+              gamePredictions[gameKey] = gamePrediction
+            }
+          }
+        })
             this.setState({
               userSession: null,
               sport: sport,
@@ -539,6 +590,42 @@ class App extends React.Component {
     })    
   }
 
+  onChangeQuarters = (gameId, team, quarter, event) => {
+    let gamePredictions = {...this.state.gamePredictions}
+    console.log('event', event.target)
+    let { value } = event.target
+    let periodsObj = this.state.gamePredictions[gameId] && this.state.gamePredictions[gameId].periods ? {...this.state.gamePredictions[gameId].periods} : {
+      awayTeam: {
+        q1: '',
+        q2: '',
+        q3: '',
+        q4: ''
+      },
+      homeTeam: {
+        q1: '',
+        q2: '',
+        q3: '',
+        q4: ''
+      }
+    }
+    let teamScore = 0
+    let teamKey = team === 'awayTeam' ? 'awayTeamScore' : 'homeTeamScore'
+    if (!isNaN(value)) {
+      periodsObj[team][quarter] = parseInt(value)
+      Object.keys(periodsObj[team]).forEach(key => {
+        teamScore += parseInt(periodsObj[team][key]) ? parseInt(periodsObj[team][key]) : 0
+      })
+      console.log({periodsObj, teamScore})
+      gamePredictions[gameId] ? gamePredictions[gameId].periods = periodsObj : gamePredictions[gameId] = { periods: {...periodsObj}}
+      this.setState({gamePredictions})
+      this.onChangeGameScore(gameId, { target: { name: team === 'awayTeam' ? 'predictionAwayTeamScore' : 'predictionHomeTeamScore', value: teamScore }})
+    }
+    if (value === '') {
+      periodsObj[team][quarter] = value
+      this.setState({periods: periodsObj})
+    }
+  }
+
   submitPrediction = async (gameId) => {
     const game = this.state.games[gameId]
 
@@ -554,15 +641,16 @@ class App extends React.Component {
       gamePredictions[gameId].submittingPrediction = true;
 
       
-      this.setState({
-        gamePredictions: {
-          ...gamePredictions
-        }
-      })
+      // this.setState({
+      //   gamePredictions: {
+      //     ...gamePredictions
+      //   }
+      // })
       if (gamePrediction || game.prediction) {
 
-        const awayTeamScore = (gamePrediction && parseInt(gamePrediction.predictionAwayTeamScore)) ? parseInt(gamePrediction.predictionAwayTeamScore) : parseInt(game.prediction.awayTeam.score)
-        const homeTeamScore = (gamePrediction && parseInt(gamePrediction.predictionHomeTeamScore)) ? parseInt(gamePrediction.predictionHomeTeamScore) : parseInt(game.prediction.homeTeam.score)
+        const awayTeamScore = (gamePrediction && !isNaN(gamePrediction.predictionAwayTeamScore)) ? parseInt(gamePrediction.predictionAwayTeamScore) : parseInt(game.prediction.awayTeam.score)
+        const homeTeamScore = (gamePrediction && !isNaN(gamePrediction.predictionHomeTeamScore)) ? parseInt(gamePrediction.predictionHomeTeamScore) : parseInt(game.prediction.homeTeam.score)
+        const periods = gamePrediction && gamePrediction.periods ? gamePrediction.periods : null
         const stars = {
           spread: (gamePrediction && gamePrediction.stars && gamePrediction.stars.spread) 
           ? gamePrediction.stars.spread 
@@ -599,6 +687,11 @@ class App extends React.Component {
           },
           stars: stars
         };
+        // add periods if they are available
+        if (periods) {
+          prediction.awayTeam.periods = {...periods.awayTeam}
+          prediction.homeTeam.periods = {...periods.homeTeam}
+        }
         let predictionResponse = await api.fetchSubmitPrediction(userSession, prediction);
         ReactGA.event({
           category: 'prediction',
@@ -757,8 +850,34 @@ class App extends React.Component {
       let gamesData = await api.fetchGameWeekGames(sport, year, season, gameWeek, userSession, query && query.compareUsername ? query.compareUsername : null);
       const { games, gameResults } = gamesData
       let gamePredictions = {}
-      Object.keys(gamesData.games).forEach(gameKey => {
-        gamePredictions[gameKey] = games[gameKey].prediction ? { predictionAwayTeamScore: games[gameKey].prediction.awayTeam.score, predictionHomeTeamScore: games[gameKey].prediction.homeTeam.score } : null
+      
+      Object.keys(games).forEach(gameKey => {
+        let gamePrediction = {}
+        gamePrediction = games[gameKey].prediction 
+          ? { predictionAwayTeamScore: games[gameKey].prediction.awayTeam.score, predictionHomeTeamScore: games[gameKey].prediction.homeTeam.score } : null
+
+        if (games[gameKey].gameWeek === 4 && games[gameKey].season === "post") {
+          if (games[gameKey].prediction) {
+            gamePrediction.periods = games[gameKey].prediction.awayTeam.periods ? {
+              awayTeam: {...games[gameKey].prediction.awayTeam.periods},
+              homeTeam: {...games[gameKey].prediction.homeTeam.periods}
+            } : {
+              awayTeam: {
+                q1: '',
+                q2: '',
+                q3: '',
+                q4: ''
+              },
+              homeTeam: {
+                q1: '',
+                q2: '',
+                q3: '',
+                q4: ''
+              }
+            }
+            gamePredictions[gameKey] = gamePrediction
+          }
+        }
       })
     
       this.setState({
@@ -776,8 +895,34 @@ class App extends React.Component {
       let gamesData = await api.fetchGameWeekGames(sport, year, season, gameWeek, null);
       const { games, gameResults } = gamesData
       let gamePredictions = {}
+      
       Object.keys(games).forEach(gameKey => {
-        gamePredictions[gameKey] = games[gameKey].prediction ? { predictionAwayTeamScore: games[gameKey].prediction.awayTeam.score, predictionHomeTeamScore: games[gameKey].prediction.homeTeam.score } : null
+        let gamePrediction = {}
+        gamePrediction = games[gameKey].prediction 
+          ? { predictionAwayTeamScore: games[gameKey].prediction.awayTeam.score, predictionHomeTeamScore: games[gameKey].prediction.homeTeam.score } : null
+
+        if (games[gameKey].gameWeek === 4 && games[gameKey].season === "post") {
+          if (games[gameKey].prediction) {
+            gamePrediction.periods = games[gameKey].prediction.awayTeam.periods ? {
+              awayTeam: {...games[gameKey].prediction.awayTeam.periods},
+              homeTeam: {...games[gameKey].prediction.homeTeam.periods}
+            } : {
+              awayTeam: {
+                q1: '',
+                q2: '',
+                q3: '',
+                q4: ''
+              },
+              homeTeam: {
+                q1: '',
+                q2: '',
+                q3: '',
+                q4: ''
+              }
+            }
+            gamePredictions[gameKey] = gamePrediction
+          }
+        }
       })
 
     
@@ -899,6 +1044,7 @@ class App extends React.Component {
                 onChangeStarSpread={this.onChangeStarSpread}
                 onChangeStarTotal={this.onChangeStarTotal}
                 onSubmitPrediction={this.submitPrediction}
+                onChangeQuarters={this.onChangeQuarters}
                 onGameClick={this.fetchGame}
                 gamePrediction={this.state.gamePredictions[match.params.gameId]}
                 {...this.currentGame(gameId)} />
@@ -972,6 +1118,7 @@ class App extends React.Component {
                     onChangeStarSpread={this.onChangeStarSpread}
                     onChangeStarTotal={this.onChangeStarTotal}
                     onSubmitPrediction={this.submitPrediction}
+                    onChangeQuarters={this.onChangeQuarters}
                     onGameClick={this.fetchGame}
                     games={games} gamePredictions={gamePredictions} />
                   ): (

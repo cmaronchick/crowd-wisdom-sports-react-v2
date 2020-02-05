@@ -63,9 +63,9 @@ const GameItemPredictionQuarters = ({game, prediction, periods, onChangeTextQuar
                   <div className={`teamName ${game.awayTeam.code.toLowerCase()} secondary`}>{game.awayTeam.code}</div>
                   <div className="quartersCol">
                     <input
-                      value={(parseInt(periods.awayTeam.q1) || periods.awayTeam.q1 == "") ? periods.awayTeam.q1.toString() : prediction ? prediction.awayTeam.periods.q1.toString() : null}
+                      value={(parseInt(periods.awayTeam.q1) || periods.awayTeam.q1 == "") ? periods.awayTeam.q1.toString() : prediction ? prediction.awayTeam.periods.q1.toString() : ''}
                       placeholder={periods.awayTeam.q1 === null ? '##' : null}
-                      onChange={value => onChangeTextQuarters('awayTeam', 'q1', value)}
+                      onChange={value => onChangeTextQuarters('awayTeam', 'q1', event)}
                       className="inputPrediction inputText"
                       disabled={gameCannotBeUpdated}
                       keyboardtype='number-pad'
@@ -73,7 +73,7 @@ const GameItemPredictionQuarters = ({game, prediction, periods, onChangeTextQuar
                   </div>
                   <div className="quartersCol">
                     <input
-                      value={(periods.awayTeam.q2 || periods.awayTeam.q2 == "") ? periods.awayTeam.q2.toString() : prediction ? prediction.awayTeam.periods.q2.toString() : null}
+                      value={(periods.awayTeam.q2 || periods.awayTeam.q2 == "") ? periods.awayTeam.q2.toString() : prediction ? prediction.awayTeam.periods.q2.toString() : ''}
                       placeholder={periods.awayTeam.q2 === null ? '##' : null}
                       onChange={event => onChangeTextQuarters('awayTeam', 'q2', event)} className="inputPrediction inputText"
                       disabled={gameCannotBeUpdated}
@@ -82,7 +82,7 @@ const GameItemPredictionQuarters = ({game, prediction, periods, onChangeTextQuar
                   </div>
                   <div className="quartersCol">
                     <input
-                      value={(periods.awayTeam.q3 || periods.awayTeam.q3 == "") ? periods.awayTeam.q3.toString() : prediction ? prediction.awayTeam.periods.q3.toString() : null}
+                      value={(periods.awayTeam.q3 || periods.awayTeam.q3 == "") ? periods.awayTeam.q3.toString() : prediction ? prediction.awayTeam.periods.q3.toString() : ''}
                       placeholder={periods.awayTeam.q3 === null ? '##' : null}
                       onChange={event => onChangeTextQuarters('awayTeam', 'q3', event)} className="inputPrediction inputText"
                       disabled={gameCannotBeUpdated}
@@ -91,9 +91,9 @@ const GameItemPredictionQuarters = ({game, prediction, periods, onChangeTextQuar
                   </div>
                   <div className="quartersCol">
                     <input
-                      value={(periods.awayTeam.q4 || periods.awayTeam.q4 == "") ? periods.awayTeam.q4.toString() : prediction ? prediction.awayTeam.periods.q4.toString() : null}
+                      value={(periods.awayTeam.q4 || periods.awayTeam.q4 == "") ? periods.awayTeam.q4.toString() : prediction ? prediction.awayTeam.periods.q4.toString() : ''}
                       placeholder={periods.awayTeam.q4 === null ? '##' : null}
-                      onChange={value => onChangeTextQuarters('awayTeam', 'q4', value)} className="inputPrediction inputText"
+                      onChange={value => onChangeTextQuarters('awayTeam', 'q4', event)} className="inputPrediction inputText"
                       disabled={gameCannotBeUpdated}
                       keyboardtype='number-pad'
                       />
@@ -103,36 +103,36 @@ const GameItemPredictionQuarters = ({game, prediction, periods, onChangeTextQuar
                   <div className={`teamName ${game.homeTeam.code.toLowerCase()} primary`}>{game.homeTeam.code}</div>
                   <div className="quartersCol">
                     <input
-                      value={(periods.homeTeam.q1 || periods.homeTeam.q1 == "") ? periods.homeTeam.q1.toString() : prediction ? prediction.homeTeam.periods.q1.toString() : null}
+                      value={(periods.homeTeam.q1 || periods.homeTeam.q1 == "") ? periods.homeTeam.q1.toString() : prediction ? prediction.homeTeam.periods.q1.toString() : ''}
                       placeholder={periods.homeTeam.q1 === null ? '##' : null}
-                      onChange={value => onChangeTextQuarters('homeTeam', 'q1', value)} className="inputPrediction inputText"
+                      onChange={value => onChangeTextQuarters('homeTeam', 'q1', event)} className="inputPrediction inputText"
                       disabled={gameCannotBeUpdated}
                       keyboardtype='number-pad'
                       />
                   </div>
                   <div className="quartersCol">
                     <input
-                      value={(periods.homeTeam.q2 || periods.homeTeam.q2 == "") ? periods.homeTeam.q2.toString() : prediction ? prediction.homeTeam.periods.q2.toString() : null}
+                      value={(periods.homeTeam.q2 || periods.homeTeam.q2 == "") ? periods.homeTeam.q2.toString() : prediction ? prediction.homeTeam.periods.q2.toString() : ''}
                       placeholder={periods.homeTeam.q2 === null ? '##' : null}
-                      onChange={value => onChangeTextQuarters('homeTeam', 'q2', value)} className="inputPrediction inputText"
+                      onChange={value => onChangeTextQuarters('homeTeam', 'q2', event)} className="inputPrediction inputText"
                       disabled={gameCannotBeUpdated}
                       keyboardtype='number-pad'
                       />
                   </div>
                   <div className="quartersCol">
                     <input
-                      value={(periods.homeTeam.q3 || periods.homeTeam.q3 == "") ? periods.homeTeam.q3.toString() : prediction ? prediction.homeTeam.periods.q3.toString() : null}
+                      value={(periods.homeTeam.q3 || periods.homeTeam.q3 == "") ? periods.homeTeam.q3.toString() : prediction ? prediction.homeTeam.periods.q3.toString() : ''}
                       placeholder={periods.homeTeam.q3 === null ? '##' : null}
-                      onChange={value => onChangeTextQuarters('homeTeam', 'q3', value)} className="inputPrediction inputText"
+                      onChange={value => onChangeTextQuarters('homeTeam', 'q3', event)} className="inputPrediction inputText"
                       disabled={gameCannotBeUpdated}
                       keyboardtype='number-pad'
                       />
                   </div>
                   <div className="quartersCol">
                     <input
-                      value={(periods.homeTeam.q4 || periods.homeTeam.q4 == "") ? periods.homeTeam.q4.toString() : prediction ? prediction.homeTeam.periods.q4.toString() : null}
+                      value={(periods.homeTeam.q4 || periods.homeTeam.q4 == "") ? periods.homeTeam.q4.toString() : prediction ? prediction.homeTeam.periods.q4.toString() : ''}
                       placeholder={periods.homeTeam.q4 === null ? '##' : null}
-                      onChange={value => onChangeTextQuarters('homeTeam', 'q4', value)} className="inputPrediction inputText"
+                      onChange={value => onChangeTextQuarters('homeTeam', 'q4', event)} className="inputPrediction inputText"
                       disabled={gameCannotBeUpdated}
                       keyboardtype='number-pad'
                       />
