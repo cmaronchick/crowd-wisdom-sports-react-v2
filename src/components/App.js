@@ -23,6 +23,7 @@ import CrowdOverallCompare from './Home.CrowdOverallCompare'
 import HomeStarResults from './Home.StarsResults'
 import LoginModal from './LoginModal';
 import Weeks from './Weeks';
+import Profile from './Profile'
 import * as api from '../apis';
 
 
@@ -79,9 +80,15 @@ class App extends React.Component {
     }
 
     console.log({currentGameId: this.state.currentGameId});
-    const { currentGameId, page, sport, year, season, week, query } = this.state;
-
-    if (!this.state.currentGameId && page !== 'crowds') {
+    const { currentGameId, page, sport, year, season, week, query, user } = this.state;
+    if (page === 'profile') {
+      if (user) {
+        this.setState({
+          loginModalShow: true
+        })
+      }
+    }
+    if (!this.state.currentGameId && page !== 'crowds' && page !== 'profile') {
       try {
         let userSession = await Auth.currentSession();
         this.setState({ fetchingGames: true })
@@ -212,7 +219,7 @@ class App extends React.Component {
         let { sport, year, season, week  } = gameWeekDataResponse.gameWeekData;
       }
       
-      if (!this.state.currentGameId && page !== 'crowds') {
+      if (!this.state.currentGameId && page !== 'crowds' && page !== 'profile') {
         console.log(`/${sport}/${year}/${season}/${week}`);
         //ReactGA.pageview(`/${sport}/${year}/${season}/${week}`)
         this.fetchGameWeekGames(sport, year, season, gameWeek ? gameWeek : week, query && query.compareUsername ? query.compareUsername : null)
@@ -885,9 +892,13 @@ class App extends React.Component {
     return this.state.fetchingGames ? 'Loading Games ...' : this.state.gameWeek ? `Week ${this.state.gameWeek} Games` : (this.props.initialData && this.props.initialData.week) ? `Week ${this.props.initialData.week} Games` : ''
   }
   currentContent() {
-      const { games, gamePredictions, gameResults, crowd, crowds, userStats, weeks, sport, season, year } = this.state;
+      const { games, gamePredictions, gameResults, crowd, crowds, userStats, weeks, sport, season, year, user, loginModalShow } = this.state;
       return (
           <Switch>
+            
+          <Route path="/profile" render={() => 
+            <Profile user={user} loginModalShow={loginModalShow} />
+          } />
           <Route path="/:sport/games/:year/:season/:gameWeek/:gameId" render={({match}) => {
             const { gameId } = match.params;
             return (

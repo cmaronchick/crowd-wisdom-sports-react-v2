@@ -18,8 +18,20 @@ server.use(express.static('dist'));
 
 server.set('view engine', 'ejs');
 
+
+server.get('/profile', (req, res) => {
+  //console.log('req', req)
+  res.render('index', {
+    initialMarkup: `<div>User Profile</div>`,
+    initialData: {
+      user: null,
+      page: 'profile'
+    },
+    environment: process.env.NODE_ENV === "production" ? "production" : "dev"
+  })
+})
+
 server.get(['/', '/:sport', '/:sport/games', '/:sport/games/:year', '/:sport/games/:year/:season', '/:sport/games/:year/:season/:gameWeek', '/:sport/games/:year/:season/:gameWeek/:gameId'], (req, res) => {
-  //console.log('req.query: ', req.query)
     const user = req.query ? req.query.compareUsername : null
     const sportsArray = ['nfl', 'ncaaf', 'ncaam']
     const sport = (req.params.sport && sportsArray.indexOf(req.params.sport) > -1) ? req.params.sport : 'nfl'

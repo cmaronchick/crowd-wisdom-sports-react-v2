@@ -146,7 +146,8 @@ const serverRender = (req, sport, year, season, gameWeek, query, page, url, id) 
           return respObj;
         })
         .catch(initialMarkupError => console.log('initialMarkupError :', initialMarkupError))
-      })
+      });
+      break;
     case 'crowds':
       return axios.get(`${config.serverUrl}/api/${sport}/gameWeek`)
       .then(gameWeekResp => {
@@ -176,6 +177,7 @@ const serverRender = (req, sport, year, season, gameWeek, query, page, url, id) 
         })
         .catch(initialMarkupError => console.log('initialMarkupError :', initialMarkupError))
       })
+      break;
     default:
       return axios.get(`${config.serverUrl}/api/${sport}/gameWeek`)
       .then(gameWeekResp  => {
