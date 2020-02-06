@@ -20,7 +20,7 @@ server.set('view engine', 'ejs');
 
 
 server.get('/profile', (req, res) => {
-  console.log('req', req)
+  console.log('req', req.path)
   res.render('index', {
     initialMarkup: `<div>User Profile</div>`,
     initialData: {

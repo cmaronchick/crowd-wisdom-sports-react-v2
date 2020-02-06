@@ -398,6 +398,26 @@ class App extends React.Component {
       console.log({forgotPasswordError})
     }
   }
+
+  changePassword = async(e) => {
+    console.log('changePassword: ', e)
+    e.preventDefault()
+    const { profileCurrentPassword, profileNewPassword, profileConfirmPassword } = this.state;
+    if (profileNewPassword !== profileConfirmPassword) {
+      this.setState({profilePasswordMatch: false})
+      return { success: false, message: 'Your passwords do not match' }
+    }
+    try {
+      let user = await Auth.currentAuthenticatedUser()
+      let passwordResponse = await Auth.changePassword(user, profileCurrentPassword, profileNewPassword);
+      console.log('passwordResponse :', passwordResponse);
+      return { success: true, message: passwordResponse }
+      this.setState({ changePasswordModalVisible: false })
+    } catch(changePasswordError) {
+      console.log('changePasswordError :', changePasswordError);
+      return { success: false, message: changePasswordError }
+    }
+  }
   
     // Sign up user with AWS Amplify Auth
   signUp = async (e) => {
@@ -491,6 +511,7 @@ class App extends React.Component {
   onChangeText = (event) => {
     this.setState({[event.target.name]: event.target.value})
   }
+
 
   onYearChange = (year) => {
     const season = (parseInt(year) === 2017 || parseInt(year) === 2018) ? 'reg' : 'pre'
@@ -896,8 +917,14 @@ class App extends React.Component {
       return (
           <Switch>
             
-          <Route path="/profile" render={() => 
-            <Profile user={user} loginModalShow={loginModalShow} />
+          <Route path="/profile" render={({match}) => 
+            <Profile user={user}
+              onChangeText={this.onChangeText}
+              loginModalShow={loginModalShow}
+              changePassword={this.changePassword}
+              newPassword={this.state.profileNewPassword}
+              confirmPassword={this.state.profileConfirmPassword}
+              passwordMatch={this.state.profilePasswordMatch} />
           } />
           <Route path="/:sport/games/:year/:season/:gameWeek/:gameId" render={({match}) => {
             const { gameId } = match.params;
