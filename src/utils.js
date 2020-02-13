@@ -120,3 +120,14 @@ export const formatDate = (startDateTime) => {
     var newstartDateTime = gameDate.toLocaleString('en-US', options);
     return newstartDateTime;
   }
+
+export const AmplifyAuth = (req, res, next) => {
+    let idToken;
+    if (req.headers.authorization && req.headers.authorization.startsWith('Bearer ')) {
+        idToken = req.headers.authorization
+    } else {
+        console.error('No Token found')
+        return res.status(403).json({ error: 'Unauthorized'})
+    }
+    
+}

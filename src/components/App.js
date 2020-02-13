@@ -88,7 +88,7 @@ class App extends React.Component {
         })
       }
     }
-    if (!this.state.currentGameId && page !== 'crowds' && page !== 'profile') {
+    if (!this.state.currentGameId && page !== 'crowds' && page !== 'profile' && page !== 'leaderboards') {
       try {
         let userSession = await Auth.currentSession();
         this.setState({ fetchingGames: true })
@@ -219,7 +219,7 @@ class App extends React.Component {
         let { sport, year, season, week  } = gameWeekDataResponse.gameWeekData;
       }
       
-      if (!this.state.currentGameId && page !== 'crowds' && page !== 'profile') {
+      if (!this.state.currentGameId && page !== 'crowds' && page !== 'profile' && page !== 'leaderboards') {
         console.log(`/${sport}/${year}/${season}/${week}`);
         //ReactGA.pageview(`/${sport}/${year}/${season}/${week}`)
         this.fetchGameWeekGames(sport, year, season, gameWeek ? gameWeek : week, query && query.compareUsername ? query.compareUsername : null)
@@ -231,6 +231,9 @@ class App extends React.Component {
       }
       if (page === 'crowds') {
         this.fetchCrowds(sport, year, season)
+      }
+      if (page === 'leaderboards') {
+        this.fetchLeaderboards(sport, year, season, week)
       }
     }
   }
@@ -837,7 +840,7 @@ class App extends React.Component {
   fetchLeaderboards = async (sport, year, season, gameWeek) => {
     
     let week = gameWeek ? gameWeek : this.state.gameWeekData ? this.state.gameWeekData.week : null
-    console.log({week});
+    console.log({sport, year, season, week});
     try {
       let userSession = await Auth.currentSession()
       let overallLeaderboardData = await api.fetchOverallLeaderboard(userSession ? userSession : null, sport, year, season, week);
@@ -944,9 +947,10 @@ class App extends React.Component {
               )
           }
           }/>
-          <Route path="/:sport/leaderboards/:year/:season" render={() => 
-            <Leaderboards leaderboardData={this.state.leaderboardData} />
+          <Route path={["/:sport/leaderboards", "/:sport/leaderboards/:year/:season"]} render={() => 
+            <Leaderboards leaderboardDataObj={this.state.leaderboardData} />
           } />
+
           <Route path={["/:sport/crowds", "/:sport/crowds/:year", "/:sport/crowds/:year/:season"]} render={({match}) => {
             <Crowds crowds={this.state.crowds} {...match.params} />
           }}/>

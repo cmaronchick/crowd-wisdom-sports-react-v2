@@ -51,7 +51,7 @@ server.get(['/', '/:sport', '/:sport/games', '/:sport/games/:year', '/:sport/gam
 });
 
 server.get(['/:sport/leaderboards', '/:sport/leaderboards/:year', '/:sport/leaderboards/:year/:season', '/:sport/leaderboards/:year/:season/:gameWeek', '/:sport/leaderboards/:year/:season/:gameWeek/'], (req, res) => {
-  //console.log('req.url: ', req.url)
+  console.log('req.url: ', req.path)
   const sport = req.params.sport ? req.params.sport : 'nfl'
   //console.log('server 25 sport: ', sport)
   serverRender(req, sport, parseInt(req.params.year), req.params.season, parseInt(req.params.gameWeek), req.query, 'leaderboards', `${req.hostname}${req.port ? `:${req.port}` : ''}`, null, null)

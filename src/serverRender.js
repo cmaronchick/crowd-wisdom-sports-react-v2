@@ -32,7 +32,7 @@ const getLeaderboardsUrl = (gameWeekData) => {
   console.log('leaderboard gameWeekData: ', gameWeekData)
   if (gameWeekData) { 
     //return `${config.serverUrl}/api/${gameWeekData.sport}/leaderboards/${gameWeekData.year}/${gameWeekData.season}/${gameWeekData.week}`;
-    return `${config.serverUrl}/api/${gameWeekData.sport}/leaderboards/2018/post/21`;
+    return `${config.serverUrl}/api/${gameWeekData.sport}/leaderboards/${gameWeekData.year}/${gameWeekData.season}/${gameWeekData.week}`;
   }
   return `${config.serverUrl}/api/${sport}/leaderboards`
   
