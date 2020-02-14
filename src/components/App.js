@@ -3,7 +3,7 @@ import { BrowserRouter as Router, Switch, Route, Link } from "react-router-dom";
 import { createMemoryHistory } from 'history'
 const history = createMemoryHistory()
 import Auth from '@aws-amplify/auth';
-
+import { signUp, signIn, signOut, confirmUser, resendConfirmation, resetPassword, submitNewPassword, changePassword } from '../utils'
 import awsconfig from '../awsexports'
 
 // retrieve temporary AWS credentials and sign requests
@@ -29,7 +29,7 @@ import * as api from '../apis';
 
 import ReactGA from 'react-ga'
 import * as analytics from '../constants/analytics'
-
+ReactGA.initialize(analytics.config);
 
 const pushState = (obj, url) =>
   window.history.pushState(obj, '', url);
@@ -71,7 +71,6 @@ class App extends React.Component {
     // console.log('this.state: ', this.state)
     let url = this.props.initialData ? this.props.initialData.url : null
     let fbUser = this.state.code ? await api.getFacebookUser(this.state.code, url) : null
-    ReactGA.initialize(analytics.config);
     try {
       let user = await Auth.currentAuthenticatedUser({bypassCache: true})
       this.setState({user, authState: 'signedIn'})
@@ -252,218 +251,64 @@ class App extends React.Component {
     e.preventDefault();
     const { confirmUserCode, username } = this.state;
     try {
-      let confirmResponse = await Auth.confirmSignUp(username, confirmUserCode)
-      this.setState({ confirmUser: false })
-      ReactGA.event({
-        category: 'account',
-        action: 'signup',
-        label: 'complete',
-        value: 'true'
+      let confirmUserResponse = await confirmUser(confirmUserCode, username)
+      console.log('confirmUserResponse', confirmUserResponse)
+      this.setState({
+        confirmUser: false
       })
-      console.log('confirmResponse: ', confirmResponse)
-    } catch(confirmReject) {
-      console.log('confirmReject: ', confirmReject)
-      ReactGA.event({
-        category: 'account',
-        action: 'signup',
-        label: 'complete',
-        value: JSON.stringify(confirmReject)
-      })
+    } catch (confirmUserError) {
+      console.log('confirmUserError', confirmUserError)
     }
   }
 
-  resendConfirmation = async (e) => {
+  signUp = async(e) => {
     e.preventDefault();
-    try {
-      let resendSignUpResponse = await Auth.resendSignUp(this.state.username)
-      ReactGA.event({
-        category: 'account',
-        action: 'signup',
-        label: 'resendConfirmation',
-        value: 'true'
+    const { username, password, givenName, familyName, email, emailOptIn } = this.state
+    try{
+      let signUpResponse = await signUp(username, password, givenName, familyName, email, emailOptIn)
+      console.log('signUpResponse: ', signUpResponse)
+      this.setState({
+          user: signUpResponse.user,
+          confirmUser: true
       })
-      console.log('resendSignUpResponse: ', resendSignUpResponse)
-    } catch(resendSignUpReject) {
-      console.log('resendSignUpReject: ', resendSignUpReject)
-      ReactGA.event({
-        category: 'account',
-        action: 'signup',
-        label: 'resendConfirmation',
-        value: JSON.stringify(resendSignUpReject)
-      })
+    } catch (signUpError) {
+      console.log('signUpError: ', signUpError)
     }
   }
 
-  signIn = async (e) => {
-     e.preventDefault()
+  signIn = async(e) => {
+    e.preventDefault()
     this.setState({signingInUser: true})
     const { username, password } = this.state;
     try {
-      let user = await Auth.signIn(username, password)
-    
-      console.log('user: ', user)
-      ReactGA.event({
-        category: 'account',
-        action: 'signin',
-        label: 'complete',
-        value: 'true'
-      })
-      this.setState({user, signingInUser: false, authState: 'signedIn'})
-      return user;
-    } catch(signInError) {
-      if (signInError.code === 'UserNotConfirmedException') {
-        this.setState({ confirmUser: true, signingInUser: false })
-        ReactGA.event({
-          category: 'account',
-          action: 'signin',
-          label: 'failed',
-          value: signInError ? signInError.code : 'false'
-        })
-        return;
+      let user = await signIn(username, password)
+      if (!user.error) {
+        this.setState({user, signingInUser: false, authState: 'signedIn'})
+      } else {
+        const signInError = user.error;
+        if (signInError.code === 'UserNotConfirmedException') {
+          this.setState({ confirmUser: true, signingInUser: false })
+        } else {
+          console.log('signInError', signInError)
+          this.setState({ signingInUser: false, signInError })
+        }
       }
-      this.setState({ signingInUser: false, signInError })
-      ReactGA.event({
-        category: 'account',
-        action: 'signin',
-        label: 'failed',
-        value: JSON.stringify(signInError)
-      })
-      console.log('signInError: ', signInError)
+    } catch (signInError) {
+      console.log('signInError ', signInError )
     }
   }
-  signOut = async (e) => {
+
+  signOut = async(e) => {
+    
     e.preventDefault()
     console.log('signOut clicked')
-    try{
-      let signOutResponse = await Auth.signOut();
-      ReactGA.event({
-        category: 'account',
-        action: 'signout',
-        label: 'complete',
-        value: 'true'
-      })
+    try {
+      let signOutResponse = await signOut();
+      console.log('signOutResponse', signOutResponse)
       this.setState({user: null, authState: 'signIn'})
-    } catch(signOutError) {
-      ReactGA.event({
-        category: 'account',
-        action: 'signout',
-        label: 'failed',
-        value: JSON.stringify(signOutError)
-      })
-      console.log('signOutError: ', signOutError)
+    } catch (signOutError) {
+      console.log('signOutError', signOutError)
     }
-  }
-
-  resetPassword = async(e) => {
-    e.preventDefault();
-    this.setState({sendingPasswordReset: true})
-    try {
-      let forgotPasswordResponse = await Auth.forgotPassword(this.state.username)
-      ReactGA.event({
-        category: 'account',
-        action: 'forgotpassword',
-        label: 'complete',
-        value: 'true'
-      })
-      this.setState({sendingPasswordReset: false,
-      resetCodeSent: true})
-    } catch (forgotPasswordError) {
-      ReactGA.event({
-        category: 'account',
-        action: 'forgotpassword',
-        label: 'failed',
-        value: JSON.stringify(forgotPasswordError)
-      })
-      console.log({forgotPasswordError})
-    }
-  }
-
-  submitNewPassword = async(e) => {
-    e.preventDefault();
-    this.setState({sendingNewPassword: true})
-    try {
-      let sendingNewPasswordResponse = await Auth.forgotPasswordSubmit(this.state.username, this.state.confirmUserCode, this.state.newPassword)
-      console.log({sendingNewPasswordResponse});
-      ReactGA.event({
-        category: 'account',
-        action: 'submitnewpassword',
-        label: 'complete',
-        value: 'true'
-      })
-      this.setState({sendingPasswordReset: false,})
-    } catch (forgotPasswordError) {
-      ReactGA.event({
-        category: 'account',
-        action: 'submitnewpassword',
-        label: 'failed',
-        value: JSON.stringify(forgotPasswordError)
-      })
-      console.log({forgotPasswordError})
-    }
-  }
-
-  changePassword = async(e) => {
-    console.log('changePassword: ', e)
-    e.preventDefault()
-    const { profileCurrentPassword, profileNewPassword, profileConfirmPassword } = this.state;
-    if (profileNewPassword !== profileConfirmPassword) {
-      this.setState({profilePasswordMatch: false})
-      return { success: false, message: 'Your passwords do not match' }
-    }
-    try {
-      let user = await Auth.currentAuthenticatedUser()
-      let passwordResponse = await Auth.changePassword(user, profileCurrentPassword, profileNewPassword);
-      console.log('passwordResponse :', passwordResponse);
-      return { success: true, message: passwordResponse }
-      this.setState({ changePasswordModalVisible: false })
-    } catch(changePasswordError) {
-      console.log('changePasswordError :', changePasswordError);
-      return { success: false, message: changePasswordError }
-    }
-  }
-  
-    // Sign up user with AWS Amplify Auth
-  signUp = async (e) => {
-      e.preventDefault();
-      const { username, password, givenName, familyName, email, emailOptIn } = this.state
-      // rename variable to conform with Amplify Auth field phone attribute
-      var attributes = {
-        email: email,
-        given_name: givenName,
-        family_name: familyName
-      }
-      attributes['custom:reminderMailOptIn'] = emailOptIn ? '1' : '0'
-      try {
-        let signUpResponse = await Auth.signUp({
-          username,
-          password,
-          attributes
-        });
-        ReactGA.event({
-          category: 'account',
-          action: 'signup',
-          label: 'submit',
-          value: 'true'
-        })
-        this.setState({
-            user: signUpResponse.user,
-            confirmUser: true
-        })
-      } catch(err) {
-        if (! err.message) {
-            console.log('Error when signing up: ', err)
-            // Alert.alert('Error when signing up: ', err)
-        } else {
-            console.log('Error when signing up: ', err, '; ', err.message)
-            // Alert.alert('Error when signing up: ', err.message)
-        }
-        ReactGA.event({
-          category: 'account',
-          action: 'signup',
-          label: 'submitFail',
-          value: JSON.stringify(err)
-        })
-      }
   }
 
   handleFBCode = () => {
