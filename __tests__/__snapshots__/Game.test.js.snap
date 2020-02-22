@@ -1,5 +1,11 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
+exports[`render the game screen present a game when there is data 1`] = `
+<div>
+  Loading game ...
+</div>
+`;
+
 exports[`render the game screen present a loading game message when game is missing 1`] = `
 <div>
   Loading game ...

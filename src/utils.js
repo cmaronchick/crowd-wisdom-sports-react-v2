@@ -1,8 +1,14 @@
-export const onChangeGameScore = (gameId, event) => {
+import Auth from '@aws-amplify/auth'
+
+import ReactGA from 'react-ga'
+import * as analytics from './constants/analytics'
+ReactGA.initialize(analytics.config);
+
+const onChangeGameScore = (gameId, event) => {
     return true;   
 }
 
-export const submitPrediction = async (gameId) => {
+const submitPrediction = async (gameId) => {
   const game = this.state.games[gameId]
 
   try {
@@ -95,7 +101,7 @@ export const submitPrediction = async (gameId) => {
   }
 }
 
-export const predictionResultWinnerEval = (game, prediction) => {
+const predictionResultWinnerEval = (game, prediction) => {
     let awayTeamWin = (game.awayTeam.score > game.homeTeam.score)
     let homeTeamWin = (game.awayTeam.score < game.homeTeam.score)
     let awayTeamPredictionWin = (prediction.awayTeam.score > prediction.homeTeam.score)
@@ -104,7 +110,7 @@ export const predictionResultWinnerEval = (game, prediction) => {
     if (homeTeamWin && homeTeamPredictionWin) return true;
     return false;
 }
-export const predictionResultSpreadEval = (game, prediction) => {
+const predictionResultSpreadEval = (game, prediction) => {
     let awayTeamWin = (game.awayTeam.score > game.homeTeam.score)
     let homeTeamWin = (game.awayTeam.score < game.homeTeam.score)
     let awayTeamPredictionWin = (prediction.awayTeam.score > prediction.homeTeam.score)
@@ -114,9 +120,227 @@ export const predictionResultSpreadEval = (game, prediction) => {
     return false;
 }
 
-export const formatDate = (startDateTime) => {
+const formatDate = (startDateTime) => {
     var gameDate = new Date(startDateTime);
     var options = { weekday: 'short', month: 'short', day: 'numeric', year: '2-digit', hour: 'numeric', minute: 'numeric', timeZoneName: 'short' };
     var newstartDateTime = gameDate.toLocaleString('en-US', options);
     return newstartDateTime;
   }
+
+const resendConfirmation = async (e) => {
+  e.preventDefault();
+  try {
+    let resendSignUpResponse = await Auth.resendSignUp(this.state.username)
+    ReactGA.event({
+      category: 'account',
+      action: 'signup',
+      label: 'resendConfirmation',
+      value: 'true'
+    })
+    console.log('resendSignUpResponse: ', resendSignUpResponse)
+  } catch(resendSignUpReject) {
+    console.log('resendSignUpReject: ', resendSignUpReject)
+    ReactGA.event({
+      category: 'account',
+      action: 'signup',
+      label: 'resendConfirmation',
+      value: JSON.stringify(resendSignUpReject)
+    })
+  }
+}
+
+const signIn = async (username, password) => {
+  try {
+    let user = await Auth.signIn(username, password)
+  
+    console.log('user: ', user)
+    ReactGA.event({
+      category: 'account',
+      action: 'signin',
+      label: 'complete',
+      value: 1
+    })
+    return user;
+  } catch(signInError) {
+    if (signInError.code === 'UserNotConfirmedException') {
+      ReactGA.event({
+        category: 'account',
+        action: 'signin',
+        label: 'failed',
+        value: signInError ? signInError.code : 0
+      })
+      return { error: signInError };
+    }
+    ReactGA.event({
+      category: 'account',
+      action: 'signin',
+      label: 'failed',
+      value: JSON.stringify(signInError)
+    })
+    console.log('signInError: ', signInError)
+    return { error: signInError}
+  }
+}
+const signOut = async () => {
+  try{
+    let signOutResponse = await Auth.signOut();
+    ReactGA.event({
+      category: 'account',
+      action: 'signout',
+      label: 'complete',
+      value: 'true'
+    })
+    return { signOutResponse }
+  } catch(signOutError) {
+    ReactGA.event({
+      category: 'account',
+      action: 'signout',
+      label: 'failed',
+      value: JSON.stringify(signOutError)
+    })
+    console.log('signOutError: ', signOutError)
+  }
+}
+
+const resetPassword = async(e) => {
+  e.preventDefault();
+  this.setState({sendingPasswordReset: true})
+  try {
+    let forgotPasswordResponse = await Auth.forgotPassword(this.state.username)
+    ReactGA.event({
+      category: 'account',
+      action: 'forgotpassword',
+      label: 'complete',
+      value: 'true'
+    })
+    this.setState({sendingPasswordReset: false,
+    resetCodeSent: true})
+  } catch (forgotPasswordError) {
+    ReactGA.event({
+      category: 'account',
+      action: 'forgotpassword',
+      label: 'failed',
+      value: JSON.stringify(forgotPasswordError)
+    })
+    console.log({forgotPasswordError})
+  }
+}
+
+const submitNewPassword = async(e) => {
+  e.preventDefault();
+  this.setState({sendingNewPassword: true})
+  try {
+    let sendingNewPasswordResponse = await Auth.forgotPasswordSubmit(this.state.username, this.state.confirmUserCode, this.state.newPassword)
+    console.log({sendingNewPasswordResponse});
+    ReactGA.event({
+      category: 'account',
+      action: 'submitnewpassword',
+      label: 'complete',
+      value: 'true'
+    })
+    this.setState({sendingPasswordReset: false,})
+  } catch (forgotPasswordError) {
+    ReactGA.event({
+      category: 'account',
+      action: 'submitnewpassword',
+      label: 'failed',
+      value: JSON.stringify(forgotPasswordError)
+    })
+    console.log({forgotPasswordError})
+  }
+}
+
+const changePassword = async(e) => {
+  console.log('changePassword: ', e)
+  e.preventDefault()
+  const { profileCurrentPassword, profileNewPassword, profileConfirmPassword } = this.state;
+  if (profileNewPassword !== profileConfirmPassword) {
+    this.setState({profilePasswordMatch: false})
+    return { success: false, message: 'Your passwords do not match' }
+  }
+  try {
+    let user = await Auth.currentAuthenticatedUser()
+    let passwordResponse = await Auth.changePassword(user, profileCurrentPassword, profileNewPassword);
+    console.log('passwordResponse :', passwordResponse);
+    return { success: true, message: passwordResponse }
+    this.setState({ changePasswordModalVisible: false })
+  } catch(changePasswordError) {
+    console.log('changePasswordError :', changePasswordError);
+    return { success: false, message: changePasswordError }
+  }
+}
+
+  // Sign up user with AWS Amplify Auth
+const signUp = async (username, password, givenName, familyName, email, emailOptIn) => {
+    // rename variable to conform with Amplify Auth field phone attribute
+    var attributes = {
+      email: email,
+      given_name: givenName,
+      family_name: familyName
+    }
+    attributes['custom:reminderMailOptIn'] = emailOptIn ? '1' : '0'
+    try {
+      let signUpResponse = await Auth.signUp({
+        username,
+        password,
+        attributes
+      });
+      ReactGA.event({
+        category: 'account',
+        action: 'signup',
+        label: 'submit',
+        value: 'true'
+      })
+      return { signUpResponse }
+    } catch(err) {
+      if (! err.message) {
+          console.log('Error when signing up: ', err)
+          // Alert.alert('Error when signing up: ', err)
+      } else {
+          console.log('Error when signing up: ', err, '; ', err.message)
+          // Alert.alert('Error when signing up: ', err.message)
+      }
+      ReactGA.event({
+        category: 'account',
+        action: 'signup',
+        label: 'submitFail',
+        value: JSON.stringify(err)
+      })
+    }
+}
+
+const confirmUser = async (confirmUserCode, username) => {
+  try {
+    let confirmResponse = await Auth.confirmSignUp(username, confirmUserCode)
+    ReactGA.event({
+      category: 'account',
+      action: 'signup',
+      label: 'complete',
+      value: 'true'
+    })
+    console.log('confirmResponse: ', confirmResponse)
+    return { error: null, message: confirmResponse }
+  } catch(confirmReject) {
+    console.log('confirmReject: ', confirmReject)
+    ReactGA.event({
+      category: 'account',
+      action: 'signup',
+      label: 'complete',
+      value: JSON.stringify(confirmReject)
+    })
+    return { error: confirmReject }
+  }
+}
+
+const AmplifyAuth = (req, res, next) => {
+    let idToken;
+    if (req.headers.authorization && req.headers.authorization.startsWith('Bearer ')) {
+        idToken = req.headers.authorization
+    } else {
+        console.error('No Token found')
+        return res.status(403).json({ error: 'Unauthorized'})
+    }
+    
+}
+
+export { onChangeGameScore, submitPrediction, predictionResultWinnerEval, predictionResultSpreadEval, formatDate, AmplifyAuth, signUp, signIn, signOut, confirmUser, resendConfirmation, resetPassword, submitNewPassword, changePassword }

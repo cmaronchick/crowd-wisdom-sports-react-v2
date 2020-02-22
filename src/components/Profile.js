@@ -1,7 +1,9 @@
 import React, { Component } from 'react'
 import LoginModal from './LoginModal'
+import Button from 'react-bootstrap/Button'
+import Form from 'react-bootstrap/Form'
 
-const Profile = ({ user, loginModalShow }) => {
+const Profile = ({ user, loginModalShow, newPassword, confirmPassword, passwordMatch, changePassword, onChangeText }) => {
 
     const attributeNames = {
         email: 'E-mail',
@@ -12,6 +14,7 @@ const Profile = ({ user, loginModalShow }) => {
     //console.log('user.attributes :', user ? Object.keys(user.attributes) : null);
     return user ? (
         <div className="profile">
+            <Form>
             {Object.keys(user.attributes).map(attributeKey => {
                 //console.log('attributeKey :', attributeKey);
                 return attributeNames[attributeKey] ? (
@@ -24,7 +27,55 @@ const Profile = ({ user, loginModalShow }) => {
                         </div>
                     </div>
                 ) : null
-        })}
+            })}
+            <div className="profileChangePassword">
+                
+                <Form.Group controlId="formCurrentPassword">
+                <div className="profileRow">
+                    <div className="profileCol">
+                        <Form.Label>
+                            Current Password
+                        </Form.Label>
+                    </div>
+                    <div className="profileInput">
+                        <Form.Control type="password" name="profileCurrentPassword" placeholder="Enter current password" onChange={onChangeText} />
+                    </div>
+                </div>
+                </Form.Group>
+                <Form.Group controlId="formNewPassword">
+                <div className="profileRow">
+                    <div className="profileCol">
+                        <Form.Label>
+                            New Password
+                        </Form.Label>
+                    </div>
+                    <div className="profileInput">
+                        <Form.Control type="password" name="profileNewPassword" placeholder="Enter new password" onChange={onChangeText} />
+                    </div>
+                </div>
+                </Form.Group>
+                <Form.Group controlId="formConfirmPassword">
+                <div className="profileRow">
+                    <div className="profileCol">
+                        <Form.Label>
+                            Confirm Password
+                        </Form.Label>
+                    </div>
+                    <div className="profileInput">
+                        <Form.Control type="password" name="profileConfirmPassword" placeholder="Confirm password" onChange={onChangeText} />
+                    </div>
+                </div>
+                </Form.Group>
+                <div className="profileRow">
+                    {passwordMatch === false ? (
+                        <div style={{color: 'red', fontWeight: 'bold'}}>Your passwords do not match. Please enter them again and resubmit.</div>
+                    ) : null}
+                    <Button onClick={changePassword}>
+                        Change Password
+                    </Button>
+                </div>
+            </div>
+            </Form>
         </div>
     ) : (
         <LoginModal />

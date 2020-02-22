@@ -20,7 +20,7 @@ server.set('view engine', 'ejs');
 
 
 server.get('/profile', (req, res) => {
-  console.log('req', req)
+  console.log('req', req.path)
   res.render('index', {
     initialMarkup: `<div>User Profile</div>`,
     initialData: {
@@ -32,6 +32,7 @@ server.get('/profile', (req, res) => {
 })
 
 server.get(['/', '/:sport', '/:sport/games', '/:sport/games/:year', '/:sport/games/:year/:season', '/:sport/games/:year/:season/:gameWeek', '/:sport/games/:year/:season/:gameWeek/:gameId'], (req, res) => {
+    console.log('req.headers', req.headers.authorization)
     const user = req.query ? req.query.compareUsername : null
     const sportsArray = ['nfl', 'ncaaf', 'ncaam']
     const sport = (req.params.sport && sportsArray.indexOf(req.params.sport) > -1) ? req.params.sport : 'nfl'
@@ -51,7 +52,7 @@ server.get(['/', '/:sport', '/:sport/games', '/:sport/games/:year', '/:sport/gam
 });
 
 server.get(['/:sport/leaderboards', '/:sport/leaderboards/:year', '/:sport/leaderboards/:year/:season', '/:sport/leaderboards/:year/:season/:gameWeek', '/:sport/leaderboards/:year/:season/:gameWeek/'], (req, res) => {
-  //console.log('req.url: ', req.url)
+  console.log('req.headers: ', req.headers)
   const sport = req.params.sport ? req.params.sport : 'nfl'
   //console.log('server 25 sport: ', sport)
   serverRender(req, sport, parseInt(req.params.year), req.params.season, parseInt(req.params.gameWeek), req.query, 'leaderboards', `${req.hostname}${req.port ? `:${req.port}` : ''}`, null, null)
