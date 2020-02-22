@@ -1,3 +1,6 @@
+#app {
+  width: 100%; }
+
 @media (min-width: 1601px) {
   .gamesList {
     flex: 2; }
@@ -237,6 +240,23 @@
     border-radius: 3px;
     box-shadow: 0 4px 5px 0 rgba(3, 169, 244, 0.14), 0 1px 10px 0 rgba(3, 169, 244, 0.12), 0 2px 4px -1px rgba(3, 169, 244, 0.2);
     color: #fff; }
+
+/* Profile */
+.profile {
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start;
+  align-items: center; }
+  .profile .profileRow {
+    border: 1px solid #0a1f8f;
+    padding: 5px 10px;
+    display: flex;
+    flex-direction: row;
+    flex: 1; }
+  .profile .profileCol {
+    text-align: center;
+    flex: 1; }
 
 /* Team Colors */
 .oak.primary {
