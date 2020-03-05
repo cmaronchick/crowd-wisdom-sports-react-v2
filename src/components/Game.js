@@ -10,6 +10,7 @@ import GameOddsChart from '../components/GameOddsChart'
 class Game extends Component {
   constructor(props) {
     super(props)
+    this.chartReference = React.createRef();
     this.state = {
       ...this.props.initialData,
       game: this.props.game
@@ -31,7 +32,11 @@ class Game extends Component {
       console.log({getGameError});
       if (this._isMounted) {
         try {
-          let gameObj = await api.fetchGame(this.props.sport, this.props.year, this.props.season, this.props.gameWeek, this.props.gameId, null)
+          let gameObj = await api.fetchGame(this.props.sport ? this.props.sport : this.props.game.sport,
+            this.props.year ? this.props.year : this.props.game.year,
+            this.props.season ? this.props.season : this.props.game.season,
+            this.props.gameWeek ? this.props.gameWeek : this.props.game.gameWeek,
+            this.props.gameId ? this.props.gameId : this.props.game.gameId, null)
           console.log({game: gameObj.game});
           let gamePrediction = gameObj.game ? gameObj.game.prediction : null;
           this.setState({game: gameObj.game, gamePrediction, user})
@@ -50,7 +55,7 @@ class Game extends Component {
 
   componentDidMount() {
     console.log({initialData: this.props.initialData})
-    this.getGame()
+    this.props.initialData ? this.getGame() : null
   }
 
   componentWillUnmount() {
@@ -81,7 +86,7 @@ class Game extends Component {
               onClick={this.props.onGameClick}
               game={game} gamePrediction={this.props.gamePrediction} />
               {game.odds && game.odds.history ? (
-                <GameOddsChart game={game} />
+                <GameOddsChart ref={this.chartReference} game={game} />
               ) : null}
 
             <Link onClick={this.handleGamesListClick} className="home-link link" to={`/${this.props.sport}/games/${this.props.year}/${this.props.season}/${this.props.gameWeek}`}>
