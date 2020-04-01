@@ -9,7 +9,7 @@ const propTypes = {
     
 }
 
-function GameOddsChart(props) {
+const GameOddsChart = React.forwardRef((props, ref) => {
     const { game } = props;
     const { odds } = game;
     let firstSpread = {
@@ -103,7 +103,7 @@ function GameOddsChart(props) {
                 }]
             }
         }
-    console.log({chartData: JSON.stringify(chartData), chartOptions: JSON.stringify(chartOptions)})
+    console.log({chartData: JSON.stringify(chartData), chartOptions: JSON.stringify(chartOptions), reference: ref})
     return (
         <div>
             <div>Open: {(odds.history && odds.history.length > 0) ? `${formatDate(firstSpread.date)} Spread: ${firstSpread.spread} Total: ${firstTotal.total}` : null}</div>
@@ -112,13 +112,12 @@ function GameOddsChart(props) {
             ) : null}
             {chartData && chartOptions ? (
                 <div>
-                    <Line data={chartData} options={chartOptions} />
+                    {/* <Line ref={ref} data={chartData} options={chartOptions} /> */}
                 </div>
             ) : null}
         </div>
     )
-}
+})
 
-GameOddsChart.propTypes = propTypes
 
-export default GameOddsChart
+export default GameOddsChart;

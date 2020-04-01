@@ -1,8 +1,5 @@
 import Auth from '@aws-amplify/auth'
 
-import ReactGA from 'react-ga'
-import * as analytics from './constants/analytics'
-ReactGA.initialize(analytics.config);
 
 const onChangeGameScore = (gameId, event) => {
     return true;   
@@ -127,25 +124,14 @@ const formatDate = (startDateTime) => {
     return newstartDateTime;
   }
 
-const resendConfirmation = async (e) => {
-  e.preventDefault();
+const resendConfirmation = async () => {
   try {
     let resendSignUpResponse = await Auth.resendSignUp(this.state.username)
-    ReactGA.event({
-      category: 'account',
-      action: 'signup',
-      label: 'resendConfirmation',
-      value: 'true'
-    })
     console.log('resendSignUpResponse: ', resendSignUpResponse)
+    return {resendSignUpResponse};
   } catch(resendSignUpReject) {
     console.log('resendSignUpReject: ', resendSignUpReject)
-    ReactGA.event({
-      category: 'account',
-      action: 'signup',
-      label: 'resendConfirmation',
-      value: JSON.stringify(resendSignUpReject)
-    })
+    return {error: resendSignUpReject}
   }
 }
 
@@ -154,99 +140,43 @@ const signIn = async (username, password) => {
     let user = await Auth.signIn(username, password)
   
     console.log('user: ', user)
-    ReactGA.event({
-      category: 'account',
-      action: 'signin',
-      label: 'complete',
-      value: 1
-    })
     return user;
   } catch(signInError) {
     if (signInError.code === 'UserNotConfirmedException') {
-      ReactGA.event({
-        category: 'account',
-        action: 'signin',
-        label: 'failed',
-        value: signInError ? signInError.code : 0
-      })
       return { error: signInError };
     }
-    ReactGA.event({
-      category: 'account',
-      action: 'signin',
-      label: 'failed',
-      value: JSON.stringify(signInError)
-    })
     console.log('signInError: ', signInError)
-    return { error: signInError}
+    return { error: signInError }
   }
 }
 const signOut = async () => {
   try{
     let signOutResponse = await Auth.signOut();
-    ReactGA.event({
-      category: 'account',
-      action: 'signout',
-      label: 'complete',
-      value: 'true'
-    })
     return { signOutResponse }
   } catch(signOutError) {
-    ReactGA.event({
-      category: 'account',
-      action: 'signout',
-      label: 'failed',
-      value: JSON.stringify(signOutError)
-    })
     console.log('signOutError: ', signOutError)
+    return { error: signOutError}
   }
 }
 
-const resetPassword = async(e) => {
-  e.preventDefault();
-  this.setState({sendingPasswordReset: true})
+const resetPassword = async() => {
   try {
     let forgotPasswordResponse = await Auth.forgotPassword(this.state.username)
-    ReactGA.event({
-      category: 'account',
-      action: 'forgotpassword',
-      label: 'complete',
-      value: 'true'
-    })
-    this.setState({sendingPasswordReset: false,
-    resetCodeSent: true})
+    return { forgotPasswordResponse }
   } catch (forgotPasswordError) {
-    ReactGA.event({
-      category: 'account',
-      action: 'forgotpassword',
-      label: 'failed',
-      value: JSON.stringify(forgotPasswordError)
-    })
     console.log({forgotPasswordError})
+    return { error: forgotPasswordError }
   }
 }
 
-const submitNewPassword = async(e) => {
-  e.preventDefault();
-  this.setState({sendingNewPassword: true})
+const submitNewPassword = async() => {
   try {
     let sendingNewPasswordResponse = await Auth.forgotPasswordSubmit(this.state.username, this.state.confirmUserCode, this.state.newPassword)
     console.log({sendingNewPasswordResponse});
-    ReactGA.event({
-      category: 'account',
-      action: 'submitnewpassword',
-      label: 'complete',
-      value: 'true'
-    })
-    this.setState({sendingPasswordReset: false,})
+    return { sendingNewPasswordResponse }
   } catch (forgotPasswordError) {
-    ReactGA.event({
-      category: 'account',
-      action: 'submitnewpassword',
-      label: 'failed',
-      value: JSON.stringify(forgotPasswordError)
-    })
     console.log({forgotPasswordError})
+    return { error: forgotPasswordError }
   }
 }
 
@@ -285,12 +215,12 @@ const signUp = async (username, password, givenName, familyName, email, emailOpt
         password,
         attributes
       });
-      ReactGA.event({
-        category: 'account',
-        action: 'signup',
-        label: 'submit',
-        value: 'true'
-      })
+      // ReactGA.event({
+      //   category: 'account',
+      //   action: 'signup',
+      //   label: 'submit',
+      //   value: 'true'
+      // })
       return { signUpResponse }
     } catch(err) {
       if (! err.message) {
@@ -300,34 +230,34 @@ const signUp = async (username, password, givenName, familyName, email, emailOpt
           console.log('Error when signing up: ', err, '; ', err.message)
           // Alert.alert('Error when signing up: ', err.message)
       }
-      ReactGA.event({
-        category: 'account',
-        action: 'signup',
-        label: 'submitFail',
-        value: JSON.stringify(err)
-      })
+      // ReactGA.event({
+      //   category: 'account',
+      //   action: 'signup',
+      //   label: 'submitFail',
+      //   value: JSON.stringify(err)
+      // })
     }
 }
 
 const confirmUser = async (confirmUserCode, username) => {
   try {
     let confirmResponse = await Auth.confirmSignUp(username, confirmUserCode)
-    ReactGA.event({
-      category: 'account',
-      action: 'signup',
-      label: 'complete',
-      value: 'true'
-    })
+    // ReactGA.event({
+    //   category: 'account',
+    //   action: 'signup',
+    //   label: 'complete',
+    //   value: 'true'
+    // })
     console.log('confirmResponse: ', confirmResponse)
     return { error: null, message: confirmResponse }
   } catch(confirmReject) {
     console.log('confirmReject: ', confirmReject)
-    ReactGA.event({
-      category: 'account',
-      action: 'signup',
-      label: 'complete',
-      value: JSON.stringify(confirmReject)
-    })
+    // ReactGA.event({
+    //   category: 'account',
+    //   action: 'signup',
+    //   label: 'complete',
+    //   value: JSON.stringify(confirmReject)
+    // })
     return { error: confirmReject }
   }
 }

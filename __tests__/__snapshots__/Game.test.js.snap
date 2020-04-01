@@ -1,8 +1,218 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
 exports[`render the game screen present a game when there is data 1`] = `
-<div>
-  Loading game ...
+<div
+  className="Game"
+>
+  <a
+    className="home-link link"
+    href="/undefined/games/undefined/undefined/undefined"
+    onClick={[Function]}
+  >
+    <i
+      className="fas fa-arrow-left"
+      style={
+        Object {
+          "fontSize": "1.2em",
+          "fontWeight": "bold",
+        }
+      }
+    />
+  </a>
+  <div
+    className="link GamePreview"
+  >
+    <a
+      href="/nfl/games/2019/post/4/1235067"
+      onClick={[Function]}
+    >
+      <div
+        className="game-header"
+      >
+        
+        San Francisco 49ers
+         vs. 
+        
+        Kansas City Chiefs
+      </div>
+    </a>
+    <div
+      className="game-details"
+    >
+      <div
+        className="headerRow"
+      >
+        <div
+          className="gameTime"
+        >
+          Sun, Feb 2, 20, 3:30 PM PST
+        </div>
+        <div
+          className="gameLocation"
+        >
+          Hard Rock Stadium
+        </div>
+        <div
+          className="gameWeather"
+        >
+          <div>
+            <i
+              className="ion-md-sunny"
+              style={
+                Object {
+                  "padding": 6,
+                }
+              }
+            />
+          </div>
+          <div>
+            67
+            °F
+          </div>
+        </div>
+      </div>
+      <div
+        className="headerRow"
+      >
+        <div />
+        <div
+          className="teamName sf secondary"
+        >
+          SF
+        </div>
+        <div
+          className="teamName kc primary"
+        >
+          KC
+        </div>
+      </div>
+      <div>
+        No prediction for this game
+      </div>
+      <div>
+        <div
+          className="crowd"
+        >
+          <div>
+            Crowd
+          </div>
+          <div
+            style={
+              Object {
+                "position": "relative",
+              }
+            }
+          >
+            <span
+              className=""
+            >
+              
+              28.70
+            </span>
+          </div>
+          <div
+            style={
+              Object {
+                "position": "relative",
+              }
+            }
+          >
+            <span
+              className="correctPick"
+            >
+              <i
+                className="ion-md-checkmark resultIcon resultWin"
+              />
+              29.40
+            </span>
+          </div>
+          <div
+            style={
+              Object {
+                "position": "relative",
+              }
+            }
+          >
+            <i
+              className="ion-md-close resultIcon resultLoss"
+            />
+            SF +1.5
+            <br />
+            <span
+              className="predictionSpread"
+            >
+              (
+              KC by 0.70
+              )
+            </span>
+          </div>
+          <div>
+            
+          </div>
+        </div>
+        <div
+          className="predictionScoreBox crowd"
+        >
+          Crowd Score: 
+          2
+        </div>
+      </div>
+      <div
+        className="team results"
+      >
+        <div>
+          FINAL
+        </div>
+        <div>
+          20
+        </div>
+        <div>
+          31
+        </div>
+        <div>
+          KC -1.5
+          <br />
+          <span
+            className="predictionSpread"
+          >
+            (
+            KC by 11
+            )
+          </span>
+        </div>
+        <div>
+          U54
+          <br />
+          (
+          51
+          )
+        </div>
+      </div>
+    </div>
+  </div>
+  <div>
+    <div>
+      Open: 
+      Sun, Jan 26, 20, 9:49 PM PST Spread: -1 Total: 54
+    </div>
+    <div>
+      Last: 
+      Sat, Feb 1, 20, 1:00 AM PST Spread: -1.5 Total: 54
+    </div>
+                
+    <div>
+      Number of Predictions: 
+      10
+    </div>
+    <div />
+  </div>
+  <a
+    className="home-link link"
+    href="/undefined/games/undefined/undefined/undefined"
+    onClick={[Function]}
+  >
+    Games List
+  </a>
 </div>
 `;
 
