@@ -181,23 +181,22 @@ export const getFacebookUser = async (code, url) => {
     )
     let tokenRequestJson = await res.json();
     
-        let id_token = new CognitoIdToken({ IdToken: tokenRequestJson.id_token });
-        let access_token = new CognitoAccessToken({ AccessToken: tokenRequestJson.access_token });
-        let refresh_token = new CognitoRefreshToken({ RefreshToken: tokenRequestJson.refresh_token })
-        let userSession = new CognitoUserSession({ IdToken: id_token, AccessToken: access_token, RefreshToken: refresh_token});
-        let IdToken2 = userSession.getIdToken()
-        const userData = {
-          Username: IdToken2.payload['cognito:username'],
-          Pool: userPool
-        };
-        
-        let cognitoUser = new CognitoUser(userData);
-        cognitoUser.setSignInUserSession(userSession);
-        let authUser = Auth.createCognitoUser(userData.Username)
-        authUser.setSignInUserSession(userSession);
-        return cognitoUser;
-    }
-    catch (error) {
+      let id_token = new CognitoIdToken({ IdToken: tokenRequestJson.id_token });
+      let access_token = new CognitoAccessToken({ AccessToken: tokenRequestJson.access_token });
+      let refresh_token = new CognitoRefreshToken({ RefreshToken: tokenRequestJson.refresh_token })
+      let userSession = new CognitoUserSession({ IdToken: id_token, AccessToken: access_token, RefreshToken: refresh_token});
+      let IdToken2 = userSession.getIdToken()
+      const userData = {
+        Username: IdToken2.payload['cognito:username'],
+        Pool: userPool
+      };
+      
+      let cognitoUser = new CognitoUser(userData);
+      cognitoUser.setSignInUserSession(userSession);
+      let authUser = Auth.createCognitoUser(userData.Username)
+      authUser.setSignInUserSession(userSession);
+      return cognitoUser;
+  } catch (error) {
       console.log('userSession error: ', error);
     }
   }

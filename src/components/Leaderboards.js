@@ -2,61 +2,36 @@ import React, { Component } from 'react'
 import Auth from '@aws-amplify/auth'
 import * as api from '../apis'
 
-export default class Leaderboards extends Component {
-    constructor(props) {
-        super(props)
-        this.state = {
-            leaderboardData: this.props.leaderboardData,
-            
-        }
+const Leaderboards = ({leaderboardDataObj, selectedLeaderboard}) => {
+    
+    if (!leaderboardDataObj) { 
+        console.log('No leaderboard object')
+        return null
     }
-    _isMounted = false;
-
-    getLeaderboard = async (sport, year, season, gameWeek) => {
-        console.log('this.state._isMounted: ', this.state._isMounted)
-        if (this._isMounted) { 
-            try {
-                let userSession = await Auth.currentSession()
-                let leaderboardData = await api.fetchOverallLeaderboard(userSession, sport, year, season, gameWeek)
-                leaderboardData ? 
-                    this._isMounted ? this.setState({leaderboardData}) : null
-                : null
-                
-            } catch(leaderboardDataError) {
-                console.error('leaderboardDataError: ', leaderboardDataError)
-            }
-        }
+    console.log('leaderboardDataObj', leaderboardDataObj.leaderboardData)
+    const leaderboard = selectedLeaderboard ? selectedLeaderboard : 'overall'
+    const { gameWeek, season, sport, year, weekly, overall } = leaderboardDataObj.leaderboardData
+    if (!weekly || !overall) {
+        return null
     }
-
-
-    componentDidMount() {
-        this._isMounted = true;
-    }
-    componentDidUpdate(prevProps, prevState) {
-        
-    }
-
-    componentWillUnmount() {
-        
-    }
-
-    render() {
-        const { leaderboardData } = this.state
-        console.log('Leaderboards leaderboardData: ', JSON.stringify(leaderboardData))
-        return (
-            <div>
-                {leaderboardData ? 
-                    leaderboardData.leaderboardData.map((user, index) => {
-                        return (
-                            <div key={index}>
-                                {user.preferred_username} {user.results.overall.predictionScore}
-                            </div>
-                        ) 
-                    })
-                 : (
-                    <div>No Leaderboard Data received</div>
-                )}
-            </div>
-        )
-    }
+    const leaderboardArray = leaderboard === 'weekly' ? weekly : overall
+    console.log({leaderboard, leaderboardArray})
+    return (
+        <div>
+            {leaderboardArray ? 
+                leaderboardArray.users.map((user, index) => {
+                    console.log('user', user)
+                    return (
+                        <div key={index}>
+                            {user.preferred_username} {user.predictionScore}
+                        </div>
+                    ) 
+                })
+                : (
+                <div>No Leaderboard Data received</div>
+            )}
+        </div>
+    )
 }
+
+export default Leaderboards
