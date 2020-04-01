@@ -3,13 +3,13 @@
 import React from 'react'
 import PropTypes from 'prop-types'
 import {Line} from 'react-chartjs-2'
-import * as utils from '../utils'
+import { formatDate } from '../utils'
 
 const propTypes = {
     
 }
 
-function GameOddsChart(props) {
+const GameOddsChart = React.forwardRef((props, ref) => {
     const { game } = props;
     const { odds } = game;
     console.log({odds});
@@ -105,23 +105,21 @@ function GameOddsChart(props) {
                 }]
             }
         }
-    // console.log({chartData: JSON.stringify(chartData), chartOptions: JSON.stringify(chartOptions)})
+    console.log({chartData: JSON.stringify(chartData), chartOptions: JSON.stringify(chartOptions), reference: ref})
     return (
         <div>
-            <div>Open: {(odds.history && odds.history.length > 0) ? `${utils.formatDate(firstSpread.date)} Spread: ${firstSpread.spread} Total: ${firstTotal.total}` : null}</div>
-            <div>Last: {(odds.history && odds.history.length > 0) ? `${utils.formatDate(odds.history[odds.history.length-1].date)} Spread: ${odds.history[odds.history.length-1].spread} Total: ${odds.history[odds.history.length-1].total}` : null}</div>
-            {game.predictions ? (
+            <div>Open: {(odds.history && odds.history.length > 0) ? `${formatDate(firstSpread.date)} Spread: ${firstSpread.spread} Total: ${firstTotal.total}` : null}</div>
+            <div>Last: {(odds.history && odds.history.length > 0) ? `${formatDate(odds.history[odds.history.length-1].date)} Spread: ${odds.history[odds.history.length-1].spread} Total: ${odds.history[odds.history.length-1].total}` : null}</div>            {game.predictions ? (
                 <div>Number of Predictions: {game.predictions.length}</div>
             ) : null}
             {chartData && chartOptions ? (
                 <div>
-                    <Line data={chartData} options={chartOptions} />
+                    {/* <Line ref={ref} data={chartData} options={chartOptions} /> */}
                 </div>
             ) : null}
         </div>
     )
-}
+})
 
-GameOddsChart.propTypes = propTypes
 
-export default GameOddsChart
+export default GameOddsChart;

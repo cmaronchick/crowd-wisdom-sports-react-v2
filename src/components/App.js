@@ -3,7 +3,7 @@ import { BrowserRouter as Router, Switch, Route, Link } from "react-router-dom";
 import { createMemoryHistory } from 'history'
 const history = createMemoryHistory()
 import Auth from '@aws-amplify/auth';
-
+import * as utils from '../utils'
 import awsconfig from '../awsexports'
 
 // retrieve temporary AWS credentials and sign requests
@@ -23,13 +23,12 @@ import CrowdOverallCompare from './Home.CrowdOverallCompare'
 import HomeStarResults from './Home.StarsResults'
 import LoginModal from './LoginModal';
 import Weeks from './Weeks';
+import Profile from './Profile'
 import * as api from '../apis';
 
 
 import ReactGA from 'react-ga'
 import * as analytics from '../constants/analytics'
-
-
 const pushState = (obj, url) =>
   window.history.pushState(obj, '', url);
 
@@ -60,7 +59,9 @@ class App extends React.Component {
   
   
   async componentDidMount() {
-    //console.log({initialData: this.props.initialData});
+    
+    ReactGA.initialize(analytics.config);
+    console.log({initialData: this.props.initialData.page});
     // timers, listeners
     onPopState((event) => {
       this.setState({
@@ -70,7 +71,6 @@ class App extends React.Component {
     // console.log('this.state: ', this.state)
     let url = this.props.initialData ? this.props.initialData.url : null
     let fbUser = this.state.code ? await api.getFacebookUser(this.state.code, url) : null
-    ReactGA.initialize(analytics.config);
     try {
       let user = await Auth.currentAuthenticatedUser({bypassCache: true})
       this.setState({user, authState: 'signedIn'})
@@ -79,9 +79,15 @@ class App extends React.Component {
     }
 
     console.log({currentGameId: this.state.currentGameId});
-    const { currentGameId, page, sport, year, season, week, query } = this.state;
-
-    if (!this.state.currentGameId && page !== 'crowds') {
+    const { currentGameId, page, sport, year, season, week, query, user } = this.state;
+    if (page === 'profile') {
+      if (user) {
+        this.setState({
+          loginModalShow: true
+        })
+      }
+    }
+    if (!this.state.currentGameId && page !== 'crowds' && page !== 'profile' && page !== 'leaderboards') {
       try {
         let userSession = await Auth.currentSession();
         this.setState({ fetchingGames: true })
@@ -212,7 +218,7 @@ class App extends React.Component {
         let { sport, year, season, week  } = gameWeekDataResponse.gameWeekData;
       }
       
-      if (!this.state.currentGameId && page !== 'crowds') {
+      if (!this.state.currentGameId && page !== 'crowds' && page !== 'profile' && page !== 'leaderboards') {
         console.log(`/${sport}/${year}/${season}/${week}`);
         //ReactGA.pageview(`/${sport}/${year}/${season}/${week}`)
         this.fetchGameWeekGames(sport, year, season, gameWeek ? gameWeek : week, query && query.compareUsername ? query.compareUsername : null)
@@ -224,6 +230,9 @@ class App extends React.Component {
       }
       if (page === 'crowds') {
         this.fetchCrowds(sport, year, season)
+      }
+      if (page === 'leaderboards') {
+        this.fetchLeaderboards(sport, year, season, week)
       }
     }
   }
@@ -242,129 +251,153 @@ class App extends React.Component {
     e.preventDefault();
     const { confirmUserCode, username } = this.state;
     try {
-      let confirmResponse = await Auth.confirmSignUp(username, confirmUserCode)
-      this.setState({ confirmUser: false })
-      ReactGA.event({
-        category: 'account',
-        action: 'signup',
-        label: 'complete',
-        value: 'true'
+      let confirmUserResponse = await confirmUser(confirmUserCode, username)
+      console.log('confirmUserResponse', confirmUserResponse)
+      this.setState({
+        confirmUser: false
       })
-      console.log('confirmResponse: ', confirmResponse)
-    } catch(confirmReject) {
-      console.log('confirmReject: ', confirmReject)
-      ReactGA.event({
-        category: 'account',
-        action: 'signup',
-        label: 'complete',
-        value: JSON.stringify(confirmReject)
+    } catch (confirmUserError) {
+      console.log('confirmUserError', confirmUserError)
+    }
+  }
+
+  signUp = async(e) => {
+    e.preventDefault();
+    const { username, password, givenName, familyName, email, emailOptIn } = this.state
+    try{
+      let signUpResponse = await utils.signUp(username, password, givenName, familyName, email, emailOptIn)
+      console.log('signUpResponse: ', signUpResponse)
+      this.setState({
+          user: signUpResponse.user,
+          confirmUser: true
       })
+    } catch (signUpError) {
+      console.log('signUpError: ', signUpError)
+    }
+  }
+
+  signIn = async(e) => {
+    e.preventDefault()
+    this.setState({signingInUser: true})
+    const { username, password } = this.state;
+    try {
+      let user = await utils.signIn(username, password)
+      if (!user.error) {
+        ReactGA.event({
+          category: 'account',
+          action: 'signin',
+          label: 'complete',
+          value: 'true'
+        })
+        this.setState({user, signingInUser: false, authState: 'signedIn'})
+      } else {
+        const signInError = user.error;
+        if (signInError.code === 'UserNotConfirmedException') {
+          
+          ReactGA.event({
+            category: 'account',
+            action: 'signin',
+            label: 'failed',
+            value: signInError ? signInError.code : 0
+          })
+          this.setState({ confirmUser: true, signingInUser: false })
+        } else {
+          console.log('signInError', signInError)
+          ReactGA.event({
+            category: 'account',
+            action: 'signin',
+            label: 'failed',
+            value: JSON.stringify(signInError)
+          })
+          this.setState({ signingInUser: false, signInError })
+        }
+      }
+    } catch (signInError) {
+      console.log('signInError ', signInError )
+    }
+  }
+
+  signOut = async(e) => {
+    
+    e.preventDefault()
+    console.log('signOut clicked')
+    try {
+      let signOutResponse = await utils.signOut();
+      console.log('signOutResponse', signOutResponse)
+      if (!signOutResponse.error) {
+        ReactGA.event({
+          category: 'account',
+          action: 'signout',
+          label: 'complete',
+          value: 'true'
+        })
+        this.setState({user: null, authState: 'signIn'})
+      } else {
+        ReactGA.event({
+          category: 'account',
+          action: 'signout',
+          label: 'failed',
+          value: JSON.stringify(signOutError)
+        })
+      }
+    } catch (signOutError) {
+      console.log('signOutError', signOutError)
     }
   }
 
   resendConfirmation = async (e) => {
-    e.preventDefault();
+    e.preventDefault()
     try {
-      let resendSignUpResponse = await Auth.resendSignUp(this.state.username)
-      ReactGA.event({
-        category: 'account',
-        action: 'signup',
-        label: 'resendConfirmation',
-        value: 'true'
-      })
-      console.log('resendSignUpResponse: ', resendSignUpResponse)
-    } catch(resendSignUpReject) {
-      console.log('resendSignUpReject: ', resendSignUpReject)
-      ReactGA.event({
-        category: 'account',
-        action: 'signup',
-        label: 'resendConfirmation',
-        value: JSON.stringify(resendSignUpReject)
-      })
-    }
-  }
-
-  signIn = async (e) => {
-     e.preventDefault()
-    this.setState({signingInUser: true})
-    const { username, password } = this.state;
-    try {
-      let user = await Auth.signIn(username, password)
-    
-      console.log('user: ', user)
-      ReactGA.event({
-        category: 'account',
-        action: 'signin',
-        label: 'complete',
-        value: 'true'
-      })
-      this.setState({user, signingInUser: false, authState: 'signedIn'})
-      return user;
-    } catch(signInError) {
-      if (signInError.code === 'UserNotConfirmedException') {
-        this.setState({ confirmUser: true, signingInUser: false })
+      let resendResponse = await utils.resendConfirmation()
+      if (!resendResponse.error) {
         ReactGA.event({
           category: 'account',
-          action: 'signin',
-          label: 'failed',
-          value: signInError ? signInError.code : 'false'
+          action: 'signup',
+          label: 'resendConfirmation',
+          value: 'true'
         })
-        return;
+      } else {
+        ReactGA.event({
+          category: 'account',
+          action: 'signup',
+          label: 'resendConfirmation',
+          value: 'false'
+        })        
       }
-      this.setState({ signingInUser: false, signInError })
+    } catch (resendConfirmationError) {
       ReactGA.event({
         category: 'account',
-        action: 'signin',
-        label: 'failed',
-        value: JSON.stringify(signInError)
+        action: 'signup',
+        label: 'resendConfirmation',
+        value: JSON.stringify(resendConfirmationError)
       })
-      console.log('signInError: ', signInError)
-    }
-  }
-  signOut = async (e) => {
-    e.preventDefault()
-    console.log('signOut clicked')
-    try{
-      let signOutResponse = await Auth.signOut();
-      ReactGA.event({
-        category: 'account',
-        action: 'signout',
-        label: 'complete',
-        value: 'true'
-      })
-      this.setState({user: null, authState: 'signIn'})
-    } catch(signOutError) {
-      ReactGA.event({
-        category: 'account',
-        action: 'signout',
-        label: 'failed',
-        value: JSON.stringify(signOutError)
-      })
-      console.log('signOutError: ', signOutError)
     }
   }
 
-  resetPassword = async(e) => {
+  resetPassword = async (e) => {
     e.preventDefault();
     this.setState({sendingPasswordReset: true})
     try {
-      let forgotPasswordResponse = await Auth.forgotPassword(this.state.username)
-      ReactGA.event({
-        category: 'account',
-        action: 'forgotpassword',
-        label: 'complete',
-        value: 'true'
-      })
-      this.setState({sendingPasswordReset: false,
-      resetCodeSent: true})
-    } catch (forgotPasswordError) {
-      ReactGA.event({
-        category: 'account',
-        action: 'forgotpassword',
-        label: 'failed',
-        value: JSON.stringify(forgotPasswordError)
-      })
-      console.log({forgotPasswordError})
+      let resetPasswordResponse = await utils.resetPassword()
+      if (!resetPasswordResponse.error) {
+        ReactGA.event({
+          category: 'account',
+          action: 'forgotpassword',
+          label: 'complete',
+          value: 'true'
+        })
+        this.setState({sendingPasswordReset: false,
+        resetCodeSent: true})
+      } else {
+        ReactGA.event({
+          category: 'account',
+          action: 'forgotpassword',
+          label: 'failed',
+          value: JSON.stringify(resetPasswordResponse.error)
+        })
+      }
+    } catch(resetPasswordError) {
+      console.log({resetPasswordError})
     }
   }
 
@@ -372,68 +405,26 @@ class App extends React.Component {
     e.preventDefault();
     this.setState({sendingNewPassword: true})
     try {
-      let sendingNewPasswordResponse = await Auth.forgotPasswordSubmit(this.state.username, this.state.confirmUserCode, this.state.newPassword)
-      console.log({sendingNewPasswordResponse});
-      ReactGA.event({
-        category: 'account',
-        action: 'submitnewpassword',
-        label: 'complete',
-        value: 'true'
-      })
-      this.setState({sendingPasswordReset: false,})
-    } catch (forgotPasswordError) {
-      ReactGA.event({
-        category: 'account',
-        action: 'submitnewpassword',
-        label: 'failed',
-        value: JSON.stringify(forgotPasswordError)
-      })
-      console.log({forgotPasswordError})
-    }
-  }
-  
-    // Sign up user with AWS Amplify Auth
-  signUp = async (e) => {
-      e.preventDefault();
-      const { username, password, givenName, familyName, email, emailOptIn } = this.state
-      // rename variable to conform with Amplify Auth field phone attribute
-      var attributes = {
-        email: email,
-        given_name: givenName,
-        family_name: familyName
-      }
-      attributes['custom:reminderMailOptIn'] = emailOptIn ? '1' : '0'
-      try {
-        let signUpResponse = await Auth.signUp({
-          username,
-          password,
-          attributes
-        });
+      let submitNewPasswordResponse = await utils.submitNewPassword()
+      if (!submitNewPasswordResponse.error) {
         ReactGA.event({
           category: 'account',
-          action: 'signup',
-          label: 'submit',
+          action: 'submitnewpassword',
+          label: 'complete',
           value: 'true'
         })
-        this.setState({
-            user: signUpResponse.user,
-            confirmUser: true
-        })
-      } catch(err) {
-        if (! err.message) {
-            console.log('Error when signing up: ', err)
-            // Alert.alert('Error when signing up: ', err)
-        } else {
-            console.log('Error when signing up: ', err, '; ', err.message)
-            // Alert.alert('Error when signing up: ', err.message)
-        }
+        this.setState({sendingPasswordReset: false,})
+      } else {
         ReactGA.event({
           category: 'account',
-          action: 'signup',
-          label: 'submitFail',
-          value: JSON.stringify(err)
+          action: 'submitnewpassword',
+          label: 'failed',
+          value: JSON.stringify(submitNewPasswordResponse.error)
         })
       }
+    } catch (submitNewPasswordError) {
+      console.log({submitNewPasswordError})
+    }
   }
 
   handleFBCode = () => {
@@ -484,6 +475,7 @@ class App extends React.Component {
   onChangeText = (event) => {
     this.setState({[event.target.name]: event.target.value})
   }
+
 
   onYearChange = (year) => {
     const season = (parseInt(year) === 2017 || parseInt(year) === 2018) ? 'reg' : 'pre'
@@ -809,7 +801,7 @@ class App extends React.Component {
   fetchLeaderboards = async (sport, year, season, gameWeek) => {
     
     let week = gameWeek ? gameWeek : this.state.gameWeekData ? this.state.gameWeekData.week : null
-    console.log({week});
+    console.log({sport, year, season, week});
     try {
       let userSession = await Auth.currentSession()
       let overallLeaderboardData = await api.fetchOverallLeaderboard(userSession ? userSession : null, sport, year, season, week);
@@ -885,9 +877,19 @@ class App extends React.Component {
     return this.state.fetchingGames ? 'Loading Games ...' : this.state.gameWeek ? `Week ${this.state.gameWeek} Games` : (this.props.initialData && this.props.initialData.week) ? `Week ${this.props.initialData.week} Games` : ''
   }
   currentContent() {
-      const { games, gamePredictions, gameResults, crowd, crowds, userStats, weeks, sport, season, year } = this.state;
+      const { games, gamePredictions, gameResults, crowd, crowds, userStats, weeks, sport, season, year, user, loginModalShow } = this.state;
       return (
           <Switch>
+            
+          <Route path="/profile" render={({match}) => 
+            <Profile user={user}
+              onChangeText={this.onChangeText}
+              loginModalShow={loginModalShow}
+              changePassword={this.changePassword}
+              newPassword={this.state.profileNewPassword}
+              confirmPassword={this.state.profileConfirmPassword}
+              passwordMatch={this.state.profilePasswordMatch} />
+          } />
           <Route path="/:sport/games/:year/:season/:gameWeek/:gameId" render={({match}) => {
             const { gameId } = match.params;
             return (
@@ -906,9 +908,10 @@ class App extends React.Component {
               )
           }
           }/>
-          <Route path="/:sport/leaderboards/:year/:season" render={() => 
-            <Leaderboards leaderboardData={this.state.leaderboardData} />
+          <Route path={["/:sport/leaderboards", "/:sport/leaderboards/:year/:season"]} render={() => 
+            <Leaderboards leaderboardDataObj={this.state.leaderboardData} />
           } />
+
           <Route path={["/:sport/crowds", "/:sport/crowds/:year", "/:sport/crowds/:year/:season"]} render={({match}) => {
             <Crowds crowds={this.state.crowds} {...match.params} />
           }}/>

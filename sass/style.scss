@@ -1,3 +1,7 @@
+#app {
+    width: 100%;
+}
+
 @media (min-width: 1601px) {
     .gamesList {
         flex: 2;
@@ -72,6 +76,26 @@
                 width: 30px;
             }
         }
+        .quartersRow {
+            display: flex;
+            flex-direction: row;
+            justify-content: center;
+            align-items: center;
+            div {
+                flex: 1;
+                width: 50px;
+            }
+        }
+        .quartersCol {
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            margin: 0 10px;
+            input {
+                width: 50px;
+            }
+        }
 
         .predictionSpread {
             font-size: 0.8em;
@@ -79,6 +103,8 @@
         }
         .teamName {
             font-family: "mono45-headline", monospace, sans-serif;
+            min-width: 50px;
+            text-align: center;
         }
 
         @media (max-width: 767px) {
@@ -288,6 +314,29 @@
         border-radius: 3px;
         box-shadow: 0 4px 5px 0 rgba(3, 169, 244, 0.14), 0 1px 10px 0 rgba(3, 169, 244, 0.12), 0 2px 4px -1px rgba(3, 169, 244, 0.2);
         color: #fff;
+    }
+}
+
+/* Profile */ 
+
+.profile {
+    width: 100%;
+    margin: 20px;
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-start;
+    align-items: center;
+    .profileRow {
+        border: 1px solid #0a1f8f;
+        padding: 5px 10px;
+        display: flex;
+        flex-direction: row;
+        flex: 1;
+    }
+    .profileCol {
+        text-align: center;
+        flex: 1;
+
     }
 }
 

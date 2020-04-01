@@ -3,11 +3,11 @@ import { Link } from 'react-router-dom'
 import Button from 'react-bootstrap/Button'
 import Spinner from 'react-bootstrap/Spinner'
 import * as apis from '../apis'
-import * as utils from '../utils'
 import StarRatingComponent from 'react-star-rating-component'
 import GamePreviewCrowd from './GamePreview.Crowd'
 import GamePreviewResults from './GamePreview.Results'
 import GamePreviewPrediction from './GamePreview.Prediction'
+import GamePreviewPredictionQuarters from './GamePreview.Prediction.Quarters'
 import * as ResultsCheck from './GamePreview.ResultsCheck'
 
 
@@ -24,7 +24,8 @@ class GamePreview extends Component {
       predictionSpread: null,
       predictionTotal: null,
       oddsPrefix: (this.props.game.odds.spread > 0) ? '+' : '',
-      oddsChangeModalShow: false
+      oddsChangeModalShow: false,
+      showQuarters: this.props.game.season === "post" && this.props.game.gameWeek === 4 ? true : false
     }
 
   }
@@ -38,6 +39,30 @@ class GamePreview extends Component {
     // }
   //   return true;
   // }
+  componentDidMount() {
+    const { season, gameWeek } = this.state.game
+    //check for super bowl and set quarters state
+    if (gameWeek === 4 && season === 'post') {
+      this.setState({
+        periods: this.state.game.prediction && this.state.game.prediction.periods ? {...this.state.game.prediction.periods} : {
+          awayTeam: {
+            q1: '',
+            q2: '',
+            q3: '',
+            q4: ''
+          },
+          homeTeam: {
+            q1: '',
+            q2: '',
+            q3: '',
+            q4: ''
+          }
+        },
+        showQuarters: true,
+      })
+    }
+
+  }
   componentDidUpdate(prevProps, prevState) {
     //console.log('gamePreview updated')
     
@@ -65,6 +90,34 @@ class GamePreview extends Component {
 
   handleOnChangeGameScore = (event) => {
     this.props.onChangeGameScore(this.props.game.gameId, event)
+  }
+  handleOnChangeTextQuarters = (team, quarter, event) => {
+    console.log('event', event)
+    let { value } = event.target
+    let periodsObj = {...this.state.periods}
+    let teamScore = 0
+    let teamKey = team === 'awayTeam' ? 'awayTeamScore' : 'homeTeamScore'
+    if (!isNaN(value)) {
+      periodsObj[team][quarter] = parseInt(value)
+      Object.keys(periodsObj[team]).forEach(key => {
+        teamScore += isNaN(periodsObj[team][key]) ? 0 : parseInt(periodsObj[team][key])
+      })
+      console.log({periodsObj, teamScore})
+      this.setState({periods: periodsObj})
+      this.handleOnChangeGameScore({ target: { name: team === 'awayTeam' ? 'predictionAwayTeamScore' : 'predictionHomeTeamScore', value: teamScore }})
+    }
+    if (value === '') {
+      periodsObj[team][quarter] = value
+      this.setState({periods: periodsObj})
+    }
+    this.props.handleOnChangeTextQuarters(team, quarter, event)
+  }
+  
+  handleShowQuarters = () => {
+    this.setState({ showQuarters: true})
+  }
+  handleHideQuarters = () => {
+    this.setState({ showQuarters: false})
   }
 
 
@@ -161,6 +214,20 @@ class GamePreview extends Component {
           ) : (
             <div>No prediction for this game</div>
           )}
+          
+          {(game.season === 'post' && game.gameWeek === 4) && (game.prediction || !game.results) ? (
+            <div>
+              <Button onClick={()=> {
+                this.state.showQuarters ? this.handleHideQuarters() : this.handleShowQuarters()
+              }}>{this.state.showQuarters ? 'Hide Quarters' : 'Show Quarters'}</Button>
+              <GamePreviewPredictionQuarters
+                game={game}
+                periods={this.state.periods}
+                type={{type: 'user', title: 'Me'}} 
+                onChangeTextQuarters={this.handleOnChangeTextQuarters}
+                />
+            </div>
+          ) : null} 
           {game.comparePrediction ? 
             (
               <GamePreviewPrediction game={game} 
@@ -171,7 +238,7 @@ class GamePreview extends Component {
               onChangeStarTotal={this.props.onChangeStarTotal}
               />
             ) : 
-          (game.crowd && game.crowd.total) ? 
+          (game.crowd && game.crowd.awayTeam) ? 
             !game.prediction && !game.results ? 
               (
                 <div className="team">

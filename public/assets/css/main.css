@@ -2341,7 +2341,7 @@ input, select, textarea {
 			}
 
 	#sidebar {
-		color: rgba(255, 255, 255, 0.55);
+		color: #0a1f8f;
 		text-shadow: -1px -1px 0px rgba(0, 0, 0, 0.5);
 		width: 14em;
 		padding: 3em 1.35em 1em 1.15em;
@@ -2597,7 +2597,7 @@ input, select, textarea {
 
 				#logo a {
 					display: block;
-					background-color: #e04403;
+					background-color: #f6dfa4;
 					/*background-image: url("images/bg01.png");*/
 					padding: 0.875em 0.25em;
 					border-radius: 0.2em;
@@ -2605,6 +2605,7 @@ input, select, textarea {
 					box-shadow: inset 0px 0px 0px 1px rgba(255, 255, 255, 0.15), 0 0.025em 0.15em 0em rgba(0, 0, 0, 0.25);
 					text-decoration: none;
 					color: #fff;
+					-webkit-text-stroke: 1px #231f20;
 				}
 
 		/* Content */

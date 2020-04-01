@@ -2,6 +2,7 @@ import express from 'express';
 //import games from '../src/games-week3';
 import axios from 'axios';
 import Auth from '@aws-amplify/auth'
+import {AmplifyAuth} from './AmplifyAuth'
 import { userInfo } from 'os';
 
 const apiHost = `https://y5f8dr2inb.execute-api.us-west-2.amazonaws.com/dev/`
@@ -40,12 +41,12 @@ const gamesAPIResponse = (sport, year, season, gameWeek, userToken, query) => {
 
 
 
-router.get('/:sport/gameWeek', (req, res) => {
-  //console.log('api index 43 req', req.params.sport)
-    const callOptionsObject = callOptions(req.headers.authorization);
-    const anonString = callOptionsObject.anonString;
-    const getOptions = callOptionsObject.callOptions;
-      axios.get(`https://y5f8dr2inb.execute-api.us-west-2.amazonaws.com/dev/${req.params.sport}/week${anonString}`, getOptions)
+router.get('/:sport/gameWeek', AmplifyAuth, (req, res) => {
+  console.log('api index 43 req', req.callOptions)
+    // const callOptionsObject = callOptions(req.headers.authorization);
+    // const anonString = callOptionsObject.anonString;
+    // const getOptions = callOptionsObject.callOptions;
+      axios.get(`https://y5f8dr2inb.execute-api.us-west-2.amazonaws.com/dev/${req.params.sport}/week${req.anonString}`, req.callOptions)
       .then((gameWeekResponse) => {
 //        console.log('api/index 35 gameWeekResponse', gameWeekResponse.data)
         res.send({ gameWeekData: gameWeekResponse.data })
@@ -113,7 +114,7 @@ router.post('/submitPrediction', (req, res) => {
 
 
 router.get('/:sport/leaderboards/:year/:season/:week', (req, res) => {
-  console.log('api index 114 req', {params: req.params})
+  console.log('api index 114 req', {headers: req.headers, params: req.params})
   const { sport, year, season, week } = req.params;
     const callOptionsObject = callOptions(req.headers.authorization);
     const anonString = callOptionsObject.anonString;

@@ -12,8 +12,9 @@ const Navigation = (props) => {
                     <nav id="nav">
                         <ul>
                             <li><NavLink to={`/`}>Home</NavLink></li>
+                            <li><NavLink to={`/ncaam`}>March Madness</NavLink></li>
                             <li><NavLink to={`/nfl`}>NFL</NavLink></li>
-                            <li><NavLink to={`/ncaaf`}>NCAAF</NavLink></li>
+                            {/* <li><NavLink to={`/ncaaf`}>NCAAF</NavLink></li> */}
                             {/* <li><Link to={`/ncaam`}>March Madness</Link></li> */}
                         </ul>
                     </nav>
