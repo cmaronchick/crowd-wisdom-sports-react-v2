@@ -12,6 +12,10 @@
     }
 }
 @media(max-width: 1600px) {
+    .homeContent {
+        display: flex;
+        flex-direction: column;
+    }
     .gamesList{
         width: 100%;
     }
@@ -23,6 +27,7 @@
 .GamePreview {
     margin: 1em;
     border: 1px solid #ccc;
+    box-shadow: 0 4px 6px 0 hsla(0, 0%, 0%, 0.2);
 
     .game-header {
         border-bottom: 1px solid #ccc;
