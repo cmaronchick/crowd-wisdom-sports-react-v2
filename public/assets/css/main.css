@@ -2747,6 +2747,9 @@ input, select, textarea {
 								text-align: center;
 								opacity: 0.35;
 							}
+			.container {
+				width: 100%;
+			}
 
 		/* Content */
 
