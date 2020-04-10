@@ -2653,7 +2653,9 @@ input, select, textarea {
 
 			body {
 				min-width: 1200px;
+				max-width: 1600px;
 				font-size: 12pt;
+				margin: 0 auto;
 			}
 
 			input, textarea, select {
