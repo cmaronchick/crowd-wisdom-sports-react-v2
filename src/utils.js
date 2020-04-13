@@ -1,11 +1,11 @@
 import Auth from '@aws-amplify/auth'
 
 
-const onChangeGameScore = (gameId, event) => {
+export const onChangeGameScore = (gameId, event) => {
     return true;   
 }
 
-const submitPrediction = async (gameId) => {
+export const submitPrediction = async (gameId) => {
   const game = this.state.games[gameId]
 
   try {
@@ -98,7 +98,7 @@ const submitPrediction = async (gameId) => {
   }
 }
 
-const predictionResultWinnerEval = (game, prediction) => {
+export const predictionResultWinnerEval = (game, prediction) => {
     let awayTeamWin = (game.awayTeam.score > game.homeTeam.score)
     let homeTeamWin = (game.awayTeam.score < game.homeTeam.score)
     let awayTeamPredictionWin = (prediction.awayTeam.score > prediction.homeTeam.score)
@@ -107,7 +107,7 @@ const predictionResultWinnerEval = (game, prediction) => {
     if (homeTeamWin && homeTeamPredictionWin) return true;
     return false;
 }
-const predictionResultSpreadEval = (game, prediction) => {
+export const predictionResultSpreadEval = (game, prediction) => {
     let awayTeamWin = (game.awayTeam.score > game.homeTeam.score)
     let homeTeamWin = (game.awayTeam.score < game.homeTeam.score)
     let awayTeamPredictionWin = (prediction.awayTeam.score > prediction.homeTeam.score)
@@ -117,14 +117,14 @@ const predictionResultSpreadEval = (game, prediction) => {
     return false;
 }
 
-const formatDate = (startDateTime) => {
+export const formatDate = (startDateTime) => {
     var gameDate = new Date(startDateTime);
     var options = { weekday: 'short', month: 'short', day: 'numeric', year: '2-digit', hour: 'numeric', minute: 'numeric', timeZoneName: 'short' };
     var newstartDateTime = gameDate.toLocaleString('en-US', options);
     return newstartDateTime;
   }
 
-const resendConfirmation = async () => {
+export const resendConfirmation = async () => {
   try {
     let resendSignUpResponse = await Auth.resendSignUp(this.state.username)
     console.log('resendSignUpResponse: ', resendSignUpResponse)
@@ -135,7 +135,7 @@ const resendConfirmation = async () => {
   }
 }
 
-const signIn = async (username, password) => {
+export const signIn = async (username, password) => {
   try {
     let user = await Auth.signIn(username, password)
   
@@ -149,7 +149,7 @@ const signIn = async (username, password) => {
     return { error: signInError }
   }
 }
-const signOut = async () => {
+export const signOut = async () => {
   try{
     let signOutResponse = await Auth.signOut();
     return { signOutResponse }
@@ -159,7 +159,7 @@ const signOut = async () => {
   }
 }
 
-const resetPassword = async() => {
+export const resetPassword = async() => {
   try {
     let forgotPasswordResponse = await Auth.forgotPassword(this.state.username)
     return { forgotPasswordResponse }
@@ -169,7 +169,7 @@ const resetPassword = async() => {
   }
 }
 
-const submitNewPassword = async() => {
+export const submitNewPassword = async() => {
   try {
     let sendingNewPasswordResponse = await Auth.forgotPasswordSubmit(this.state.username, this.state.confirmUserCode, this.state.newPassword)
     console.log({sendingNewPasswordResponse});
@@ -180,7 +180,7 @@ const submitNewPassword = async() => {
   }
 }
 
-const changePassword = async(e) => {
+export const changePassword = async(e) => {
   console.log('changePassword: ', e)
   e.preventDefault()
   const { profileCurrentPassword, profileNewPassword, profileConfirmPassword } = this.state;
@@ -201,7 +201,7 @@ const changePassword = async(e) => {
 }
 
   // Sign up user with AWS Amplify Auth
-const signUp = async (username, password, givenName, familyName, email, emailOptIn) => {
+export const signUp = async (username, password, givenName, familyName, email, emailOptIn) => {
     // rename variable to conform with Amplify Auth field phone attribute
     var attributes = {
       email: email,
@@ -239,7 +239,7 @@ const signUp = async (username, password, givenName, familyName, email, emailOpt
     }
 }
 
-const confirmUser = async (confirmUserCode, username) => {
+export const confirmUser = async (confirmUserCode, username) => {
   try {
     let confirmResponse = await Auth.confirmSignUp(username, confirmUserCode)
     // ReactGA.event({
@@ -262,15 +262,15 @@ const confirmUser = async (confirmUserCode, username) => {
   }
 }
 
-const AmplifyAuth = (req, res, next) => {
+export const AmplifyAuth = (req, res, next) => {
     let idToken;
     if (req.headers.authorization && req.headers.authorization.startsWith('Bearer ')) {
         idToken = req.headers.authorization
+        req.user.idToken = idToken
+        return next()
     } else {
         console.error('No Token found')
         return res.status(403).json({ error: 'Unauthorized'})
     }
     
 }
-
-export { onChangeGameScore, submitPrediction, predictionResultWinnerEval, predictionResultSpreadEval, formatDate, AmplifyAuth, signUp, signIn, signOut, confirmUser, resendConfirmation, resetPassword, submitNewPassword, changePassword }

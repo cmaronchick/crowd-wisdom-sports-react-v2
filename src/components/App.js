@@ -882,13 +882,36 @@ class App extends React.Component {
           <Switch>
             
           <Route path="/profile" render={({match}) => 
-            <Profile user={user}
-              onChangeText={this.onChangeText}
-              loginModalShow={loginModalShow}
-              changePassword={this.changePassword}
-              newPassword={this.state.profileNewPassword}
-              confirmPassword={this.state.profileConfirmPassword}
-              passwordMatch={this.state.profilePasswordMatch} />
+            this.state.user ? (
+              <Profile user={user}
+                onChangeText={this.onChangeText}
+                handleSignInClick={this.signIn}
+                loginModalShow={loginModalShow}
+                changePassword={this.changePassword}
+                newPassword={this.state.profileNewPassword}
+                confirmPassword={this.state.profileConfirmPassword}
+                passwordMatch={this.state.profilePasswordMatch} />
+            ) : (
+              <LoginModal 
+              onChangeText={this.onChangeText} 
+              show={true} 
+              onHide={this.handleLoginModalClosed}
+              signingInUser={this.state.signingInUser}
+              signInError={this.state.signInError}
+              signInClick={this.signIn} 
+              signUpClick={this.signUp} 
+              confirmUser={this.state.confirmUser}
+              forgotPassword={this.state.forgotPassword}
+              sendingNewPassword={this.state.sendingNewPassword}
+              sendingPasswordReset={this.state.sendingPasswordReset}
+              handleConfirmUserClick={this.confirmUser} 
+              handleResendClick={this.resendConfirmation}
+              handleForgotPasswordClick={this.handleForgotPasswordClick}
+              resetCodeSent={this.state.resetCodeSent}
+              resetPassword={this.resetPassword}
+              submitNewPassword={this.submitNewPassword}
+              />
+            )
           } />
           <Route path="/:sport/games/:year/:season/:gameWeek/:gameId" render={({match}) => {
             const { gameId } = match.params;
