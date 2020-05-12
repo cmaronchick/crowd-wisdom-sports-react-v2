@@ -2,10 +2,11 @@ import React from 'react'
 import StarRatingComponent from 'react-star-rating-component'
 import * as ResultsCheck from './GamePreview.ResultsCheck'
 
-import * as apis from '../apis'
+import { gameCannotBeUpdated, spreadPrediction, totalPrediction } from '../apis'
+
+const StakeIcon = require('../images/stake-image.png')
 
 const GamePreviewPrediction = ({ game, prediction, gamePrediction, onChangeGameScore, onChangeStarSpread, onChangeStarTotal }) => {
-    
   
     const handleOnChangeStarSpread = (event) => {
         onChangeStarSpread(game.gameId, event)
@@ -22,7 +23,7 @@ const GamePreviewPrediction = ({ game, prediction, gamePrediction, onChangeGameS
     const { results, odds } = game
 
     const date = new Date(game.startDateTime)
-    const gameCannotBeUpdated = apis.gameCannotBeUpdated(date)
+    const gameCannotBeUpdated = gameCannotBeUpdated(date)
     if (!prediction && !gamePrediction && results) {
       return (<div>
         No prediction submitted
@@ -71,7 +72,7 @@ const GamePreviewPrediction = ({ game, prediction, gamePrediction, onChangeGameS
               {results ? ResultsCheck.spreadResults(odds, results,prediction) : null}
               
               {results ? ResultsCheck.checkBullseye(prediction.spread, results.spread) : null}
-              {apis.spreadPrediction(game, parseInt(gamePrediction.predictionAwayTeamScore), parseInt(gamePrediction.predictionHomeTeamScore))}<br/>
+              {spreadPrediction(game, parseInt(gamePrediction.predictionAwayTeamScore), parseInt(gamePrediction.predictionHomeTeamScore))}<br/>
               <span className="predictionSpread">(
               {(gamePrediction.predictionHomeTeamScore + odds.spread) > gamePrediction.predictionAwayTeamScore // home team covers
                 ? gamePrediction.predictionAwayTeamScore > gamePrediction.predictionHomeTeamScore 
@@ -96,7 +97,7 @@ const GamePreviewPrediction = ({ game, prediction, gamePrediction, onChangeGameS
               
             {results ? ResultsCheck.totalResults(odds, results,prediction) : null}
             {results ? ResultsCheck.checkBullseye(prediction.total, results.total) : null}
-            {apis.totalPrediction(game, parseInt(gamePrediction.predictionAwayTeamScore), parseInt(gamePrediction.predictionHomeTeamScore))} 
+            {totalPrediction(game, parseInt(gamePrediction.predictionAwayTeamScore), parseInt(gamePrediction.predictionHomeTeamScore))} 
             <br/><span className="predictionSpread">({((prediction || (gamePrediction.predictionAwayTeamScore + gamePrediction.predictionHomeTeamScore)) && odds) ? `${gamePrediction.predictionAwayTeamScore + gamePrediction.predictionHomeTeamScore}` : ''})</span>
             </div>
           ) : ''}
@@ -123,6 +124,7 @@ const GamePreviewPrediction = ({ game, prediction, gamePrediction, onChangeGameS
             <StarRatingComponent 
               name={'starsSpread'}
               editing={!results}
+              renderStarIcon={() => <img src={`${StakeIcon}`} style={{width: 20, height: 20}} alt={`Stake Icon`} />}
               value={(gamePrediction && gamePrediction.stars) ? gamePrediction.stars.spread : (prediction && prediction.stars) ? prediction.stars.spread : 0}
               starCount={3}
               starColor={(!results || (prediction && prediction.results && prediction.results.spread.correct === 1)) ? '#124734' : '#e04403'} /* color of selected icons, default `#ffb400` */
@@ -143,6 +145,7 @@ const GamePreviewPrediction = ({ game, prediction, gamePrediction, onChangeGameS
             <StarRatingComponent 
               name='starsTotal'
               editing={!results}
+              renderStarIcon={() => <img src={StakeIcon} alt="Stake" />}
               value={(gamePrediction && gamePrediction.stars) ? gamePrediction.stars.total : (prediction && prediction.stars) ? prediction.stars.total : 0}
               starCount={3}
               starColor={(!results || (prediction && prediction.results && prediction.results.total.correct === 1)) ? '#124734' : '#e04403'} /* color of selected icons, default `#ffb400` */

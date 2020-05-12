@@ -11,7 +11,6 @@ Auth.configure(awsconfig);
 
 
 import Dropdown from 'react-bootstrap/Dropdown'
-import Button from 'react-bootstrap/Button'
 import Spinner from 'react-bootstrap/Spinner'
 import Header from './Header';
 import GamesList from './GamesList';
@@ -22,11 +21,17 @@ import Crowd from './Crowd'
 import HomeLeaderboards from './Home.Leaderboards';
 import CrowdOverallCompare from './Home.CrowdOverallCompare'
 import HomeStarResults from './Home.StarsResults'
-import LoginModal from './LoginModal';
+import LoginModal from './profile/LoginModal';
 import Weeks from './Weeks';
-import Profile from './Profile'
+import Profile from './profile/Profile'
 import * as api from '../apis';
 
+// MUI Stuff
+import withStyles from '@material-ui/core/styles/withStyles'
+import { ThemeProvider as MuiThemeProvider } from '@material-ui/core/styles';
+import createMuiTheme from '@material-ui/core/styles/createMuiTheme'
+import themeFile from '../constants/theme'
+import Button from '@material-ui/core/Button'
 
 import ReactGA from 'react-ga'
 import * as analytics from '../constants/analytics'
@@ -37,7 +42,8 @@ const onPopState = handler => {
   window.onpopstate = handler;
 };
 
-// const location = document
+
+const theme = createMuiTheme(themeFile)
 
 
 class App extends React.Component {
@@ -1013,6 +1019,7 @@ class App extends React.Component {
             <Button onClick={(e) => this.selectSport(e, 'ncaam')}>March Madness</Button>
           </nav>
       </div> */
+      <MuiThemeProvider theme={theme}>
         <div id="content">
           <div className="App inner">
           {/* <!-- Content --> */}
@@ -1057,7 +1064,7 @@ class App extends React.Component {
                     submitNewPassword={this.submitNewPassword}
                     />
                     
-                    <Button onClick={() => this.handleLoginClick()}>Sign In/Sign Up</Button>
+                    <Button variant="contained" color="primary" onClick={() => this.handleLoginClick()}>Sign In/Sign Up</Button>
                 </div>
               ) : null}
               
@@ -1069,6 +1076,7 @@ class App extends React.Component {
             </div>
 
           </div>
+      </MuiThemeProvider>
     );
   }
 }

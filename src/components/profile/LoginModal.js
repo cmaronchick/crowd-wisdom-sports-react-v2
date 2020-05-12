@@ -1,16 +1,22 @@
 import React, { Component } from 'react'
 import { Auth } from '@aws-amplify/auth';
 import Modal from 'react-bootstrap/Modal'
-import Button from 'react-bootstrap/Button'
+// import Button from 'react-bootstrap/Button'
 import Tabs from 'react-bootstrap/Tabs'
 import Tab from 'react-bootstrap/Tab'
 import Form from 'react-bootstrap/Form'
 import Spinner from 'react-bootstrap/Spinner'
+
+//MUI Stuff
+import withStyles from '@material-ui/core/styles/withStyles'
+import Button from '@material-ui/core/Button'
 //import 'bootstrap/dist/css/bootstrap.min.css'
 
+const styles = (theme) => ({
+  ...theme.spreadThis
+})
 
-
-export default class LoginModal extends Component {
+class LoginModal extends Component {
     constructor(props, context) {
         super(props, context)
         this.handleShow = this.handleShow.bind(this);
@@ -64,7 +70,7 @@ export default class LoginModal extends Component {
                   {/* <Form.Group controlId="formBasicChecbox">
                     <Form.Check type="checkbox" label="Check me out" />
                   </Form.Group> */}
-                  <Button className="loginButton" variant="primary" type="submit" onClick={this.props.signInClick}>
+                  <Button className="loginButton" variant="contained" color="primary" type="submit" onClick={this.props.signInClick}>
                     {this.props.signingInUser ? (
                       <Spinner animation='border' />
                     ) : (
@@ -72,7 +78,7 @@ export default class LoginModal extends Component {
                     )}
 
                   </Button>
-                  <Button name="facebookSignInButton" onClick={() => this.handleFBClick()} className="btn facebook-button socialButton-customizable loginButton">
+                  <Button variant="contained" name="facebookSignInButton" onClick={() => this.handleFBClick()} className="btn facebook-button socialButton-customizable loginButton">
                     <span><svg className="social-logo" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 216 216" color="#ffffff">
                         <path fill="#ffffff" d="
                             M204.1 0H11.9C5.3 0 0 5.3 0 11.9v192.2c0 6.6 5.3 11.9 11.9
@@ -83,9 +89,9 @@ export default class LoginModal extends Component {
                     </svg></span>
                     <span>Continue with Facebook</span>
                   </Button>
-                  <div onClick={() => this.props.handleForgotPasswordClick()} className="forgotPasswordLink">
+                  <Button variant="contained" color="secondary" onClick={() => this.props.handleForgotPasswordClick()} className="forgotPasswordLink">
                     Forgot Password?
-                  </div>
+                  </Button>
                   {this.props.signInError ? (
                     <div>{this.props.signInError.message}</div>
                   ) : null}
@@ -126,10 +132,10 @@ export default class LoginModal extends Component {
                   <Form.Group controlId="formSignUpOptIn">
                     <Form.Check type="checkbox" name="emailOptIn" onChange={this.props.onChangeText} label="Receive weekly predictions reminder e-mails." />
                   </Form.Group>
-                  <Button className="loginButton" variant="primary" type="submit" onClick={this.props.signUpClick}>
+                  <Button className="loginButton" variant="contained" color="primary" type="submit" onClick={this.props.signUpClick}>
                     Submit
                   </Button>
-                  <Button name="facebookSignUpButton" onClick={() => this.handleFBClick()} className="btn facebook-button socialButton-customizable loginButton">
+                  <Button variant="contained" name="facebookSignUpButton" onClick={() => this.handleFBClick()} className="btn facebook-button socialButton-customizable loginButton">
                     <span><svg className="social-logo" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 216 216" color="#ffffff">
                         <path fill="#ffffff" d="
                             M204.1 0H11.9C5.3 0 0 5.3 0 11.9v192.2c0 6.6 5.3 11.9 11.9
@@ -198,3 +204,5 @@ export default class LoginModal extends Component {
         )
     }
 }
+
+export default withStyles(styles)(LoginModal)

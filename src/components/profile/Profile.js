@@ -1,7 +1,9 @@
 import React, { Component } from 'react'
-import LoginModal from './LoginModal'
-import Button from 'react-bootstrap/Button'
-import Form from 'react-bootstrap/Form'
+
+//MUI Stuff
+import Paper from '@material-ui/core/Paper'
+import Button from '@material-ui/core/Button'
+import Typography from '@material-ui/core/Typography'
 
 const Profile = ({ user, loginModalShow, newPassword, confirmPassword, passwordMatch, changePassword, onChangeText, handleSignInClick }) => {
 

@@ -18,10 +18,27 @@ module.exports = {
       {
         test: /\.(s*)css$/, // match any .scss or .css file, 
         use: [
-          "style-loader", 
-          "css-loader", 
-          "sass-loader" 
+          { loader: "style-loader" }, 
+          { loader: "css-loader" }, 
+          { loader: "sass-loader"} 
         ]
+      },
+      {
+        test: /\.(jpe?g|png|gif)$/i,
+        use: {
+          loader: "file-loader?name=/public/icons/[name].[ext]"
+        }
+      },
+      {
+        test: /\.svg$/,
+        use: [
+          {
+            loader: 'svg-url-loader',
+            options: {
+              limit: 10000,
+            },
+          },
+        ],
       }
     ]
   }
