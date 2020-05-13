@@ -1,0 +1,21 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`snapshot test 1`] = `
+<div
+  id="content"
+>
+  <div
+    className="App inner"
+  >
+    <div>
+      <div
+        className="homeContent"
+      >
+        <div>
+          No games available
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+`;

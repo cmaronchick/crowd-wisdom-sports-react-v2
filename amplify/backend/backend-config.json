@@ -1,0 +1,14 @@
+{
+	"auth": {
+		"cognitof3af883a": {
+			"service": "Cognito",
+			"providerPlugin": "awscloudformation"
+		}
+	},
+	"analytics": {
+		"cwsreact": {
+			"service": "Pinpoint",
+			"providerPlugin": "awscloudformation"
+		}
+	}
+}
