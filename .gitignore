@@ -50,6 +50,7 @@ dist/
 node_modules/
 aws-exports.js
 awsconfiguration.json
+team-provider-info.json
 .zip
 
 # Elastic Beanstalk Files

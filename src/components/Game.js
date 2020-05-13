@@ -39,7 +39,7 @@ class Game extends Component {
             this.props.gameId ? this.props.gameId : this.props.game.gameId, null)
           console.log({game: gameObj.game});
           let gamePrediction = gameObj.game ? gameObj.game.prediction : null;
-          this.setState({game: gameObj.game, gamePrediction, user})
+          this.setState({game: gameObj.game, gamePrediction, user: null})
         }catch(getGameErrorUnauth) {
           console.log({getGameErrorUnauth});
         }

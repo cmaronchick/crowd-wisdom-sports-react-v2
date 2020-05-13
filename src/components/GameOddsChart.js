@@ -12,6 +12,7 @@ const propTypes = {
 const GameOddsChart = React.forwardRef((props, ref) => {
     const { game } = props;
     const { odds } = game;
+    console.log({odds});
     let firstSpread = {
         date: null,
         spread: null
@@ -46,16 +47,17 @@ const GameOddsChart = React.forwardRef((props, ref) => {
             let startDate = new Date(game.startDateTime)
             let firstOddsDate = new Date(new Date(game.startDateTime).getDate() - 14)
             let oddsDate = new Date(odds.date)
-        //     console.log({startDate: new Date(startDate.setDate(startDate.getDate() - 7)),
-        //     oddsDate: oddsDate,
-        // compare: new Date(odds.date) >= new Date(startDate.setDate(startDate.getDate() - 7))});
-            if (oddsDate >= firstOddsDate) {
-                labels.push(`${new Date(oddsDate).getMonth() + 1}/${new Date(oddsDate).getDate()}`)
+            console.log({startDate: new Date(startDate.setDate(startDate.getDate() - 7)),
+            oddsDate: oddsDate,
+            compare: new Date(odds.date) >= new Date(startDate.setDate(startDate.getDate() - 7))});
+            if (new Date(odds.date) >= new Date(startDate.setDate(startDate.getDate()))) {
+                labels.push(`${new Date(odds.date).getMonth() + 1}/${new Date(odds.date).getDate()}`)
                 dataSpread.push(odds.spread ? odds.spread : null)
                 dataTotal.push(odds.total ? odds.total : null)
             }
         })
     }
+    // console.log({dataSpread});
     let dataSpreadMin = Math.min(...dataSpread),
         dataSpreadMax = Math.max(...dataSpread),
         dataTotalMin = Math.min(...dataTotal),

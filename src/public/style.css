@@ -8,6 +8,9 @@
     flex: 1; } }
 
 @media (max-width: 1600px) {
+  .homeContent {
+    display: flex;
+    flex-direction: column; }
   .gamesList {
     width: 100%; }
   .homeLeaderboards {
@@ -15,7 +18,8 @@
 
 .GamePreview {
   margin: 1em;
-  border: 1px solid #ccc; }
+  border: 1px solid #ccc;
+  box-shadow: 0 4px 6px 0 rgba(0, 0, 0, 0.2); }
   .GamePreview .game-header {
     border-bottom: 1px solid #ccc;
     padding: 0.25em 0.5em;
@@ -130,6 +134,11 @@
   .GamePreview .results {
     color: #fff;
     background-color: #231f20; }
+
+.oddsRow {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-evenly; }
 
 .compareDiv {
   display: flex;
