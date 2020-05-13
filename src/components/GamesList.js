@@ -1,7 +1,7 @@
 import React from 'react';
 import GamePreview from './GamePreview';
 
-const GamesList = ({ games, gamePredictions, onGameClick, onChangeGameScore, onChangeStarSpread, onChangeStarTotal, onSubmitPrediction }) => {
+const GamesList = ({ games, gamePredictions, onGameClick, onChangeGameScore, onChangeStarSpread, onChangeStarTotal, onSubmitPrediction, onChangeQuarters }) => {
   //console.log({ games, gamePredictions });
   let orderedGames = {}
   Object.keys(games).sort((a,b) => {
@@ -28,6 +28,7 @@ const GamesList = ({ games, gamePredictions, onGameClick, onChangeGameScore, onC
         onChangeStarSpread={onChangeStarSpread}
         onChangeStarTotal={onChangeStarTotal}
         onSubmitPrediction={onSubmitPrediction}
+        onChangeQuarters={onChangeQuarters}
         game={games[gameId]}
         gamePrediction={gamePredictions[gameId]} />
       }

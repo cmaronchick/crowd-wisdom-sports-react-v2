@@ -65,6 +65,7 @@ class Game extends Component {
   handleGamesListClick = () => {
     this.props.gamesListClick(this.props.sport, this.props.year, this.props.season, this.props.gameWeek, this.props.ref);
   }
+  
 
   render() {
     const { game } = this.state;
@@ -83,6 +84,7 @@ class Game extends Component {
               onChangeStarSpread={this.props.onChangeStarSpread}
               onChangeStarTotal={this.props.onChangeStarTotal}
               onSubmitPrediction={this.props.onSubmitPrediction}
+              onChangeQuarters={this.props.onChangeQuarters}
               onClick={this.props.onGameClick}
               game={game} gamePrediction={this.props.gamePrediction} />
               {game.odds && game.odds.history ? (

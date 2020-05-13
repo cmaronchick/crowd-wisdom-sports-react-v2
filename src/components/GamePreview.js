@@ -92,25 +92,7 @@ class GamePreview extends Component {
     this.props.onChangeGameScore(this.props.game.gameId, event)
   }
   handleOnChangeTextQuarters = (team, quarter, event) => {
-    console.log('event', event)
-    let { value } = event.target
-    let periodsObj = {...this.state.periods}
-    let teamScore = 0
-    let teamKey = team === 'awayTeam' ? 'awayTeamScore' : 'homeTeamScore'
-    if (!isNaN(value)) {
-      periodsObj[team][quarter] = parseInt(value)
-      Object.keys(periodsObj[team]).forEach(key => {
-        teamScore += isNaN(periodsObj[team][key]) ? 0 : parseInt(periodsObj[team][key])
-      })
-      console.log({periodsObj, teamScore})
-      this.setState({periods: periodsObj})
-      this.handleOnChangeGameScore({ target: { name: team === 'awayTeam' ? 'predictionAwayTeamScore' : 'predictionHomeTeamScore', value: teamScore }})
-    }
-    if (value === '') {
-      periodsObj[team][quarter] = value
-      this.setState({periods: periodsObj})
-    }
-    this.props.handleOnChangeTextQuarters(team, quarter, event)
+    this.props.onChangeQuarters(this.props.game.gameId, team, quarter, event)
   }
   
   handleShowQuarters = () => {
@@ -222,7 +204,7 @@ class GamePreview extends Component {
               }}>{this.state.showQuarters ? 'Hide Quarters' : 'Show Quarters'}</Button>
               <GamePreviewPredictionQuarters
                 game={game}
-                periods={this.state.periods}
+                periods={gamePrediction.periods ? gamePrediction.periods : this.state.periods}
                 type={{type: 'user', title: 'Me'}} 
                 onChangeTextQuarters={this.handleOnChangeTextQuarters}
                 />
