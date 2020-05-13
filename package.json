@@ -42,7 +42,7 @@
     "history": "^4.10.1",
     "html-webpack-plugin": "^3.2.0",
     "jest": "^25.1.0",
-    "jquery": "^3.4.0",
+    "jquery": "^3.5.0",
     "mongodb": "^3.1.13",
     "node-sass": "^4.11.0",
     "node-sass-middleware": "^0.11.0",
