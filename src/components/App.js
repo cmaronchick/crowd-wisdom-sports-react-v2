@@ -9,8 +9,8 @@ import awsconfig from '../awsexports'
 // retrieve temporary AWS credentials and sign requests
 Auth.configure(awsconfig);
 
+
 import Dropdown from 'react-bootstrap/Dropdown'
-import Button from 'react-bootstrap/Button'
 import Spinner from 'react-bootstrap/Spinner'
 import Header from './Header';
 import GamesList from './GamesList';
@@ -21,11 +21,17 @@ import Crowd from './Crowd'
 import HomeLeaderboards from './Home.Leaderboards';
 import CrowdOverallCompare from './Home.CrowdOverallCompare'
 import HomeStarResults from './Home.StarsResults'
-import LoginModal from './LoginModal';
+import LoginModal from './profile/LoginModal';
 import Weeks from './Weeks';
-import Profile from './Profile'
+import Profile from './profile/Profile'
 import * as api from '../apis';
 
+// MUI Stuff
+import withStyles from '@material-ui/core/styles/withStyles'
+import { ThemeProvider as MuiThemeProvider } from '@material-ui/core/styles';
+import createMuiTheme from '@material-ui/core/styles/createMuiTheme'
+import themeFile from '../constants/theme'
+import Button from '@material-ui/core/Button'
 
 import ReactGA from 'react-ga'
 import * as analytics from '../constants/analytics'
@@ -36,7 +42,9 @@ const onPopState = handler => {
   window.onpopstate = handler;
 };
 
-// const location = document
+
+const theme = createMuiTheme(themeFile)
+
 
 class App extends React.Component {
   constructor(props) {
@@ -176,36 +184,6 @@ class App extends React.Component {
     if (this.state.currentCrowdId) {
 
     }
-  }
-
-
-  
-  shouldComponentUpdate(prevProps, prevState) {
-    if (this.state.sport!==prevState.sport) return true;
-    if (this.state.year!==prevState.year) return true;
-    if (this.state.season!==prevState.season) return true;
-    if (this.state.week!== prevState.week) return true;
-    if (this.state.gamePredictions !== prevState.gamePredictions) return true;
-    if (this.state.games!==prevState.games) return true;
-    if (this.state.query!==prevState.query) return true;
-    //Leaderboard Data Update
-    if (this.state.leaderboardData!==prevState.leaderboardData || this.state.overallLeaderboardData!==prevState.overallLeaderboardData || this.state.weeklyLeaderboardData!==prevState.weeklyLeaderboardData) return true;
-    if (this.state.fetchingGames!==prevState.fetchingGames) return true;
-    if (this.state.fetchingData!==prevState.fetchingData) return true;
-    if (this.state.fetchingLeaderboards!==prevState.fetchingLeaderboards) return true;
-    if (this.state.selectedLeaderboard!==prevState.selectedLeaderboard) return true;
-    if (this.state.loginModalShow!==prevState.loginModalShow) return true;
-    if (this.state.signingInUser!==prevState.signingInUser) return true;
-    if (this.state.confirmUser!==prevState.confirmUser) return true;
-    if (this.state.authState!==prevState.authState) return true;
-    if (this.state.user!==prevState.user) return true;
-    if (this.state.userStats!==prevState.userStats) return true;
-    if (this.state.page!==prevState.page) return true;
-    if (this.state.currentGameId!==prevState.currentGameId) return true;
-    if (this.state.crowd!==prevState.crowd) return true;
-    if (this.state.compareTable!==prevState.compareTable) return true;
-    if (this.state.forgotPassword!==prevState.forgotPassword || this.state.resetCodeSent!==prevState.resetCodeSent || this.state.sendingNewPassword!==prevState.sendingNewPassword || this.state.sendingPasswordReset!==prevState.sendingPasswordReset) return true;
-    return false;
   }
 
   async componentDidUpdate(prevProps, prevState) {
@@ -882,13 +860,36 @@ class App extends React.Component {
           <Switch>
             
           <Route path="/profile" render={({match}) => 
-            <Profile user={user}
-              onChangeText={this.onChangeText}
-              loginModalShow={loginModalShow}
-              changePassword={this.changePassword}
-              newPassword={this.state.profileNewPassword}
-              confirmPassword={this.state.profileConfirmPassword}
-              passwordMatch={this.state.profilePasswordMatch} />
+            this.state.user ? (
+              <Profile user={user}
+                onChangeText={this.onChangeText}
+                handleSignInClick={this.signIn}
+                loginModalShow={loginModalShow}
+                changePassword={this.changePassword}
+                newPassword={this.state.profileNewPassword}
+                confirmPassword={this.state.profileConfirmPassword}
+                passwordMatch={this.state.profilePasswordMatch} />
+            ) : (
+              <LoginModal 
+              onChangeText={this.onChangeText} 
+              show={true} 
+              onHide={this.handleLoginModalClosed}
+              signingInUser={this.state.signingInUser}
+              signInError={this.state.signInError}
+              signInClick={this.signIn} 
+              signUpClick={this.signUp} 
+              confirmUser={this.state.confirmUser}
+              forgotPassword={this.state.forgotPassword}
+              sendingNewPassword={this.state.sendingNewPassword}
+              sendingPasswordReset={this.state.sendingPasswordReset}
+              handleConfirmUserClick={this.confirmUser} 
+              handleResendClick={this.resendConfirmation}
+              handleForgotPasswordClick={this.handleForgotPasswordClick}
+              resetCodeSent={this.state.resetCodeSent}
+              resetPassword={this.resetPassword}
+              submitNewPassword={this.submitNewPassword}
+              />
+            )
           } />
           <Route path="/:sport/games/:year/:season/:gameWeek/:gameId" render={({match}) => {
             const { gameId } = match.params;
@@ -1018,62 +1019,64 @@ class App extends React.Component {
             <Button onClick={(e) => this.selectSport(e, 'ncaam')}>March Madness</Button>
           </nav>
       </div> */
-      <div id="content">
-        <div className="App inner">
-        {/* <!-- Content --> */}
-          {/* <div id="content">
-            <div className="inner"> */}
-            {(this.state.authState === 'signedIn') ? (
-              <div className="row loginFields">
-                {this.state.user.attributes.preferred_username}
-                <Button onClick={this.signOut}>Logout</Button>
-              </div>
-            ) : (this.state.authState === 'signIn') ? (
-              <div className="loginFields">
-                {/* <form>
-                  <label htmlFor='username'>
-                    User Name:
-                  </label>
-                    <input type="text" name="username" key="username" onChange={this.onChangeText} />
-                  <label htmlFor='password'>
-                    Password:
-                  </label>
-                  <input type="password" name="password" key="password" onChange={this.onChangeText} />
-                  
-                  <Button onClick={() => this.signIn()}>Login</Button>
-                </form> */}
-                  <LoginModal 
-                  onChangeText={this.onChangeText} 
-                  show={this.state.loginModalShow} 
-                  onHide={this.handleLoginModalClosed}
-                  signingInUser={this.state.signingInUser}
-                  signInError={this.state.signInError}
-                  signInClick={this.signIn} 
-                  signUpClick={this.signUp} 
-                  confirmUser={this.state.confirmUser}
-                  forgotPassword={this.state.forgotPassword}
-                  sendingNewPassword={this.state.sendingNewPassword}
-                  sendingPasswordReset={this.state.sendingPasswordReset}
-                  handleConfirmUserClick={this.confirmUser} 
-                  handleResendClick={this.resendConfirmation}
-                  handleForgotPasswordClick={this.handleForgotPasswordClick}
-                  resetCodeSent={this.state.resetCodeSent}
-                  resetPassword={this.resetPassword}
-                  submitNewPassword={this.submitNewPassword}
-                  />
-                  
-                  <Button onClick={() => this.handleLoginClick()}>Sign In/Sign Up</Button>
-              </div>
-            ) : null}
-            
-            {this.state.fetchingGames ? (
-              <Spinner animation='border' />
-            ) : (
-            this.currentContent()
-            )}
-          </div>
+      <MuiThemeProvider theme={theme}>
+        <div id="content">
+          <div className="App inner">
+          {/* <!-- Content --> */}
+            {/* <div id="content">
+              <div className="inner"> */}
+              {(this.state.authState === 'signedIn') ? (
+                <div className="row loginFields">
+                  {this.state.user.attributes.preferred_username}
+                  <Button onClick={this.signOut}>Logout</Button>
+                </div>
+              ) : (this.state.authState === 'signIn') ? (
+                <div className="loginFields">
+                  {/* <form>
+                    <label htmlFor='username'>
+                      User Name:
+                    </label>
+                      <input type="text" name="username" key="username" onChange={this.onChangeText} />
+                    <label htmlFor='password'>
+                      Password:
+                    </label>
+                    <input type="password" name="password" key="password" onChange={this.onChangeText} />
+                    
+                    <Button onClick={() => this.signIn()}>Login</Button>
+                  </form> */}
+                    <LoginModal 
+                    onChangeText={this.onChangeText} 
+                    show={this.state.loginModalShow} 
+                    onHide={this.handleLoginModalClosed}
+                    signingInUser={this.state.signingInUser}
+                    signInError={this.state.signInError}
+                    signInClick={this.signIn} 
+                    signUpClick={this.signUp} 
+                    confirmUser={this.state.confirmUser}
+                    forgotPassword={this.state.forgotPassword}
+                    sendingNewPassword={this.state.sendingNewPassword}
+                    sendingPasswordReset={this.state.sendingPasswordReset}
+                    handleConfirmUserClick={this.confirmUser} 
+                    handleResendClick={this.resendConfirmation}
+                    handleForgotPasswordClick={this.handleForgotPasswordClick}
+                    resetCodeSent={this.state.resetCodeSent}
+                    resetPassword={this.resetPassword}
+                    submitNewPassword={this.submitNewPassword}
+                    />
+                    
+                    <Button variant="contained" color="primary" onClick={() => this.handleLoginClick()}>Sign In/Sign Up</Button>
+                </div>
+              ) : null}
+              
+              {this.state.fetchingGames ? (
+                <Spinner animation='border' />
+              ) : (
+              this.currentContent()
+              )}
+            </div>
 
-        </div>
+          </div>
+      </MuiThemeProvider>
     );
   }
 }

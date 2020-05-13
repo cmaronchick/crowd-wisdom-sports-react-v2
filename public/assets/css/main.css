@@ -2273,7 +2273,7 @@ input, select, textarea {
 		top: 0;
 		width: 100%;
 		z-index: 10001;
-		background: #364050 url("images/bg01.png");
+		background: #124734 url("images/bg01.png");
 		font-family: 'mono45-headline', monospace;
 	}
 
@@ -2327,7 +2327,7 @@ input, select, textarea {
 				width: 50px;
 				height: 30px;
 				line-height: 30px;
-				background: #c94663 url("images/bg01.png");
+				background: rgba(204, 41, 54, 1) url("images/bg01.png");
 				border-radius: 5px;
 				color: #fff;
 				text-align: center;
@@ -2337,7 +2337,7 @@ input, select, textarea {
 			}
 
 			#titleBar .toggle:active:before {
-				background-color: #d95673;
+				background-color: rgba(204, 41, 54, 1);
 			}
 
 	#sidebar {
@@ -2433,14 +2433,15 @@ input, select, textarea {
 			display: flex;
 		}
 
-		@media (min-width: 1024px) {
+		@media (min-width: 1280px) {
 			.homeContent {
 				flex-direction: row;
 			}
 		}
-		@media (max-width: 1023px) {
+		@media (max-width: 1279px) {
 			.homeContent {
 				flex-direction: column;
+				width: 100%
 			}
 		}
 

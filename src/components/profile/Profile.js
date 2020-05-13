@@ -1,15 +1,21 @@
 import React, { Component } from 'react'
-import LoginModal from './LoginModal'
-import Button from 'react-bootstrap/Button'
-import Form from 'react-bootstrap/Form'
 
-const Profile = ({ user, loginModalShow, newPassword, confirmPassword, passwordMatch, changePassword, onChangeText }) => {
+//MUI Stuff
+import Paper from '@material-ui/core/Paper'
+import Button from '@material-ui/core/Button'
+import Typography from '@material-ui/core/Typography'
+
+const Profile = ({ user, loginModalShow, newPassword, confirmPassword, passwordMatch, changePassword, onChangeText, handleSignInClick }) => {
 
     const attributeNames = {
         email: 'E-mail',
         family_name: 'Last Name',
         given_name: 'First Name',
         preferred_username: 'Preferred Username'
+    }
+    const handleSignIn = (e) => {
+        e.preventDefault()
+        handleSignInClick()
     }
     //console.log('user.attributes :', user ? Object.keys(user.attributes) : null);
     return user ? (
@@ -78,7 +84,9 @@ const Profile = ({ user, loginModalShow, newPassword, confirmPassword, passwordM
             </Form>
         </div>
     ) : (
-        <LoginModal />
+        <div>
+            Please log in or sign up.
+        </div>
     )
 }
 
