@@ -1,0 +1,26 @@
+{
+  "name": "crowd-wisdom-sports-react-v2",
+  "version": "1.0.0",
+  "description": "",
+  "main": "server.js",
+  "scripts": {
+    "test": "jest",
+    "start": "node server.js",
+    "server": "nodemon server.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/cmaronchick/crowd-wisdom-sports-react-v2.git"
+  },
+  "author": "Chris Aronchick",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/cmaronchick/crowd-wisdom-sports-react-v2/issues"
+  },
+  "proxy": "http://localhost:5000",
+  "homepage": "https://github.com/cmaronchick/crowd-wisdom-sports-react-v2#readme",
+  "dependencies": {
+    "concurrently": "^5.2.0",
+    "express": "^4.17.1"
+  }
+}
