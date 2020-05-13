@@ -264,6 +264,7 @@ export const confirmUser = async (confirmUserCode, username) => {
 
 export const AmplifyAuth = (req, res, next) => {
     let idToken;
+    console.log('req.headers', req.headers)
     if (req.headers.authorization && req.headers.authorization.startsWith('Bearer ')) {
         idToken = req.headers.authorization
         req.user.idToken = idToken

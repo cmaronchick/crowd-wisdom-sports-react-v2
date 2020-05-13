@@ -5,7 +5,7 @@ import * as ResultsCheck from './GamePreview.ResultsCheck'
 
 import { gameCannotBeUpdated, spreadPrediction, totalPrediction } from '../apis'
 
-const StakeIcon = require('../images/stake-image.png')
+// import StakeIcon from '../images/stake-image.png'
 
 
 const GamePreviewPrediction = ({ game, prediction, gamePrediction, onChangeGameScore, onChangeStarSpread, onChangeStarTotal, handleOddsChangeModalShow, handleOddsChangeModalHide, oddsChangeModalShow }) => {
@@ -26,7 +26,6 @@ const GamePreviewPrediction = ({ game, prediction, gamePrediction, onChangeGameS
     const { odds } = prediction && prediction.odds ? prediction : game
 
     const date = new Date(game.startDateTime)
-    const gameCannotBeUpdated = gameCannotBeUpdated(date)
     if (!prediction && !gamePrediction && results) {
       return (<div>
         No prediction submitted
@@ -127,7 +126,7 @@ const GamePreviewPrediction = ({ game, prediction, gamePrediction, onChangeGameS
             <StarRatingComponent 
               name={'starsSpread'}
               editing={!results}
-              renderStarIcon={() => <img src={`${StakeIcon}`} style={{width: 20, height: 20}} alt={`Stake Icon`} />}
+              // renderStarIcon={() => <img src={require('../images/stake-image.png').default} style={{width: 20, height: 20}} alt={`Stake Icon`} />}
               value={(gamePrediction && gamePrediction.stars) ? gamePrediction.stars.spread : (prediction && prediction.stars) ? prediction.stars.spread : 0}
               starCount={3}
               starColor={(!results || (prediction && prediction.results && prediction.results.spread.correct === 1)) ? '#124734' : '#e04403'} /* color of selected icons, default `#ffb400` */
@@ -148,7 +147,7 @@ const GamePreviewPrediction = ({ game, prediction, gamePrediction, onChangeGameS
             <StarRatingComponent 
               name='starsTotal'
               editing={!results}
-              renderStarIcon={() => <img src={StakeIcon} alt="Stake" />}
+              // renderStarIcon={() => <img src={require('../images/stake-image.png').default} alt="Stake" />}
               value={(gamePrediction && gamePrediction.stars) ? gamePrediction.stars.total : (prediction && prediction.stars) ? prediction.stars.total : 0}
               starCount={3}
               starColor={(!results || (prediction && prediction.results && prediction.results.total.correct === 1)) ? '#124734' : '#e04403'} /* color of selected icons, default `#ffb400` */
