@@ -8,9 +8,9 @@ const { Title, Paragraph, Text } = Typography;
 const Header = ({ message }) => {
   return (
     <div className="header">
-      <img src={logo} alt="Stakehouse Sports" style={{width: 30, height: 30}} />
+      <img src={logo} alt="Stakehouse Sports" className="headerImage" />
       <Typography>
-        <Title>Stakehouse Sports</Title>
+        <Title level={2}>Stakehouse Sports</Title>
         {message && (
           <Paragraph>{message}</Paragraph>
         )}

@@ -4,6 +4,7 @@ import { connect } from 'react-redux';
 
 import { generateRandomString } from '../../functions/utils'
 
+import { login } from '../../redux/actions/userActions'
 import { toggleLoginModal, onChangeText } from '../../redux/actions/uiActions'
 
 const { Title, Paragraph, Text } = Typography
@@ -18,16 +19,17 @@ const LoginModal = (props) => {
       localStorage['facebookLoginFromPage'] = window.location.href
       window.location.href=`https://crowdsourcedscores.auth.us-west-2.amazoncognito.com/oauth2/authorize?identity_provider=Facebook&redirect_uri=${window.origin}/callback&response_type=CODE&client_id=2n15lhk845sucm0k4fejjqcbev&state=${state}&scope=aws.cognito.signin.user.admin email openid phone profile`
     }
+    console.log('user.loading', user.loading)
 
     return (
-      <Modal visible={UI.loginModalOpen} onCancel={() => props.toggleLoginModal(!UI.loginModalOpen)}>
-        <Typography>
-          <Title level={4}>Sign Up</Title>
-          </Typography>
+      <Modal onOk={() => props.login(UI.loginUsername, UI.loginPassword)} visible={UI.loginModalOpen} onCancel={() => props.toggleLoginModal(!UI.loginModalOpen)} confirmLoading={user.loading}>
         {!props.confirmUser && !props.forgotPassword ?
         
         <Tabs defaultActiveKey="signIn" id="uncontrolled-tab-example">
           <TabPane tab="Sign In" key="1">
+            <Typography>
+             <Title level={4}>Sign In</Title>
+            </Typography>
             <Form>
                 <Form.Item
                 name="username"
@@ -67,6 +69,10 @@ const LoginModal = (props) => {
             </Form>
           </TabPane>
           <TabPane eventKey="signUp" tab="Sign Up" key="2">
+
+            <Typography>
+              <Title level={4}>Sign Up</Title>
+            </Typography>
             <Form>
               <Form.Item
                 name="given_name"
@@ -181,7 +187,8 @@ const mapStateToProps = (state) => ({
 
 const mapActionsToProps = {
   toggleLoginModal,
-  onChangeText
+  onChangeText,
+  login
 }
 
 export default connect(mapStateToProps, mapActionsToProps)(LoginModal)
