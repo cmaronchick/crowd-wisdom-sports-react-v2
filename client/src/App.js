@@ -11,6 +11,7 @@ import { getUrlParameters } from './functions/utils'
 // redux stuff
 import store from './redux/store'
 import { LOADING_USER, SET_USER } from './redux/types'
+import { setGameWeek } from './redux/actions/sportActions'
 
 import { getFacebookUser } from './redux/actions/userActions'
 
@@ -55,6 +56,7 @@ class App extends Component {
     } catch (getCurrentUserError) {
       console.log('getCurrentUserError', getCurrentUserError)
     }
+    store.dispatch(setGameWeek('nfl'))
     if (window.location.pathname === '/callback') {
       console.log('starting spotify login', window.location)
       this.handleAmplifyCallback(window.location)
