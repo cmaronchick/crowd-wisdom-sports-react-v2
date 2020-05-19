@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import {Auth} from '@aws-amplify/auth'
+import { BrowserRouter as Router } from 'react-router-dom'
 import logo from './images/stake-image.svg';
 import './App.css';
 import Header from './components/header/Header'
@@ -11,7 +12,7 @@ import { getUrlParameters } from './functions/utils'
 // redux stuff
 import store from './redux/store'
 import { LOADING_USER, SET_USER } from './redux/types'
-import { setGameWeek } from './redux/actions/sportActions'
+import { setSport, setGameWeek } from './redux/actions/sportActions'
 
 import { getFacebookUser } from './redux/actions/userActions'
 
@@ -56,7 +57,7 @@ class App extends Component {
     } catch (getCurrentUserError) {
       console.log('getCurrentUserError', getCurrentUserError)
     }
-    store.dispatch(setGameWeek('nfl'))
+    store.dispatch(setSport('nfl'))
     if (window.location.pathname === '/callback') {
       console.log('starting spotify login', window.location)
       this.handleAmplifyCallback(window.location)
@@ -67,7 +68,9 @@ class App extends Component {
       <div className="App">
         <Header />
         <Authenticate />
-        <GamesList />
+        <Router>
+          <GamesList />
+        </Router>
       </div>
     );
   }
