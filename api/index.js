@@ -58,17 +58,31 @@ router.get('/:sport/week', (req, res) => {
 
 router.get(['/:sport/games', '/:sport/games/:year/:season/:gameWeek'], (req, res) => {
   //console.log('api index 54 req.headers.authorization: ', req.headers.authorization)
-  console.log('api index 57 query', req.query)
-  return gamesAPIResponse(req.params.sport, req.params.year, req.params.season, req.params.gameWeek, req.headers.authorization, req.query)
+  //console.log('api index 57 query', req.params, req.url)
+  const { sport, year, season, gameWeek } = req.params
+  const callOptionsObject = callOptions(req.headers.authorization);
+  const anonString = callOptionsObject.anonString;
+  const getOptions = callOptionsObject.callOptions;
+  return apiHost.get(`${sport}/${year}/${season}/${gameWeek}/games${anonString}${req.query && req.query.compareUsername ? `?compareUsername=${req.query.compareUsername}` : ''}`, getOptions)
     .then((gamesResponse) => {
-      //console.log({gamesResponse: gamesResponse.data.gameResults});
-      const gamesResponseObjs = gamesResponse.data.games.reduce((obj, game) => {
+        console.log('gamesResponse', gamesResponse)
+        return gamesResponse.json()
+    })
+    .then(gamesResponse => {
+      console.log({gamesResponse});
+      const gamesResponseObjs = gamesResponse.games.reduce((obj, game) => {
         obj[game.gameId] = game;
         return obj;
       }, {});
-      res.send({ games: gamesResponseObjs, gameResults: gamesResponse.data.gameResults});
+      return res.status(200).json({ games: gamesResponseObjs, gameResults: gamesResponse.gameResults});
     })
-    .catch(getGamesError => console.log('api index 65: ', getGamesError));
+    .catch(async (getGamesError) => {
+        console.log('api index 65: ', getGamesError)
+        if (getGamesError.response) {
+            getGamesError = await getGamesError.response.json()
+        }
+        return res.status(500).json({ message: getGamesError})
+    });
 })
 
 router.get('/:sport/games/:year/:season/:gameWeek/:gameId', (req, res) => {

@@ -1,6 +1,6 @@
 {
-  "short_name": "React App",
-  "name": "Create React App Sample",
+  "short_name": "Stakehouse Sports",
+  "name": "Stakehouse Sports - Go Beyond the Coin Flip",
   "icons": [
     {
       "src": "favicon.ico",
@@ -8,14 +8,14 @@
       "type": "image/x-icon"
     },
     {
-      "src": "logo192.png",
+      "src": "faviconx256.png",
       "type": "image/png",
-      "sizes": "192x192"
+      "sizes": "256x256"
     },
     {
-      "src": "logo512.png",
+      "src": "faviconx48.png",
       "type": "image/png",
-      "sizes": "512x512"
+      "sizes": "48x48"
     }
   ],
   "start_url": ".",

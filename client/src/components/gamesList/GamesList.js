@@ -1,8 +1,15 @@
 import React, { Fragment } from 'react';
+import PropTypes from 'prop-types'
 import GamePreview from '../game/GamePreview';
 
-const GamesList = ({ games, gamePredictions, onGameClick, onChangeGameScore, onChangeStarSpread, onChangeStarTotal, onSubmitPrediction }) => {
+import { fetchGame } from '../../redux/actions/gamesActions'
+
+import { connect } from 'react-redux'
+
+const GamesList = (props) => {
+  const { games, gamePredictions } = props
   //console.log({ games, gamePredictions });
+  //{ games, gamePredictions, onGameClick, onChangeGameScore, onChangeStarSpread, onChangeStarTotal, onSubmitPrediction }
   let orderedGames = {}
 
   return games && Object.keys(games).length > 0 ? (
@@ -19,11 +26,11 @@ const GamesList = ({ games, gamePredictions, onGameClick, onChangeGameScore, onC
           //console.log({ gameId, game: games[gameId], gamePrediction: gamePredictions[gameId]})
           return <GamePreview
           key={gameId}
-          onClick={onGameClick}
-          onChangeGameScore={onChangeGameScore}
-          onChangeStarSpread={onChangeStarSpread}
-          onChangeStarTotal={onChangeStarTotal}
-          onSubmitPrediction={onSubmitPrediction}
+          onClick={props.fetchGame}
+          // onChangeGameScore={onChangeGameScore}
+          // onChangeStarSpread={onChangeStarSpread}
+          // onChangeStarTotal={onChangeStarTotal}
+          // onSubmitPrediction={onSubmitPrediction}
           game={games[gameId]}
           gamePrediction={gamePredictions[gameId]} />
         }
@@ -35,9 +42,18 @@ const GamesList = ({ games, gamePredictions, onGameClick, onChangeGameScore, onC
   )
 };
 
-// GamesList.propTypes = {
-//   games: React.PropTypes.object,
-//   onGameClick: React.PropTypes.func.isRequired
-// };
+GamesList.propTypes = {
+  games: PropTypes.object.isRequired,
+  gamePredictions: PropTypes.object.isRequired
+};
 
-export default GamesList;
+const mapStateToProps = (state) => ({
+  games: state.games.games,
+  gamePredictions: state.games.gamePredictions
+})
+
+const mapActionsToProps = {
+  fetchGame
+}
+
+export default connect(mapStateToProps, mapActionsToProps)(GamesList);
