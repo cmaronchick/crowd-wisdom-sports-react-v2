@@ -20,7 +20,6 @@ const Game = (props) => {
       props.fetchGameWeekGames(sport, season, year, gameWeek)
     }
     if (Object.keys(game).length === 0 && loadingGame) {
-      console.log('game, loadingGame', game, loadingGame)
       return (
         <Spin indicator={antIcon} />
       )
