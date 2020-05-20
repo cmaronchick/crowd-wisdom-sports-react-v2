@@ -1,6 +1,7 @@
 import React, { Fragment } from 'react';
 import PropTypes from 'prop-types'
 import GamePreview from '../game/GamePreview';
+import './GamesList.css'
 
 import { fetchGame } from '../../redux/actions/gamesActions'
 
