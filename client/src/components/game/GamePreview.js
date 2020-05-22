@@ -10,7 +10,7 @@ import GamePreviewPrediction from './GamePreview.Prediction'
 import GamePreviewPredictionQuarters from './GamePreview.Prediction.Quarters'
 import * as ResultsCheck from './GamePreview.ResultsCheck'
 
-import './Game.css'
+import './Game.less'
 
 const { Title, Paragraph, Text } = Typography
 
