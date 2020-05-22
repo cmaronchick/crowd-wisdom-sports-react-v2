@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import {Auth} from '@aws-amplify/auth'
 import { BrowserRouter as Router, Switch, Route } from 'react-router-dom'
 import logo from './images/stake-image.svg';
-import './App.css';
+import './App.less';
 import Header from './components/layout/header/Header'
 import Authenticate from './components/profile/Authenticate'
 import GamesList from './components/gamesList/GamesList'

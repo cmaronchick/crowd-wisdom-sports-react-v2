@@ -10,9 +10,10 @@
     "amazon-cognito-identity-js": "^4.2.3",
     "antd": "^4.2.2",
     "aws-amplify": "^3.0.10",
+    "craco-less": "^1.16.0",
     "dayjs": "^1.8.27",
     "history": "^4.10.1",
-    "ky": "^0.19.1",
+    "ky": "^0.20.0",
     "react": "^16.13.1",
     "react-dom": "^16.13.1",
     "react-redux": "^7.2.0",
@@ -26,9 +27,9 @@
     "victory": "^34.3.6"
   },
   "scripts": {
-    "start": "react-scripts start",
-    "build": "react-scripts build",
-    "test": "react-scripts test",
+    "start": "craco start",
+    "build": "craco build",
+    "test": "craco test",
     "eject": "react-scripts eject"
   },
   "eslintConfig": {
