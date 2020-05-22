@@ -9,7 +9,7 @@ import GamePreviewResults from './GamePreview.Results'
 import GamePreviewPrediction from './GamePreview.Prediction'
 import GamePreviewPredictionQuarters from './GamePreview.Prediction.Quarters'
 import * as ResultsCheck from './GamePreview.ResultsCheck'
-
+import GamePreviewHeaderRow from './GamePreview.HeaderRow'
 import './Game.less'
 
 const { Title, Paragraph, Text } = Typography
@@ -105,48 +105,11 @@ const GamePreview = (props) => {
     this.props.onSubmitPrediction(this.props.game.gameId)
   }
     
-    const date = new Date(game.startDateTime)
-    // const gameCannotBeUpdated = apis.gameCannotBeUpdated(date)
-    const options = { weekday: 'short', month: 'short', day: 'numeric', year: '2-digit', hour: 'numeric', minute: 'numeric', timeZoneName: 'short' };
-    const gameDate = date.toLocaleString('en-US', options);
-    // console.log({gamePreviewPrediction: gamePrediction})
-    
       return (
       <Card title={<GamePreviewHeader game={game} onClick={handleClick} />} className="link GamePreview">
         <Row className="game-details">
           <Col span={24}>
-            <Row className="headerRow">
-              <Col span={8} className="gameDate">
-                <Text>
-                {!game.results ? gameDate : `FINAL`}
-                </Text>
-              </Col>
-              <Col span={8}>
-              <Text className="gameLocation">
-                {game.location}
-              </Text>
-              </Col>
-              {game.weather ? (
-              <Col span={8} className="gameWeather">
-                <Text>
-                  <img src={`http://openweathermap.org/img/wn/${game.weather.icon}.png`} className="weatherIcon" />
-                
-                </Text>
-                <Text>{game.weather.temp}&deg;F</Text>
-              </Col>
-              ) : null}
-            </Row>
-            <Row className="headerRow">
-              <Col span={4}></Col>
-              <Col span={showPrediction ? 5 : 10} className={`teamName ${game.awayTeam.code.toLowerCase()} secondary`}>{game.awayTeam.code}</Col>
-              <Col span={showPrediction ? 5 : 10} className={`teamName ${game.homeTeam.code.toLowerCase()} primary`}>{game.homeTeam.code}</Col>
-              {showPrediction ? (
-              <Col span={5} className="odds">Side</Col>
-              ) : null}
-              {showPrediction ? (
-              <Col span={5} className="odds">Total</Col>
-              ) : null} 
-            </Row>
+            <GamePreviewHeaderRow game={game} showPrediction={showPrediction}/>
 
           {(!game.results || game.prediction) ? (
             <GamePreviewPrediction

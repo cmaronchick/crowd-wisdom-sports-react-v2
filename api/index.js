@@ -56,7 +56,7 @@ router.get('/:sport/week', (req, res) => {
 
 })
 
-router.get('/:sport/games/:year/:season/:gameWeek/:gameId', (req, res) => {
+router.get('/:sport/games/:year/:season/:gameWeek/game/:gameId', (req, res) => {
   const { compareUsername } = req.query;
   const callOptionsObject = callOptions(req.headers.authorization);
   const anonString = callOptionsObject.anonString;
@@ -75,7 +75,7 @@ router.get('/:sport/games/:year/:season/:gameWeek/:gameId', (req, res) => {
 });
 
 router.get(['/:sport/games', '/:sport/games/:year/:season/:gameWeek'], (req, res) => {
-  //console.log('api index 54 req.headers.authorization: ', req.headers.authorization)
+  console.log('api index 54 req.headers.authorization: ', req.headers.authorization)
   //console.log('api index 57 query', req.params, req.url)
   const { sport, year, season, gameWeek } = req.params
   const callOptionsObject = callOptions(req.headers.authorization);
@@ -83,7 +83,6 @@ router.get(['/:sport/games', '/:sport/games/:year/:season/:gameWeek'], (req, res
   const getOptions = callOptionsObject.callOptions;
   return apiHost.get(`${sport}/${year}/${season}/${gameWeek}/games${anonString}${req.query && req.query.compareUsername ? `?compareUsername=${req.query.compareUsername}` : ''}`, getOptions)
     .then((gamesResponse) => {
-        console.log('gamesResponse', gamesResponse)
         return gamesResponse.json()
     })
     .then(gamesResponse => {

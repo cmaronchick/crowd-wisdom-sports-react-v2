@@ -46,7 +46,7 @@ const LoginModal = (props) => {
                 rules={[{ required: true, message: 'Please input your password.' }]}>
                 <Input type="password" name="loginPassword" placeholder="Password" onChange={props.onChangeText} />
                 </Form.Item>
-              <Button type="primary" size="medium" className="loginButton" type="submit" onClick={() => props.login(UI.loginUsername, UI.loginPassword)}
+              <Button type="primary" size="medium" className="loginButton" onClick={() => props.login(UI.loginUsername, UI.loginPassword)}
                 loading={signingInUser}
                 disabled={!UI.loginUsername || !UI.loginPassword}>
                   Submit
@@ -62,7 +62,7 @@ const LoginModal = (props) => {
                 </svg></span>
                 <span>Continue with Facebook</span>
               </Button>
-              <Button variant="contained" color="secondary" onClick={() => props.handleForgotPasswordClick()} className="forgotPasswordLink">
+              <Button type="danger" color="secondary" onClick={() => props.handleForgotPasswordClick()} className="forgotPasswordLink">
                 Forgot Password?
               </Button>
               {UI.errors ? (
