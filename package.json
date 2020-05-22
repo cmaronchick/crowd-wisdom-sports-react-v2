@@ -20,6 +20,7 @@
   "proxy": "http://localhost:5000",
   "homepage": "https://github.com/cmaronchick/crowd-wisdom-sports-react-v2#readme",
   "dependencies": {
+    "@craco/craco": "^5.6.4",
     "concurrently": "^5.2.0",
     "cors": "^2.8.5",
     "express": "^4.17.1",
