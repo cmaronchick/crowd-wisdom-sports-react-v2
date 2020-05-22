@@ -7,8 +7,13 @@ import { fetchGame } from '../../redux/actions/gamesActions'
 
 import { connect } from 'react-redux'
 
+import { Spin } from 'antd'
+import { LoadingOutlined } from '@ant-design/icons'
+
+const antIcon = <LoadingOutlined style={{ fontSize: 24 }} spin />;
+
 const GamesList = (props) => {
-  const { games, gamePredictions } = props
+  const { games, gamePredictions, loadingGames } = props
   //console.log({ games, gamePredictions });
   //{ games, gamePredictions, onGameClick, onChangeGameScore, onChangeStarSpread, onChangeStarTotal, onSubmitPrediction }
   let orderedGames = {}
@@ -38,6 +43,8 @@ const GamesList = (props) => {
         )}
       </div>
     </Fragment>
+  ) : loadingGames ? (
+    <Spin indicator={antIcon} />
   ) : (
     <div>No games available</div>
   )
@@ -49,6 +56,7 @@ GamesList.propTypes = {
 };
 
 const mapStateToProps = (state) => ({
+  loadingGames: state.games.loadingGames,
   games: state.games.games,
   gamePredictions: state.games.gamePredictions
 })

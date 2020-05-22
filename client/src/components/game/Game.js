@@ -17,7 +17,7 @@ const Game = (props) => {
     const gamePrediction = gamePredictions[game.gameId]
     const { sport, season, year, gameWeek } = game
     const handleGamesListClick = () => {
-      props.fetchGameWeekGames(sport, season, year, gameWeek)
+      props.fetchGameWeekGames(sport, year, season, gameWeek)
     }
     if (Object.keys(game).length === 0 && loadingGame) {
       return (

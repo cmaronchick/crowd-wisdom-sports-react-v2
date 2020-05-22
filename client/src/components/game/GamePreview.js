@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { Fragment } from 'react';
 import PropTypes from 'prop-types'
 
 import { Card, Button, Spinner, Row, Col, Typography } from 'antd'
@@ -116,9 +116,9 @@ const GamePreview = (props) => {
         <Row className="game-details">
           <Col span={24}>
             <Row className="headerRow">
-              <Col span={8}>
-                <Text className="gameDate">
-                {gameDate}
+              <Col span={8} className="gameDate">
+                <Text>
+                {!game.results ? gameDate : `FINAL`}
                 </Text>
               </Col>
               <Col span={8}>
@@ -160,6 +160,7 @@ const GamePreview = (props) => {
               handleOddsChangeModalShow={handleOddsChangeModalShow}
               handleOddsChangeModalHide={handleOddsChangeModalHide}
               // oddsChangeModalShow={oddsChangeModalShow}
+              predictionType={{type: 'user', title: 'Me'}}
               />
           ) : (
             <Row>
@@ -168,32 +169,32 @@ const GamePreview = (props) => {
           )}
           
           {(game.season === 'post' && game.gameWeek === 4) && (game.prediction || !game.results) && (
-            <Row>
-              <Button onClick={()=> {
+            <Fragment>
+
+              {/* <Button onClick={()=> {
                 showQuarters ? handleHideQuarters() : handleShowQuarters()
               }}>{showQuarters ? 'Hide Quarters' : 'Show Quarters'}</Button>
               <GamePreviewPredictionQuarters
                 game={game}
                 periods={periods}
-                type={{type: 'user', title: 'Me'}} 
+                predictionType={{type: 'user', title: 'Me'}} 
                 onChangeTextQuarters={handleOnChangeTextQuarters}
-                />
-            </Row>
+                /> */}
+            </Fragment>
           )} 
           {game.comparePrediction ? 
             (
-              <Row>
               <GamePreviewPrediction game={game} 
               prediction={game.comparePrediction}
               gamePrediction={gamePrediction}
+              predictionType={{type: 'user', title: 'Crowd'}}
               // onChangeGameScore={this.props.onChangeGameScore}
               // onChangeStarSpread={this.props.onChangeStarSpread}
               // onChangeStarTotal={this.props.onChangeStarTotal}
               />
-              </Row>
             ) : 
           (game.crowd && game.crowd.awayTeam) ? (
-            <Row>
+            <Fragment>
             {!game.prediction && !game.results ? 
               (
                 <div className="team">
@@ -201,19 +202,28 @@ const GamePreview = (props) => {
                 </div>
               ) 
               : (
-                <GamePreviewCrowd game={game} />
+                // <GamePreviewCrowd game={game} />
+                <GamePreviewPrediction
+                  game={game}
+                  prediction={game.crowd}
+                  gamePrediction={{
+                    predictionAwayTeamScore: game.crowd.awayTeam.score,
+                    predictionHomeTeamScore: game.crowd.homeTeam.score,
+                  }}
+                  showPrediction={true}
+                  predictionType={{type: 'crowd', title: 'Crowd'}} />
                 )}
-            </Row>
+            </Fragment>
             ) : (
               <Row className="team">
-                No Crowd Prediction Yet
+                <Col span={24}>
+                <Title level={3}>No Crowd Prediction Yet</Title>
+                </Col>
               </Row>
 
               )}
           {game.results ? (
-            <Row>
               <GamePreviewResults game={game} />
-            </Row>
           ) : (
             <Row style={{ flex: 1, flexDirection: 'row', alignItems: 'center', justifyContent: 'center' }}>
               {/* {!gameCannotBeUpdated ? (
