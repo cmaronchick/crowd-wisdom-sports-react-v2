@@ -21,7 +21,6 @@ const LoginModal = (props) => {
       localStorage['facebookLoginFromPage'] = window.location.href
       window.location.href=`https://crowdsourcedscores.auth.us-west-2.amazoncognito.com/oauth2/authorize?identity_provider=Facebook&redirect_uri=${window.origin}/callback&response_type=CODE&client_id=2n15lhk845sucm0k4fejjqcbev&state=${state}&scope=aws.cognito.signin.user.admin email openid phone profile`
     }
-    console.log('user.loading', user.loading)
 
     return (
       <Modal footer={null} visible={UI.loginModalOpen} onCancel={() => props.toggleLoginModal(!UI.loginModalOpen)} confirmLoading={user.loading}>

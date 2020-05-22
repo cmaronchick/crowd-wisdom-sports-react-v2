@@ -1,13 +1,13 @@
 import React from 'react'
-import {Modal} from 'antd'
+import {Modal, Typography} from 'antd'
+
+const { Title, Text, Paragraph } = Typography
+
 
 const OddsChangeModal = ({game, prediction, oddsChangeModalShow, handleOddsChangeModalHide}) => {
     return (
         <Modal show={oddsChangeModalShow} onHide={handleOddsChangeModalHide}>
-            <Modal.Header closeButton>
-              <Modal.Title>Odds Change Details</Modal.Title>
-            </Modal.Header>
-            <Modal.Body>
+              <Title>Odds Change Details</Title>
                 <div className="oddsRow">
                     <div>
                         Your Odds:
@@ -30,7 +30,6 @@ const OddsChangeModal = ({game, prediction, oddsChangeModalShow, handleOddsChang
                         Total: {game.odds.total}
                     </div>
                 </div>
-            </Modal.Body>
         </Modal>
     )
 }

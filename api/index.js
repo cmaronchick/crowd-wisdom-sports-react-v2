@@ -56,6 +56,24 @@ router.get('/:sport/week', (req, res) => {
 
 })
 
+router.get('/:sport/games/:year/:season/:gameWeek/:gameId', (req, res) => {
+  const { compareUsername } = req.query;
+  const callOptionsObject = callOptions(req.headers.authorization);
+  const anonString = callOptionsObject.anonString;
+  const getOptions = callOptionsObject.callOptions;
+  return ky.get(`https://y5f8dr2inb.execute-api.us-west-2.amazonaws.com/dev/${req.params.sport}/${req.params.year}/${req.params.season}/${req.params.gameWeek}/games/${req.params.gameId}${anonString}`, getOptions)
+  .then((gameResponse) => {
+    return gameResponse.json()
+  })
+  .then(gameResponseJSON => {
+    return res.status(200).json({ game: gameResponseJSON });
+  })
+  .catch(gameResponseError => {
+      console.log('gameResponseError: ', gameResponseError)
+      return res.status(500).json({message: gameResponseError})
+  });
+});
+
 router.get(['/:sport/games', '/:sport/games/:year/:season/:gameWeek'], (req, res) => {
   //console.log('api index 54 req.headers.authorization: ', req.headers.authorization)
   //console.log('api index 57 query', req.params, req.url)
@@ -83,20 +101,6 @@ router.get(['/:sport/games', '/:sport/games/:year/:season/:gameWeek'], (req, res
         }
         return res.status(500).json({ message: getGamesError})
     });
-})
-
-router.get('/:sport/games/:year/:season/:gameWeek/:gameId', (req, res) => {
-  const { compareUsername } = req.query;
-  const callOptionsObject = callOptions(req.headers.authorization);
-  const anonString = callOptionsObject.anonString;
-  const getOptions = callOptionsObject.callOptions;
-  console.log(`https://y5f8dr2inb.execute-api.us-west-2.amazonaws.com/dev/${req.params.sport}/${req.params.year}/${req.params.season}/${req.params.gameWeek}/games/${req.params.gameId}${anonString}${compareUsername ? `?compareUsername=${compareUsername}` : ''}`, getOptions);
-  return ky.get(`https://y5f8dr2inb.execute-api.us-west-2.amazonaws.com/dev/${req.params.sport}/${req.params.year}/${req.params.season}/${req.params.gameWeek}/games/${req.params.gameId}${anonString}`, getOptions)
-  .then((gameResponse) => {
-    // console.log('api index 77 game: ', gameResponse)
-    res.send({ game: gameResponse.data });
-  })
-  .catch(gamesResponseError => console.log('gamesResponseError: ', gamesResponseError));
 });
 
 // router.get('/:sport/leaderboards/:year/:season/:week', (req, res) => {

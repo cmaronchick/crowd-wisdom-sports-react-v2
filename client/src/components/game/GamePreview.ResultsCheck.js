@@ -1,33 +1,39 @@
 import React from 'react'
+import { CheckOutlined, CloseOutlined, AimOutlined } from '@ant-design/icons'
 
  export const straightUpResults = (results, prediction) => {
     return (results.awayTeam.score > results.homeTeam.score)
     ? (prediction.awayTeam.score > prediction.homeTeam.score)
-      ? (<i className={`ion-md-checkmark resultIcon resultWin`}></i>)
-      : (<i className={`ion-md-close resultIcon resultLoss`}></i>)
+      ? (<span className="resultTriangle resultWin"></span>)
+      : (<span style={{width: 0,
+        height: 0,
+        borderTop: "140px solid #103252",
+        borderLeft: "140px solid transparent"}}></span>)
+      // : (<CloseOutlined className={`resultIcon resultLoss`} />)
     : (prediction.awayTeam.score < prediction.homeTeam.score)
-    ? (<i className={`ion-md-checkmark resultIcon resultWin`}></i>)
-    : (<i className={`ion-md-close resultIcon resultLoss`}></i>)
+    ? (<span className="resultTriangle resultWin"></span>)
+    : (<span className="resultTriangle resultLoss"></span>)
   }
   
   export const spreadResults = (odds, results, prediction) => {
+    console.log('prediction', prediction)
     return (results.awayTeam.score > (results.homeTeam.score + odds.spread))
     ? (prediction.awayTeam.score > (prediction.homeTeam.score + odds.spread))
-      ? (<i className={`ion-md-checkmark resultIcon resultWin`}></i>)
-      : (<i className={`ion-md-close resultIcon resultLoss`}></i>)
+    ? (<span className={`resultTriangle resultWin`}></span>)
+    : (<span className={`resultTriangle resultLoss`}></span>)
     : (prediction.awayTeam.score < (prediction.homeTeam.score + odds.spread))
-    ? (<i className={`ion-md-checkmark resultIcon resultWin`}></i>)
-    : (<i className={`ion-md-close resultIcon resultLoss`}></i>)
+    ? (<span className={`resultTriangle resultWin`}></span>)
+    : (<span className={`resultTriangle resultLoss`}></span>)
   }
   
   export const totalResults = (odds, results, prediction) => {
     return ((results.awayTeam.score + results.homeTeam.score) > odds.total)
     ? ((prediction.awayTeam.score + prediction.homeTeam.score) > odds.total)
-      ? (<i className={`ion-md-checkmark resultIcon resultWin`}></i>)
-      : (<i className={`ion-md-close resultIcon resultLoss`}></i>)
+    ? (<span className={`resultTriangle resultWin`}></span>)
+    : (<span className={`resultTriangle resultLoss`}></span>)
     : ((prediction.awayTeam.score + prediction.homeTeam.score) < odds.total)
-    ? (<i className={`ion-md-checkmark resultIcon resultWin`}></i>)
-    : (<i className={`ion-md-close resultIcon resultLoss`}></i>)
+    ? (<span className={`resultTriangle resultWin`}></span>)
+    : (<span className={`resultTriangle resultLoss`}></span>)
   }
 
   export const checkBullseye = (prediction, actual) => {
