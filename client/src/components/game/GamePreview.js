@@ -1,96 +1,68 @@
-import React, { Component } from 'react';
-import { Link } from 'react-router-dom'
-import { Button, Spinner } from 'antd'
+import React, { Fragment } from 'react';
+import PropTypes from 'prop-types'
+
+import { Card, Button, Spinner, Row, Col, Typography } from 'antd'
 // import * as apis from '../apis'
-import StarRatingComponent from 'react-star-rating-component'
+import GamePreviewHeader from './GamePreview.Header'
 import GamePreviewCrowd from './GamePreview.Crowd'
 import GamePreviewResults from './GamePreview.Results'
 import GamePreviewPrediction from './GamePreview.Prediction'
 import GamePreviewPredictionQuarters from './GamePreview.Prediction.Quarters'
 import * as ResultsCheck from './GamePreview.ResultsCheck'
 
+import './Game.css'
 
-class GamePreview extends Component {
-  constructor(props) {
-    super(props)
-    this.state = {
-      game: this.props.game,
-      gamePrediction: this.props.gamePrediction ? this.props.gamePrediction : {
-        predictionAwayTeamScore: this.props.game.prediction ? this.props.game.prediction.awayTeam.score : null,
-        predictionHomeTeamScore: this.props.game.prediction ? this.props.game.prediction.homeTeam.score : null,
-        submittingPrediction: (this.props.gamePrediction && this.props.gamePrediction.submittingPrediction) ? this.props.gamePrediction.submittingPrediction : false,
-      },
-      predictionSpread: null,
-      predictionTotal: null,
-      oddsPrefix: (this.props.game.odds.spread > 0) ? '+' : '',
-      oddsChangeModalShow: false,
-      showQuarters: this.props.game.season === "post" && this.props.game.gameWeek === 4 ? true : false
-    }
+const { Title, Paragraph, Text } = Typography
 
+const GamePreview = (props) => {
+  const { game, gamePrediction } = props
+  if (!game || !game.gameId) {
+    return (
+      <div>No game found</div>
+    )
   }
-  // shouldComponentUpdate(nextProps, nextState) {
-    // console.log({nextProps, props: this.props})
-    // if (this.props.game !== nextProps.game) return true
-    // if (this.props.gamePrediction !== nextProps.gamePrediction) {
-    //   console.log(`this.props.gamePrediction: ${this.props.gamePrediction}`);
-    //   console.log(`nextProps.gamePrediction: ${nextProps.gamePrediction}`)
-    //   return true;
-    // }
-  //   return true;
-  // }
-  componentDidMount() {
-    const { season, gameWeek } = this.state.game
-    //check for super bowl and set quarters state
-    if (gameWeek === 4 && season === 'post') {
-      this.setState({
-        periods: this.state.game.prediction && this.state.game.prediction.periods ? {...this.state.game.prediction.periods} : {
-          awayTeam: {
-            q1: '',
-            q2: '',
-            q3: '',
-            q4: ''
-          },
-          homeTeam: {
-            q1: '',
-            q2: '',
-            q3: '',
-            q4: ''
-          }
+  const oddsPrefix = game.odds.spread > 0 ? '+' : '';
+  const showQuarters = game.season === "post" && game.gameWeek === 4 ? true : false
+  
+  const { season, gameWeek } = game
+  const showPrediction = (gamePrediction && gamePrediction.predictionAwayTeamScore && gamePrediction.predictionHomeTeamScore) || game.prediction
+  //check for super bowl and set quarters state
+  let periods = {};
+  if (gameWeek === 4 && season === 'post') {
+      periods = game.prediction && game.prediction.periods ? {...game.prediction.periods} : {
+        awayTeam: {
+          q1: '',
+          q2: '',
+          q3: '',
+          q4: ''
         },
-        showQuarters: true,
-      })
-    }
+        homeTeam: {
+          q1: '',
+          q2: '',
+          q3: '',
+          q4: ''
+        }
+      }
+      const showQuarters = true
+  }
 
-  }
-  componentDidUpdate(prevProps, prevState) {
-    //console.log('gamePreview updated')
-    
-    if ((this.props.game !== prevProps.game) || (this.state.game !== prevState.game)) {
-      //console.log({newgame: this.props.game});
-      this.setState({game: this.props.game})
-    }
-    if ((this.props.gamePrediction !== prevProps.gamePrediction) || (this.state.gamePrediction !== prevState.gamePrediction)) {
-      //console.log({newgamePrediction: this.props.gamePrediction})
-      this.setState({gamePrediction: this.props.gamePrediction})
-    }
-  }
-  handleClick = () => {
-    this.props.onClick(this.props.game.sport, this.props.game.year, this.props.game.season, this.props.game.gameWeek, this.props.game.gameId);
+  const handleClick = () => {
+    props.onClick(game.sport, game.year, game.season, game.gameWeek, game.gameId);
   }
 
   
-  handleOnChangeStarSpread = (event) => {
+  const handleOnChangeStarSpread = (event) => {
     this.props.onChangeStarSpread(this.props.game.gameId, event)
   }
 
-  handleOnChangeStarTotal = (event) => {
+  const handleOnChangeStarTotal = (event) => {
     this.props.onChangeStarTotal(this.props.game.gameId, event)
   }
 
-  handleOnChangeGameScore = (event) => {
+  const handleOnChangeGameScore = (event) => {
     this.props.onChangeGameScore(this.props.game.gameId, event)
   }
-  handleOnChangeTextQuarters = (team, quarter, event) => {
+  const handleOnChangeTextQuarters = (team, quarter, event) => {
     console.log('event', event)
     let { value } = event.target
     let periodsObj = {...this.state.periods}
@@ -112,39 +84,26 @@ class GamePreview extends Component {
     this.props.handleOnChangeTextQuarters(team, quarter, event)
   }
   
-  handleShowQuarters = () => {
+  const handleShowQuarters = () => {
     this.setState({ showQuarters: true})
   }
-  handleHideQuarters = () => {
+  const handleHideQuarters = () => {
     this.setState({ showQuarters: false})
   }
 
 
-  handleOddsChangeModalShow = () => {
+  const handleOddsChangeModalShow = () => {
     this.setState({ oddsChangeModalShow: true})
   }
 
-  handleOddsChangeModalHide = () => {
+  const handleOddsChangeModalHide = () => {
     this.setState({ oddsChangeModalShow: false })
   }
 
-  handleSubmit = (event) => {
+  const handleSubmit = (event) => {
     event.preventDefault()
     this.props.onSubmitPrediction(this.props.game.gameId)
   }
-
-  // submitPrediction = async () => {
-  //   let predictionResponse = await apis.fetchSubmitPrediction()
-  //   console.log('predictionResponse :', predictionResponse);
-  //   // this.setState({ submittingPrediction: false})
-  // }
-
-  myRef = React.createRef()
-
-
-
-  render() {
-    const { game, gamePrediction } = this.state;
     
     const date = new Date(game.startDateTime)
     // const gameCannotBeUpdated = apis.gameCannotBeUpdated(date)
@@ -152,137 +111,140 @@ class GamePreview extends Component {
     const gameDate = date.toLocaleString('en-US', options);
     // console.log({gamePreviewPrediction: gamePrediction})
     
-    if (game) { 
       return (
-      <div ref={this.myRef} className="link GamePreview">
-        <Link to={`/${game.sport}/games/${game.year}/${game.season}/${game.gameWeek}/${game.gameId}`} onClick={this.handleClick}>
-          <div className="game-header">
-            
-          {game.bowlName ? (
-            <div className="bowlName">
-            {game.bowlName}
-            </div>
-            ) : null}
-          {game.awayTeam.rank ? `#${game.awayTeam.rank} ` : ''}{game.awayTeam.fullName} vs. {game.homeTeam.rank ? `#${game.homeTeam.rank} ` : ''}{game.homeTeam.fullName}
-          </div>
-        </Link>
-        <div className="game-details">
-          <div className="headerRow">
-            <div className="gameTime">
-              {gameDate}
-            </div>
-            <div className="gameLocation">
-              {game.location}
-            </div>
-            {game.weather ? (
-            <div className="gameWeather">
-              <div>
-              {game.weather.icon === '01d' || game.weather.icon === '01n' ? (
-                <i className={`ion-md-sunny`} style={{padding: 6}} />
-              ) : (
-                <img src={`http://openweathermap.org/img/wn/${game.weather.icon}.png`} className="weatherIcon" />
-              )}
-              </div>
-              <div>{game.weather.temp}&deg;F</div>
-            </div>
-            ) : null}
-          </div>
-          <div className="headerRow">
-            <div></div>
-            <div className={`teamName ${game.awayTeam.code.toLowerCase()} secondary`}>{game.awayTeam.code}</div>
-            <div className={`teamName ${game.homeTeam.code.toLowerCase()} primary`}>{game.homeTeam.code}</div>
-            {(gamePrediction && gamePrediction.predictionAwayTeamScore && gamePrediction.predictionHomeTeamScore) || game.prediction ? (
-            <div className="odds">Side</div>
-            ) : null}
-            {(gamePrediction && gamePrediction.predictionAwayTeamScore && gamePrediction.predictionHomeTeamScore) || game.prediction ? (
-            <div className="odds">Total</div>
-            ) : null} 
-          </div>
+      <Card title={<GamePreviewHeader game={game} onClick={handleClick} />} className="link GamePreview">
+        <Row className="game-details">
+          <Col span={24}>
+            <Row className="headerRow">
+              <Col span={8} className="gameDate">
+                <Text>
+                {!game.results ? gameDate : `FINAL`}
+                </Text>
+              </Col>
+              <Col span={8}>
+              <Text className="gameLocation">
+                {game.location}
+              </Text>
+              </Col>
+              {game.weather ? (
+              <Col span={8} className="gameWeather">
+                <Text>
+                  <img src={`http://openweathermap.org/img/wn/${game.weather.icon}.png`} className="weatherIcon" />
+                
+                </Text>
+                <Text>{game.weather.temp}&deg;F</Text>
+              </Col>
+              ) : null}
+            </Row>
+            <Row className="headerRow">
+              <Col span={4}></Col>
+              <Col span={showPrediction ? 5 : 10} className={`teamName ${game.awayTeam.code.toLowerCase()} secondary`}>{game.awayTeam.code}</Col>
+              <Col span={showPrediction ? 5 : 10} className={`teamName ${game.homeTeam.code.toLowerCase()} primary`}>{game.homeTeam.code}</Col>
+              {showPrediction ? (
+              <Col span={5} className="odds">Side</Col>
+              ) : null}
+              {showPrediction ? (
+              <Col span={5} className="odds">Total</Col>
+              ) : null} 
+            </Row>
 
           {(!game.results || game.prediction) ? (
             <GamePreviewPrediction
+              showPrediction={showPrediction}
               game={game}
               prediction={game.prediction}
-              gamePrediction={gamePrediction}
-              onChangeGameScore={this.props.onChangeGameScore}
-              onChangeStarSpread={this.props.onChangeStarSpread}
-              onChangeStarTotal={this.props.onChangeStarTotal}
-              handleOddsChangeModalShow={this.handleOddsChangeModalShow}
-              handleOddsChangeModalHide={this.handleOddsChangeModalHide}
-              oddsChangeModalShow={this.state.oddsChangeModalShow} />            
+              gamePrediction={gamePrediction ? gamePrediction : game.prediction}
+              // onChangeGameScore={onChangeGameScore}
+              // onChangeStarSpread={onChangeStarSpread}
+              // onChangeStarTotal={onChangeStarTotal}
+              handleOddsChangeModalShow={handleOddsChangeModalShow}
+              handleOddsChangeModalHide={handleOddsChangeModalHide}
+              // oddsChangeModalShow={oddsChangeModalShow}
+              predictionType={{type: 'user', title: 'Me'}}
+              />
           ) : (
+            <Row>
             <div>No prediction for this game</div>
+            </Row>
           )}
           
-          {(game.season === 'post' && game.gameWeek === 4) && (game.prediction || !game.results) ? (
-            <div>
-              <Button onClick={()=> {
-                this.state.showQuarters ? this.handleHideQuarters() : this.handleShowQuarters()
-              }}>{this.state.showQuarters ? 'Hide Quarters' : 'Show Quarters'}</Button>
+          {(game.season === 'post' && game.gameWeek === 4) && (game.prediction || !game.results) && (
+            <Fragment>
+
+              {/* <Button onClick={()=> {
+                showQuarters ? handleHideQuarters() : handleShowQuarters()
+              }}>{showQuarters ? 'Hide Quarters' : 'Show Quarters'}</Button>
               <GamePreviewPredictionQuarters
                 game={game}
-                periods={this.state.periods}
-                type={{type: 'user', title: 'Me'}} 
-                onChangeTextQuarters={this.handleOnChangeTextQuarters}
-                />
-            </div>
-          ) : null} 
+                periods={periods}
+                predictionType={{type: 'user', title: 'Me'}} 
+                onChangeTextQuarters={handleOnChangeTextQuarters}
+                /> */}
+            </Fragment>
+          )} 
           {game.comparePrediction ? 
             (
               <GamePreviewPrediction game={game} 
               prediction={game.comparePrediction}
               gamePrediction={gamePrediction}
-              onChangeGameScore={this.props.onChangeGameScore}
-              onChangeStarSpread={this.props.onChangeStarSpread}
-              onChangeStarTotal={this.props.onChangeStarTotal}
+              predictionType={{type: 'user', title: 'Crowd'}}
+              // onChangeGameScore={this.props.onChangeGameScore}
+              // onChangeStarSpread={this.props.onChangeStarSpread}
+              // onChangeStarTotal={this.props.onChangeStarTotal}
               />
             ) : 
-          (game.crowd && game.crowd.awayTeam) ? 
-            !game.prediction && !game.results ? 
+          (game.crowd && game.crowd.awayTeam) ? (
+            <Fragment>
+            {!game.prediction && !game.results ? 
               (
                 <div className="team">
                   Predict to see the Crowd Wisdom
                 </div>
               ) 
               : (
-                <GamePreviewCrowd game={game} />
-                ) 
-            : (
-              <div className="team">
-                No Crowd Prediction Yet
-              </div>
+                // <GamePreviewCrowd game={game} />
+                <GamePreviewPrediction
+                  game={game}
+                  prediction={game.crowd}
+                  gamePrediction={{
+                    predictionAwayTeamScore: game.crowd.awayTeam.score,
+                    predictionHomeTeamScore: game.crowd.homeTeam.score,
+                  }}
+                  showPrediction={true}
+                  predictionType={{type: 'crowd', title: 'Crowd'}} />
+                )}
+            </Fragment>
+            ) : (
+              <Row className="team">
+                <Col span={24}>
+                <Title level={3}>No Crowd Prediction Yet</Title>
+                </Col>
+              </Row>
+
               )}
           {game.results ? (
-            <GamePreviewResults game={game} />
+              <GamePreviewResults game={game} />
           ) : (
-            <div style={{ flex: 1, flexDirection: 'row', alignItems: 'center', justifyContent: 'center' }}>
+            <Row style={{ flex: 1, flexDirection: 'row', alignItems: 'center', justifyContent: 'center' }}>
               {/* {!gameCannotBeUpdated ? (
                 <Button type='submit' style={{width: '100%'}} onClick={this.handleSubmit} disabled={!game.prediction && !((gamePrediction.predictionAwayTeamScore || gamePrediction.predictionAwayTeamScore ===0 || gamePrediction.predictionAwayTeamScore !== '') && (gamePrediction.predictionHomeTeamScore || gamePrediction.predictionHomeTeamScore === 0))}>
                   {this.props.gamePrediction && this.props.gamePrediction.submittingPrediction ? <Spinner animation='border' /> : game.prediction ? 'Update' : 'Predict'}
                 </Button>
               ) : null} */}
-            </div>
+            </Row>
           )}
-          </div>
+          </Col>
+          </Row>
           
-        </div>
+        </Card>
       );
-    }
-    return (
-      <div></div>
-    )
-  }
 }
 
-// GamePreview.propTypes = {
-//   gameId: React.PropTypes.number.isRequired,
-//   awayTeam: React.PropTypes.shape({
-//     code: React.PropTypes.string.isRequired
-//   }),
-//   homeTeam: React.PropTypes.shape({
-//     code: React.PropTypes.string.isRequired
-//   }),
-//   onClick: React.PropTypes.func.isRequired
-// };
+GamePreview.propTypes = {
+  onClick: PropTypes.func.isRequired,
+  game: PropTypes.object.isRequired,
+  gamePrediction: PropTypes.object.isRequired
+}
+
 
 export default GamePreview;

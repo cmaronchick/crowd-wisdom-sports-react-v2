@@ -1,114 +1,73 @@
-import React, { Component, PropTypes } from 'react';
+import React, { Component } from 'react';
+import PropTypes from 'prop-types'
 import { Link } from 'react-router-dom'
-import * as api from '../apis'
-import Auth from '@aws-amplify/auth'
-import awsconfig from '../awsexports'
-// retrieve temporary AWS credentials and sign requests
-Auth.configure(awsconfig);
+
+import { connect } from 'react-redux'
+import { fetchGame, fetchGameWeekGames } from '../../redux/actions/gamesActions'
 import GamePreview from './GamePreview'
-import GameOddsChart from '../components/GameOddsChart'
-class Game extends Component {
-  constructor(props) {
-    super(props)
-    this.chartReference = React.createRef();
-    this.state = {
-      ...this.props.initialData,
-      game: this.props.game
+import GameOddsChart from './GameOddsChart'
+
+import { Spin } from 'antd'
+import { LoadingOutlined } from '@ant-design/icons'
+
+const antIcon = <LoadingOutlined style={{ fontSize: 24 }} spin />;
+
+const Game = (props) => {
+    const { game, gamePredictions, loadingGame } = props;
+    const gamePrediction = gamePredictions[game.gameId]
+    const { sport, season, year, gameWeek } = game
+    const handleGamesListClick = () => {
+      props.fetchGameWeekGames(sport, year, season, gameWeek)
     }
-  }
-
-  getGame = async () => {
-    try {
-      let user = await Auth.currentAuthenticatedUser()
-      let userSession = await Auth.currentSession()
-      
-      if (this._isMounted) {
-      let gameObj = await api.fetchGame(this.props.sport, this.props.year, this.props.season, this.props.gameWeek, this.props.gameId, userSession)
-      console.log({game: gameObj.game});
-      let gamePrediction = gameObj.game ? gameObj.game.prediction : null;
-      this.setState({game: gameObj.game, gamePrediction, user})
-      }
-    } catch(getGameError) {
-      console.log({getGameError});
-      if (this._isMounted) {
-        try {
-          let gameObj = await api.fetchGame(this.props.sport ? this.props.sport : this.props.game.sport,
-            this.props.year ? this.props.year : this.props.game.year,
-            this.props.season ? this.props.season : this.props.game.season,
-            this.props.gameWeek ? this.props.gameWeek : this.props.game.gameWeek,
-            this.props.gameId ? this.props.gameId : this.props.game.gameId, null)
-          console.log({game: gameObj.game});
-          let gamePrediction = gameObj.game ? gameObj.game.prediction : null;
-          this.setState({game: gameObj.game, gamePrediction, user: null})
-        }catch(getGameErrorUnauth) {
-          console.log({getGameErrorUnauth});
-        }
-      }
-    }
-  }
-
-  componentDidUpdate() {
-
-  }
-
-  _isMounted = true;
-
-  componentDidMount() {
-    console.log({initialData: this.props.initialData})
-    this.props.initialData ? this.getGame() : null
-  }
-
-  componentWillUnmount() {
-    this._isMounted = false;
-  }
-
-  handleGamesListClick = () => {
-    this.props.gamesListClick(this.props.sport, this.props.year, this.props.season, this.props.gameWeek, this.props.ref);
-  }
-
-  render() {
-    const { game } = this.state;
-    if (!game) {
+    if (Object.keys(game).length === 0 && loadingGame) {
       return (
-        <div>Loading game ...</div> 
+        <Spin indicator={antIcon} />
       )
     }
     return (
           <div className="Game">
-            <Link onClick={this.handleGamesListClick} className="home-link link" to={`/${this.props.sport}/games/${this.props.year}/${this.props.season}/${this.props.gameWeek}`}>
+            <Link
+              className="home-link link"
+              onClick={handleGamesListClick}
+              to={`/${sport}/games/${year}/${season}/${gameWeek}`}>
               <i className="fas fa-arrow-left" style={{fontSize: '1.2em', fontWeight: 'bold' }}></i>
             </Link>
             <GamePreview
-              onChangeGameScore={this.props.onChangeGameScore}
-              onChangeStarSpread={this.props.onChangeStarSpread}
-              onChangeStarTotal={this.props.onChangeStarTotal}
-              onSubmitPrediction={this.props.onSubmitPrediction}
-              onClick={this.props.onGameClick}
-              game={game} gamePrediction={this.props.gamePrediction} />
-              {game.odds && game.odds.history ? (
+              // onChangeGameScore={this.props.onChangeGameScore}
+              // onChangeStarSpread={this.props.onChangeStarSpread}
+              // onChangeStarTotal={this.props.onChangeStarTotal}
+              // onSubmitPrediction={this.props.onSubmitPrediction}
+              // onClick={this.props.onGameClick}
+              game={game} gamePrediction={gamePrediction} />
+              {/* {game.odds && game.odds.history ? (
                 <GameOddsChart ref={this.chartReference} game={game} />
-              ) : null}
+              ) : null} */}
 
-            <Link onClick={this.handleGamesListClick} className="home-link link" to={`/${this.props.sport}/games/${this.props.year}/${this.props.season}/${this.props.gameWeek}`}>
+            <Link
+              className="home-link link"
+              onClick={handleGamesListClick}
+              to={`/${sport}/games/${year}/${season}/${gameWeek}`}>
                 Games List
             </Link>
 
           </div>
     );
-  }
 }
 
-// Game.propTypes = {
-//   gameId: PropTypes.number.isRequired,
-//   awayTeam: PropTypes.shape({
-//     code: PropTypes.string.isRequired,
-//     shortName: PropTypes.string.isRequired
-//   }),
-//   homeTeam: PropTypes.shape({
-//     code: PropTypes.string.isRequired,
-//     shortName: PropTypes.string.isRequired
-//   }),
-//   gamesListClick: PropTypes.func.isRequired
-// };
+Game.propTypes = {
+  game: PropTypes.object.isRequired
+};
 
-export default Game;
+const mapStateToProps = (state) => ({
+  loadingGame: state.games.loadingGame,
+  game: state.games.game,
+  gamePredictions: state.games.gamePredictions,
+  user: state.user
+})
+
+const mapActionsToProps = {
+  fetchGameWeekGames,
+  fetchGame
+}
+
+export default connect(mapStateToProps, mapActionsToProps)(Game);

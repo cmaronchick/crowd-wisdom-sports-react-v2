@@ -1,8 +1,21 @@
 import React, { Fragment } from 'react';
+import PropTypes from 'prop-types'
 import GamePreview from '../game/GamePreview';
+import './GamesList.css'
 
-const GamesList = ({ games, gamePredictions, onGameClick, onChangeGameScore, onChangeStarSpread, onChangeStarTotal, onSubmitPrediction }) => {
+import { fetchGame } from '../../redux/actions/gamesActions'
+
+import { connect } from 'react-redux'
+
+import { Spin } from 'antd'
+import { LoadingOutlined } from '@ant-design/icons'
+
+const antIcon = <LoadingOutlined style={{ fontSize: 24 }} spin />;
+
+const GamesList = (props) => {
+  const { games, gamePredictions, loadingGames } = props
   //console.log({ games, gamePredictions });
+  //{ games, gamePredictions, onGameClick, onChangeGameScore, onChangeStarSpread, onChangeStarTotal, onSubmitPrediction }
   let orderedGames = {}
 
   return games && Object.keys(games).length > 0 ? (
@@ -19,25 +32,37 @@ const GamesList = ({ games, gamePredictions, onGameClick, onChangeGameScore, onC
           //console.log({ gameId, game: games[gameId], gamePrediction: gamePredictions[gameId]})
           return <GamePreview
           key={gameId}
-          onClick={onGameClick}
-          onChangeGameScore={onChangeGameScore}
-          onChangeStarSpread={onChangeStarSpread}
-          onChangeStarTotal={onChangeStarTotal}
-          onSubmitPrediction={onSubmitPrediction}
+          onClick={props.fetchGame}
+          // onChangeGameScore={onChangeGameScore}
+          // onChangeStarSpread={onChangeStarSpread}
+          // onChangeStarTotal={onChangeStarTotal}
+          // onSubmitPrediction={onSubmitPrediction}
           game={games[gameId]}
           gamePrediction={gamePredictions[gameId]} />
         }
         )}
       </div>
     </Fragment>
+  ) : loadingGames ? (
+    <Spin indicator={antIcon} />
   ) : (
     <div>No games available</div>
   )
 };
 
-// GamesList.propTypes = {
-//   games: React.PropTypes.object,
-//   onGameClick: React.PropTypes.func.isRequired
-// };
+GamesList.propTypes = {
+  games: PropTypes.object.isRequired,
+  gamePredictions: PropTypes.object.isRequired
+};
 
-export default GamesList;
+const mapStateToProps = (state) => ({
+  loadingGames: state.games.loadingGames,
+  games: state.games.games,
+  gamePredictions: state.games.gamePredictions
+})
+
+const mapActionsToProps = {
+  fetchGame
+}
+
+export default connect(mapStateToProps, mapActionsToProps)(GamesList);

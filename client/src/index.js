@@ -1,13 +1,25 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
+import { BrowserRouter as Router, Route } from 'react-router-dom'
+import history from 'history'
 import './index.css';
 import App from './App';
 import * as serviceWorker from './serviceWorker';
 
+// redux stuff
+import { Provider } from 'react-redux'
+import store from './redux/store'
+
+// Amplify Stuff
+import Amplify from 'aws-amplify'
+import awsmobile from './awsmobile'
+Amplify.configure(awsmobile)
+
 ReactDOM.render(
-  <React.StrictMode>
-    <App />
-  </React.StrictMode>,
+  
+  <Provider store={store}>
+      <App />
+  </Provider>,
   document.getElementById('root')
 );
 
