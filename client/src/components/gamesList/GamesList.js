@@ -3,7 +3,7 @@ import PropTypes from 'prop-types'
 import GamePreview from '../game/GamePreview';
 import './GamesList.css'
 
-import { fetchGame } from '../../redux/actions/gamesActions'
+import { fetchGame, fetchGameWeekGames } from '../../redux/actions/gamesActions'
 
 import { connect } from 'react-redux'
 
@@ -13,10 +13,14 @@ import { LoadingOutlined } from '@ant-design/icons'
 const antIcon = <LoadingOutlined style={{ fontSize: 24 }} spin />;
 
 const GamesList = (props) => {
-  const { games, gamePredictions, loadingGames } = props
+  const { sport, games, gamePredictions, loadingGames } = props
   //console.log({ games, gamePredictions });
   //{ games, gamePredictions, onGameClick, onChangeGameScore, onChangeStarSpread, onChangeStarTotal, onSubmitPrediction }
   let orderedGames = {}
+  if (Object.keys(games).length === 0 && sport && sport.sport && !loadingGames) {
+    const { year, season, week } = sport.gameWeekData
+    props.fetchGameWeekGames(sport.sport, year, season, week)
+  }
 
   return games && Object.keys(games).length > 0 ? (
     <Fragment>
@@ -52,17 +56,23 @@ const GamesList = (props) => {
 
 GamesList.propTypes = {
   games: PropTypes.object.isRequired,
-  gamePredictions: PropTypes.object.isRequired
+  gamePredictions: PropTypes.object.isRequired,
+  loadingGames: PropTypes.bool.isRequired,
+  sport: PropTypes.object.isRequired,
+  fetchGame: PropTypes.func.isRequired,
+  fetchGameWeekGames: PropTypes.func.isRequired
 };
 
 const mapStateToProps = (state) => ({
   loadingGames: state.games.loadingGames,
   games: state.games.games,
-  gamePredictions: state.games.gamePredictions
+  gamePredictions: state.games.gamePredictions,
+  sport: state.sport
 })
 
 const mapActionsToProps = {
-  fetchGame
+  fetchGame,
+  fetchGameWeekGames
 }
 
 export default connect(mapStateToProps, mapActionsToProps)(GamesList);

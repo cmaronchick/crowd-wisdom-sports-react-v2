@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import {Auth} from '@aws-amplify/auth'
 import { BrowserRouter as Router, Switch, Route } from 'react-router-dom'
+import { createBrowserHistory } from 'history'
 import { Layout } from 'antd';
 import logo from './images/stake-image.svg';
 import './App.less';
@@ -22,6 +23,8 @@ import { fetchGame } from './redux/actions/gamesActions'
 import { getFacebookUser } from './redux/actions/userActions'
 
 
+
+const customHistory = createBrowserHistory();
 const { Footer, Content } = Layout;
 var stateKey = 'amplify_auth_state';
 
@@ -86,7 +89,7 @@ class App extends Component {
         <Header />
         <Content>
           <Layout hasSider={true}>
-            <Router>
+            <Router history={customHistory}>
             <SideMenu />
             <Content>
             <Authenticate />
