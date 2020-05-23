@@ -126,8 +126,10 @@ const GamePreview = (props) => {
               predictionType={{type: 'user', title: 'Me'}}
               />
           ) : (
-            <Row>
-            <div>No prediction for this game</div>
+            <Row className="predictionRow noPrediction">
+              <Col span={24}>
+                <Text type="warning">No prediction for this game</Text>
+              </Col>
             </Row>
           )}
           
@@ -206,7 +208,7 @@ const GamePreview = (props) => {
 GamePreview.propTypes = {
   onClick: PropTypes.func.isRequired,
   game: PropTypes.object.isRequired,
-  gamePrediction: PropTypes.object.isRequired
+  gamePrediction: PropTypes.object
 }
 
 
