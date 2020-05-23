@@ -2,7 +2,7 @@ import React from 'react'
 import PropTypes from 'prop-types'
 import { NavLink, Link } from "react-router-dom";
 
-import './SideMenu.css'
+import './SideMenu.less'
 import { Layout, Menu } from 'antd'
 import { UserOutlined } from '@ant-design/icons'
 
@@ -28,6 +28,7 @@ const SideMenu = (props) => {
             defaultSelectedKeys={['1']}
             defaultOpenKeys={[sportKeys[sport.sport]]}
             style={{ height: '100%' }}
+            className="sideMenu"
           >
             <SubMenu key="nfl" title="NFL">
                 <Menu.Item key="1"><NavLink to="/nfl">Games</NavLink></Menu.Item>
