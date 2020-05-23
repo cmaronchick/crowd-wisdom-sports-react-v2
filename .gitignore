@@ -34,7 +34,6 @@ node_modules
 public/*.bundle.js
 public/bundle.js
 public/bundle.js.map
-client
 
 #amplify
 amplify/\#current-cloud-backend
