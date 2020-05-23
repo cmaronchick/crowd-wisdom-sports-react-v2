@@ -1,26 +1,26 @@
 import './header.css'
 
 import React, { Button } from 'react';
-import logo from '../../../images/stake-image.png'
-import { Typography } from 'antd'
+import PropTypes from 'prop-types'
+import logo from '../../../images/stake-image-brown.svg'
+import { Layout, Typography } from 'antd'
 const { Title, Paragraph, Text } = Typography;
 
-const Header = ({ message }) => {
+const { Header } = Layout
+const StakehouseHeader = ({ message }) => {
   return (
-    <div className="header">
+    <Header className="header">
       <img src={logo} alt="Stakehouse Sports" className="headerImage" />
-      <Typography>
-        <Title level={2}>Stakehouse Sports</Title>
-        {message && (
-          <Paragraph>{message}</Paragraph>
-        )}
-      </Typography>
-    </div>
+      Stakehouse Sports
+      {message && (
+        <Text type="warning">{message}</Text>
+      )}
+    </Header>
   );
 };
 
-// Header.propTypes = {
-//   message: React.propTypes.string
-// };
+Header.propTypes = {
+  message: PropTypes.string
+};
 
-export default Header;
+export default StakehouseHeader;

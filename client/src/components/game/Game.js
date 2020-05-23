@@ -1,7 +1,9 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types'
 import { Link } from 'react-router-dom'
+import { withRouter } from 'react-router-dom'
 
+// Redux Stuff
 import { connect } from 'react-redux'
 import { fetchGame, fetchGameWeekGames } from '../../redux/actions/gamesActions'
 import GamePreview from './GamePreview'
@@ -38,7 +40,9 @@ const Game = (props) => {
               // onChangeStarTotal={this.props.onChangeStarTotal}
               // onSubmitPrediction={this.props.onSubmitPrediction}
               // onClick={this.props.onGameClick}
-              game={game} gamePrediction={gamePrediction} />
+              game={game} gamePrediction={gamePrediction}
+              onClick={props.fetchGame}
+              />
               {/* {game.odds && game.odds.history ? (
                 <GameOddsChart ref={this.chartReference} game={game} />
               ) : null} */}
@@ -70,4 +74,4 @@ const mapActionsToProps = {
   fetchGame
 }
 
-export default connect(mapStateToProps, mapActionsToProps)(Game);
+export default withRouter(connect(mapStateToProps, mapActionsToProps)(Game));

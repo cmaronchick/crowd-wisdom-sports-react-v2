@@ -1,12 +1,16 @@
 import React, { Component } from 'react';
 import {Auth} from '@aws-amplify/auth'
 import { BrowserRouter as Router, Switch, Route } from 'react-router-dom'
+import { createBrowserHistory } from 'history'
+import { Layout } from 'antd';
 import logo from './images/stake-image.svg';
 import './App.less';
 import Header from './components/layout/header/Header'
+import SideMenu from './components/layout/sidemenu/SideMenu'
 import Authenticate from './components/profile/Authenticate'
 import GamesList from './components/gamesList/GamesList'
 import Game from './components/game/Game'
+import Leaderboards from './components/leaderboards/Leaderboards'
 
 import { getUrlParameters } from './functions/utils'
 
@@ -18,6 +22,10 @@ import { fetchGame } from './redux/actions/gamesActions'
 
 import { getFacebookUser } from './redux/actions/userActions'
 
+
+
+const customHistory = createBrowserHistory();
+const { Footer, Content } = Layout;
 var stateKey = 'amplify_auth_state';
 
 class App extends Component {
@@ -77,23 +85,35 @@ class App extends Component {
   render() {
     return (
       <div className="App">
+        <Layout>
         <Header />
-        <Authenticate />
-        <Router>
-          <Switch>
-            <Route path="/:sport/games/:year/:season/:gameWeek/:gameId" render={({match}) => 
-              <Game
-              sport={match.params.sport}
-              year={parseInt(match.params.year)}
-              season={match.params.season}
-              gameWeek={match.params.gameWeek}
-              gameId={match.params.gameId} />
-            }/>
-            <Route path="/">
-              <GamesList />
-            </Route>
-          </Switch>
-        </Router>
+        <Content>
+          <Layout hasSider={true}>
+            <Router history={customHistory}>
+            <SideMenu />
+            <Content>
+            <Authenticate />
+                <Switch>
+                  <Route path="/:sport/games/:year/:season/:gameWeek/:gameId" render={({match}) => 
+                    <Game
+                    sport={match.params.sport}
+                    year={parseInt(match.params.year)}
+                    season={match.params.season}
+                    gameWeek={match.params.gameWeek}
+                    gameId={match.params.gameId} />
+                  }/>
+                  <Route path="/:sport/leaderboards">
+                    <Leaderboards />
+                  </Route>
+                  <Route path="/">
+                    <GamesList />
+                  </Route>
+                </Switch>
+            </Content>
+            </Router>
+          </Layout>
+        </Content>
+        </Layout>
       </div>
     );
   }

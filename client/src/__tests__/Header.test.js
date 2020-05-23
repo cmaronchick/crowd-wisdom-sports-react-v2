@@ -1,6 +1,6 @@
 import React from 'react';
 import { render } from '@testing-library/react';
-import Header from './Header';
+import Header from '../components/layout/header/Header';
 describe('header tests', () => {
     test('renders only the title', () => {
     const { getByText } = render(<Header />);

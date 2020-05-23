@@ -9,6 +9,7 @@ import { LOADING_GAMES,
 } from '../types'
 import { Auth } from '@aws-amplify/auth'
 import ky from 'ky/umd'
+import store from '../store';
 
 const apiHost = ky.create({prefixUrl: process.env.NODE_ENV === 'development' ? 'http://localhost:5000/api/' : 'https://y5f8dr2inb.execute-api.us-west-2.amazonaws.com/dev/'})
 
@@ -90,12 +91,15 @@ export const fetchGameWeekGames = (sport, year, season, gameWeek) => async (disp
     }
 
     try {
-        let getGameResponse = await apiHost.get(`${sport}/games/${year}/${season}/${gameWeek}/game/${gameId}${!currentSession ? `/anon` : ''}`, getOptions).json()
+        let getGameResponse = await apiHost.get(`${sport}/games/${year}/${season}/${gameWeek}/game/${gameId}`, getOptions).json()
         console.log('getGameResponse', getGameResponse)
         dispatch({
             type: SET_GAME,
             payload: getGameResponse
         })
+        if (store.getState().games.loadingGames) {
+            dispatch(fetchGameWeekGames(sport, year, season, gameWeek))
+        }
     } catch (getGameError) {
         console.log('getGameError', getGameError)
         if (getGameError.response) {

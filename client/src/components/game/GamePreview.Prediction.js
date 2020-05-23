@@ -38,7 +38,7 @@ const GamePreviewPrediction = (props) => {
     }
     // const gameCannotBeUpdated = gameCannotBeUpdated(date)
     if (!prediction && !gamePrediction && results) {
-      return (<Row className="predictionRow"><Col span={24}>No prediction submitted</Col></Row>)
+      return (<Row className="predictionRow noPrediction"><Col span={24}>No prediction submitted</Col></Row>)
     }
     console.log('gamePrediction', gamePrediction)
     return (
