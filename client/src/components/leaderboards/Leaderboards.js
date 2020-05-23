@@ -1,12 +1,12 @@
 import React, { Component } from 'react'
-import Auth from '@aws-amplify/auth'
-import * as api from '../apis'
 
 const Leaderboards = ({leaderboardDataObj, selectedLeaderboard}) => {
     
     if (!leaderboardDataObj) { 
         console.log('No leaderboard object')
-        return null
+        return (
+            <div>No leaderboard found</div>
+        )
     }
     console.log('leaderboardDataObj', leaderboardDataObj.leaderboardData)
     const leaderboard = selectedLeaderboard ? selectedLeaderboard : 'overall'

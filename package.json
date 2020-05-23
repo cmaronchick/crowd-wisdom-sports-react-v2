@@ -26,5 +26,6 @@
     "express": "^4.17.1",
     "ky": "^0.20.0",
     "ky-universal": "^0.6.0"
-  }
+  },
+  "devDependencies": {}
 }

@@ -16,7 +16,9 @@ module.exports = {
                 '@warning-color': 'rgba(224, 20, 7, 1.0)',
                 '@normal-color': '#231f20',
                 '@white': '#fff',
-                '@black': '#231f20'
+                '@black': '#231f20',
+                '@layout-header-background': '#231f20',
+                '@layout-header-color': '#f6dfa4'
             },
             javascriptEnabled: true,
           },
