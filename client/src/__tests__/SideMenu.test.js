@@ -14,7 +14,7 @@ describe('header tests', () => {
 
     test('renders only the message', () => {
         const { getByText } = render(<Provider store={store}><Router><SideMenu /></Router></Provider>);
-        const message = getByText(/Test message/i);
+        const message = getByText(/Profile/i);
         expect(message).toBeInTheDocument();
     });
 })

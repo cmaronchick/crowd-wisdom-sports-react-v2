@@ -7,7 +7,7 @@ import logo from './images/stake-image.svg';
 import './App.less';
 import Header from './components/layout/header/Header'
 import SideMenu from './components/layout/sidemenu/SideMenu'
-import Authenticate from './components/profile/Authenticate'
+import ProfileSnippet from './components/profile/ProfileSnippet'
 import GamesList from './components/gamesList/GamesList'
 import Game from './components/game/Game'
 import Leaderboards from './components/leaderboards/Leaderboards'
@@ -92,7 +92,7 @@ class App extends Component {
             <Router history={customHistory}>
             <SideMenu />
             <Content>
-            <Authenticate />
+            <ProfileSnippet />
                 <Switch>
                   <Route path="/:sport/games/:year/:season/:gameWeek/:gameId" render={({match}) => 
                     <Game

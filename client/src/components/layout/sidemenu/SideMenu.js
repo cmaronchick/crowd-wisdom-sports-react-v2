@@ -4,24 +4,45 @@ import { NavLink, Link } from "react-router-dom";
 
 import './SideMenu.less'
 import { Layout, Menu } from 'antd'
-import { UserOutlined } from '@ant-design/icons'
+import Icon, { UserOutlined } from '@ant-design/icons'
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
+import { faFootballBall, faSchool, faBasketballBall, faTrophy, faUserFriends } from '@fortawesome/free-solid-svg-icons'
 
 import { connect } from 'react-redux'
-
 import { setSport } from '../../../redux/actions/sportActions'
+
+import LoginButton from '../../profile/LoginButton'
 
 const { Sider } = Layout
 
 const { SubMenu, Item } = Menu
 
+const sportsVariables = {
+    nfl: {
+        name: 'NFL',
+        icon: faFootballBall
+    },
+    ncaaf: {
+        name: 'NCAAF',
+        icon: faSchool
+    },
+    ncaam: {
+        name: 'NCAAM',
+        icon: faBasketballBall
+    }
+}
+
+const faIcon = (sport) => (<FontAwesomeIcon icon={sportsVariables[sport].icon}/>)
+
 const SideMenu = (props) => {
-    const { sport, UI } = props
+    const { sport, UI, user } = props
     const sportKeys = {
         nfl: 'nfl'
     }
     return (
         //<!-- Sidebar -->
-        <Sider>
+        <Sider breakpoint="sm"
+        collapsedWidth="80">
 
           <Menu
             mode="inline"
@@ -30,24 +51,26 @@ const SideMenu = (props) => {
             style={{ height: '100%' }}
             className="sideMenu"
           >
-            <SubMenu key="nfl" title="NFL">
-                <Menu.Item key="1"><NavLink to="/nfl">Games</NavLink></Menu.Item>
-                <Menu.Item key="2"><NavLink to="/nfl/leaderboards">Leaderboards</NavLink></Menu.Item>
-                <Menu.Item key="3"><NavLink to="/nfl/groups">Groups</NavLink></Menu.Item>
+            <SubMenu key="nfl" icon={<Icon component={() => faIcon('nfl')} />} title='NFL'>
+                <Menu.Item key="1" icon={<Icon component={() => <FontAwesomeIcon icon={faFootballBall} />} />}><NavLink to="/nfl">Games</NavLink></Menu.Item>
+                <Menu.Item key="2" icon={<Icon component={() => <FontAwesomeIcon icon={faTrophy} />} />}><NavLink to="/nfl/leaderboards">Leaderboards</NavLink></Menu.Item>
+                <Menu.Item key="3" icon={<Icon component={() => <FontAwesomeIcon icon={faUserFriends} />} />}><NavLink to="/nfl/groups">Groups</NavLink></Menu.Item>
             </SubMenu>
-            <SubMenu key="ncaaf" title="NCAAF">
-              <Menu.Item key="1"><NavLink to="/ncaaf">Games</NavLink></Menu.Item>
-              <Menu.Item key="2"><NavLink to="/ncaaf/leaderboards">Leaderboards</NavLink></Menu.Item>
-              <Menu.Item key="3"><NavLink to="/ncaaf/groups">Groups</NavLink></Menu.Item>
+            <SubMenu key="ncaaf" title="NCAAF" icon={<Icon component={() => faIcon('ncaaf')} />}>
+                <Menu.Item key="1" icon={<Icon component={() => <FontAwesomeIcon icon={faFootballBall} />} />}><NavLink to="/ncaaf">Games</NavLink></Menu.Item>
+                <Menu.Item key="2" icon={<Icon component={() => <FontAwesomeIcon icon={faTrophy} />} />}><NavLink to="/ncaaf/leaderboards">Leaderboards</NavLink></Menu.Item>
+                <Menu.Item key="3" icon={<Icon component={() => <FontAwesomeIcon icon={faUserFriends} />} />}><NavLink to="/ncaaf/groups">Groups</NavLink></Menu.Item>
             </SubMenu>
-            <SubMenu key="ncaam" title="NCAAM">
-              <Menu.Item key="1"><NavLink to="/ncaam">Games</NavLink></Menu.Item>
-              <Menu.Item key="2"><NavLink to="/ncaam/leaderboards">Leaderboards</NavLink></Menu.Item>
-              <Menu.Item key="3"><NavLink to="/ncaam/groups">Groups</NavLink></Menu.Item>
+            <SubMenu key="ncaam" title="NCAAM" icon={<Icon component={() => faIcon('ncaam')} />}>
+                <Menu.Item key="1" icon={<Icon component={() => <FontAwesomeIcon icon={faFootballBall} />} />}><NavLink to="/ncaam">Games</NavLink></Menu.Item>
+                <Menu.Item key="2" icon={<Icon component={() => <FontAwesomeIcon icon={faTrophy} />} />}><NavLink to="/ncaam/leaderboards">Leaderboards</NavLink></Menu.Item>
+                <Menu.Item key="3" icon={<Icon component={() => <FontAwesomeIcon icon={faUserFriends} />} />}><NavLink to="/ncaam/groups">Groups</NavLink></Menu.Item>
             </SubMenu>
-            <Item>
-                <Link to="/profile"><UserOutlined /> Profile</Link>
+            {user.authenticated && (
+            <Item icon={<UserOutlined />}>
+                    <Link to="/profile"> Profile</Link>
             </Item>
+            )}
         </Menu>
 
         </Sider>
@@ -60,7 +83,8 @@ SideMenu.propTypes = {
 
 const mapStateToProps = (state) => ({
     sport: state.sport,
-    UI: state.UI
+    UI: state.UI,
+    user: state.user
 })
 
 const mapActionsToProps = {
