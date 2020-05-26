@@ -9,6 +9,7 @@ import { logout } from '../../redux/actions/userActions'
 
 // Ant Design stuff
 import { Button, Row, Col, Typography } from 'antd'
+import LoginButton from './LoginButton'
 import LoginModal from './LoginModal'
 
 const { Text } = Typography
@@ -33,9 +34,7 @@ const Authenticate = (props) => {
                     </Row>
                 </Fragment>
                 ) : (
-                    <Button type="primary" size="large" onClick={() => props.toggleLoginModal(!UI.loginModalOpen)}>
-                        Login/Sign Up
-                    </Button>
+                    <LoginButton />
                 )}
                 <LoginModal />
 
