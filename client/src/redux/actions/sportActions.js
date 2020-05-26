@@ -64,3 +64,14 @@ export const setGameWeek = (sport) => async (dispatch) => {
     //     type: 
     // })
 }
+
+export const changeGameWeek = (gameWeekData, selectedWeek) => (dispatch) => {
+
+    dispatch({
+        type: SET_GAMEWEEK,
+        payload: {
+            ...gameWeekData,
+            week: selectedWeek
+        }
+    })
+}

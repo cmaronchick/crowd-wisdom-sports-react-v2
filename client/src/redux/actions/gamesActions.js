@@ -7,6 +7,7 @@ import { LOADING_GAMES,
     SET_ERRORS,
     CLEAR_ERRORS
 } from '../types'
+
 import { Auth } from '@aws-amplify/auth'
 import ky from 'ky/umd'
 import store from '../store';
@@ -15,7 +16,6 @@ const apiHost = ky.create({prefixUrl: process.env.NODE_ENV === 'development' ? '
 
 
 export const fetchGameWeekGames = (sport, year, season, gameWeek) => async (dispatch) => {
-    console.log('sport, year, season, gameWeek', sport, year, season, gameWeek)
     dispatch({
         type: LOADING_GAMES
     })
@@ -40,6 +40,7 @@ export const fetchGameWeekGames = (sport, year, season, gameWeek) => async (disp
             payload: gameWeekGames
         })
         dispatch(setGamePredictions(gameWeekGames.games))
+        window.history.pushState({ sport, year, season, gameWeek }, `${sport}: ${year} / ${season} / Week ${gameWeek}`, `/${sport}/games/${year}/${season}/${gameWeek}`)
 
 
     } catch (getGameWeekGamesError) {

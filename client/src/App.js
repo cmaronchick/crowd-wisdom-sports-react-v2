@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import {Auth} from '@aws-amplify/auth'
-import { BrowserRouter as Router, Switch, Route } from 'react-router-dom'
+import { Router, Switch, Route } from 'react-router-dom'
 import { createBrowserHistory } from 'history'
 import { Layout } from 'antd';
 import logo from './images/stake-image.svg';
@@ -105,9 +105,10 @@ class App extends Component {
                   <Route path="/:sport/leaderboards">
                     <Leaderboards />
                   </Route>
-                  <Route path="/">
-                    <GamesList />
-                  </Route>
+                  <Route path={["/:sport", "/:sport/games","/"]} render={({match}) => {
+                    console.log('match', match)
+                    return <GamesList {...match.params} />
+                  }} />
                 </Switch>
             </Content>
             </Router>
