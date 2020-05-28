@@ -13,7 +13,7 @@ import { CheckOutlined, CloseOutlined, AimOutlined } from '@ant-design/icons'
   }
   
   export const spreadResults = (odds, results, prediction) => {
-    console.log('prediction', prediction)
+    
     return (results.awayTeam.score > (results.homeTeam.score + odds.spread))
     ? (prediction.awayTeam.score > (prediction.homeTeam.score + odds.spread))
     ? (<span className={`resultTriangle resultWin`}></span>)
@@ -34,5 +34,5 @@ import { CheckOutlined, CloseOutlined, AimOutlined } from '@ant-design/icons'
   }
 
   export const checkBullseye = (prediction, actual) => {
-    return (prediction === actual) ? (<i className={`fas fa-bullseye bullseyeIcon`}></i>) : null
+    return (prediction === actual) ? (<AimOutlined />) : null
   }

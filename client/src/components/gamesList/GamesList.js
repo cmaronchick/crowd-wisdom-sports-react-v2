@@ -1,8 +1,9 @@
 import React, { Fragment } from 'react';
 import PropTypes from 'prop-types'
 import GamePreview from '../game/GamePreview';
-import './GamesList.css'
+import './GamesList.less'
 import Weeks from '../weeks/Weeks'
+import SeasonSelector from '../seasonSelector/SeasonSelector'
 
 import { fetchGame, fetchGameWeekGames } from '../../redux/actions/gamesActions'
 
@@ -28,7 +29,10 @@ const GamesList = (props) => {
       <div className="gamesList">
       {games && Object.keys(games).length > 0 ? (
         <Fragment>
-          <Weeks onGameWeekClick={props.fetchGameWeekGames} />
+          <div className="selectorHeader">
+            <SeasonSelector />
+            <Weeks onGameWeekClick={props.fetchGameWeekGames} />
+          </div>
           {Object.keys(games).sort((a,b) => {
             return (games[b].status === games[a].status) ? new Date(games[a].startDateTime) - new Date(games[b].startDateTime) : new Date(games[b].startDateTime) - new Date(games[a].startDateTime)
           }).map(gameId => {

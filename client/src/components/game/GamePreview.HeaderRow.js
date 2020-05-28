@@ -10,7 +10,7 @@ const { Title, Text } = Typography
 export const GamePreviewHeaderRow = (props) => {
     const { game, showPrediction } = props
     const gameDate = dayjs(game.startDateTime).format('MMMM D, YYYY H:mm')
-    console.log('gameDate', gameDate)
+    
     return (
         <Fragment>
             <Row className="headerRow">

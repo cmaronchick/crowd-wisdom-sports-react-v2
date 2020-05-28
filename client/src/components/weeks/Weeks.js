@@ -20,8 +20,9 @@ const Weeks = (props) => {
     }
   return (
     <List
+    className="weeks"
     itemLayout="horizontal"
-    grid={{gutter: 4}}
+    grid={{column: weeks.length}}
       dataSource={weeks}
       renderItem={(item, index) => {
         return (

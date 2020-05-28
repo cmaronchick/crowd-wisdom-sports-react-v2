@@ -6,9 +6,9 @@ import { toggleLoginModal } from '../../redux/actions/uiActions'
 import { Button } from 'antd'
 
 const LoginButton = (props) => {
-    const { UI } = props
+    const { UI, buttonClass } = props
     return (
-        <Button type="primary" size="large" onClick={() => props.toggleLoginModal(!UI.loginModalOpen)}>
+        <Button className={buttonClass ? buttonClass : null} type="primary" size="large" onClick={() => props.toggleLoginModal(!UI.loginModalOpen)}>
             Login/Sign Up
         </Button>
     )
