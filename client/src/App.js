@@ -11,6 +11,7 @@ import LoginModal from './components/profile/LoginModal'
 import GamesList from './components/gamesList/GamesList'
 import Game from './components/game/Game'
 import Leaderboards from './components/leaderboards/Leaderboards'
+import Profile from './components/profile/Profile'
 
 import { getUrlParameters } from './functions/utils'
 
@@ -19,6 +20,7 @@ import store from './redux/store'
 import { LOADING_USER, SET_USER, LOADING_GAMES, LOADING_GAME } from './redux/types'
 import { setSport, setGameWeek } from './redux/actions/sportActions'
 import { fetchGame } from './redux/actions/gamesActions'
+import { fetchLeaderboards } from './redux/actions/leaderboardActions'
 
 import { getFacebookUser } from './redux/actions/userActions'
 
@@ -67,10 +69,12 @@ class App extends Component {
     })
     try {
       const currentUser = await Auth.currentAuthenticatedUser()
+      console.log('currentUser', currentUser)
       store.dispatch({
         type: SET_USER,
         payload: {
-          ...currentUser.attributes
+          username: currentUser.username,
+          attributes: currentUser.attributes
         }
       })
     } catch (getCurrentUserError) {
@@ -85,6 +89,9 @@ class App extends Component {
       let season = routeParams[4]
       let week = parseInt(routeParams[5])
       store.dispatch(setSport(sport ? sport : 'nfl', year, season, week))
+      if (page === 'leaderboards') {
+        store.dispatch(fetchLeaderboards(sport ? sport : 'nfl', year ? year : 2019, season ? season : 'post', week ? week : 4))
+      }
     }
     if (window.location.pathname === '/callback') {
       console.log('starting spotify login', window.location)
@@ -102,6 +109,7 @@ class App extends Component {
             <Content>
             {/* <ProfileSnippet /> */}
                 <Switch>
+                  <Route path="/profile" component={Profile} />
                   <Route path="/:sport/games/:year/:season/:gameWeek/game/:gameId" component={Game} />
                   <Route path="/:sport/leaderboards" component={Leaderboards} />
                   <Route path={["/:sport", "/:sport/games","/"]} component={GamesList} />

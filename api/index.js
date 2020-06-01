@@ -56,6 +56,27 @@ router.get('/:sport/week', (req, res) => {
 
 })
 
+router.get('/:sport/:year/:season', (req, res) => {
+    const callOptionsObject = callOptions(req.headers.authorization);
+    const anonString = callOptionsObject.anonString;
+    const getOptions = callOptionsObject.callOptions;
+    console.log('req.params', req.params)
+    const { sport, year, season } = req.params;
+      return apiHost.get(`${sport}/${year}/${season}`, getOptions)
+      .then((seasonDetailsReponse) => {
+          return seasonDetailsReponse.json()
+      })
+      .then(seasonDetails => {
+        return res.status(200).json({ data: seasonDetails })
+      })
+      .catch(seasonDetailsReponseError => {
+        let errorMessage = seasonDetailsReponseError
+          console.log('api index 72 seasonDetailsReponseError: ', seasonDetailsReponseError)
+          return res.status(500).json({ message: `Something went wrong. - ${errorMessage}`})
+      })
+
+})
+
 router.get('/:sport/games/:year/:season/:gameWeek/game/:gameId', (req, res) => {
   const { compareUsername } = req.query;
   const callOptionsObject = callOptions(req.headers.authorization);
@@ -75,13 +96,12 @@ router.get('/:sport/games/:year/:season/:gameWeek/game/:gameId', (req, res) => {
 });
 
 router.get(['/:sport/games', '/:sport/games/:year/:season/:gameWeek'], (req, res) => {
-  console.log('api index 54 req.headers.authorization: ', req.headers.authorization)
   //console.log('api index 57 query', req.params, req.url)
   const { sport, year, season, gameWeek } = req.params
   const callOptionsObject = callOptions(req.headers.authorization);
   const anonString = callOptionsObject.anonString;
   const getOptions = callOptionsObject.callOptions;
-  return apiHost.get(`${sport}/${year}/${season}/${gameWeek}/games${anonString}${req.query && req.query.compareUsername ? `?compareUsername=${req.query.compareUsername}` : ''}`, getOptions)
+  return apiHost.get(`${sport}/${year}/${season}/${gameWeek}/games${req.query && req.query.compareUsername ? `?compareUsername=${req.query.compareUsername}` : ''}`, getOptions)
     .then((gamesResponse) => {
         return gamesResponse.json()
     })
@@ -102,20 +122,26 @@ router.get(['/:sport/games', '/:sport/games/:year/:season/:gameWeek'], (req, res
     });
 });
 
-// router.get('/:sport/leaderboards/:year/:season/:week', (req, res) => {
-//   const callOptionsObject = callOptions(req.headers.authorization);
-//   const anonString = callOptionsObject.anonString;
-//   const getOptions = callOptionsObject.callOptions;
-//   axios.get(`https://y5f8dr2inb.execute-api.us-west-2.amazonaws.com/dev/${req.params.sport}/${req.params.year}/${req.params.season}/${req.params.week}/leaderboards`, getOptions)
-//   .then((overallLeaderboardResponse) => {
-//     //console.log('overallLeaderboardResponse: ', overallLeaderboardResponse.data)
-//     res.send({ leaderboards: {
-//       overall: overallLeaderboardResponse.data
-//       }
-//     })
-//   })
-//   .catch((overallLeaderboardReject => console.log('overallLeaderboardReject: ', overallLeaderboardReject)))
-// })
+router.get('/:sport/leaderboards/:year/:season/:week', (req, res) => {
+  const callOptionsObject = callOptions(req.headers.authorization);
+  const anonString = callOptionsObject.anonString;
+  const getOptions = callOptionsObject.callOptions;
+  const { sport, year, season, week } = req.params
+  return ky.get(`https://y5f8dr2inb.execute-api.us-west-2.amazonaws.com/dev/${sport}/${year}/${season}/${week}/leaderboards`, getOptions)
+  .then((leaderboardResponse) => {
+    //console.log('overallLeaderboardResponse: ', overallLeaderboardResponse.data)
+    return leaderboardResponse.json()
+  })
+  .then(leaderboardResponse => {
+    console.log('leaderboardResponse', leaderboardResponse)
+    return res.status(200).json({ leaderboards: leaderboardResponse
+    })
+  })
+  .catch(overallLeaderboardReject => {
+    console.log('overallLeaderboardReject: ', overallLeaderboardReject);
+    return res.status(500).json({ message: 'Something went wrong'});
+  })
+})
 
 router.post('/submitPrediction', (req, res) => {
   // console.log('api/index 81 req.body: ', req.body)
@@ -191,7 +217,7 @@ router.get('/:sport/leaderboards/:year/:season/:week/crowdOverall', (req, res) =
    .catch(crowdOverallResponseError => console.log('api leaderboard index 137 crowdOverallResponse: ', crowdOverallResponseError))
 })
 
-router.get('/extendedprofile', (req, AmplifyAuth, res) => {
+router.get('/extendedprofile', (req, res) => {
   console.log('req.user', req.user)
   //console.log({req: req.params});
   let { sport, year, season, week } = req.query;

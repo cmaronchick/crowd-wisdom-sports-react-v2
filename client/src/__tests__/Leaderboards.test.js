@@ -2,6 +2,8 @@ import React from 'react'
 import { render } from '@testing-library/react';
 import { BrowserRouter as Router } from 'react-router-dom'
 import Leaderboards from '../components/leaderboards/Leaderboards'
+import { Provider } from 'react-redux'
+import store from '../redux/store'
 import {
     getByLabelText,
     getByText,
@@ -17,9 +19,12 @@ import {
 describe('render the game screen', () => {
     
     test('present a loading game message when game is missing', () => {
-        const {getByText} = render(<Router><Leaderboards /></Router>);
+        const {getByText} = render(
+        <Provider store={store}>
+            <Router><Leaderboards /></Router>
+        </Provider>);
         console.log({getByText});
-        const NoLeaderboard = getByText('No leaderboard found');
+        const NoLeaderboard = getByText('No Weekly Leaderboard');
         expect(NoLeaderboard).toBeInTheDocument();;
     })
 

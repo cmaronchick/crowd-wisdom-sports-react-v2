@@ -21,6 +21,7 @@ export default function(state = initialState, action) {
                 loadingLeaderboards: true
             }
         case SET_LEADERBOARDS:
+            console.log('action.payload', action.payload)
             return { 
                 ...state,
                 leaderboards: {...action.payload},
