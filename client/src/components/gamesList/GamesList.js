@@ -10,9 +10,8 @@ import { fetchGame, fetchGameWeekGames } from '../../redux/actions/gamesActions'
 import { connect } from 'react-redux'
 
 import { Spin } from 'antd'
-import { LoadingOutlined } from '@ant-design/icons'
+import { antIcon } from '../../functions/utils'
 
-const antIcon = <LoadingOutlined style={{ fontSize: 24 }} spin />;
 
 const GamesList = (props) => {
   const { sport, games, gamePredictions, loadingGames } = props
@@ -27,12 +26,14 @@ const GamesList = (props) => {
 
   return (
       <div className="gamesList">
-      {games && Object.keys(games).length > 0 ? (
+        <div className="selectorHeader">
+          <SeasonSelector />
+          <Weeks onGameWeekClick={props.fetchGameWeekGames} page="games" />
+        </div>
+        {loadingGames ? (
+          <Spin indicator={antIcon} />
+        ) : games && Object.keys(games).length > 0 ? (
         <Fragment>
-          <div className="selectorHeader">
-            <SeasonSelector />
-            <Weeks onGameWeekClick={props.fetchGameWeekGames} />
-          </div>
           {Object.keys(games).sort((a,b) => {
             return (games[b].status === games[a].status) ? new Date(games[a].startDateTime) - new Date(games[b].startDateTime) : new Date(games[b].startDateTime) - new Date(games[a].startDateTime)
           }).map(gameId => {
@@ -55,8 +56,6 @@ const GamesList = (props) => {
           )}
 
         </Fragment>
-        ) : loadingGames ? (
-          <Spin indicator={antIcon} />
         ) : (
           <div>No games available</div>
         )}

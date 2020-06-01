@@ -11,14 +11,15 @@ import { fetchGameWeekGames } from '../../redux/actions/gamesActions'
 import { changeGameWeek } from '../../redux/actions/sportActions'
 
 const Weeks = (props) => {
-  const { sport, onGameWeekClick } = props
+  const { sport, onGameWeekClick, page } = props
   const { year, season, weeks, week } = sport.gameWeekData
     // console.log('weeks: ', weeks);
     const onWeekClick = (selectedWeek) => {
+      console.log('selectedWeek', selectedWeek)
       onGameWeekClick(sport.sport, year, season, selectedWeek)
       props.changeGameWeek(sport.gameWeekData, selectedWeek)
     }
-  return (
+  return weeks ? (
     <List
     className="weeks"
     itemLayout="horizontal"
@@ -27,27 +28,20 @@ const Weeks = (props) => {
       renderItem={(item, index) => {
         return (
         
-            <List.Item
-            key={index}
-               
-              // sport={sport} 
-              // year={year} 
-              // season={season} 
-              // week={week} 
-              // weekIndex={index + 1}
-              // currentWeek={week}
-              >
-                <Link
-                  to={`/${sport.sport}/games/${year}/${season}/${index + 1}`}
-                  onClick={() => onWeekClick(index + 1)}
-                  className={`week ${index + 1 === week ? 'selectedWeek' : null}`}
-                  >
-                  {item.weekName}
-                </Link>
+            <List.Item key={index}>
+              <Link
+                to={`/${sport.sport}/${page}/${year}/${season}/${index + 1}`}
+                onClick={() => onWeekClick(index + 1)}
+                className={`week ${index + 1 === week ? 'selectedWeek' : null}`}
+                >
+                {item.weekName}
+              </Link>
             </List.Item>
         )
       }}
       />
+  ) : (
+    <div></div>
   );
 };
   

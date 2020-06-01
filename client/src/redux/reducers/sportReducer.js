@@ -7,7 +7,8 @@ import {
 
 const initialState = {
     sport: null,
-    gameWeekData: {}
+    gameWeekData: {},
+    loadingSport: true
 }
 
 export default function(state = initialState, action) {
@@ -23,7 +24,8 @@ export default function(state = initialState, action) {
                 sport: action.payload.sport,
                 gameWeekData: {
                     ...action.payload
-                }
+                },
+                loadingSport: false
             }
         case SET_SEASON: 
             return {

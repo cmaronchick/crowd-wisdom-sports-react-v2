@@ -12,16 +12,17 @@ const SeasonSelector = (props) => {
         selectSeason(sport.sport, sport.gameWeekData.year, season.value)
 
     }
+    console.log('sport.gameWeekData.season', sport.gameWeekData.season)
     return (
         <Select
-        labelInValue
-        defaultValue={{ key: sport.gameWeekData.season }}
-        style={{ width: 120 }}
-        onChange={handleChange}
-            >
-        <Option value="reg">Regular Season</Option>
-        <Option value="post">Postseason</Option>
-      </Select>
+            labelInValue
+            defaultValue={{ key: sport.gameWeekData.season }}
+            style={{ width: 120 }}
+            onChange={handleChange}
+                >
+            <Option key="reg" value="reg">Regular Season</Option>
+            <Option key="post" value="post">Postseason</Option>
+        </Select>
     )
 }
 

@@ -48,7 +48,7 @@ const StakehouseHeader = ({ message,user, logout }) => {
           {window.innerWidth < 500 ? (
             <UserOutlined />
           ) : (
-            user.preferred_username
+            user.attributes.preferred_username
           )}
           <DownOutlined />
         </a>
@@ -59,9 +59,10 @@ const StakehouseHeader = ({ message,user, logout }) => {
   );
 };
 
-Header.propTypes = {
+StakehouseHeader.propTypes = {
   message: PropTypes.string,
-  user: PropTypes.object.isRequired
+  user: PropTypes.object.isRequired,
+  logout: PropTypes.func.isRequired
 };
 
 const mapStateToProps = (state) => ({

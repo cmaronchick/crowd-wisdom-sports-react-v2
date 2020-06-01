@@ -3,7 +3,21 @@ import { BrowserRouter as Router, Switch, Route, Link } from "react-router-dom";
 import { render } from '@testing-library/react';
 import { Provider } from 'react-redux'
 import store from '../redux/store'
+Object.defineProperty(window, 'matchMedia', {
+    writable: true,
+    value: jest.fn().mockImplementation(query => ({
+      matches: false,
+      media: query,
+      onchange: null,
+      addListener: jest.fn(), // deprecated
+      removeListener: jest.fn(), // deprecated
+      addEventListener: jest.fn(),
+      removeEventListener: jest.fn(),
+      dispatchEvent: jest.fn(),
+    })),
+  });
 import Game from '../../src/components/game/Game'
+import { SET_GAMEWEEK, SET_GAME, LOADING_GAME } from '../redux/types';
 
 // const game = {
 //     "gameId":1233884,
@@ -50,10 +64,25 @@ const game = {
 describe('render the game screen', () => {
     
     test('present a loading game message when game is missing', () => {
+        store.dispatch({
+            type: LOADING_GAME
+        })
+        const { getByTitle } = render(<Provider store={store}><Router><Game /></Router></Provider>);
+        const linkElement = getByTitle(/Loading Game/i);
+        
+        expect(linkElement).toBeInTheDocument();
+    })
+    test('present a no game found when no game is returned', () => {
+        store.dispatch({
+            type: SET_GAME,
+            payload: {}
+        })
 
         const { getByText } = render(<Provider store={store}><Router><Game /></Router></Provider>);
         const linkElement = getByText(/No game found/i);
+        
         expect(linkElement).toBeInTheDocument();
     })
+
 
 })
