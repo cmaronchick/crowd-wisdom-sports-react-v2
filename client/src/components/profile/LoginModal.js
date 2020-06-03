@@ -44,7 +44,7 @@ const LoginModal = (props) => {
                 name="password"
                 label="Password"
                 rules={[{ required: true, message: 'Please input your password.' }]}>
-                <Input type="password" name="loginPassword" placeholder="Password" onChange={props.onChangeText} />
+                <Input.Password type="password" name="loginPassword" placeholder="Password" onChange={props.onChangeText} />
                 </Form.Item>
               <Button type="primary" size="medium" className="loginButton" onClick={() => props.login(UI.loginUsername, UI.loginPassword)}
                 loading={signingInUser}

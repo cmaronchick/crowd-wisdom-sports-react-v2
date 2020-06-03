@@ -12,15 +12,21 @@ import GameOddsChart from './GameOddsChart'
 import { Spin } from 'antd'
 import { LoadingOutlined } from '@ant-design/icons'
 
-const antIcon = <LoadingOutlined style={{ fontSize: 24 }} spin />;
+const antIcon = <LoadingOutlined title="Loading Game" alt="Loading Game" style={{ fontSize: 24 }} spin />;
 
 const Game = (props) => {
-    const { game, gamePredictions, loadingGame } = props;
+    const { game, gamePredictions, loadingGame, match } = props;
+    const urlParams = {...match.params}
+    urlParams.gameId = parseInt(urlParams.gameId);
     const gamePrediction = gamePredictions[game.gameId]
-    const { sport, season, year, gameWeek } = game
+    const { sport, year, season, gameWeek } = game
     const handleGamesListClick = () => {
       props.fetchGameWeekGames(sport, year, season, gameWeek)
     }
+    if (game.gameId && urlParams.gameId && game.gameId !== urlParams.gameId && !loadingGame) {
+      props.fetchGame(sport ? sport : urlParams.sport, year ? year : parseInt(urlParams.year), season ? season : urlParams.season, gameWeek ? gameWeek : parseInt(urlParams.gameWeek), urlParams.gameId)
+    }
+    console.log('loadingGame', loadingGame)
     if (Object.keys(game).length === 0 && loadingGame) {
       return (
         <Spin indicator={antIcon} />

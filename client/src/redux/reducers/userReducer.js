@@ -2,6 +2,9 @@ import { SET_USER,
     LOADING_USER, 
     SIGN_IN_USER, 
     SIGN_UP_USER,
+    CHANGE_USER_DETAILS,
+    UPDATE_USER,
+    UPDATING_USER,
     UPDATE_TOKENS,
     LOADING_OTHER_USER,
     SET_OTHER_USER,
@@ -16,10 +19,13 @@ import { SET_USER,
 const initialState = {
     authenticated: false,
     tourCompleted: false,
-    user: {},
+    attributes: {},
+    updatedAttributes: {},
     notifications: [],
-    signingInUser: false,
-    signingUpUser: false
+    signingIn: false,
+    signingUp: false,
+    loading: false,
+    updating: false
 }
 
 export default function(state = initialState, action) {
@@ -35,6 +41,7 @@ export default function(state = initialState, action) {
             return {
                 ...initialState,
                 loading: false,
+                updating: false
             }
         case SET_TOUR_COMPLETED:
             return {
@@ -42,12 +49,24 @@ export default function(state = initialState, action) {
                 tourCompleted: true
             }
         case SET_USER:
+        case UPDATE_USER:
             return {
                 ...state,
                 ...action.payload,
                 authenticated: true,
                 tourCompleted: true,
-                loading: false
+                loading: false,
+                updating: false,
+                updatedAttributes: {}
+            }
+        case CHANGE_USER_DETAILS:
+            console.log('action.payload', action.payload)
+            let updatedAttributes = {...state.updatedAttributes}
+            updatedAttributes[action.payload.attributeKey] = action.payload.attributeValue
+            return {
+                ...state,
+                updatedAttributes
+
             }
         case UPDATE_TOKENS:
             return {
@@ -62,15 +81,20 @@ export default function(state = initialState, action) {
                 ...state,
                 loading: true
             }
+        case UPDATING_USER:
+            return {
+                ...state,
+                updating: false
+            }
         case SIGN_IN_USER:
             return {
                 ...state,
-                signingInUser: true
+                signingIn: true
             }
         case SIGN_UP_USER:
             return {
                 ...state,
-                signingUpUser: true
+                signingUp: true
             }
         case MARK_NOTIFICATIONS_READ: 
             let FBUser = {...state.FBUser}
@@ -92,7 +116,6 @@ export default function(state = initialState, action) {
                 },
                 loading: false
             }
-
         default: 
             return {
                 ...state

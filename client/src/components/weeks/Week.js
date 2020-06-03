@@ -1,13 +1,14 @@
-import React, { Component } from 'react';
+import React from 'react';
+import { List } from 'antd'
 
 const Week = ({onClick, sport, year, season, week, weekIndex, currentWeek}) => {
   
     return (
-    <li className={weekIndex === currentWeek ? "link Week currentWeek" : "link Week"}
+    <List.Item className={weekIndex === currentWeek ? "link Week currentWeek" : "link Week"}
       onClick={() => onClick(sport, year, season, weekIndex)}
     >
       {week.weekName}
-    </li>
+    </List.Item>
     );
 }
 

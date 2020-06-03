@@ -1,8 +1,35 @@
+.profile {
+    margin: 16px;
+    padding: 16px;
+}
+.profileWrapper {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-evenly;
+    align-items: center;
+
+    .profileDetails {
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        align-items: space-between;
+    }
+}
 .profileRow {
     display: flex;
     flex-direction: row;
     justify-content: center;
     align-items: center;
+}
+.profileImage {
+    width: 200px;
+    height: 200px;
+    object-fit: cover;
+    max-width: 100%;
+    border-radius: 50%;
+}
+.profileChangePassword {
+    margin-top: 12px;
 }
 .username {
     font-weight: 700;

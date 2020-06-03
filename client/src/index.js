@@ -18,7 +18,9 @@ Amplify.configure(awsmobile)
 ReactDOM.render(
   
   <Provider store={store}>
-      <App />
+    <Router>
+      <Route component={App} />
+    </Router>
   </Provider>,
   document.getElementById('root')
 );

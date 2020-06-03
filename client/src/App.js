@@ -1,16 +1,17 @@
 import React, { Component } from 'react';
 import {Auth} from '@aws-amplify/auth'
-import { BrowserRouter as Router, Switch, Route } from 'react-router-dom'
+import { Router, Switch, Route } from 'react-router-dom'
 import { createBrowserHistory } from 'history'
 import { Layout } from 'antd';
 import logo from './images/stake-image.svg';
 import './App.less';
 import Header from './components/layout/header/Header'
 import SideMenu from './components/layout/sidemenu/SideMenu'
-import ProfileSnippet from './components/profile/ProfileSnippet'
+import LoginModal from './components/profile/LoginModal'
 import GamesList from './components/gamesList/GamesList'
 import Game from './components/game/Game'
 import Leaderboards from './components/leaderboards/Leaderboards'
+import Profile from './components/profile/Profile'
 
 import { getUrlParameters } from './functions/utils'
 
@@ -19,6 +20,7 @@ import store from './redux/store'
 import { LOADING_USER, SET_USER, LOADING_GAMES, LOADING_GAME } from './redux/types'
 import { setSport, setGameWeek } from './redux/actions/sportActions'
 import { fetchGame } from './redux/actions/gamesActions'
+import { fetchLeaderboards } from './redux/actions/leaderboardActions'
 
 import { getFacebookUser } from './redux/actions/userActions'
 
@@ -67,16 +69,30 @@ class App extends Component {
     })
     try {
       const currentUser = await Auth.currentAuthenticatedUser()
+      console.log('currentUser', currentUser)
       store.dispatch({
         type: SET_USER,
         payload: {
-          ...currentUser.attributes
+          username: currentUser.username,
+          attributes: currentUser.attributes
         }
       })
     } catch (getCurrentUserError) {
       console.log('getCurrentUserError', getCurrentUserError)
     }
-    store.dispatch(setSport('nfl'))
+    //check pathname for sports variables
+    if (this.props.location.pathname) {
+      let routeParams = this.props.location.pathname.split('/')
+      let sport = routeParams[1]
+      let page = routeParams[2]
+      let year = parseInt(routeParams[3])
+      let season = routeParams[4]
+      let week = parseInt(routeParams[5])
+      store.dispatch(setSport(sport ? sport : 'nfl', year, season, week))
+      if (page === 'leaderboards') {
+        store.dispatch(fetchLeaderboards(sport ? sport : 'nfl', year ? year : 2019, season ? season : 'post', week ? week : 4))
+      }
+    }
     if (window.location.pathname === '/callback') {
       console.log('starting spotify login', window.location)
       this.handleAmplifyCallback(window.location)
@@ -89,31 +105,20 @@ class App extends Component {
         <Header />
         <Content>
           <Layout hasSider={true}>
-            <Router history={customHistory}>
             <SideMenu />
             <Content>
-            <ProfileSnippet />
+            {/* <ProfileSnippet /> */}
                 <Switch>
-                  <Route path="/:sport/games/:year/:season/:gameWeek/:gameId" render={({match}) => 
-                    <Game
-                    sport={match.params.sport}
-                    year={parseInt(match.params.year)}
-                    season={match.params.season}
-                    gameWeek={match.params.gameWeek}
-                    gameId={match.params.gameId} />
-                  }/>
-                  <Route path="/:sport/leaderboards">
-                    <Leaderboards />
-                  </Route>
-                  <Route path="/">
-                    <GamesList />
-                  </Route>
+                  <Route path="/profile" component={Profile} />
+                  <Route path="/:sport/games/:year/:season/:gameWeek/game/:gameId" component={Game} />
+                  <Route path="/:sport/leaderboards" component={Leaderboards} />
+                  <Route path={["/:sport", "/:sport/games","/"]} component={GamesList} />
                 </Switch>
             </Content>
-            </Router>
           </Layout>
         </Content>
         </Layout>
+        <LoginModal />
       </div>
     );
   }

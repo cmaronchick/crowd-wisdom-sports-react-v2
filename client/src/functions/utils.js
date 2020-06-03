@@ -1,3 +1,6 @@
+import React from 'react'
+import { LoadingOutlined } from '@ant-design/icons'
+
 export const getUrlParameters = (redirectUrl, sParam) => {
     const sURLQueryString = redirectUrl.split('?');
     const sURLVariables = sURLQueryString[1].split('&')
@@ -86,3 +89,5 @@ export const getUrlParameters = (redirectUrl, sParam) => {
         return `U${total}`
       }
   }
+
+  export const antIcon = <LoadingOutlined style={{ fontSize: 24 }} spin />;

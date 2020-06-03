@@ -9,7 +9,6 @@ import { spreadPrediction, totalPrediction } from '../../functions/utils'
 const { Title, Text, Paragraph } = Typography
 
 const GamePreviewPrediction = (props) => {
-  console.log('props', props)
   const { 
     game,
     prediction,
@@ -40,7 +39,6 @@ const GamePreviewPrediction = (props) => {
     if (!prediction && !gamePrediction && results) {
       return (<Row className="predictionRow noPrediction"><Col span={24}>No prediction submitted</Col></Row>)
     }
-    console.log('gamePrediction', gamePrediction)
     return (
       <Row className={`${predictionType.type === 'crowd' && (`crowdRow`)} predictionRow`}>
         <Col span={24}>
