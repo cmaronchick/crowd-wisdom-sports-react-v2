@@ -1,10 +1,11 @@
 import React from 'react';
 import { render } from '@testing-library/react';
 import Profile from '../components/profile/Profile';
+import { changeUserDetails, updateUserDetails } from '../redux/actions/userActions'
 import { BrowserRouter as Router } from 'react-router-dom'
 import { Provider } from 'react-redux'
 import store from '../redux/store'
-import { SET_AUTHENTICATED, SET_USER } from '../redux/types';
+import { SET_AUTHENTICATED, SET_USER, CHANGE_USER_DETAILS, UPDATE_USER } from '../redux/types';
 Object.defineProperty(window, 'matchMedia', {
     writable: true,
     value: jest.fn().mockImplementation(query => ({
@@ -54,5 +55,20 @@ describe('profile tests', () => {
         const { getByText } = render(<Provider store={store} user={{authenticated: true}}><Router><Profile /></Router></Provider>);
         const message = getByText(/Update User Profile/i);
         expect(message).toBeInTheDocument();
+    });
+    test('change user details function', () => {
+        console.log('testing change user details')
+        const attribute = {
+            name: 'given_name',
+            value: 'Chris'
+        }
+        const expectedAction = {
+            type: CHANGE_USER_DETAILS,
+            payload: {
+                attributeKey: attribute.name,
+                attributeValue: attribute.value
+            }
+        }
+        expect(changeUserDetails(attribute.name, attribute.value)).toEqual(expectedAction)
     });
 })

@@ -1,10 +1,31 @@
 const express = require('express');
 //import games from '../src/games-week3';
 const ky = require('ky-universal');
+const busboy = require('busboy');
+const Amplify = require('aws-amplify')
 
 const apiHost = ky.create({prefixUrl: `https://y5f8dr2inb.execute-api.us-west-2.amazonaws.com/dev/`})
 const router = express.Router();
 
+// const awsmobile = require('../awsmobile');
+// Amplify.Auth.configure(awsmobile)
+// Amplify.Storage.configure({
+//     bucket: 'stakehousesports.com',
+//     region: 'us-west-2',
+// });
+// Amplify.configure({
+//   Auth: {
+//     "region": "us-west-2",
+//     "userPoolId": "us-west-2_zym3aCbQ3",
+//     "userPoolWebClientId": "2n15lhk845sucm0k4fejjqcbev",
+//     "identityPoolId": 'us-west-2:7f74c720-5f61-4b1d-b9fd-81ae626cfd40'
+//   },
+//   Storage: {
+//     bucket: 'stakehousesports.com',
+//     region: 'us-west-2',
+//   }
+  
+// })
 // const gamesObjs = games.games.reduce((obj, game) => {
 //   obj[game.gameId] = game;
 //   return obj;
@@ -230,6 +251,48 @@ router.get('/extendedprofile', (req, res) => {
    })
    .catch(userStatsResponseError => console.log('api leaderboard index 150 userStatsResponseError: ', userStatsResponseError))
 
+})
+
+router.post('/user/image', (req, res) => {
+  console.log('req.user', req.headers)
+  const BusBoy = require('busboy')
+  const path = require('path')
+  const os = require('os')
+  const fs = require('fs')
+
+  const busboy = new BusBoy({ headers: req.headers })
+  let imageFilename;
+  let imageToBeUploaded = {};
+
+  busboy.on('file', (fieldname, file, filename, encoding, mimetype) => {
+      if (mimetype !== 'image/jpeg' && mimetype !== 'image/png') {
+          return res.status(400).json({ error: 'Please submit JPG or PNG files only.'})
+      }
+      console.log('File [' + fieldname + ']: filename: ' + filename + ', encoding: ' + encoding + ', mimetype: ' + mimetype);
+      const imageExtension = filename.split('.')[filename.split('.').length-1];
+      imageFilename = `${Math.round(Math.random()*100000000000)}.${imageExtension}`;
+      const filepath = path.join(os.tmpdir(), imageFilename);
+      console.log('filepath', filepath)
+      imageToBeUploaded = { filepath, mimetype }
+      return file.pipe(fs.createWriteStream(filepath))
+  });
+  //console.log('imageToBeUploaded', imageToBeUploaded)
+  busboy.on('finish', () => {
+          return Amplify.Storage.put(`/users/avatars/${imageToBeUploaded.filepath}`, 'Protected Content', {
+            level: 'public',
+            contentType: imageToBeUploaded.mimetype
+          })
+      .then(() => {
+          console.log('file uploaded')
+          return res.status(200).json({ message: 'Image uploaded successfully'})
+      })
+      .catch((uploadImageError) => {
+          console.error(uploadImageError)
+          return res.status(500).json({uploadImageError})
+
+      })
+  })
+  busboy.end(req.rawBody);
 })
 
 module.exports = router;

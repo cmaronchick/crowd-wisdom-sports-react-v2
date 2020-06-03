@@ -56,7 +56,8 @@ export default function(state = initialState, action) {
                 authenticated: true,
                 tourCompleted: true,
                 loading: false,
-                updating: false
+                updating: false,
+                updatedAttributes: {}
             }
         case CHANGE_USER_DETAILS:
             console.log('action.payload', action.payload)
@@ -115,7 +116,6 @@ export default function(state = initialState, action) {
                 },
                 loading: false
             }
-
         default: 
             return {
                 ...state

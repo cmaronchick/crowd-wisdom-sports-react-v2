@@ -14,9 +14,8 @@ import {
 } from '../types'
 import ky from 'ky/umd'
 import { getUrlParameters } from '../../functions/utils'
-import { Auth } from '@aws-amplify/auth'
+import Amplify, { Auth, Storage } from 'aws-amplify'
 import awsmobile from '../../awsmobile'
-import Amplify from 'aws-amplify'
 import { 
     CognitoUser, 
     CognitoIdToken, 
@@ -32,8 +31,21 @@ import { setSport, setGameWeek } from './sportActions'
 import { apiHost } from '../../constants/config'
 
 const userPool = new CognitoUserPool({
+    
     UserPoolId: awsmobile.aws_user_pools_id,
     ClientId: awsmobile.aws_user_pools_web_client_id,
+})
+Amplify.configure({
+    Auth: {
+        region: 'us-west-2',
+        identityPoolId: 'us-west-2:7f74c720-5f61-4b1d-b9fd-81ae626cfd40',
+        userPoolId: awsmobile.aws_user_pools_id,
+        userPoolWebClientId: awsmobile.aws_user_pools_web_client_id,
+    },
+    Storage: {
+        bucket: 'stakehousesports-userfiles',
+        region: 'us-west-2',
+    }
 })
 
 export const getFacebookUser = (location) => async (dispatch) => {
@@ -178,35 +190,94 @@ export const getUserDetails = (sport, year, season, week) => async (dispatch) =>
     }
   }
 
-export const changeUserDetails = (attributeKey, attributeValue) => (dispatch) => {
-    dispatch({
+export const changeUserDetails = (attributeKey, attributeValue) => {
+
+    return {
         type: CHANGE_USER_DETAILS,
         payload: {
             attributeKey,
             attributeValue
         }
-    })
+    }
 }
 
-export const updateUserDetails = (attributes) => async (dispatch) => {
+export const updateUserDetails = async (attributes) => {
     try {
         let currentUser = await Auth.currentAuthenticatedUser();
         let updateResponse = await Auth.updateUserAttributes(currentUser, attributes);
         console.log('updateResponse', updateResponse)
-        dispatch({
+        return {
             type: UPDATE_USER,
             payload: {
                 username: currentUser.username,
-                attributes
+                attributes: {
+                    ...currentUser.attributes,
+                    ...attributes
+                }
             }
-        })
+        }
     } catch (updateUserError) {
         console.log('updateUserError', updateUserError)
-        dispatch({
+        return {
             type: SET_ERRORS,
             errors: updateUserError
-        })
+        }
     }
+}
+
+export const uploadImage = async (image) => {
+    try {
+        let currentUser = await Auth.currentAuthenticatedUser();
+        let currentSession = await Auth.currentSession()
+        let IdToken = currentSession.getIdToken().getJwtToken()
+        // console.log('formData', formData)
+        // let uploadImageResponse = await apiHost.post('user/image', {
+        //     headers: {
+        //         Authorization: IdToken
+        //     },
+        //     body: formData
+        // })
+
+        // for (var key of formData.entries()) {
+        //     console.log(key[0] + ', ' + key[1]);
+        // }
+        console.log('image.type', image.type)
+        if (image.type !== 'image/jpeg' && image.type !== 'image/png') {
+            return {
+                type: SET_ERRORS,
+                errors: 'Please upload either a JPG or PNG.'
+            }
+        }
+        const filename = `${currentUser.username}-${image.name}`;
+        console.log('image', image)
+        const stored = await Storage.put(filename, image, {
+            contentType: image.type
+        });
+        console.log('stored.key', stored.key)
+        // return stored.key;
+        // console.log('uploadImageResponse', uploadImageResponse)
+        // dispatch(getUserData())
+        updateUserDetails({
+            picture: `https://stakehousesports-userfiles.s3-us-west-2.amazonaws.com/public/${filename}`
+        })
+        return {
+            type: UPDATE_USER,
+            payload: {
+                username: currentUser.username,
+                attributes: {
+                    ...currentUser.attributes,
+                    picture: `https://stakehousesports-userfiles.s3-us-west-2.amazonaws.com/public/${filename}`
+                }
+            }
+        }
+    } catch (uploadImageError) {
+        console.log('uploadImageError', uploadImageError)
+        return {
+            type: SET_ERRORS,
+            errors: uploadImageError
+        }
+    }
+
 }
 
 export const changePassword = (currentPassword, newPassword) => async (dispatch) => {
