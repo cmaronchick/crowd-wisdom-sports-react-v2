@@ -1,14 +1,11 @@
 import { Auth } from '@aws-amplify/auth'
 //import { apiHost } from '../../constants/config'
 import ky from 'ky/umd'
+import store from '../store'
 import { LOADING_LEADERBOARDS, SET_LEADERBOARDS, SET_ERRORS, CLEAR_ERRORS } from '../types'
 const apiHost = ky.create({prefixUrl: process.env.NODE_ENV === 'development' ? 'http://localhost:5000/api/' : 'https://y5f8dr2inb.execute-api.us-west-2.amazonaws.com/dev/'})
 
-export const fetchLeaderboards = (sport, year, season, week) => async (dispatch) => {
-    console.log('sport, year, season, week', sport, year, season, week)
-    dispatch({
-        type: LOADING_LEADERBOARDS
-    })
+export const fetchLeaderboards = async (sport, year, season, week) => {
     try {
         let currentSession = await Auth.currentSession()
         let IdToken = await currentSession.getIdToken().getJwtToken()
@@ -17,16 +14,16 @@ export const fetchLeaderboards = (sport, year, season, week) => async (dispatch)
                 Authorization: IdToken
             }
         } : {}).json()
-        // console.log('leaderboardResponse', leaderboardResponse.leaderboards)
-        dispatch({
+        
+        return {
             type: SET_LEADERBOARDS,
             payload: leaderboardResponse.leaderboards
-        })
+        }
     } catch (fetchLeaderboardsError) {
         console.log('fetchLeaderboardsError', fetchLeaderboardsError)
-        dispatch({
+        return {
             type: SET_ERRORS,
             errors: fetchLeaderboardsError
-        })
+        }
     }
 }

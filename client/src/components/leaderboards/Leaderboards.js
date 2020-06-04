@@ -4,6 +4,8 @@ import { Tabs, Table, Spin } from 'antd'
 import { antIcon } from '../../functions/utils'
 
 import { connect } from 'react-redux'
+import { LOADING_LEADERBOARDS, SET_ERRORS } from '../../redux/types'
+import store from '../../redux/store'
 import { fetchLeaderboards } from '../../redux/actions/leaderboardActions'
 import './Leaderboards.less'
 
@@ -13,16 +15,22 @@ import Weeks from '../weeks/Weeks'
 const { TabPane } = Tabs
 
 const Leaderboards = (props) => {
-    const { leaderboards, loadingLeaderboards, user } = props
+    const { leaderboards, user } = props
+    let { loadingLeaderboards } = props
     const { sport, year, season, week } = props.sport.gameWeekData
+    const {params} = props.match
+    if ((!params.sport || !params.year || !params.season || !params.week !== week) && (sport && year && season && week)) {
+        window.history.pushState({}, '', `/${sport}/leaderboards/${year}/${season}/${week}`)
+    }
     // console.log('sport, year, season, week', sport, year, season, week)
-    console.log('leaderboards', leaderboards)
     const { weekly, overall } = leaderboards.leaderboards
     if ((!weekly || !overall) && !loadingLeaderboards && sport && year && season && week) {
-        props.fetchLeaderboards(sport, year, season, week)
+        loadingLeaderboards = true;
+        setTimeout(() => {
+            props.fetchLeaderboards(sport, year, season, week)
+        }, 100)
     }
     const leaderboardArray = weekly
-    console.log({leaderboardArray})
     const columns = [
         {
             title: 'User',
@@ -86,7 +94,9 @@ const Leaderboards = (props) => {
                     </TabPane>
                 </Tabs>
             ) : (
-                <Spin className="loadingIndicator" indicator={antIcon} />
+                <Fragment>
+                    <Spin className="loadingIndicator" indicator={antIcon} />
+                </Fragment>
             )}
         </div>
     )
@@ -99,8 +109,21 @@ const mapStateToProps = (state) => ({
     sport: state.sport
 })
 
-const mapActionsToProps = {
-    fetchLeaderboards
-}
+const mapActionsToProps = (dispatch) => ({
+    fetchLeaderboards: async (sport, year, season, week) => {
+        dispatch({
+            type: LOADING_LEADERBOARDS
+        })
+        try {
+            let leaderboardResponse = await fetchLeaderboards(sport, year, season, week)
+            dispatch(leaderboardResponse)
+        }catch (leaderboardResponseError) {
+            dispatch({
+                type: SET_ERRORS,
+                errors: leaderboardResponseError
+            })
+        }
+    }
+})
 
 export default connect(mapStateToProps, mapActionsToProps)(Leaderboards)

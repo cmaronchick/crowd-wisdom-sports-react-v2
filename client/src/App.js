@@ -17,7 +17,7 @@ import { getUrlParameters } from './functions/utils'
 
 // redux stuff
 import store from './redux/store'
-import { LOADING_USER, SET_USER, LOADING_GAMES, LOADING_GAME } from './redux/types'
+import { LOADING_USER, SET_USER, LOADING_GAMES, LOADING_GAME, LOADING_LEADERBOARDS } from './redux/types'
 import { setSport, setGameWeek } from './redux/actions/sportActions'
 import { fetchGame } from './redux/actions/gamesActions'
 import { fetchLeaderboards } from './redux/actions/leaderboardActions'
@@ -67,6 +67,9 @@ class App extends Component {
     store.dispatch({
       type: LOADING_GAME
     })
+    // store.dispatch({
+    //   type: LOADING_LEADERBOARDS
+    // })
     try {
       const currentUser = await Auth.currentAuthenticatedUser()
       console.log('currentUser', currentUser)
@@ -89,9 +92,9 @@ class App extends Component {
       let season = routeParams[4]
       let week = parseInt(routeParams[5])
       store.dispatch(setSport(sport ? sport : 'nfl', year, season, week))
-      if (page === 'leaderboards') {
-        store.dispatch(fetchLeaderboards(sport ? sport : 'nfl', year ? year : 2019, season ? season : 'post', week ? week : 4))
-      }
+      // if (page === 'leaderboards') {
+      //   store.dispatch(fetchLeaderboards(sport ? sport : 'nfl', year ? year : 2019, season ? season : 'post', week ? week : 4))
+      // }
     }
     if (window.location.pathname === '/callback') {
       console.log('starting spotify login', window.location)

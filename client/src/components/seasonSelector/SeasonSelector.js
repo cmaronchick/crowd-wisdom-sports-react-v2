@@ -12,8 +12,7 @@ const SeasonSelector = (props) => {
         selectSeason(sport.sport, sport.gameWeekData.year, season.value)
 
     }
-    console.log('sport.gameWeekData.season', sport.gameWeekData.season)
-    return (
+    return sport.gameWeekData.season ? (
         <Select
             labelInValue
             defaultValue={{ key: sport.gameWeekData.season }}
@@ -23,7 +22,7 @@ const SeasonSelector = (props) => {
             <Option key="reg" value="reg">Regular Season</Option>
             <Option key="post" value="post">Postseason</Option>
         </Select>
-    )
+    ) : (<div></div>)
 }
 
 SeasonSelector.propTypes = {
