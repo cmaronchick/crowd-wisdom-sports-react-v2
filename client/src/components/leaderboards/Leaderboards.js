@@ -1,6 +1,6 @@
 import React, { Fragment } from 'react'
 
-import { Tabs, Table, Spin } from 'antd'
+import { Tabs, Table, Spin, Typography } from 'antd'
 import { antIcon } from '../../functions/utils'
 
 import { connect } from 'react-redux'
@@ -12,6 +12,7 @@ import './Leaderboards.less'
 import SeasonSelector from '../seasonSelector/SeasonSelector'
 import Weeks from '../weeks/Weeks'
 
+const { Title } = Typography
 const { TabPane } = Tabs
 
 const Leaderboards = (props) => {
@@ -19,18 +20,28 @@ const Leaderboards = (props) => {
     let { loadingLeaderboards } = props
     const { sport, year, season, week } = props.sport.gameWeekData
     const {params} = props.match
-    if ((!params.sport || !params.year || !params.season || !params.week !== week) && (sport && year && season && week)) {
-        window.history.pushState({}, '', `/${sport}/leaderboards/${year}/${season}/${week}`)
-    }
-    // console.log('sport, year, season, week', sport, year, season, week)
     const { weekly, overall } = leaderboards.leaderboards
+
+    /* check for leaderboard data - !weekly || !overall
+    if no leaderboard data, check for loading state - !loadingLeaderboards
+    if not loading, fetch leaderboard data using the sport data in the redux store
+    the params in the URL set the redux store data in the App.js componentDidMount method
+
+    NOTE: the setTimeout is to allow the component to render completely before fetching data
+    */ 
     if ((!weekly || !overall) && !loadingLeaderboards && sport && year && season && week) {
         loadingLeaderboards = true;
         setTimeout(() => {
             props.fetchLeaderboards(sport, year, season, week)
         }, 100)
     }
-    const leaderboardArray = weekly
+
+
+    if ((!params.sport || !params.year || !params.season || !params.week !== week) && (sport && year && season && week)) {
+        window.history.pushState({}, '', `/${sport}/leaderboards/${year}/${season}/${week}`)
+    }
+
+    // setting column information for the antd Table
     const columns = [
         {
             title: 'User',
@@ -72,6 +83,7 @@ const Leaderboards = (props) => {
     ]
     return (
         <div className="leaderboardContainer">
+            <Title className="title">{year} Leaderboards</Title>
             <div className="selectorHeader">
                 <SeasonSelector />
                 <Weeks loading={loadingLeaderboards} onGameWeekClick={props.fetchLeaderboards} page="leaderboards" />

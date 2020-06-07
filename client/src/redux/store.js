@@ -6,7 +6,7 @@ import userReducer from './reducers/userReducer'
 import sportReducer from './reducers/sportReducer'
 import gamesReducer from './reducers/gamesReducer'
 import leaderboardReducer from './reducers/leaderboardReducer'
-import crowdReducer from './reducers/crowdReducer'
+import groupsReducer from './reducers/groupsReducer'
 import uiReducer from './reducers/uiReducer'
 
 const initialState = {};
@@ -18,7 +18,7 @@ const reducers = combineReducers({
     games: gamesReducer,
     sport: sportReducer,
     leaderboards: leaderboardReducer,
-    crowds: crowdReducer,
+    groups: groupsReducer,
     UI: uiReducer
 })
 // console.log('window.__REDUX_DEVTOOLS_EXTENSION__', window.__REDUX_DEVTOOLS_EXTENSION__)

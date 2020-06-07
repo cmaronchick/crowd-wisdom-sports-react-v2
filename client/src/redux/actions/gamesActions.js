@@ -33,7 +33,7 @@ export const fetchGameWeekGames = (sport, year, season, gameWeek) => async (disp
         console.log('getGamesUserSessionError', getGamesUserSessionError)
     }
     try {
-        let gameWeekGames = await apiHost.get(`${sport}/games/${year}/${season}/${gameWeek}`, getOptions).json()
+        let gameWeekGames = await apiHost.get(`${sport}/games/${year}/${season}/${gameWeek}${IdToken ? '/anon' : ''}`, getOptions).json()
         dispatch({
             type: SET_GAMES,
             payload: gameWeekGames
