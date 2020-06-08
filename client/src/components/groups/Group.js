@@ -100,35 +100,38 @@ const Group = ({user, group, loadingGroup, sportObj, fetchGroup, selectGroupSeas
 
     return (
         <div className="groupContainer">
-            <Row justify="start" align="middle" className="navRow">
-                <Col span={4}>
-                    <ArrowLeftOutlined onClick={() => history.push(`/${sport}/groups/${year}/${season}`)} />
-                </Col>
-                <Col span={20}>
-                    {/* Only show season selector if number of season results is greater than 1 */}
-                    {(results && results[sport][year] && Object.keys(results[sport][year]).length > 1 && 
-                    <SeasonSelector handleSelectSeason={handleSelectSeason} />
-                    )}
-                </Col>
-            </Row>
             <Row>
                 <Col span={24}>
             {/* check that group is done loading and has data */}
             {!loadingGroup && group.groupId ? (memberOf || isPublicGroup ? (
                 <Fragment>
-                    <div className="groupHeader">
-                    <h1>{groupName}</h1>
-                    {group && group.owner && user.attributes && (
-                        <JoinCrowdButton
-                            btnClassName="joinGroupButton"
-                            authenticated={user.authenticated}
-                            isOwner={group.owner.preferred_username === user.attributes.preferred_username}
-                            memberOf={group.memberOf}
-                            joinGroupClick={joinGroup}
-                            leaveGroupClick={leaveGroup}/>
-                    )}
-                    </div>
+                    <Row className="groupHeader">
+
+                    <Col span={4}>
+                        <ArrowLeftOutlined className="backButton" onClick={() => history.push(`/${sport}/groups/${year}/${season}`)} />
+                    </Col>
+                    <Col span={12}>
+                        <h1>{groupName}</h1>
+                    </Col>
+                    <Col span={8} flex="row">
+                        {/* Only show season selector if number of season results is greater than 1 */}
+                        {(results && results[sport][year] && Object.keys(results[sport][year]).length > 1 && 
+                        <SeasonSelector handleSelectSeason={handleSelectSeason} />
+                        )}
+                        {group && group.owner && user.attributes && (
+                            <JoinCrowdButton
+                                btnClassName="joinGroupButton"
+                                authenticated={user.authenticated}
+                                isOwner={group.owner.preferred_username === user.attributes.preferred_username}
+                                memberOf={group.memberOf}
+                                joinGroupClick={joinGroup}
+                                leaveGroupClick={leaveGroup}/>
+                        )}
+                    </Col>
+                </Row>
+                <Row>
                     <Table className="groupTable" scroll={{x: true}} rowKey="username" columns={columns} dataSource={users} />
+                </Row>
                 </Fragment>
             ) : (
                 <div className="lockedGroup">
