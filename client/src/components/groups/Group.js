@@ -4,25 +4,32 @@ import { Link } from 'react-router-dom'
 import JoinCrowdButton from './JoinGroupButton'
 
 import { connect } from 'react-redux'
-import { fetchGroup } from '../../redux/actions/groupActions'
+import { fetchGroup, joinGroup, leaveGroup, selectGroupSeason } from '../../redux/actions/groupActions'
 
-import { Table, Spin, Typography, Form, Input} from 'antd'
+import { Table, Spin, Typography, Form, Input, Row, Col} from 'antd'
+import { ArrowLeftOutlined } from '@ant-design/icons'
 import { antIcon } from '../../functions/utils'
+
+import SeasonSelector from '../seasonSelector/SeasonSelector'
 
 const { Title, Text } = Typography
 
-const Group = ({user, group, loadingGroup, sportObj, fetchGroup, match}) => {
-    const { groupId, groupName, users, memberOf } = group
+const Group = ({user, group, loadingGroup, sportObj, fetchGroup, selectGroupSeason, joinGroup, leaveGroup, match, history}) => {
+    const { groupId, groupName, users, memberOf, results } = group
     const isPublicGroup = group.public
     let { sport, year } = group
     sport = sport ? sport : sportObj.gameWeekData.sport
     year = year ? year : sportObj.gameWeekData.year
-    const { season } = sportObj.gameWeekData
+    console.log('group.selectedSeason', group.selectedSeason)
+    const season = group.selectedSeason ? group.selectedSeason : sportObj.gameWeekData.season
     const { params } = match
-    console.log('params', params)
 
+    const handleSelectSeason = (selectedSeason) => {
+        console.log('sport, year', sport, year)
+        selectGroupSeason(sport, year, selectedSeason, groupId)
+    }
 
-    /* check for group data - !groupNamd
+    /* check for group data - !groupName
     if no group data, check for loading state - !loadingGroup
     if not loading, fetch group data using the group data in the url params
 
@@ -54,31 +61,74 @@ const Group = ({user, group, loadingGroup, sportObj, fetchGroup, match}) => {
                     // </Link>
                 )
                 }
-        },
-        {
-            title: 'Prediction Score',
-            dataIndex: 'results',
-            render: (results) => (
-                <span>
-                    {results ? results.weekly[0].predictionScore : 0}
-                </span>
-            )
         }
 
     ]
-    console.log('users', users)
+    let weekbyWeekChildren = []
+    if (results) {
+        results[sport][year][season].weekly.sort((a,b) => a.gameWeek - b.gameWeek).forEach((weekResult, weekIndex) => {
+            weekbyWeekChildren.push(
+                {
+                    title: `${weekResult.gameWeek}`,
+                    dataIndex: ['results', 'weekly', weekIndex],
+                    render: (predictionScore, record, index) => {
+                        return (
+                            <span>
+                                {predictionScore && predictionScore.gameWeek === weekResult.gameWeek ? predictionScore.predictionScore : 0}
+                            </span>
+                        )
+                    }
+                }
+            )
+        })
+        columns.push({
+            title: 'Week',
+            children: weekbyWeekChildren
+        })
+
+        columns.push(
+            {
+                title: 'Total',
+                dataIndex: 'results',
+                render: (results) => (
+                    <span>
+                        {results ? results.overall.predictionScore : 0}
+                    </span>
+                )
+            })
+    }
+
     return (
         <div className="groupContainer">
+            <Row justify="start" align="middle" className="navRow">
+                <Col span={4}>
+                    <ArrowLeftOutlined onClick={() => history.push(`/${sport}/groups/${year}/${season}`)} />
+                </Col>
+                <Col span={20}>
+                    {/* Only show season selector if number of season results is greater than 1 */}
+                    {(results && results[sport][year] && Object.keys(results[sport][year]).length > 1 && 
+                    <SeasonSelector handleSelectSeason={handleSelectSeason} />
+                    )}
+                </Col>
+            </Row>
+            <Row>
+                <Col span={24}>
             {/* check that group is done loading and has data */}
             {!loadingGroup && group.groupId ? (memberOf || isPublicGroup ? (
                 <Fragment>
                     <div className="groupHeader">
                     <h1>{groupName}</h1>
                     {group && group.owner && user.attributes && (
-                        <JoinCrowdButton btnClassName="joinGroupButton" authenticated={user.authenticated} isOwner={group.owner.preferred_username === user.attributes.preferred_username} memberOf={group.memberOf} />
+                        <JoinCrowdButton
+                            btnClassName="joinGroupButton"
+                            authenticated={user.authenticated}
+                            isOwner={group.owner.preferred_username === user.attributes.preferred_username}
+                            memberOf={group.memberOf}
+                            joinGroupClick={joinGroup}
+                            leaveGroupClick={leaveGroup}/>
                     )}
                     </div>
-                    <Table rowKey="username" columns={columns} dataSource={users} />
+                    <Table className="groupTable" scroll={{x: true}} rowKey="username" columns={columns} dataSource={users} />
                 </Fragment>
             ) : (
                 <div className="lockedGroup">
@@ -98,6 +148,8 @@ const Group = ({user, group, loadingGroup, sportObj, fetchGroup, match}) => {
                     <Spin className="loadingIndicator" indicator={antIcon} />
                 </Fragment>
             )}
+                </Col>
+            </Row>
         </div>
     )
 };
@@ -106,7 +158,10 @@ Group.propTypes = {
     user: PropTypes.object.isRequired,
     sportObj: PropTypes.object.isRequired,
     group: PropTypes.object.isRequired,
-    fetchGroup: PropTypes.func.isRequired
+    fetchGroup: PropTypes.func.isRequired,
+    joinGroup: PropTypes.func.isRequired,
+    leaveGroup: PropTypes.func.isRequired,
+    selectGroupSeason: PropTypes.func.isRequired
 };
 
 const mapStateToProps = (state) => ({
@@ -117,7 +172,10 @@ const mapStateToProps = (state) => ({
 })
 
 const mapActionsToProps = {
-    fetchGroup
+    fetchGroup,
+    joinGroup,
+    leaveGroup,
+    selectGroupSeason
 }
 
 export default connect(mapStateToProps, mapActionsToProps)(Group);

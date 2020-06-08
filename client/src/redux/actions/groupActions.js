@@ -3,6 +3,7 @@ import {
     SET_GROUPS,
     LOADING_GROUP,
     SET_GROUP,
+    SELECT_GROUP_SEASON,
     JOIN_GROUP,
     LEAVE_GROUP,
     CREATE_GROUP,
@@ -33,7 +34,7 @@ export const fetchGroups = (sport, year, season) => async (dispatch) => {
         console.log('getUserError', getUserError)
     }
     try {
-        let fetchGroupsResponse = await apiHost.get(`group/${sport}/${year}${!IdToken ? '/anon' : ''}${season ? `?season=${season}` : ''}`,getOptions).json()
+        let fetchGroupsResponse = await apiHost.get(`group/${sport}/${year}${season ? `?season=${season}` : ''}`,getOptions).json()
         console.log('fetchGroupsResponse', fetchGroupsResponse)
         dispatch({
             type: SET_GROUPS,
@@ -64,8 +65,15 @@ export const fetchGroup = (sport, year, season, groupId) => async (dispatch) => 
         console.log('getUserError', getUserError)
     }
     try {
-        let fetchGroupResponse = await apiHost.get(`group/${sport}/${year}/${groupId}${!IdToken ? '/anon' : ''}${season ? `?season=${season}` : ''}`,getOptions).json()
+        let fetchGroupResponse = await apiHost.get(`group/${sport}/${year}/${groupId}${season ? `?season=${season}` : ''}`,getOptions).json()
         console.log('fetchGroupResponse', fetchGroupResponse)
+
+        // set the group selected season
+        // in order to
+        // display the user predictions for the proper season
+        // --- NOTE ---
+        // this may differ from the default season in the redux store
+        fetchGroupResponse.group.selectedSeason = season
         dispatch({
             type: SET_GROUP,
             payload: fetchGroupResponse.group
@@ -115,4 +123,17 @@ export const joinGroup = (sport, year, groupId) => async (dispatch) => {
             errors: joinGroupError
         })
     }
+}
+
+export const leaveGroup = (sport, year, groupId) => async (dispatch) => {
+
+}
+
+export const selectGroupSeason = (sport, year, selectedSeason, groupId) => (dispatch) => {
+    dispatch({
+        type: SELECT_GROUP_SEASON,
+        payload: selectedSeason
+    })
+    console.log('sport, year, selectedSeason, groupId', sport, year, selectedSeason, groupId)
+    dispatch(fetchGroup(sport, year, selectedSeason, groupId))
 }

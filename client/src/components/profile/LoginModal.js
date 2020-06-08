@@ -14,7 +14,7 @@ const {TabPane} = Tabs
 
 const LoginModal = (props) => {
   const { user, UI } = props
-  const { confirmUser, forgotPassword, signingInUser, signingUpUser } = user
+  const { confirmUser, forgotPassword, signingIn, signingUp } = user
     const handleFBClick = () => {
       let state = generateRandomString(16)
       localStorage['amplify_auth_state'] = state
@@ -47,7 +47,7 @@ const LoginModal = (props) => {
                 <Input.Password type="password" name="loginPassword" placeholder="Password" onChange={props.onChangeText} />
                 </Form.Item>
               <Button type="primary" size="medium" className="loginButton" onClick={() => props.login(UI.loginUsername, UI.loginPassword)}
-                loading={signingInUser}
+                loading={signingIn}
                 disabled={!UI.loginUsername || !UI.loginPassword}>
                   Submit
               </Button>
@@ -119,7 +119,7 @@ const LoginModal = (props) => {
                 <Input type="checkbox" name="signUpEmailOptIn" onChange={props.onChangeText} label="Receive weekly predictions reminder e-mails." />
                 </Form.Item>
               <Button type="primary" className="loginButton" type="submit" onClick={() => props.login(UI.loginUsername, UI.loginPassword)}
-                loading={signingInUser}
+                loading={signingUp}
                 disabled={!UI.signUpGivenName || 
                 !UI.signUpFamilyName || 
                 (!UI.signUpUsername || UI.signUpUsername.length < 5) || 

@@ -3,6 +3,7 @@ import {
     SET_GROUPS,
     LOADING_GROUP,
     SET_GROUP,
+    SELECT_GROUP_SEASON,
     JOIN_GROUP,
     LEAVE_GROUP,
     CREATE_GROUP,
@@ -43,6 +44,15 @@ export default function(state = initialState, action) {
             return {
                 ...state,
                 group: {...action.payload},
+                loadingGroup: false
+            }
+        case SELECT_GROUP_SEASON:
+            return {
+                ...state,
+                group: {
+                    ...state.group,
+                    selectedSeason: action.payload
+                },
                 loadingGroup: false
             }
         case JOIN_GROUP:

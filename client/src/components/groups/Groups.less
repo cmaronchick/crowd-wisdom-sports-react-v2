@@ -3,6 +3,17 @@
 }
 .groupContainer {
     margin: 10px 20px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    padding: 0 0 0 15px;
+    div {
+        width: 100%;
+    }
+    .navRow {
+        margin-bottom: 10px;
+    }
     .groupHeader {
         display: flex;
         flex-direction: row;
@@ -24,5 +35,10 @@
         flex-direction: column;
         align-items: center;
         justify-content: center;
+    }
+    .groupTable {
+        th {
+            vertical-align: bottom;
+        }
     }
 }

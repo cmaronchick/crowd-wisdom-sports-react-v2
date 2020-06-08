@@ -7,15 +7,18 @@ import { Select, Menu } from 'antd'
 const { Option } = Select
 
 const SeasonSelector = (props) => {
-    const { sport, selectSeason } = props
+    const { sport, selectSeason, season, handleSelectSeason } = props
     const handleChange = (season) => {
-        selectSeason(sport.sport, sport.gameWeekData.year, season.value)
-
+        if (handleSelectSeason) {
+            handleSelectSeason(season.value)
+        } else {
+            selectSeason(sport.sport, sport.gameWeekData.year, season.value)
+        }
     }
     return sport.gameWeekData.season ? (
         <Select
             labelInValue
-            defaultValue={{ key: sport.gameWeekData.season }}
+            defaultValue={{ key: season }}
             style={{ width: 120 }}
             onChange={handleChange}
                 >
@@ -29,8 +32,9 @@ SeasonSelector.propTypes = {
     sport: PropTypes.object.isRequired
 }
 
-const mapStateToProps = (state) => ({
-    sport: state.sport
+const mapStateToProps = (state, ownProps) => ({
+    sport: state.sport,
+    season: ownProps && ownProps.season ? ownProps.season : state.sport.gameWeekData ? state.sport.gameWeekData.season : null
 })
 
 const mapDispatchToProps = {

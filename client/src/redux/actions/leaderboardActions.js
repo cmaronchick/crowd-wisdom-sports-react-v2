@@ -9,7 +9,7 @@ export const fetchLeaderboards = async (sport, year, season, week) => {
     try {
         let currentSession = await Auth.currentSession()
         let IdToken = await currentSession.getIdToken().getJwtToken()
-        let leaderboardResponse = await apiHost.get(`${sport}/leaderboards/${year}/${season}/${week}${!IdToken ? '/anon' : ''}`, IdToken ? {
+        let leaderboardResponse = await apiHost.get(`${sport}/leaderboards/${year}/${season}/${week}`, IdToken ? {
             headers: {
                 Authorization: IdToken
             }
