@@ -214,6 +214,30 @@ router.get(['/group/:sport/:year', '/:sport/crowds/:year'], (req, res) => {
       .catch(crowdsResponseError => console.log('api leaderboard index 139 leaderboardResponseError: ', crowdsResponseError))
 })
 
+
+router.post('/group/:sport/:year/:groupId/leavegroup', (req, res) => {
+  console.log('api index 217 req', {params: req.params})
+  const { sport, year, groupId } = req.params;
+  const { season } = req.query
+    const callOptionsObject = callOptions(req.headers.authorization);
+    console.log('callOptionsObject', callOptionsObject)
+    const getOptions = callOptionsObject.callOptions;
+    console.log('getOptions', getOptions)
+      return ky.post(`https://y5f8dr2inb.execute-api.us-west-2.amazonaws.com/dev/group/${sport}/${parseInt(year)}/${parseInt(groupId)}/leavegroup`, getOptions)
+      .then((groupResponse) => {
+        console.log('leve groupResponse 225', groupResponse)
+        return groupResponse.json()
+      })
+      .then(groupResponse => {
+       console.log('api/index 119 gameWeekResponse', groupResponse)
+        return res.status(200).json({ group: groupResponse })
+      })
+      .catch(groupResponseError => {
+        console.log('api leaderboard index 153 crowdResponseError: ', groupResponseError)
+        return res.status(500).json({ message: groupResponseError})
+      })
+})
+
 router.get('/group/:sport/:year/:groupId', (req, res) => {
   console.log('api index 217 req', {params: req.params})
   const { sport, year, groupId } = req.params;
@@ -224,6 +248,33 @@ router.get('/group/:sport/:year/:groupId', (req, res) => {
     const getOptions = callOptionsObject.callOptions;
     console.log('getOptions', getOptions)
       return ky.get(`https://y5f8dr2inb.execute-api.us-west-2.amazonaws.com/dev/group/${sport}/${parseInt(year)}/${parseInt(groupId)}${anonString}${season ? `?season=${season}` : ''}`, getOptions)
+      .then((groupResponse) => {
+        console.log('groupResponse 225', groupResponse)
+        return groupResponse.json()
+      })
+      .then(groupResponse => {
+       console.log('api/index 119 gameWeekResponse', groupResponse)
+        return res.status(200).json({ group: groupResponse })
+      })
+      .catch(groupResponseError => {
+        console.log('api leaderboard index 153 crowdResponseError: ', groupResponseError)
+        return res.status(500).json({ message: groupResponseError})
+      })
+})
+
+router.post('/group/:sport/:year/:groupId', (req, res) => {
+  console.log('api index 217 req', {params: req.params})
+  const { sport, year, groupId } = req.params;
+  const { season } = req.query
+  if (!req.headers.authorization) {
+    return res.status(403).json({ message: 'Please log in again.'})
+  }
+    const callOptionsObject = callOptions(req.headers.authorization);
+      return ky.post(`https://y5f8dr2inb.execute-api.us-west-2.amazonaws.com/dev/group/${sport}/${parseInt(year)}/${parseInt(groupId)}`, {
+        headers: {
+          Authorization: req.headers.authorization
+        }
+      })
       .then((groupResponse) => {
         console.log('groupResponse 225', groupResponse)
         return groupResponse.json()

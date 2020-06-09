@@ -69,6 +69,7 @@ class App extends Component {
     store.dispatch({
       type: LOADING_GAME
     })
+
     // store.dispatch({
     //   type: LOADING_LEADERBOARDS
     // })

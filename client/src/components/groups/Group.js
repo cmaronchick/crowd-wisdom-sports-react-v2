@@ -5,6 +5,7 @@ import JoinCrowdButton from './JoinGroupButton'
 
 import { connect } from 'react-redux'
 import { fetchGroup, joinGroup, leaveGroup, selectGroupSeason } from '../../redux/actions/groupActions'
+import { toggleLeaveGroupModal } from '../../redux/actions/uiActions'
 
 import { Table, Spin, Typography, Form, Input, Row, Col} from 'antd'
 import { ArrowLeftOutlined } from '@ant-design/icons'
@@ -20,13 +21,18 @@ const Group = ({user, group, loadingGroup, sportObj, fetchGroup, selectGroupSeas
     let { sport, year } = group
     sport = sport ? sport : sportObj.gameWeekData.sport
     year = year ? year : sportObj.gameWeekData.year
-    console.log('group.selectedSeason', group.selectedSeason)
     const season = group.selectedSeason ? group.selectedSeason : sportObj.gameWeekData.season
     const { params } = match
 
     const handleSelectSeason = (selectedSeason) => {
         console.log('sport, year', sport, year)
         selectGroupSeason(sport, year, selectedSeason, groupId)
+    }
+    const handleJoinGroupClick = () => {
+        joinGroup(sport, year, groupId)
+    }
+    const handleLeaveGroupConfirm = () => {
+        leaveGroup(sport, year, groupId)
     }
 
     /* check for group data - !groupName
@@ -36,7 +42,7 @@ const Group = ({user, group, loadingGroup, sportObj, fetchGroup, selectGroupSeas
     NOTE: the setTimeout is to allow the component to render completely before fetching data
     */ 
     if (!groupName && !loadingGroup && sportObj.sport && sportObj.gameWeekData.year && sportObj.gameWeekData.season && params.groupId) {
-        console.log('sport, year, season, params.groupId', sport, year, season, params.groupId)
+        // console.log('sport, year, season, params.groupId', sport, year, season, params.groupId)
         loadingGroup = true;
         setTimeout(() => {
             fetchGroup(sport, parseInt(year), season, parseInt(params.groupId))
@@ -53,6 +59,7 @@ const Group = ({user, group, loadingGroup, sportObj, fetchGroup, selectGroupSeas
             dataIndex: 'preferred_username',
             key: 'preferred_username',
             render: (preferred_username, record) => {
+                console.log('preferred_username', preferred_username)
                 return (
                     // <Link onClick={() => onGroupClick(record.sport, record.year, season, record.groupId)} to={`/${sport}/groups/${year}/${season}/group/${record.groupId}`}>
                     <span>
@@ -60,7 +67,7 @@ const Group = ({user, group, loadingGroup, sportObj, fetchGroup, selectGroupSeas
                     </span>
                     // </Link>
                 )
-                }
+            }
         }
 
     ]
@@ -97,6 +104,7 @@ const Group = ({user, group, loadingGroup, sportObj, fetchGroup, selectGroupSeas
                 )
             })
     }
+    console.log('users', users)
 
     return (
         <div className="groupContainer">
@@ -124,8 +132,9 @@ const Group = ({user, group, loadingGroup, sportObj, fetchGroup, selectGroupSeas
                                 authenticated={user.authenticated}
                                 isOwner={group.owner.preferred_username === user.attributes.preferred_username}
                                 memberOf={group.memberOf}
-                                joinGroupClick={joinGroup}
-                                leaveGroupClick={leaveGroup}/>
+                                groupName={groupName}
+                                handleJoinGroupClick={handleJoinGroupClick}
+                                handleLeaveGroupConfirm={handleLeaveGroupConfirm}/>
                         )}
                     </Col>
                 </Row>
@@ -171,7 +180,7 @@ const mapStateToProps = (state) => ({
     user: state.user,
     group: state.groups.group,
     loadingGroup: state.groups.loadingGroup,
-    sportObj: state.sport
+    sportObj: state.sport,
 })
 
 const mapActionsToProps = {

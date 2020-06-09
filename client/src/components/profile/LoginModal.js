@@ -15,11 +15,13 @@ const {TabPane} = Tabs
 const LoginModal = (props) => {
   const { user, UI } = props
   const { confirmUser, forgotPassword, signingIn, signingUp } = user
+
     const handleFBClick = () => {
       let state = generateRandomString(16)
       localStorage['amplify_auth_state'] = state
       localStorage['facebookLoginFromPage'] = window.location.href
-      window.location.href=`https://crowdsourcedscores.auth.us-west-2.amazoncognito.com/oauth2/authorize?identity_provider=Facebook&redirect_uri=${window.origin}/callback&response_type=CODE&client_id=2n15lhk845sucm0k4fejjqcbev&state=${state}&scope=aws.cognito.signin.user.admin email openid phone profile`
+      // console.log(`https://crowdsourcedscores.auth.us-west-2.amazoncognito.com/oauth2/authorize?identity_provider=Facebook&redirect_uri=https://app.stakehousesports.com&response_type=CODE&client_id=2n15lhk845sucm0k4fejjqcbev&state=${state}&scope=aws.cognito.signin.user.admin+email+openid+phone+profile`)
+      window.location.href=`https://crowdsourcedscores.auth.us-west-2.amazoncognito.com/oauth2/authorize?identity_provider=Facebook&redirect_uri=${window.origin}/callback&response_type=CODE&client_id=2n15lhk845sucm0k4fejjqcbev&state=${state}&scope=aws.cognito.signin.user.admin+email+openid+phone+profile`
     }
 
     return (

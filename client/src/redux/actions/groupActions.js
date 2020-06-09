@@ -107,9 +107,9 @@ export const joinGroup = (sport, year, groupId) => async (dispatch) => {
                 preferred_username: currentUser.attributes.preferred_username,
                 username: currentUser.username,
                 results: {
-                    weekly: {
+                    weekly: [{
                         predictionScore: 0
-                    },
+                    }],
                     overall: {
                         predictionScore: 0
                     }
@@ -127,6 +127,24 @@ export const joinGroup = (sport, year, groupId) => async (dispatch) => {
 
 export const leaveGroup = (sport, year, groupId) => async (dispatch) => {
 
+    try {
+        const currentUser = await Auth.currentAuthenticatedUser()
+        const currentSession = await Auth.currentSession()
+        let IdToken = await currentSession.getIdToken().getJwtToken()
+        let leaveGroupResponse = await apiHost.post(
+          `group/${sport}/${year}/${groupId}/leavegroup`, {
+            headers: {
+                'Authorization': IdToken
+            }
+          }
+        ).json();
+        dispatch({
+            type: LEAVE_GROUP,
+            payload: currentUser.username
+        })
+    } catch (error) {
+        console.error(error);
+    }
 }
 
 export const selectGroupSeason = (sport, year, selectedSeason, groupId) => (dispatch) => {

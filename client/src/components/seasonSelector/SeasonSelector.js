@@ -22,8 +22,8 @@ const SeasonSelector = (props) => {
             style={{ width: 120 }}
             onChange={handleChange}
                 >
-            <Option key="reg" value="reg">Regular Season</Option>
-            <Option key="post" value="post">Postseason</Option>
+            <Option key="reg" value="reg">{window.innerWidth >= 960 ? `Regular Season` : `REG`}</Option>
+            <Option key="post" value="post">{window.innerWidth >= 960 ? `Postseason` : `POST`}</Option>
         </Select>
     ) : (<div></div>)
 }

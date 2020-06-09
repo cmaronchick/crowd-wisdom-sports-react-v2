@@ -57,6 +57,8 @@ export default function(state = initialState, action) {
             }
         case JOIN_GROUP:
             let joinGroup = {...state.group}
+            console.log('joinGroup', joinGroup)
+            joinGroup.memberOf = true;
             joinGroup.users.push({...action.payload})
             return {
                 ...state,
@@ -64,7 +66,9 @@ export default function(state = initialState, action) {
             }
         case LEAVE_GROUP:
             let leaveGroup = {...state.group}
-            leaveGroup = leaveGroup.filter(user => user.username !== action.payload.username)
+            console.log('leaveGroup', leaveGroup)
+            leaveGroup.memberOf = false;
+            leaveGroup = leaveGroup.users.filter(user => user.username !== action.payload.username)
             return {
                 ...state,
                 group: {...leaveGroup}

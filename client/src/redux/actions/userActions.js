@@ -49,24 +49,24 @@ Amplify.configure({
 })
 
 export const getFacebookUser = (location) => async (dispatch) => {
+    console.log('location', location)
     let code = getUrlParameters(location.search, 'code')
-    console.log('userPool', userPool)
-   const details = {
+    const details = {
      grant_type: 'authorization_code',
      code,
      client_id: userPool.clientId,
      redirect_uri: `${location.origin}/callback`
-   }
-   const formBody = Object.keys(details)
+    }
+    const formBody = Object.keys(details)
      .map(
        key => `${encodeURIComponent(key)}=${encodeURIComponent(details[key])}`
      )
      .join("&");
    try {
-     let res = await fetch(
+       console.log('formBody', formBody)
+     let res = await ky.post(
      'https://crowdsourcedscores.auth.us-west-2.amazoncognito.com/oauth2/token',
        {
-         method: "POST",
          headers: {
            'Content-type': 'application/x-www-form-urlencoded;charset=UTF-8'
          },
@@ -74,6 +74,7 @@ export const getFacebookUser = (location) => async (dispatch) => {
        }
      )
      let tokenRequestJson = await res.json();
+     console.log('tokenRequestJson', tokenRequestJson)
        let id_token = new CognitoIdToken({ IdToken: tokenRequestJson.id_token });
        let access_token = new CognitoAccessToken({ AccessToken: tokenRequestJson.access_token });
        let refresh_token = new CognitoRefreshToken({ RefreshToken: tokenRequestJson.refresh_token })
@@ -100,13 +101,23 @@ export const getFacebookUser = (location) => async (dispatch) => {
        if (location.href.indexOf('/callback') > -1) {
            const facebookLoginFromPage = localStorage['facebookLoginFromPage']
            if (facebookLoginFromPage && facebookLoginFromPage !== 'null') {
-               window.location.href=facebookLoginFromPage
+            delete localStorage['facebookLoginFromPage']   
+            window.history.pushState({ message: 'Facebook Login'}, 'Stakehouse Sports', facebookLoginFromPage)
+
            } else {
-            window.location.href='/'
+            window.location.href=window.history.pushState({ message: 'Facebook Login'}, 'Stakehouse Sports','/')
            }
        }
     } catch (error) {
        console.log('userSession error: ', error);
+       const facebookLoginFromPage = localStorage['facebookLoginFromPage']
+       if (facebookLoginFromPage && facebookLoginFromPage !== 'null') {
+        delete localStorage['facebookLoginFromPage']   
+        window.history.pushState({error}, 'Login error', facebookLoginFromPage)
+
+       } else {
+        window.history.pushState({ error }, 'Login error', '/')
+       }
     }  
 }
 
