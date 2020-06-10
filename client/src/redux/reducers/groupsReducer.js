@@ -5,6 +5,7 @@ import {
     SET_GROUP,
     SELECT_GROUP_SEASON,
     JOIN_GROUP,
+    JOINING_GROUP,
     LEAVE_GROUP,
     CREATE_GROUP,
     DELETE_GROUP
@@ -40,10 +41,19 @@ export default function(state = initialState, action) {
                 ...state,
                 loadingGroup: true
             }
+        case JOINING_GROUP:
+            return {
+                ...state,
+                group: {
+                    ...state.group,
+                    joiningGroup: action.payload
+                }
+            }
         case SET_GROUP:
             return {
                 ...state,
-                group: {...action.payload},
+                group: {...action.payload,
+                    joiningGroup: false},
                 loadingGroup: false
             }
         case SELECT_GROUP_SEASON:
@@ -62,7 +72,8 @@ export default function(state = initialState, action) {
             joinGroup.users.push({...action.payload})
             return {
                 ...state,
-                group: {...joinGroup}
+                group: {...joinGroup,
+                joiningGroup: false}
             }
         case LEAVE_GROUP:
             let leaveGroup = {...state.group}

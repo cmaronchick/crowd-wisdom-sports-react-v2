@@ -5,7 +5,7 @@ import JoinCrowdButton from './JoinGroupButton'
 
 import { connect } from 'react-redux'
 import { fetchGroup, joinGroup, leaveGroup, selectGroupSeason } from '../../redux/actions/groupActions'
-import { toggleLeaveGroupModal } from '../../redux/actions/uiActions'
+import { onChangeText } from '../../redux/actions/uiActions'
 
 import { Table, Spin, Typography, Form, Input, Row, Col} from 'antd'
 import { ArrowLeftOutlined } from '@ant-design/icons'
@@ -15,8 +15,8 @@ import SeasonSelector from '../seasonSelector/SeasonSelector'
 
 const { Title, Text } = Typography
 
-const Group = ({user, group, loadingGroup, sportObj, fetchGroup, selectGroupSeason, joinGroup, leaveGroup, match, history}) => {
-    const { groupId, groupName, users, memberOf, results } = group
+const Group = ({user, group, loadingGroup, sportObj, UI, fetchGroup, selectGroupSeason, joinGroup, leaveGroup, onChangeText, match, history}) => {
+    const { groupId, groupName, users, memberOf, joiningGroup, results } = group
     const isPublicGroup = group.public
     let { sport, year } = group
     sport = sport ? sport : sportObj.gameWeekData.sport
@@ -29,7 +29,8 @@ const Group = ({user, group, loadingGroup, sportObj, fetchGroup, selectGroupSeas
         selectGroupSeason(sport, year, selectedSeason, groupId)
     }
     const handleJoinGroupClick = () => {
-        joinGroup(sport, year, groupId)
+        console.log('UI.groupPassword', UI.groupPassword)
+        joinGroup(sport, year, groupId, UI.groupPassword)
     }
     const handleLeaveGroupConfirm = () => {
         leaveGroup(sport, year, groupId)
@@ -128,6 +129,7 @@ const Group = ({user, group, loadingGroup, sportObj, fetchGroup, selectGroupSeas
                         )}
                         {group && group.owner && user.attributes && (
                             <JoinCrowdButton
+                                joiningGroup={joiningGroup}
                                 btnClassName="joinGroupButton"
                                 authenticated={user.authenticated}
                                 isOwner={group.owner.preferred_username === user.attributes.preferred_username}
@@ -150,10 +152,21 @@ const Group = ({user, group, loadingGroup, sportObj, fetchGroup, selectGroupSeas
                         label="Group Password"
                         name="groupPassword"
                         >
-                            <Input />
+                            <Input name="groupPassword" onChange={onChangeText} />
                         </Form.Item>
                     </Form>
-                    <JoinCrowdButton btnClassName="joinGroupButton" authenticated={user.authenticated} isOwner={group.owner.preferred_username === user.attributes.preferred_username} memberOf={group.memberOf} />
+                    {UI.errors && (<Text type="warning">{UI.errors}</Text>)}
+                    
+                    <JoinCrowdButton
+                        joiningGroup={joiningGroup}
+                        loadingGroup={loadingGroup}
+                        btnClassName="joinGroupButton"
+                        authenticated={user.authenticated}
+                        isOwner={group.owner.preferred_username === user.attributes.preferred_username}
+                        memberOf={group.memberOf}
+                        groupName={groupName}
+                        handleJoinGroupClick={handleJoinGroupClick}
+                        handleLeaveGroupConfirm={handleLeaveGroupConfirm}/>
                 </div>)
             ) : loadingGroup ? (
                 <Fragment>
@@ -175,7 +188,8 @@ Group.propTypes = {
     fetchGroup: PropTypes.func.isRequired,
     joinGroup: PropTypes.func.isRequired,
     leaveGroup: PropTypes.func.isRequired,
-    selectGroupSeason: PropTypes.func.isRequired
+    selectGroupSeason: PropTypes.func.isRequired,
+    UI: PropTypes.object.isRequired
 };
 
 const mapStateToProps = (state) => ({
@@ -183,13 +197,15 @@ const mapStateToProps = (state) => ({
     group: state.groups.group,
     loadingGroup: state.groups.loadingGroup,
     sportObj: state.sport,
+    UI: state.UI
 })
 
 const mapActionsToProps = {
     fetchGroup,
     joinGroup,
     leaveGroup,
-    selectGroupSeason
+    selectGroupSeason,
+    onChangeText
 }
 
 export default connect(mapStateToProps, mapActionsToProps)(Group);
