@@ -155,10 +155,12 @@ const Group = ({user, group, loadingGroup, sportObj, fetchGroup, selectGroupSeas
                     </Form>
                     <JoinCrowdButton btnClassName="joinGroupButton" authenticated={user.authenticated} isOwner={group.owner.preferred_username === user.attributes.preferred_username} memberOf={group.memberOf} />
                 </div>)
-            ) : (
+            ) : loadingGroup ? (
                 <Fragment>
-                    <Spin className="loadingIndicator" indicator={antIcon} />
+                    <Spin title="Loading Group" className="loadingIndicator" indicator={antIcon} />
                 </Fragment>
+            ) : (
+                <div>No Group Found</div>
             )}
                 </Col>
             </Row>

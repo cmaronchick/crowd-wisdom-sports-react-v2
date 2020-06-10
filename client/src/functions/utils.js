@@ -90,4 +90,7 @@ export const getUrlParameters = (redirectUrl, sParam) => {
       }
   }
 
-  export const antIcon = <LoadingOutlined style={{ fontSize: 24 }} spin />;
+  export const antIcon = (props) => {
+    console.log('props', props)
+    return (<LoadingOutlined style={{ fontSize: 24 }} spin />)
+  }

@@ -67,7 +67,7 @@ describe('render the game screen', () => {
         store.dispatch({
             type: LOADING_GAME
         })
-        const { getByTitle } = render(<Provider store={store}><Router><Game /></Router></Provider>);
+        const { getByTitle } = render(<Provider store={store}><Router><Route component={Game} /></Router></Provider>);
         const linkElement = getByTitle(/Loading Game/i);
         
         expect(linkElement).toBeInTheDocument();
@@ -78,7 +78,7 @@ describe('render the game screen', () => {
             payload: {}
         })
 
-        const { getByText } = render(<Provider store={store}><Router><Game /></Router></Provider>);
+        const { getByText } = render(<Provider store={store}><Router><Route component={Game} /></Router></Provider>);
         const linkElement = getByText(/No game found/i);
         
         expect(linkElement).toBeInTheDocument();
