@@ -5,10 +5,12 @@ import {
     SET_GROUP,
     SELECT_GROUP_SEASON,
     JOIN_GROUP,
+    JOINING_GROUP,
     LEAVE_GROUP,
     CREATE_GROUP,
     DELETE_GROUP,
-    SET_ERRORS
+    SET_ERRORS,
+    CLEAR_ERRORS
     } from '../types'
 import ky from 'ky/umd'
 
@@ -43,7 +45,7 @@ export const fetchGroups = (sport, year, season) => async (dispatch) => {
     } catch (fetchGroupsError) {
         dispatch({
             type: SET_ERRORS,
-            errors: fetchGroupsError
+            payload: fetchGroupsError
         })
     }
 }
@@ -82,12 +84,12 @@ export const fetchGroup = (sport, year, season, groupId) => async (dispatch) => 
         console.log('fetchGroupError', fetchGroupError);
         dispatch({
             type: SET_ERRORS,
-            errors: fetchGroupError
+            payload: fetchGroupError
         })
     }
 }
 
-export const joinGroup = (sport, year, groupId) => async (dispatch) => {
+export const joinGroup = (sport, year, groupId, password) => async (dispatch) => {
     try {
         const currentUser = await Auth.currentAuthenticatedUser()
         const currentSession = await Auth.currentSession()
@@ -95,32 +97,46 @@ export const joinGroup = (sport, year, groupId) => async (dispatch) => {
         const postOptions = {
             headers: {
                 Authorization: IdToken
-            }
+            },
+            body: JSON.stringify(password)
         }
+        dispatch({type: JOINING_GROUP, payload: true})
+    
         let joinGroupResponse = await apiHost.post(`group/${sport}/${year}/${groupId}`, postOptions).json()
-        console.log('joinGroupResponse', joinGroupResponse)
-        dispatch({
-            type: JOIN_GROUP,
-            payload: {
-                firstName: currentUser.attributes.given_name,
-                lastName: currentUser.attributes.family_name,
-                preferred_username: currentUser.attributes.preferred_username,
-                username: currentUser.username,
-                results: {
-                    weekly: [{
-                        predictionScore: 0
-                    }],
-                    overall: {
-                        predictionScore: 0
+        if (joinGroupResponse.group.succeeded === false) {
+            dispatch({type: JOINING_GROUP, payload: false})
+            dispatch({
+                type: SET_ERRORS,
+                payload: joinGroupResponse.group.message
+            })
+        } else {
+            dispatch({
+                type: JOIN_GROUP,
+                payload: {
+                    firstName: currentUser.attributes.given_name,
+                    lastName: currentUser.attributes.family_name,
+                    preferred_username: currentUser.attributes.preferred_username,
+                    username: currentUser.username,
+                    results: {
+                        weekly: [{
+                            predictionScore: 0
+                        }],
+                        overall: {
+                            predictionScore: 0
+                        }
                     }
                 }
-            }
-        })
+            })
+            dispatch({
+                type: CLEAR_ERRORS
+            })
+        }
     } catch (joinGroupError) {
         console.log('joinGroupError', joinGroupError)
+
         dispatch({
             type: SET_ERRORS,
-            errors: joinGroupError
+            payload: joinGroupError
         })
     }
 }
