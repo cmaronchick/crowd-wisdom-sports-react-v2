@@ -97,7 +97,7 @@ export const joinGroup = (sport, year, groupId) => async (dispatch) => {
                 Authorization: IdToken
             }
         }
-        let joinGroupResponse = await apiHost.post(`group/${sport}/${year}/${groupId}`, postOptions).json()
+        let joinGroupResponse = await apiHost.post(`group/${sport}/${year}/${groupId}/joingroup`, postOptions).json()
         console.log('joinGroupResponse', joinGroupResponse)
         dispatch({
             type: JOIN_GROUP,
