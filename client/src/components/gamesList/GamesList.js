@@ -37,7 +37,7 @@ const GamesList = (props) => {
           {Object.keys(games).sort((a,b) => {
             return (games[b].status === games[a].status) ? new Date(games[a].startDateTime) - new Date(games[b].startDateTime) : new Date(games[b].startDateTime) - new Date(games[a].startDateTime)
           }).map(gameId => {
-            //console.log({gameId});
+            console.log({gamePrediction: gamePredictions[gameId]});
             // if (gamePredictions[gameId]) {
             //   console.log(`gamePredictions[gameId]: ${JSON.stringify(gamePredictions[gameId])}`)
             // }
@@ -72,16 +72,9 @@ GamesList.propTypes = {
   fetchGameWeekGames: PropTypes.func.isRequired
 };
 
-const mapStateToProps = (state) => ({
-  loadingGames: state.games.loadingGames,
-  games: state.games.games,
-  gamePredictions: state.games.gamePredictions,
-  sport: state.sport
-})
-
 const mapActionsToProps = {
   fetchGame,
   fetchGameWeekGames
 }
 
-export default connect(mapStateToProps, mapActionsToProps)(GamesList);
+export default connect(null, mapActionsToProps)(GamesList);

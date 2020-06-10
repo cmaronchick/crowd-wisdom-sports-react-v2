@@ -5,18 +5,22 @@ import JoinCrowdButton from './JoinGroupButton'
 
 import { connect } from 'react-redux'
 import { fetchGroup, joinGroup, leaveGroup, selectGroupSeason } from '../../redux/actions/groupActions'
+import { fetchGameWeekGames } from '../../redux/actions/gamesActions'
 import { onChangeText } from '../../redux/actions/uiActions'
 
-import { Table, Spin, Typography, Form, Input, Row, Col} from 'antd'
+import { Tabs, Table, Spin, Typography, Form, Input, Row, Col} from 'antd'
 import { ArrowLeftOutlined } from '@ant-design/icons'
 import { antIcon } from '../../functions/utils'
 
+import GamesList from '../gamesList/GamesList'
 import SeasonSelector from '../seasonSelector/SeasonSelector'
+import Weeks from '../weeks/Weeks'
 
 const { Title, Text } = Typography
+const { TabPane } = Tabs
 
-const Group = ({user, group, loadingGroup, sportObj, UI, fetchGroup, selectGroupSeason, joinGroup, leaveGroup, onChangeText, match, history}) => {
-    const { groupId, groupName, users, memberOf, joiningGroup, results } = group
+const Group = ({user, group, loadingGroup, sportObj, UI, fetchGroup, selectGroupSeason, joinGroup, leaveGroup, onChangeText, fetchGameWeekGames, games, match, history}) => {
+    const { groupId, groupName, users, memberOf, joiningGroup, results, predictions } = group
     const isPublicGroup = group.public
     let { sport, year } = group
     sport = sport ? sport : sportObj.gameWeekData.sport
@@ -35,6 +39,12 @@ const Group = ({user, group, loadingGroup, sportObj, UI, fetchGroup, selectGroup
     const handleLeaveGroupConfirm = () => {
         leaveGroup(sport, year, groupId)
     }
+    let gamePredictions = {}
+    predictions && predictions.length > 0 && predictions.forEach(prediction => {
+        if (games[prediction.gameId]) {
+            games[prediction.gameId].prediction = prediction
+        }
+    })
 
     /* check for group data - !groupName
     if no group data, check for loading state - !loadingGroup
@@ -60,7 +70,6 @@ const Group = ({user, group, loadingGroup, sportObj, UI, fetchGroup, selectGroup
             dataIndex: 'preferred_username',
             key: 'preferred_username',
             render: (preferred_username, record) => {
-                console.log('preferred_username', preferred_username)
                 return (
                     // <Link onClick={() => onGroupClick(record.sport, record.year, season, record.groupId)} to={`/${sport}/groups/${year}/${season}/group/${record.groupId}`}>
                     <span>
@@ -105,7 +114,6 @@ const Group = ({user, group, loadingGroup, sportObj, UI, fetchGroup, selectGroup
                 )
             })
     }
-    console.log('users', users)
 
     return (
         <div className="groupContainer">
@@ -141,7 +149,15 @@ const Group = ({user, group, loadingGroup, sportObj, UI, fetchGroup, selectGroup
                     </Col>
                 </Row>
                 <Row>
-                    <Table className="groupTable" scroll={{x: true}} rowKey="username" columns={columns} dataSource={users} />
+                    <Tabs>
+                        <TabPane tab="Leaderboard" key="1">
+                            <Table className="groupTable" scroll={{x: true}} rowKey="username" columns={columns} dataSource={users} />
+                        </TabPane>
+                        <TabPane tab="Predictions" key="2">
+                            <GamesList games={games} gamePredictions={gamePredictions} sport={sportObj} loadingGames={loadingGroup} component={GamesList} />
+                        </TabPane>
+
+                    </Tabs>
                 </Row>
                 </Fragment>
             ) : (
@@ -197,6 +213,7 @@ const mapStateToProps = (state) => ({
     group: state.groups.group,
     loadingGroup: state.groups.loadingGroup,
     sportObj: state.sport,
+    games: state.games.games,
     UI: state.UI
 })
 
@@ -205,7 +222,8 @@ const mapActionsToProps = {
     joinGroup,
     leaveGroup,
     selectGroupSeason,
-    onChangeText
+    onChangeText,
+    fetchGameWeekGames
 }
 
 export default connect(mapStateToProps, mapActionsToProps)(Group);
