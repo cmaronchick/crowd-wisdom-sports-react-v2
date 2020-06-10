@@ -9,6 +9,7 @@ module.exports = {
             modifyVars: { 
                 '@primary-color': '#0a1f8f',
                 '@secondary-color': '#124734',
+                '@tertiary-color': '#e04403',
                 '@info-color': '@primary-color',
                 '@success-color': '#124734',
                 '@processing-color': '@primary-color',

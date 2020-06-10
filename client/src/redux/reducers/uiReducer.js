@@ -1,5 +1,6 @@
 import { 
     TOGGLE_LOGIN_MODAL,
+    TOGGLE_LEAVE_GROUP_MODAL,
     ON_CHANGE_TEXT,
     SET_ERRORS,
     CLEAR_ERRORS
@@ -8,6 +9,7 @@ import {
 
 const initialState = {
     loginModalOpen: false,
+    leaveGroupModalOpen: false,
     errors: null
 }
 
@@ -17,6 +19,11 @@ export default function(state = initialState, action) {
             return {
                 ...state,
                 loginModalOpen: action.payload
+            }
+        case TOGGLE_LEAVE_GROUP_MODAL:
+            return {
+                ...state,
+                leaveGroupModalOpen: action.payload
             }
         case ON_CHANGE_TEXT:
             return {

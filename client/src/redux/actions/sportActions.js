@@ -99,7 +99,7 @@ export const changeGameWeek = (gameWeekData, selectedWeek) => (dispatch) => {
 export const selectSeason = (sport, year, season) => async (dispatch) => {
     console.log('sport, year, season', sport, year, season)
     try {
-        let seasonDetailsResponse = await apiHost.get(`${sport}/${year}/${season}`).json()
+        let seasonDetailsResponse = await apiHost.get(`sport/${sport}/${year}/${season}`).json()
         console.log('seasonDetailsResponse', seasonDetailsResponse)
         
         dispatch({

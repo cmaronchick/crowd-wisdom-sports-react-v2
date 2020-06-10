@@ -14,12 +14,14 @@ const {TabPane} = Tabs
 
 const LoginModal = (props) => {
   const { user, UI } = props
-  const { confirmUser, forgotPassword, signingInUser, signingUpUser } = user
+  const { confirmUser, forgotPassword, signingIn, signingUp } = user
+
     const handleFBClick = () => {
       let state = generateRandomString(16)
       localStorage['amplify_auth_state'] = state
       localStorage['facebookLoginFromPage'] = window.location.href
-      window.location.href=`https://crowdsourcedscores.auth.us-west-2.amazoncognito.com/oauth2/authorize?identity_provider=Facebook&redirect_uri=${window.origin}/callback&response_type=CODE&client_id=2n15lhk845sucm0k4fejjqcbev&state=${state}&scope=aws.cognito.signin.user.admin email openid phone profile`
+      // console.log(`https://crowdsourcedscores.auth.us-west-2.amazoncognito.com/oauth2/authorize?identity_provider=Facebook&redirect_uri=https://app.stakehousesports.com&response_type=CODE&client_id=2n15lhk845sucm0k4fejjqcbev&state=${state}&scope=aws.cognito.signin.user.admin+email+openid+phone+profile`)
+      window.location.href=`https://crowdsourcedscores.auth.us-west-2.amazoncognito.com/oauth2/authorize?identity_provider=Facebook&redirect_uri=${window.origin}/callback&response_type=CODE&client_id=2n15lhk845sucm0k4fejjqcbev&state=${state}&scope=aws.cognito.signin.user.admin+email+openid+phone+profile`
     }
 
     return (
@@ -47,7 +49,7 @@ const LoginModal = (props) => {
                 <Input.Password type="password" name="loginPassword" placeholder="Password" onChange={props.onChangeText} />
                 </Form.Item>
               <Button type="primary" size="medium" className="loginButton" onClick={() => props.login(UI.loginUsername, UI.loginPassword)}
-                loading={signingInUser}
+                loading={signingIn}
                 disabled={!UI.loginUsername || !UI.loginPassword}>
                   Submit
               </Button>
@@ -119,7 +121,7 @@ const LoginModal = (props) => {
                 <Input type="checkbox" name="signUpEmailOptIn" onChange={props.onChangeText} label="Receive weekly predictions reminder e-mails." />
                 </Form.Item>
               <Button type="primary" className="loginButton" type="submit" onClick={() => props.login(UI.loginUsername, UI.loginPassword)}
-                loading={signingInUser}
+                loading={signingUp}
                 disabled={!UI.signUpGivenName || 
                 !UI.signUpFamilyName || 
                 (!UI.signUpUsername || UI.signUpUsername.length < 5) || 

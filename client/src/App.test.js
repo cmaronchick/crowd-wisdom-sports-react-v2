@@ -6,7 +6,7 @@ import { Provider } from 'react-redux'
 import store from './redux/store'
 // Amplify Stuff
 import Amplify from 'aws-amplify'
-import awsmobile from '../awsmobile'
+import awsmobile from './awsmobile'
 Amplify.configure(awsmobile)
 
 test('renders learn react link', () => {

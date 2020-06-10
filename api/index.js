@@ -77,11 +77,11 @@ router.get('/:sport/week', (req, res) => {
 
 })
 
-router.get('/:sport/:year/:season', (req, res) => {
+router.get('/sport/:sport/:year/:season', (req, res) => {
     const callOptionsObject = callOptions(req.headers.authorization);
     const anonString = callOptionsObject.anonString;
     const getOptions = callOptionsObject.callOptions;
-    console.log('req.params', req.params)
+    console.log('84 req.params', req.params)
     const { sport, year, season } = req.params;
       return apiHost.get(`${sport}/${year}/${season}`, getOptions)
       .then((seasonDetailsReponse) => {
@@ -122,7 +122,8 @@ router.get(['/:sport/games', '/:sport/games/:year/:season/:gameWeek'], (req, res
   const callOptionsObject = callOptions(req.headers.authorization);
   const anonString = callOptionsObject.anonString;
   const getOptions = callOptionsObject.callOptions;
-  return apiHost.get(`${sport}/${year}/${season}/${gameWeek}/games${req.query && req.query.compareUsername ? `?compareUsername=${req.query.compareUsername}` : ''}`, getOptions)
+  console.log('anonString', anonString)
+  return apiHost.get(`${sport}/${year}/${season}/${gameWeek}/games${anonString}${req.query && req.query.compareUsername ? `?compareUsername=${req.query.compareUsername}` : ''}`, getOptions)
     .then((gamesResponse) => {
         return gamesResponse.json()
     })
@@ -193,35 +194,99 @@ router.get('/:sport/leaderboards/:year/:season/:week', (req, res) => {
 
 })
 
-router.get(['/:sport/crowds/:year', '/:sport/crowds/:year/:season'], (req, res) => {
-  console.log('api index 129 req', {params: req.params})
-  const { sport, year, season } = req.params;
+router.get(['/group/:sport/:year', '/:sport/crowds/:year'], (req, res) => {
+  console.log('api index 129 req', {query: req.query})
+  const { sport, year } = req.params; 
+  const { season } = req.query
     const callOptionsObject = callOptions(req.headers.authorization);
     const anonString = callOptionsObject.anonString;
     const getOptions = callOptionsObject.callOptions;
-      return ky.get(`https://y5f8dr2inb.execute-api.us-west-2.amazonaws.com/dev/group/${sport}/${year}${anonString}`, getOptions)
-      .then((crowdsResponse) => {
-        const crowdsResponseObjs = crowdsResponse.data.reduce((obj, crowd) => {
-          obj[crowd.groupId] = crowd;
+      return ky.get(`https://y5f8dr2inb.execute-api.us-west-2.amazonaws.com/dev/group/${sport}/${year}${anonString}${season ? `?season=${season}` : ''}`, getOptions).json()
+      .then((groupsResponse) => {
+        console.log('groupsResponse', groupsResponse)
+        groupsResponse = groupsResponse.sort((a,b) => a.results[sport][year][season].predictionScore > b.results[sport][year][season].predictionScore ? 1 : -1)
+        const groupsResponseObjs = groupsResponse.reduce((obj, group) => {
+          obj[group.groupId] = group;
           return obj;
         }, {});
-        res.send({ crowds: crowdsResponseObjs })
+        res.send({ groups: groupsResponse })
       })
       .catch(crowdsResponseError => console.log('api leaderboard index 139 leaderboardResponseError: ', crowdsResponseError))
 })
 
-router.get('/:sport/crowds/:year/:season/:crowdId', (req, res) => {
-  console.log('api index 143 req', {params: req.params})
-  const { sport, year, season, crowdId } = req.params;
+
+router.post('/group/:sport/:year/:groupId/leavegroup', (req, res) => {
+  console.log('api index 217 req', {params: req.params})
+  const { sport, year, groupId } = req.params;
+  const { season } = req.query
     const callOptionsObject = callOptions(req.headers.authorization);
+    console.log('callOptionsObject', callOptionsObject)
+    const getOptions = callOptionsObject.callOptions;
+    console.log('getOptions', getOptions)
+      return ky.post(`https://y5f8dr2inb.execute-api.us-west-2.amazonaws.com/dev/group/${sport}/${parseInt(year)}/${parseInt(groupId)}/leavegroup`, getOptions)
+      .then((groupResponse) => {
+        console.log('leve groupResponse 225', groupResponse)
+        return groupResponse.json()
+      })
+      .then(groupResponse => {
+       console.log('api/index 119 gameWeekResponse', groupResponse)
+        return res.status(200).json({ group: groupResponse })
+      })
+      .catch(groupResponseError => {
+        console.log('api leaderboard index 153 crowdResponseError: ', groupResponseError)
+        return res.status(500).json({ message: groupResponseError})
+      })
+})
+
+router.get('/group/:sport/:year/:groupId', (req, res) => {
+  console.log('api index 217 req', {params: req.params})
+  const { sport, year, groupId } = req.params;
+  const { season } = req.query
+    const callOptionsObject = callOptions(req.headers.authorization);
+    console.log('callOptionsObject', callOptionsObject)
     const anonString = callOptionsObject.anonString;
     const getOptions = callOptionsObject.callOptions;
-      return ky.get(`https://y5f8dr2inb.execute-api.us-west-2.amazonaws.com/dev/group/${sport}/${year}/${crowdId}${anonString}`, getOptions)
-      .then((crowdResponse) => {
-       //console.log('api/index 119 gameWeekResponse', leaderboardResponse.data)
-        res.send({ crowd: crowdResponse.data })
+    console.log('getOptions', getOptions)
+      return ky.get(`https://y5f8dr2inb.execute-api.us-west-2.amazonaws.com/dev/group/${sport}/${parseInt(year)}/${parseInt(groupId)}${anonString}${season ? `?season=${season}` : ''}`, getOptions)
+      .then((groupResponse) => {
+        console.log('groupResponse 225', groupResponse)
+        return groupResponse.json()
       })
-      .catch(crowdResponseError => console.log('api leaderboard index 153 crowdResponseError: ', crowdResponseError))
+      .then(groupResponse => {
+       console.log('api/index 119 gameWeekResponse', groupResponse)
+        return res.status(200).json({ group: groupResponse })
+      })
+      .catch(groupResponseError => {
+        console.log('api leaderboard index 153 crowdResponseError: ', groupResponseError)
+        return res.status(500).json({ message: groupResponseError})
+      })
+})
+
+router.post('/group/:sport/:year/:groupId', (req, res) => {
+  console.log('api index 217 req', {params: req.params})
+  const { sport, year, groupId } = req.params;
+  const { season } = req.query
+  if (!req.headers.authorization) {
+    return res.status(403).json({ message: 'Please log in again.'})
+  }
+    const callOptionsObject = callOptions(req.headers.authorization);
+      return ky.post(`https://y5f8dr2inb.execute-api.us-west-2.amazonaws.com/dev/group/${sport}/${parseInt(year)}/${parseInt(groupId)}`, {
+        headers: {
+          Authorization: req.headers.authorization
+        }
+      })
+      .then((groupResponse) => {
+        console.log('groupResponse 225', groupResponse)
+        return groupResponse.json()
+      })
+      .then(groupResponse => {
+       console.log('api/index 119 gameWeekResponse', groupResponse)
+        return res.status(200).json({ group: groupResponse })
+      })
+      .catch(groupResponseError => {
+        console.log('api leaderboard index 153 crowdResponseError: ', groupResponseError)
+        return res.status(500).json({ message: groupResponseError})
+      })
 })
 
 router.get('/:sport/leaderboards/:year/:season/:week/crowdOverall', (req, res) => {

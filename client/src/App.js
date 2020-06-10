@@ -11,6 +11,8 @@ import LoginModal from './components/profile/LoginModal'
 import GamesList from './components/gamesList/GamesList'
 import Game from './components/game/Game'
 import Leaderboards from './components/leaderboards/Leaderboards'
+import Groups from './components/groups/Groups'
+import Group from './components/groups/Group'
 import Profile from './components/profile/Profile'
 
 import { getUrlParameters } from './functions/utils'
@@ -67,6 +69,7 @@ class App extends Component {
     store.dispatch({
       type: LOADING_GAME
     })
+
     // store.dispatch({
     //   type: LOADING_LEADERBOARDS
     // })
@@ -115,6 +118,8 @@ class App extends Component {
                   <Route path="/profile" component={Profile} />
                   <Route path="/:sport/games/:year/:season/:gameWeek/game/:gameId" component={Game} />
                   <Route path="/:sport/leaderboards" component={Leaderboards} />
+                  <Route path="/:sport/groups/:year/:season/group/:groupId" component={Group} />
+                  <Route path="/:sport/groups" component={Groups} />
                   <Route path={["/:sport", "/:sport/games","/"]} component={GamesList} />
                 </Switch>
             </Content>

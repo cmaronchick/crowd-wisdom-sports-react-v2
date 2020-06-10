@@ -47,6 +47,8 @@ const Profile = ({ user, loginModalShow, newPassword, confirmPassword, passwordM
         fileInput.click();
     }
     const { picture, name } = user.attributes
+    const pictureData = picture ? JSON.parse(picture) : ''
+    const src = picture && JSON.parse(picture) ? JSON.parse(picture).data.url : picture
     return (
 
         <Card className="profile">
@@ -55,7 +57,7 @@ const Profile = ({ user, loginModalShow, newPassword, confirmPassword, passwordM
                 <Form {...layout}>
                 <div className="profileWrapper">
                     <div className='image-wrapper'>
-                        <img src={picture ? picture : `https://firebasestorage.googleapis.com/v0/b/splitsbyspotify.appspot.com/o/blank-profile-picture.png?alt=media&token=a78e5914-43fd-4e0b-b22e-0ae216ad19c4`} alt={name} className='profileImage'/>
+                        <img style={{width: pictureData.data ? pictureData.data.width : null, height: pictureData.data ? pictureData.data.height : null}} src={src ? src : `https://firebasestorage.googleapis.com/v0/b/splitsbyspotify.appspot.com/o/blank-profile-picture.png?alt=media&token=a78e5914-43fd-4e0b-b22e-0ae216ad19c4`} alt={name} className='profileImage'/>
                         <input type='file' hidden='hidden' id='imageInput' onChange={handleImageChange}/>
                             <Button tip="Edit Profile Picture" 
                                 placement="top"
