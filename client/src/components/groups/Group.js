@@ -5,7 +5,7 @@ import JoinCrowdButton from './JoinGroupButton'
 
 import { connect } from 'react-redux'
 import { fetchGroup, joinGroup, leaveGroup, selectGroupSeason } from '../../redux/actions/groupActions'
-import { fetchGameWeekGames } from '../../redux/actions/gamesActions'
+import { fetchGameWeekGames, fetchGame } from '../../redux/actions/gamesActions'
 import { onChangeText } from '../../redux/actions/uiActions'
 
 import { Tabs, Table, Spin, Typography, Form, Input, Row, Col} from 'antd'
@@ -19,7 +19,22 @@ import Weeks from '../weeks/Weeks'
 const { Title, Text } = Typography
 const { TabPane } = Tabs
 
-const Group = ({user, group, loadingGroup, sportObj, UI, fetchGroup, selectGroupSeason, joinGroup, leaveGroup, onChangeText, fetchGameWeekGames, games, match, history}) => {
+const Group = ({
+    user,
+    group,
+    loadingGroup,
+    sportObj,
+    UI,
+    fetchGroup,
+    selectGroupSeason,
+    joinGroup,
+    leaveGroup,
+    onChangeText,
+    fetchGameWeekGames,
+    games,
+    gamePredictions,
+    match,
+    history}) => {
     const { groupId, groupName, users, memberOf, joiningGroup, results, predictions } = group
     const isPublicGroup = group.public
     let { sport, year } = group
@@ -39,10 +54,24 @@ const Group = ({user, group, loadingGroup, sportObj, UI, fetchGroup, selectGroup
     const handleLeaveGroupConfirm = () => {
         leaveGroup(sport, year, groupId)
     }
-    let gamePredictions = {}
+    //console.log('group predictions', predictions)
     predictions && predictions.length > 0 && predictions.forEach(prediction => {
-        if (games[prediction.gameId]) {
-            games[prediction.gameId].prediction = prediction
+        if (gamePredictions[prediction.gameId]) {
+            console.log('gamePredictions[prediction.gameId]', gamePredictions[prediction.gameId])
+            // check to see if prediction already exists
+            gamePredictions[prediction.gameId].filter(prediction => {
+                console.log('prediction', prediction)
+                return prediction.groupId !== groupId
+            })
+            console.log('gamePredictions[prediction.gameId].length', gamePredictions[prediction.gameId])
+            if (gamePredictions[prediction.gameId].length === 1) {
+                gamePredictions[prediction.gameId].push({
+                    type: 'group',
+                    groupId,
+                    name: groupName,
+                    ...prediction
+                })
+            }
         }
     })
 
@@ -117,13 +146,12 @@ const Group = ({user, group, loadingGroup, sportObj, UI, fetchGroup, selectGroup
 
     return (
         <div className="groupContainer">
-            <Row>
+            <Row className="groupRow">
                 <Col span={24}>
             {/* check that group is done loading and has data */}
             {!loadingGroup && group.groupId ? (memberOf || isPublicGroup ? (
                 <Fragment>
                     <Row className="groupHeader">
-
                     <Col span={4}>
                         <ArrowLeftOutlined className="backButton" onClick={() => history.push(`/${sport}/groups/${year}/${season}`)} />
                     </Col>
@@ -149,16 +177,32 @@ const Group = ({user, group, loadingGroup, sportObj, UI, fetchGroup, selectGroup
                     </Col>
                 </Row>
                 <Row>
-                    <Tabs>
-                        <TabPane tab="Leaderboard" key="1">
-                            <Table className="groupTable" scroll={{x: true}} rowKey="username" columns={columns} dataSource={users} />
-                        </TabPane>
-                        <TabPane tab="Predictions" key="2">
-                            <GamesList games={games} gamePredictions={gamePredictions} sport={sportObj} loadingGames={loadingGroup} component={GamesList} />
-                        </TabPane>
+                    <Col span={24}>
+                        <Tabs className="groupLeaderboard">
+                            <TabPane tab="Leaderboard" key="1">
+                                <Table className="groupTable" scroll={{x: true}} rowKey="username" columns={columns} dataSource={users} />
+                            </TabPane>
+                            <TabPane tab="Predictions" key="2">
+                                {games &&  (
+                                    <Fragment>
+                                        <div className="selectorHeader">
+                                            <SeasonSelector />
+                                            <Weeks onGameWeekClick={fetchGameWeekGames} page="group" />
+                                        </div>
+                                        <GamesList
+                                        sport={sportObj}
+                                        games={games}
+                                        page="groups"
+                                        gamePredictions={gamePredictions}
+                                        loadingGames={loadingGroup} />
+                                    </Fragment>
+                                )}
+                            </TabPane>
 
-                    </Tabs>
+                        </Tabs>
+                    </Col>
                 </Row>
+
                 </Fragment>
             ) : (
                 <div className="lockedGroup">
@@ -205,12 +249,15 @@ Group.propTypes = {
     joinGroup: PropTypes.func.isRequired,
     leaveGroup: PropTypes.func.isRequired,
     selectGroupSeason: PropTypes.func.isRequired,
+    games: PropTypes.object.isRequired,
+    gamePredictions: PropTypes.object,
     UI: PropTypes.object.isRequired
 };
 
 const mapStateToProps = (state) => ({
     user: state.user,
     group: state.groups.group,
+    gamePredictions: state.games.gamePredictions,
     loadingGroup: state.groups.loadingGroup,
     sportObj: state.sport,
     games: state.games.games,
@@ -223,7 +270,8 @@ const mapActionsToProps = {
     leaveGroup,
     selectGroupSeason,
     onChangeText,
-    fetchGameWeekGames
+    fetchGameWeekGames,
+    fetchGame
 }
 
 export default connect(mapStateToProps, mapActionsToProps)(Group);

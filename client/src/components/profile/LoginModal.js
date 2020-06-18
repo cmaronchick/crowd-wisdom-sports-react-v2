@@ -1,14 +1,14 @@
-import React, { Component } from 'react'
+import React from 'react'
 import {Button, Modal, Tabs, Form, Input, Typography } from 'antd'
 import { connect } from 'react-redux';
 
 import { generateRandomString } from '../../functions/utils'
 
-import { login } from '../../redux/actions/userActions'
+import { login, signUp } from '../../redux/actions/userActions'
 import { toggleLoginModal, onChangeText } from '../../redux/actions/uiActions'
 import { isEmail } from '../../functions/utils'
 
-const { Title, Paragraph, Text } = Typography
+const { Title, Text } = Typography
 
 const {TabPane} = Tabs
 
@@ -22,6 +22,16 @@ const LoginModal = (props) => {
       localStorage['facebookLoginFromPage'] = window.location.href
       // console.log(`https://crowdsourcedscores.auth.us-west-2.amazoncognito.com/oauth2/authorize?identity_provider=Facebook&redirect_uri=https://app.stakehousesports.com&response_type=CODE&client_id=2n15lhk845sucm0k4fejjqcbev&state=${state}&scope=aws.cognito.signin.user.admin+email+openid+phone+profile`)
       window.location.href=`https://crowdsourcedscores.auth.us-west-2.amazoncognito.com/oauth2/authorize?identity_provider=Facebook&redirect_uri=${window.origin}/callback&response_type=CODE&client_id=2n15lhk845sucm0k4fejjqcbev&state=${state}&scope=aws.cognito.signin.user.admin+email+openid+phone+profile`
+    }
+
+    const handleSignUpClick = () => {
+      const { signUpUsername, signUpPassword, signUpEmail, signUpGivenName, signUpFamilyName} = UI
+      props.signUp(signUpUsername, signUpPassword, {
+        email: signUpEmail, 
+        given_name: signUpGivenName,
+        family_name: signUpFamilyName
+      })
+
     }
 
     return (
@@ -120,7 +130,9 @@ const LoginModal = (props) => {
                   </Text>
                 <Input type="checkbox" name="signUpEmailOptIn" onChange={props.onChangeText} label="Receive weekly predictions reminder e-mails." />
                 </Form.Item>
-              <Button type="primary" className="loginButton" type="submit" onClick={() => props.login(UI.loginUsername, UI.loginPassword)}
+              <Button type="primary"
+                className="loginButton"
+                onClick={handleSignUpClick}
                 loading={signingUp}
                 disabled={!UI.signUpGivenName || 
                 !UI.signUpFamilyName || 
@@ -200,7 +212,8 @@ const mapStateToProps = (state) => ({
 const mapActionsToProps = {
   toggleLoginModal,
   onChangeText,
-  login
+  login,
+  signUp
 }
 
 export default connect(mapStateToProps, mapActionsToProps)(LoginModal)

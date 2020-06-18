@@ -19,17 +19,12 @@ const GamesList = (props) => {
   //{ games, gamePredictions, onGameClick, onChangeGameScore, onChangeStarSpread, onChangeStarTotal, onSubmitPrediction }
   let orderedGames = {}
 
-  if (Object.keys(games).length === 0 && sport && sport.sport && !loadingGames) {
+  if (games && Object.keys(games).length === 0 && sport && sport.sport && !loadingGames) {
     const { year, season, week } = sport.gameWeekData
     props.fetchGameWeekGames(sport.sport, year, season, week)
   }
-
   return (
       <div className="gamesList">
-        <div className="selectorHeader">
-          <SeasonSelector />
-          <Weeks onGameWeekClick={props.fetchGameWeekGames} page="games" />
-        </div>
         {loadingGames ? (
           <Spin indicator={antIcon} />
         ) : games && Object.keys(games).length > 0 ? (
@@ -37,7 +32,7 @@ const GamesList = (props) => {
           {Object.keys(games).sort((a,b) => {
             return (games[b].status === games[a].status) ? new Date(games[a].startDateTime) - new Date(games[b].startDateTime) : new Date(games[b].startDateTime) - new Date(games[a].startDateTime)
           }).map(gameId => {
-            console.log({gamePrediction: gamePredictions[gameId]});
+            
             // if (gamePredictions[gameId]) {
             //   console.log(`gamePredictions[gameId]: ${JSON.stringify(gamePredictions[gameId])}`)
             // }
@@ -51,7 +46,7 @@ const GamesList = (props) => {
             // onChangeStarTotal={onChangeStarTotal}
             // onSubmitPrediction={onSubmitPrediction}
             game={games[gameId]}
-            gamePrediction={gamePredictions[gameId]} />
+            predictions={gamePredictions[gameId]} />
           }
           )}
 
@@ -68,8 +63,8 @@ GamesList.propTypes = {
   gamePredictions: PropTypes.object.isRequired,
   loadingGames: PropTypes.bool.isRequired,
   sport: PropTypes.object.isRequired,
-  fetchGame: PropTypes.func.isRequired,
-  fetchGameWeekGames: PropTypes.func.isRequired
+  fetchGame: PropTypes.func,
+  fetchGameWeekGames: PropTypes.func
 };
 
 const mapActionsToProps = {

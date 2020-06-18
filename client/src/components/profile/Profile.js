@@ -1,7 +1,7 @@
-import React, {Fragment} from 'react'
+import React from 'react'
 
 import { connect } from 'react-redux'
-import { toggleLoginModal, onChangeText } from '../../redux/actions/uiActions'
+import { toggleLoginModal } from '../../redux/actions/uiActions'
 import { updateUserDetails, changePassword, changeUserDetails, uploadImage } from '../../redux/actions/userActions'
 import { LOADING_USER} from '../../redux/types'
 
@@ -12,7 +12,7 @@ import { Card, Typography, Form, Input, Button } from 'antd'
 import { EditOutlined } from '@ant-design/icons'
 import './Profile.less'
 
-const { Title, Paragraph, Text } = Typography
+const { Title, Text } = Typography
 
 const layout = {
     labelCol: { span: 8 },
@@ -55,6 +55,7 @@ const Profile = ({ user, loginModalShow, newPassword, confirmPassword, passwordM
             {user.authenticated ? (
                 
                 <Form {...layout}>
+                    <Title>{user.attributes.preferred_username}</Title>
                 <div className="profileWrapper">
                     <div className='image-wrapper'>
                         <img style={{width: pictureData.data ? pictureData.data.width : null, height: pictureData.data ? pictureData.data.height : null}} src={src ? src : `https://firebasestorage.googleapis.com/v0/b/splitsbyspotify.appspot.com/o/blank-profile-picture.png?alt=media&token=a78e5914-43fd-4e0b-b22e-0ae216ad19c4`} alt={name} className='profileImage'/>

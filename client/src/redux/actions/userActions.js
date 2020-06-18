@@ -156,6 +156,27 @@ export const login = (username, password) => async (dispatch) => {
     }
 }
 
+export const signUp = (username, password, attributes) => async (dispatch) => {
+    try {
+        let signUpResponse = await Auth.signUp({
+            username,
+            password,
+            attributes: {
+                email: attributes.email,             // optional
+                picture: attributes.picture
+                // phone_number,      // optional - E.164 number convention
+                // Other custom attributes...
+            },
+            })
+    } catch (signUpError) {
+        console.log('signUpError', signUpError)
+        dispatch({
+            type: SET_ERRORS,
+            payload: signUpError
+        })
+    }
+}
+
 export const logout = () => async (dispatch) => {
     try {
         await Auth.signOut()

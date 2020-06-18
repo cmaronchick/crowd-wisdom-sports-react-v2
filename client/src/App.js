@@ -11,7 +11,7 @@ import './App.less';
 import Header from './components/layout/header/Header'
 import SideMenu from './components/layout/sidemenu/SideMenu'
 import LoginModal from './components/profile/LoginModal'
-import GamesList from './components/gamesList/GamesList'
+import Games from './components/games/Games'
 import Game from './components/game/Game'
 import Leaderboards from './components/leaderboards/Leaderboards'
 import Groups from './components/groups/Groups'
@@ -123,7 +123,7 @@ class App extends Component {
                   <Route path="/:sport/leaderboards" component={Leaderboards} />
                   <Route path="/:sport/groups/:year/:season/group/:groupId" component={Group} />
                   <Route path="/:sport/groups" component={Groups} />
-                  <Route path={["/:sport", "/:sport/games","/"]} games={this.props.games} gamePredictions={this.props.gamePredictions} sport={this.props.sport} loadingGames={this.props.loadingGames} component={GamesList} />
+                  <Route path={["/:sport", "/:sport/games","/"]} component={Games} />
                 </Switch>
             </Content>
           </Layout>

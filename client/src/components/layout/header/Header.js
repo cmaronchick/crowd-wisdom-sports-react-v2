@@ -11,7 +11,7 @@ import LoginButton from '../../profile/LoginButton'
 import { Layout, Typography, Button, Dropdown, Menu } from 'antd'
 import { Link } from 'react-router-dom'
 import { DownOutlined, UserOutlined } from '@ant-design/icons'
-const { Title, Paragraph, Text } = Typography;
+const { Text } = Typography;
 
 const { Header } = Layout
 
@@ -44,7 +44,7 @@ const StakehouseHeader = ({ message,user, logout }) => {
         <LoginButton buttonClass="headerButton" />
       ) : (
       <Dropdown overlay={profileChoices}>
-        <a className="ant-dropdown-link headerUserDropdown" overlay={profileChoices} onClick={e => e.preventDefault()}>
+        <a href="#profile" className="ant-dropdown-link headerUserDropdown" overlay={profileChoices} onClick={e => e.preventDefault()}>
           {window.innerWidth < 500 ? (
             <UserOutlined />
           ) : (
