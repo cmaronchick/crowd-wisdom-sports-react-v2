@@ -5,10 +5,12 @@ import {
     SET_GROUP,
     SELECT_GROUP_SEASON,
     JOIN_GROUP,
+    JOINING_GROUP,
     LEAVE_GROUP,
     CREATE_GROUP,
     DELETE_GROUP,
-    SET_ERRORS
+    SET_ERRORS,
+    CLEAR_ERRORS
     } from '../types'
 import ky from 'ky/umd'
 
@@ -43,7 +45,7 @@ export const fetchGroups = (sport, year, season) => async (dispatch) => {
     } catch (fetchGroupsError) {
         dispatch({
             type: SET_ERRORS,
-            errors: fetchGroupsError
+            payload: fetchGroupsError
         })
     }
 }
@@ -82,12 +84,12 @@ export const fetchGroup = (sport, year, season, groupId) => async (dispatch) => 
         console.log('fetchGroupError', fetchGroupError);
         dispatch({
             type: SET_ERRORS,
-            errors: fetchGroupError
+            payload: fetchGroupError
         })
     }
 }
 
-export const joinGroup = (sport, year, groupId) => async (dispatch) => {
+export const joinGroup = (sport, year, groupId, password) => async (dispatch) => {
     try {
         const currentUser = await Auth.currentAuthenticatedUser()
         const currentSession = await Auth.currentSession()
@@ -95,7 +97,8 @@ export const joinGroup = (sport, year, groupId) => async (dispatch) => {
         const postOptions = {
             headers: {
                 Authorization: IdToken
-            }
+            },
+            body: JSON.stringify(password)
         }
         let joinGroupResponse = await apiHost.post(`group/${sport}/${year}/${groupId}/joingroup`, postOptions).json()
         console.log('joinGroupResponse', joinGroupResponse)
@@ -116,11 +119,15 @@ export const joinGroup = (sport, year, groupId) => async (dispatch) => {
                 }
             }
         })
+        dispatch({
+            type: CLEAR_ERRORS
+        })
     } catch (joinGroupError) {
         console.log('joinGroupError', joinGroupError)
+
         dispatch({
             type: SET_ERRORS,
-            errors: joinGroupError
+            payload: joinGroupError
         })
     }
 }

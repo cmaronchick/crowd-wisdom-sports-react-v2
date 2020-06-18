@@ -11,8 +11,6 @@ import { faFootballBall, faSchool, faBasketballBall, faTrophy, faUserFriends } f
 import { connect } from 'react-redux'
 import { setSport } from '../../../redux/actions/sportActions'
 
-import LoginButton from '../../profile/LoginButton'
-
 const { Sider } = Layout
 
 const { SubMenu, Item } = Menu
@@ -35,7 +33,7 @@ const sportsVariables = {
 const faIcon = (sport) => (<FontAwesomeIcon icon={sportsVariables[sport].icon}/>)
 
 const SideMenu = (props) => {
-    const { sport, UI, user } = props
+    const { sport, user } = props
     const sportKeys = {
         nfl: 'nfl'
     }

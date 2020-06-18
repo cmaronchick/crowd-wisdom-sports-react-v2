@@ -58,14 +58,20 @@ export const fetchGameWeekGames = (sport, year, season, gameWeek) => async (disp
   export const setGamePredictions = (games) => (dispatch) => {
       let gamePredictions = {}
       Object.keys(games).forEach(gameId => {
-          let prediction = games[gameId].prediction
-          if (prediction) {
-              gamePredictions[gameId] = {
-                  predictionAwayTeamScore: prediction.awayTeam.score,
-                  predictionHomeTeamScore: prediction.homeTeam.score
-              }
-          }
-      })
+        let prediction = games[gameId].prediction
+        console.log('prediction', prediction)
+        if (prediction) {
+            gamePredictions[gameId] = [{
+                type: 'user',
+                name: 'Me',
+                awayTeam: {score: prediction.awayTeam.score},
+                homeTeam: {score: prediction.homeTeam.score},
+                total: prediction.total,
+                spread: prediction.spread
+            }]
+        }
+    })
+    console.log('gamePredictions', gamePredictions)
       dispatch({
           type: SET_PREDICTIONS,
           payload: gamePredictions

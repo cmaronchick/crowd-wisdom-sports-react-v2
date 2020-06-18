@@ -15,7 +15,7 @@ import './Game.less'
 const { Title, Paragraph, Text } = Typography
 
 const GamePreview = (props) => {
-  const { game, gamePrediction } = props
+  const { game, predictions } = props
   if (!game || !game.gameId) {
     return (
       <div>No game found</div>
@@ -25,7 +25,7 @@ const GamePreview = (props) => {
   const showQuarters = game.season === "post" && game.gameWeek === 4 ? true : false
   
   const { season, gameWeek } = game
-  const showPrediction = (gamePrediction && gamePrediction.predictionAwayTeamScore && gamePrediction.predictionHomeTeamScore) || game.prediction
+  const showPrediction = predictions && predictions.length > 0
   //check for super bowl and set quarters state
   let periods = {};
   if (gameWeek === 4 && season === 'post') {
@@ -104,35 +104,47 @@ const GamePreview = (props) => {
     event.preventDefault()
     this.props.onSubmitPrediction(this.props.game.gameId)
   }
-    
+    //console.log('predictions', predictions);
       return (
       <Card title={<GamePreviewHeader game={game} onClick={handleClick} />} className="link GamePreview">
         <Row className="game-details">
           <Col span={24}>
             <GamePreviewHeaderRow game={game} showPrediction={showPrediction}/>
 
-          {(!game.results || game.prediction) ? (
+          {!game.results ? (
+              <GamePreviewPrediction
+                showPrediction={showPrediction}
+                game={game}
+                prediction={game.prediction ? game.prediction : { type: 'user', name: 'Me'}}
+                // override game.prediction with temporary gamePrediction
+                // onChangeGameScore={onChangeGameScore}
+                // onChangeStarSpread={onChangeStarSpread}
+                // onChangeStarTotal={onChangeStarTotal}
+                handleOddsChangeModalShow={handleOddsChangeModalShow}
+                handleOddsChangeModalHide={handleOddsChangeModalHide}
+                // oddsChangeModalShow={oddsChangeModalShow}
+                />
+          ) : predictions && predictions.length > 0 ? predictions.map(prediction => (
             <GamePreviewPrediction
-              showPrediction={showPrediction}
-              game={game}
-              prediction={game.prediction}
-              gamePrediction={gamePrediction ? gamePrediction : game.prediction}
-              // onChangeGameScore={onChangeGameScore}
-              // onChangeStarSpread={onChangeStarSpread}
-              // onChangeStarTotal={onChangeStarTotal}
-              handleOddsChangeModalShow={handleOddsChangeModalShow}
-              handleOddsChangeModalHide={handleOddsChangeModalHide}
-              // oddsChangeModalShow={oddsChangeModalShow}
-              predictionType={{type: 'user', title: 'Me'}}
-              />
-          ) : (
+            key={prediction.name}
+            showPrediction={showPrediction}
+            game={game}
+            prediction={prediction}
+            // override game.prediction with temporary gamePrediction
+            // onChangeGameScore={onChangeGameScore}
+            // onChangeStarSpread={onChangeStarSpread}
+            // onChangeStarTotal={onChangeStarTotal}
+            handleOddsChangeModalShow={handleOddsChangeModalShow}
+            handleOddsChangeModalHide={handleOddsChangeModalHide}
+            // oddsChangeModalShow={oddsChangeModalShow}
+            />
+          )) : (
             <Row className="predictionRow noPrediction">
               <Col span={24}>
                 <Text type="warning">No prediction for this game</Text>
               </Col>
             </Row>
           )}
-          
           {(game.season === 'post' && game.gameWeek === 4) && (game.prediction || !game.results) && (
             <Fragment>
 
@@ -147,18 +159,19 @@ const GamePreview = (props) => {
                 /> */}
             </Fragment>
           )} 
-          {game.comparePrediction ? 
+          {/* {game.comparePrediction ? 
             (
               <GamePreviewPrediction game={game} 
               prediction={game.comparePrediction}
               gamePrediction={gamePrediction}
               predictionType={{type: 'user', title: 'Crowd'}}
+              user={props.compareUser}
               // onChangeGameScore={this.props.onChangeGameScore}
               // onChangeStarSpread={this.props.onChangeStarSpread}
               // onChangeStarTotal={this.props.onChangeStarTotal}
               />
-            ) : 
-          (game.crowd && game.crowd.awayTeam) ? (
+            ) :  */}
+          {(game.crowd && game.crowd.awayTeam) ? (
             <Fragment>
             {!game.prediction && !game.results ? 
               (
@@ -170,11 +183,8 @@ const GamePreview = (props) => {
                 // <GamePreviewCrowd game={game} />
                 <GamePreviewPrediction
                   game={game}
-                  prediction={game.crowd}
-                  gamePrediction={{
-                    predictionAwayTeamScore: game.crowd.awayTeam.score,
-                    predictionHomeTeamScore: game.crowd.homeTeam.score,
-                  }}
+                  prediction={{...game.crowd, type: 'crowd', name: 'Crowd'}}
+                  user="Crowd"
                   showPrediction={true}
                   predictionType={{type: 'crowd', title: 'Crowd'}} />
                 )}
@@ -195,7 +205,8 @@ const GamePreview = (props) => {
                 <Button type='submit' style={{width: '100%'}} onClick={this.handleSubmit} disabled={!game.prediction && !((gamePrediction.predictionAwayTeamScore || gamePrediction.predictionAwayTeamScore ===0 || gamePrediction.predictionAwayTeamScore !== '') && (gamePrediction.predictionHomeTeamScore || gamePrediction.predictionHomeTeamScore === 0))}>
                   {this.props.gamePrediction && this.props.gamePrediction.submittingPrediction ? <Spinner animation='border' /> : game.prediction ? 'Update' : 'Predict'}
                 </Button>
-              ) : null} */}
+              ) : null} */}\
+
             </Row>
           )}
           </Col>
@@ -208,7 +219,8 @@ const GamePreview = (props) => {
 GamePreview.propTypes = {
   onClick: PropTypes.func.isRequired,
   game: PropTypes.object.isRequired,
-  gamePrediction: PropTypes.object
+  gamePrediction: PropTypes.object,
+  users: PropTypes.array
 }
 
 

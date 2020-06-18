@@ -5,7 +5,7 @@ import LoginButton from '../profile/LoginButton';
 
 const { Text } = Typography
 
-const JoinGroupButton = ({authenticated, isOwner, memberOf, handleJoinGroupClick, handleLeaveGroupConfirm, groupName, btnClassName}) => {
+const JoinGroupButton = ({authenticated, isOwner, memberOf, handleJoinGroupClick, handleLeaveGroupConfirm, joiningGroup, groupName, btnClassName}) => {
     return memberOf ? (
 
             <Popconfirm
@@ -20,7 +20,7 @@ const JoinGroupButton = ({authenticated, isOwner, memberOf, handleJoinGroupClick
             </Popconfirm>
             // <Button type="primary" className={btnClassName} disabled={isOwner} onClick={leaveGroupClick}>Leave Group</Button>
         ) : authenticated ? (
-            <Button type="primary" className={btnClassName} onClick={handleJoinGroupClick}>Join Group</Button>
+            <Button loading={joiningGroup} type="primary" className={btnClassName} onClick={handleJoinGroupClick}>Join Group</Button>
         ) : (
             <LoginButton btnClassName={btnClassName} />
         )

@@ -1,5 +1,5 @@
 import React from 'react'
-import { Row, Col, Typography } from 'antd'
+import { Row, Col, Typography, Form, Input, InputNumber } from 'antd'
 import StarRatingComponent from 'react-star-rating-component'
 import OddsChangeModal from './Game.OddsChangeModal';
 import { checkBullseye, straightUpResults, spreadResults, totalResults } from './GamePreview.ResultsCheck'
@@ -12,9 +12,7 @@ const GamePreviewPrediction = (props) => {
   const { 
     game,
     prediction,
-    gamePrediction,
     showPrediction,
-    predictionType,
     onChangeGameScore,
     onChangeStarSpread,
     onChangeStarTotal,
@@ -30,21 +28,21 @@ const GamePreviewPrediction = (props) => {
     const { results } = game
     const { odds } = prediction && prediction.odds ? prediction : game
     let awayTeamSpreadResult, homeTeamSpreadResult, totalResult;
-    if (gamePrediction.predictionAwayTeamScore && gamePrediction.predictionHomeTeamScore) {
-      awayTeamSpreadResult = (gamePrediction.predictionAwayTeamScore - gamePrediction.predictionHomeTeamScore) % 1 === 0 ? (gamePrediction.predictionAwayTeamScore - gamePrediction.predictionHomeTeamScore) : (gamePrediction.predictionAwayTeamScore - gamePrediction.predictionHomeTeamScore).toFixed(2)
-      homeTeamSpreadResult = (gamePrediction.predictionHomeTeamScore - gamePrediction.predictionAwayTeamScore) % 1 === 0 ? (gamePrediction.predictionHomeTeamScore - gamePrediction.predictionAwayTeamScore) : (gamePrediction.predictionHomeTeamScore - gamePrediction.predictionAwayTeamScore).toFixed(2)
-      totalResult = (gamePrediction.predictionAwayTeamScore + gamePrediction.predictionHomeTeamScore) % 1 === 0 ? (gamePrediction.predictionAwayTeamScore + gamePrediction.predictionHomeTeamScore) : (gamePrediction.predictionAwayTeamScore + gamePrediction.predictionHomeTeamScore).toFixed(2)
+    if (prediction.awayTeam && prediction.awayTeam.score && prediction.homeTeam && prediction.homeTeam.score) {
+      awayTeamSpreadResult = (prediction.awayTeam.score - prediction.homeTeam.score) % 1 === 0 ? (prediction.awayTeam.score - prediction.homeTeam.score) : (prediction.awayTeam.score - prediction.homeTeam.score).toFixed(2)
+      homeTeamSpreadResult = (prediction.homeTeam.score - prediction.awayTeam.score) % 1 === 0 ? (prediction.homeTeam.score - prediction.awayTeam.score) : (prediction.homeTeam.score - prediction.awayTeam.score).toFixed(2)
+      totalResult = (prediction.awayTeam.score + prediction.homeTeam.score) % 1 === 0 ? (prediction.awayTeam.score + prediction.homeTeam.score) : (prediction.awayTeam.score + prediction.homeTeam.score).toFixed(2)
     }
     // const gameCannotBeUpdated = gameCannotBeUpdated(date)
-    if (!prediction && !gamePrediction && results) {
+    if (!prediction && results) {
       return (<Row className="predictionRow noPrediction"><Col span={24}>No prediction submitted</Col></Row>)
     }
     return (
-      <Row className={`${predictionType.type === 'crowd' && (`crowdRow`)} predictionRow`}>
+      <Row className={`${prediction.type === 'crowd' && (`crowdRow`)} predictionRow`}>
         <Col span={24}>
           <Row>
             <Col span={4} className="team">
-              <Text>{predictionType.title}</Text>
+              <Text>{prediction.name}</Text>
             </Col>
             <Col span={showPrediction ? 5 : 10}>{game.results ? prediction ? (
                 <div style={{position: 'relative'}}>
@@ -53,8 +51,22 @@ const GamePreviewPrediction = (props) => {
                   {prediction.awayTeam.score}
                 </div>
                 ) : '' : (
-                <input style={{width: '100%'}} onChange={handleOnChangeGameScore} name='predictionAwayTeamScore' placeholder={(!prediction && !gamePrediction && (gamePrediction && !gamePrediction.predictionAwayTeamScore)) ? '##' : null}
-                value={(gamePrediction && gamePrediction.predictionAwayTeamScore !== null) ? gamePrediction.predictionAwayTeamScore : prediction ? parseInt(prediction.awayTeam.score) : ''} />
+                  <Form>
+                  <Form.Item
+                  name="predictionAwayTeamScore"
+                  label={game.awayTeam.code}
+                  
+                  >
+                    <Input
+                    type="number"
+                    style={{width: '100%'}}
+                    onChange={handleOnChangeGameScore}
+                    name='predictionAwayTeamScore'
+                    placeholder={`${(!prediction || (prediction && !prediction.awayTeam)) ? '##' : null}`}
+
+                    value={(prediction && prediction.awayTeam && prediction.awayTeam.score !== null) ? prediction.awayTeam.score : ''} />
+                  </Form.Item>
+                  </Form>
               )}
             </Col>
             <Col span={showPrediction ? 5 : 10}>
@@ -65,9 +77,14 @@ const GamePreviewPrediction = (props) => {
                   {prediction.homeTeam.score}
                   </div>
                 ) : '' : (
-                <input style={{width: '100%'}} onChange={handleOnChangeGameScore} name='predictionHomeTeamScore' placeholder={(!prediction && !gamePrediction && (gamePrediction && !gamePrediction.predictionHomeTeamScore)) ? '##' : null}
-                value={(gamePrediction && gamePrediction.predictionHomeTeamScore !== null) ? gamePrediction.predictionHomeTeamScore : 
-                  prediction ? prediction.homeTeam.score : ''}  />
+                  <Form>
+                  <Form.Item>
+                    <InputNumber style={{width: '100%'}} onChange={handleOnChangeGameScore} name='predictionHomeTeamScore'
+                      placeholder={`${(!prediction || (prediction && !prediction.homeTeam)) ? '##' : null}`}
+                      value={(prediction && prediction.homeTeam && prediction.homeTeam.score !== null) ? prediction.homeTeam.score : ''}
+                      />
+                  </Form.Item>
+                  </Form>
               )}
             </Col>
             {showPrediction ? (
@@ -77,18 +94,18 @@ const GamePreviewPrediction = (props) => {
                   {results ? spreadResults(odds, results,prediction) : null}
                   
                   {results ? checkBullseye(prediction.spread, results.spread) : null}
-                  {spreadPrediction(game, gamePrediction.predictionAwayTeamScore, gamePrediction.predictionHomeTeamScore)}<br/>
+                  {spreadPrediction(game, prediction.awayTeam.score, prediction.homeTeam.score)}<br/>
                   <span className="predictionSpread">(
-                  {(gamePrediction.predictionHomeTeamScore + odds.spread) > gamePrediction.predictionAwayTeamScore // home team covers
-                    ? gamePrediction.predictionAwayTeamScore > gamePrediction.predictionHomeTeamScore 
+                  {(prediction.homeTeam.score + odds.spread) > prediction.awayTeam.score // home team covers
+                    ? prediction.awayTeam.score > prediction.homeTeam.score 
                       ? `${game.awayTeam.code} by ${awayTeamSpreadResult}`
                       : `${game.homeTeam.code} by ${homeTeamSpreadResult}`
-                    : (gamePrediction.predictionHomeTeamScore + odds.spread) < gamePrediction.predictionAwayTeamScore 
-                      ? gamePrediction.predictionAwayTeamScore > gamePrediction.predictionHomeTeamScore 
+                    : (prediction.homeTeam.score + odds.spread) < prediction.awayTeam.score 
+                      ? prediction.awayTeam.score > prediction.homeTeam.score 
                         ? `${game.awayTeam.code} by ${awayTeamSpreadResult}`
                         : `${game.homeTeam.code} by ${homeTeamSpreadResult}`
-                      : (gamePrediction.predictionHomeTeamScore + odds.spread) === gamePrediction.predictionAwayTeamScore
-                        ? gamePrediction.predictionAwayTeamScore > gamePrediction.predictionHomeTeamScore 
+                      : (prediction.homeTeam.score + odds.spread) === prediction.awayTeam.score
+                        ? prediction.awayTeam.score > prediction.homeTeam.score 
                           ? `${game.awayTeam.code} by ${awayTeamSpreadResult}`
                           : `${game.homeTeam.code} by ${homeTeamSpreadResult}`
                         : ''})</span>
@@ -103,8 +120,8 @@ const GamePreviewPrediction = (props) => {
                   
                 {results ? totalResults(odds, results,prediction) : null}
                 {results ? checkBullseye(prediction.total, results.total) : null}
-                {totalPrediction(game, gamePrediction.predictionAwayTeamScore, gamePrediction.predictionHomeTeamScore)} 
-                <br/><span className="predictionSpread">({((prediction || (gamePrediction.predictionAwayTeamScore + gamePrediction.predictionHomeTeamScore)) && odds) ? `${totalResult}` : ''})</span>
+                {totalPrediction(game, prediction.awayTeam.score, prediction.homeTeam.score)} 
+                <br/><span className="predictionSpread">({((prediction || (prediction.awayTeam.score + prediction.homeTeam.score)) && odds) ? `${totalResult}` : ''})</span>
                 </div>
               ) : ''}
               </Col>
@@ -117,7 +134,7 @@ const GamePreviewPrediction = (props) => {
             </Col>
           </Row>
         ) : null}
-        {predictionType.user && (<GamePreviewStakes game={game} gamePrediction={gamePrediction} />)}
+        {prediction.name && (<GamePreviewStakes game={game} gamePrediction={prediction} />)}
 
         {prediction && prediction.odds && ((game.odds.spread !== game.prediction.odds.spread) || (game.odds.total !== game.prediction.odds.total)) ? (
           !game.results ? (

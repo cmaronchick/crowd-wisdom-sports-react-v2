@@ -3,12 +3,15 @@ import {Auth} from '@aws-amplify/auth'
 import { Router, Switch, Route } from 'react-router-dom'
 import { createBrowserHistory } from 'history'
 import { Layout } from 'antd';
+
+import { connect } from 'react-redux'
+
 import logo from './images/stake-image.svg';
 import './App.less';
 import Header from './components/layout/header/Header'
 import SideMenu from './components/layout/sidemenu/SideMenu'
 import LoginModal from './components/profile/LoginModal'
-import GamesList from './components/gamesList/GamesList'
+import Games from './components/games/Games'
 import Game from './components/game/Game'
 import Leaderboards from './components/leaderboards/Leaderboards'
 import Groups from './components/groups/Groups'
@@ -120,7 +123,7 @@ class App extends Component {
                   <Route path="/:sport/leaderboards" component={Leaderboards} />
                   <Route path="/:sport/groups/:year/:season/group/:groupId" component={Group} />
                   <Route path="/:sport/groups" component={Groups} />
-                  <Route path={["/:sport", "/:sport/games","/"]} component={GamesList} />
+                  <Route path={["/:sport", "/:sport/games","/"]} component={Games} />
                 </Switch>
             </Content>
           </Layout>
@@ -132,4 +135,11 @@ class App extends Component {
   }
 }
 
-export default App;
+const mapStateToProps = (state) => ({
+  loadingGames: state.games.loadingGames,
+  games: state.games.games,
+  gamePredictions: state.games.gamePredictions,
+  sport: state.sport
+})
+
+export default connect(mapStateToProps)(App);
