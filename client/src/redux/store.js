@@ -5,6 +5,7 @@ import thunk from 'redux-thunk'
 import userReducer from './reducers/userReducer'
 import sportReducer from './reducers/sportReducer'
 import gamesReducer from './reducers/gamesReducer'
+import predictionsReducer from './reducers/predictionsReducer'
 import leaderboardReducer from './reducers/leaderboardReducer'
 import groupsReducer from './reducers/groupsReducer'
 import uiReducer from './reducers/uiReducer'
@@ -16,6 +17,7 @@ const middleware = [thunk];
 const reducers = combineReducers({
     user: userReducer,
     games: gamesReducer,
+    predictions: predictionsReducer,
     sport: sportReducer,
     leaderboards: leaderboardReducer,
     groups: groupsReducer,

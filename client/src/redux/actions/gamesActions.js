@@ -3,6 +3,7 @@ import { LOADING_GAMES,
     LOADING_GAME,
     SET_GAME,
     LOADING_PREDICTIONS,
+    LOADING_COMPARED_USER_PREDICTIONS,
     SET_PREDICTIONS,
     SET_ERRORS,
     CLEAR_ERRORS
@@ -61,20 +62,22 @@ export const fetchGameWeekGames = (sport, year, season, gameWeek) => async (disp
         let prediction = games[gameId].prediction
         console.log('prediction', prediction)
         if (prediction) {
-            gamePredictions[gameId] = [{
-                type: 'user',
-                name: 'Me',
+            gamePredictions[gameId] = {
                 awayTeam: {score: prediction.awayTeam.score},
                 homeTeam: {score: prediction.homeTeam.score},
                 total: prediction.total,
                 spread: prediction.spread
-            }]
+            }
         }
     })
     console.log('gamePredictions', gamePredictions)
       dispatch({
           type: SET_PREDICTIONS,
-          payload: gamePredictions
+          payload: {
+              type: 'user',
+              name: store.getState().user.attributes.preferred_username,
+              ...gamePredictions
+          }
       })
   }
 

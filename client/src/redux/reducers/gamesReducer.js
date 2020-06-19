@@ -45,13 +45,6 @@ export default function(state = initialState, action) {
                 ...action.payload,
                 loadingGame: false
             }
-        case SET_PREDICTIONS:
-            return {
-                ...state,
-                gamePredictions: {
-                    ...action.payload
-                }
-            }
         default:
             return {
                 ...state

@@ -14,7 +14,7 @@ import { antIcon } from '../../functions/utils'
 
 
 const GamesList = (props) => {
-  const { sport, games, gamePredictions, loadingGames } = props
+  const { sport, games, predictions, loadingGames } = props
   //console.log({ games, gamePredictions });
   //{ games, gamePredictions, onGameClick, onChangeGameScore, onChangeStarSpread, onChangeStarTotal, onSubmitPrediction }
   let orderedGames = {}
@@ -32,6 +32,18 @@ const GamesList = (props) => {
           {Object.keys(games).sort((a,b) => {
             return (games[b].status === games[a].status) ? new Date(games[a].startDateTime) - new Date(games[b].startDateTime) : new Date(games[b].startDateTime) - new Date(games[a].startDateTime)
           }).map(gameId => {
+            let predictionsArray = []
+            if (predictions && Object.keys(predictions).length > 0) {
+              Object.keys(predictions).map(predictionKey => {
+                if (predictions[predictionKey][gameId]) {
+                  predictionsArray.push({
+                    type: predictionKey,
+                    name: predictions[predictionKey].name,
+                    ...predictions[predictionKey][gameId]
+                  })
+                }
+              })
+            }
             
             // if (gamePredictions[gameId]) {
             //   console.log(`gamePredictions[gameId]: ${JSON.stringify(gamePredictions[gameId])}`)
@@ -46,7 +58,7 @@ const GamesList = (props) => {
             // onChangeStarTotal={onChangeStarTotal}
             // onSubmitPrediction={onSubmitPrediction}
             game={games[gameId]}
-            predictions={gamePredictions[gameId]} />
+            predictions={predictionsArray} />
           }
           )}
 
@@ -60,7 +72,7 @@ const GamesList = (props) => {
 
 GamesList.propTypes = {
   games: PropTypes.object.isRequired,
-  gamePredictions: PropTypes.object.isRequired,
+  predictions: PropTypes.object.isRequired,
   loadingGames: PropTypes.bool.isRequired,
   sport: PropTypes.object.isRequired,
   fetchGame: PropTypes.func,

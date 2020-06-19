@@ -32,10 +32,10 @@ const Group = ({
     onChangeText,
     fetchGameWeekGames,
     games,
-    gamePredictions,
+    predictions,
     match,
     history}) => {
-    const { groupId, groupName, users, memberOf, joiningGroup, results, predictions } = group
+    const { groupId, groupName, users, memberOf, joiningGroup, results } = group
     const isPublicGroup = group.public
     let { sport, year } = group
     sport = sport ? sport : sportObj.gameWeekData.sport
@@ -55,25 +55,26 @@ const Group = ({
         leaveGroup(sport, year, groupId)
     }
     //console.log('group predictions', predictions)
-    predictions && predictions.length > 0 && predictions.forEach(prediction => {
-        if (gamePredictions[prediction.gameId]) {
-            console.log('gamePredictions[prediction.gameId]', gamePredictions[prediction.gameId])
-            // check to see if prediction already exists
-            gamePredictions[prediction.gameId].filter(prediction => {
-                console.log('prediction', prediction)
-                return prediction.groupId !== groupId
-            })
-            console.log('gamePredictions[prediction.gameId].length', gamePredictions[prediction.gameId])
-            if (gamePredictions[prediction.gameId].length === 1) {
-                gamePredictions[prediction.gameId].push({
-                    type: 'group',
-                    groupId,
-                    name: groupName,
-                    ...prediction
-                })
-            }
-        }
-    })
+    // predictions && predictions.length > 0 && predictions.forEach(prediction => {
+    //     if (gamePredictions[prediction.gameId]) {
+    //         console.log('gamePredictions[prediction.gameId]', gamePredictions[prediction.gameId])
+    //         // check to see if prediction already exists
+    //         let tempGamePredictions = gamePredictions[prediction.gameId].filter(prediction => {
+    //             console.log('prediction', prediction.groupId === groupId)
+    //             return prediction.groupId === groupId
+    //         })
+    //         console.log('tempGamePredictions.length', tempGamePredictions)
+    //         if (tempGamePredictions.length === 0) {
+    //             console.log('adding prediction')
+    //             gamePredictions[prediction.gameId].push({
+    //                 type: 'group',
+    //                 groupId,
+    //                 name: groupName,
+    //                 ...prediction
+    //             })
+    //         }
+    //     }
+    // })
 
     /* check for group data - !groupName
     if no group data, check for loading state - !loadingGroup
@@ -193,7 +194,7 @@ const Group = ({
                                         sport={sportObj}
                                         games={games}
                                         page="groups"
-                                        gamePredictions={gamePredictions}
+                                        predictions={[{...predictions.user},{...predictions.group}]}
                                         loadingGames={loadingGroup} />
                                     </Fragment>
                                 )}
@@ -257,7 +258,7 @@ Group.propTypes = {
 const mapStateToProps = (state) => ({
     user: state.user,
     group: state.groups.group,
-    gamePredictions: state.games.gamePredictions,
+    predictions: state.predictions,
     loadingGroup: state.groups.loadingGroup,
     sportObj: state.sport,
     games: state.games.games,

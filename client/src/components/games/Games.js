@@ -18,8 +18,9 @@ const Games = (props) => {
             <Weeks onGameWeekClick={props.fetchGameWeekGames} page="games" />
         </div>
         <GamesList
+            match={props.match}
             games={props.games}
-            gamePredictions={props.gamePredictions}
+            predictions={[{...props.predictions.user}]}
             loadingGames={props.loadingGames}
             sport={props.sport}
             fetchGame={props.fetchGame}
@@ -34,7 +35,7 @@ const Games = (props) => {
 
 GamesList.propTypes = {
     games: PropTypes.object.isRequired,
-    gamePredictions: PropTypes.object.isRequired,
+    predictions: PropTypes.object.isRequired,
     loadingGames: PropTypes.bool.isRequired,
     sport: PropTypes.object.isRequired,
     user: PropTypes.object,
@@ -45,7 +46,7 @@ GamesList.propTypes = {
 
 const mapStateToProps = (state) => ({
     games: state.games.games,
-    gamePredictions: state.games.gamePredictions,
+    predictions: state.predictions,
     loadingGames: state.games.loadingGames,
     user: state.user
 })

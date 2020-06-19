@@ -9,6 +9,8 @@ import {
     LEAVE_GROUP,
     CREATE_GROUP,
     DELETE_GROUP,
+    LOADING_GROUP_PREDICTIONS,
+    SET_GROUP_PREDICTIONS,
     SET_ERRORS,
     CLEAR_ERRORS
     } from '../types'
@@ -79,6 +81,20 @@ export const fetchGroup = (sport, year, season, groupId) => async (dispatch) => 
         dispatch({
             type: SET_GROUP,
             payload: fetchGroupResponse.group
+        })
+        let groupPredictions = {}
+        fetchGroupResponse.group.predictions.forEach(prediction => {
+            groupPredictions[prediction.gameId] = {
+                ...prediction
+            }
+        })
+        dispatch({
+            type: SET_GROUP_PREDICTIONS,
+            payload: {
+                type: 'group',
+                name: fetchGroupResponse.group.groupName,
+                ...groupPredictions
+            }
         })
     } catch (fetchGroupError) {
         console.log('fetchGroupError', fetchGroupError);
