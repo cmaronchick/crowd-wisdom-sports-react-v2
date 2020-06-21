@@ -20,7 +20,7 @@ const Games = (props) => {
         <GamesList
             match={props.match}
             games={props.games}
-            predictions={[{...props.predictions.user}]}
+            predictions={{user: props.predictions.user}}
             loadingGames={props.loadingGames}
             sport={props.sport}
             fetchGame={props.fetchGame}

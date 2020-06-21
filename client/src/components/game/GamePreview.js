@@ -219,7 +219,7 @@ const GamePreview = (props) => {
 GamePreview.propTypes = {
   onClick: PropTypes.func.isRequired,
   game: PropTypes.object.isRequired,
-  gamePrediction: PropTypes.object,
+  predictions: PropTypes.array,
   users: PropTypes.array
 }
 

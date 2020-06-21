@@ -31,6 +31,7 @@ const Group = ({
     leaveGroup,
     onChangeText,
     fetchGameWeekGames,
+    fetchGame,
     games,
     predictions,
     match,
@@ -184,18 +185,21 @@ const Group = ({
                                 <Table className="groupTable" scroll={{x: true}} rowKey="username" columns={columns} dataSource={users} />
                             </TabPane>
                             <TabPane tab="Predictions" key="2">
-                                {games &&  (
+                                {games && Object.keys(predictions.group) && (
                                     <Fragment>
                                         <div className="selectorHeader">
                                             <SeasonSelector />
                                             <Weeks onGameWeekClick={fetchGameWeekGames} page="group" />
                                         </div>
+                                        {console.log('[{...predictions.user},{...predictions.group}]', [{...predictions.user},{...predictions.group}])}
                                         <GamesList
                                         sport={sportObj}
                                         games={games}
                                         page="groups"
-                                        predictions={[{...predictions.user},{...predictions.group}]}
-                                        loadingGames={loadingGroup} />
+                                        predictions={{user: predictions.user, group: predictions.group}}
+                                        loadingGames={loadingGroup}
+                                        fetchGameWeekGames={fetchGameWeekGames}
+                                        fetchGame={fetchGame} />
                                     </Fragment>
                                 )}
                             </TabPane>
@@ -251,7 +255,7 @@ Group.propTypes = {
     leaveGroup: PropTypes.func.isRequired,
     selectGroupSeason: PropTypes.func.isRequired,
     games: PropTypes.object.isRequired,
-    gamePredictions: PropTypes.object,
+    predictions: PropTypes.object.isRequired,
     UI: PropTypes.object.isRequired
 };
 

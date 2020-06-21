@@ -15,7 +15,7 @@ import { antIcon } from '../../functions/utils'
 
 const GamesList = (props) => {
   const { sport, games, predictions, loadingGames } = props
-  //console.log({ games, gamePredictions });
+  console.log({ predictions });
   //{ games, gamePredictions, onGameClick, onChangeGameScore, onChangeStarSpread, onChangeStarTotal, onSubmitPrediction }
   let orderedGames = {}
 
@@ -72,7 +72,7 @@ const GamesList = (props) => {
 
 GamesList.propTypes = {
   games: PropTypes.object.isRequired,
-  predictions: PropTypes.object.isRequired,
+  predictions: PropTypes.array.isRequired,
   loadingGames: PropTypes.bool.isRequired,
   sport: PropTypes.object.isRequired,
   fetchGame: PropTypes.func,
