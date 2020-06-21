@@ -12,7 +12,7 @@ const getGroups = (req, res) => {
         return ky.get(`https://y5f8dr2inb.execute-api.us-west-2.amazonaws.com/dev/group/${sport}/${year}${anonString}${season ? `?season=${season}` : ''}`, getOptions).json()
         .then((groupsResponse) => {
           console.log('groupsResponse', groupsResponse)
-          groupsResponse = groupsResponse.sort((a,b) => a.results[sport][year][season].predictionScore > b.results[sport][year][season].predictionScore ? 1 : -1)
+          groupsResponse = groupsResponse.sort((a,b) => a.results && b.results ? a.results[sport][year][season].predictionScore - b.results[sport][year][season].predictionScore : a.results && !b.results ? 1 : !a.results && b.results ? -1 : 0)
           const groupsResponseObjs = groupsResponse.reduce((obj, group) => {
             obj[group.groupId] = group;
             return obj;
