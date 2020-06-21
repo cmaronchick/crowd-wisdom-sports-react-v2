@@ -1,12 +1,14 @@
 import React from 'react'
-import {Button, Modal, Tabs, Form, Input, Typography } from 'antd'
+import {Button, Modal, Tabs, Form, Input, Typography, InputNumber } from 'antd'
+import { EditOutlined } from '@ant-design/icons'
 import { connect } from 'react-redux';
 
 import { generateRandomString } from '../../functions/utils'
 
-import { login, signUp } from '../../redux/actions/userActions'
+import { login, signUp, confirmUser, resendConfirmation } from '../../redux/actions/userActions'
 import { toggleLoginModal, onChangeText } from '../../redux/actions/uiActions'
 import { isEmail } from '../../functions/utils'
+import { SET_ERRORS } from '../../redux/types';
 
 const { Title, Text } = Typography
 
@@ -24,16 +26,57 @@ const LoginModal = (props) => {
       window.location.href=`https://crowdsourcedscores.auth.us-west-2.amazoncognito.com/oauth2/authorize?identity_provider=Facebook&redirect_uri=${window.origin}/callback&response_type=CODE&client_id=2n15lhk845sucm0k4fejjqcbev&state=${state}&scope=aws.cognito.signin.user.admin+email+openid+phone+profile`
     }
 
-    const handleSignUpClick = () => {
-      const { signUpUsername, signUpPassword, signUpEmail, signUpGivenName, signUpFamilyName} = UI
+    const imageIsLoaded = (e) => {
+      document.getElementById('avatarImage').setAttribute('src', e.target.result)
+    }
+
+    const handleImageChange = (event) => {
+      event.preventDefault()
+      const image = event.target.files[0]
+      console.log('image', image)
+      let formData = new FormData()
+      formData.append('image', image, image.name);
+      let fileReader = new FileReader();
+      fileReader.readAsDataURL(image)
+      fileReader.onload = imageIsLoaded
+      localStorage.setItem('avatar', formData)
+    }
+    const handleEditPicture = () => {
+        const fileInput = document.getElementById('imageInput')
+        fileInput.click();
+    }
+
+    const handleSignUpClick = (event) => {
+      const { signUpUsername, signUpPassword, signUpEmail,signUpGivenName, signUpFamilyName } = UI
+      const formData = new FormData()
+      const image = document.getElementById('imageInput').files.length > 0 ? document.getElementById('imageInput').files[0] : null
+      formData.append('picture', image, image.name)
+      console.log('image.type', image.type)
       props.signUp(signUpUsername, signUpPassword, {
         email: signUpEmail, 
         given_name: signUpGivenName,
         family_name: signUpFamilyName
-      })
+      }, image)
 
     }
 
+    const handleConfirmUserClick = () => {
+      const { signUpUsername, loginUsername, confirmUserCode } = UI
+      if (!signUpUsername && !loginUsername) {
+        UI.errors.message = 'Something went wrong. Please log in again.'
+      } else {
+        props.confirmUser(signUpUsername ? signUpUsername : loginUsername, confirmUserCode)
+      }
+    }
+
+    const handleResendClick = () => {
+      const { signUpUsername, loginUsername } = UI
+      if (!signUpUsername && !loginUsername) {
+        UI.errors.message = 'Something went wrong. Please log in again.'
+      } else {
+        props.resendConfirmation(signUpUsername ? signUpUsername : loginUsername)
+      }
+    }
     return (
       <Modal footer={null} visible={UI.loginModalOpen} onCancel={() => props.toggleLoginModal(!UI.loginModalOpen)} confirmLoading={user.loading}>
         {!confirmUser && !forgotPassword ?
@@ -88,6 +131,19 @@ const LoginModal = (props) => {
               <Title level={4}>Sign Up</Title>
             </Typography>
             <Form className="loginForm">
+            <Form.Item
+            label="Avatar">
+            <div className='image-wrapper'>
+                  <img id="avatarImage" style={{height: 30, width: 30}} src={`https://stakehousesports-userfiles.s3-us-west-2.amazonaws.com/public/blank-profile-picture.png`} alt="profile picture" className='profileImage'/>
+                <input type='file' hidden='hidden' id='imageInput' onChange={handleImageChange}/>
+                    <Button tip="Edit Profile Picture" 
+                        placement="top"
+                        onClick={handleEditPicture}
+                        type="primary">
+                            <EditOutlined />
+                    </Button>
+            </div>
+            </Form.Item>
               <Form.Item
                 name="given_name"
                 label="First Name"
@@ -97,7 +153,6 @@ const LoginModal = (props) => {
                 
               </Form.Item>
               <Form.Item
-                name="family_name"
                 label="Last Name"
                 rules={[{ required: true, message: 'Please input your last name!' }]}>
                 
@@ -105,26 +160,28 @@ const LoginModal = (props) => {
               </Form.Item>
               <Form.Item
                 label="Username"
-                name="username"
                 rules={[{ required: true, message: 'Please input your username!' }]}>
                   <Input type="text" name="signUpUsername" placeholder="Username" onChange={props.onChangeText} />
               </Form.Item>
 
               <Form.Item 
                 label="Password"
-                name="password"
                 rules={[{ required: true, message: 'Please input your password' }]}>
                   <Input.Password type="password" name="signUpPassword" placeholder="Password" onChange={props.onChangeText} />
               </Form.Item>
+              <Form.Item 
+                label="Confirm Password"
+                style={(UI.signUpConfirmPassword !== UI.signUpPassword) ? { borderWidth: 1, borderColor: 'red', borderStyle: 'solid'} : null}
+                rules={[{ required: true, message: 'Please confirm your password' }]}>
+                  <Input.Password type="password" name="signUpConfirmPassword" placeholder="Password" onChange={props.onChangeText} />
+              </Form.Item>
               <Form.Item
                 label="E-mail"
-                name="email"
                 rules={[{ required: true, message: 'Please input your e-mail' }]}>
                   <Input type="e-mail" name="signUpEmail" placeholder="Enter email" onChange={props.onChangeText} />
                   <div className="emailDisclaimer">We'll never share your email with anyone else.</div>
               </Form.Item>
-              <Form.Item
-                name="emailOptIn">
+              <Form.Item>
                   <Text style={{marginRight: 10}}>
                   Receive weekly predictions reminder e-mails.
                   </Text>
@@ -138,6 +195,7 @@ const LoginModal = (props) => {
                 !UI.signUpFamilyName || 
                 (!UI.signUpUsername || UI.signUpUsername.length < 5) || 
                 (!UI.signUpPassword || UI.signUpPassword.length < 8) || 
+                (!UI.signUpConfirmPassword || UI.signUpConfirmPassword !== UI.signUpPassword) ||
                 (!UI.signUpEmail || !isEmail(UI.signUpEmail))}>
                   Sign Up
               </Button>
@@ -158,17 +216,17 @@ const LoginModal = (props) => {
           : confirmUser ? (
             
                 <Form>
-                  {/* <Form.Group controlId="formConfirmationCode">
-                    <Form.Label>Confirmation Code</Form.Label>
-                    <Form.Control type="number" name="confirmUserCode" placeholder="####" onChange={props.onChangeText} />
-                  </Form.Group>
+                  <Form.Item
+                    label="Confirmation Code">
+                    <Input type="number" name="confirmUserCode" placeholder="####" onChange={props.onChangeText} />
+                  </Form.Item>
                   
-                  <Button className="loginButton" variant="primary" onClick={props.handleConfirmUserClick}>
+                  <Button className="loginButton" variant="primary" onClick={handleConfirmUserClick}>
                     Confirm
                   </Button>
-                  <Button className="loginButton" variant="secondary" onClick={props.handleResendClick}>
+                  <Button className="loginButton" variant="secondary" onClick={handleResendClick}>
                     Resend Code
-                  </Button> */}
+                  </Button>
                 </Form>
           ) : forgotPassword ? (
             <Form>
@@ -213,7 +271,9 @@ const mapActionsToProps = {
   toggleLoginModal,
   onChangeText,
   login,
-  signUp
+  signUp,
+  confirmUser,
+  resendConfirmation
 }
 
 export default connect(mapStateToProps, mapActionsToProps)(LoginModal)

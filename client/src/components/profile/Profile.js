@@ -19,7 +19,8 @@ const layout = {
     wrapperCol: { span: 16 },
   };
 
-const Profile = ({ user, loginModalShow, newPassword, confirmPassword, passwordMatch, changePassword, changeUserDetails, updateUserDetails, uploadImage }) => {
+const Profile = (props) => {
+    const { user, loginModalShow, newPassword, confirmPassword, passwordMatch, changePassword, changeUserDetails, updateUserDetails, uploadImage } = props
 
     const attributeNames = {
         email: 'E-mail',

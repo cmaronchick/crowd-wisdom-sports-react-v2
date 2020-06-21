@@ -2,6 +2,7 @@ import { SET_USER,
     LOADING_USER, 
     SIGN_IN_USER, 
     SIGN_UP_USER,
+    SET_USER_UNCONFIRMED,
     CHANGE_USER_DETAILS,
     UPDATE_USER,
     UPDATING_USER,
@@ -25,7 +26,8 @@ const initialState = {
     signingIn: false,
     signingUp: false,
     loading: false,
-    updating: false
+    updating: false,
+    confirmUser: false
 }
 
 export default function(state = initialState, action) {
@@ -41,7 +43,8 @@ export default function(state = initialState, action) {
             return {
                 ...initialState,
                 loading: false,
-                updating: false
+                updating: false,
+                confirmUser: false
             }
         case SET_TOUR_COMPLETED:
             return {
@@ -57,6 +60,7 @@ export default function(state = initialState, action) {
                 tourCompleted: true,
                 loading: false,
                 updating: false,
+                confirmUser: false,
                 updatedAttributes: {}
             }
         case CHANGE_USER_DETAILS:
@@ -95,6 +99,11 @@ export default function(state = initialState, action) {
             return {
                 ...state,
                 signingUp: true
+            }
+        case SET_USER_UNCONFIRMED:
+            return {
+                ...state,
+                confirmUser: true
             }
         case MARK_NOTIFICATIONS_READ: 
             let FBUser = {...state.FBUser}
