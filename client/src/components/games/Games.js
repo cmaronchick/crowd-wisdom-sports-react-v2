@@ -18,7 +18,6 @@ const Games = (props) => {
             <Weeks onGameWeekClick={props.fetchGameWeekGames} page="games" />
         </div>
         <GamesList
-            match={props.match}
             games={props.games}
             predictions={{user: props.predictions.user}}
             loadingGames={props.loadingGames}
