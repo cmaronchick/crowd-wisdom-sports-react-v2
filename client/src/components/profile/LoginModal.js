@@ -1,14 +1,15 @@
-import React from 'react'
-import {Button, Modal, Tabs, Form, Input, Typography, InputNumber } from 'antd'
+import React, { Fragment } from 'react'
+import {Button, Modal, Card, Tabs, Form, Input, Typography, InputNumber } from 'antd'
 import { EditOutlined } from '@ant-design/icons'
 import { connect } from 'react-redux';
 
 import { generateRandomString } from '../../functions/utils'
 
-import { login, signUp, confirmUser, resendConfirmation } from '../../redux/actions/userActions'
+import { login, signUp, confirmUser, resendConfirmation, forgotPassword, resetPassword } from '../../redux/actions/userActions'
 import { toggleLoginModal, onChangeText } from '../../redux/actions/uiActions'
 import { isEmail } from '../../functions/utils'
-import { SET_ERRORS } from '../../redux/types';
+import store from '../../redux/store'
+import { SET_ERRORS, SET_FORGOT_PASSWORD, SET_UNAUTHENTICATED } from '../../redux/types';
 
 const { Title, Text } = Typography
 
@@ -16,7 +17,7 @@ const {TabPane} = Tabs
 
 const LoginModal = (props) => {
   const { user, UI } = props
-  const { confirmUser, forgotPassword, signingIn, signingUp } = user
+  const { confirmUser, forgotPassword, resetCodeSent, signingIn, signingUp } = user
 
     const handleFBClick = () => {
       let state = generateRandomString(16)
@@ -77,6 +78,26 @@ const LoginModal = (props) => {
         props.resendConfirmation(signUpUsername ? signUpUsername : loginUsername)
       }
     }
+
+    const handleForgotPasswordClick = () => {
+      store.dispatch({
+        type: SET_FORGOT_PASSWORD
+      })
+    }
+    const handleForgotPasswordSubmit = () => {
+      const { forgotPasswordUsername } = UI
+      props.forgotPassword(forgotPasswordUsername)
+    }
+    const handleResetPassword = () => {
+        const { forgotPasswordUsername, newPassword, resetConfirmCode } = UI
+        props.resetPassword(forgotPasswordUsername, newPassword, resetConfirmCode)
+    }
+    const handleCancelForgotPassword = () => {
+      store.dispatch({
+        type: SET_UNAUTHENTICATED
+      })
+    }
+
     return (
       <Modal footer={null} visible={UI.loginModalOpen} onCancel={() => props.toggleLoginModal(!UI.loginModalOpen)} confirmLoading={user.loading}>
         {!confirmUser && !forgotPassword ?
@@ -117,12 +138,9 @@ const LoginModal = (props) => {
                 </svg></span>
                 <span>Continue with Facebook</span>
               </Button>
-              <Button type="danger" color="secondary" onClick={() => props.handleForgotPasswordClick()} className="forgotPasswordLink">
+              <Button type="danger" color="secondary" onClick={handleForgotPasswordClick} className="forgotPasswordLink">
                 Forgot Password?
               </Button>
-              {UI.errors ? (
-                <div><Text type="danger">{UI.errors.message}</Text></div>
-              ) : null}
             </Form>
           </TabPane>
           <TabPane eventKey="signUp" tab="Sign Up" key="2">
@@ -228,35 +246,44 @@ const LoginModal = (props) => {
                     Resend Code
                   </Button>
                 </Form>
-          ) : forgotPassword ? (
-            <Form>
-              {/* <Form.Group controlId="formForgotPasswordUsername">
-                <Form.Label>Enter Your Username</Form.Label>
-                <Form.Control type="text" name="username" placeholder="Enter username" onChange={props.onChangeText} />
-              </Form.Group>
-              
-              <Button className="loginButton" variant="primary" onClick={props.resetPassword}
-                loading={props.sendingPasswordReset}>
-                  <span>Reset Password</span>
-              </Button>
-              {props.resetCodeSent ? (
-                <div>
-                  <Form.Group controlId="formForgotPassword">
-                    <Form.Label>Enter Your New Password</Form.Label>
-                    <Form.Control type="password" name="newPassword" placeholder="Enter password" onChange={props.onChangeText} />
-                  </Form.Group>
-                  <Form.Group controlId="formForgotPasswordConfirmCode">
-                    <Form.Label>Confirmation Code</Form.Label>
-                    <Form.Control type="number" name="confirmUserCode" placeholder="######" onChange={props.onChangeText} />
-                  </Form.Group>
-                  <Button className="loginButton" variant="primary" onClick={props.handleConfirmUserClick}
-                    loading={props.sendingNewPassword}
-                    >
-                      <span>Submit</span>
+          ) : forgotPassword && (
+            <Card title={resetCodeSent ? 'Set Your New Password' : 'Forgot Password'}>
+              <Form>
+                <Form.Item
+                label="Enter Your Username">
+                  <Input type="text" name="forgotPasswordUsername" placeholder="Enter username" onChange={props.onChangeText} />
+                </Form.Item>
+                
+                {resetCodeSent ? (
+                  <Fragment>
+                    <Form.Item
+                      label="Enter Your New Password">
+                      <Input type="password" name="newPassword" placeholder="Enter password" onChange={props.onChangeText} />
+                    </Form.Item>
+                    <Form.Item
+                      label="Confirmation Code">
+                      <Input type="number" name="resetConfirmCode" placeholder="######" onChange={props.onChangeText} />
+                    </Form.Item>
+                    <Button className="loginButton" variant="primary" onClick={handleResetPassword}
+                      loading={props.sendingNewPassword}
+                      >
+                        <span>Submit</span>
+                    </Button>
+                  </Fragment>
+                ) : (
+                  <Button className="loginButton" variant="primary" onClick={handleForgotPasswordSubmit}
+                    loading={props.sendingPasswordReset}>
+                      <span>Reset Password</span>
                   </Button>
-                </div>
-              ) : null} */}
-            </Form>
+                )}
+                <Button className="loginButton" variant="primary" onClick={handleCancelForgotPassword}>
+                    <span>Cancel</span>
+                </Button>
+              </Form>
+            </Card>
+          )}
+          {UI.errors ? (
+            <div><Text type="danger">{UI.errors.message}</Text></div>
           ) : null}
       </Modal>
     )
@@ -273,7 +300,9 @@ const mapActionsToProps = {
   login,
   signUp,
   confirmUser,
-  resendConfirmation
+  resendConfirmation,
+  forgotPassword,
+  resetPassword
 }
 
 export default connect(mapStateToProps, mapActionsToProps)(LoginModal)

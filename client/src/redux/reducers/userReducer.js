@@ -3,6 +3,8 @@ import { SET_USER,
     SIGN_IN_USER, 
     SIGN_UP_USER,
     SET_USER_UNCONFIRMED,
+    SET_FORGOT_PASSWORD,
+    SET_RESET_PASSWORD_SENT,
     CHANGE_USER_DETAILS,
     UPDATE_USER,
     UPDATING_USER,
@@ -27,7 +29,9 @@ const initialState = {
     signingUp: false,
     loading: false,
     updating: false,
-    confirmUser: false
+    confirmUser: false,
+    forgotPassword: false,
+    resetCodeSent: false
 }
 
 export default function(state = initialState, action) {
@@ -37,14 +41,19 @@ export default function(state = initialState, action) {
                 ...state,
                 tourCompleted: true,
                 loading: true,
-                authenticated: true
+                authenticated: true,
+                confirmUser: false,
+                forgotPassword: false,
+                resetCodeSent: false
             }
         case SET_UNAUTHENTICATED:
             return {
                 ...initialState,
                 loading: false,
                 updating: false,
-                confirmUser: false
+                confirmUser: false,
+                forgotPassword: false,
+                resetCodeSent: false,
             }
         case SET_TOUR_COMPLETED:
             return {
@@ -61,6 +70,8 @@ export default function(state = initialState, action) {
                 loading: false,
                 updating: false,
                 confirmUser: false,
+                forgotPassword: false,
+                resetCodeSent: false,
                 updatedAttributes: {}
             }
         case CHANGE_USER_DETAILS:
@@ -104,6 +115,16 @@ export default function(state = initialState, action) {
             return {
                 ...state,
                 confirmUser: true
+            }
+        case SET_FORGOT_PASSWORD:
+            return {
+                ...state,
+                forgotPassword: true
+            }
+        case SET_RESET_PASSWORD_SENT:
+            return {
+                ...state,
+                resetCodeSent: true
             }
         case MARK_NOTIFICATIONS_READ: 
             let FBUser = {...state.FBUser}

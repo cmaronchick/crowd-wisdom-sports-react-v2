@@ -4,6 +4,8 @@ import {
     SIGN_IN_USER,
     SIGN_UP_USER,
     SET_USER_UNCONFIRMED,
+    SET_FORGOT_PASSWORD,
+    SET_RESET_PASSWORD_SENT,
     SET_UNAUTHENTICATED,
     SET_ERRORS,
     LOADING_USER,
@@ -75,7 +77,6 @@ export const getFacebookUser = (location) => async (dispatch) => {
        }
      )
      let tokenRequestJson = await res.json();
-     console.log('tokenRequestJson', tokenRequestJson)
        let id_token = new CognitoIdToken({ IdToken: tokenRequestJson.id_token });
        let access_token = new CognitoAccessToken({ AccessToken: tokenRequestJson.access_token });
        let refresh_token = new CognitoRefreshToken({ RefreshToken: tokenRequestJson.refresh_token })
@@ -182,6 +183,7 @@ export const signUp = (username, password, attributes, picture) => async (dispat
                 email: attributes.email,             // optional
                 given_name: attributes.given_name,
                 family_name: attributes.family_name,
+                preferred_username: username,
                 picture: `https://stakehousesports-userfiles.s3-us-west-2.amazonaws.com/public/${picture ? `${username}-${picture.name}` : `blank-profile-picture.png`}`
                 // phone_number,      // optional - E.164 number convention
                 // Other custom attributes...
@@ -241,6 +243,49 @@ export const resendConfirmation = (username) => async (dispatch) => {
         })
         dispatch({
             type: SET_UNAUTHENTICATED
+        })
+    }
+}
+
+export const forgotPassword = (username) => async (dispatch) => {
+    try {
+        dispatch({
+            type: SET_FORGOT_PASSWORD
+        })
+        let forgotPasswordResponse = await Auth.forgotPassword(username)
+        dispatch({
+            type: SET_RESET_PASSWORD_SENT
+        })
+    } catch(forgotPasswordError) {
+        console.log('forgotPasswordError', forgotPasswordError)
+        dispatch({
+            type: SET_ERRORS,
+            payload: forgotPasswordError
+        })
+        dispatch({
+            type: SET_UNAUTHENTICATED
+        })
+    }
+}
+
+export const resetPassword = (username, password, code) => async (dispatch) => {
+    try {
+        let resetPasswordResponse = await Auth.forgotPasswordSubmit(username, code, password)
+        console.log('resetPasswordResponse', resetPasswordResponse)
+        let currentUser = await Auth.currentAuthenticatedUser()
+        console.log('currentUser', currentUser)
+        dispatch({
+            type: SET_USER,
+            payload: currentUser
+        })
+    } catch (resetPasswordError) {
+        console.log('resetPasswordError', resetPasswordError)
+        // dispatch({
+        //     type: SET_UNAUTHENTICATED
+        // })
+        dispatch({
+            type: SET_ERRORS,
+            payload: resetPasswordError
         })
     }
 }
