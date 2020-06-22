@@ -3,6 +3,9 @@ import {
     SET_USER,
     SIGN_IN_USER,
     SIGN_UP_USER,
+    SET_USER_UNCONFIRMED,
+    SET_FORGOT_PASSWORD,
+    SET_RESET_PASSWORD_SENT,
     SET_UNAUTHENTICATED,
     SET_ERRORS,
     LOADING_USER,
@@ -74,7 +77,6 @@ export const getFacebookUser = (location) => async (dispatch) => {
        }
      )
      let tokenRequestJson = await res.json();
-     console.log('tokenRequestJson', tokenRequestJson)
        let id_token = new CognitoIdToken({ IdToken: tokenRequestJson.id_token });
        let access_token = new CognitoAccessToken({ AccessToken: tokenRequestJson.access_token });
        let refresh_token = new CognitoRefreshToken({ RefreshToken: tokenRequestJson.refresh_token })
@@ -146,9 +148,98 @@ export const login = (username, password) => async (dispatch) => {
         })
     } catch (loginError) {
         console.log('loginError', loginError)
+        if (loginError.code === "UserNotConfirmedException") {
+            dispatch({
+                type: SET_USER_UNCONFIRMED
+            })
+        } else {
+            dispatch({
+                type: SET_ERRORS,
+                payload: loginError
+            })
+            dispatch({
+                type: SET_UNAUTHENTICATED
+            })
+        }
+    }
+}
+
+export const signUp = (username, password, attributes, picture) => async (dispatch) => {
+    dispatch({
+        type: SIGN_UP_USER
+    })
+    try {
+        console.log('picture, picture.type', picture, picture.type)
+        if (picture && picture.type !== 'image/jpeg' && picture.type !== 'image/png') {
+                return {
+                    type: SET_ERRORS,
+                    errors: 'Please upload either a JPG or PNG.'
+                }
+        }
+        let signUpResponse = await Auth.signUp({
+            username,
+            password,
+            attributes: {
+                email: attributes.email,             // optional
+                given_name: attributes.given_name,
+                family_name: attributes.family_name,
+                preferred_username: username,
+                picture: `https://stakehousesports-userfiles.s3-us-west-2.amazonaws.com/public/${picture ? `${username}-${picture.name}` : `blank-profile-picture.png`}`
+                // phone_number,      // optional - E.164 number convention
+                // Other custom attributes...
+            },
+        })
+        console.log('signUpResponse', signUpResponse)
+            if (picture) {
+                const filename = `${username}-${picture.name}`;
+                const stored = await Storage.put(filename, picture, {
+                    contentType: picture.type
+                });
+                console.log('stored.key', stored)
+                // return stored.key;
+                // console.log('uploadImageResponse', uploadImageResponse)
+                // dispatch(getUserData())
+                // updateUserDetails({
+                //     picture: `https://stakehousesports-userfiles.s3-us-west-2.amazonaws.com/public/${filename}`
+                // })
+            }
+            dispatch({
+                type: SET_USER_UNCONFIRMED
+            })
+    } catch (signUpError) {
+        console.log('signUpError', signUpError)
+        dispatch({
+            type: SET_UNAUTHENTICATED
+        })
         dispatch({
             type: SET_ERRORS,
-            payload: loginError
+            payload: signUpError
+        })
+    }
+}
+
+export const confirmUser = (username, code) => async (dispatch) => {
+    // TODO - SET ANALYTICS
+    try {
+        let confirmResponse = await Auth.confirmSignUp(username, code)
+        console.log('confirmResponse', confirmResponse)
+        dispatch({
+            type: SET_UNAUTHENTICATED
+        })
+    } catch (confirmUserError) {
+        console.log('confirmUserError', confirmUserError)
+    }
+}
+
+export const resendConfirmation = (username) => async (dispatch) => {
+    try {
+        let resendResponse = await Auth.resendSignUp(username)
+        console.log('resendResponse', resendResponse)
+    } catch (resendConfirmationError) {
+        console.log('resendConfirmationError', resendConfirmationError)
+        dispatchEvent({
+            type: SET_ERRORS,
+            payload: resendConfirmationError
         })
         dispatch({
             type: SET_UNAUTHENTICATED
@@ -156,23 +247,45 @@ export const login = (username, password) => async (dispatch) => {
     }
 }
 
-export const signUp = (username, password, attributes) => async (dispatch) => {
+export const forgotPassword = (username) => async (dispatch) => {
     try {
-        let signUpResponse = await Auth.signUp({
-            username,
-            password,
-            attributes: {
-                email: attributes.email,             // optional
-                picture: attributes.picture
-                // phone_number,      // optional - E.164 number convention
-                // Other custom attributes...
-            },
-            })
-    } catch (signUpError) {
-        console.log('signUpError', signUpError)
+        dispatch({
+            type: SET_FORGOT_PASSWORD
+        })
+        let forgotPasswordResponse = await Auth.forgotPassword(username)
+        dispatch({
+            type: SET_RESET_PASSWORD_SENT
+        })
+    } catch(forgotPasswordError) {
+        console.log('forgotPasswordError', forgotPasswordError)
         dispatch({
             type: SET_ERRORS,
-            payload: signUpError
+            payload: forgotPasswordError
+        })
+        dispatch({
+            type: SET_UNAUTHENTICATED
+        })
+    }
+}
+
+export const resetPassword = (username, password, code) => async (dispatch) => {
+    try {
+        let resetPasswordResponse = await Auth.forgotPasswordSubmit(username, code, password)
+        console.log('resetPasswordResponse', resetPasswordResponse)
+        let currentUser = await Auth.currentAuthenticatedUser()
+        console.log('currentUser', currentUser)
+        dispatch({
+            type: SET_USER,
+            payload: currentUser
+        })
+    } catch (resetPasswordError) {
+        console.log('resetPasswordError', resetPasswordError)
+        // dispatch({
+        //     type: SET_UNAUTHENTICATED
+        // })
+        dispatch({
+            type: SET_ERRORS,
+            payload: resetPasswordError
         })
     }
 }
@@ -285,7 +398,7 @@ export const uploadImage = async (image) => {
         const stored = await Storage.put(filename, image, {
             contentType: image.type
         });
-        console.log('stored.key', stored.key)
+        console.log('stored.key', stored)
         // return stored.key;
         // console.log('uploadImageResponse', uploadImageResponse)
         // dispatch(getUserData())

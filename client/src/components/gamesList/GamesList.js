@@ -15,7 +15,6 @@ import { antIcon } from '../../functions/utils'
 
 const GamesList = (props) => {
   const { sport, games, predictions, loadingGames } = props
-  console.log({ predictions });
   //{ games, gamePredictions, onGameClick, onChangeGameScore, onChangeStarSpread, onChangeStarTotal, onSubmitPrediction }
   let orderedGames = {}
 
