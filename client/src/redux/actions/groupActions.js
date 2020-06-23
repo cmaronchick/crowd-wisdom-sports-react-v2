@@ -8,11 +8,13 @@ import {
     JOINING_GROUP,
     LEAVE_GROUP,
     CREATE_GROUP,
+    CREATING_GROUP,
     DELETE_GROUP,
     LOADING_GROUP_PREDICTIONS,
     SET_GROUP_PREDICTIONS,
     SET_ERRORS,
-    CLEAR_ERRORS
+    CLEAR_ERRORS,
+    TOGGLE_CREATE_GROUP_MODAL
     } from '../types'
 import ky from 'ky/umd'
 
@@ -83,19 +85,21 @@ export const fetchGroup = (sport, year, season, groupId) => async (dispatch) => 
             payload: fetchGroupResponse.group
         })
         let groupPredictions = {}
-        fetchGroupResponse.group.predictions.forEach(prediction => {
-            groupPredictions[prediction.gameId] = {
-                ...prediction
-            }
-        })
-        dispatch({
-            type: SET_GROUP_PREDICTIONS,
-            payload: {
-                type: 'group',
-                name: fetchGroupResponse.group.groupName,
-                ...groupPredictions
-            }
-        })
+        if (fetchGroupResponse.group.predictions && fetchGroupResponse.group.predictions.length > 0) {
+            fetchGroupResponse.group.predictions.forEach(prediction => {
+                groupPredictions[prediction.gameId] = {
+                    ...prediction
+                }
+            })
+            dispatch({
+                type: SET_GROUP_PREDICTIONS,
+                payload: {
+                    type: 'group',
+                    name: fetchGroupResponse.group.groupName,
+                    ...groupPredictions
+                }
+            })
+        }
     } catch (fetchGroupError) {
         console.log('fetchGroupError', fetchGroupError);
         dispatch({
@@ -110,31 +114,17 @@ export const joinGroup = (sport, year, groupId, password) => async (dispatch) =>
         const currentUser = await Auth.currentAuthenticatedUser()
         const currentSession = await Auth.currentSession()
         const IdToken = await currentSession.getIdToken().getJwtToken()
+        const searchParams = new URLSearchParams()
+        searchParams.set('groupPassword', password)
         const postOptions = {
             headers: {
                 Authorization: IdToken
             },
-            body: JSON.stringify(password)
+            body: searchParams
         }
         let joinGroupResponse = await apiHost.post(`group/${sport}/${year}/${groupId}/joingroup`, postOptions).json()
         console.log('joinGroupResponse', joinGroupResponse)
-        dispatch({
-            type: JOIN_GROUP,
-            payload: {
-                firstName: currentUser.attributes.given_name,
-                lastName: currentUser.attributes.family_name,
-                preferred_username: currentUser.attributes.preferred_username,
-                username: currentUser.username,
-                results: {
-                    weekly: [{
-                        predictionScore: 0
-                    }],
-                    overall: {
-                        predictionScore: 0
-                    }
-                }
-            }
-        })
+        dispatch(fetchGroup(sport,year, null,groupId))
         dispatch({
             type: CLEAR_ERRORS
         })
@@ -177,4 +167,50 @@ export const selectGroupSeason = (sport, year, selectedSeason, groupId) => (disp
     })
     console.log('sport, year, selectedSeason, groupId', sport, year, selectedSeason, groupId)
     dispatch(fetchGroup(sport, year, selectedSeason, groupId))
+}
+
+export const createGroup = (groupDetails) => async (dispatch) => {
+    dispatch({
+        type: CREATING_GROUP
+    })
+    const { owner, year, sport, season, groupName, password } = groupDetails
+    const groupPublic = groupDetails.public
+    const searchParams = new URLSearchParams()
+    searchParams.set('owner', JSON.stringify({...owner}))
+    searchParams.set('year', year)
+    searchParams.set('sport', sport)
+    searchParams.set('season', season)
+    searchParams.set('groupName', groupName)
+    searchParams.set('public', groupPublic)
+    searchParams.set('password', password)
+    console.log(searchParams)
+    try {
+        const currentSession = await Auth.currentSession()
+        const IdToken = await currentSession.getIdToken().getJwtToken()
+        const createGroupResponse = await apiHost.post(`group/create`, {
+            headers: {
+                Authorization: IdToken,
+                'Content-type': 'application/x-www-form-urlencoded'
+            },
+            body: searchParams
+        }).json()
+        console.log('createGroupResponse', createGroupResponse)
+        dispatch({
+            type: TOGGLE_CREATE_GROUP_MODAL,
+            payload: false
+        })
+        dispatch({
+            type: CREATE_GROUP,
+            payload: createGroupResponse.groupInfo
+        })
+        dispatch({
+            type: CLEAR_ERRORS
+        })
+    } catch(createGroupError) {
+        console.log('createGroupError', createGroupError)
+        dispatch({
+            type: SET_ERRORS,
+            payload: createGroupError
+        })
+    }
 }
