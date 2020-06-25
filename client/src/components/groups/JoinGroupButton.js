@@ -16,7 +16,8 @@ const JoinGroupButton = ({authenticated, isOwner, memberOf, handleJoinGroupClick
             okType="danger"
             cancelText="Cancel"
             >
-                <Button type="primary">{window.innerWidth >= 960 ? `Leave Group` : `Leave`}</Button>
+                <Button
+            disabled={isOwner} type="primary">{window.innerWidth >= 960 ? `Leave Group` : `Leave`}</Button>
             </Popconfirm>
             // <Button type="primary" className={btnClassName} disabled={isOwner} onClick={leaveGroupClick}>Leave Group</Button>
         ) : authenticated ? (

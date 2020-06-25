@@ -3,11 +3,13 @@ import {
     SET_GROUPS,
     LOADING_GROUP,
     SET_GROUP,
+    UPDATE_GROUP,
     SELECT_GROUP_SEASON,
     JOIN_GROUP,
     JOINING_GROUP,
     LEAVE_GROUP,
     CREATE_GROUP,
+    CREATING_GROUP,
     DELETE_GROUP
     } from '../types'
 
@@ -19,7 +21,8 @@ const initialState = {
     groups: {},
     loadingGroups: false,
     group: {},
-    loadingGroup: false
+    loadingGroup: false,
+    creatingGroup: false
 }
 
 
@@ -50,6 +53,7 @@ export default function(state = initialState, action) {
                 }
             }
         case SET_GROUP:
+        case UPDATE_GROUP:
             return {
                 ...state,
                 group: {...action.payload,
@@ -83,6 +87,19 @@ export default function(state = initialState, action) {
             return {
                 ...state,
                 group: {...leaveGroup}
+            }
+        case CREATING_GROUP:
+            return {
+                ...state,
+                creatingGroup: true
+            }
+        case CREATE_GROUP:
+            let createGroupGroups = [...state.groups]
+            createGroupGroups.push({...action.payload})
+            return {
+                ...state,
+                creatingGroup: false,
+                groups: createGroupGroups
             }
         default:
             return {

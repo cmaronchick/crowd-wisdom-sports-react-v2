@@ -189,7 +189,6 @@ export const signUp = (username, password, attributes, picture) => async (dispat
                 // Other custom attributes...
             },
         })
-        console.log('signUpResponse', signUpResponse)
             if (picture) {
                 const filename = `${username}-${picture.name}`;
                 const stored = await Storage.put(filename, picture, {

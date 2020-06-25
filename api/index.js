@@ -1,19 +1,24 @@
 const express = require('express');
+const bodyParser = require('body-parser')
 //import games from '../src/games-week3';
 const ky = require('ky-universal');
 const busboy = require('busboy');
 const Amplify = require('aws-amplify')
 
 const apiHost = ky.create({prefixUrl: `https://y5f8dr2inb.execute-api.us-west-2.amazonaws.com/dev/`})
-const router = express.Router();
+const router = express();
+router.use(bodyParser.json()) // for parsing application/json
+router.use(bodyParser.urlencoded({ extended: true })) // for parsing application/x-www-form-urlencoded
+const cors = require('cors')
+router.use(cors())
 
 const { getGameWeek, getGame, getGamesByGameWeek, submitPrediction } = require('./handlers/games')
 const { getSportSeason } = require('./handlers/sport')
 const { getLeaderboards, getCrowdLeaderboards } = require('./handlers/leaderboards')
-const { getGroups, getGroup, joinGroup, leaveGroup } = require('./handlers/groups')
+const { getGroups, getGroup, joinGroup, leaveGroup, createGroup, updateGroup } = require('./handlers/groups')
 const { getExtendedProfile, uploadImage } = require('./handlers/users')
 
-const { callOptions} = require('./utils')
+const { callOptions} = require('./utils');
 
 router.get('/sport/:sport/:year/:season', getSportSeason)
 
@@ -28,6 +33,8 @@ router.get('/:sport/leaderboards/:year/:season/:week', getLeaderboards)
 router.get('/:sport/leaderboards/:year/:season/:week/crowdOverall', getCrowdLeaderboards)
 
 //groups calls
+router.post('/group/create', createGroup)
+router.post('/group/update', updateGroup)
 router.post('/group/:sport/:year/:groupId/leavegroup', leaveGroup)
 router.post('/group/:sport/:year/:groupId/joingroup', joinGroup)
 router.get('/group/:sport/:year/:groupId', getGroup)

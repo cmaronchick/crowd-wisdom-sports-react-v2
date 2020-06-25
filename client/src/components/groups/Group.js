@@ -4,12 +4,13 @@ import { Link } from 'react-router-dom'
 import JoinCrowdButton from './JoinGroupButton'
 
 import { connect } from 'react-redux'
-import { fetchGroup, joinGroup, leaveGroup, selectGroupSeason } from '../../redux/actions/groupActions'
+import { fetchGroup, joinGroup, leaveGroup, selectGroupSeason, updateGroupDetails, uploadGroupImage } from '../../redux/actions/groupActions'
 import { fetchGameWeekGames, fetchGame } from '../../redux/actions/gamesActions'
 import { onChangeText } from '../../redux/actions/uiActions'
+import { isEmail, handleEditPicture, handleImageChange } from '../../functions/utils'
 
-import { Tabs, Table, Spin, Typography, Form, Input, Row, Col} from 'antd'
-import { ArrowLeftOutlined } from '@ant-design/icons'
+import { Tabs, Table, Spin, Typography, Form, Input, Row, Col, Button, Popconfirm} from 'antd'
+import { ArrowLeftOutlined, MailOutlined } from '@ant-design/icons'
 import { antIcon } from '../../functions/utils'
 
 import GamesList from '../gamesList/GamesList'
@@ -29,6 +30,8 @@ const Group = ({
     selectGroupSeason,
     joinGroup,
     leaveGroup,
+    updateGroupDetails,
+    uploadGroupImage,
     onChangeText,
     fetchGameWeekGames,
     fetchGame,
@@ -36,7 +39,7 @@ const Group = ({
     predictions,
     match,
     history}) => {
-    const { groupId, groupName, users, memberOf, joiningGroup, results } = group
+    const { groupId, groupName, users, memberOf, joiningGroup, results, picture } = group
     const isPublicGroup = group.public
     let { sport, year } = group
     sport = sport ? sport : sportObj.gameWeekData.sport
@@ -55,27 +58,18 @@ const Group = ({
     const handleLeaveGroupConfirm = () => {
         leaveGroup(sport, year, groupId)
     }
-    //console.log('group predictions', predictions)
-    // predictions && predictions.length > 0 && predictions.forEach(prediction => {
-    //     if (gamePredictions[prediction.gameId]) {
-    //         console.log('gamePredictions[prediction.gameId]', gamePredictions[prediction.gameId])
-    //         // check to see if prediction already exists
-    //         let tempGamePredictions = gamePredictions[prediction.gameId].filter(prediction => {
-    //             console.log('prediction', prediction.groupId === groupId)
-    //             return prediction.groupId === groupId
-    //         })
-    //         console.log('tempGamePredictions.length', tempGamePredictions)
-    //         if (tempGamePredictions.length === 0) {
-    //             console.log('adding prediction')
-    //             gamePredictions[prediction.gameId].push({
-    //                 type: 'group',
-    //                 groupId,
-    //                 name: groupName,
-    //                 ...prediction
-    //             })
-    //         }
-    //     }
-    // })
+
+    const handleInviteClick = () => {
+        navigator.clipboard.writeText(window.location.href)
+
+    }
+    
+    const handleTitleChange = (updatedGroupName) => {
+        updateGroupDetails({
+            ...group,
+            groupName: updatedGroupName
+        })
+    }
 
     /* check for group data - !groupName
     if no group data, check for loading state - !loadingGroup
@@ -113,7 +107,7 @@ const Group = ({
 
     ]
     let weekbyWeekChildren = []
-    if (results) {
+    if (results && results[sport][year][season].weekly) {
         results[sport][year][season].weekly.sort((a,b) => a.gameWeek - b.gameWeek).forEach((weekResult, weekIndex) => {
             weekbyWeekChildren.push(
                 {
@@ -157,20 +151,39 @@ const Group = ({
                     <Col span={4}>
                         <ArrowLeftOutlined className="backButton" onClick={() => history.push(`/${sport}/groups/${year}/${season}`)} />
                     </Col>
-                    <Col span={12}>
-                        <h1>{groupName}</h1>
+                    <Col span={12} className="groupName">
+                        {picture && (
+                            <Fragment>
+                            <input type='file' hidden='hidden' id='imageInput' onChange={handleImageChange}/>
+                            <img onClick={handleEditPicture} id="avatarImage" src={picture} alt={groupName} className="groupAvatar" />
+                            </Fragment>
+                        )}
+                        <Title level={3} editable={group.owner.username === user.username ? { onChange: handleTitleChange} : false}>{groupName}</Title>
                     </Col>
                     <Col span={8} flex="row">
                         {/* Only show season selector if number of season results is greater than 1 */}
                         {(results && results[sport][year] && Object.keys(results[sport][year]).length > 1 && 
                         <SeasonSelector handleSelectSeason={handleSelectSeason} />
                         )}
+
+                        <Popconfirm
+                        placement="topRight"
+                        title={`Copy Group URL to Clipboard?`}
+                        onConfirm={handleInviteClick}
+                        okText="Confirm"
+                        okType="danger"
+                        cancelText="Cancel"
+                        >
+                        <Button>
+                            <MailOutlined />
+                        </Button>
+                        </Popconfirm>
                         {group && group.owner && user.attributes && (
                             <JoinCrowdButton
                                 joiningGroup={joiningGroup}
                                 btnClassName="joinGroupButton"
                                 authenticated={user.authenticated}
-                                isOwner={group.owner.preferred_username === user.attributes.preferred_username}
+                                isOwner={(group.owner.preferred_username === user.attributes.preferred_username || group.owner.preferred_username === user.username)}
                                 memberOf={group.memberOf}
                                 groupName={groupName}
                                 handleJoinGroupClick={handleJoinGroupClick}
@@ -185,7 +198,7 @@ const Group = ({
                                 <Table className="groupTable" scroll={{x: true}} rowKey="username" columns={columns} dataSource={users} />
                             </TabPane>
                             <TabPane tab="Predictions" key="2">
-                                {games && Object.keys(predictions.group) && (
+                                {games && Object.keys(predictions.group).length > 0 ? (
                                     <Fragment>
                                         <div className="selectorHeader">
                                             <SeasonSelector />
@@ -201,6 +214,8 @@ const Group = ({
                                         fetchGameWeekGames={fetchGameWeekGames}
                                         fetchGame={fetchGame} />
                                     </Fragment>
+                                ) : (
+                                    <Text type="secondary">No Group Predictions Yet</Text>
                                 )}
                             </TabPane>
 
@@ -276,7 +291,9 @@ const mapActionsToProps = {
     selectGroupSeason,
     onChangeText,
     fetchGameWeekGames,
-    fetchGame
+    fetchGame,
+    updateGroupDetails,
+    uploadGroupImage
 }
 
 export default connect(mapStateToProps, mapActionsToProps)(Group);

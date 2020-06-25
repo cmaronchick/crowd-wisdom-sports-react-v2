@@ -1,21 +1,25 @@
 import React, { Fragment } from 'react';
 import PropTypes from 'prop-types'
 import { Link } from 'react-router-dom'
+import CreateGroupModal from './CreateGroupModal'
 import SeasonSelector from '../seasonSelector/SeasonSelector'
 import Weeks from '../weeks/Weeks'
 
-import { Table, Spin } from 'antd'
+import { Table, Spin, Button, Typography, Row, Col } from 'antd'
 import { antIcon } from '../../functions/utils'
 
 import { connect } from 'react-redux'
 import { fetchGroups, fetchGroup } from '../../redux/actions/groupActions'
+import { toggleCreateGroupModal } from '../../redux/actions/uiActions'
 
 import './Groups.less'
 
-const Groups = ({sportObj, groupsObj, fetchGroup, loadingGroups, fetchGroups, match}) => {
+const { Title, Text } = Typography
+
+const Groups = (props) => {
+    const {sportObj, groupsObj, fetchGroup, loadingGroups, fetchGroups, match, user} = props
     const { sport, year, season, week } = sportObj.gameWeekData
     const { groups } = groupsObj ? groupsObj : { groups: {}}
-    console.log('groups', groups)
     const {params} = match
     if (Object.keys(groups).length === 0 && !loadingGroups && sport && year && season) {
         setTimeout(() => {
@@ -38,6 +42,9 @@ const Groups = ({sportObj, groupsObj, fetchGroup, loadingGroups, fetchGroups, ma
             render: (groupName, record) => {
                 return (
                     <Link onClick={() => onGroupClick(record.sport, record.year, season, record.groupId)} to={`/${sport}/groups/${year}/${season}/group/${record.groupId}`}>
+                        {record.picture && record.picture.length > 0 && (
+                            <img src={record.picture} alt={`${groupName} Avatar`} className="groupAvatar" />
+                        )}
                         {groupName}
                     </Link>
                 )
@@ -56,8 +63,18 @@ const Groups = ({sportObj, groupsObj, fetchGroup, loadingGroups, fetchGroups, ma
     ]
     return (
         
-        <div className="groupsContainer">
-            <h1>Stakehouse Sports Groups</h1>
+        <Row className="groupsContainer">
+            <Col span={24}>
+            <Row className="groupHeader" align="middle">
+                <Col span={20}>
+                    <Title>Stakehouse Sports Groups</Title>
+                </Col>
+                <Col span={4}>
+                    <Button disabled={!user.authenticated} type="primary" className="createGroupButton" onClick={() => props.toggleCreateGroupModal(true)}>
+                        Create Group
+                    </Button>
+                </Col>
+            </Row>
             <div className="selectorHeader">
                 <SeasonSelector />
                 <Weeks loading={loadingGroups} onGameWeekClick={fetchGroups} page="groups" />
@@ -66,7 +83,7 @@ const Groups = ({sportObj, groupsObj, fetchGroup, loadingGroups, fetchGroups, ma
             Object.keys(groups).length > 0 ? (
                 <Fragment>
                         
-                    <Table rowKey="groupName" dataSource={groups} columns={columns} />
+                    <Table className="groupTable" rowKey="groupName" dataSource={groups} columns={columns} />
                 </Fragment>
             ) : (
                 <div>
@@ -79,7 +96,9 @@ const Groups = ({sportObj, groupsObj, fetchGroup, loadingGroups, fetchGroups, ma
             </Fragment>
 
         )}
-    </div>
+        </Col>
+        <CreateGroupModal />
+    </Row>
     )
 };
 
@@ -92,12 +111,14 @@ Groups.propTypes = {
 const mapStateToProps = (state) => ({
     sportObj: state.sport,
     groupsObj: state.groups,
-    loadingGroups: state.groups.loadingGroups
+    loadingGroups: state.groups.loadingGroups,
+    user: state.user
 })
 
 const mapActionsToProps = {
     fetchGroups,
-    fetchGroup
+    fetchGroup,
+    toggleCreateGroupModal
 }
 
 export default connect(mapStateToProps, mapActionsToProps)(Groups);
