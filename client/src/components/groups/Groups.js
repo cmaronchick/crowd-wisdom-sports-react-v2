@@ -42,6 +42,9 @@ const Groups = (props) => {
             render: (groupName, record) => {
                 return (
                     <Link onClick={() => onGroupClick(record.sport, record.year, season, record.groupId)} to={`/${sport}/groups/${year}/${season}/group/${record.groupId}`}>
+                        {record.picture && record.picture.length > 0 && (
+                            <img src={record.picture} alt={`${groupName} Avatar`} className="groupAvatar" />
+                        )}
                         {groupName}
                     </Link>
                 )
@@ -80,7 +83,7 @@ const Groups = (props) => {
             Object.keys(groups).length > 0 ? (
                 <Fragment>
                         
-                    <Table rowKey="groupName" dataSource={groups} columns={columns} />
+                    <Table className="groupTable" rowKey="groupName" dataSource={groups} columns={columns} />
                 </Fragment>
             ) : (
                 <div>

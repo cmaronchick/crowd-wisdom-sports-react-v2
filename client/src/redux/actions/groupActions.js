@@ -227,6 +227,7 @@ export const createGroup = (groupDetails, picture) => async (dispatch) => {
 }
 
 export const updateGroupDetails = (groupDetails) => async (dispatch) => {
+    console.log('groupDetails', groupDetails)
     try {
         let currentUser = await Auth.currentAuthenticatedUser()
         let currentSession = await Auth.currentSession()
