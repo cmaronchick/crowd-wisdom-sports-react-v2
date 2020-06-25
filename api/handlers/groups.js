@@ -135,7 +135,43 @@ const createGroup = (req, res) => {
       console.log('api leaderboard index 153 crowdResponseError: ', groupResponseError)
       return res.status(500).json({ message: groupResponseError})
   })
+}
+
+const updateGroup = (req, res) => {
+  console.log('req.body', req.body)
+  const { groupId, groupName, password, picture } = req.body
+  const owner = req.body.owner
+  const groupPublic = req.body.public
+  const searchParams = new URLSearchParams()
+  searchParams.set('groupId', groupId)
+  searchParams.set('owner', owner)
+  searchParams.set('groupName', groupName)
+  searchParams.set('public', groupPublic)
+  searchParams.set('password', password)
+  searchParams.set('picture', picture)
+  const callOptionsObject = callOptions(req.headers.authorization);
+  let getOptions = callOptionsObject.callOptions;
+  getOptions.headers = {
+    Authorization: req.headers.authorization,
+    'Content-type': 'application/json'
+  }
+  getOptions.body = JSON.stringify(req.body)
+  console.log('157 getOptions', getOptions)
+  
+  return ky.post(`https://y5f8dr2inb.execute-api.us-west-2.amazonaws.com/dev/group`, getOptions)
+  .then((groupResponse) => {
+      console.log('create groupResponse 162', groupResponse)
+      return groupResponse.json()
+  })
+  .then(groupResponse => {
+      console.log('api/index 119 gameWeekResponse', groupResponse)
+      return res.status(200).json({ group: groupResponse })
+  })
+  .catch(groupResponseError => {
+      console.log('api leaderboard index 153 crowdResponseError: ', groupResponseError)
+      return res.status(500).json({ message: groupResponseError})
+  })
 
 }
 
-module.exports = { getGroups, getGroup, joinGroup, leaveGroup, createGroup}
+module.exports = { getGroups, getGroup, joinGroup, leaveGroup, createGroup, updateGroup}

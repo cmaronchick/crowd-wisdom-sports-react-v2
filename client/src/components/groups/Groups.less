@@ -34,6 +34,21 @@
             right: 0px;
             color: #fff;
         }
+        .groupName {
+            flex-direction: row;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            padding: 10px 0;
+            & h1, h2, h3, h4 {
+                color: #fff;
+                margin: 0 10px;
+            }
+        }
+        .groupAvatar {
+            width: 50px;
+            height: 50px;
+        }
     }
     .lockedGroup {
         display: flex;
@@ -48,5 +63,10 @@
         th {
             vertical-align: bottom;
         }
+    }
+}
+.image-wrapper {
+    & img {
+        margin: 0 10px;
     }
 }

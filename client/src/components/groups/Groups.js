@@ -17,10 +17,9 @@ import './Groups.less'
 const { Title, Text } = Typography
 
 const Groups = (props) => {
-    const {sportObj, groupsObj, fetchGroup, loadingGroups, fetchGroups, match} = props
+    const {sportObj, groupsObj, fetchGroup, loadingGroups, fetchGroups, match, user} = props
     const { sport, year, season, week } = sportObj.gameWeekData
     const { groups } = groupsObj ? groupsObj : { groups: {}}
-    console.log('groups', groups)
     const {params} = match
     if (Object.keys(groups).length === 0 && !loadingGroups && sport && year && season) {
         setTimeout(() => {
@@ -68,7 +67,7 @@ const Groups = (props) => {
                     <Title>Stakehouse Sports Groups</Title>
                 </Col>
                 <Col span={4}>
-                    <Button type="primary" className="createGroupButton" onClick={() => props.toggleCreateGroupModal(true)}>
+                    <Button disabled={!user.authenticated} type="primary" className="createGroupButton" onClick={() => props.toggleCreateGroupModal(true)}>
                         Create Group
                     </Button>
                 </Col>
@@ -109,7 +108,8 @@ Groups.propTypes = {
 const mapStateToProps = (state) => ({
     sportObj: state.sport,
     groupsObj: state.groups,
-    loadingGroups: state.groups.loadingGroups
+    loadingGroups: state.groups.loadingGroups,
+    user: state.user
 })
 
 const mapActionsToProps = {

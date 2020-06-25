@@ -3,6 +3,7 @@ import {
     SET_GROUPS,
     LOADING_GROUP,
     SET_GROUP,
+    UPDATE_GROUP,
     SELECT_GROUP_SEASON,
     JOIN_GROUP,
     JOINING_GROUP,
@@ -19,6 +20,7 @@ import {
 import ky from 'ky/umd'
 
 import { Auth } from '@aws-amplify/auth'
+import { Storage } from '@aws-amplify/storage'
 
 export const apiHost = ky.create({prefixUrl: process.env.NODE_ENV === 'development' ? 'http://localhost:5000/api/' : 'https://y5f8dr2inb.execute-api.us-west-2.amazonaws.com/dev/'})
     
@@ -169,12 +171,14 @@ export const selectGroupSeason = (sport, year, selectedSeason, groupId) => (disp
     dispatch(fetchGroup(sport, year, selectedSeason, groupId))
 }
 
-export const createGroup = (groupDetails) => async (dispatch) => {
+export const createGroup = (groupDetails, picture) => async (dispatch) => {
     dispatch({
         type: CREATING_GROUP
     })
     const { owner, year, sport, season, groupName, password } = groupDetails
     const groupPublic = groupDetails.public
+
+    const filename = picture ? `${groupName}-${picture.name}`: 'icons8-trophy-64.png';
     const searchParams = new URLSearchParams()
     searchParams.set('owner', JSON.stringify({...owner}))
     searchParams.set('year', year)
@@ -183,6 +187,7 @@ export const createGroup = (groupDetails) => async (dispatch) => {
     searchParams.set('groupName', groupName)
     searchParams.set('public', groupPublic)
     searchParams.set('password', password)
+    searchParams.set('picture', `https://stakehousesports-userfiles.s3-us-west-2.amazonaws.com/public/${filename}`)
     console.log(searchParams)
     try {
         const currentSession = await Auth.currentSession()
@@ -201,8 +206,14 @@ export const createGroup = (groupDetails) => async (dispatch) => {
         })
         dispatch({
             type: CREATE_GROUP,
-            payload: createGroupResponse.groupInfo
+            payload: {...createGroupResponse.group.groupInfo}
         })
+        if (picture && (picture.type === 'image\png' || picture.type === 'image\jpeg')) {
+            const stored = await Storage.put(filename, picture, {
+                contentType: picture.type
+            });
+            console.log('stored.key', stored)
+        }
         dispatch({
             type: CLEAR_ERRORS
         })
@@ -213,4 +224,59 @@ export const createGroup = (groupDetails) => async (dispatch) => {
             payload: createGroupError
         })
     }
+}
+
+export const updateGroupDetails = (groupDetails) => async (dispatch) => {
+    try {
+        let currentUser = await Auth.currentAuthenticatedUser()
+        let currentSession = await Auth.currentSession()
+        let IdToken = await currentSession.getIdToken().getJwtToken()
+        let updateGroupResponse = await apiHost.post('group/update', {
+            headers: {
+                Authorization: IdToken,
+                'Content-type': 'application/json'
+            },
+            body: JSON.stringify(groupDetails)
+        }).json()
+        dispatch({
+            type: UPDATE_GROUP,
+            payload: groupDetails
+        })
+    } catch (updateGroupDetailsError) {
+        console.log('updateGroupDetailsError', updateGroupDetailsError)
+        dispatch({
+            type: SET_ERRORS,
+            payload: updateGroupDetailsError
+        })
+    }
+}
+
+export const uploadGroupImage = (group, image) => async (dispatch) => {
+    try {
+        let currentUser = await Auth.currentAuthenticatedUser();
+        let currentSession = await Auth.currentSession()
+        const { groupName } = group
+
+        console.log('image.type', image.type)
+        if (image.type !== 'image/jpeg' && image.type !== 'image/png') {
+            return {
+                type: SET_ERRORS,
+                errors: 'Please upload either a JPG or PNG.'
+            }
+        }
+        const filename = `${groupName}-${image.name}`;
+        console.log('image', image)
+        const stored = await Storage.put(filename, image, {
+            contentType: image.type
+        });
+        group.picture = `https://stakehousesports-userfiles.s3-us-west-2.amazonaws.com/public/${filename}`
+        dispatch(updateGroupDetails(group))
+    } catch (uploadImageError) {
+        console.log('uploadImageError', uploadImageError)
+        return {
+            type: SET_ERRORS,
+            errors: uploadImageError
+        }
+    }
+
 }

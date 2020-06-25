@@ -3,6 +3,7 @@ import {
     SET_GROUPS,
     LOADING_GROUP,
     SET_GROUP,
+    UPDATE_GROUP,
     SELECT_GROUP_SEASON,
     JOIN_GROUP,
     JOINING_GROUP,
@@ -52,6 +53,7 @@ export default function(state = initialState, action) {
                 }
             }
         case SET_GROUP:
+        case UPDATE_GROUP:
             return {
                 ...state,
                 group: {...action.payload,

@@ -1,11 +1,15 @@
 import React, { Component } from 'react'
 import PropTypes from 'prop-types'
 import { connect } from 'react-redux'
+import { isEmail, handleEditPicture, handleImageChange } from '../../functions/utils'
 
 import { Modal, Form, Input, Typography, Button } from 'antd'
+import { EditOutlined } from '@ant-design/icons'
 
 import { createGroup } from '../../redux/actions/groupActions'
 import { onChangeText, onChangeCheckbox, toggleCreateGroupModal } from '../../redux/actions/uiActions'
+
+import TrophyImage from '../../images/icons8-trophy-64.png'
 
 const { Text } = Typography
 
@@ -13,6 +17,9 @@ export const CreateGroup = (props) => {
     const { user, sport, UI, groups} = props
 
     const handleCreateGroupButtonClick = () => {
+        
+        
+      const picture = document.getElementById('imageInput').files.length > 0 ? document.getElementById('imageInput').files[0] : null
         props.createGroup({
             owner: {
                 username: user.username,
@@ -23,7 +30,8 @@ export const CreateGroup = (props) => {
             year: sport.gameWeekData.year,
             season: sport.gameWeekData.season,
             public: UI.createGroupPublic ? UI.createGroupPublic : false,
-            password: UI.createGroupPassword
+            password: UI.createGroupPassword,
+            picture
         })
     }
 
@@ -47,6 +55,20 @@ export const CreateGroup = (props) => {
             onCancel={() => props.toggleCreateGroupModal(!UI.createGroupModalOpen)}
             title="Create a New Group">
                 <Form>
+
+                    <div className='image-wrapper'>
+                        <Form.Item
+                        label="Group Avatar">
+                        <img id="avatarImage" style={{height: 30, width: 30}} src={TrophyImage} alt="group avatar" className='profileImage'/>
+                        <input type='file' hidden='hidden' id='imageInput' onChange={handleImageChange}/>
+                            <Button tip="Edit Group Picture" 
+                                placement="top"
+                                onClick={handleEditPicture}
+                                type="primary">
+                                    <EditOutlined />
+                            </Button>
+                        </Form.Item>
+                    </div>
                     <Form.Item
                     label="Group Name">
                         <Input name="createGroupName" type="text" onChange={props.onChangeText} />
@@ -61,7 +83,11 @@ export const CreateGroup = (props) => {
                             <Input name="createGroupPassword" type="text" placeholder="Password must be between 5 and 16 characters or longer" onChange={props.onChangeText} />
                         </Form.Item>
                     )}
-                    <Button disabled={!UI.createGroupName || (UI.createGroupPublic && (!UI.createGroupPassword || (UI.createGroupPassword.length > 16 || UI.createGroupPassword.length < 5)))} type="primary" onClick={handleCreateGroupButtonClick}>
+                    <Button
+                        disabled={!UI.createGroupName || (UI.createGroupPublic && (!UI.createGroupPassword || (UI.createGroupPassword.length > 16 || UI.createGroupPassword.length < 5)))}
+                        type="primary"
+                        onClick={handleCreateGroupButtonClick}
+                        loading={groups.creatingGroup}>
                         Create
                     </Button>
                     {UI.errors && (

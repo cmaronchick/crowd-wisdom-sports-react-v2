@@ -15,10 +15,10 @@ router.use(cors())
 const { getGameWeek, getGame, getGamesByGameWeek, submitPrediction } = require('./handlers/games')
 const { getSportSeason } = require('./handlers/sport')
 const { getLeaderboards, getCrowdLeaderboards } = require('./handlers/leaderboards')
-const { getGroups, getGroup, joinGroup, leaveGroup, createGroup } = require('./handlers/groups')
+const { getGroups, getGroup, joinGroup, leaveGroup, createGroup, updateGroup } = require('./handlers/groups')
 const { getExtendedProfile, uploadImage } = require('./handlers/users')
 
-const { callOptions} = require('./utils')
+const { callOptions} = require('./utils');
 
 router.get('/sport/:sport/:year/:season', getSportSeason)
 
@@ -34,6 +34,7 @@ router.get('/:sport/leaderboards/:year/:season/:week/crowdOverall', getCrowdLead
 
 //groups calls
 router.post('/group/create', createGroup)
+router.post('/group/update', updateGroup)
 router.post('/group/:sport/:year/:groupId/leavegroup', leaveGroup)
 router.post('/group/:sport/:year/:groupId/joingroup', joinGroup)
 router.get('/group/:sport/:year/:groupId', getGroup)

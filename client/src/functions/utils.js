@@ -90,7 +90,27 @@ export const getUrlParameters = (redirectUrl, sParam) => {
       }
   }
 
-  export const antIcon = (props) => {
+const imageIsLoaded = (e) => {
+    document.getElementById('avatarImage').setAttribute('src', e.target.result)
+}
+
+export const handleImageChange = (event) => {
+  event.preventDefault()
+  const image = event.target.files[0]
+  console.log('image', image)
+  let formData = new FormData()
+  formData.append('image', image, image.name);
+  let fileReader = new FileReader();
+  fileReader.readAsDataURL(image)
+  fileReader.onload = imageIsLoaded
+  localStorage.setItem('avatar', formData)
+}
+export const handleEditPicture = () => {
+    const fileInput = document.getElementById('imageInput')
+    fileInput.click();
+}
+
+export const antIcon = (props) => {
     console.log('props', props)
     return (<LoadingOutlined style={{ fontSize: 24 }} spin />)
-  }
+}
