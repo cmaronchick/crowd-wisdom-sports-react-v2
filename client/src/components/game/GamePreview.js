@@ -60,7 +60,7 @@ const GamePreview = (props) => {
   }
 
   const handleOnChangeGameScore = (event) => {
-    this.props.onChangeGameScore(this.props.game.gameId, event)
+    props.onChangeGameScore(this.props.game.gameId, event)
   }
   const handleOnChangeTextQuarters = (team, quarter, event) => {
     console.log('event', event)
