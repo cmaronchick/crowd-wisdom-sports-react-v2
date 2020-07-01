@@ -1,5 +1,5 @@
 import React from 'react';
-import { render, screen } from '@testing-library/react';
+import { render, screen, fireEvent } from '@testing-library/react';
 import userEvent from '@testing-library/user-event'
 import Group from '../components/groups/Group';
 import Groups from '../components/groups/Groups';
@@ -688,17 +688,16 @@ describe('render the group screen', () => {
         
         expect(linkElement).toBeInTheDocument();
     })
-    test('render the create group modal', () => {
+    test('render the create group modal', async () => {
         store.dispatch({
             type: TOGGLE_CREATE_GROUP_MODAL,
             payload: true
         })
 
+
         const { getByRole, getByText } = render(<Provider store={store}><Router><Route component={Groups} /></Router></Provider>);
-        const createGroupButton = getByRole('button', { name: /Create Group/i})
-        userEvent.click(createGroupButton)
-        screen.debug()
-        expect(createGroupButton).toBeInTheDocument();
+        const createGroupModal = screen.getByRole('dialog')
+        expect(createGroupModal).toBeInTheDocument();
     })
 
 

@@ -70,7 +70,14 @@ const Groups = (props) => {
                     <Title>Stakehouse Sports Groups</Title>
                 </Col>
                 <Col span={4}>
-                    <Button disabled={!user.authenticated} type="primary" className="createGroupButton" onClick={() => props.toggleCreateGroupModal(true)}>
+                    <Button
+                        disabled={!user.authenticated}
+                        type="primary"
+                        className="createGroupButton"
+                        onClick={() => {
+                            console.log('create group button clicked')
+                            props.toggleCreateGroupModal(true)
+                        }}>
                         Create Group
                     </Button>
                 </Col>
