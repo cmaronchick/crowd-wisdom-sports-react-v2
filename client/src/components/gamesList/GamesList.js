@@ -6,6 +6,7 @@ import Weeks from '../weeks/Weeks'
 import SeasonSelector from '../seasonSelector/SeasonSelector'
 
 import { fetchGame, fetchGameWeekGames } from '../../redux/actions/gamesActions'
+import { changeGameScore, submitPrediction } from '../../redux/actions/predictionsActions'
 
 import { connect } from 'react-redux'
 
@@ -44,14 +45,16 @@ const GamesList = (props) => {
               })
             }
             
-            // if (gamePredictions[gameId]) {
-            //   console.log(`gamePredictions[gameId]: ${JSON.stringify(gamePredictions[gameId])}`)
-            // }
 
-            //console.log({ gameId, game: games[gameId], gamePrediction: gamePredictions[gameId]})
+            // predictions will be an array of predictions
+            // in order to show more than one prediction
+            // such as comparing my prediction to another users
+
             return <GamePreview
             key={gameId}
             onClick={props.fetchGame}
+            handleChangeGameScore={props.changeGameScore}
+            handleSubmitPrediction={props.submitPrediction}
             // onChangeGameScore={onChangeGameScore}
             // onChangeStarSpread={onChangeStarSpread}
             // onChangeStarTotal={onChangeStarTotal}
@@ -71,7 +74,7 @@ const GamesList = (props) => {
 
 GamesList.propTypes = {
   games: PropTypes.object.isRequired,
-  predictions: PropTypes.array.isRequired,
+  predictions: PropTypes.object.isRequired,
   loadingGames: PropTypes.bool.isRequired,
   sport: PropTypes.object.isRequired,
   fetchGame: PropTypes.func,
@@ -80,7 +83,9 @@ GamesList.propTypes = {
 
 const mapActionsToProps = {
   fetchGame,
-  fetchGameWeekGames
+  fetchGameWeekGames,
+  changeGameScore,
+  submitPrediction
 }
 
 export default connect(null, mapActionsToProps)(GamesList);
