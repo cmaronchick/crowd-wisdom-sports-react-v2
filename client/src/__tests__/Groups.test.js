@@ -1,8 +1,11 @@
 import React from 'react';
-import { render } from '@testing-library/react';
+import { render, screen, fireEvent } from '@testing-library/react';
+import userEvent from '@testing-library/user-event'
 import Group from '../components/groups/Group';
+import Groups from '../components/groups/Groups';
+import CreateGroupModal from '../components/groups/CreateGroupModal'
 import { fetchGroup } from '../redux/actions/groupActions'
-import { LOADING_GROUP, SET_GROUP } from '../redux/types'
+import { LOADING_GROUP, SET_GROUP, TOGGLE_CREATE_GROUP_MODAL } from '../redux/types'
 import { BrowserRouter as Router, Route } from 'react-router-dom'
 import { Provider } from 'react-redux'
 import store from '../redux/store'
@@ -684,6 +687,17 @@ describe('render the group screen', () => {
         const linkElement = getByText(/SHS Playoffs/i);
         
         expect(linkElement).toBeInTheDocument();
+    })
+    test('render the create group modal', async () => {
+        store.dispatch({
+            type: TOGGLE_CREATE_GROUP_MODAL,
+            payload: true
+        })
+
+
+        const { getByRole, getByText } = render(<Provider store={store}><Router><Route component={Groups} /></Router></Provider>);
+        const createGroupModal = screen.getByRole('dialog')
+        expect(createGroupModal).toBeInTheDocument();
     })
 
 
