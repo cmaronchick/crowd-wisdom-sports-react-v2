@@ -4,7 +4,7 @@ import StarRatingComponent from 'react-star-rating-component'
 import OddsChangeModal from './Game.OddsChangeModal';
 import { checkBullseye, straightUpResults, spreadResults, totalResults } from './GamePreview.ResultsCheck'
 import GamePreviewStakes from './GamePreview.Stakes'
-import { spreadPrediction, totalPrediction } from '../../functions/utils'
+import { spreadPrediction, totalPrediction, checkGameStart } from '../../functions/utils'
 
 const { Title, Text, Paragraph } = Typography
 
@@ -22,7 +22,8 @@ const GamePreviewPrediction = (props) => {
   } = props
 
     const handleOnChangeGameScore = (event) => {
-        onChangeGameScore(game.gameId, event)
+      console.log('event.target', event.target)
+        props.handleChangeGameScore(game.gameId, event)
     }
     
     const { results } = game
@@ -33,9 +34,13 @@ const GamePreviewPrediction = (props) => {
       homeTeamSpreadResult = (prediction.homeTeam.score - prediction.awayTeam.score) % 1 === 0 ? (prediction.homeTeam.score - prediction.awayTeam.score) : (prediction.homeTeam.score - prediction.awayTeam.score).toFixed(2)
       totalResult = (prediction.awayTeam.score + prediction.homeTeam.score) % 1 === 0 ? (prediction.awayTeam.score + prediction.homeTeam.score) : (prediction.awayTeam.score + prediction.homeTeam.score).toFixed(2)
     }
-    // const gameCannotBeUpdated = gameCannotBeUpdated(date)
+
+    const gameCannotBeUpdated = checkGameStart(game.startDateTime)
     if (!prediction && results) {
       return (<Row className="predictionRow noPrediction"><Col span={24}>No prediction submitted</Col></Row>)
+    }
+    if (prediction.type === 'user') {
+      // console.log('prediction', prediction, prediction.awayTeam, prediction.awayTeam.score, prediction.awayTeam.score !== null)
     }
     return (
       <Row className={`${prediction.type === 'crowd' && (`crowdRow`)} predictionRow`}>
@@ -50,23 +55,29 @@ const GamePreviewPrediction = (props) => {
                   {results && (prediction.awayTeam.score > prediction.homeTeam.score) ? straightUpResults(results, prediction) : null}
                   {prediction.awayTeam.score}
                 </div>
-                ) : '' : (
-                  <Form>
+                ) : '' : prediction.type === 'user' ? (
+                  <Form
+                  initialValues={
+                    {
+                      awayTeam: prediction && prediction.awayTeam && prediction.awayTeam.score ? prediction.awayTeam.score : null
+                    }
+                  }
+                  name={`${game.gameId}awayTeam`}>
                   <Form.Item
-                  name="predictionAwayTeamScore"
-                  label={game.awayTeam.code}
-                  
-                  >
+                  name="awayTeam"
+                  id={`${game.gameId}awayTeam`}>
                     <Input
+                    disabled={gameCannotBeUpdated}
                     type="number"
                     style={{width: '100%'}}
                     onChange={handleOnChangeGameScore}
-                    name='predictionAwayTeamScore'
-                    placeholder={`${(!prediction || (prediction && !prediction.awayTeam)) ? '##' : null}`}
-
-                    value={(prediction && prediction.awayTeam && prediction.awayTeam.score !== null) ? prediction.awayTeam.score : ''} />
+                    name='awayTeam'
+                    placeholder={`${(!prediction || (prediction && !prediction.awayTeam)) ? ('##') : null}`}
+                     />
                   </Form.Item>
                   </Form>
+              ) : (
+                <Text>{prediction.awayTeam ? prediction.awayTeam.score : ''}</Text>
               )}
             </Col>
             <Col span={showPrediction ? 5 : 10}>
@@ -76,25 +87,42 @@ const GamePreviewPrediction = (props) => {
                   {(prediction.homeTeam.score > prediction.awayTeam.score) ? straightUpResults(results, prediction) : null}
                   {prediction.homeTeam.score}
                   </div>
-                ) : '' : (
-                  <Form>
-                  <Form.Item>
-                    <InputNumber style={{width: '100%'}} onChange={handleOnChangeGameScore} name='predictionHomeTeamScore'
+                ) : '' : prediction.type === 'user' ? (
+                  <Form
+                  initialValues={
+                    {
+                      homeTeam: prediction && prediction.homeTeam && prediction.homeTeam.score ? prediction.homeTeam.score : null
+                    }
+                  }
+                  name={`${game.gameId}homeTeam`}>
+                  <Form.Item
+                      id={`${game.gameId}homeTeam`}
+                  name="homeTeam">
+                    <Input
+                      disabled={gameCannotBeUpdated}
+                      style={{width: '100%'}}
+                      type="number"
+                      onChange={handleOnChangeGameScore}
+                      name='homeTeam'
+                      id={`${game.gameId}homeTeam`}
                       placeholder={`${(!prediction || (prediction && !prediction.homeTeam)) ? '##' : null}`}
                       value={(prediction && prediction.homeTeam && prediction.homeTeam.score !== null) ? prediction.homeTeam.score : ''}
                       />
                   </Form.Item>
                   </Form>
+              ) : (
+                <Text>{prediction.homeTeam ? prediction.homeTeam.score : ''}</Text>
               )}
             </Col>
-            {showPrediction ? (
+            {showPrediction && (
             <Col span={5} className="odds">
-              {(showPrediction && odds) ? (
+              {(showPrediction && odds && prediction.awayTeam && prediction.homeTeam) && (
                 <div style={{position: 'relative'}}>
                   {results ? spreadResults(odds, results,prediction) : null}
                   
                   {results ? checkBullseye(prediction.spread, results.spread) : null}
-                  {spreadPrediction(game, prediction.awayTeam.score, prediction.homeTeam.score)}<br/>
+                  {spreadPrediction(game, prediction.awayTeam.score, prediction.homeTeam.score)}
+                  <br/>
                   <span className="predictionSpread">(
                   {(prediction.homeTeam.score + odds.spread) > prediction.awayTeam.score // home team covers
                     ? prediction.awayTeam.score > prediction.homeTeam.score 
@@ -109,13 +137,13 @@ const GamePreviewPrediction = (props) => {
                           ? `${game.awayTeam.code} by ${awayTeamSpreadResult}`
                           : `${game.homeTeam.code} by ${homeTeamSpreadResult}`
                         : ''})</span>
-                </div>) : ''}
+                </div>)}
               
               </Col>
-              ) : null}
-              {showPrediction ? (
+              )}
+              {showPrediction && (
               <Col span={5} className="odds">
-                {(showPrediction && odds) ? (
+                {(showPrediction && odds && prediction.awayTeam && prediction.homeTeam) && (
                 <div style={{position: 'relative'}}>
                   
                 {results ? totalResults(odds, results,prediction) : null}
@@ -123,9 +151,9 @@ const GamePreviewPrediction = (props) => {
                 {totalPrediction(game, prediction.awayTeam.score, prediction.homeTeam.score)} 
                 <br/><span className="predictionSpread">({((prediction || (prediction.awayTeam.score + prediction.homeTeam.score)) && odds) ? `${totalResult}` : ''})</span>
                 </div>
-              ) : ''}
+              )}
               </Col>
-              ) : null}
+              )}
             </Row>
         {prediction && prediction.results ? (
           <Row className='predictionScoreBox'>
@@ -134,7 +162,7 @@ const GamePreviewPrediction = (props) => {
             </Col>
           </Row>
         ) : null}
-        {prediction.name && (<GamePreviewStakes game={game} gamePrediction={prediction} />)}
+        {prediction.awayTeam && prediction.homeTeam && prediction.type !== 'crowd' && (<GamePreviewStakes game={game} prediction={prediction} />)}
 
         {prediction && prediction.odds && ((game.odds.spread !== game.prediction.odds.spread) || (game.odds.total !== game.prediction.odds.total)) ? (
           !game.results ? (

@@ -26,6 +26,7 @@ const Games = (props) => {
             fetchGameWeekGames={props.fetchGameWeekGames}
             user={props.user}
             compareTo={props.compareUser ? props.compareUser : `Crowd`}
+            UI={props.UI}
             />
         </Fragment>
     )
@@ -44,10 +45,12 @@ GamesList.propTypes = {
 
 
 const mapStateToProps = (state) => ({
+    sport: state.sport,
     games: state.games.games,
     predictions: state.predictions,
     loadingGames: state.games.loadingGames,
-    user: state.user
+    user: state.user,
+    UI: state.UI
 })
 const mapActionsToProps = {
     fetchGame,

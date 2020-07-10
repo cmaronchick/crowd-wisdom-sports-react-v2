@@ -66,16 +66,23 @@ const getGamesByGameWeek = (req, res) => {
 }
 
 const submitPrediction = (req, res) => {
-    // console.log('api/index 81 req.body: ', req.body)
-    return ky.post(`https://y5f8dr2inb.execute-api.us-west-2.amazonaws.com/dev/predictions`, req.body.body, {headers: 
-      req.body.headers
+    console.log('api/index 69 req.body: ', req.body)
+    return ky.post(`https://y5f8dr2inb.execute-api.us-west-2.amazonaws.com/dev/predictions`, {
+      headers: {
+        Authorization: req.headers.authorization,
+        'Content-type': 'application/json'
+      },
+      body: JSON.stringify(req.body)
     })
-    .then(async predictionResponse => {
+    .then(predictionResponse => {
       //let predictionJSON = await predictionResponse.json()
-      //console.log({predictionResponse: predictionResponse.data})
-      res.send({ prediction: predictionResponse.data } )
+      console.log({predictionResponse: predictionResponse})
+      return res.status(200).json({ prediction: predictionResponse } )
     })
-    .catch(predictionError => console.log('predictionError: ', predictionError))
+    .catch(predictionError => {
+      console.log('predictionError: ', predictionError)
+      return res.status(500).json({ message: predictionError})
+    })
 }
 
 module.exports = { getGameWeek, getGame, getGamesByGameWeek, submitPrediction }

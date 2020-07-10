@@ -8,9 +8,11 @@ import GamePreviewCrowd from './GamePreview.Crowd'
 import GamePreviewResults from './GamePreview.Results'
 import GamePreviewPrediction from './GamePreview.Prediction'
 import GamePreviewPredictionQuarters from './GamePreview.Prediction.Quarters'
-import * as ResultsCheck from './GamePreview.ResultsCheck'
+import { ResultsCheck } from './GamePreview.ResultsCheck'
+import { checkGameStart } from '../../functions/utils'
 import GamePreviewHeaderRow from './GamePreview.HeaderRow'
 import './Game.less'
+
 
 const { Title, Paragraph, Text } = Typography
 
@@ -21,11 +23,35 @@ const GamePreview = (props) => {
       <div>No game found</div>
     )
   }
+  const userPrediction = predictions && predictions.length > 0 && predictions.reduce(prediction => {
+    if (prediction.type === 'user') {
+      return {
+        type: 'user',
+        name: 'Me',
+        ...prediction
+      }
+    }
+  })
+  
   const oddsPrefix = game.odds.spread > 0 ? '+' : '';
   const showQuarters = game.season === "post" && game.gameWeek === 4 ? true : false
-  
+  const gameCannotBeUpdated = checkGameStart(game.startDateTime)
   const { season, gameWeek } = game
   const showPrediction = predictions && predictions.length > 0
+
+  const handleClick = () => {
+    props.onClick(game.sport, game.year, game.season, game.gameWeek, game.gameId);
+  }
+
+  
+  const handleOnChangeStarSpread = (event) => {
+    this.props.onChangeStarSpread(this.props.game.gameId, event)
+  }
+
+  const handleOnChangeStarTotal = (event) => {
+    this.props.onChangeStarTotal(this.props.game.gameId, event)
+  }
+
   //check for super bowl and set quarters state
   let periods = {};
   if (gameWeek === 4 && season === 'post') {
@@ -46,22 +72,6 @@ const GamePreview = (props) => {
       const showQuarters = true
   }
 
-  const handleClick = () => {
-    props.onClick(game.sport, game.year, game.season, game.gameWeek, game.gameId);
-  }
-
-  
-  const handleOnChangeStarSpread = (event) => {
-    this.props.onChangeStarSpread(this.props.game.gameId, event)
-  }
-
-  const handleOnChangeStarTotal = (event) => {
-    this.props.onChangeStarTotal(this.props.game.gameId, event)
-  }
-
-  const handleOnChangeGameScore = (event) => {
-    props.onChangeGameScore(this.props.game.gameId, event)
-  }
   const handleOnChangeTextQuarters = (team, quarter, event) => {
     console.log('event', event)
     let { value } = event.target
@@ -100,22 +110,46 @@ const GamePreview = (props) => {
     this.setState({ oddsChangeModalShow: false })
   }
 
-  const handleSubmit = (event) => {
+  const handleSubmitPrediction = (event) => {
     event.preventDefault()
-    this.props.onSubmitPrediction(this.props.game.gameId)
+    const prediction = {
+      gameId: game.gameId,
+      gameWeek: game.gameWeek,
+      year: game.year,
+      sport: game.sport,
+      season: game.season,
+      awayTeam: {
+        fullName: game.awayTeam.fullName,
+        shortName: game.awayTeam.shortName,
+        code: game.awayTeam.code,
+        score: userPrediction && userPrediction.awayTeam ? userPrediction.awayTeam.score : game.prediction.awayTeam.score,
+      },
+      homeTeam: {
+        fullName: game.homeTeam.fullName,
+        shortName: game.homeTeam.shortName,
+        code: game.homeTeam.code,
+        score: userPrediction && userPrediction.homeTeam ? userPrediction.homeTeam.score : game.prediction.homeTeam.score,
+      },
+      stars: userPrediction.stars ? {
+        spread: userPrediction.stars.spread ? userPrediction.stars.spread : 0,
+        total: userPrediction.stars.total ? userPrediction.stars.total : 0
+      } : { spread: 0, total: 0 },
+      odds: game.odds
+    }
+    props.handleSubmitPrediction(props.game.gameId, prediction)
   }
-    //console.log('predictions', predictions);
       return (
       <Card title={<GamePreviewHeader game={game} onClick={handleClick} />} className="link GamePreview">
         <Row className="game-details">
           <Col span={24}>
             <GamePreviewHeaderRow game={game} showPrediction={showPrediction}/>
-
+          {/* only show comparison of predictions once game goes final */}
           {!game.results ? (
               <GamePreviewPrediction
                 showPrediction={showPrediction}
                 game={game}
-                prediction={game.prediction ? game.prediction : { type: 'user', name: 'Me'}}
+                prediction={userPrediction ? userPrediction : game.prediction ? game.prediction : { type: 'user', name: 'Me'}}
+                handleChangeGameScore={props.handleChangeGameScore}
                 // override game.prediction with temporary gamePrediction
                 // onChangeGameScore={onChangeGameScore}
                 // onChangeStarSpread={onChangeStarSpread}
@@ -124,7 +158,9 @@ const GamePreview = (props) => {
                 handleOddsChangeModalHide={handleOddsChangeModalHide}
                 // oddsChangeModalShow={oddsChangeModalShow}
                 />
-          ) : predictions && predictions.length > 0 ? predictions.map(prediction => (
+          ) : predictions && predictions.length > 0 ? predictions.map(prediction => {
+            console.log('prediction', prediction)
+            return (
             <GamePreviewPrediction
             key={prediction.name}
             showPrediction={showPrediction}
@@ -138,7 +174,7 @@ const GamePreview = (props) => {
             handleOddsChangeModalHide={handleOddsChangeModalHide}
             // oddsChangeModalShow={oddsChangeModalShow}
             />
-          )) : (
+          )}) : (
             <Row className="predictionRow noPrediction">
               <Col span={24}>
                 <Text type="warning">No prediction for this game</Text>
@@ -201,11 +237,19 @@ const GamePreview = (props) => {
               <GamePreviewResults game={game} />
           ) : (
             <Row style={{ flex: 1, flexDirection: 'row', alignItems: 'center', justifyContent: 'center' }}>
-              {/* {!gameCannotBeUpdated ? (
-                <Button type='submit' style={{width: '100%'}} onClick={this.handleSubmit} disabled={!game.prediction && !((gamePrediction.predictionAwayTeamScore || gamePrediction.predictionAwayTeamScore ===0 || gamePrediction.predictionAwayTeamScore !== '') && (gamePrediction.predictionHomeTeamScore || gamePrediction.predictionHomeTeamScore === 0))}>
-                  {this.props.gamePrediction && this.props.gamePrediction.submittingPrediction ? <Spinner animation='border' /> : game.prediction ? 'Update' : 'Predict'}
+              {!gameCannotBeUpdated && userPrediction && (
+                <Button
+                  type="primary"
+                  style={{width: '100%'}} 
+                  onClick={handleSubmitPrediction}
+                  disabled={!(userPrediction && userPrediction.awayTeam && userPrediction.homeTeam) || userPrediction.submitting}
+                  loading={userPrediction && userPrediction.submitting}>
+                  Predict
                 </Button>
-              ) : null} */}\
+              )}
+              {props.UI && props.UI.errors && (
+                <Text type="danger">{props.UI.errors}</Text>
+              )}
 
             </Row>
           )}

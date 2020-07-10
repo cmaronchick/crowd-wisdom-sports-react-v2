@@ -10,7 +10,7 @@ import { onChangeText } from '../../redux/actions/uiActions'
 import { isEmail, handleEditPicture, handleImageChange } from '../../functions/utils'
 
 import { Tabs, Table, Spin, Typography, Form, Input, Row, Col, Button, Popconfirm} from 'antd'
-import { ArrowLeftOutlined, MailOutlined } from '@ant-design/icons'
+import { ArrowLeftOutlined, MailOutlined, ShareAltOutlined } from '@ant-design/icons'
 import { antIcon } from '../../functions/utils'
 
 import GamesList from '../gamesList/GamesList'
@@ -175,7 +175,7 @@ const Group = ({
                         cancelText="Cancel"
                         >
                         <Button>
-                            <MailOutlined />
+                            <ShareAltOutlined />
                         </Button>
                         </Popconfirm>
                         {group && group.owner && user.attributes && (

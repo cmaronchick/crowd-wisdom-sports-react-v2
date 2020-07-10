@@ -38,7 +38,7 @@ export const getUrlParameters = (redirectUrl, sParam) => {
 
 
 
-  export const gameCannotBeUpdated = (startDateTime) => {
+  export const checkGameStart = (startDateTime) => {
     //cutoff for odds updates is 1 hour prior to start
     const msHour = 300000;
     var now = new Date();
