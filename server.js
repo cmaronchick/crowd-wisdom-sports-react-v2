@@ -11,7 +11,7 @@ const apiRouter = require('./api');
 //Route setup
 app.use('/api', apiRouter);
 app.get('/', (req, res) => {
-    console.log('req', req)
+    console.log('req', req.route, req.params)
     res.send('root route');
 })
 
