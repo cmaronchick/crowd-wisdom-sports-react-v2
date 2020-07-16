@@ -6,7 +6,7 @@
   "scripts": {
     "test": "jest",
     "build": "babel ./client/src ./server --out-dir dist && webpack",
-    "server:prod": "node ./dist/server.js",
+    "server:prod": "node ./server.js",
     "clean": "rimraf dist",
     "prod": "cross-env NODE_ENV=production npm-run-all clean build server:prod",
     "start": "node server.js",
