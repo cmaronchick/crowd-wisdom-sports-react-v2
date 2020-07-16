@@ -10,10 +10,12 @@ const apiRouter = require('./api');
 // app.set('view engine', 'ejs');
 //Route setup
 app.use('/api', apiRouter);
-app.get('/', (req, res) => {
-    console.log('req', req.route, req.params)
-    res.send('root route');
-})
+app.use(express.static(path.join(__dirname, 'client/build')));
+
+
+app.get('/*', (req, res) => {
+  res.sendFile(path.join(__dirname, 'client/build', 'index.html'));
+});
 
 //Start server
 app.listen(port, (req, res) => {

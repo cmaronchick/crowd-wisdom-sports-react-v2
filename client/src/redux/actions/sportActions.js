@@ -8,18 +8,19 @@ import {
 import { fetchGameWeekGames, fetchGame } from './gamesActions'
 
 import ky from 'ky/umd'
-const apiHost = ky.create({prefixUrl: process.env.NODE_ENV === 'development' ? 'http://localhost:5000/api/' : 'https://y5f8dr2inb.execute-api.us-west-2.amazonaws.com/dev/'})
+const apiHost = ky.create({prefixUrl: process.env.NODE_ENV === 'development' ? 'http://localhost:5000/api/' : 'https://app.stakehousesports.com/api/'})
 
 const validSeasons = ['pre','reg', 'post']
 const validYears = [2018, 2019, 2020]
 const validSports = ['nfl', 'ncaaf', 'ncaam']
 export const setSport = (sport, year, season, week) => (dispatch) => {
     //validate URL parameters - Sport
-    sport = sport && validSports.indexOf(sport) > -1 ? sport : 'nfl';
+    sport = sport && sport !== '' && validSports.indexOf(sport) > -1 ? sport : 'nfl';
     dispatch({
         type: SET_SPORT,
         payload: sport
     })
+    console.log({sport})
     dispatch(setGameWeek(sport, year, season, week))
 }
 
@@ -41,6 +42,7 @@ export const setGameWeek = (sport, selectedYear, selectedSeason, selectedWeek) =
         if (selectedWeek) {
             gameWeekData.data.week = selectedWeek
         }
+        console.log({sportData: gameWeekData.data})
         dispatch({
             type: SET_GAMEWEEK,
             payload: gameWeekData.data

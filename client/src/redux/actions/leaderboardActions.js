@@ -3,7 +3,7 @@ import { Auth } from '@aws-amplify/auth'
 import ky from 'ky/umd'
 import store from '../store'
 import { LOADING_LEADERBOARDS, SET_LEADERBOARDS, SET_ERRORS, CLEAR_ERRORS } from '../types'
-const apiHost = ky.create({prefixUrl: process.env.NODE_ENV === 'development' ? 'http://localhost:5000/api/' : 'https://y5f8dr2inb.execute-api.us-west-2.amazonaws.com/dev/'})
+const apiHost = ky.create({prefixUrl: process.env.NODE_ENV === 'development' ? 'http://localhost:5000/api/' : 'https://app.stakehousesports.com/api/'})
 
 export const fetchLeaderboards = async (sport, year, season, week) => {
     try {
