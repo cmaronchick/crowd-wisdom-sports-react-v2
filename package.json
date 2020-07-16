@@ -5,13 +5,13 @@
   "main": "server.js",
   "scripts": {
     "test": "jest",
-    "build": "cd client && npm run build",
+    "build": "cd client && yarn build",
     "server:prod": "node ./server.js",
     "clean": "rimraf dist",
     "prod": "cross-env NODE_ENV=production npm-run-all clean build server:prod",
     "start": "node server.js",
     "server": "nodemon server.js",
-    "heroku-postbuild": "NPM_CONFIG_PRODUCTION=false yarn install --prefix client && yarn run build"
+    "heroku-postbuild": "NPM_CONFIG_PRODUCTION=false yarn install && cd client && yarn install && yarn build"
   },
   "repository": {
     "type": "git",
