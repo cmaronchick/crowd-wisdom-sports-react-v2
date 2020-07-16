@@ -11,7 +11,7 @@
     "prod": "cross-env NODE_ENV=production npm-run-all clean build server:prod",
     "start": "node server.js",
     "server": "nodemon server.js",
-    "heroku-postbuild": "NPM_CONFIG_PRODUCTION=false yarn install --prefix client && yarn install && yarn run build"
+    "heroku-postbuild": "NPM_CONFIG_PRODUCTION=false yarn install --prefix client && yarn run build"
   },
   "repository": {
     "type": "git",
