@@ -5,8 +5,13 @@
   "main": "server.js",
   "scripts": {
     "test": "jest",
+    "build": "babel ./client/src ./server --out-dir dist && webpack",
+    "server:prod": "node ./dist/server.js",
+    "clean": "rimraf dist",
+    "prod": "cross-env NODE_ENV=production npm-run-all clean build server:prod",
     "start": "node server.js",
-    "server": "nodemon server.js"
+    "server": "nodemon server.js",
+    "heroku-postbuild": "NPM_CONFIG_PRODUCTION=false yarn install --prefix client && yarn run build --prefix client"
   },
   "repository": {
     "type": "git",
@@ -20,6 +25,7 @@
   "proxy": "http://localhost:5000",
   "homepage": "https://github.com/cmaronchick/crowd-wisdom-sports-react-v2#readme",
   "dependencies": {
+    "@babel/polyfill": "^7.10.4",
     "@craco/craco": "^5.6.4",
     "@fortawesome/fontawesome-svg-core": "^1.2.28",
     "@fortawesome/free-solid-svg-icons": "^5.13.0",
@@ -33,6 +39,9 @@
     "ky-universal": "^0.6.0"
   },
   "devDependencies": {
+    "@babel/cli": "^7.10.5",
+    "@babel/core": "^7.10.5",
+    "@babel/preset-env": "^7.10.4",
     "jest": "^24.9.0"
   }
 }
