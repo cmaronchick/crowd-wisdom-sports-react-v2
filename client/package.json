@@ -11,7 +11,7 @@
     "amazon-cognito-identity-js": "^4.2.3",
     "antd": "^4.2.2",
     "aws-amplify": "^3.0.10",
-    "craco-less": "^1.16.0",
+    "craco-less": "^1.17.0",
     "dayjs": "^1.8.27",
     "history": "^4.10.1",
     "ky": "^0.20.0",
