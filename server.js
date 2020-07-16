@@ -10,11 +10,11 @@ const apiRouter = require('./api');
 // app.set('view engine', 'ejs');
 //Route setup
 app.use('/api', apiRouter);
-app.use(express.static(path.join(__dirname, 'client/build')));
+app.use(express.static('client/build'));
 
 
 app.get('/*', (req, res) => {
-  res.sendFile(path.join(__dirname, 'client/build', 'index.html'));
+  res.sendFile('client/build/index.html');
 });
 
 //Start server
