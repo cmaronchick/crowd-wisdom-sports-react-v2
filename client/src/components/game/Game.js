@@ -11,6 +11,8 @@ import GameOddsChart from './GameOddsChart'
 
 import { Spin } from 'antd'
 import { LoadingOutlined } from '@ant-design/icons'
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faArrowLeft } from '@fortawesome/free-solid-svg-icons';
 
 const antIcon = <LoadingOutlined title="Loading Game" alt="Loading Game" style={{ fontSize: 24 }} spin />;
 
@@ -38,7 +40,8 @@ const Game = (props) => {
               className="home-link link"
               onClick={handleGamesListClick}
               to={`/${sport}/games/${year}/${season}/${gameWeek}`}>
-              <i className="fas fa-arrow-left" style={{fontSize: '1.2em', fontWeight: 'bold' }}></i>
+              {/* <i className="fas fa-arrow-left" style={{fontSize: '1.2em', fontWeight: 'bold' }}></i> */}
+              <FontAwesomeIcon icon={faArrowLeft} />
             </Link>
             <GamePreview
               // onChangeGameScore={this.props.onChangeGameScore}

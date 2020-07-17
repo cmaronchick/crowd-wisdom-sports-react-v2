@@ -64,6 +64,7 @@ export const setGameWeek = (sport, selectedYear, selectedSeason, selectedWeek) =
             dispatch(fetchGame(sport, year, season, week, gameId))
           }
         } else {
+            // console.log('fetching games')
             dispatch(fetchGameWeekGames(sport, year, season, week))
         }
     } catch (getGameWeekError) {

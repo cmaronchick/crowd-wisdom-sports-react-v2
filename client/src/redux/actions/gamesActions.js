@@ -16,6 +16,7 @@ import store from '../store';
 const apiHost = ky.create({prefixUrl: process.env.NODE_ENV === 'development' ? 'http://localhost:5000/api/' : 'https://app.stakehousesports.com/api/'})
 
 export const fetchGameWeekGames = (sport, year, season, gameWeek) => async (dispatch) => {
+
     dispatch({
         type: LOADING_GAMES
     })
@@ -33,6 +34,7 @@ export const fetchGameWeekGames = (sport, year, season, gameWeek) => async (disp
     } catch (getGamesUserSessionError) {
         console.log('getGamesUserSessionError', getGamesUserSessionError)
     }
+
     try {
         let gameWeekGames = await apiHost.get(`${sport}/games/${year}/${season}/${gameWeek}`, getOptions).json()
         dispatch({
@@ -58,6 +60,7 @@ export const fetchGameWeekGames = (sport, year, season, gameWeek) => async (disp
 
   export const setGamePredictions = (games) => (dispatch) => {
       let gamePredictions = {}
+      console.log('games', games)
       Object.keys(games).forEach(gameId => {
         let prediction = games[gameId].prediction
         if (prediction) {

@@ -1,14 +1,15 @@
-import React from 'react';
+import React, { Fragment } from 'react';
 import Week from './Week';
 import './Weeks.less'
 
 import { Link } from 'react-router-dom'
-import { List, Button } from 'antd'
+import { List, Button, Row, Col } from 'antd'
 
 import { connect } from 'react-redux'
 
 import { fetchGameWeekGames } from '../../redux/actions/gamesActions'
 import { changeGameWeek } from '../../redux/actions/sportActions'
+
 
 const Weeks = (props) => {
   const { sport, onGameWeekClick, page } = props
@@ -23,6 +24,7 @@ const Weeks = (props) => {
     <List
     className="weeks"
     itemLayout="horizontal"
+    header="Weeks"
     grid={{column: weeks.length}}
       dataSource={weeks}
       renderItem={(item, index) => {

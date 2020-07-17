@@ -3,6 +3,11 @@
     box-shadow: 0 4px 6px 0 rgba(0, 0, 0, 0.2);
     margin: 10px;
 }
+@media (max-width: 767px) {
+    .GamePreview {
+        margin: 0 6px;
+    }
+}
 .game-header {
     background-color: #231f20;
 }
@@ -25,6 +30,9 @@ h4.game-header {
     .noPrediction {
         text-align: center;
     }
+}
+.predictionScoreBox {
+    font-weight: 700;
 }
 
 .crowdRow {
@@ -64,6 +72,22 @@ h4.game-header {
     align-items: center;
     justify-content: center;
 }
+.stakesRow {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-evenly;
+    align-items: center;
+}
+.stakesCol {
+    min-height: 40px;
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: center;
+}
+.stakesLabel {
+    padding-right: 6px;
+}
 
 .stakeIcon {
     height: 30px;
@@ -72,11 +96,24 @@ h4.game-header {
 }
 .stakeUnselected {
     opacity: 0.5;
+    height: 30px;
+    margin: 0;
 }
 .stakeSelected {
     border: #000 solid 1px;
     border-radius: 5px;
     box-shadow: 0 4px 6px 0 rgba(0, 0, 0, 0.2);
+    margin: 0 2px;
+}
+.stakeCorrect {
+    border: #124734 solid 3px;
+}
+.stakeIncorrect {
+    border: #e01407 solid 2px;
+}
+.team {
+    min-width: 45px;
+    text-overflow: ellipsis;
 }
 
 .triangle-top-right {

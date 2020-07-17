@@ -37,7 +37,7 @@ const GamePreview = (props) => {
   const showQuarters = game.season === "post" && game.gameWeek === 4 ? true : false
   const gameCannotBeUpdated = checkGameStart(game.startDateTime)
   const { season, gameWeek } = game
-  const showPrediction = predictions && predictions.length > 0
+  const showPrediction = predictions && predictions.length > 0 || game.results
 
   const handleClick = () => {
     props.onClick(game.sport, game.year, game.season, game.gameWeek, game.gameId);
@@ -139,7 +139,7 @@ const GamePreview = (props) => {
     props.handleSubmitPrediction(props.game.gameId, prediction)
   }
       return (
-      <Card title={<GamePreviewHeader game={game} onClick={handleClick} />} className="link GamePreview">
+      <Card bodyStyle={{ padding: window.innerWidth < 768 ? 12 : 24 }} title={<GamePreviewHeader game={game} onClick={handleClick} />} className="link GamePreview">
         <Row className="game-details">
           <Col span={24}>
             <GamePreviewHeaderRow game={game} showPrediction={showPrediction}/>
@@ -166,10 +166,6 @@ const GamePreview = (props) => {
             showPrediction={showPrediction}
             game={game}
             prediction={prediction}
-            // override game.prediction with temporary gamePrediction
-            // onChangeGameScore={onChangeGameScore}
-            // onChangeStarSpread={onChangeStarSpread}
-            // onChangeStarTotal={onChangeStarTotal}
             handleOddsChangeModalShow={handleOddsChangeModalShow}
             handleOddsChangeModalHide={handleOddsChangeModalHide}
             // oddsChangeModalShow={oddsChangeModalShow}

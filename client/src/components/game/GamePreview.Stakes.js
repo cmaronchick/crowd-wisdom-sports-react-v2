@@ -4,6 +4,8 @@ import StarRatingComponent from 'react-star-rating-component'
 import StakeImage from '../../images/stake-image-dual-ring.png'
 import { Row, Col, Typography } from 'antd'
 import { changeStakesValue } from '../../redux/actions/predictionsActions'
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
+import { faMinusCircle } from '@fortawesome/free-solid-svg-icons'
 
 const StakeIcon = ({className}) => {
     return (
@@ -22,14 +24,19 @@ export const GamePreviewStakes = (props) => {
         props.changeStakesValue(game.gameId, stakeType, value)
     }
     return (prediction && prediction.awayTeam.score && prediction.homeTeam.score) ? (
-        <Row style={{display: 'flex', flexDirection: 'rew', justifyContent: 'space-evenly'}}>
-            <Col span={window.innerWidth > 500 ? 12 : 24} className='stakes'>
-            <div>Spread: </div>
+        <Row className="stakesRow">
+            <Col span={window.innerWidth > 500 ? 12 : 24} className='stakesCol'>
+            {window.innerWidth < 768 ? (
+                <span className="stakesLabel">ATS:</span>
+            ) : (
+                <span className="stakesLabel">Spread: </span>
+            )}
             {!results ? (
                 <span>
                 <input className="dv-star-rating-input" type="radio" name="starsSpread" id="starsSpread_0" value="0" style={{display: 'none', position: 'absolute', marginLeft: -9999}}></input>
                 <label className="dv-star-rating-star dv-star-rating-empty-star dv-star-rating-null" htmlFor="starsSpread_0" >
-                    <i className="fa fa-minus-circle" aria-hidden="true" onClick={() => handleOnChangeStakes('spread', 0)}></i>
+                    {/* <i className="fa fa-minus-circle" aria-hidden="true" onClick={() => handleOnChangeStakes('spread', 0)}></i> */}
+                    <FontAwesomeIcon icon={faMinusCircle} onClick={() => handleOnChangeStakes('spread', 0)} />
                 </label>
                 </span>
             ) : null}
@@ -38,8 +45,7 @@ export const GamePreviewStakes = (props) => {
                 className="starRatingComponent"
                 editing={!results}
                 renderStarIcon={(index) => {
-                    console.log('spread index', index, prediction.stars ? prediction.stars.spread : null)
-                    return (<StakeIcon className={prediction.stars && prediction.stars.spread >= index ? "stakeSelected" : "stakeUnselected"} />)
+                    return (<StakeIcon className={`${prediction.stars && prediction.stars.spread < index ? 'stakeUnselected' : `stakeSelected ${results ? ((prediction && prediction.results && prediction.results.spread.correct === 1) ? 'stakeCorrect' : 'stakeIncorrect') : ''}`}`} />)
                 }}
                 value={(prediction && prediction.stars) ? prediction.stars.spread : 0}
                 starCount={3}
@@ -49,12 +55,17 @@ export const GamePreviewStakes = (props) => {
                 />
             </Col>
             <Col span={window.innerWidth > 500 ? 12 : 24} className='stakes'>
-            Total: 
+            {window.innerWidth < 768 ? (
+                <span className="stakesLabel">O/U:</span>
+            ) : (
+                <span className="stakesLabel">Total:</span>
+            )} 
             {!results ? (
                 <span>
                 <input className="dv-star-rating-input" type="radio" name="starsSpread" id="starsTotal_0" value="0" style={{display: 'none', position: 'absolute', marginLeft: -9999}}></input>
                 <label className="dv-star-rating-star dv-star-rating-empty-star dv-star-rating-null" htmlFor="starsTotal_0" >
-                    <i className="fa fa-minus-circle" aria-hidden="true" onClick={() => handleOnChangeStakes('total', 0)}></i>
+                    {/* <i className="fa fa-minus-circle" aria-hidden="true" onClick={() => handleOnChangeStakes('total', 0)}></i> */}
+                    <FontAwesomeIcon icon={faMinusCircle} onClick={() => handleOnChangeStakes('total', 0)} />
                 </label>
                 </span>
             ) : null}
@@ -62,8 +73,7 @@ export const GamePreviewStakes = (props) => {
                 name='total'
                 editing={!results}
                 renderStarIcon={(index) => {
-                    console.log('total index', index,)
-                    return (<StakeIcon className={prediction.stars && prediction.stars.total >= index ? "stakeSelected" : "stakeUnselected"} />)
+                    return (<StakeIcon className={`${prediction.stars && prediction.stars.total >= index ? `stakeSelected ${results ? ((prediction && prediction.results && prediction.results.total.correct === 1) ? 'stakeCorrect' : 'stakeIncorrect') : ''}` : "stakeUnselected"}`} />)
                 }}
                 value={(prediction && prediction.stars) ? prediction.stars.total : 0}
                 starCount={3}

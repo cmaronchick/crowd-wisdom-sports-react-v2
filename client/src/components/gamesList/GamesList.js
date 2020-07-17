@@ -51,6 +51,7 @@ const GamesList = (props) => {
             // such as comparing my prediction to another users
 
             return <GamePreview
+            user={props.user}
             key={gameId}
             onClick={props.fetchGame}
             handleChangeGameScore={props.changeGameScore}
@@ -77,9 +78,15 @@ GamesList.propTypes = {
   predictions: PropTypes.object.isRequired,
   loadingGames: PropTypes.bool.isRequired,
   sport: PropTypes.object.isRequired,
-  fetchGame: PropTypes.func,
-  fetchGameWeekGames: PropTypes.func
+  fetchGame: PropTypes.func.isRequired,
+  fetchGameWeekGames: PropTypes.func.isRequired,
+  user: PropTypes.object.isRequired
 };
+
+const mapStateToProps = (state) => ({
+  user: state.user
+
+})
 
 const mapActionsToProps = {
   fetchGame,
@@ -88,4 +95,4 @@ const mapActionsToProps = {
   submitPrediction
 }
 
-export default connect(null, mapActionsToProps)(GamesList);
+export default connect(mapStateToProps, mapActionsToProps)(GamesList);

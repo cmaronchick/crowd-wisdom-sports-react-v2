@@ -37,6 +37,7 @@ const GamePreviewPrediction = (props) => {
 
     const gameCannotBeUpdated = checkGameStart(game.startDateTime)
     if (!prediction && results) {
+      
       return (<Row className="predictionRow noPrediction"><Col span={24}>No prediction submitted</Col></Row>)
     }
     if (prediction.type === 'user') {
@@ -164,7 +165,7 @@ const GamePreviewPrediction = (props) => {
         ) : null}
         {prediction.awayTeam && prediction.homeTeam && prediction.type !== 'crowd' && (<GamePreviewStakes game={game} prediction={prediction} />)}
 
-        {prediction && prediction.odds && ((game.odds.spread !== game.prediction.odds.spread) || (game.odds.total !== game.prediction.odds.total)) ? (
+        {prediction && prediction.odds && ((game.odds.spread !== prediction.odds.spread) || (game.odds.total !== prediction.odds.total)) ? (
           !game.results ? (
             <Row className="oddsChangeAlert alertText" onClick={() => handleOddsChangeModalShow()}>
               <Col span={24}>

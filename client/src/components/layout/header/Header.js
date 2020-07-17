@@ -6,7 +6,7 @@ import PropTypes from 'prop-types'
 import { connect } from 'react-redux'
 import { logout } from '../../../redux/actions/userActions'
 
-import logo from '../../../images/stake-image-brown.svg'
+import logo from '../../../images/stake-image-gold-dual-ring.svg'
 import LoginButton from '../../profile/LoginButton'
 import { Layout, Typography, Button, Dropdown, Menu } from 'antd'
 import { Link } from 'react-router-dom'
@@ -36,7 +36,15 @@ const StakehouseHeader = ({ message,user, logout }) => {
   return (
     <Header className="header">
       <img src={logo} alt="Stakehouse Sports" className="headerImage" />
-      Stakehouse Sports
+      {window.innerWidth < 768 ? (
+        <span className="headerText">
+          SHS
+        </span>
+      ) : (
+        <span className="headerText">
+          Stakehouse Sports
+        </span>
+      )}
       {message && (
         <Text type="warning">{message}</Text>
       )}
