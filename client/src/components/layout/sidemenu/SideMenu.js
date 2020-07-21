@@ -53,7 +53,7 @@ const SideMenu = (props) => {
                 <Menu.Item key="2" icon={<Icon component={() => <FontAwesomeIcon icon={faTrophy} />} />}><NavLink activeClassName="activeNavLink" to="/nfl/leaderboards">Leaderboards</NavLink></Menu.Item>
                 <Menu.Item key="3" icon={<Icon component={() => <FontAwesomeIcon icon={faUserFriends} />} />}><NavLink activeClassName="activeNavLink" to="/nfl/groups">Groups</NavLink></Menu.Item>
             </SubMenu>
-            <SubMenu key="ncaaf" title="NCAAF" icon={<Icon component={() => faIcon('ncaaf')} />}>
+            {/* <SubMenu key="ncaaf" title="NCAAF" icon={<Icon component={() => faIcon('ncaaf')} />}>
                 <Menu.Item key="1" icon={<Icon component={() => <FontAwesomeIcon icon={faFootballBall} />} />}><NavLink activeClassName="activeNavLink" to="/ncaaf/games">Games</NavLink></Menu.Item>
                 <Menu.Item key="2" icon={<Icon component={() => <FontAwesomeIcon icon={faTrophy} />} />}><NavLink activeClassName="activeNavLink" to="/ncaaf/leaderboards">Leaderboards</NavLink></Menu.Item>
                 <Menu.Item key="3" icon={<Icon component={() => <FontAwesomeIcon icon={faUserFriends} />} />}><NavLink activeClassName="activeNavLink" to="/ncaaf/groups">Groups</NavLink></Menu.Item>
@@ -62,7 +62,7 @@ const SideMenu = (props) => {
                 <Menu.Item key="1" icon={<Icon component={() => <FontAwesomeIcon icon={faFootballBall} />} />}><NavLink activeClassName="activeNavLink" to="/ncaam/games">Games</NavLink></Menu.Item>
                 <Menu.Item key="2" icon={<Icon component={() => <FontAwesomeIcon icon={faTrophy} />} />}><NavLink activeClassName="activeNavLink" to="/ncaam/leaderboards">Leaderboards</NavLink></Menu.Item>
                 <Menu.Item key="3" icon={<Icon component={() => <FontAwesomeIcon icon={faUserFriends} />} />}><NavLink activeClassName="activeNavLink" to="/ncaam/groups">Groups</NavLink></Menu.Item>
-            </SubMenu>
+            </SubMenu> */}
             {user.authenticated && (
             <Item icon={<UserOutlined />}>
                     <Link to="/profile"> Profile</Link>

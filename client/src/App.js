@@ -1,5 +1,9 @@
 import React, { Component } from 'react';
 import {Auth} from '@aws-amplify/auth'
+
+import ReactGA from 'react-ga'
+import { config as analytics } from './constants/analytics'
+
 import { Router, Switch, Route } from 'react-router-dom'
 import { createBrowserHistory } from 'history'
 import { Layout } from 'antd';
@@ -29,11 +33,19 @@ import { fetchLeaderboards } from './redux/actions/leaderboardActions'
 
 import { getFacebookUser } from './redux/actions/userActions'
 
+ReactGA.initialize(analytics)
 
 
 const customHistory = createBrowserHistory();
 const { Footer, Content } = Layout;
 var stateKey = 'amplify_auth_state';
+
+
+const history = createBrowserHistory()
+history.listen(location => {
+    ReactGA.set({ page: location.pathname })
+    ReactGA.pageview(location.pathname)
+})
 
 class App extends Component {
   constructor(props) {
@@ -46,6 +58,7 @@ class App extends Component {
       year: 2019
     }
   }
+
   
 
   handleAmplifyCallback = async (location) => {
