@@ -33,7 +33,7 @@ import { fetchLeaderboards } from './redux/actions/leaderboardActions'
 
 import { getFacebookUser } from './redux/actions/userActions'
 
-ReactGA.initialize(analytics)
+ReactGA.initialize(analytics.trackingId)
 
 
 const customHistory = createBrowserHistory();
