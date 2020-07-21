@@ -33,9 +33,8 @@ import { fetchLeaderboards } from './redux/actions/leaderboardActions'
 
 import { getFacebookUser } from './redux/actions/userActions'
 
-ReactGA.initialize(analytics.trackingId)
 
-
+console.log('analytics.trackingId', analytics.trackingId);
 const customHistory = createBrowserHistory();
 const { Footer, Content } = Layout;
 var stateKey = 'amplify_auth_state';
@@ -76,6 +75,7 @@ class App extends Component {
   }
 
   async componentDidMount() {
+    ReactGA.initialize(analytics.trackingId)
     store.dispatch({
       type: LOADING_USER
     })
