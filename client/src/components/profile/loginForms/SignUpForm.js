@@ -1,5 +1,6 @@
 import React, { Fragment } from 'react'
 import PropTypes from 'prop-types'
+import { Link } from 'react-router-dom/Link'
 import {Button, Form, Input, Typography } from 'antd'
 import { EditOutlined } from '@ant-design/icons'
 import { isEmail } from '../../../functions/utils'
@@ -75,7 +76,15 @@ const signUp = props => {
                 Receive weekly predictions reminder e-mails.
                 </Text>
                 <Input type="checkbox" name="signUpEmailOptIn" onChange={props.onChangeText} label="Receive weekly predictions reminder e-mails." />
-                </Form.Item>
+            </Form.Item>
+            <Form.Item>
+                <Text style={{marginRight: 10}}>
+                By signing up, I agree to the Terms of Use and Official Rules.
+                </Text>
+                <Input type="checkbox" name="signUpEmailOptIn" onChange={props.onChangeText} label={() => (
+                    <span>Agree to Terms of Use and <Link to="/rules">Official Rules.</Link></span>
+                )} />
+            </Form.Item>
             <Button type="primary"
                 className="loginButton"
                 onClick={handleSignUpClick}

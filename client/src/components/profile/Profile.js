@@ -10,7 +10,7 @@ import LoginButton from './LoginButton'
 //MUI Stuff
 import { Card, Typography, Form, Input, Button, Row, Col} from 'antd'
 import { EditOutlined } from '@ant-design/icons'
-import './Profile.less'
+import ProfileLess from './Profile.less'
 
 const { Title, Text } = Typography
 

@@ -1,0 +1,18 @@
+
+    p {
+        margin: 5px 0;
+    }
+    @media (max-width: 1199px) {
+        .banner {
+            width: 627px;
+            height: 330px;
+
+        }
+    }
+    @media (max-width: 767px) {
+        .banner {
+            width: 418px;
+            height: 220px;
+
+        }
+    }
