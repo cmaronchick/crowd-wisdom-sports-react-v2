@@ -25,7 +25,7 @@ const Weeks = (props) => {
     className="weeks"
     itemLayout="horizontal"
     header="Weeks"
-    grid={{column: weeks.length}}
+    grid={{column: weeks.length, gutter: 4}}
       dataSource={weeks}
       renderItem={(item, index) => {
         return (

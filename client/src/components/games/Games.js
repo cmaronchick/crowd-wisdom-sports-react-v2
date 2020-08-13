@@ -14,7 +14,7 @@ const Games = (props) => {
     return (
         <Fragment>
         <div className="selectorHeader">
-            <SeasonSelector />
+            {/* <SeasonSelector /> */}
             <Weeks onGameWeekClick={props.fetchGameWeekGames} page="games" />
         </div>
         <GamesList
