@@ -1,6 +1,6 @@
 import React, { Fragment } from 'react'
 import PropTypes from 'prop-types'
-import { Link } from 'react-router-dom/Link'
+import { Link } from 'react-router-dom'
 import {Button, Form, Input, Typography } from 'antd'
 import { EditOutlined } from '@ant-design/icons'
 import { isEmail } from '../../../functions/utils'
