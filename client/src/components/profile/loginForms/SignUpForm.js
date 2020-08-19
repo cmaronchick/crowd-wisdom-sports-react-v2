@@ -78,12 +78,13 @@ const signUp = props => {
                 <Input type="checkbox" name="signUpEmailOptIn" onChange={props.onChangeText} label="Receive weekly predictions reminder e-mails." />
             </Form.Item>
             <Form.Item>
-                <Text style={{marginRight: 10}}>
+                {/* <Text style={{marginRight: 10}}>
                 By signing up, I agree to the Terms of Use and Official Rules.
-                </Text>
-                <Input type="checkbox" name="signUpEmailOptIn" onChange={props.onChangeText} label={() => (
-                    <span>Agree to Terms of Use and <Link to="/rules">Official Rules.</Link></span>
-                )} />
+                </Text> */}
+                <label htmlFor="signUpEmailOptIn">
+                    <span>By signing up, I agree to <a href="https://app.termly.io/document/privacy-policy/79832fc4-999b-4a5c-b459-002bb84e862e" target="_blank">Terms of Use</a> and <Link to="/rules.html">Official Rules.</Link></span>
+                </label>
+                <Input type="checkbox" name="signUpEmailOptIn" onChange={props.onChangeText} />
             </Form.Item>
             <Button type="primary"
                 className="loginButton"

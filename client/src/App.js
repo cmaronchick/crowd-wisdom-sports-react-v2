@@ -21,6 +21,7 @@ import Leaderboards from './components/leaderboards/Leaderboards'
 import Groups from './components/groups/Groups'
 import Group from './components/groups/Group'
 import Profile from './components/profile/Profile'
+import Rules from './components/static/Rules'
 
 import { getUrlParameters } from './functions/utils'
 
@@ -131,6 +132,7 @@ class App extends Component {
             {/* <ProfileSnippet /> */}
                 <Switch>
                   <Route path="/profile" component={Profile} />
+                  <Route path="/rules" component={Rules} />
                   <Route path="/:sport/games/:year/:season/:gameWeek/game/:gameId" component={Game} />
                   <Route path="/:sport/leaderboards" component={Leaderboards} />
                   <Route path="/:sport/groups/:year/:season/group/:groupId" component={Group} />

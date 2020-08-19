@@ -35,8 +35,10 @@ const LoginModal = (props) => {
       const { signUpUsername, signUpPassword, signUpEmail,signUpGivenName, signUpFamilyName } = UI
       const formData = new FormData()
       const image = document.getElementById('imageInput').files.length > 0 ? document.getElementById('imageInput').files[0] : null
-      formData.append('picture', image, image.name)
-      console.log('image.type', image.type)
+      if (image) {
+        formData.append('picture', image, image.name)
+        console.log('image.type', image.type)
+      }
       props.signUp(signUpUsername, signUpPassword, {
         email: signUpEmail, 
         given_name: signUpGivenName,
