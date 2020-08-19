@@ -169,7 +169,9 @@ export const signUp = (username, password, attributes, picture) => async (dispat
         type: SIGN_UP_USER
     })
     try {
+        if (picture) {
         console.log('picture, picture.type', picture, picture.type)
+        }
         if (picture && picture.type !== 'image/jpeg' && picture.type !== 'image/png') {
                 return {
                     type: SET_ERRORS,
