@@ -13,11 +13,13 @@ import { checkGameStart } from '../../functions/utils'
 import GamePreviewHeaderRow from './GamePreview.HeaderRow'
 import './Game.less'
 
+import LoginButton from '../profile/LoginButton'
+
 
 const { Title, Paragraph, Text } = Typography
 
 const GamePreview = (props) => {
-  const { game, predictions } = props
+  const { game, predictions, user } = props
   if (!game || !game.gameId) {
     return (
       <div>No game found</div>
@@ -205,7 +207,9 @@ const GamePreview = (props) => {
             ) :  */}
           {(game.crowd && game.crowd.awayTeam) ? (
             <Fragment>
-            {!game.prediction && !game.results ? 
+            {(!user || !user.authenticated) ? (
+              <LoginButton />
+            ) : !game.prediction && !game.results ? 
               (
                 <div className="team">
                   Predict to see the Crowd Wisdom

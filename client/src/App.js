@@ -61,7 +61,6 @@ class App extends Component {
   
 
   handleAmplifyCallback = async (location) => {
-    // firebase.analytics().logEvent('login', { step: 2, name: 'spotifyCallback' })
     store.dispatch({
       type: LOADING_USER
     })
@@ -116,7 +115,7 @@ class App extends Component {
       // }
     }
     if (window.location.pathname === '/callback') {
-      console.log('starting spotify login', window.location)
+      console.log('starting FB login', window.location)
       this.handleAmplifyCallback(window.location)
     }
   }
