@@ -1,0 +1,86 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!-- Created with Inkscape (http://www.inkscape.org/) -->
+
+<svg
+   xmlns:dc="http://purl.org/dc/elements/1.1/"
+   xmlns:cc="http://creativecommons.org/ns#"
+   xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#"
+   xmlns:svg="http://www.w3.org/2000/svg"
+   xmlns="http://www.w3.org/2000/svg"
+   xmlns:sodipodi="http://sodipodi.sourceforge.net/DTD/sodipodi-0.dtd"
+   xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape"
+   width="210mm"
+   height="297mm"
+   viewBox="0 0 210 297"
+   version="1.1"
+   id="svg8"
+   inkscape:version="0.92.2 5c3e80d, 2017-08-06"
+   sodipodi:docname="captain-america.svg">
+  <defs
+     id="defs2" />
+  <sodipodi:namedview
+     id="base"
+     pagecolor="#ffffff"
+     bordercolor="#666666"
+     borderopacity="1.0"
+     inkscape:pageopacity="0.0"
+     inkscape:pageshadow="2"
+     inkscape:zoom="1"
+     inkscape:cx="-786.796"
+     inkscape:cy="1079.561"
+     inkscape:document-units="mm"
+     inkscape:current-layer="layer1"
+     showgrid="false"
+     showborder="false"
+     inkscape:window-width="1440"
+     inkscape:window-height="800"
+     inkscape:window-x="0"
+     inkscape:window-y="1"
+     inkscape:window-maximized="1" />
+  <metadata
+     id="metadata5">
+    <rdf:RDF>
+      <cc:Work
+         rdf:about="">
+        <dc:format>image/svg+xml</dc:format>
+        <dc:type
+           rdf:resource="http://purl.org/dc/dcmitype/StillImage" />
+        <dc:title />
+      </cc:Work>
+    </rdf:RDF>
+  </metadata>
+  <g
+     inkscape:label="Layer 1"
+     inkscape:groupmode="layer"
+     id="layer1">
+    <path
+       style="color:#000000;font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:medium;line-height:normal;font-family:sans-serif;font-variant-ligatures:normal;font-variant-position:normal;font-variant-caps:normal;font-variant-numeric:normal;font-variant-alternates:normal;font-feature-settings:normal;text-indent:0;text-align:start;text-decoration:none;text-decoration-line:none;text-decoration-style:solid;text-decoration-color:#000000;letter-spacing:normal;word-spacing:normal;text-transform:none;writing-mode:lr-tb;direction:ltr;text-orientation:mixed;dominant-baseline:auto;baseline-shift:baseline;text-anchor:start;white-space:normal;shape-padding:0;clip-rule:nonzero;display:inline;overflow:visible;visibility:visible;opacity:1;isolation:auto;mix-blend-mode:normal;color-interpolation:sRGB;color-interpolation-filters:linearRGB;solid-color:#000000;solid-opacity:1;vector-effect:none;fill:#124734;fill-opacity:1;fill-rule:nonzero;stroke:none;stroke-width:34.7559013;stroke-linecap:butt;stroke-linejoin:miter;stroke-miterlimit:4;stroke-dasharray:none;stroke-dashoffset:0;stroke-opacity:1;color-rendering:auto;image-rendering:auto;shape-rendering:auto;text-rendering:auto;enable-background:accumulate"
+       d="M -677.9961 -123.9785 C -684.8125 -123.9785 -691.5147 -123.4836 -698.0801 -122.5508 L -698.0801 -69.72656 L -678 -79.55859 L -657.918 -69.72656 L -657.918 -122.5527 C -664.4815 -123.485 -671.182 -123.9785 -677.9961 -123.9785 z M -703.875 -121.6094 C -766.7534 -109.9957 -815.3778 -56.88161 -820.1133 8.097656 L -657.498 -35.47461 L -657.498 -14.47461 L -657.498 40.52539 L -638.0859 -19.67578 L -549.6895 -43.36133 C -569.1701 -83.52785 -606.9693 -113.2708 -652.123 -121.6094 L -652.123 -106.6777 C -616.2444 -99.29345 -585.8473 -76.85697 -567.8145 -46.27148 L -573.2168 -44.82422 C -590.3791 -73.15895 -618.7098 -93.9648 -652.123 -101.1465 L -652.123 -86.11523 C -625.4034 -79.58047 -602.6729 -63.13409 -587.9902 -40.86523 L -594.3145 -39.17188 C -607.897 -58.88484 -628.265 -73.52566 -652.123 -79.74414 L -652.123 -60.44141 L -678.002 -73.10938 L -703.875 -60.44141 L -703.875 -79.74219 C -737.8007 -70.89812 -764.6926 -45.04781 -775.0039 -11.75586 L -781.9746 -9.886719 C -771.7926 -47.50633 -741.8628 -76.82364 -703.875 -86.11523 L -703.875 -101.1445 C -751.3244 -90.94439 -788.5344 -53.27783 -798.0488 -5.580078 L -803.8379 -4.029297 C -794.6801 -55.41208 -754.7904 -96.19709 -703.875 -106.6777 L -703.875 -121.6094 z M -657.498 40.52539 L -806.3086 80.40039 C -786.8287 120.568 -749.0291 150.3126 -703.875 158.6523 L -703.875 143.7227 C -739.7566 136.3367 -770.1565 113.8962 -788.1895 83.30664 L -782.7871 81.85742 C -765.6246 110.1982 -737.2916 131.011 -703.875 138.1953 L -703.875 123.1582 C -730.5985 116.622 -753.3307 100.1717 -768.0137 77.89844 L -761.6895 76.20508 C -748.1063 95.92184 -727.7363 110.565 -703.875 116.7852 L -703.875 97.48633 L -678.002 110.1543 L -652.123 97.48633 L -652.123 116.7871 C -618.1929 107.9436 -591.3001 82.08746 -580.9922 48.78906 L -574.0195 46.91992 C -584.1979 84.54557 -614.131 113.8668 -652.123 123.1582 L -652.123 138.1973 C -604.6695 127.9968 -567.46 90.32001 -557.9492 42.61523 L -552.1602 41.0625 C -561.3135 92.45186 -601.2032 133.2427 -652.123 143.7227 L -652.123 158.6523 C -589.2416 147.0403 -540.6137 93.92302 -535.8809 28.93945 L -698.498 72.51172 L -657.498 40.52539 z M -677.9629 -111.1914 L -675.1309 -102.1152 L -665.627 -102.1504 L -673.3809 -96.6543 L -670.4102 -87.625 L -678.0352 -93.30273 L -685.7051 -87.6875 L -682.6621 -96.69141 L -690.3711 -102.252 L -680.8672 -102.1387 L -677.9629 -111.1914 z M -698.0801 106.7715 L -698.0801 159.5938 C -691.5147 160.5265 -684.8125 161.0215 -677.9961 161.0215 C -671.182 161.0215 -664.4815 160.5279 -657.918 159.5957 L -657.918 106.7715 L -678 116.6016 L -698.0801 106.7715 z M -670.4102 124.668 L -673.3809 133.6973 L -665.627 139.1934 L -675.1309 139.1602 L -677.9629 148.2344 L -680.8672 139.1836 L -690.3711 139.2949 L -682.6621 133.7363 L -685.7051 124.7305 L -678.0352 130.3477 L -670.4102 124.668 z "
+       transform="scale(0.2645833)"
+       id="path834" />
+    <text
+       xml:space="preserve"
+       style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:19.9073448px;line-height:1.25;font-family:'League Gothic';-inkscape-font-specification:'League Gothic, Normal';font-variant-ligatures:normal;font-variant-caps:normal;font-variant-numeric:normal;font-feature-settings:normal;text-align:start;letter-spacing:0px;word-spacing:0px;writing-mode:lr-tb;text-anchor:start;fill:#124734;fill-opacity:1;stroke:none;stroke-width:0.4976852"
+       x="-244.6915"
+       y="-38.62104"
+       id="text1015"
+       transform="skewY(-15)"><tspan
+         sodipodi:role="line"
+         id="tspan1013"
+         x="-244.6915"
+         y="-38.62104"
+         style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:19.9073448px;font-family:'League Gothic';-inkscape-font-specification:'League Gothic, Normal';font-variant-ligatures:normal;font-variant-caps:normal;font-variant-numeric:normal;font-feature-settings:normal;text-align:start;writing-mode:lr-tb;text-anchor:start;fill:#124734;fill-opacity:1;stroke-width:0.4976852">STAKEHOUSE</tspan></text>
+    <text
+       xml:space="preserve"
+       style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:19.9073448px;line-height:1.25;font-family:'League Gothic';-inkscape-font-specification:'League Gothic, Normal';font-variant-ligatures:normal;font-variant-caps:normal;font-variant-numeric:normal;font-feature-settings:normal;text-align:start;letter-spacing:0px;word-spacing:0px;writing-mode:lr-tb;text-anchor:start;fill:#124734;fill-opacity:1;stroke:none;stroke-width:0.4976852"
+       x="-169.0246"
+       y="-33.2908"
+       id="text1019"
+       transform="skewY(-15)"><tspan
+         sodipodi:role="line"
+         id="tspan1017"
+         x="-169.0246"
+         y="-33.2908"
+         style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:19.9073448px;font-family:'League Gothic';-inkscape-font-specification:'League Gothic, Normal';font-variant-ligatures:normal;font-variant-caps:normal;font-variant-numeric:normal;font-feature-settings:normal;text-align:start;writing-mode:lr-tb;text-anchor:start;fill:#124734;fill-opacity:1;stroke-width:0.4976852">SPORTS</tspan></text>
+  </g>
+</svg>

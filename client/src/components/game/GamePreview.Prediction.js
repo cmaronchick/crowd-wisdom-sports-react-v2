@@ -181,7 +181,7 @@ const GamePreviewPrediction = (props) => {
                 <Text warning>Alert - Odds have changed</Text>
                 </Col>
             </Row>
-          ) : (
+          ) : game.odds && (
             <Row className="oddsChangeAlert">
               <Col span={24}>
               Final Game Odds:<br/>
@@ -191,7 +191,7 @@ const GamePreviewPrediction = (props) => {
           )
         ) : null}
 
-        {prediction && prediction.odds && ((game.odds.spread !== game.prediction.spread) || (game.odds.total !== game.prediction.total)) ? (
+        {prediction && prediction.odds && game.odds && ((game.odds.spread !== game.prediction.spread) || (game.odds.total !== game.prediction.total)) ? (
           <OddsChangeModal oddsChangeModalShow={oddsChangeModalShow} handleOddsChangeModalShow={handleOddsChangeModalShow} handleOddsChangeModalHide={handleOddsChangeModalHide} game={game} prediction={prediction} />
         ) : null}
         </Col>
