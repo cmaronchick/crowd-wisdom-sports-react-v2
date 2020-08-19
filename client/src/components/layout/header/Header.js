@@ -35,7 +35,9 @@ const StakehouseHeader = ({ message,user, logout }) => {
 
   return (
     <Header className="header">
-      <img src={logo} alt="Stakehouse Sports" className="headerImage" />
+      <Link to="/">
+        <img src={logo} alt="Stakehouse Sports" className="headerImage" />
+      </Link>
       {window.innerWidth < 768 ? (
         <span className="headerText">
           SHS

@@ -6,7 +6,7 @@ import { connect } from 'react-redux';
 import { generateRandomString } from '../../functions/utils'
 
 import { login, signUp, confirmUser, resendConfirmation, forgotPassword, resetPassword } from '../../redux/actions/userActions'
-import { toggleLoginModal, onChangeText } from '../../redux/actions/uiActions'
+import { toggleLoginModal, onChangeText, onChangeCheckbox } from '../../redux/actions/uiActions'
 import { isEmail, handleEditPicture, handleImageChange } from '../../functions/utils'
 import store from '../../redux/store'
 import { SET_ERRORS, SET_FORGOT_PASSWORD, SET_UNAUTHENTICATED } from '../../redux/types';
@@ -32,7 +32,7 @@ const LoginModal = (props) => {
 
 
     const handleSignUpClick = (event) => {
-      const { signUpUsername, signUpPassword, signUpEmail,signUpGivenName, signUpFamilyName } = UI
+      const { signUpUsername, signUpPassword, signUpEmail,signUpGivenName, signUpFamilyName,signUpPredictionReminder } = UI
       const formData = new FormData()
       const image = document.getElementById('imageInput').files.length > 0 ? document.getElementById('imageInput').files[0] : null
       if (image) {
@@ -42,7 +42,8 @@ const LoginModal = (props) => {
       props.signUp(signUpUsername, signUpPassword, {
         email: signUpEmail, 
         given_name: signUpGivenName,
-        family_name: signUpFamilyName
+        family_name: signUpFamilyName,
+        ['custom:notifyPredictRemind']: signUpPredictionReminder
       }, image)
 
     }
@@ -136,6 +137,7 @@ const LoginModal = (props) => {
               handleFBClick={handleFBClick}
               handleSignUpClick={handleSignUpClick}
               onChangeText={props.onChangeText}
+              onChangeCheckbox={props.onChangeCheckbox}
               signingUp={signingUp}
               UI={UI}
               
@@ -208,6 +210,7 @@ const mapStateToProps = (state) => ({
 const mapActionsToProps = {
   toggleLoginModal,
   onChangeText,
+  onChangeCheckbox,
   login,
   signUp,
   confirmUser,

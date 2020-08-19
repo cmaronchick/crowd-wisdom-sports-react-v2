@@ -1,7 +1,7 @@
 import React, { Fragment } from 'react'
 import PropTypes from 'prop-types'
 import { Link } from 'react-router-dom'
-import {Button, Form, Input, Typography } from 'antd'
+import {Button, Form, Input, Typography, Tooltip } from 'antd'
 import { EditOutlined } from '@ant-design/icons'
 import { isEmail } from '../../../functions/utils'
 
@@ -75,16 +75,16 @@ const signUp = props => {
                 <Text style={{marginRight: 10}}>
                 Receive weekly predictions reminder e-mails.
                 </Text>
-                <Input type="checkbox" name="signUpEmailOptIn" onChange={props.onChangeText} label="Receive weekly predictions reminder e-mails." />
+                <Input type="checkbox" name="signUpPredictionReminder" onChange={props.onChangeCheckbox} label="Receive weekly predictions reminder e-mails." />
             </Form.Item>
             <Form.Item>
                 {/* <Text style={{marginRight: 10}}>
                 By signing up, I agree to the Terms of Use and Official Rules.
                 </Text> */}
-                <label htmlFor="signUpEmailOptIn">
+                <label htmlFor="acceptRulesandTOU">
                     <span>By signing up, I agree to <a href="https://app.termly.io/document/privacy-policy/79832fc4-999b-4a5c-b459-002bb84e862e" target="_blank">Terms of Use</a> and <Link to="/rules.html">Official Rules.</Link></span>
                 </label>
-                <Input type="checkbox" name="signUpEmailOptIn" onChange={props.onChangeText} />
+                <Input type="checkbox" name="acceptRulesandTOU" onChange={props.onChangeCheckbox} />
             </Form.Item>
             <Button type="primary"
                 className="loginButton"
@@ -95,10 +95,18 @@ const signUp = props => {
                 (!UI.signUpUsername || UI.signUpUsername.length < 5) || 
                 (!UI.signUpPassword || UI.signUpPassword.length < 8) || 
                 (!UI.signUpConfirmPassword || UI.signUpConfirmPassword !== UI.signUpPassword) ||
-                (!UI.signUpEmail || !isEmail(UI.signUpEmail))}>
+                (!UI.signUpEmail || !isEmail(UI.signUpEmail)) || UI.acceptRulesandTOU !== true}>
                 Sign Up
             </Button>
-            <Button variant="contained" name="facebookSignUpButton" onClick={handleFBClick} className="btn facebook-button socialButton-customizable loginButton">
+            <Tooltip title="Make sure to accept the rules and Terms of Use.">
+            <Button
+                block={true}
+                disabled={UI.acceptRulesandTOU !== true}
+                danger={UI.acceptRulesandTOU}
+                variant="contained"
+                name="facebookSignUpButton"
+                onClick={handleFBClick}
+                className="btn facebook-button socialButton-customizable loginButton">
                 <span><svg className="social-logo" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 216 216" color="#ffffff">
                     <path fill="#ffffff" d="
                         M204.1 0H11.9C5.3 0 0 5.3 0 11.9v192.2c0 6.6 5.3 11.9 11.9
@@ -109,6 +117,7 @@ const signUp = props => {
                 </svg></span>
                 <span>Continue with Facebook</span>
             </Button>
+            </Tooltip>
         </Form>
     </Fragment>
     )

@@ -185,8 +185,9 @@ export const signUp = (username, password, attributes, picture) => async (dispat
                 email: attributes.email,             // optional
                 given_name: attributes.given_name,
                 family_name: attributes.family_name,
-                preferred_username: username,
-                picture: `https://stakehousesports-userfiles.s3-us-west-2.amazonaws.com/public/${picture ? `${username}-${picture.name}` : `blank-profile-picture.png`}`
+                picture: `https://stakehousesports-userfiles.s3-us-west-2.amazonaws.com/public/${picture ? `${username}-${picture.name}` : `blank-profile-picture.png`}`,
+                ['custom:notifyPredictRemind']: attributes['custom:notifyPredictRemind'] ? '1' : '0',
+                ['custom:acceptRulesandTOU']: '1',
                 // phone_number,      // optional - E.164 number convention
                 // Other custom attributes...
             },
