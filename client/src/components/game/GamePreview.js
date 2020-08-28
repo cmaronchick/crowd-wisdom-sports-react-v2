@@ -225,7 +225,9 @@ const GamePreview = (props) => {
                   predictionType={{type: 'crowd', title: 'Crowd'}} />
                 )}
             </Fragment>
-            ) : (
+            ) : (!user || !user.authenticated) ? (
+              <LoginButton />
+              ) : (
               <Row className="team">
                 <Col span={24}>
                 <Title level={3}>No Crowd Prediction Yet</Title>
