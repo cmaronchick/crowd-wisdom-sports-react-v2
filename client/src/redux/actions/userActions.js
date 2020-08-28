@@ -77,6 +77,7 @@ export const getFacebookUser = (location) => async (dispatch) => {
        }
      )
      let tokenRequestJson = await res.json();
+     console.log('tokenRequestJson', tokenRequestJson)
        let id_token = new CognitoIdToken({ IdToken: tokenRequestJson.id_token });
        let access_token = new CognitoAccessToken({ AccessToken: tokenRequestJson.access_token });
        let refresh_token = new CognitoRefreshToken({ RefreshToken: tokenRequestJson.refresh_token })
