@@ -116,7 +116,7 @@ class App extends Component {
       //   store.dispatch(fetchLeaderboards(sport ? sport : 'nfl', year ? year : 2019, season ? season : 'post', week ? week : 4))
       // }
     }
-    if (window.location.pathname === '/callback') {
+    if (window.location.pathname === '/callback' && window.location.search.indexOf('error') === -1) {
       console.log('starting FB login', window.location)
       this.handleAmplifyCallback(window.location)
     }
