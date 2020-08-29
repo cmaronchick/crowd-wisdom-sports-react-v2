@@ -82,7 +82,7 @@ const signUp = props => {
                 By signing up, I agree to the Terms of Use and Official Rules.
                 </Text> */}
                 <label htmlFor="acceptRulesandTOU">
-                    <span>By signing up, I agree to <a href="https://app.termly.io/document/privacy-policy/79832fc4-999b-4a5c-b459-002bb84e862e" target="_blank">Terms of Use</a> and <Link to="/rules.html">Official Rules.</Link></span>
+                    <span>By signing up, I agree to <a href="https://app.termly.io/document/privacy-policy/79832fc4-999b-4a5c-b459-002bb84e862e" target="_blank">Terms of Use</a> and <Link to="/rules">Official Rules.</Link></span>
                 </label>
                 <Input type="checkbox" name="acceptRulesandTOU" onChange={props.onChangeCheckbox} />
             </Form.Item>

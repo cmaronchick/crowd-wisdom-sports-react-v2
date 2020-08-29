@@ -41,7 +41,7 @@ const Rules = () => {
                         <li>If User #2 wagers 12 stakes (3 stakes on 4 wagers), wins 12 (4 correct), their net will be +12 stakes.</li>
                         <li>User #2 will win the weekly prize based on the net stakes even though they had fewer correct wagers.</li>
                     </ul>
-                    <h3>Weekly Tiebreakers:</h3>
+                    <h3>Weekly Tiebreakers</h3>
                     <p>In the event that two or more users have the same prediction scores, the tiebreakers will be applied in the following order:</p>
                     <ol>
                     <li>The user who predicted more winners correctly</li>
@@ -51,13 +51,13 @@ const Rules = () => {
                     <li>The lower average delta from the user’s predicted totals to the actual totals across all games</li>
                     </ol>
                     <p>If users are still tied after all 5 tiebreakers, the users will split the winnings.</p>
-                    <h3>End-of-Season Tiebreakers:</h3>
+                    <h3>End-of-Season Tiebreakers</h3>
                     <ol>
                     <li>The user who predicted more winners across all games correctly</li>
                     <li>The user who predicted more spread sides across all games correctly.</li>
                     <li>The user who predicted more total sides across all games correctly.</li>
                     </ol>
-                    <h3>Prizes:</h3>
+                    <h3>Prizes</h3>
                     <h4>Weekly</h4>
                     <p>There are two $25 weekly prizes available.</p>
                     <ol>
@@ -72,8 +72,8 @@ const Rules = () => {
             </div>
 
             <div className="row footer">
-                <div className="col-xs-12">
-                    <a href="/" style={{color: '#fff'}}>Stakehouse Sports</a> | <a href="https://app.termly.io/document/privacy-policy/79832fc4-999b-4a5c-b459-002bb84e862e" target="_blank" style={{color:'#fff'}}>Privacy Policy</a>
+                <div className="col-xs-12" className="footer">
+                    <a href="/">Stakehouse Sports</a> | <a href="https://app.termly.io/document/privacy-policy/79832fc4-999b-4a5c-b459-002bb84e862e" target="_blank">Privacy Policy</a>
                 </div> 
             </div>
         </div>

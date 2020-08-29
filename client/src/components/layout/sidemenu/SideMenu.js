@@ -6,7 +6,7 @@ import './SideMenu.less'
 import { Layout, Menu } from 'antd'
 import Icon, { UserOutlined } from '@ant-design/icons'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
-import { faFootballBall, faSchool, faBasketballBall, faTrophy, faUserFriends } from '@fortawesome/free-solid-svg-icons'
+import { faFootballBall, faSchool, faBasketballBall, faTrophy, faUserFriends, faList } from '@fortawesome/free-solid-svg-icons'
 
 import { connect } from 'react-redux'
 import { setSport } from '../../../redux/actions/sportActions'
@@ -63,9 +63,12 @@ const SideMenu = (props) => {
                 <Menu.Item key="2" icon={<Icon component={() => <FontAwesomeIcon icon={faTrophy} />} />}><NavLink activeClassName="activeNavLink" to="/ncaam/leaderboards">Leaderboards</NavLink></Menu.Item>
                 <Menu.Item key="3" icon={<Icon component={() => <FontAwesomeIcon icon={faUserFriends} />} />}><NavLink activeClassName="activeNavLink" to="/ncaam/groups">Groups</NavLink></Menu.Item>
             </SubMenu> */}
+            <Item icon={<Icon component={() => <FontAwesomeIcon icon={faList} />} />}>
+                    <Link to="/rules">Contest Rules</Link>
+            </Item>
             {user.authenticated && (
-            <Item icon={<UserOutlined />}>
-                    <Link to="/profile"> Profile</Link>
+            <Item icon={<faList />}>
+                    <Link to="/profile">Profile</Link>
             </Item>
             )}
         </Menu>
