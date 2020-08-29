@@ -21,7 +21,7 @@ const Rules = () => {
                     If you update your prediction, you will be given the odds at that time.<br/>
                     Your prediction score and stakes return will be evaluated against the odds associated to your prediction.</p>
                     <h3>Scoring</h3>
-                    <p>Each prediction can earn a maximum of 10 points:</p>
+                    <p>Each prediction can earn a maximum of 10 points, and a correct score is determined by the spread at the time that the prediction is made:</p>
                     <ul>
                     <li>Predict the winner correctly: 2 points</li>
                     <li>Predict the spread winner correctly: 2 points</li>
@@ -31,11 +31,11 @@ const Rules = () => {
                     <li>Predict the exact score for the home team: 1 point</li>
                     <li>Predict the exact score for the away team: 1 point</li>
                     </ul>
-                    <p>At the end of each weekend, we tally all of the points and the user(s) with the highest point total earns the weekly purse. The user(s) with the highest point total for all predictions at the end of the postseason (after the final game), earns the end-of-postseason purse.</p>
+                    <p>After the last game of the week is final, we tally all of the points and the user(s) with the highest point total earns the weekly purse. The user(s) with the highest point total for all predictions at the end of the postseason (after the final game), earns the end-of-postseason purse.</p>
                     <h3>Stakes</h3>
                     <p>You can wager up to 3 stakes on any spread or over/under line. You do not have to wager any stakes on a game.</p>
                     <p>If you predict the spread or over/under side correctly, you earn the stakes you wager. If you are incorrect on the line you wagered, you will lose those stakes.</p>
-                    <p>At the end of the week or the season, we will tally the net result for each user, and the winner will be determined by the highest net stakes.</p>
+                    <p>After the last game of the week is final, we will tally the net result for each user, and the winner will be determined by the highest net stakes.</p>
                     <ul>
                         <li>If User #1 wagers 30 stakes (3 stakes on 10 wagers), wins 18 (6 correct) and loses 12 (4 incorrect), their net will be +6 stakes.</li>
                         <li>If User #2 wagers 12 stakes (3 stakes on 4 wagers), wins 12 (4 correct), their net will be +12 stakes.</li>
@@ -64,10 +64,6 @@ const Rules = () => {
                         <li>The user who earns the highest prediction score</li>
                         <li>The user who wins the most stakes</li>
                     </ol>
-                    <ul>
-                    <li>Weekly: Half of the pot will be distributed to the user(s) who had the highest aggregate score (and won the tiebreakers, if necessary).</li>
-                    <li>End-of-Season: The other half of each weekly pot will be set aside for the end-of-season winner, and the accumulated total will be distributed to the user who had the highest aggregate score.</li>
-                    </ul>
                 </div>
             </div>
 

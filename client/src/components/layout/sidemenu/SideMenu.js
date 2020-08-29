@@ -6,7 +6,14 @@ import './SideMenu.less'
 import { Layout, Menu } from 'antd'
 import Icon, { UserOutlined } from '@ant-design/icons'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
-import { faFootballBall, faSchool, faBasketballBall, faTrophy, faUserFriends, faList } from '@fortawesome/free-solid-svg-icons'
+import { faFootballBall,
+    faSchool,
+    faBasketballBall,
+    faTrophy,
+    faUserFriends,
+    faList
+ } from '@fortawesome/free-solid-svg-icons'
+import { faAppStore, faGooglePlay } from '@fortawesome/free-brands-svg-icons'
 
 import { connect } from 'react-redux'
 import { setSport } from '../../../redux/actions/sportActions'
@@ -65,6 +72,12 @@ const SideMenu = (props) => {
             </SubMenu> */}
             <Item icon={<Icon component={() => <FontAwesomeIcon icon={faList} />} />}>
                     <Link to="/rules">Contest Rules</Link>
+            </Item>
+            <Item icon={<Icon component={() => <FontAwesomeIcon icon={faAppStore} />} />}>
+                    <a href="https://apps.apple.com/us/app/stakehouse-sports/id1475324522?ls=1" target="_blank">App Store</a>
+            </Item>
+            <Item icon={<Icon component={() => <FontAwesomeIcon icon={faGooglePlay} />} />}>
+                    <a href="https://play.google.com/store/apps/details?id=com.cwsrn&pcampaignid=MKT-Other-global-all-co-prtnr-py-PartBadge-Mar2515-1" target="_blank" rel="nofollow">Google Play</a>
             </Item>
             {user.authenticated && (
             <Item icon={<faList />}>
