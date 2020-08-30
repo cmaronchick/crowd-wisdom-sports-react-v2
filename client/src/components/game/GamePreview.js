@@ -150,6 +150,7 @@ const GamePreview = (props) => {
               <GamePreviewPrediction
                 showPrediction={showPrediction}
                 game={game}
+                user={user}
                 prediction={userPrediction ? userPrediction : game.prediction ? game.prediction : { type: 'user', name: 'Me'}}
                 handleChangeGameScore={props.handleChangeGameScore}
                 // override game.prediction with temporary gamePrediction
@@ -193,18 +194,6 @@ const GamePreview = (props) => {
                 /> */}
             </Fragment>
           )} 
-          {/* {game.comparePrediction ? 
-            (
-              <GamePreviewPrediction game={game} 
-              prediction={game.comparePrediction}
-              gamePrediction={gamePrediction}
-              predictionType={{type: 'user', title: 'Crowd'}}
-              user={props.compareUser}
-              // onChangeGameScore={this.props.onChangeGameScore}
-              // onChangeStarSpread={this.props.onChangeStarSpread}
-              // onChangeStarTotal={this.props.onChangeStarTotal}
-              />
-            ) :  */}
           {(game.crowd && game.crowd.awayTeam) ? (
             <Fragment>
             {(!user || !user.authenticated) ? (

@@ -14,6 +14,7 @@ import logo from './images/stake-image.svg';
 import './App.less';
 import Header from './components/layout/header/Header'
 import SideMenu from './components/layout/sidemenu/SideMenu'
+import FooterComponent from './components/layout/Footer'
 import LoginModal from './components/profile/LoginModal'
 import Games from './components/games/Games'
 import Game from './components/game/Game'
@@ -144,6 +145,9 @@ class App extends Component {
             </Content>
           </Layout>
         </Content>
+        <Footer>
+          <FooterComponent />
+        </Footer>
         </Layout>
         <LoginModal />
       </div>

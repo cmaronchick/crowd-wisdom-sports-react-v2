@@ -18,7 +18,8 @@ const GamePreviewPrediction = (props) => {
     onChangeStarTotal,
     handleOddsChangeModalShow,
     handleOddsChangeModalHide,
-    oddsChangeModalShow
+    oddsChangeModalShow,
+    user
   } = props
 
     const handleOnChangeGameScore = (event) => {
@@ -68,7 +69,7 @@ const GamePreviewPrediction = (props) => {
                   name="awayTeam"
                   id={`${game.gameId}awayTeam`}>
                     <Input
-                    disabled={gameCannotBeUpdated}
+                    disabled={gameCannotBeUpdated || !user.authenticated}
                     type="number"
                     style={{width: '100%'}}
                     onChange={handleOnChangeGameScore}
@@ -101,7 +102,7 @@ const GamePreviewPrediction = (props) => {
                       id={`${game.gameId}homeTeam`}
                   name="homeTeam">
                     <Input
-                      disabled={gameCannotBeUpdated}
+                      disabled={gameCannotBeUpdated || !user.authenticated}
                       style={{width: '100%'}}
                       type="number"
                       onChange={handleOnChangeGameScore}

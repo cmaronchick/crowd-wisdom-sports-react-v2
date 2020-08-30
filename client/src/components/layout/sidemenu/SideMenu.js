@@ -11,7 +11,8 @@ import { faFootballBall,
     faBasketballBall,
     faTrophy,
     faUserFriends,
-    faList
+    faList,
+    faUser
  } from '@fortawesome/free-solid-svg-icons'
 import { faAppStore, faGooglePlay } from '@fortawesome/free-brands-svg-icons'
 
@@ -70,6 +71,11 @@ const SideMenu = (props) => {
                 <Menu.Item key="2" icon={<Icon component={() => <FontAwesomeIcon icon={faTrophy} />} />}><NavLink activeClassName="activeNavLink" to="/ncaam/leaderboards">Leaderboards</NavLink></Menu.Item>
                 <Menu.Item key="3" icon={<Icon component={() => <FontAwesomeIcon icon={faUserFriends} />} />}><NavLink activeClassName="activeNavLink" to="/ncaam/groups">Groups</NavLink></Menu.Item>
             </SubMenu> */}
+            {user.authenticated && (
+            <Item icon={<Icon component={() => <FontAwesomeIcon icon={faUser} />} />}>
+                    <Link to="/profile">Profile</Link>
+            </Item>
+            )}
             <Item icon={<Icon component={() => <FontAwesomeIcon icon={faList} />} />}>
                     <Link to="/rules">Contest Rules</Link>
             </Item>
@@ -79,11 +85,6 @@ const SideMenu = (props) => {
             <Item icon={<Icon component={() => <FontAwesomeIcon icon={faGooglePlay} />} />}>
                     <a href="https://play.google.com/store/apps/details?id=com.cwsrn&pcampaignid=MKT-Other-global-all-co-prtnr-py-PartBadge-Mar2515-1" target="_blank" rel="nofollow">Google Play</a>
             </Item>
-            {user.authenticated && (
-            <Item icon={<faList />}>
-                    <Link to="/profile">Profile</Link>
-            </Item>
-            )}
         </Menu>
 
         </Sider>
