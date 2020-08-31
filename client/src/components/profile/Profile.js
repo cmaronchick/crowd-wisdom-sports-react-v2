@@ -70,6 +70,14 @@ const Profile = (props) => {
                             </Button>
                     </div>
                     <div className="profileDetails">
+                        {!user.attributes.preferred_username && (
+                        <Form.Item
+                            label="Username"
+                            name="preferred_username"
+                            initialValue={user.username}
+                            >
+                                <Input id="preferred_username" type="text" name="preferred_username" onChange={onChangeText} />
+                        </Form.Item>)}
                     {Object.keys(user.attributes).map(attributeKey => {
                         return attributeNames[attributeKey] ? (
                             <Form.Item key={attributeKey}
@@ -77,7 +85,9 @@ const Profile = (props) => {
                             name={attributeKey}
                             initialValue={user.attributes[attributeKey]}
                             >
-                                <Input id={attributeKey} type="text" name={attributeKey} onChange={onChangeText} />
+                                <Input
+                                    disabled={attributeKey === "preferred_username" && !user.attributes.identities}
+                                 id={attributeKey} type="text" name={attributeKey} onChange={onChangeText} />
                             </Form.Item>
                         ) : null
                     })}

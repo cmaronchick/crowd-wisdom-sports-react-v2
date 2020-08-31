@@ -1,6 +1,6 @@
 import React, { Fragment } from 'react'
 import {Button, Modal, Card, Tabs, Form, Input, Typography, InputNumber } from 'antd'
-import { EditOutlined } from '@ant-design/icons'
+import Icon, { EditOutlined } from '@ant-design/icons'
 import { connect } from 'react-redux';
 
 import { generateRandomString } from '../../functions/utils'
@@ -10,6 +10,9 @@ import { toggleLoginModal, onChangeText, onChangeCheckbox } from '../../redux/ac
 import { isEmail, handleEditPicture, handleImageChange } from '../../functions/utils'
 import store from '../../redux/store'
 import { SET_ERRORS, SET_FORGOT_PASSWORD, SET_UNAUTHENTICATED } from '../../redux/types';
+
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
+import { faApple, faGoogle } from '@fortawesome/free-brands-svg-icons'
 
 import SignUpForm from './loginForms/SignUpForm'
 
@@ -22,12 +25,12 @@ const LoginModal = (props) => {
   const { user, UI } = props
   const { confirmUser, forgotPassword, resetCodeSent, signingIn, signingUp } = user
 
-    const handleFBClick = () => {
+    const handleFBClick = (identityProvider) => {
       let state = generateRandomString(16)
       localStorage['amplify_auth_state'] = state
       localStorage['facebookLoginFromPage'] = window.location.href
       // console.log(`https://crowdsourcedscores.auth.us-west-2.amazoncognito.com/oauth2/authorize?identity_provider=Facebook&redirect_uri=https://app.stakehousesports.com&response_type=CODE&client_id=2n15lhk845sucm0k4fejjqcbev&state=${state}&scope=aws.cognito.signin.user.admin+email+openid+phone+profile`)
-      window.location.href=`https://crowdsourcedscores.auth.us-west-2.amazoncognito.com/oauth2/authorize?identity_provider=Facebook&redirect_uri=${window.location.hostname === 'localhost' ? `http://` : `https://`}${window.location.host}/callback&response_type=CODE&client_id=2n15lhk845sucm0k4fejjqcbev&state=${state}&scope=${encodeURIComponent('aws.cognito.signin.user.admin email phone profile openid')}` //openid &scope=${encodeURIComponent('aws.cognito.signin.user.admin openid email phone profile')}
+      window.location.href=`https://crowdsourcedscores.auth.us-west-2.amazoncognito.com/oauth2/authorize?identity_provider=${identityProvider}&redirect_uri=${window.location.hostname === 'localhost' ? `http://` : `https://`}${window.location.host}/callback&response_type=CODE&client_id=2n15lhk845sucm0k4fejjqcbev&state=${state}&scope=${encodeURIComponent('aws.cognito.signin.user.admin email phone profile openid')}` //openid &scope=${encodeURIComponent('aws.cognito.signin.user.admin openid email phone profile')}
     }
 
 
@@ -114,7 +117,7 @@ const LoginModal = (props) => {
                 disabled={!UI.loginUsername || !UI.loginPassword}>
                   Submit
               </Button>
-              <Button variant="contained" name="facebookSignInButton" onClick={() => handleFBClick()} className="btn facebook-button socialButton-customizable loginButton">
+              <Button variant="contained" name="facebookSignInButton" onClick={() => handleFBClick('Facebook')} className="btn facebook-button socialButton-customizable loginButton">
                 <span><svg className="social-logo" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 216 216" color="#ffffff">
                     <path fill="#ffffff" d="
                         M204.1 0H11.9C5.3 0 0 5.3 0 11.9v192.2c0 6.6 5.3 11.9 11.9
@@ -124,6 +127,10 @@ const LoginModal = (props) => {
                         11.9-11.9V11.9C216 5.3 210.7 0 204.1 0z"></path>
                 </svg></span>
                 <span>Continue with Facebook</span>
+              </Button>
+              <Button variant="contained" name="appleSignInButton" onClick={() => handleFBClick('SignInWithApple')} className="btn loginButton">
+              <Icon component={() => <FontAwesomeIcon icon={faApple} />} />
+                <span>Continue with Apple</span>
               </Button>
               <Button type="danger" color="secondary" onClick={handleForgotPasswordClick} className="forgotPasswordLink">
                 Forgot Password?
