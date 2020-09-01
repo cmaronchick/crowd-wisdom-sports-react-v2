@@ -128,10 +128,16 @@ const LoginModal = (props) => {
                 </svg></span>
                 <span>Continue with Facebook</span>
               </Button>
-              <Button variant="contained" name="appleSignInButton" onClick={() => handleFBClick('SignInWithApple')} className="btn loginButton">
-              <Icon component={() => <FontAwesomeIcon icon={faApple} />} />
-                <span>Continue with Apple</span>
-              </Button>
+              <div className="socialMediaButtons">
+                <Button value="small" variant="contained" name="appleSignInButton" onClick={() => handleFBClick('SignInWithApple')} className="btn loginButton" style={{ color: "#000", borderColor: '#000', fontFamily: 'SF Pro Display,SF Pro Icons,Helvetica Neue,Helvetica,Arial,sans-serif'}}>
+                <Icon component={() => <FontAwesomeIcon icon={faApple} />} />
+                  <span>Continue with Apple</span>
+                </Button>
+                <Button value="small" variant="contained" name="googleSignInButton" onClick={() => handleFBClick('Google')} className="btn loginButton" style={{ color: "#000", borderColor: '#000', fontFamily: 'Roboto, sans-serif'}}>
+                <img style={{width: 32, height: 32}} src="/images/btn_google_light_normal_ios.svg" alt="Continue with Google" />
+                  <span>Continue with Google</span>
+                </Button>
+              </div>
               <Button type="danger" color="secondary" onClick={handleForgotPasswordClick} className="forgotPasswordLink">
                 Forgot Password?
               </Button>

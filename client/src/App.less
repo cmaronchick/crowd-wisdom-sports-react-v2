@@ -66,9 +66,28 @@ body {
       transform: rotate(360deg);
     }
   }
+  .socialMediaButtons {
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    align-items: center
+  }
+  @media(max-width: 500px) {
+    .socialMediaButtons {
+      flex-direction: column;
+      .loginButton {
+        width: 100%;
+      }
+    }
+
+  }
   .loginButton {
     display: flex;
     flex-direction: row;
     justify-content: center;
     align-items: center;
+    border-width: 1px;
+    border-style: solid;
+    border-radius: 10px;
+    margin: 10px 0;
   }
