@@ -192,7 +192,7 @@ const GamePreviewPrediction = (props) => {
           )
         ) : null}
 
-        {prediction && prediction.odds && game.odds && ((game.odds.spread !== game.prediction.spread) || (game.odds.total !== game.prediction.total)) ? (
+        {prediction && prediction.odds && game.odds && ((game.odds.spread !== prediction.spread) || (game.odds.total !== prediction.total)) ? (
           <OddsChangeModal oddsChangeModalShow={oddsChangeModalShow} handleOddsChangeModalShow={handleOddsChangeModalShow} handleOddsChangeModalHide={handleOddsChangeModalHide} game={game} prediction={prediction} />
         ) : null}
         </Col>
