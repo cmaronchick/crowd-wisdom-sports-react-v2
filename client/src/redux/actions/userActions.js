@@ -32,6 +32,7 @@ import { fetchGame, fetchGameWeekGames } from './gamesActions'
 import { setSport, setGameWeek } from './sportActions'
 
 import { apiHost } from '../../constants/config'
+import ReactGA from 'react-ga'
 
 const userPool = new CognitoUserPool({
     
@@ -101,6 +102,7 @@ export const getFacebookUser = (location) => async (dispatch) => {
                 attributes: currentUser.attributes
             }
        })
+       ReactGA.send({ user: 'oauthloginComplete'})
        if (location.href.indexOf('/callback') > -1) {
            const facebookLoginFromPage = localStorage['facebookLoginFromPage']
            if (facebookLoginFromPage && facebookLoginFromPage !== 'null') {
@@ -137,6 +139,8 @@ export const login = (username, password) => async (dispatch) => {
                 attributes: currentUser.attributes
             }
         })
+
+       ReactGA.send({ user: 'loginComplete'})
         if (Object.keys(store.getState().sport.gameWeekData).length > 0) {
             const { sport, year, season, week } = store.getState().sport.gameWeekData
             dispatch(fetchGameWeekGames(sport, year, season, week))
@@ -206,6 +210,8 @@ export const signUp = (username, password, attributes, picture) => async (dispat
                 //     picture: `https://stakehousesports-userfiles.s3-us-west-2.amazonaws.com/public/${filename}`
                 // })
             }
+
+       ReactGA.send({ user: 'signUp'})
             dispatch({
                 type: SET_USER_UNCONFIRMED
             })
@@ -226,6 +232,7 @@ export const confirmUser = (username, code) => async (dispatch) => {
     try {
         let confirmResponse = await Auth.confirmSignUp(username, code)
         console.log('confirmResponse', confirmResponse)
+        ReactGA.send({ user: 'confirmUser'})
         dispatch({
             type: SET_UNAUTHENTICATED
         })
@@ -238,6 +245,7 @@ export const resendConfirmation = (username) => async (dispatch) => {
     try {
         let resendResponse = await Auth.resendSignUp(username)
         console.log('resendResponse', resendResponse)
+        ReactGA.send({ user: 'resendConfirmation'})
     } catch (resendConfirmationError) {
         console.log('resendConfirmationError', resendConfirmationError)
         dispatchEvent({
@@ -256,6 +264,8 @@ export const forgotPassword = (username) => async (dispatch) => {
             type: SET_FORGOT_PASSWORD
         })
         let forgotPasswordResponse = await Auth.forgotPassword(username)
+
+        ReactGA.send({ user: 'forgotPassword'})
         dispatch({
             type: SET_RESET_PASSWORD_SENT
         })
@@ -277,6 +287,7 @@ export const resetPassword = (username, password, code) => async (dispatch) => {
         console.log('resetPasswordResponse', resetPasswordResponse)
         let currentUser = await Auth.currentAuthenticatedUser()
         console.log('currentUser', currentUser)
+        ReactGA.send({ user: 'resetPassword'})
         dispatch({
             type: SET_USER,
             payload: currentUser
@@ -296,6 +307,7 @@ export const resetPassword = (username, password, code) => async (dispatch) => {
 export const logout = () => async (dispatch) => {
     try {
         await Auth.signOut()
+        ReactGA.send({ user: 'logout'})
         dispatch({
             type: SET_UNAUTHENTICATED
         })
@@ -354,6 +366,7 @@ export const updateUserDetails = async (attributes) => {
         let currentUser = await Auth.currentAuthenticatedUser();
         let updateResponse = await Auth.updateUserAttributes(currentUser, attributes);
         console.log('updateResponse', updateResponse)
+        ReactGA.send({ user: 'changeUserDetails'})
         return {
             type: UPDATE_USER,
             payload: {
@@ -436,6 +449,7 @@ export const changePassword = (currentPassword, newPassword) => async (dispatch)
         let currentUser = await Auth.currentAuthenticatedUser()
         let changePasswordResponse = await Auth.changePassword(currentUser, currentPassword, newPassword)
         console.log('changePasswordResponse', changePasswordResponse)
+        ReactGA.send({ user: 'changePassword'})
         dispatch({
             type: UPDATE_USER,
             payload: {
