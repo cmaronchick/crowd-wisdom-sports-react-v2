@@ -233,7 +233,7 @@ const GamePreview = (props) => {
                   type="primary"
                   style={{width: '100%'}} 
                   onClick={handleSubmitPrediction}
-                  disabled={!(userPrediction && userPrediction.awayTeam && userPrediction.homeTeam) || userPrediction.submitting}
+                  disabled={!(userPrediction && userPrediction.awayTeam && parseInt(userPrediction.awayTeam.score) && userPrediction.homeTeam && parseInt(userPrediction.homeTeam.score)) || userPrediction.submitting}
                   loading={userPrediction && userPrediction.submitting}>
                   Predict
                 </Button>

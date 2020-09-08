@@ -26,7 +26,7 @@ export const changeGameScore = (gameId, event) => (dispatch) => {
         payload: {
             gameId,
             name,
-            value: parseInt(value)
+            value: parseInt(value) ? parseInt(value) : ''
         }
     })
 }

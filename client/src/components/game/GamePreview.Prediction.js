@@ -75,7 +75,7 @@ const GamePreviewPrediction = (props) => {
                     onChange={handleOnChangeGameScore}
                     name='awayTeam'
                     id={`${game.gameId}awayTeam_input`}
-                    placeholder={`${(!prediction || (prediction && !prediction.awayTeam)) ? ('##') : null}`}
+                    placeholder={`${(!prediction || (prediction && !prediction.awayTeam) || (prediction && prediction.awayTeam && !prediction.awayTeam.score)) ? ('##') : null}`}
                      />
                   </Form.Item>
                   </Form>
@@ -108,7 +108,7 @@ const GamePreviewPrediction = (props) => {
                       onChange={handleOnChangeGameScore}
                       name='homeTeam'
                       id={`${game.gameId}homeTeam_input`}
-                      placeholder={`${(!prediction || (prediction && !prediction.homeTeam)) ? '##' : null}`}
+                      placeholder={`${(!prediction || (prediction && !prediction.homeTeam) || (prediction && prediction.homeTeam && !prediction.homeTeam.score)) ? '##' : null}`}
                       value={(prediction && prediction.homeTeam && prediction.homeTeam.score !== null) ? prediction.homeTeam.score : ''}
                       />
                   </Form.Item>
