@@ -14,6 +14,7 @@ import GamePreviewHeaderRow from './GamePreview.HeaderRow'
 import './Game.less'
 
 import LoginButton from '../profile/LoginButton'
+import { toggleOddsModal } from '../../redux/actions/uiActions';
 
 
 const { Title, Paragraph, Text } = Typography
@@ -43,6 +44,10 @@ const GamePreview = (props) => {
 
   const handleClick = () => {
     props.onClick(game.sport, game.year, game.season, game.gameWeek, game.gameId);
+  }
+
+  const toggleOddsChangeModal = (game, prediction) => {
+    props.toggleOddsChangeModal(game, prediction)
   }
 
   
@@ -96,21 +101,6 @@ const GamePreview = (props) => {
     this.props.handleOnChangeTextQuarters(team, quarter, event)
   }
   
-  const handleShowQuarters = () => {
-    this.setState({ showQuarters: true})
-  }
-  const handleHideQuarters = () => {
-    this.setState({ showQuarters: false})
-  }
-
-
-  const handleOddsChangeModalShow = () => {
-    this.setState({ oddsChangeModalShow: true})
-  }
-
-  const handleOddsChangeModalHide = () => {
-    this.setState({ oddsChangeModalShow: false })
-  }
 
   const handleSubmitPrediction = (event) => {
     event.preventDefault()
@@ -153,12 +143,11 @@ const GamePreview = (props) => {
                 user={user}
                 prediction={userPrediction ? userPrediction : game.prediction ? game.prediction : { type: 'user', name: 'Me'}}
                 handleChangeGameScore={props.handleChangeGameScore}
+                toggleOddsChangeModal={toggleOddsChangeModal}
                 // override game.prediction with temporary gamePrediction
                 // onChangeGameScore={onChangeGameScore}
                 // onChangeStarSpread={onChangeStarSpread}
                 // onChangeStarTotal={onChangeStarTotal}
-                handleOddsChangeModalShow={handleOddsChangeModalShow}
-                handleOddsChangeModalHide={handleOddsChangeModalHide}
                 // oddsChangeModalShow={oddsChangeModalShow}
                 />
           ) : predictions && predictions.length > 0 ? predictions.map(prediction => {
@@ -169,8 +158,7 @@ const GamePreview = (props) => {
             showPrediction={showPrediction}
             game={game}
             prediction={prediction}
-            handleOddsChangeModalShow={handleOddsChangeModalShow}
-            handleOddsChangeModalHide={handleOddsChangeModalHide}
+            toggleOddsChangeModal={toggleOddsChangeModal}
             // oddsChangeModalShow={oddsChangeModalShow}
             />
           )}) : (

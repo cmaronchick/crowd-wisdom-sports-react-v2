@@ -5,6 +5,9 @@ import OddsChangeModal from './Game.OddsChangeModal';
 import { checkBullseye, straightUpResults, spreadResults, totalResults } from './GamePreview.ResultsCheck'
 import GamePreviewStakes from './GamePreview.Stakes'
 import { spreadPrediction, totalPrediction, checkGameStart } from '../../functions/utils'
+import { toggleOddsModal } from '../../redux/actions/uiActions';
+
+import { WarningOutlined } from '@ant-design/icons'
 
 const { Title, Text, Paragraph } = Typography
 
@@ -13,12 +16,7 @@ const GamePreviewPrediction = (props) => {
     game,
     prediction,
     showPrediction,
-    onChangeGameScore,
-    onChangeStarSpread,
-    onChangeStarTotal,
-    handleOddsChangeModalShow,
-    handleOddsChangeModalHide,
-    oddsChangeModalShow,
+    toggleOddsChangeModal,
     user
   } = props
 
@@ -177,9 +175,10 @@ const GamePreviewPrediction = (props) => {
 
         {prediction && prediction.odds && ((game.odds.spread !== prediction.odds.spread) || (game.odds.total !== prediction.odds.total)) ? (
           !game.results ? (
-            <Row className="oddsChangeAlert alertText" onClick={() => handleOddsChangeModalShow()}>
+            <Row className="oddsChangeAlert alertText"
+            onClick={() => toggleOddsChangeModal(game, prediction)}>
               <Col span={24}>
-                <Text warning>Alert - Odds have changed</Text>
+                <Text type="warning"><WarningOutlined /> - Odds have changed</Text>
                 </Col>
             </Row>
           ) : game.odds && (
@@ -192,9 +191,6 @@ const GamePreviewPrediction = (props) => {
           )
         ) : null}
 
-        {prediction && prediction.odds && game.odds && ((game.odds.spread !== prediction.spread) || (game.odds.total !== prediction.total)) ? (
-          <OddsChangeModal oddsChangeModalShow={oddsChangeModalShow} handleOddsChangeModalShow={handleOddsChangeModalShow} handleOddsChangeModalHide={handleOddsChangeModalHide} game={game} prediction={prediction} />
-        ) : null}
         </Col>
       </Row>
     )

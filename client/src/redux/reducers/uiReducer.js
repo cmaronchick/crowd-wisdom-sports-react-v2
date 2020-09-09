@@ -2,6 +2,7 @@ import {
     TOGGLE_LOGIN_MODAL,
     TOGGLE_LEAVE_GROUP_MODAL,
     TOGGLE_CREATE_GROUP_MODAL,
+    TOGGLE_ODDS_CHANGE_MODAL,
     ON_CHANGE_TEXT,
     SET_ERRORS,
     CLEAR_ERRORS
@@ -12,6 +13,8 @@ const initialState = {
     loginModalOpen: false,
     leaveGroupModalOpen: false,
     createGroupModalOpen: false,
+    oddsChangeModalOpen: false,
+    oddsChangeModalDetails: {},
     errors: null
 }
 
@@ -31,6 +34,12 @@ export default function(state = initialState, action) {
             return {
                 ...state,
                 createGroupModalOpen: action.payload
+            }
+        case TOGGLE_ODDS_CHANGE_MODAL:
+            return {
+                ...state,
+                oddsChangeModalOpen: !state.oddsChangeModalOpen,
+                oddsChangeModalDetails: action.payload.game ? action.payload : {}
             }
         case ON_CHANGE_TEXT:
             return {

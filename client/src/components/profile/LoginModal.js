@@ -110,7 +110,17 @@ const LoginModal = (props) => {
                 name="password"
                 label="Password"
                 rules={[{ required: true, message: 'Please input your password.' }]}>
-                <Input.Password type="password" name="loginPassword" placeholder="Password" onChange={props.onChangeText} />
+                <Input.Password
+                  type="password"
+                  name="loginPassword"
+                  placeholder="Password"
+                  onChange={props.onChangeText}
+                  onKeyPress={(e) => {
+                    if ((e.which === 13 || e.keyCode === 13) && (UI.loginUsername && UI.loginPassword)) {
+                      props.login(UI.loginUsername, UI.loginPassword)
+                    }
+                  }}
+                 />
                 </Form.Item>
               <Button type="primary" size="medium" className="loginButton" onClick={() => props.login(UI.loginUsername, UI.loginPassword)}
                 loading={signingIn}

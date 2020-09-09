@@ -4,9 +4,11 @@ import GamePreview from '../game/GamePreview';
 import './GamesList.less'
 import Weeks from '../weeks/Weeks'
 import SeasonSelector from '../seasonSelector/SeasonSelector'
+import OddsChangeModal from '../game/Game.OddsChangeModal'
 
 import { fetchGame, fetchGameWeekGames } from '../../redux/actions/gamesActions'
 import { changeGameScore, submitPrediction } from '../../redux/actions/predictionsActions'
+import { toggleOddsChangeModal } from '../../redux/actions/uiActions'
 
 import { connect } from 'react-redux'
 
@@ -56,6 +58,7 @@ const GamesList = (props) => {
             onClick={props.fetchGame}
             handleChangeGameScore={props.changeGameScore}
             handleSubmitPrediction={props.submitPrediction}
+            toggleOddsChangeModal={props.toggleOddsChangeModal}
             // onChangeGameScore={onChangeGameScore}
             // onChangeStarSpread={onChangeStarSpread}
             // onChangeStarTotal={onChangeStarTotal}
@@ -64,6 +67,7 @@ const GamesList = (props) => {
             predictions={predictionsArray} />
           }
           )}
+          <OddsChangeModal oddsChangeModalShow={props.UI.oddsChangeModalOpen} toggleOddsChangeModal={props.toggleOddsChangeModal} oddsChangeModalDetails={props.UI.oddsChangeModalDetails} />
 
         </Fragment>
         ) : (
@@ -84,7 +88,8 @@ GamesList.propTypes = {
 };
 
 const mapStateToProps = (state) => ({
-  user: state.user
+  user: state.user,
+  UI: state.UI
 
 })
 
@@ -92,7 +97,8 @@ const mapActionsToProps = {
   fetchGame,
   fetchGameWeekGames,
   changeGameScore,
-  submitPrediction
+  submitPrediction,
+  toggleOddsChangeModal
 }
 
 export default connect(mapStateToProps, mapActionsToProps)(GamesList);
