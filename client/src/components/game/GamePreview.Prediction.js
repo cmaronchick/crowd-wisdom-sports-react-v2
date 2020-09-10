@@ -27,6 +27,7 @@ const GamePreviewPrediction = (props) => {
     
     const { results } = game
     const { odds } = prediction && prediction.odds ? prediction : game
+    console.log('odds', odds)
     let awayTeamSpreadResult, homeTeamSpreadResult, totalResult;
     if (prediction.awayTeam && prediction.awayTeam.score && prediction.homeTeam && prediction.homeTeam.score) {
       awayTeamSpreadResult = (prediction.awayTeam.score - prediction.homeTeam.score) % 1 === 0 ? (prediction.awayTeam.score - prediction.homeTeam.score) : (prediction.awayTeam.score - prediction.homeTeam.score).toFixed(2)
@@ -122,7 +123,7 @@ const GamePreviewPrediction = (props) => {
                   {results ? spreadResults(odds, results,prediction) : null}
                   
                   {results ? checkBullseye(prediction.spread, results.spread) : null}
-                  {spreadPrediction(game, prediction.awayTeam.score, prediction.homeTeam.score)}
+                  {spreadPrediction(game, odds, prediction.awayTeam.score, prediction.homeTeam.score)}
                   {document.width > 500 && (
                   <Fragment>
                   <br/>
@@ -153,7 +154,7 @@ const GamePreviewPrediction = (props) => {
                   
                 {results ? totalResults(odds, results,prediction) : null}
                 {results ? checkBullseye(prediction.total, results.total) : null}
-                {totalPrediction(game, prediction.awayTeam.score, prediction.homeTeam.score)} 
+                {totalPrediction(game, odds, prediction.awayTeam.score, prediction.homeTeam.score)} 
                 {document.width > 500 && (
                   <Fragment>
                     <br/><span className="predictionSpread">({((prediction || (prediction.awayTeam.score + prediction.homeTeam.score)) && odds) ? `${totalResult}` : ''})</span>

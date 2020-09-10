@@ -47,11 +47,11 @@ export const getUrlParameters = (redirectUrl, sParam) => {
     return (Date.parse(now) > cutoff)
   }
 
-  export const spreadPrediction = (game, awayTeamScore, homeTeamScore) => {
+  export const spreadPrediction = (game, odds, awayTeamScore, homeTeamScore) => {
     const { homeTeam, awayTeam } = game
     awayTeamScore = parseFloat(awayTeamScore)
     homeTeamScore = parseFloat(homeTeamScore)
-    const {spread } = game.odds
+    const {spread } = odds
 
     let oddsPredictionText = ''
     if (spread > 0) { // away team favored; e.g. spread = 3.5
@@ -76,11 +76,11 @@ export const getUrlParameters = (redirectUrl, sParam) => {
     return oddsPredictionText;
 
   }
-  export const totalPrediction = (game, awayTeamScore, homeTeamScore) => {
+  export const totalPrediction = (game, odds, awayTeamScore, homeTeamScore) => {
     const { homeTeam, awayTeam } = game
     awayTeamScore = parseFloat(awayTeamScore)
     homeTeamScore = parseFloat(homeTeamScore)
-    const {total} = game.odds
+    const {total} = odds
       if ((awayTeamScore + homeTeamScore) > total) { //user predicted game to go over
         return `O${total}`
       } else if ((awayTeamScore + homeTeamScore) === total) {

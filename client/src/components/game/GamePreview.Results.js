@@ -12,7 +12,7 @@ const GamePreviewResults = ({game}) => {
             <Col span={5}>{results.awayTeam.score}</Col>
             <Col span={5}>{results.homeTeam.score}</Col>
             <Col span={5}>
-                {spreadPrediction(game,results.awayTeam.score, results.homeTeam.score)}<br/>
+                {spreadPrediction(game, game.odds, results.awayTeam.score, results.homeTeam.score)}<br/>
             <span className="predictionSpread">(
             {(results.homeTeam.score + odds.spread) > results.awayTeam.score // home team covers
             ? results.awayTeam.score > results.homeTeam.score 
@@ -30,7 +30,7 @@ const GamePreviewResults = ({game}) => {
             )</span>
             </Col>
             <Col span={5}>
-                {totalPrediction(game,results.awayTeam.score, results.homeTeam.score)}<br/>({results.awayTeam.score + results.homeTeam.score})
+                {totalPrediction(game, game.odds, results.awayTeam.score, results.homeTeam.score)}<br/>({results.awayTeam.score + results.homeTeam.score})
             </Col>
         </Row>
     )
