@@ -84,7 +84,8 @@ export default function(state = initialState, action) {
                 user: {
                     ...state.user,
                     [action.payload.gameId]: {
-                        ...changeGameScorePrediction
+                        ...changeGameScorePrediction,
+                        submitted: false
 
                     }
                 }
@@ -103,7 +104,8 @@ export default function(state = initialState, action) {
                 user: {
                     ...state.user,
                     [action.payload.gameId]: {
-                        ...changeGameStakesPrediction
+                        ...changeGameStakesPrediction,
+                        submitted: false
 
                     }
                 }
@@ -126,7 +128,8 @@ export default function(state = initialState, action) {
                     ...state.user,
                     [action.payload.gameId]: {
                         ...state.user[action.payload.gameId],
-                        submitting: false
+                        submitting: false,
+                        submitted: true
                     }
                 }
             }

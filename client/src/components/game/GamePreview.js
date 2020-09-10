@@ -2,6 +2,7 @@ import React, { Fragment } from 'react';
 import PropTypes from 'prop-types'
 
 import { Card, Button, Spinner, Row, Col, Typography } from 'antd'
+import { CheckCircleOutlined } from '@ant-design/icons'
 // import * as apis from '../apis'
 import GamePreviewHeader from './GamePreview.Header'
 import GamePreviewCrowd from './GamePreview.Crowd'
@@ -14,7 +15,7 @@ import GamePreviewHeaderRow from './GamePreview.HeaderRow'
 import './Game.less'
 
 import LoginButton from '../profile/LoginButton'
-import { toggleOddsModal } from '../../redux/actions/uiActions';
+import { toggleOddsChangeModal } from '../../redux/actions/uiActions';
 
 
 const { Title, Paragraph, Text } = Typography
@@ -223,7 +224,14 @@ const GamePreview = (props) => {
                   onClick={handleSubmitPrediction}
                   disabled={!(userPrediction && userPrediction.awayTeam && parseInt(userPrediction.awayTeam.score) && userPrediction.homeTeam && parseInt(userPrediction.homeTeam.score)) || userPrediction.submitting}
                   loading={userPrediction && userPrediction.submitting}>
-                  Predict
+                    {game.prediction || userPrediction.submitted ? (
+                      <span>Update</span>
+                    ) : (
+                      <span>Predict</span>
+                    )}
+                    {userPrediction.submitted && (
+                      <CheckCircleOutlined style={{color: '#fff'}} />
+                    )}
                 </Button>
               )}
               {props.UI && props.UI.errors && (
