@@ -227,11 +227,15 @@ export const createGroup = (groupDetails, picture) => async (dispatch) => {
 }
 
 export const updateGroupDetails = (groupDetails) => async (dispatch) => {
-    console.log('groupDetails', groupDetails)
+    const { picture } = groupDetails
+    console.log('picture', picture)
     try {
         let currentUser = await Auth.currentAuthenticatedUser()
         let currentSession = await Auth.currentSession()
         let IdToken = await currentSession.getIdToken().getJwtToken()
+        if (groupDetails.picture) {
+            groupDetails.picture = `https://stakehousesports-userfiles.s3-us-west-2.amazonaws.com/public/${picture ? `${groupDetails.groupId}-${picture.name}` : `icons8-trophy-64.png`}`
+        }
         let updateGroupResponse = await apiHost.post('group/update', {
             headers: {
                 Authorization: IdToken,
@@ -239,6 +243,21 @@ export const updateGroupDetails = (groupDetails) => async (dispatch) => {
             },
             body: JSON.stringify(groupDetails)
         }).json()
+        console.log('updateGroupResponse', updateGroupResponse)
+
+        if (groupDetails.picture) {
+            const filename = `${groupDetails.groupId}-${picture.name}`;
+            const stored = await Storage.put(filename, picture, {
+                contentType: picture.type
+            });
+            console.log('stored.key', stored)
+            // return stored.key;
+            // console.log('uploadImageResponse', uploadImageResponse)
+            // dispatch(getUserData())
+            // updateUserDetails({
+            //     picture: `https://stakehousesports-userfiles.s3-us-west-2.amazonaws.com/public/${filename}`
+            // })
+        }
         dispatch({
             type: UPDATE_GROUP,
             payload: groupDetails

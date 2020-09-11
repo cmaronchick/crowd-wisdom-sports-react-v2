@@ -10,7 +10,7 @@ import { onChangeText } from '../../redux/actions/uiActions'
 import { isEmail, handleEditPicture, handleImageChange } from '../../functions/utils'
 
 import { Tabs, Table, Spin, Typography, Form, Input, Row, Col, Button, Popconfirm} from 'antd'
-import { ArrowLeftOutlined, MailOutlined, ShareAltOutlined } from '@ant-design/icons'
+import { ArrowLeftOutlined, MailOutlined, ShareAltOutlined, EditOutlined } from '@ant-design/icons'
 import { antIcon } from '../../functions/utils'
 
 import GamesList from '../gamesList/GamesList'
@@ -19,6 +19,8 @@ import Weeks from '../weeks/Weeks'
 
 const { Title, Text } = Typography
 const { TabPane } = Tabs
+
+const EditIcon = () => (<EditOutlined style={{color: '#fff'}} color={'#fff'} />)
 
 const Group = ({
     user,
@@ -61,13 +63,20 @@ const Group = ({
 
     const handleInviteClick = () => {
         navigator.clipboard.writeText(window.location.href)
-
     }
     
     const handleTitleChange = (updatedGroupName) => {
         updateGroupDetails({
             ...group,
             groupName: updatedGroupName
+        })
+    }
+
+    const updateGroupImage = (updatedGroupPicture) => {
+        console.log('updatedGroupPicture', updatedGroupPicture)
+        updateGroupDetails({
+            ...group,
+            picture: updatedGroupPicture
         })
     }
 
@@ -154,16 +163,21 @@ const Group = ({
                     <Col span={12} className="groupName">
                         {picture && (
                             <Fragment>
-                            <input type='file' hidden='hidden' id='imageInput' onChange={handleImageChange}/>
-                            <img onClick={handleEditPicture} id="avatarImage" src={picture} alt={groupName} className="groupAvatar" />
+                            <input type='file' hidden='hidden' id='imageInput' onChange={(event) => {
+                                handleImageChange(event)
+                                updateGroupImage(event.target.files[0])
+                            }}/>
+                            <img onClick={group.owner.username === user.username ? handleEditPicture : null} id="avatarImage" src={picture} alt={groupName} className="groupAvatar" />
                             </Fragment>
                         )}
-                        <Title level={3} editable={group.owner.username === user.username ? { onChange: handleTitleChange} : false}>{groupName}</Title>
+                        <Title level={3} editable={group.owner.username === user.username ? { onChange: handleTitleChange,
+                        icon: (<EditIcon />)} : false} style={{backgroundColor: '#0a1f8f'}}
+                        >{groupName}</Title>
                     </Col>
                     <Col span={8} flex="row">
                         {/* Only show season selector if number of season results is greater than 1 */}
                         {(results && results[sport][year] && Object.keys(results[sport][year]).length > 1 && 
-                        <SeasonSelector handleSelectSeason={handleSelectSeason} />
+                            <SeasonSelector handleSelectSeason={handleSelectSeason} />
                         )}
 
                         <Popconfirm
