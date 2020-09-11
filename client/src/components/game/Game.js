@@ -51,6 +51,7 @@ const Game = (props) => {
               // onClick={this.props.onGameClick}
               game={game} gamePrediction={gamePrediction}
               onClick={props.fetchGame}
+              user={props.user}
               />
               {/* {game.odds && game.odds.history ? (
                 <GameOddsChart ref={this.chartReference} game={game} />
