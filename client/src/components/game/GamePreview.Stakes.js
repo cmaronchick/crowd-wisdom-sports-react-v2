@@ -45,7 +45,7 @@ export const GamePreviewStakes = (props) => {
                 className="starRatingComponent"
                 editing={!results}
                 renderStarIcon={(index) => {
-                    return (<StakeIcon className={`${prediction.stars && prediction.stars.spread < index ? 'stakeUnselected' : `stakeSelected ${results ? ((prediction && prediction.results && prediction.results.spread.correct === 1) ? 'stakeCorrect' : 'stakeIncorrect') : ''}`}`} />)
+                    return (<StakeIcon className={`${prediction.stars && prediction.stars.spread >= index ? 'stakeUnselected' : `stakeSelected ${results ? ((prediction && prediction.results && prediction.results.spread.correct === 1) ? 'stakeCorrect' : 'stakeIncorrect') : ''}`}`} />)
                 }}
                 value={(prediction && prediction.stars) ? prediction.stars.spread : 0}
                 starCount={3}
