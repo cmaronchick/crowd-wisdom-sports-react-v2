@@ -2,17 +2,17 @@
 
 import React from 'react'
 import PropTypes from 'prop-types'
-import {VictoryLine} from 'victory'
+import {VictoryLine, VictoryChart, VictoryAxis} from 'victory'
 import dayjs from 'dayjs'
 
 const propTypes = {
     
 }
 
-const GameOddsChart = React.forwardRef((props, ref) => {
+const GameOddsChart = (props) => {
     const { game } = props;
     const { odds } = game;
-    console.log({odds});
+    // console.log({odds});
     let firstSpread = {
         date: null,
         spread: null
@@ -47,16 +47,22 @@ const GameOddsChart = React.forwardRef((props, ref) => {
             let startDate = new Date(game.startDateTime)
             let firstOddsDate = new Date(new Date(game.startDateTime).getDate() - 14)
             let oddsDate = new Date(odds.date)
-            console.log({startDate: new Date(startDate.setDate(startDate.getDate() - 7)),
-            oddsDate: oddsDate,
-            compare: new Date(odds.date) >= new Date(startDate.setDate(startDate.getDate() - 7))});
-            if (new Date(odds.date) >= new Date(startDate.setDate(startDate.getDate()))) {
+            // console.log({startDate: new Date(startDate.setDate(startDate.getDate() - 7)),
+            // oddsDate: oddsDate,
+            // compare: new Date(odds.date) >= new Date(startDate.setDate(startDate.getDate() - 7))});
+            // if (new Date(odds.date) >= new Date(startDate.setDate(startDate.getDate()))) {
                 labels.push(`${new Date(odds.date).getMonth() + 1}/${new Date(odds.date).getDate()}`)
                 dataSpread.push(odds.spread ? odds.spread : null)
                 dataTotal.push(odds.total ? odds.total : null)
-            }
+            // }
         })
     }
+    let spreadArray = []
+    let totalArray = []
+    odds.history.forEach(odds => {
+        spreadArray.push({x: odds.date, y: odds.spread})
+        totalArray.push({x: odds.date, y: odds.total})
+    })
     // console.log({dataSpread});
     let dataSpreadMin = Math.min(...dataSpread),
         dataSpreadMax = Math.max(...dataSpread),
@@ -105,21 +111,37 @@ const GameOddsChart = React.forwardRef((props, ref) => {
                 }]
             }
         }
-    console.log({chartData: JSON.stringify(chartData), chartOptions: JSON.stringify(chartOptions), reference: ref})
+    console.log({spreadMin, spreadMax, spreadArray, totalArray})
     return (
-        <div>
-            <div>Open: {(odds.history && odds.history.length > 0) ? `${dayjs(firstSpread.date).format('MMMM DD')}} Spread: ${firstSpread.spread} Total: ${firstTotal.total}` : null}</div>
+        <div className="chartContainer">
+            <div>Open: {(odds.history && odds.history.length > 0) ? `${dayjs(firstSpread.date).format('MMMM DD')} Spread: ${firstSpread.spread} Total: ${firstTotal.total}` : null}</div>
             <div>Last: {(odds.history && odds.history.length > 0) ? `${dayjs(odds.history[odds.history.length-1].date).format('MMMM DD')} Spread: ${odds.history[odds.history.length-1].spread} Total: ${odds.history[odds.history.length-1].total}` : null}</div>            {game.predictions ? (
                 <div>Number of Predictions: {game.predictions.length}</div>
             ) : null}
-            {chartData && chartOptions ? (
-                <div>
-                    <VictoryLine ref={ref} data={chartData} options={chartOptions} />
-                </div>
-            ) : null}
+            {chartData && chartOptions && (
+                game.oddsChartType === 'total' ? (
+                <VictoryChart
+                domain={{y: [0, totalMax]}}>
+                    <VictoryAxis
+                        tickCount={5}
+                        tickFormat={(x) => dayjs(x).format('DD MMM')} />
+                        <VictoryAxis dependentAxis />
+                        <VictoryLine data={totalArray} />
+                </VictoryChart>
+                ) : (
+                <VictoryChart
+                domain={{y: spreadMin > spreadMax ? [spreadMax, spreadMin] :[spreadMin, spreadMax]}}>
+                    <VictoryAxis
+                        tickCount={5}
+                        tickFormat={(x) => dayjs(x).format('DD MMM')} />
+                        <VictoryAxis dependentAxis />
+                        <VictoryLine data={spreadArray} />
+                </VictoryChart>
+                )
+            )}
         </div>
     )
-})
+}
 
 
 export default GameOddsChart;

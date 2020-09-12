@@ -5,11 +5,11 @@ import { withRouter } from 'react-router-dom'
 
 // Redux Stuff
 import { connect } from 'react-redux'
-import { fetchGame, fetchGameWeekGames } from '../../redux/actions/gamesActions'
+import { fetchGame, fetchGameWeekGames, toggleOddsChartType } from '../../redux/actions/gamesActions'
 import GamePreview from './GamePreview'
 import GameOddsChart from './GameOddsChart'
 
-import { Spin } from 'antd'
+import { Spin, Button } from 'antd'
 import { LoadingOutlined } from '@ant-design/icons'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faArrowLeft } from '@fortawesome/free-solid-svg-icons';
@@ -56,7 +56,13 @@ const Game = (props) => {
               {/* {game.odds && game.odds.history ? (
                 <GameOddsChart ref={this.chartReference} game={game} />
               ) : null} */}
-
+            {game && game.odds && (
+              <div className="chartContainer">
+                <Button type="primary" onClick={() => props.toggleOddsChartType()}>
+                  Show {game.oddsChartType === 'spread' ? 'Spread' : 'Total'} Odds History</Button>
+                <GameOddsChart game={game} />
+              </div>
+            )}
             <Link
               className="home-link link"
               onClick={handleGamesListClick}
@@ -81,7 +87,8 @@ const mapStateToProps = (state) => ({
 
 const mapActionsToProps = {
   fetchGameWeekGames,
-  fetchGame
+  fetchGame,
+  toggleOddsChartType
 }
 
 export default withRouter(connect(mapStateToProps, mapActionsToProps)(Game));

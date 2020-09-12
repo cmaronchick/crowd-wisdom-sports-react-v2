@@ -5,6 +5,7 @@ import { LOADING_GAMES,
     LOADING_PREDICTIONS,
     LOADING_COMPARED_USER_PREDICTIONS,
     SET_PREDICTIONS,
+    TOGGLE_ODDS_CHART_TYPE,
     SET_ERRORS,
     CLEAR_ERRORS
 } from '../types'
@@ -99,6 +100,7 @@ export const fetchGameWeekGames = (sport, year, season, gameWeek) => async (disp
 
     try {
         let getGameResponse = await apiHost.get(`${sport}/games/${year}/${season}/${gameWeek}/game/${gameId}`, getOptions).json()
+        getGameResponse.game.oddsChartType = 'spread'
         console.log('getGameResponse', getGameResponse)
         dispatch({
             type: SET_GAME,
@@ -124,4 +126,10 @@ export const fetchGameWeekGames = (sport, year, season, gameWeek) => async (disp
     }
     // return apiHost.get(`/api/${sport}/games/${year}/${season}/${gameWeek}/${gameId}${compareUsername ? `?compareUsername=${compareUsername}` : ''}`, getOptionsObj.callOptions)
     // .then(resp => resp.data);
+  }
+
+  export const toggleOddsChartType = () => (dispatch) => {
+      dispatch({
+          type: TOGGLE_ODDS_CHART_TYPE
+      })
   }
