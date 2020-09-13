@@ -47,11 +47,14 @@ const Leaderboards = (props) => {
         {
             title: 'User',
             dataIndex: 'preferred_username',
-            key: 'username'
+            key: 'username',
+            fixed: 'left',
+            width: 150
         },
         {
-            title: leaderboardType === 'Prediction Score',
-            dataIndex: 'predictionScore'
+            title: 'Prediction Score',
+            dataIndex: 'predictionScore',
+            width: 100
         },
         {
             title: 'Winners',
@@ -60,7 +63,8 @@ const Leaderboards = (props) => {
                 <span>
                     {winner.correct}
                 </span>
-            )
+            ),
+            width: 100
         },
         {
             title: 'Spread',
@@ -69,7 +73,8 @@ const Leaderboards = (props) => {
                 <span>
                     {spread.correct}
                 </span>
-            )
+            ),
+            width: 100
         },
         {
             title: 'Total',
@@ -78,7 +83,8 @@ const Leaderboards = (props) => {
                 <span>
                     {total.correct}
                 </span>
-            )
+            ),
+            width: 100
         }
 
     ]
@@ -87,7 +93,9 @@ const Leaderboards = (props) => {
         {
             title: 'User',
             dataIndex: 'preferred_username',
-            key: 'username'
+            key: 'username',
+            fixed: 'left',
+            width: 100
         },
         {
             title: 'Stakes Wagered',
@@ -98,7 +106,8 @@ const Leaderboards = (props) => {
                 </span>
             ),
             sorter: (a,b) => a.stars.wagered - b.stars.wagered,
-            defaultSortOrder: 'descend'
+            defaultSortOrder: 'descend',
+            width: 100
 
         },
         {
@@ -110,7 +119,8 @@ const Leaderboards = (props) => {
                 </span>
             ),
             sorter: (a,b) => a.stars.net - b.stars.net,
-            defaultSortOrder: 'descend'
+            defaultSortOrder: 'descend',
+            width: 100
 
         },
         {
@@ -122,7 +132,8 @@ const Leaderboards = (props) => {
                 </span>
             ),
             sorter: (a,b) => a.stars.roi - b.stars.roi,
-            defaultSortOrder: 'descend'
+            defaultSortOrder: 'descend',
+            width: 100
 
         }
     ]
@@ -147,7 +158,9 @@ const Leaderboards = (props) => {
                 >
                     <TabPane tab="Weekly" key="1">
                         {weekly && weekly.users ? (
-                            <Table rowKey="username"
+                            <Table
+                            scroll={{x: 550}}
+                             rowKey="username"
                                 dataSource={
                                     leaderboardType === 'predictionScore' ? weekly.users.sort((a,b) => a.predictionScore > b.predictionScore ? -1 : 1)
                                         : weekly.usersStars.sort((a,b) => a.stars.net > b.stars.net ? -1 : 1)}
@@ -159,6 +172,7 @@ const Leaderboards = (props) => {
                     <TabPane tab="Overall" key="2">
                         {overall && overall.users ? (
                             <Table rowKey="username"
+                            scroll={{x: 550}}
                                 dataSource={
                                     leaderboardType === 'predictionScroe' ? overall.users.sort((a,b) => a.predictionScore > b.predictionScore ? -1 : 1)
                                 : overall.usersStars.sort((a,b) => a.stars.net > b.stars.net ? -1 : 1)}
