@@ -2,7 +2,7 @@
 
 import React from 'react'
 import PropTypes from 'prop-types'
-import {VictoryLine, VictoryChart, VictoryAxis} from 'victory'
+import {VictoryLine, VictoryChart, VictoryAxis, VictoryTheme} from 'victory'
 import dayjs from 'dayjs'
 
 const propTypes = {
@@ -111,7 +111,7 @@ const GameOddsChart = (props) => {
                 }]
             }
         }
-    console.log({spreadMin, spreadMax, spreadArray, totalArray})
+    // console.log({spreadMin, spreadMax, spreadArray, totalArray})
     return (
         <div className="chartContainer">
             <div>Open: {(odds.history && odds.history.length > 0) ? `${dayjs(firstSpread.date).format('MMMM DD')} Spread: ${firstSpread.spread} Total: ${firstTotal.total}` : null}</div>
@@ -126,16 +126,23 @@ const GameOddsChart = (props) => {
                         tickCount={5}
                         tickFormat={(x) => dayjs(x).format('DD MMM')} />
                         <VictoryAxis dependentAxis />
-                        <VictoryLine data={totalArray} />
+                        <VictoryLine data={totalArray} style={{
+                            data: {stroke: '#cc2936'},
+                            parent: { backgroundColor: "#fff"}
+                        }} />
                 </VictoryChart>
                 ) : (
                 <VictoryChart
+                theme={VictoryTheme.material}
                 domain={{y: spreadMin > spreadMax ? [spreadMax, spreadMin] :[spreadMin, spreadMax]}}>
                     <VictoryAxis
                         tickCount={5}
                         tickFormat={(x) => dayjs(x).format('DD MMM')} />
                         <VictoryAxis dependentAxis />
-                        <VictoryLine data={spreadArray} />
+                        <VictoryLine data={spreadArray} style={{
+                            data: {stroke: '#3d5a80'},
+                            parent: { backgroundColor: "#fff"}
+                        }} />
                 </VictoryChart>
                 )
             )}

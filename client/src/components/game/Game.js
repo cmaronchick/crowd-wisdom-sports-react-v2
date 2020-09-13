@@ -17,10 +17,10 @@ import { faArrowLeft } from '@fortawesome/free-solid-svg-icons';
 const antIcon = <LoadingOutlined title="Loading Game" alt="Loading Game" style={{ fontSize: 24 }} spin />;
 
 const Game = (props) => {
-    const { game, gamePredictions, loadingGame, match } = props;
+    const { game, predictions, loadingGame, match } = props;
     const urlParams = {...match.params}
     urlParams.gameId = parseInt(urlParams.gameId);
-    const gamePrediction = gamePredictions[game.gameId]
+    const prediction = predictions?.user && Object.keys(predictions.user).length > 0 ? predictions.user[game.gameId] : game.prediction ? game.prediction : null
     const { sport, year, season, gameWeek } = game
     const handleGamesListClick = () => {
       props.fetchGameWeekGames(sport, year, season, gameWeek)
@@ -28,7 +28,7 @@ const Game = (props) => {
     if (game.gameId && urlParams.gameId && game.gameId !== urlParams.gameId && !loadingGame) {
       props.fetchGame(sport ? sport : urlParams.sport, year ? year : parseInt(urlParams.year), season ? season : urlParams.season, gameWeek ? gameWeek : parseInt(urlParams.gameWeek), urlParams.gameId)
     }
-    console.log('loadingGame', loadingGame)
+
     if (Object.keys(game).length === 0 && loadingGame) {
       return (
         <Spin indicator={antIcon} />
@@ -49,7 +49,8 @@ const Game = (props) => {
               // onChangeStarTotal={this.props.onChangeStarTotal}
               // onSubmitPrediction={this.props.onSubmitPrediction}
               // onClick={this.props.onGameClick}
-              game={game} gamePrediction={gamePrediction}
+              game={game} 
+              predictions={[{ type: 'user', ...prediction}]}
               onClick={props.fetchGame}
               user={props.user}
               />
@@ -59,7 +60,7 @@ const Game = (props) => {
             {game && game.odds && (
               <div className="chartContainer">
                 <Button type="primary" onClick={() => props.toggleOddsChartType()}>
-                  Show {game.oddsChartType === 'spread' ? 'Spread' : 'Total'} Odds History</Button>
+                  Show {game.oddsChartType === 'total' || !game.oddsChartType ? 'Spread' : 'Total'} Odds History</Button>
                 <GameOddsChart game={game} />
               </div>
             )}
@@ -81,7 +82,7 @@ Game.propTypes = {
 const mapStateToProps = (state) => ({
   loadingGame: state.games.loadingGame,
   game: state.games.game,
-  gamePredictions: state.games.gamePredictions,
+  predictions: state.predictions,
   user: state.user
 })
 
