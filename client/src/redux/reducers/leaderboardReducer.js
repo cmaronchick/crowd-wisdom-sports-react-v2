@@ -1,6 +1,7 @@
 import {
     LOADING_LEADERBOARDS,
-    SET_LEADERBOARDS
+    SET_LEADERBOARDS,
+    SELECT_LEADERBOARD_TYPE
     } from '../types'
 
 
@@ -9,6 +10,7 @@ import {
 
 const initialState = {
     leaderboards: {},
+    leaderboardType: 'predictionScore',
     loadingLeaderboards: false
 }
 
@@ -25,6 +27,11 @@ export default function(state = initialState, action) {
                 ...state,
                 leaderboards: {...action.payload},
                 loadingLeaderboards: false
+            }
+        case SELECT_LEADERBOARD_TYPE: 
+            return {
+                ...state,
+                leaderboardType: action.payload
             }
         default: 
             return {

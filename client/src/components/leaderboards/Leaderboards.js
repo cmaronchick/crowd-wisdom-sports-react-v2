@@ -6,8 +6,9 @@ import { antIcon } from '../../functions/utils'
 import { connect } from 'react-redux'
 import { LOADING_LEADERBOARDS, SET_ERRORS } from '../../redux/types'
 import store from '../../redux/store'
-import { fetchLeaderboards } from '../../redux/actions/leaderboardActions'
+import { fetchLeaderboards, selectLeaderboardType } from '../../redux/actions/leaderboardActions'
 import './Leaderboards.less'
+import LeaderboardSelector from './LeaderboardSelector'
 
 import SeasonSelector from '../seasonSelector/SeasonSelector'
 import Weeks from '../weeks/Weeks'
@@ -17,7 +18,7 @@ const { TabPane } = Tabs
 
 const Leaderboards = (props) => {
     const { leaderboards, user } = props
-    let { loadingLeaderboards } = props
+    let { loadingLeaderboards, leaderboardType } = leaderboards
     const { sport, year, season, week } = props.sport.gameWeekData
     const {params} = props.match
     const { weekly, overall } = leaderboards.leaderboards
@@ -42,14 +43,14 @@ const Leaderboards = (props) => {
     }
 
     // setting column information for the antd Table
-    const columns = [
+    const predictionScoreColumns = [
         {
             title: 'User',
             dataIndex: 'preferred_username',
             key: 'username'
         },
         {
-            title: 'Prediction Score',
+            title: leaderboardType === 'Prediction Score',
             dataIndex: 'predictionScore'
         },
         {
@@ -81,25 +82,87 @@ const Leaderboards = (props) => {
         }
 
     ]
+
+    const stakesColumns = [
+        {
+            title: 'User',
+            dataIndex: 'preferred_username',
+            key: 'username'
+        },
+        {
+            title: 'Stakes Wagered',
+            dataIndex: 'stars',
+            render: (stars) => (
+                <span>
+                    {stars.wagered}
+                </span>
+            ),
+            sorter: (a,b) => a.stars.wagered - b.stars.wagered,
+            defaultSortOrder: 'descend'
+
+        },
+        {
+            title: 'Net Stakes',
+            dataIndex: 'stars',
+            render: (stars) => (
+                <span>
+                    {stars.net}
+                </span>
+            ),
+            sorter: (a,b) => a.stars.net - b.stars.net,
+            defaultSortOrder: 'descend'
+
+        },
+        {
+            title: 'ROI',
+            dataIndex: 'stars',
+            render: (stars) => (
+                <span>
+                    {(stars.roi * 100).toFixed(1)}%
+                </span>
+            ),
+            sorter: (a,b) => a.stars.roi - b.stars.roi,
+            defaultSortOrder: 'descend'
+
+        }
+    ]
+    if (!loadingLeaderboards) {
+        console.log('weekly.users', weekly ? weekly.users : null)
+        console.log('overall.users: ', overall ? overall.users : null)
+    }
+    const extraContent = <LeaderboardSelector leaderboardType={props.leaderboards.leaderboardType} handleChangeLeaderboardType={props.selectLeaderboardType} />
     return (
         <div className="leaderboardContainer">
             <Title className="title">{year} Leaderboards</Title>
             <div className="selectorHeader">
-                <SeasonSelector />
+                {/* <SeasonSelector /> */}
                 <Weeks loading={loadingLeaderboards} onGameWeekClick={props.fetchLeaderboards} page="leaderboards" />
             </div>
             {!loadingLeaderboards ? (
-                <Tabs>
+                <Tabs
+                defaultActiveKey="1"
+                style={{position: 'relative'}}
+                tabBarExtraContent={extraContent}
+                centered={true}
+                >
                     <TabPane tab="Weekly" key="1">
                         {weekly && weekly.users ? (
-                            <Table rowKey="username" dataSource={weekly.users.sort((a,b) => a.predictionScore > b.predictionScore ? -1 : 1)} columns={columns} />
+                            <Table rowKey="username"
+                                dataSource={
+                                    leaderboardType === 'predictionScore' ? weekly.users.sort((a,b) => a.predictionScore > b.predictionScore ? -1 : 1)
+                                        : weekly.usersStars.sort((a,b) => a.stars.net > b.stars.net ? -1 : 1)}
+                                        columns={leaderboardType === 'predictionScore' ? predictionScoreColumns : stakesColumns} />
                         ) : (
                             <div>No Weekly Leaderboard</div>
                         )}
                     </TabPane>
                     <TabPane tab="Overall" key="2">
                         {overall && overall.users ? (
-                            <Table rowKey="username" dataSource={overall.users.sort((a,b) => a.predictionScore > b.predictionScore ? -1 : 1)} columns={columns} />
+                            <Table rowKey="username"
+                                dataSource={
+                                    leaderboardType === 'predictionScroe' ? overall.users.sort((a,b) => a.predictionScore > b.predictionScore ? -1 : 1)
+                                : overall.usersStars.sort((a,b) => a.stars.net > b.stars.net ? -1 : 1)}
+                                columns={leaderboardType === 'predictionScore' ? predictionScoreColumns : stakesColumns} />
                         ) : (
                             <div>No Overall Leaderboard</div>
                         )}
@@ -121,21 +184,9 @@ const mapStateToProps = (state) => ({
     sport: state.sport
 })
 
-const mapActionsToProps = (dispatch) => ({
-    fetchLeaderboards: async (sport, year, season, week) => {
-        dispatch({
-            type: LOADING_LEADERBOARDS
-        })
-        try {
-            let leaderboardResponse = await fetchLeaderboards(sport, year, season, week)
-            dispatch(leaderboardResponse)
-        }catch (leaderboardResponseError) {
-            dispatch({
-                type: SET_ERRORS,
-                errors: leaderboardResponseError
-            })
-        }
-    }
-})
+const mapActionsToProps = {
+    fetchLeaderboards,
+    selectLeaderboardType
+}
 
 export default connect(mapStateToProps, mapActionsToProps)(Leaderboards)
