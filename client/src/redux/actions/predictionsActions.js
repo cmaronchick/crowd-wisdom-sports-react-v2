@@ -16,6 +16,7 @@ import { LOADING_GAMES,
 import { Auth } from '@aws-amplify/auth'
 import ky from 'ky/umd'
 import store from '../store';
+import ReactGA from 'react-ga'
 
 const apiHost = ky.create({prefixUrl: process.env.NODE_ENV === 'development' ? 'http://localhost:5000/api/' : 'https://app.stakehousesports.com/api/'})
 
@@ -59,6 +60,12 @@ export const submitPrediction = (gameId, prediction) => async (dispatch) => {
                 'Content-type': 'application/json'
             },
             body: JSON.stringify(prediction)
+        })
+        ReactGA.event({
+          category: 'prediction',
+          action: 'submitted',
+          label: 'success',
+          value: gameId
         })
         dispatch({
             type: SUBMITTED_PREDICTION,
