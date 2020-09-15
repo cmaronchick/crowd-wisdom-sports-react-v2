@@ -184,11 +184,11 @@ const GamePreview = (props) => {
                 /> */}
             </Fragment>
           )} 
-          {(game.crowd && game.crowd.awayTeam) ? (
+          {(game.crowd && game.crowd.awayTeam && game.crowd.awayTeam.score) ? (
             <Fragment>
             {(!user || !user.authenticated) ? (
               <LoginButton />
-            ) : !game.prediction && !game.results ? 
+            ) : !game.prediction && !userPrediction && !game.results ? 
               (
                 <div className="team">
                   Predict to see the Crowd Wisdom
