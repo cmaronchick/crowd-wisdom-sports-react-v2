@@ -52,8 +52,8 @@ const GamePreviewPrediction = (props) => {
             </Col>
             <Col span={showPrediction ? 5 : 10}>{game.results ? prediction ? (
                 <div style={{position: 'relative'}}>
-                  {checkBullseye(prediction.awayTeam.score, results.awayTeam.score)}
-                  {results && (prediction.awayTeam.score > prediction.homeTeam.score) ? straightUpResults(results, prediction) : null}
+                  {results && prediction && (checkBullseye(prediction.awayTeam.score, results.awayTeam.score))}
+                  {results && prediction && (prediction.awayTeam.score > prediction.homeTeam.score) && (straightUpResults(results, prediction))}
                   {prediction.awayTeam.score}
                 </div>
                 ) : '' : prediction.type === 'user' ? (
