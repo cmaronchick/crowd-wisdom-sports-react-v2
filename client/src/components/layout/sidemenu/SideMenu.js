@@ -14,7 +14,8 @@ import { faFootballBall,
     faList,
     faUser
  } from '@fortawesome/free-solid-svg-icons'
-import { faAppStore, faGooglePlay } from '@fortawesome/free-brands-svg-icons'
+// import { faAppStore, faGooglePlay } from '@fortawesome/free-brands-svg-icons'
+import {FaAppStore, FaGooglePlay, FaList, FaUser, FaUserFriends, FaTrophy, FaFootballBall } from 'react-icons/fa'
 
 import { connect } from 'react-redux'
 import { setSport } from '../../../redux/actions/sportActions'
@@ -56,10 +57,10 @@ const SideMenu = (props) => {
             style={{ height: '100%' }}
             className="sideMenu"
           >
-            <SubMenu key="nfl" icon={<Icon component={() => faIcon('nfl')} />} title='NFL'>
-                <Menu.Item key="1" icon={<Icon component={() => <FontAwesomeIcon icon={faFootballBall} />} />}><NavLink activeClassName="activeNavLink" to="/nfl/games">Games</NavLink></Menu.Item>
-                <Menu.Item key="2" icon={<Icon component={() => <FontAwesomeIcon icon={faTrophy} />} />}><NavLink activeClassName="activeNavLink" to="/nfl/leaderboards">Leaderboards</NavLink></Menu.Item>
-                <Menu.Item key="3" icon={<Icon component={() => <FontAwesomeIcon icon={faUserFriends} />} />}><NavLink activeClassName="activeNavLink" to="/nfl/groups">Groups</NavLink></Menu.Item>
+            <SubMenu style={{borderBottom: '1px solid #3d5a80'}} key="nfl" icon={<FaFootballBall title="NFL" className="drawerIcon" />} title='NFL'>
+                <Menu.Item className="drawerLink" key="1" icon={<FaFootballBall title="Games" className="drawerIcon" />}><NavLink activeClassName="activeNavLink" to="/nfl/games">Games</NavLink></Menu.Item>
+                <Menu.Item className="drawerLink" key="2" icon={<FaTrophy title="Leaderboards" className="drawerIcon" />}><NavLink activeClassName="activeNavLink" to="/nfl/leaderboards">Leaderboards</NavLink></Menu.Item>
+                <Menu.Item className="drawerLink" key="3" icon={<FaUserFriends title="Groups" className="drawerIcon" />}><NavLink activeClassName="activeNavLink" to="/nfl/groups">Groups</NavLink></Menu.Item>
             </SubMenu>
             {/* <SubMenu key="ncaaf" title="NCAAF" icon={<Icon component={() => faIcon('ncaaf')} />}>
                 <Menu.Item key="1" icon={<Icon component={() => <FontAwesomeIcon icon={faFootballBall} />} />}><NavLink activeClassName="activeNavLink" to="/ncaaf/games">Games</NavLink></Menu.Item>
@@ -72,17 +73,17 @@ const SideMenu = (props) => {
                 <Menu.Item key="3" icon={<Icon component={() => <FontAwesomeIcon icon={faUserFriends} />} />}><NavLink activeClassName="activeNavLink" to="/ncaam/groups">Groups</NavLink></Menu.Item>
             </SubMenu> */}
             {user.authenticated && (
-            <Item icon={<Icon component={() => <FontAwesomeIcon icon={faUser} />} />}>
+            <Item className="drawerLink" icon={<FaUser title="Profile" className="drawerIcon" />}>
                     <Link to="/profile">Profile</Link>
             </Item>
             )}
-            <Item icon={<Icon component={() => <FontAwesomeIcon icon={faList} />} />}>
+            <Item className="drawerLink" icon={<FaList title="Contest Rules" className="drawerIcon" />}>
                     <Link to="/rules">Contest Rules</Link>
             </Item>
-            <Item icon={<Icon component={() => <FontAwesomeIcon icon={faAppStore} />} />}>
+            <Item className="drawerLink" icon={<FaAppStore title="App Store" className="drawerIcon" />}>
                     <a href="https://apps.apple.com/us/app/stakehouse-sports/id1475324522?ls=1" target="_blank">App Store</a>
             </Item>
-            <Item icon={<Icon component={() => <FontAwesomeIcon icon={faGooglePlay} />} />}>
+            <Item className="drawerLink" icon={<FaGooglePlay title="Google Play" className="drawerIcon"/>}>
                     <a href="https://play.google.com/store/apps/details?id=com.cwsrn&pcampaignid=MKT-Other-global-all-co-prtnr-py-PartBadge-Mar2515-1" target="_blank" rel="nofollow">Google Play</a>
             </Item>
         </Menu>

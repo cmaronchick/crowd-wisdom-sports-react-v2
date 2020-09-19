@@ -5,6 +5,8 @@ import dayjs from 'dayjs'
 
 import { Row, Col, Typography } from 'antd'
 
+import WeatherIcon from './WeatherIcons'
+
 const { Title, Text } = Typography
 
 export const GamePreviewHeaderRow = (props) => {
@@ -24,15 +26,13 @@ export const GamePreviewHeaderRow = (props) => {
             {game.location}
             </Text>
             </Col>
-            {game.weather ? (
-            <Col span={8} className="gameWeather">
-            <Text>
-                <img src={`http://openweathermap.org/img/wn/${game.weather.icon}.png`} className="weatherIcon" />
-            
-            </Text>
-            <Text>{game.weather.temp}&deg;F</Text>
-            </Col>
-            ) : null}
+            {game.weather && (
+                <Col span={8} className="gameWeather">
+                <Text><WeatherIcon icon={game.weather.icon} description={game.weather.description} />
+                </Text>
+                <Text>{game.weather.temp}&deg;F</Text>
+                </Col>
+            )}
         </Row>
         <Row className="headerRow">
             <Col span={4}></Col>
