@@ -49,10 +49,10 @@ const GameOddsChart = (props) => {
             let firstOddsDate = new Date(new Date(game.startDateTime) - (1000 * 60 * 60 * 24 * 14))
             let oddsDate = new Date(odds.date)
             // startDate.setDate(-7)
-            console.log({startDate,
-                firstOddsDate,
-            oddsDate: oddsDate,
-            compare: odds.date >= startDate});
+            // console.log({startDate,
+            //     firstOddsDate,
+            // oddsDate: oddsDate,
+            // compare: odds.date >= startDate});
             if (new Date(odds.date) >= firstOddsDate) {
                 labels.push(`${new Date(odds.date).getMonth() + 1}/${new Date(odds.date).getDate()}`)
                 dataSpread.push(odds.spread ? odds.spread : null)
@@ -68,7 +68,7 @@ const GameOddsChart = (props) => {
             totalArray.push({x: odds.date, y: odds.total})
         }
     })
-    console.log({dataSpread});
+    // console.log({dataSpread});
     let dataSpreadMin = Math.min(...dataSpread),
         dataSpreadMax = Math.max(...dataSpread),
         dataTotalMin = Math.min(...dataTotal),
