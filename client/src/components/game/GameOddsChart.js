@@ -42,28 +42,33 @@ const GameOddsChart = (props) => {
     let labels = []
     let dataSpread = []
     let dataTotal = []
+    let firstOddsDate = new Date(new Date(game.startDateTime) - (1000 * 60 * 60 * 24 * 14))
     if (odds && odds.history && odds.history.length > 0) {
         odds.history.forEach(odds => {
             let startDate = new Date(game.startDateTime)
-            let firstOddsDate = new Date(new Date(game.startDateTime).getDate() - 14)
+            let firstOddsDate = new Date(new Date(game.startDateTime) - (1000 * 60 * 60 * 24 * 14))
             let oddsDate = new Date(odds.date)
-            // console.log({startDate: new Date(startDate.setDate(startDate.getDate() - 7)),
-            // oddsDate: oddsDate,
-            // compare: new Date(odds.date) >= new Date(startDate.setDate(startDate.getDate() - 7))});
-            // if (new Date(odds.date) >= new Date(startDate.setDate(startDate.getDate()))) {
+            // startDate.setDate(-7)
+            console.log({startDate,
+                firstOddsDate,
+            oddsDate: oddsDate,
+            compare: odds.date >= startDate});
+            if (new Date(odds.date) >= firstOddsDate) {
                 labels.push(`${new Date(odds.date).getMonth() + 1}/${new Date(odds.date).getDate()}`)
                 dataSpread.push(odds.spread ? odds.spread : null)
                 dataTotal.push(odds.total ? odds.total : null)
-            // }
+            }
         })
     }
     let spreadArray = []
     let totalArray = []
     odds.history.forEach(odds => {
-        spreadArray.push({x: odds.date, y: odds.spread})
-        totalArray.push({x: odds.date, y: odds.total})
+        if (new Date(odds.date) >= firstOddsDate) {
+            spreadArray.push({x: odds.date, y: odds.spread})
+            totalArray.push({x: odds.date, y: odds.total})
+        }
     })
-    // console.log({dataSpread});
+    console.log({dataSpread});
     let dataSpreadMin = Math.min(...dataSpread),
         dataSpreadMax = Math.max(...dataSpread),
         dataTotalMin = Math.min(...dataTotal),
