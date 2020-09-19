@@ -37,7 +37,6 @@ import { fetchLeaderboards } from './redux/actions/leaderboardActions'
 import { getFacebookUser } from './redux/actions/userActions'
 
 
-console.log('analytics.trackingId', analytics.trackingId);
 const customHistory = createBrowserHistory();
 const { Footer, Content } = Layout;
 var stateKey = 'amplify_auth_state';
@@ -93,7 +92,6 @@ class App extends Component {
     // })
     try {
       const currentUser = await Auth.currentAuthenticatedUser()
-      console.log('currentUser', currentUser)
       store.dispatch({
         type: SET_USER,
         payload: {

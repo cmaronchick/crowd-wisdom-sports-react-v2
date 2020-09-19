@@ -27,7 +27,7 @@ const GamePreviewPrediction = (props) => {
     
     const { results } = game
     const { odds } = prediction && prediction.odds ? prediction : game
-    console.log('odds', odds)
+    
     let awayTeamSpreadResult, homeTeamSpreadResult, totalResult;
     if (prediction.awayTeam && prediction.awayTeam.score && prediction.homeTeam && prediction.homeTeam.score) {
       awayTeamSpreadResult = (prediction.awayTeam.score - prediction.homeTeam.score) % 1 === 0 ? (prediction.awayTeam.score - prediction.homeTeam.score) : (prediction.awayTeam.score - prediction.homeTeam.score).toFixed(2)

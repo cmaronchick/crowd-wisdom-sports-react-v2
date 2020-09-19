@@ -27,7 +27,6 @@ const GamePreview = (props) => {
       <div>No game found</div>
     )
   }
-  console.log('predictions', predictions)
   const userPrediction = predictions && predictions.length > 0 && predictions.reduce(prediction => {
     if (prediction.type === 'user') {
       return {
