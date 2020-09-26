@@ -77,7 +77,6 @@ export const getUrlParameters = (redirectUrl, sParam) => {
 
   }
   export const totalPrediction = (game, odds, awayTeamScore, homeTeamScore) => {
-    const { homeTeam, awayTeam } = game
     awayTeamScore = parseFloat(awayTeamScore)
     homeTeamScore = parseFloat(homeTeamScore)
     const {total} = odds

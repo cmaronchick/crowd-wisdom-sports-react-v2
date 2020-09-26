@@ -1,9 +1,9 @@
-import React, { Component } from 'react'
+import React from 'react'
 import PropTypes from 'prop-types'
 import { connect } from 'react-redux'
 import { selectSeason } from '../../redux/actions/sportActions'
 
-import { Select, Menu } from 'antd'
+import { Select } from 'antd'
 const { Option } = Select
 
 const SeasonSelector = (props) => {

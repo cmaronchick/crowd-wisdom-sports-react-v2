@@ -1,5 +1,4 @@
 import {
-    SET_AUTHENTICATED,
     SET_USER,
     SIGN_IN_USER,
     SIGN_UP_USER,
@@ -28,8 +27,8 @@ import {
     CognitoUserPool } from 'amazon-cognito-identity-js'
 
 import store from '../store'
-import { fetchGame, fetchGameWeekGames } from './gamesActions'
-import { setSport, setGameWeek } from './sportActions'
+import { fetchGameWeekGames } from './gamesActions'
+import { setSport } from './sportActions'
 
 import { apiHost } from '../../constants/config'
 import ReactGA from 'react-ga'
@@ -53,7 +52,9 @@ Amplify.configure({
 })
 
 export const getFacebookUser = (location) => async (dispatch) => {
-    console.log('location', location)
+    dispatch({
+        type: LOADING_USER
+    })
     let code = getUrlParameters(location.search, 'code')
     const details = {
      grant_type: 'authorization_code',
@@ -408,7 +409,10 @@ export const changeUserDetails = (attributeKey, attributeValue) => {
     }
 }
 
-export const updateUserDetails = async (attributes) => {
+export const updateUserDetails = (attributes) => async (dispatch) => {
+    dispatch({
+        type: UPDATING_USER
+    })
     try {
         let currentUser = await Auth.currentAuthenticatedUser();
         let updateResponse = await Auth.updateUserAttributes(currentUser, attributes);
@@ -442,8 +446,6 @@ export const updateUserDetails = async (attributes) => {
 export const uploadImage = async (image) => {
     try {
         let currentUser = await Auth.currentAuthenticatedUser();
-        let currentSession = await Auth.currentSession()
-        let IdToken = currentSession.getIdToken().getJwtToken()
         // console.log('formData', formData)
         // let uploadImageResponse = await apiHost.post('user/image', {
         //     headers: {

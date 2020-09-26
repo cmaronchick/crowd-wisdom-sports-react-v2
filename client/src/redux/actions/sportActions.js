@@ -2,8 +2,7 @@ import {
     SET_SPORT,
     SET_GAMEWEEK,
     SET_SEASON,
-    SET_ERRORS,
-    CLEAR_ERRORS
+    SET_ERRORS
 } from '../types'
 import { fetchGameWeekGames, fetchGame } from './gamesActions'
 
@@ -45,13 +44,13 @@ export const setGameWeek = (sport, selectedYear, selectedSeason, selectedWeek) =
             type: SET_GAMEWEEK,
             payload: gameWeekData.data
         })
-        const { week, year, season } = gameWeekData.data
+        let { week, year, season } = gameWeekData.data
         if (window.location.pathname.indexOf('/game/') > -1) {
           let attributes = window.location.pathname.split('/')
           const sport = attributes[1];
-          const year = attributes[3];
-          const season = attributes[4];
-          const gameWeek = attributes[5];
+          year = attributes[3];
+          season = attributes[4];
+          week = attributes[5];
           const gameId = attributes[7];
           console.log('gameId', gameId)
           if (!gameId) {

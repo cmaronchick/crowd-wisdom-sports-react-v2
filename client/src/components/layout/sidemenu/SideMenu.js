@@ -4,15 +4,10 @@ import { NavLink, Link } from "react-router-dom";
 
 import './SideMenu.less'
 import { Layout, Menu } from 'antd'
-import Icon, { UserOutlined } from '@ant-design/icons'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faFootballBall,
     faSchool,
-    faBasketballBall,
-    faTrophy,
-    faUserFriends,
-    faList,
-    faUser
+    faBasketballBall
  } from '@fortawesome/free-solid-svg-icons'
 // import { faAppStore, faGooglePlay } from '@fortawesome/free-brands-svg-icons'
 import {FaAppStore, FaGooglePlay, FaList, FaUser, FaUserFriends, FaTrophy, FaFootballBall } from 'react-icons/fa'
@@ -38,8 +33,6 @@ const sportsVariables = {
         icon: faBasketballBall
     }
 }
-
-const faIcon = (sport) => (<FontAwesomeIcon icon={sportsVariables[sport].icon}/>)
 
 const SideMenu = (props) => {
     const { sport, user } = props
@@ -81,10 +74,10 @@ const SideMenu = (props) => {
                     <Link to="/rules">Contest Rules</Link>
             </Item>
             <Item className="drawerLink" icon={<FaAppStore title="App Store" className="drawerIcon" />}>
-                    <a href="https://apps.apple.com/us/app/stakehouse-sports/id1475324522?ls=1" target="_blank">App Store</a>
+                    <a href="https://apps.apple.com/us/app/stakehouse-sports/id1475324522?ls=1" rel="noopener noreferrer" target="_blank">App Store</a>
             </Item>
             <Item className="drawerLink" icon={<FaGooglePlay title="Google Play" className="drawerIcon"/>}>
-                    <a href="https://play.google.com/store/apps/details?id=com.cwsrn&pcampaignid=MKT-Other-global-all-co-prtnr-py-PartBadge-Mar2515-1" target="_blank" rel="nofollow">Google Play</a>
+                    <a href="https://play.google.com/store/apps/details?id=com.cwsrn&pcampaignid=MKT-Other-global-all-co-prtnr-py-PartBadge-Mar2515-1" rel="noopener noreferrer" target="_blank" rel="nofollow">Google Play</a>
             </Item>
         </Menu>
 

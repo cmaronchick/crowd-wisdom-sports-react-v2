@@ -1,13 +1,9 @@
 
 
 import React from 'react'
-import PropTypes from 'prop-types'
 import {VictoryLine, VictoryChart, VictoryAxis, VictoryTheme} from 'victory'
 import dayjs from 'dayjs'
 
-const propTypes = {
-    
-}
 
 const GameOddsChart = (props) => {
     const { game } = props;
@@ -45,14 +41,7 @@ const GameOddsChart = (props) => {
     let firstOddsDate = new Date(new Date(game.startDateTime) - (1000 * 60 * 60 * 24 * 14))
     if (odds && odds.history && odds.history.length > 0) {
         odds.history.forEach(odds => {
-            let startDate = new Date(game.startDateTime)
             let firstOddsDate = new Date(new Date(game.startDateTime) - (1000 * 60 * 60 * 24 * 14))
-            let oddsDate = new Date(odds.date)
-            // startDate.setDate(-7)
-            // console.log({startDate,
-            //     firstOddsDate,
-            // oddsDate: oddsDate,
-            // compare: odds.date >= startDate});
             if (new Date(odds.date) >= firstOddsDate) {
                 labels.push(`${new Date(odds.date).getMonth() + 1}/${new Date(odds.date).getDate()}`)
                 dataSpread.push(odds.spread ? odds.spread : null)

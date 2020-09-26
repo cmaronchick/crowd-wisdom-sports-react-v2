@@ -4,13 +4,11 @@ import {Auth} from '@aws-amplify/auth'
 import ReactGA from 'react-ga'
 import { config as analytics } from './constants/analytics'
 
-import { Router, Switch, Route } from 'react-router-dom'
+import { Switch, Route } from 'react-router-dom'
 import { createBrowserHistory } from 'history'
 import { Layout } from 'antd';
 
 import { connect } from 'react-redux'
-
-import logo from './images/stake-image.svg';
 import './App.less';
 import Header from './components/layout/header/Header'
 import SideMenu from './components/layout/sidemenu/SideMenu'
@@ -24,20 +22,18 @@ import Group from './components/groups/Group'
 import Profile from './components/profile/Profile'
 import Rules from './components/static/Rules'
 import About from './components/static/About'
+import OddsChangeModal from './components/game/Game.OddsChangeModal'
 
 import { getUrlParameters } from './functions/utils'
 
 // redux stuff
 import store from './redux/store'
-import { LOADING_USER, SET_USER, LOADING_GAMES, LOADING_GAME, LOADING_LEADERBOARDS } from './redux/types'
-import { setSport, setGameWeek } from './redux/actions/sportActions'
-import { fetchGame } from './redux/actions/gamesActions'
-import { fetchLeaderboards } from './redux/actions/leaderboardActions'
+import { LOADING_USER, SET_USER, LOADING_GAMES, LOADING_GAME } from './redux/types'
+import { setSport } from './redux/actions/sportActions'
+import { toggleOddsChangeModal } from './redux/actions/uiActions'
 
 import { getFacebookUser } from './redux/actions/userActions'
 
-
-const customHistory = createBrowserHistory();
 const { Footer, Content } = Layout;
 var stateKey = 'amplify_auth_state';
 
@@ -142,6 +138,11 @@ class App extends Component {
                 </Switch>
             </Content>
           </Layout>
+
+          <OddsChangeModal
+            oddsChangeModalShow={this.props.UI.oddsChangeModalOpen}
+            toggleOddsChangeModal={this.props.toggleOddsChangeModal}
+            oddsChangeModalDetails={this.props.UI.oddsChangeModalDetails} />
         </Content>
         <Footer>
           <FooterComponent />
@@ -157,7 +158,12 @@ const mapStateToProps = (state) => ({
   loadingGames: state.games.loadingGames,
   games: state.games.games,
   gamePredictions: state.games.gamePredictions,
-  sport: state.sport
+  sport: state.sport,
+  UI: state.UI
 })
 
-export default connect(mapStateToProps)(App);
+const mapActionsToProps = {
+  toggleOddsChangeModal
+}
+
+export default connect(mapStateToProps, mapActionsToProps)(App);

@@ -1,6 +1,5 @@
 
-import React, { Fragment } from 'react'
-import Footer from '../layout/Footer'
+import React from 'react'
 import '../../styles/Rules.less'
 
 const Rules = () => {
@@ -17,7 +16,7 @@ const Rules = () => {
                 <div className="col-xs-12"><h1>Stakehouse Sports Official Rules</h1>
                     <p>NO PURCHASE NECESSARY. VOID WHERE PROHIBITED BY LAW. THE FOLLOWING PROMOTION IS INTENDED FOR VIEWING IN THE UNITED STATES AND THE DISTRICT OF COLUMBIA ONLY (EXCLUDING PUERTO RICO, OTHER U.S. TERRITORIES AND FOREIGN TERRITORIES) AND SHALL BE CONSTRUED AND EVALUATED ACCORDING TO UNITED STATES LAW.</p>
                     <h3>Odds</h3>
-                    <p>Odds are provided by <a href="https://oddsshark.com" target="_blank">oddsshark.com</a>.</p>
+                    <p>Odds are provided by <a href="https://oddsshark.com" target="_blank" rel="noopener noreferrer">oddsshark.com</a>.</p>
                     <p>Odds are locked when you make your prediction. If the spread or total odds line changes after you make your prediction, your odds will remain as they were when you made your prediction.<br/>
                     If you update your prediction, you will be given the odds at that time.<br/>
                     Your prediction score and stakes return will be evaluated against the odds associated to your prediction.</p>

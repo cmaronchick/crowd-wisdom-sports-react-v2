@@ -1,8 +1,8 @@
-import React, { Component } from 'react'
+import React from 'react'
 import { connect } from 'react-redux'
 import StarRatingComponent from 'react-star-rating-component'
 import StakeImage from '../../images/stake-image-dual-ring.png'
-import { Row, Col, Typography } from 'antd'
+import { Row, Col } from 'antd'
 import { changeStakesValue } from '../../redux/actions/predictionsActions'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faMinusCircle } from '@fortawesome/free-solid-svg-icons'
@@ -13,7 +13,6 @@ const StakeIcon = ({className}) => {
     )
   }
 
-const { Title, Text, Paragraph } = Typography
 
 export const GamePreviewStakes = (props) => {
     

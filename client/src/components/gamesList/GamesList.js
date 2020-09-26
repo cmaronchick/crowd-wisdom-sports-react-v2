@@ -2,9 +2,6 @@ import React, { Fragment } from 'react';
 import PropTypes from 'prop-types'
 import GamePreview from '../game/GamePreview';
 import './GamesList.less'
-import Weeks from '../weeks/Weeks'
-import SeasonSelector from '../seasonSelector/SeasonSelector'
-import OddsChangeModal from '../game/Game.OddsChangeModal'
 
 import { fetchGame, fetchGameWeekGames } from '../../redux/actions/gamesActions'
 import { changeGameScore, submitPrediction } from '../../redux/actions/predictionsActions'
@@ -19,8 +16,7 @@ import { antIcon } from '../../functions/utils'
 const GamesList = (props) => {
   const { sport, games, predictions, loadingGames } = props
   //{ games, gamePredictions, onGameClick, onChangeGameScore, onChangeStarSpread, onChangeStarTotal, onSubmitPrediction }
-  let orderedGames = {}
-
+  
   if (games && Object.keys(games).length === 0 && sport && sport.sport && !loadingGames) {
     const { year, season, week } = sport.gameWeekData
     props.fetchGameWeekGames(sport.sport, year, season, week)
@@ -43,6 +39,7 @@ const GamesList = (props) => {
                     name: predictions[predictionKey].name,
                     ...predictions[predictionKey][gameId]
                   })
+                  return;
                 }
               })
             }
@@ -67,7 +64,6 @@ const GamesList = (props) => {
             predictions={predictionsArray} />
           }
           )}
-          <OddsChangeModal oddsChangeModalShow={props.UI.oddsChangeModalOpen} toggleOddsChangeModal={props.toggleOddsChangeModal} oddsChangeModalDetails={props.UI.oddsChangeModalDetails} />
 
         </Fragment>
         ) : (

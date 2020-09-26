@@ -1,9 +1,7 @@
 import React, { Fragment } from 'react';
 import PropTypes from 'prop-types'
-import GamePreview from '../game/GamePreview';
 import GamesList from '../gamesList/GamesList'
 import Weeks from '../weeks/Weeks'
-import SeasonSelector from '../seasonSelector/SeasonSelector'
 
 import { fetchGame, fetchGameWeekGames } from '../../redux/actions/gamesActions'
 

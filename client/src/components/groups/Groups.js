@@ -14,7 +14,7 @@ import { toggleCreateGroupModal } from '../../redux/actions/uiActions'
 
 import './Groups.less'
 
-const { Title, Text } = Typography
+const { Title } = Typography
 
 const Groups = (props) => {
     const {sportObj, groupsObj, fetchGroup, loadingGroups, fetchGroups, match, user} = props

@@ -2,12 +2,9 @@ import { LOADING_GAMES,
     SET_GAMES,
     LOADING_GAME,
     SET_GAME,
-    LOADING_PREDICTIONS,
-    LOADING_COMPARED_USER_PREDICTIONS,
     SET_PREDICTIONS,
     TOGGLE_ODDS_CHART_TYPE,
-    SET_ERRORS,
-    CLEAR_ERRORS
+    SET_ERRORS
 } from '../types'
 
 import { Auth } from '@aws-amplify/auth'

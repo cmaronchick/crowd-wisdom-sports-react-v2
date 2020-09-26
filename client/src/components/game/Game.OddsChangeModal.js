@@ -1,7 +1,7 @@
 import React, { Fragment } from 'react'
 import {Modal, Typography} from 'antd'
 
-const { Title, Text, Paragraph } = Typography
+const { Title } = Typography
 
 
 const OddsChangeModal = ({oddsChangeModalShow, toggleOddsChangeModal, oddsChangeModalDetails}) => {

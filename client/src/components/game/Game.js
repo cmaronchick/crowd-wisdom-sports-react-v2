@@ -1,17 +1,18 @@
-import React, { Component } from 'react';
+import React from 'react';
 import PropTypes from 'prop-types'
 import { Link } from 'react-router-dom'
 import { withRouter } from 'react-router-dom'
 
 // Redux Stuff
 import { connect } from 'react-redux'
-import { fetchGame, fetchGameWeekGames, toggleOddsChartType, toggleOddsChangeModal } from '../../redux/actions/gamesActions'
+import { fetchGame, fetchGameWeekGames, toggleOddsChartType } from '../../redux/actions/gamesActions'
 import { submitPrediction, changeGameScore, changeStakesValue } from '../../redux/actions/predictionsActions'
+import { toggleOddsChangeModal } from '../../redux/actions/uiActions'
 import GamePreview from './GamePreview'
 import GameOddsChart from './GameOddsChart'
 
 import { Spin, Button } from 'antd'
-import { LoadingOutlined, ArrowLeftOutlined } from '@ant-design/icons'
+import { LoadingOutlined } from '@ant-design/icons'
 
 const antIcon = <LoadingOutlined title="Loading Game" alt="Loading Game" style={{ fontSize: 24 }} spin />;
 
@@ -35,13 +36,6 @@ const Game = (props) => {
     }
     return (
           <div className="Game">
-            <Link
-              className="home-link link"
-              onClick={handleGamesListClick}
-              to={`/${sport}/games/${year}/${season}/${gameWeek}`}>
-              {/* <i className="fas fa-arrow-left" style={{fontSize: '1.2em', fontWeight: 'bold' }}></i> */}
-              <ArrowLeftOutlined title="Go Back" />
-            </Link>
             <GamePreview
               // onChangeGameScore={this.props.onChangeGameScore}
               // onChangeStarSpread={this.props.onChangeStarSpread}
@@ -79,7 +73,7 @@ const Game = (props) => {
 
 Game.propTypes = {
   game: PropTypes.object.isRequired,
-  handleSubmitPrediction: PropTypes.func.isRequired
+  submitPrediction: PropTypes.func.isRequired
 };
 
 const mapStateToProps = (state) => ({
@@ -93,6 +87,7 @@ const mapActionsToProps = {
   fetchGameWeekGames,
   fetchGame,
   toggleOddsChartType,
+  toggleOddsChangeModal,
   submitPrediction,
   changeGameScore,
   changeStakesValue

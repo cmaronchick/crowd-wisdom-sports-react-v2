@@ -1,7 +1,7 @@
-import React, { Component } from 'react'
+import React from 'react'
 import PropTypes from 'prop-types'
 import { connect } from 'react-redux'
-import { isEmail, handleEditPicture, handleImageChange } from '../../functions/utils'
+import { handleEditPicture, handleImageChange } from '../../functions/utils'
 
 import { Modal, Form, Input, Typography, Button } from 'antd'
 import { EditOutlined } from '@ant-design/icons'

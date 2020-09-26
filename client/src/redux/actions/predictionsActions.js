@@ -1,21 +1,13 @@
-import { LOADING_GAMES,
-    SET_GAMES,
-    LOADING_GAME,
-    SET_GAME,
-    LOADING_PREDICTIONS,
-    LOADING_COMPARED_USER_PREDICTIONS,
+import { 
     CHANGE_GAME_SCORE,
     CHANGE_GAME_STAKES,
-    SET_PREDICTIONS,
     SET_ERRORS,
-    CLEAR_ERRORS,
     SUBMITTING_PREDICTION,
     SUBMITTED_PREDICTION
 } from '../types'
 
 import { Auth } from '@aws-amplify/auth'
 import ky from 'ky/umd'
-import store from '../store';
 import ReactGA from 'react-ga'
 
 const apiHost = ky.create({prefixUrl: process.env.NODE_ENV === 'development' ? 'http://localhost:5000/api/' : 'https://app.stakehousesports.com/api/'})

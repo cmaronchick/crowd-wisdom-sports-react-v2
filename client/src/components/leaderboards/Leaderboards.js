@@ -4,20 +4,17 @@ import { Tabs, Table, Spin, Typography } from 'antd'
 import { antIcon } from '../../functions/utils'
 
 import { connect } from 'react-redux'
-import { LOADING_LEADERBOARDS, SET_ERRORS } from '../../redux/types'
-import store from '../../redux/store'
 import { fetchLeaderboards, selectLeaderboardType } from '../../redux/actions/leaderboardActions'
 import './Leaderboards.less'
 import LeaderboardSelector from './LeaderboardSelector'
 
-import SeasonSelector from '../seasonSelector/SeasonSelector'
 import Weeks from '../weeks/Weeks'
 
 const { Title } = Typography
 const { TabPane } = Tabs
 
 const Leaderboards = (props) => {
-    const { leaderboards, user } = props
+    const { leaderboards } = props
     let { loadingLeaderboards, leaderboardType } = leaderboards
     const { sport, year, season, week } = props.sport.gameWeekData
     const {params} = props.match

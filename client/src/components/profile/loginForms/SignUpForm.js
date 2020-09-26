@@ -1,5 +1,4 @@
 import React, { Fragment } from 'react'
-import PropTypes from 'prop-types'
 import { Link } from 'react-router-dom'
 import {Button, Form, Input, Typography, Tooltip } from 'antd'
 import { EditOutlined } from '@ant-design/icons'
@@ -24,7 +23,8 @@ const signUp = props => {
             <Form.Item
             label="Avatar">
             <div className='image-wrapper'>
-                <img id="avatarImage" style={{height: 30, width: 30}} src={`https://stakehousesports-userfiles.s3-us-west-2.amazonaws.com/public/blank-profile-picture.png`} alt="profile picture" className='profileImage'/>
+                <img
+                alt="Upload Profile Avatar" id="avatarImage" style={{height: 30, width: 30}} src={`https://stakehousesports-userfiles.s3-us-west-2.amazonaws.com/public/blank-profile-picture.png`} className='profileImage'/>
                 <input type='file' hidden='hidden' id='imageInput' onChange={handleImageChange}/>
                     <Button tip="Edit Profile Picture" 
                         placement="top"
@@ -82,7 +82,7 @@ const signUp = props => {
                 By signing up, I agree to the Terms of Use and Official Rules.
                 </Text> */}
                 <label htmlFor="acceptRulesandTOU">
-                    <span>By signing up, I agree to <a href="https://app.termly.io/document/privacy-policy/79832fc4-999b-4a5c-b459-002bb84e862e" target="_blank">Terms of Use</a> and <Link to="/rules">Official Rules.</Link></span>
+                    <span>By signing up, I agree to <a href="https://app.termly.io/document/privacy-policy/79832fc4-999b-4a5c-b459-002bb84e862e" rel="noopener noreferrer" target="_blank">Terms of Use</a> and <Link to="/rules">Official Rules.</Link></span>
                 </label>
                 <Input type="checkbox" name="acceptRulesandTOU" onChange={props.onChangeCheckbox} />
             </Form.Item>
