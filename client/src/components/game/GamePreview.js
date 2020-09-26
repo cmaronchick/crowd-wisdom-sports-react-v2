@@ -251,7 +251,12 @@ GamePreview.propTypes = {
   onClick: PropTypes.func.isRequired,
   game: PropTypes.object.isRequired,
   predictions: PropTypes.array,
-  users: PropTypes.array
+  users: PropTypes.array,
+  user: PropTypes.object.isRequired,
+  onClick: PropTypes.func,
+  handleChangeGameScore: PropTypes.func.isRequired,
+  handleSubmitPrediction: PropTypes.func.isRequired,
+  toggleOddsChangeModal: PropTypes.func.isRequired,
 }
 
 
