@@ -168,7 +168,7 @@ const GamePreviewPrediction = (props) => {
         {prediction && prediction.results ? (
           <Row className='predictionScoreBox'>
             <Col span={24}>
-              Prediction Score: {prediction.predictionScore}
+              Prediction Score: {prediction.predictionScore ? prediction.predictionScore : prediction.results.predictionScore ? prediction.results.predictionScore : 0}
             </Col>
           </Row>
         ) : null}
