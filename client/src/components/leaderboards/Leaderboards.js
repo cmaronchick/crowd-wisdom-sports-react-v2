@@ -174,7 +174,7 @@ const Leaderboards = (props) => {
                             <Table rowKey="username"
                             scroll={{x: 550}}
                                 dataSource={
-                                    leaderboardType === 'predictionScroe' ? overall.users.sort((a,b) => a.predictionScore > b.predictionScore ? -1 : 1)
+                                    leaderboardType === 'predictionScore' ? overall.users.sort((a,b) => a.predictionScore > b.predictionScore ? -1 : 1)
                                 : overall.usersStars.sort((a,b) => a.stars.net > b.stars.net ? -1 : 1)}
                                 columns={leaderboardType === 'predictionScore' ? predictionScoreColumns : stakesColumns} />
                         ) : (
