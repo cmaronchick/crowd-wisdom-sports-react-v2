@@ -1,7 +1,7 @@
 import React, {Fragment} from 'react'
 import PropTypes from 'prop-types'
 import { Link } from 'react-router-dom'
-import { ArrowRightOutlined } from '@ant-design/icons'
+import { ArrowRightOutlined, ArrowLeftOutlined } from '@ant-design/icons'
 
 import { Typography } from 'antd'
 
@@ -17,6 +17,10 @@ const HeaderTitle = ({game}) => (
 
 const GamePreviewHeader = (props) => {
     const { game } = props
+    const { sport, year, season, gameWeek } = game
+    const handleGamesListClick = () => {
+      props.fetchGameWeekGames(sport, year, season, gameWeek)
+    }
 
     return window.location.pathname.indexOf('/game/') === -1 ? (
         <Link to={`/${game.sport}/games/${game.year}/${game.season}/${game.gameWeek}/game/${game.gameId}`} onClick={() => props.onClick()}>
@@ -38,6 +42,14 @@ const GamePreviewHeader = (props) => {
           {game.bowlName}
           </div>
           )}
+
+            <Link
+              className="home-link link"
+              onClick={handleGamesListClick}
+              to={`/${sport}/games/${year}/${season}/${gameWeek}`}>
+              {/* <i className="fas fa-arrow-left" style={{fontSize: '1.2em', fontWeight: 'bold' }}></i> */}
+              <ArrowLeftOutlined className="left-arrow" title="Go Back" />
+            </Link>
           <HeaderTitle game={game} />
         </Title>
       )

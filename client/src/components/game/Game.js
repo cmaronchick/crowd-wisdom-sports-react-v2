@@ -34,13 +34,6 @@ const Game = (props) => {
     }
     return (
           <div className="Game">
-            <Link
-              className="home-link link"
-              onClick={handleGamesListClick}
-              to={`/${sport}/games/${year}/${season}/${gameWeek}`}>
-              {/* <i className="fas fa-arrow-left" style={{fontSize: '1.2em', fontWeight: 'bold' }}></i> */}
-              <ArrowLeftOutlined title="Go Back" />
-            </Link>
             <GamePreview
               // onChangeGameScore={this.props.onChangeGameScore}
               // onChangeStarSpread={this.props.onChangeStarSpread}
