@@ -56,6 +56,7 @@ const GameOddsChart = (props) => {
             if (new Date(odds.date) >= firstOddsDate) {
                 labels.push(`${new Date(odds.date).getMonth() + 1}/${new Date(odds.date).getDate()}`)
                 dataSpread.push(odds.spread ? odds.spread : null)
+
                 dataTotal.push(odds.total ? odds.total : null)
             }
         })
@@ -65,7 +66,9 @@ const GameOddsChart = (props) => {
     odds.history.forEach(odds => {
         if (new Date(odds.date) >= firstOddsDate) {
             spreadArray.push({x: odds.date, y: odds.spread})
-            totalArray.push({x: odds.date, y: odds.total})
+            if (odds.total > 0) {
+                totalArray.push({x: odds.date, y: odds.total})
+            }
         }
     })
     // console.log({dataSpread});
