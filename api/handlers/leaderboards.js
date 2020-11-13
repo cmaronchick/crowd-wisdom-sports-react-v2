@@ -31,8 +31,11 @@ const getCrowdLeaderboards = (req, res) => {
     const getOptions = callOptionsObject.callOptions;
     return ky.get(`https://y5f8dr2inb.execute-api.us-west-2.amazonaws.com/dev/${sport}/${year}/${season}/${week}/leaderboards/crowdoverall`, getOptions)
     .then((crowdOverallResponse) => {
+      return crowdOverallResponse.json()
+    })
+    .then(crowdOverallResponseJSON => {
       // console.log('api/index 134 crowdOverallResponse', crowdOverallResponse)
-       res.send({ crowd: crowdOverallResponse.data })
+       return res.send({ crowd: crowdOverallResponseJSON })
      })
      .catch(crowdOverallResponseError => console.log('api leaderboard index 137 crowdOverallResponse: ', crowdOverallResponseError))
 }

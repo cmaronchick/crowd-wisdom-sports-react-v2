@@ -152,7 +152,7 @@ const GamePreview = (props) => {
                 // oddsChangeModalShow={oddsChangeModalShow}
                 />
           ) : predictions && predictions.length > 0 ? predictions.map(prediction => {
-            console.log('prediction', prediction)
+            // console.log('prediction', prediction)
             return (
             <GamePreviewPrediction
             key={prediction.name}

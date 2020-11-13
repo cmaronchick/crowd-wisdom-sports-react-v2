@@ -5,6 +5,8 @@ import store from '../store'
 import { LOADING_LEADERBOARDS,
     SET_LEADERBOARDS,
     SELECT_LEADERBOARD_TYPE,
+    LOADING_CROWD_RESULTS,
+    SET_CROWD_RESULTS,
     SET_ERRORS,
     CLEAR_ERRORS } from '../types'
 const apiHost = ky.create({prefixUrl: process.env.NODE_ENV === 'development' ? 'http://localhost:5000/api/' : 'https://app.stakehousesports.com/api/'})
@@ -38,4 +40,20 @@ export const selectLeaderboardType = (leaderboardType) => (dispatch) => {
         payload: leaderboardType
     })
 
+}
+
+export const getCrowdResults = (sport, year, season, week) => async (dispatch) => {
+    dispatch({
+        type: LOADING_CROWD_RESULTS
+    })
+    try {
+        let crowdResultsResponse = await ky.get(`/api/${sport}/leaderboards/${year}/${season}/${week}/crowdOverall`).json()
+        console.log('crowdResultsResponse', crowdResultsResponse)
+        dispatch({
+            type: SET_CROWD_RESULTS,
+            payload: crowdResultsResponse
+        })
+    } catch (getCrowdResultsError) {
+        console.log('getCrowdResultsError', getCrowdResultsError)
+    }
 }

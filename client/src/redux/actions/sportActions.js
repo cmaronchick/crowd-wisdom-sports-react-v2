@@ -6,6 +6,7 @@ import {
     CLEAR_ERRORS
 } from '../types'
 import { fetchGameWeekGames, fetchGame } from './gamesActions'
+import { getCrowdResults } from './leaderboardActions'
 
 import ky from 'ky/umd'
 const apiHost = ky.create({prefixUrl: process.env.NODE_ENV === 'development' ? 'http://localhost:5000/api/' : 'https://app.stakehousesports.com/api/'})
@@ -58,12 +59,15 @@ export const setGameWeek = (sport, selectedYear, selectedSeason, selectedWeek) =
             console.log('missing attribute')
             window.history.pushState({ title: 'redirect'},'/')
             dispatch(fetchGameWeekGames(sport, year, season, week))
+            dispatch(getCrowdResults(sport, year, season, week))
+
           } else {
             dispatch(fetchGame(sport, year, season, week, gameId))
           }
         } else {
             // console.log('fetching games')
             dispatch(fetchGameWeekGames(sport, year, season, week))
+            dispatch(getCrowdResults(sport, year, season, week))
         }
     } catch (getGameWeekError) {
         console.log('getGameWeekError', getGameWeekError)

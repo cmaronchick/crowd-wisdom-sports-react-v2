@@ -4,8 +4,11 @@ import GamePreview from '../game/GamePreview';
 import GamesList from '../gamesList/GamesList'
 import Weeks from '../weeks/Weeks'
 import SeasonSelector from '../seasonSelector/SeasonSelector'
+import Stats from '../home/Stats'
+import ContestBanner from '../../components/game/ContestBanner'
 
 import { fetchGame, fetchGameWeekGames } from '../../redux/actions/gamesActions'
+import { toggleHowToPlayModal } from '../../redux/actions/uiActions'
 
 import { connect } from 'react-redux'
 
@@ -13,10 +16,14 @@ const Games = (props) => {
 
     return (
         <Fragment>
+        <ContestBanner howToPlayModalOpen={props.UI.howToPlayModalOpen} toggleHowToPlayModal={props.toggleHowToPlayModal} />
         <div className="selectorHeader">
             {/* <SeasonSelector /> */}
             <Weeks onGameWeekClick={props.fetchGameWeekGames} page="games" />
         </div>
+        {/* {(props.leaderboards && props.leaderboards.crowd && (props.leaderboards.crowd.weekly || props.leaderboards?.crowd?.overall)) && (
+            <Stats selectedWeek={props.sport.gameWeekData.week} crowdResults={props.leaderboards.crowd}/>
+        )} */}
         <GamesList
             games={props.games}
             predictions={{user: props.predictions.user}}
@@ -49,12 +56,14 @@ const mapStateToProps = (state) => ({
     games: state.games.games,
     predictions: state.predictions,
     loadingGames: state.games.loadingGames,
+    leaderboards: state.leaderboards,
     user: state.user,
     UI: state.UI
 })
 const mapActionsToProps = {
     fetchGame,
-    fetchGameWeekGames
+    fetchGameWeekGames,
+    toggleHowToPlayModal
 }
 
 export default connect(mapStateToProps, mapActionsToProps)(Games)

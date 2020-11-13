@@ -13,6 +13,7 @@ import { LOADING_GAMES,
 import { Auth } from '@aws-amplify/auth'
 import ky from 'ky/umd'
 import store from '../store';
+import { getCrowdResults } from './leaderboardActions'
 
 const apiHost = ky.create({prefixUrl: process.env.NODE_ENV === 'development' ? 'http://localhost:5000/api/' : 'https://app.stakehousesports.com/api/'})
 
@@ -42,6 +43,7 @@ export const fetchGameWeekGames = (sport, year, season, gameWeek) => async (disp
             type: SET_GAMES,
             payload: gameWeekGames
         })
+        dispatch(getCrowdResults(sport, year, season, gameWeek))
         dispatch(setGamePredictions(gameWeekGames.games))
         // window.history.pushState({ sport, year, season, gameWeek }, `${sport}: ${year} / ${season} / Week ${gameWeek}`, `/${sport}/games/${year}/${season}/${gameWeek}`)
 
