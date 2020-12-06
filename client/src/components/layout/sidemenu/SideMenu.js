@@ -3,7 +3,7 @@ import PropTypes from 'prop-types'
 import { NavLink, Link } from "react-router-dom";
 
 import './SideMenu.less'
-import { Layout, Menu } from 'antd'
+import { Layout, Menu, Popover } from 'antd'
 import Icon, { UserOutlined } from '@ant-design/icons'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faFootballBall,
@@ -15,7 +15,15 @@ import { faFootballBall,
     faUser
  } from '@fortawesome/free-solid-svg-icons'
 // import { faAppStore, faGooglePlay } from '@fortawesome/free-brands-svg-icons'
-import {FaAppStore, FaGooglePlay, FaList, FaUser, FaUserFriends, FaTrophy, FaFootballBall } from 'react-icons/fa'
+import {
+    FaAppStore,
+    FaGooglePlay,
+    FaList,
+    FaUser,
+    FaUserFriends,
+    FaTrophy,
+    FaFootballBall,
+    FaBell } from 'react-icons/fa'
 
 import { connect } from 'react-redux'
 import { setSport } from '../../../redux/actions/sportActions'
@@ -62,6 +70,9 @@ const SideMenu = (props) => {
     <Menu.Item className="drawerLink" key="2" icon={<Icon component={() => <FaTrophy title="Leaderboards" className="drawerIcon" />} />}><NavLink activeClassName="activeNavLink" to="/nfl/leaderboards">Leaderboards</NavLink></Menu.Item>
     <Menu.Item className="drawerLink" key="3" icon={<Icon component={() => <FaUserFriends title="Groups" className="drawerIcon" />} />}><NavLink activeClassName="activeNavLink" to="/nfl/groups">Groups</NavLink></Menu.Item>
             </SubMenu>
+            <Menu.Item key="8" className="drawerLink" icon={<Icon component={() => <FaBell title="Notifications" className="drawerIcon" />} />}>
+                Notifications
+            </Menu.Item>
             {/* <SubMenu key="ncaaf" title="NCAAF" icon={<Icon component={() => faIcon('ncaaf')} />}>
                 <Menu.Item key="1" icon={<Icon component={() => <FontAwesomeIcon icon={faFootballBall} />} />}><NavLink activeClassName="activeNavLink" to="/ncaaf/games">Games</NavLink></Menu.Item>
                 <Menu.Item key="2" icon={<Icon component={() => <FontAwesomeIcon icon={faTrophy} />} />}><NavLink activeClassName="activeNavLink" to="/ncaaf/leaderboards">Leaderboards</NavLink></Menu.Item>

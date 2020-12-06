@@ -85,4 +85,20 @@ const submitPrediction = (req, res) => {
     })
 }
 
-module.exports = { getGameWeek, getGame, getGamesByGameWeek, submitPrediction }
+const getOddsMovement = (req, res) => {
+  const { sport, year, season, gameWeek } = req.params
+  return ky.get(`https://y5f8dr2inb.execute-api.us-west-2.amazonaws.com/dev/${sport}/${year}/${season}/${gameWeek}/games/live`)
+  .then(oddsMovementResponse => {
+    return oddsMovementResponse.json()
+  })
+  .then(oddsMovementJSON => {
+    return res.status(200).json({ ...oddsMovementJSON } )
+  })
+  .catch(oddsMovementError => {
+    console.log('oddsMovementError: ', oddsMovementError)
+    return res.status(500).json({ message: oddsMovementError})
+  })
+
+}
+
+module.exports = { getGameWeek, getGame, getGamesByGameWeek, submitPrediction, getOddsMovement }

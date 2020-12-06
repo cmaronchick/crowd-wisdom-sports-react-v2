@@ -18,6 +18,7 @@ import FooterComponent from './components/layout/Footer'
 import LoginModal from './components/profile/LoginModal'
 import Games from './components/games/Games'
 import Game from './components/game/Game'
+import OddsMovement from './components/oddsmovement/OddsMovement'
 import Leaderboards from './components/leaderboards/Leaderboards'
 import Groups from './components/groups/Groups'
 import Group from './components/groups/Group'
@@ -34,7 +35,7 @@ import { setSport, setGameWeek } from './redux/actions/sportActions'
 import { fetchGame } from './redux/actions/gamesActions'
 import { fetchLeaderboards } from './redux/actions/leaderboardActions'
 
-import { getFacebookUser } from './redux/actions/userActions'
+import { getFacebookUser, getUserDetails } from './redux/actions/userActions'
 
 
 const customHistory = createBrowserHistory();
@@ -138,6 +139,7 @@ class App extends Component {
                   <Route path="/:sport/leaderboards" component={Leaderboards} />
                   <Route path="/:sport/groups/:year/:season/group/:groupId" component={Group} />
                   <Route path="/:sport/groups" component={Groups} />
+                  <Route path="/:sport/games/:year/:season/:gameWeek/oddsMovement" component={OddsMovement} />
                   <Route path={["/:sport", "/:sport/games","/"]} component={Games} />
                 </Switch>
             </Content>
@@ -160,4 +162,8 @@ const mapStateToProps = (state) => ({
   sport: state.sport
 })
 
-export default connect(mapStateToProps)(App);
+const mapActionsToProps = {
+  getUserDetails
+}
+
+export default connect(mapStateToProps, mapActionsToProps)(App);

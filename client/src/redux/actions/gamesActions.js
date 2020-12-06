@@ -6,6 +6,7 @@ import { LOADING_GAMES,
     LOADING_COMPARED_USER_PREDICTIONS,
     SET_PREDICTIONS,
     TOGGLE_ODDS_CHART_TYPE,
+    SET_ODDS_MOVEMENT,
     SET_ERRORS,
     CLEAR_ERRORS
 } from '../types'
@@ -45,6 +46,7 @@ export const fetchGameWeekGames = (sport, year, season, gameWeek) => async (disp
         })
         dispatch(getCrowdResults(sport, year, season, gameWeek))
         dispatch(setGamePredictions(gameWeekGames.games))
+        dispatch(getWeeklyOddsMovement(sport, year, season, gameWeek))
         // window.history.pushState({ sport, year, season, gameWeek }, `${sport}: ${year} / ${season} / Week ${gameWeek}`, `/${sport}/games/${year}/${season}/${gameWeek}`)
 
 
@@ -134,4 +136,18 @@ export const fetchGameWeekGames = (sport, year, season, gameWeek) => async (disp
       dispatch({
           type: TOGGLE_ODDS_CHART_TYPE
       })
+  }
+
+  export const getWeeklyOddsMovement = (sport, year, season, week) => async (dispatch) => {
+      try {
+          const oddsMovement = await apiHost.get(`${sport}/games/${year}/${season}/${week}/live`).json()
+          console.log('oddsMovement', oddsMovement.games)
+          
+          dispatch({
+              type: SET_ODDS_MOVEMENT,
+              payload: oddsMovement.games.Items
+          })
+      } catch (getOddsMovementError) {
+          console.log('getOddsMovementError', getOddsMovementError)
+      }
   }

@@ -12,11 +12,11 @@ router.use(bodyParser.urlencoded({ extended: true })) // for parsing application
 const cors = require('cors')
 router.use(cors())
 
-const { getGameWeek, getGame, getGamesByGameWeek, submitPrediction } = require('./handlers/games')
+const { getGameWeek, getGame, getGamesByGameWeek, submitPrediction, getOddsMovement } = require('./handlers/games')
 const { getSportSeason } = require('./handlers/sport')
 const { getLeaderboards, getCrowdLeaderboards } = require('./handlers/leaderboards')
 const { getGroups, getGroup, joinGroup, leaveGroup, createGroup, updateGroup } = require('./handlers/groups')
-const { getExtendedProfile, uploadImage } = require('./handlers/users')
+const { getExtendedProfile, getUserNotifications, uploadImage } = require('./handlers/users')
 
 const { callOptions} = require('./utils');
 
@@ -24,6 +24,7 @@ router.get('/sport/:sport/:year/:season', getSportSeason)
 
 //games calls
 router.get('/:sport/week', getGameWeek)
+router.get('/:sport/games/:year/:season/:gameWeek/live', getOddsMovement)
 router.get('/:sport/games/:year/:season/:gameWeek/game/:gameId', getGame);
 router.get(['/:sport/games', '/:sport/games/:year/:season/:gameWeek'], getGamesByGameWeek);
 router.post('/submitPrediction', submitPrediction)
@@ -41,7 +42,9 @@ router.get('/group/:sport/:year/:groupId', getGroup)
 router.get(['/group/:sport/:year', '/:sport/crowds/:year'], getGroups)
 
 // user calls
+router.get('/extendedprofile/notifications', getUserNotifications)
 router.get('/extendedprofile', getExtendedProfile)
 router.post('/user/image', uploadImage)
+
 
 module.exports = router;

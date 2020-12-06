@@ -7,13 +7,30 @@ const getExtendedProfile = (req, res) => {
     let { sport, year, season, week } = req.query;
     const callOptionsObject = callOptions(req.headers.authorization);
     const getOptions = callOptionsObject.callOptions;
-    return ky.get(`${apiHost}extendedprofile?sport=${sport}&year=${year}&season=${season}&week=${week}`, getOptions)
+    return ky.get(`https://y5f8dr2inb.execute-api.us-west-2.amazonaws.com/dev/extendedprofile?sport=${sport}&year=${year}&season=${season}&week=${week}`, getOptions)
     .then((userStatsResponse) => {
-      // console.log('api/index 134 crowdOverallResponse', crowdOverallResponse)
-       res.send({ userStatsResponse: userStatsResponse.data })
+        return userStatsResponse.json()
+    })
+    .then(userStatsResponseJSON => {
+      console.log('userStatsResponseJSON', userStatsResponseJSON)
+      return  res.send({ userStatsResponse: userStatsResponseJSON })
      })
      .catch(userStatsResponseError => console.log('api leaderboard index 150 userStatsResponseError: ', userStatsResponseError))
   
+}
+
+const getUserNotifications = (req, res) => {
+
+    const callOptionsObject = callOptions(req.headers.authorization);
+    const getOptions = callOptionsObject.callOptions;
+    return ky.get(`https://y5f8dr2inb.execute-api.us-west-2.amazonaws.com/dev/extendedprofile/notifications`, getOptions)
+    .then((notifications) => {
+        return notifications.json()
+    })
+    .then(notificationsJSON => {
+      return  res.send({ notifications: notificationsJSON.body })
+     })
+     .catch(notificationsError => console.log('api leaderboard index 150 notificationsError: ', notificationsError))
 }
 
 const uploadImage = (req, res) => {
@@ -58,4 +75,4 @@ const uploadImage = (req, res) => {
     busboy.end(req.rawBody);
 }
 
-module.exports = { getExtendedProfile, uploadImage }
+module.exports = { getExtendedProfile, uploadImage, getUserNotifications }

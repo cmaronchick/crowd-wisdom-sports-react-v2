@@ -7,6 +7,8 @@ import {
 } from '../types'
 import { fetchGameWeekGames, fetchGame } from './gamesActions'
 import { getCrowdResults } from './leaderboardActions'
+import { Auth } from 'aws-amplify'
+import { getUserDetails } from './userActions'
 
 import ky from 'ky/umd'
 const apiHost = ky.create({prefixUrl: process.env.NODE_ENV === 'development' ? 'http://localhost:5000/api/' : 'https://app.stakehousesports.com/api/'})
@@ -47,6 +49,14 @@ export const setGameWeek = (sport, selectedYear, selectedSeason, selectedWeek) =
             payload: gameWeekData.data
         })
         const { week, year, season } = gameWeekData.data
+        try {
+            const user = await Auth.currentAuthenticatedUser()
+
+            const extendedProfile = dispatch(getUserDetails(sport, year, season, week))
+            // console.log('extendedProfile', extendedProfile)
+        } catch (sportActionsGetUserError) {
+            console.log('no authenticated user')
+        }
         if (window.location.pathname.indexOf('/game/') > -1) {
           let attributes = window.location.pathname.split('/')
           const sport = attributes[1];
