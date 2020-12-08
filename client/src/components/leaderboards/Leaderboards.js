@@ -9,6 +9,7 @@ import store from '../../redux/store'
 import { fetchLeaderboards, selectLeaderboardType } from '../../redux/actions/leaderboardActions'
 import './Leaderboards.less'
 import LeaderboardSelector from './LeaderboardSelector'
+import LoginButton from '../profile/LoginButton'
 
 import SeasonSelector from '../seasonSelector/SeasonSelector'
 import Weeks from '../weeks/Weeks'
@@ -32,9 +33,11 @@ const Leaderboards = (props) => {
     */ 
     if ((!weekly || !overall) && !loadingLeaderboards && sport && year && season && week) {
         loadingLeaderboards = true;
-        setTimeout(() => {
-            props.fetchLeaderboards(sport, year, season, week)
-        }, 100)
+        if (props.user.authenticated) {
+            setTimeout(() => {
+                props.fetchLeaderboards(sport, year, season, week)
+            }, 100)
+        }
     }
 
 
@@ -142,7 +145,7 @@ const Leaderboards = (props) => {
         console.log('overall.users: ', overall ? overall.users : null)
     }
     const extraContent = <LeaderboardSelector leaderboardType={props.leaderboards.leaderboardType} handleChangeLeaderboardType={props.selectLeaderboardType} />
-    return (
+    return props.user.authenticated ? (
         <div className="leaderboardContainer">
             <Title className="title">{year} Leaderboards</Title>
             <div className="selectorHeader">
@@ -187,6 +190,10 @@ const Leaderboards = (props) => {
                     <Spin className="loadingIndicator" indicator={antIcon} />
                 </Fragment>
             )}
+        </div>
+    ) : (
+        <div style={{display: 'flex', flexDirection: 'column', justifyContent: 'center', padding: '0 20px'}}>
+            <LoginButton />
         </div>
     )
 }
