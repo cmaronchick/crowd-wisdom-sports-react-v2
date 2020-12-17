@@ -24,9 +24,17 @@ const OddsMovement = (props) => {
                         matchup: 'Spread',
                         key: `${game.awayTeam.code}${game.homeTeam.code}spread`
                     }
+                    let dataSourceSpreadPriceObj = {
+                        matchup: (<span>Spread Price<br/>(Away/Home)</span>),
+                        key: `${game.awayTeam.code}${game.homeTeam.code}spreadprices`
+                    }
                     let dataSourceTotalObj = {
                         matchup: 'Total',
                         key: `${game.awayTeam.code}${game.homeTeam.code}total`
+                    }
+                    let dataSourceTotalPriceObj = {
+                        matchup: (<span>Total Price<br/>(Under/Over)</span>),
+                        key: `${game.awayTeam.code}${game.homeTeam.code}totalprices`
                     }
 
                     game.odds && game.odds.history && game.odds.history.length > 0 && game.odds.history.forEach((odds,index) => {
@@ -37,9 +45,17 @@ const OddsMovement = (props) => {
                             })
                             dataSourceSpreadObj[index] = odds.spread
                             dataSourceTotalObj[index] = odds.total
+                            if (odds.prices) {
+                                dataSourceSpreadPriceObj[index] = `${odds.prices.spreadAwayPrice}/${odds.prices.spreadHomePrice}`
+                                dataSourceTotalPriceObj[index] = `${odds.prices.totalUnderPrice}/${odds.prices.totalOverPrice}`
+                            }
                     })
 
-                    const dataSource = [dataSourceSpreadObj, dataSourceTotalObj]
+                    const dataSource = [
+                        dataSourceSpreadObj,
+                        dataSourceSpreadPriceObj,
+                        dataSourceTotalObj,
+                        dataSourceTotalPriceObj]
                     return (
 
                     <div className="oddsRow" style={{flexDirection: 'column'}} key={game.gameUID}>
