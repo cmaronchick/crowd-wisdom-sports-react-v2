@@ -43,7 +43,7 @@ const Game = (props) => {
               // onClick={this.props.onGameClick}
               game={game} 
               predictions={[{ type: 'user', ...prediction}]}
-              headerRowArrowClick={() => props.fetchGameWeekGames(game.sport, game.year, game.season, game.gameWeek)}
+              headerRowArrowClick={props.fetchGameWeekGames}
               handleChangeGameScore={props.changeGameScore}
               handleSubmitPrediction={props.submitPrediction}
               user={props.user}

@@ -23,7 +23,7 @@ const GamePreviewHeader = (props) => {
     }
 
     return window.location.pathname.indexOf('/game/') === -1 ? (
-        <Link to={`/${game.sport}/games/${game.year}/${game.season}/${game.gameWeek}/game/${game.gameId}`} onClick={() => props.onClick()}>
+        <Link to={`/${game.sport}/games/${game.year}/${game.season}/${game.gameWeek}/game/${game.gameId}`} onClick={handleGamesListClick}>
           <Title level={4} className="game-header">
           {game.bowlName && (
             <div className="bowlName">
