@@ -72,7 +72,7 @@ const SideMenu = (props) => {
     <Menu.Item className="drawerLink" key="3" icon={<Icon component={() => <FaUserFriends title="Groups" className="drawerIcon" />} />}><NavLink activeClassName="activeNavLink" to="/nfl/groups">Groups</NavLink></Menu.Item>
             </SubMenu>
             <Menu.Item key="9" className="drawerLink" icon={<Icon component={() => <FaChartLine title="Notifications" className="drawerIcon" />} />}>
-                <Link to={`/${sport.sport}/games/${sport.gameWeekData.year}/${sport.gameWeekData.season}/${sport.gameWeekData.week}/oddsMovement`}>Odds Movement</Link>
+                <Link to={`/${sport.sport}/oddsmovement/${sport.gameWeekData.year}/${sport.gameWeekData.season}/${sport.gameWeekData.week}`}>Odds Movement</Link>
             </Menu.Item>
             {/* <Menu.Item key="8" className="drawerLink" icon={<Icon component={() => <FaBell title="Notifications" className="drawerIcon" />} />}>
                 Notifications

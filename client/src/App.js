@@ -139,7 +139,7 @@ class App extends Component {
                   <Route path="/:sport/leaderboards" component={Leaderboards} />
                   <Route path="/:sport/groups/:year/:season/group/:groupId" component={Group} />
                   <Route path="/:sport/groups" component={Groups} />
-                  <Route path="/:sport/games/:year/:season/:gameWeek/oddsMovement" component={OddsMovement} />
+                  <Route path="/:sport/oddsmovement/:year/:season/:gameWeek" component={OddsMovement} />
                   <Route path={["/:sport", "/:sport/games","/"]} component={Games} />
                 </Switch>
             </Content>

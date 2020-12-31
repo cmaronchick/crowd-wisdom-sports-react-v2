@@ -1,7 +1,8 @@
 import React from 'react'
 import dayjs from 'dayjs'
-import { Row, Col, Divider, Table } from 'antd'
+import { Row, Col, Divider, Table, Spin } from 'antd'
 import Weeks from '../weeks/Weeks'
+import StakeIcon from '../../images/stake-image-blue-dual-ring.svg'
 
 import { connect } from 'react-redux'
 import {getWeeklyOddsMovement} from '../../redux/actions/gamesActions'
@@ -9,12 +10,15 @@ import {getWeeklyOddsMovement} from '../../redux/actions/gamesActions'
 
 const OddsMovement = (props) => {
 
-    
     return (
         <div className="oddsMovementContainer">
-            <Weeks sport={props.sport.sport} onGameWeekClick={props.getWeeklyOddsMovement} page="games" />
+            <Weeks sport={props.sport.sport} onGameWeekClick={props.getWeeklyOddsMovement} page="oddsmovement" />
             <div>
-                {props.games && props.games.oddsMovement && props.games.oddsMovement.length > 0 && props.games.oddsMovement.map(game => {
+                {props.games.loadingOdds ? (
+                        <div className="oddsRow" style={{backgroundColor: '#fff', padding: 20}}>
+                            <img src={StakeIcon} className="loadingIcon" alt="Odds Loading" />
+                        </div>
+                ) : props.games && props.games.oddsMovement && props.games.oddsMovement.length > 0 ? props.games.oddsMovement.map(game => {
                     const columns = [{
                         title: `${game.awayTeam.code} vs. ${game.homeTeam.code}`,
                         dataIndex: 'matchup',
@@ -81,6 +85,10 @@ const OddsMovement = (props) => {
                         </Row>
                     </div>
                     )}
+                ) : (
+                    <div className="oddsRow">
+                        <h1>No Odds Available Yet. Check back soon!</h1>
+                    </div>
                 )}
             </div>
         </div>

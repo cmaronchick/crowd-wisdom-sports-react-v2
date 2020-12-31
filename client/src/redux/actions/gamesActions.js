@@ -7,6 +7,7 @@ import { LOADING_GAMES,
     SET_PREDICTIONS,
     TOGGLE_ODDS_CHART_TYPE,
     SET_ODDS_MOVEMENT,
+    LOADING_ODDS_MOVEMENT,
     SET_ERRORS,
     CLEAR_ERRORS
 } from '../types'
@@ -139,6 +140,9 @@ export const fetchGameWeekGames = (sport, year, season, gameWeek) => async (disp
   }
 
   export const getWeeklyOddsMovement = (sport, year, season, week) => async (dispatch) => {
+      dispatch({
+          type: LOADING_ODDS_MOVEMENT
+      })
       try {
           const oddsMovement = await apiHost.get(`${sport}/games/${year}/${season}/${week}/live`).json()
           console.log('oddsMovement', oddsMovement.games)

@@ -402,8 +402,8 @@ export const getUserDetails = (sport, year, season, week) => async (dispatch) =>
     }
   }
 
-  export const getUserNotifications = () => async (dispatch) => {
-      try {
+export const getUserNotifications = () => async (dispatch) => {
+    try {
         let currentSession = await Auth.currentSession()
         let IdToken = await currentSession.getIdToken().getJwtToken()
         let getUserNotificationsResponse = await apiHost.get(`extendedprofile/notifications`,{
@@ -419,10 +419,10 @@ export const getUserDetails = (sport, year, season, week) => async (dispatch) =>
                 payload: notifications
             })
         }
-      } catch (userNotificationError) {
-          console.log('userNotificationError', userNotificationError)
-      }
-  }
+    } catch (userNotificationError) {
+        console.log('userNotificationError', userNotificationError)
+    }
+}
 
 export const changeUserDetails = (attributeKey, attributeValue) => {
 
