@@ -19,7 +19,7 @@ const GamePreviewHeader = (props) => {
     const { game } = props
     const { sport, year, season, gameWeek } = game
     const handleGamesListClick = () => {
-      props.fetchGameWeekGames(sport, year, season, gameWeek)
+      props.headerRowArrowClick(sport, year, season, gameWeek)
     }
 
     return window.location.pathname.indexOf('/game/') === -1 ? (

@@ -129,7 +129,9 @@ const GamePreview = (props) => {
     props.handleSubmitPrediction(props.game.gameId, prediction)
   }
       return (
-      <Card bodyStyle={{ padding: window.innerWidth < 768 ? 12 : 24 }} title={<GamePreviewHeader game={game} onClick={props.headerRowArrowClick} />} className="link GamePreview">
+      <Card bodyStyle={{ padding: window.innerWidth < 768 ? 12 : 24 }} title={
+        <GamePreviewHeader game={game} onClick={props.headerRowArrowClick} />
+        } className="link GamePreview">
         <Row className="game-details">
           <Col span={24}>
             <GamePreviewHeaderRow game={game} showPrediction={showPrediction}/>
