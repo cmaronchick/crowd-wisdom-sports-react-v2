@@ -6,7 +6,7 @@ import {
     CLEAR_ERRORS
 } from '../types'
 import { fetchGameWeekGames, fetchGame } from './gamesActions'
-import { getCrowdResults } from './leaderboardActions'
+import { getCrowdResults, fetchLeaderboards } from './leaderboardActions'
 import { Auth } from 'aws-amplify'
 import { getUserDetails } from './userActions'
 
@@ -128,6 +128,7 @@ export const selectSeason = (sport, year, season) => async (dispatch) => {
             }
         })
         dispatch(fetchGameWeekGames(sport, year, season, 1))
+        dispatch(fetchLeaderboards(sport, year, season, 1))
 
     } catch(setSeasonError) {
 

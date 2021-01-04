@@ -2,7 +2,7 @@
 
 import React from 'react'
 import PropTypes from 'prop-types'
-import {VictoryLine, VictoryChart, VictoryAxis, VictoryTheme} from 'victory'
+import {VictoryLine, VictoryChart, VictoryAxis, VictoryTheme, VictoryVoronoiContainer} from 'victory'
 import dayjs from 'dayjs'
 
 const propTypes = {
@@ -129,7 +129,15 @@ const GameOddsChart = (props) => {
             {chartData && chartOptions && (
                 game.oddsChartType === 'total' ? (
                 <VictoryChart
-                domain={{y: [0, totalMax]}}>
+                domain={{y: [0, totalMax]}}
+                animate={{
+                    duration: 500,
+                    easing: 'linear'
+                }}
+                containerComponent={
+                    <VictoryVoronoiContainer
+                      labels={({ datum }) => `${datum.y}`}
+                    />}>
                     <VictoryAxis
                         tickCount={5}
                         tickFormat={(x) => dayjs(x).format('DD MMM')} />
@@ -141,6 +149,14 @@ const GameOddsChart = (props) => {
                 </VictoryChart>
                 ) : (
                 <VictoryChart
+                animate={{
+                    duration: 500,
+                    easing: 'linear'
+                }}
+                containerComponent={
+                    <VictoryVoronoiContainer
+                        labels={({ datum }) => `${datum.y}`}
+                    />}
                 theme={VictoryTheme.material}
                 domain={{y: spreadMin > spreadMax ? [spreadMax, spreadMin] :[spreadMin, spreadMax]}}>
                     <VictoryAxis

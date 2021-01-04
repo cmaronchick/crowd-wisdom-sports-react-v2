@@ -4,9 +4,8 @@ import { Tabs, Table, Spin, Typography } from 'antd'
 import { antIcon } from '../../functions/utils'
 
 import { connect } from 'react-redux'
-import { LOADING_LEADERBOARDS, SET_ERRORS } from '../../redux/types'
-import store from '../../redux/store'
 import { fetchLeaderboards, selectLeaderboardType } from '../../redux/actions/leaderboardActions'
+import { selectSeason } from '../../redux/actions/sportActions'
 import './Leaderboards.less'
 import LeaderboardSelector from './LeaderboardSelector'
 import LoginButton from '../profile/LoginButton'
@@ -18,7 +17,7 @@ const { Title } = Typography
 const { TabPane } = Tabs
 
 const Leaderboards = (props) => {
-    const { leaderboards, user } = props
+    const { leaderboards, user,selectSeason } = props
     let { loadingLeaderboards, leaderboardType } = leaderboards
     const { sport, year, season, week } = props.sport.gameWeekData
     const {params} = props.match
@@ -149,7 +148,9 @@ const Leaderboards = (props) => {
         <div className="leaderboardContainer">
             <Title className="title">{year} Leaderboards</Title>
             <div className="selectorHeader">
-                {/* <SeasonSelector /> */}
+                <SeasonSelector
+                season={season}
+                selectSeason={selectSeason} />
                 <Weeks loading={loadingLeaderboards} onGameWeekClick={props.fetchLeaderboards} page="leaderboards" />
             </div>
             {!loadingLeaderboards ? (
@@ -207,7 +208,8 @@ const mapStateToProps = (state) => ({
 
 const mapActionsToProps = {
     fetchLeaderboards,
-    selectLeaderboardType
+    selectLeaderboardType,
+    selectSeason
 }
 
 export default connect(mapStateToProps, mapActionsToProps)(Leaderboards)

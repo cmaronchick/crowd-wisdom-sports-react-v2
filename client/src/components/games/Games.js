@@ -17,24 +17,28 @@ const Games = (props) => {
     return (
         <Fragment>
         <ContestBanner howToPlayModalOpen={props.UI.howToPlayModalOpen} toggleHowToPlayModal={props.toggleHowToPlayModal} />
-        <div className="selectorHeader">
-            {/* <SeasonSelector /> */}
-            <Weeks onGameWeekClick={props.fetchGameWeekGames} page="games" />
+        <div className="gamesContainer">
+            <div className="selectorHeader">
+                <SeasonSelector
+                    sport={props.sport.sport} season={props.sport.gameWeekData.season}
+                />
+                <Weeks onGameWeekClick={props.fetchGameWeekGames} page="games" />
+            </div>
+            {/* {(props.leaderboards && props.leaderboards.crowd && (props.leaderboards.crowd.weekly || props.leaderboards?.crowd?.overall)) && (
+                <Stats selectedWeek={props.sport.gameWeekData.week} crowdResults={props.leaderboards.crowd}/>
+            )} */}
+            <GamesList
+                games={props.games}
+                predictions={{user: props.predictions.user}}
+                loadingGames={props.loadingGames}
+                sport={props.sport}
+                fetchGame={props.fetchGame}
+                fetchGameWeekGames={props.fetchGameWeekGames}
+                user={props.user}
+                compareTo={props.compareUser ? props.compareUser : `Crowd`}
+                UI={props.UI}
+                />
         </div>
-        {/* {(props.leaderboards && props.leaderboards.crowd && (props.leaderboards.crowd.weekly || props.leaderboards?.crowd?.overall)) && (
-            <Stats selectedWeek={props.sport.gameWeekData.week} crowdResults={props.leaderboards.crowd}/>
-        )} */}
-        <GamesList
-            games={props.games}
-            predictions={{user: props.predictions.user}}
-            loadingGames={props.loadingGames}
-            sport={props.sport}
-            fetchGame={props.fetchGame}
-            fetchGameWeekGames={props.fetchGameWeekGames}
-            user={props.user}
-            compareTo={props.compareUser ? props.compareUser : `Crowd`}
-            UI={props.UI}
-            />
         </Fragment>
     )
 }

@@ -12,6 +12,9 @@ import { LOADING_LEADERBOARDS,
 const apiHost = ky.create({prefixUrl: process.env.NODE_ENV === 'development' ? 'http://localhost:5000/api/' : 'https://app.stakehousesports.com/api/'})
 
 export const fetchLeaderboards = (sport, year, season, week) => async (dispatch) => {
+    dispatch({
+        type: LOADING_LEADERBOARDS
+    })
     try {
         let currentSession = await Auth.currentSession()
         let IdToken = await currentSession.getIdToken().getJwtToken()
