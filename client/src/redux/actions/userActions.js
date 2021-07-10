@@ -380,12 +380,14 @@ export const getUserDetails = (sport, year, season, week) => async (dispatch) =>
     try {
         let currentSession = await Auth.currentSession()
         let IdToken = await currentSession.getIdToken().getJwtToken()
+        let tokenPayload = await currentSession.getIdToken().decodePayload()
         let getProfileResponse = await apiHost.get(`extendedprofile?sport=${sport}&year=${year}&season=${season}&week=${week}`,{
             headers: {
                 Authorization: IdToken
             }
         }).json()
         console.log('getProfileResponse', getProfileResponse)
+        getProfileResponse.userStatsResponse.isAdmin = tokenPayload['cognito:groups'] && tokenPayload['cognito:groups'].indexOf('admins') > -1 ? true : false
         dispatch({
             type: SET_USER,
             payload: {
