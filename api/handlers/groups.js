@@ -4,24 +4,32 @@ const { callOptions } = require('../utils')
 
 const getGroups = (req, res) => {
     console.log('api index 129 req', {query: req.query})
+    console.log(`req.params`, req.params)
     const { sport, year } = req.params; 
     const { season } = req.query
       const callOptionsObject = callOptions(req.headers.authorization);
       const anonString = callOptionsObject.anonString;
       const getOptions = callOptionsObject.callOptions;
-        return ky.get(`https://y5f8dr2inb.execute-api.us-west-2.amazonaws.com/dev/group/${sport}/${year}${anonString}${season ? `?season=${season}` : ''}`, getOptions).json()
+
+      
+      return ky.get(`https://y5f8dr2inb.execute-api.us-west-2.amazonaws.com/dev/group/${sport}/${year}${anonString}${season ? `?season=${season}` : ''}`, getOptions)
         .then((groupsResponse) => {
-          let noResultsGroups = groupsResponse.filter(group => !(group.results && group.results[sport] && group.results[sport][year] && group.results[sport][year][season] && group.results[sport][year][season].predictionScore))
-          let resultsGroups = groupsResponse.filter(group => (group.results && group.results[sport] && group.results[sport][year] && group.results[sport][year][season] && group.results[sport][year][season].predictionScore))
-          groupsResponse = resultsGroups.sort((a,b) => {
+          // console.log(`groupsResponse`, groupsResponse)
+          return  groupsResponse.json()
+        })
+        .then(groupsResponseJSON => {
+          // console.log(`groupsResponseJSON`, groupsResponseJSON)
+          let noResultsGroups = groupsResponseJSON.filter(group => !(group.results && group.results[sport] && group.results[sport][year] && group.results[sport][year][season] && group.results[sport][year][season].predictionScore))
+          let resultsGroups = groupsResponseJSON.filter(group => (group.results && group.results[sport] && group.results[sport][year] && group.results[sport][year][season] && group.results[sport][year][season].predictionScore))
+          groupsResponseJSON = resultsGroups.sort((a,b) => {
             a.results[sport][year][season].predictionScore - b.results[sport][year][season].predictionScore
           })
-          groupsResponse.push(...noResultsGroups)
-          const groupsResponseObjs = groupsResponse.reduce((obj, group) => {
+          groupsResponseJSON.push(...noResultsGroups)
+          const groupsResponseObjs = groupsResponseJSON.reduce((obj, group) => {
             obj[group.groupId] = group;
             return obj;
           }, {});
-          res.send({ groups: groupsResponse })
+          res.send({ groups: groupsResponseJSON })
         })
         .catch(crowdsResponseError => console.log('api leaderboard index 139 leaderboardResponseError: ', crowdsResponseError))
 }

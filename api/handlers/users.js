@@ -12,7 +12,7 @@ const getExtendedProfile = (req, res) => {
         return userStatsResponse.json()
     })
     .then(userStatsResponseJSON => {
-      console.log('userStatsResponseJSON', userStatsResponseJSON)
+    //   console.log('userStatsResponseJSON', userStatsResponseJSON)
       return  res.send({ userStatsResponse: userStatsResponseJSON })
      })
      .catch(userStatsResponseError => console.log('api leaderboard index 150 userStatsResponseError: ', userStatsResponseError))

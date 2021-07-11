@@ -50,9 +50,14 @@ history.listen(location => {
     ReactGA.pageview(location.pathname)
 })
 
-const RequireAuth = ({ Component }) => {
-  console.log(`Component`, Component)
-  return Auth.currentSession()
+const RequireAuth = (props) => {
+  console.log(`props`, props)
+  if (!props.user.authenticated) {
+    
+    return <Redirect to="/" />
+  }
+  const Component = props.Component
+  Auth.currentSession()
   .then(currentSession => {
     let tokenPayload = currentSession.getIdToken().decodePayload()
     console.log(`tokenPayload`, tokenPayload)
@@ -60,12 +65,14 @@ const RequireAuth = ({ Component }) => {
       console.log('user is an admin')
       return <Component />
     } else {
-      throw new Error('User is not an admin')
+      console.log('User is not an admin')
+      return (<div></div>)
+      // <Redirect to="/nfl/games" />
     }
   })
   .catch((currentSessionError) => {
     console.log(`currentSessionError`, currentSessionError)
-    return <Redirect to="/" />
+    return <Redirect to="/nfl/games" />
 
   })
 }
@@ -115,6 +122,8 @@ class App extends Component {
     // })
     try {
       const currentUser = await Auth.currentAuthenticatedUser()
+      const tokenPayload = await (await Auth.currentSession()).getIdToken().decodePayload()
+      currentUser.attributes.isAdmin = tokenPayload && tokenPayload['cognito:groups'] && tokenPayload['cognito:groups'].indexOf('admins') > -1 ? true : false
       store.dispatch({
         type: SET_USER,
         payload: {
@@ -163,7 +172,9 @@ class App extends Component {
                   <Route path="/:sport/groups/:year/:season/group/:groupId" component={Group} />
                   <Route path="/:sport/groups" component={Groups} />
                   <Route path="/:sport/oddsmovement/:year/:season/:gameWeek" component={OddsMovement} />
-                  <Route path="/:sport/games/admin" component={this.props.user?.details?.isAdmin ? AdminPage : Redirect}/>
+                  {/* <Route path="/:sport/games/admin" component={props => 
+                    <RequireAuth {...props} user={this.props.user} Component={AdminPage} />}/> */}
+                  <Route path="/:sport/games/admin" component={AdminPage}/>
                   <Route path={["/:sport", "/:sport/games","/"]} component={Games} />
                 </Switch>
             </Content>
