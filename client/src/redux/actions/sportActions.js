@@ -5,6 +5,9 @@ import {
     SET_ERRORS
 } from '../types'
 import { fetchGameWeekGames, fetchGame } from './gamesActions'
+import { getCrowdResults, fetchLeaderboards } from './leaderboardActions'
+import { Auth } from 'aws-amplify'
+import { getUserDetails } from './userActions'
 
 import ky from 'ky/umd'
 const apiHost = ky.create({prefixUrl: process.env.NODE_ENV === 'development' ? 'http://localhost:5000/api/' : 'https://app.stakehousesports.com/api/'})
@@ -44,7 +47,15 @@ export const setGameWeek = (sport, selectedYear, selectedSeason, selectedWeek) =
             type: SET_GAMEWEEK,
             payload: gameWeekData.data
         })
-        let { week, year, season } = gameWeekData.data
+        const { week, year, season } = gameWeekData.data
+        try {
+            const user = await Auth.currentAuthenticatedUser()
+
+            const extendedProfile = dispatch(getUserDetails(sport, year, season, week))
+            // console.log('extendedProfile', extendedProfile)
+        } catch (sportActionsGetUserError) {
+            console.log('no authenticated user')
+        }
         if (window.location.pathname.indexOf('/game/') > -1) {
           let attributes = window.location.pathname.split('/')
           const sport = attributes[1];
@@ -57,12 +68,15 @@ export const setGameWeek = (sport, selectedYear, selectedSeason, selectedWeek) =
             console.log('missing attribute')
             window.history.pushState({ title: 'redirect'},'/')
             dispatch(fetchGameWeekGames(sport, year, season, week))
+            dispatch(getCrowdResults(sport, year, season, week))
+
           } else {
             dispatch(fetchGame(sport, year, season, week, gameId))
           }
         } else {
             // console.log('fetching games')
             dispatch(fetchGameWeekGames(sport, year, season, week))
+            dispatch(getCrowdResults(sport, year, season, week))
         }
     } catch (getGameWeekError) {
         console.log('getGameWeekError', getGameWeekError)
@@ -113,6 +127,7 @@ export const selectSeason = (sport, year, season) => async (dispatch) => {
             }
         })
         dispatch(fetchGameWeekGames(sport, year, season, 1))
+        dispatch(fetchLeaderboards(sport, year, season, 1))
 
     } catch(setSeasonError) {
 

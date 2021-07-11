@@ -1,7 +1,8 @@
 
 
 import React from 'react'
-import {VictoryLine, VictoryChart, VictoryAxis, VictoryTheme} from 'victory'
+import PropTypes from 'prop-types'
+import {VictoryLine, VictoryChart, VictoryAxis, VictoryTheme, VictoryVoronoiContainer} from 'victory'
 import dayjs from 'dayjs'
 
 
@@ -45,6 +46,7 @@ const GameOddsChart = (props) => {
             if (new Date(odds.date) >= firstOddsDate) {
                 labels.push(`${new Date(odds.date).getMonth() + 1}/${new Date(odds.date).getDate()}`)
                 dataSpread.push(odds.spread ? odds.spread : null)
+
                 dataTotal.push(odds.total ? odds.total : null)
             }
         })
@@ -54,7 +56,9 @@ const GameOddsChart = (props) => {
     odds.history.forEach(odds => {
         if (new Date(odds.date) >= firstOddsDate) {
             spreadArray.push({x: odds.date, y: odds.spread})
-            totalArray.push({x: odds.date, y: odds.total})
+            if (odds.total > 0) {
+                totalArray.push({x: odds.date, y: odds.total})
+            }
         }
     })
     // console.log({dataSpread});
@@ -115,7 +119,15 @@ const GameOddsChart = (props) => {
             {chartData && chartOptions && (
                 game.oddsChartType === 'total' ? (
                 <VictoryChart
-                domain={{y: [0, totalMax]}}>
+                domain={{y: [0, totalMax]}}
+                animate={{
+                    duration: 500,
+                    easing: 'linear'
+                }}
+                containerComponent={
+                    <VictoryVoronoiContainer
+                      labels={({ datum }) => `${datum.y}`}
+                    />}>
                     <VictoryAxis
                         tickCount={5}
                         tickFormat={(x) => dayjs(x).format('DD MMM')} />
@@ -127,6 +139,14 @@ const GameOddsChart = (props) => {
                 </VictoryChart>
                 ) : (
                 <VictoryChart
+                animate={{
+                    duration: 500,
+                    easing: 'linear'
+                }}
+                containerComponent={
+                    <VictoryVoronoiContainer
+                        labels={({ datum }) => `${datum.y}`}
+                    />}
                 theme={VictoryTheme.material}
                 domain={{y: spreadMin > spreadMax ? [spreadMax, spreadMin] :[spreadMin, spreadMax]}}>
                     <VictoryAxis

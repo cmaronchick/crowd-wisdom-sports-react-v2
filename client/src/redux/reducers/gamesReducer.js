@@ -3,7 +3,11 @@ import {
     SET_GAMES,
     LOADING_GAME,
     SET_GAME,
-    TOGGLE_ODDS_CHART_TYPE
+    LOADING_PREDICTIONS,
+    SET_PREDICTIONS,
+    TOGGLE_ODDS_CHART_TYPE,
+    SET_ODDS_MOVEMENT,
+    LOADING_ODDS_MOVEMENT
     } from '../types'
 
 
@@ -14,9 +18,11 @@ const initialState = {
     games: {},
     gamePredictions: {},
     game: {},
+    oddsMovement: [],
     gameResults: 0,
-    loadingGames: false,
-    loadingGame: false,
+    loadingGames: true,
+    loadingGame: true,
+    loadingOdds: true,
 }
 
 
@@ -52,6 +58,20 @@ export default function(state = initialState, action) {
                     oddsChartType: state.game.oddsChartType === 'spread' ? 'total' : 'spread'
                 }
 
+            }
+        case LOADING_ODDS_MOVEMENT:
+            return {
+                ...state,
+                loadingOdds: true
+            }
+        case SET_ODDS_MOVEMENT:
+            action.payload.sort((a,b) => {
+                return new Date(a.startDateTime) > new Date(b.startDateTime) ? 1 : -1
+            })
+            return {
+                ...state,
+                oddsMovement: action.payload,
+                loadingOdds: false
             }
         default:
             return {

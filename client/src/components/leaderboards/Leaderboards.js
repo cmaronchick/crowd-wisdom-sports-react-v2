@@ -5,8 +5,10 @@ import { antIcon } from '../../functions/utils'
 
 import { connect } from 'react-redux'
 import { fetchLeaderboards, selectLeaderboardType } from '../../redux/actions/leaderboardActions'
+import { selectSeason } from '../../redux/actions/sportActions'
 import './Leaderboards.less'
 import LeaderboardSelector from './LeaderboardSelector'
+import LoginButton from '../profile/LoginButton'
 
 import Weeks from '../weeks/Weeks'
 
@@ -14,7 +16,7 @@ const { Title } = Typography
 const { TabPane } = Tabs
 
 const Leaderboards = (props) => {
-    const { leaderboards } = props
+    const { leaderboards, user,selectSeason } = props
     let { loadingLeaderboards, leaderboardType } = leaderboards
     const { sport, year, season, week } = props.sport.gameWeekData
     const {params} = props.match
@@ -29,9 +31,11 @@ const Leaderboards = (props) => {
     */ 
     if ((!weekly || !overall) && !loadingLeaderboards && sport && year && season && week) {
         loadingLeaderboards = true;
-        setTimeout(() => {
-            props.fetchLeaderboards(sport, year, season, week)
-        }, 100)
+        if (props.user.authenticated) {
+            setTimeout(() => {
+                props.fetchLeaderboards(sport, year, season, week)
+            }, 100)
+        }
     }
 
 
@@ -139,11 +143,13 @@ const Leaderboards = (props) => {
         console.log('overall.users: ', overall ? overall.users : null)
     }
     const extraContent = <LeaderboardSelector leaderboardType={props.leaderboards.leaderboardType} handleChangeLeaderboardType={props.selectLeaderboardType} />
-    return (
+    return props.user.authenticated ? (
         <div className="leaderboardContainer">
             <Title className="title">{year} Leaderboards</Title>
             <div className="selectorHeader">
-                {/* <SeasonSelector /> */}
+                <SeasonSelector
+                season={season}
+                selectSeason={selectSeason} />
                 <Weeks loading={loadingLeaderboards} onGameWeekClick={props.fetchLeaderboards} page="leaderboards" />
             </div>
             {!loadingLeaderboards ? (
@@ -171,7 +177,7 @@ const Leaderboards = (props) => {
                             <Table rowKey="username"
                             scroll={{x: 550}}
                                 dataSource={
-                                    leaderboardType === 'predictionScroe' ? overall.users.sort((a,b) => a.predictionScore > b.predictionScore ? -1 : 1)
+                                    leaderboardType === 'predictionScore' ? overall.users.sort((a,b) => a.predictionScore > b.predictionScore ? -1 : 1)
                                 : overall.usersStars.sort((a,b) => a.stars.net > b.stars.net ? -1 : 1)}
                                 columns={leaderboardType === 'predictionScore' ? predictionScoreColumns : stakesColumns} />
                         ) : (
@@ -185,6 +191,10 @@ const Leaderboards = (props) => {
                 </Fragment>
             )}
         </div>
+    ) : (
+        <div style={{display: 'flex', flexDirection: 'column', justifyContent: 'center', padding: '0 20px'}}>
+            <LoginButton />
+        </div>
     )
 }
 
@@ -197,7 +207,8 @@ const mapStateToProps = (state) => ({
 
 const mapActionsToProps = {
     fetchLeaderboards,
-    selectLeaderboardType
+    selectLeaderboardType,
+    selectSeason
 }
 
 export default connect(mapStateToProps, mapActionsToProps)(Leaderboards)

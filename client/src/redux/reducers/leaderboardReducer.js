@@ -1,7 +1,9 @@
 import {
     LOADING_LEADERBOARDS,
     SET_LEADERBOARDS,
-    SELECT_LEADERBOARD_TYPE
+    SELECT_LEADERBOARD_TYPE,
+    LOADING_CROWD_RESULTS,
+    SET_CROWD_RESULTS
     } from '../types'
 
 
@@ -32,6 +34,13 @@ export default function(state = initialState, action) {
             return {
                 ...state,
                 leaderboardType: action.payload
+            }
+        case SET_CROWD_RESULTS:
+            return {
+                ...state,
+                crowd: {
+                    ...action.payload.crowd
+                }
             }
         default: 
             return {

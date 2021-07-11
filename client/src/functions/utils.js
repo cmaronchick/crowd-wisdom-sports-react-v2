@@ -1,5 +1,6 @@
 import React from 'react'
 import { LoadingOutlined } from '@ant-design/icons'
+import StakeIcon from '../images/stake-image-blue-dual-ring.svg'
 
 export const getUrlParameters = (redirectUrl, sParam) => {
     const sURLQueryString = redirectUrl.split('?');

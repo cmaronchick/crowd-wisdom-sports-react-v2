@@ -34,7 +34,23 @@ body {
       display: flex;
       flex-direction: row;
       justify-content: flex-start;
-      align-items: flex-start;
+      align-items: center;
+  }
+
+  .contestBanner {
+    border-width: 3px;
+    width: 100%;
+    margin: 10px;
+    background-color: #124734;
+    color: #fff;
+    border-radius: 2px;
+    span {
+      text-decoration: underline;
+    }
+    a {
+      color: #fff;
+      text-decoration: underline;
+    }
   }
   
   @media (prefers-reduced-motion: no-preference) {
@@ -96,11 +112,11 @@ body {
 /* Team Colors */
 
 .lv {
-  .primary {
+  &.primary {
       color: #fff;
       background-color: #000;
   }
-  .secondary {
+  &.secondary {
       color: #000;
       background-color: #a5acaf;
   }

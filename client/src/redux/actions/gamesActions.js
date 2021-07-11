@@ -4,12 +4,16 @@ import { LOADING_GAMES,
     SET_GAME,
     SET_PREDICTIONS,
     TOGGLE_ODDS_CHART_TYPE,
-    SET_ERRORS
+    SET_ODDS_MOVEMENT,
+    LOADING_ODDS_MOVEMENT,
+    SET_ERRORS,
+    CLEAR_ERRORS
 } from '../types'
 
 import { Auth } from '@aws-amplify/auth'
 import ky from 'ky/umd'
 import store from '../store';
+import { getCrowdResults } from './leaderboardActions'
 
 const apiHost = ky.create({prefixUrl: process.env.NODE_ENV === 'development' ? 'http://localhost:5000/api/' : 'https://app.stakehousesports.com/api/'})
 
@@ -39,7 +43,9 @@ export const fetchGameWeekGames = (sport, year, season, gameWeek) => async (disp
             type: SET_GAMES,
             payload: gameWeekGames
         })
+        dispatch(getCrowdResults(sport, year, season, gameWeek))
         dispatch(setGamePredictions(gameWeekGames.games))
+        dispatch(getWeeklyOddsMovement(sport, year, season, gameWeek))
         // window.history.pushState({ sport, year, season, gameWeek }, `${sport}: ${year} / ${season} / Week ${gameWeek}`, `/${sport}/games/${year}/${season}/${gameWeek}`)
 
 
@@ -129,4 +135,21 @@ export const fetchGameWeekGames = (sport, year, season, gameWeek) => async (disp
       dispatch({
           type: TOGGLE_ODDS_CHART_TYPE
       })
+  }
+
+  export const getWeeklyOddsMovement = (sport, year, season, week) => async (dispatch) => {
+      dispatch({
+          type: LOADING_ODDS_MOVEMENT
+      })
+      try {
+          const oddsMovement = await apiHost.get(`${sport}/games/${year}/${season}/${week}/live`).json()
+          console.log('oddsMovement', oddsMovement.games)
+          
+          dispatch({
+              type: SET_ODDS_MOVEMENT,
+              payload: oddsMovement.games.Items
+          })
+      } catch (getOddsMovementError) {
+          console.log('getOddsMovementError', getOddsMovementError)
+      }
   }

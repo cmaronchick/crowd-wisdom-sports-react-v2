@@ -44,10 +44,10 @@ const Game = (props) => {
               // onClick={this.props.onGameClick}
               game={game} 
               predictions={[{ type: 'user', ...prediction}]}
-              onClick={props.fetchGame}
-              user={props.user}
-              handleSubmitPrediction={props.submitPrediction}
+              headerRowArrowClick={props.fetchGameWeekGames}
               handleChangeGameScore={props.changeGameScore}
+              handleSubmitPrediction={props.submitPrediction}
+              user={props.user}
               toggleOddsChangeModal={props.toggleOddsChangeModal}
               />
               {/* {game.odds && game.odds.history ? (

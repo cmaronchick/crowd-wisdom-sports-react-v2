@@ -14,6 +14,7 @@ import { SET_USER,
     SET_AUTHENTICATED, 
     SET_UNAUTHENTICATED,
     SET_TOUR_COMPLETED,
+    SET_USER_NOTIFICATIONS,
     MARK_NOTIFICATIONS_READ } from '../types'
 
 const initialState = {
@@ -122,6 +123,11 @@ export default function(state = initialState, action) {
             return {
                 ...state,
                 resetCodeSent: true
+            }
+        case SET_USER_NOTIFICATIONS:
+            return {
+                ...state,
+                notifications: action.payload
             }
         case MARK_NOTIFICATIONS_READ: 
             let FBUser = {...state.FBUser}

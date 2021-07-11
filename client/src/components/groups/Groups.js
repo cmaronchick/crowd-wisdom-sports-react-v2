@@ -55,7 +55,7 @@ const Groups = (props) => {
             dataIndex: 'results',
             render: (results) => (
                 <span>
-                    {results ? results[sport][year][season].overall.predictionScore : 0}
+                    {results ? results[sport][year][season]?.overall?.predictionScore : 0}
                 </span>
             )
         }

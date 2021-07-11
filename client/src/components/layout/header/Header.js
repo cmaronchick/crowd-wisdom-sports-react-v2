@@ -22,7 +22,11 @@ const StakehouseHeader = ({ message,user, logout }) => {
     <Menu>
       <Menu.Item>
         <Link to="/profile">
-          My Profile
+          {window.innerWidth < 800 ? (
+            <span>{user.attributes.preferred_username}</span>
+          ) : (
+            <span>My Profile</span>
+          )}
         </Link>
       </Menu.Item>
       <Menu.Item>

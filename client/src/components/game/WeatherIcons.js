@@ -38,7 +38,7 @@ const iconTable = {
 }
 
 const WeatherIcon = ({icon, description}) => {
-    console.log('description', description)
+    // console.log('description', description)
     return iconTable[icon] ? (
         <IconContext.Provider value={{  title: description, color: "#3d5a80", className: "weatherIcon" }}>
             {iconTable[icon]}

@@ -1,5 +1,6 @@
 import {
     SET_USER,
+    SET_USER_NOTIFICATIONS,
     SIGN_IN_USER,
     SIGN_UP_USER,
     SET_USER_UNCONFIRMED,
@@ -103,6 +104,7 @@ export const getFacebookUser = (location) => async (dispatch) => {
                 attributes: currentUser.attributes
             }
        })
+       dispatch(getUserDetails(store.getState().sport.sport,store.getState().sport.gameWeekData.year,store.getState().sport.gameWeekData.season,store.getState().sport.gameWeekData.week))
        
        ReactGA.send({
             category: 'user',
@@ -157,6 +159,7 @@ export const login = (username, password) => async (dispatch) => {
         if (Object.keys(store.getState().sport.gameWeekData).length > 0) {
             const { sport, year, season, week } = store.getState().sport.gameWeekData
             dispatch(fetchGameWeekGames(sport, year, season, week))
+            dispatch(getUserDetails(sport, year, season, week))
         } else {
             dispatch(setSport('nfl'))
         }
@@ -378,17 +381,21 @@ export const getUserDetails = (sport, year, season, week) => async (dispatch) =>
     try {
         let currentSession = await Auth.currentSession()
         let IdToken = await currentSession.getIdToken().getJwtToken()
+        let tokenPayload = await currentSession.getIdToken().decodePayload()
         let getProfileResponse = await apiHost.get(`extendedprofile?sport=${sport}&year=${year}&season=${season}&week=${week}`,{
             headers: {
                 Authorization: IdToken
             }
         }).json()
+        console.log('getProfileResponse', getProfileResponse)
+        getProfileResponse.userStatsResponse.isAdmin = tokenPayload['cognito:groups'] && tokenPayload['cognito:groups'].indexOf('admins') > -1 ? true : false
         dispatch({
             type: SET_USER,
             payload: {
-                details: getProfileResponse
+                details: getProfileResponse.userStatsResponse
             }
         })
+        dispatch(getUserNotifications())
     } catch (getProfileResponseError) {
       console.error(getProfileResponseError)
       dispatch({
@@ -397,6 +404,28 @@ export const getUserDetails = (sport, year, season, week) => async (dispatch) =>
       })
     }
   }
+
+export const getUserNotifications = () => async (dispatch) => {
+    try {
+        let currentSession = await Auth.currentSession()
+        let IdToken = await currentSession.getIdToken().getJwtToken()
+        let getUserNotificationsResponse = await apiHost.get(`extendedprofile/notifications`,{
+            headers: {
+                Authorization: IdToken
+            }
+        }).json()
+        console.log('getUserNotificationsResponse', getUserNotificationsResponse)
+        let notifications = getUserNotificationsResponse.notifications.Items
+        if (notifications) {
+            dispatch({
+                type: SET_USER_NOTIFICATIONS,
+                payload: notifications
+            })
+        }
+    } catch (userNotificationError) {
+        console.log('userNotificationError', userNotificationError)
+    }
+}
 
 export const changeUserDetails = (attributeKey, attributeValue) => {
 

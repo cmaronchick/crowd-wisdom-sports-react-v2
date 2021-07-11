@@ -38,9 +38,6 @@ const GamePreview = (props) => {
   const { season, gameWeek } = game
   const showPrediction = (predictions && predictions.length > 0) || game.results
 
-  const handleClick = () => {
-    props.onClick(game.sport, game.year, game.season, game.gameWeek, game.gameId);
-  }
 
   const toggleOddsChangeModal = (game, prediction) => {
     props.toggleOddsChangeModal(game, prediction)
@@ -118,7 +115,9 @@ const GamePreview = (props) => {
     props.handleSubmitPrediction(props.game.gameId, prediction)
   }
       return (
-      <Card bodyStyle={{ padding: window.innerWidth < 768 ? 12 : 24 }} title={<GamePreviewHeader game={game} onClick={handleClick} />} className="link GamePreview">
+      <Card bodyStyle={{ padding: window.innerWidth < 768 ? 12 : 24 }} title={
+        <GamePreviewHeader game={game} onClick={props.headerRowArrowClick} />
+        } className="link GamePreview">
         <Row className="game-details">
           <Col span={24}>
             <GamePreviewHeaderRow game={game} showPrediction={showPrediction}/>
@@ -138,7 +137,7 @@ const GamePreview = (props) => {
                 // oddsChangeModalShow={oddsChangeModalShow}
                 />
           ) : predictions && predictions.length > 0 ? predictions.map(prediction => {
-            console.log('prediction', prediction)
+            // console.log('prediction', prediction)
             return (
             <GamePreviewPrediction
             key={prediction.name}
@@ -234,7 +233,7 @@ const GamePreview = (props) => {
 }
 
 GamePreview.propTypes = {
-  onClick: PropTypes.func.isRequired,
+  headerRowArrowClick: PropTypes.func.isRequired,
   game: PropTypes.object.isRequired,
   predictions: PropTypes.array,
   users: PropTypes.array,

@@ -52,7 +52,7 @@ const GamesList = (props) => {
             return <GamePreview
             user={props.user}
             key={gameId}
-            onClick={props.fetchGame}
+            headerRowArrowClick={() => props.fetchGame(games[gameId].sport, games[gameId].year, games[gameId].season, games[gameId].gameWeek, gameId)}
             handleChangeGameScore={props.changeGameScore}
             handleSubmitPrediction={props.submitPrediction}
             toggleOddsChangeModal={props.toggleOddsChangeModal}

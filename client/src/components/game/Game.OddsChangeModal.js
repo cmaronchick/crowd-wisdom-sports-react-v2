@@ -5,7 +5,6 @@ const { Title } = Typography
 
 
 const OddsChangeModal = ({oddsChangeModalShow, toggleOddsChangeModal, oddsChangeModalDetails}) => {
-    console.log('oddsChangeModalDetails', oddsChangeModalDetails)
     const { game, prediction } = oddsChangeModalDetails
     return (
         <Modal visible={oddsChangeModalShow} onOk={() => toggleOddsChangeModal()} onCancel={() => toggleOddsChangeModal()}>

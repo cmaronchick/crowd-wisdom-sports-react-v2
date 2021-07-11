@@ -3,7 +3,8 @@ import {
     TOGGLE_LOGIN_MODAL,
     TOGGLE_CREATE_GROUP_MODAL,
     TOGGLE_LEAVE_GROUP_MODAL,
-    TOGGLE_ODDS_CHANGE_MODAL
+    TOGGLE_ODDS_CHANGE_MODAL,
+    TOGGLE_HOW_TO_PLAY_MODAL
 } from '../types'
 
 export const toggleLoginModal = (modalOpenState) => (dispatch) => {
@@ -31,6 +32,11 @@ export const toggleOddsChangeModal = (game, prediction) => (dispatch) => {
             game,
             prediction
         }
+    })
+}
+export const toggleHowToPlayModal = (game) => (dispatch) => {
+    dispatch({
+        type: TOGGLE_HOW_TO_PLAY_MODAL
     })
 }
 export const onChangeText = (event) => (dispatch) => {
