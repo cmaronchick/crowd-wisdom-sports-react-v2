@@ -4,7 +4,7 @@ import {Auth} from '@aws-amplify/auth'
 import ReactGA from 'react-ga'
 import { config as analytics } from './constants/analytics'
 
-import { Router, Switch, Route } from 'react-router-dom'
+import { Router, Switch, Route, Redirect } from 'react-router-dom'
 import { createBrowserHistory } from 'history'
 import { Layout } from 'antd';
 
@@ -25,6 +25,7 @@ import Group from './components/groups/Group'
 import Profile from './components/profile/Profile'
 import Rules from './components/static/Rules'
 import About from './components/static/About'
+import AdminPage from './components/admin/AdminPage';
 
 import { getUrlParameters } from './functions/utils'
 
@@ -49,6 +50,33 @@ history.listen(location => {
     ReactGA.pageview(location.pathname)
 })
 
+const RequireAuth = (props) => {
+  console.log(`props`, props)
+  if (!props.user.authenticated) {
+    
+    return <Redirect to="/" />
+  }
+  const Component = props.Component
+  Auth.currentSession()
+  .then(currentSession => {
+    let tokenPayload = currentSession.getIdToken().decodePayload()
+    console.log(`tokenPayload`, tokenPayload)
+    if (currentSession && tokenPayload['cognito:groups'] && tokenPayload['cognito:groups'].indexOf('admins') > -1) {
+      console.log('user is an admin')
+      return <Component />
+    } else {
+      console.log('User is not an admin')
+      return (<div></div>)
+      // <Redirect to="/nfl/games" />
+    }
+  })
+  .catch((currentSessionError) => {
+    console.log(`currentSessionError`, currentSessionError)
+    return <Redirect to="/nfl/games" />
+
+  })
+}
+
 class App extends Component {
   constructor(props) {
     super(props)
@@ -57,7 +85,8 @@ class App extends Component {
       games: {},
       gameWeek: 1,
       season: 'reg',
-      year: 2019
+      year: 2019,
+      user: this.props.user
     }
   }
 
@@ -93,6 +122,8 @@ class App extends Component {
     // })
     try {
       const currentUser = await Auth.currentAuthenticatedUser()
+      const tokenPayload = await (await Auth.currentSession()).getIdToken().decodePayload()
+      currentUser.attributes.isAdmin = tokenPayload && tokenPayload['cognito:groups'] && tokenPayload['cognito:groups'].indexOf('admins') > -1 ? true : false
       store.dispatch({
         type: SET_USER,
         payload: {
@@ -122,6 +153,7 @@ class App extends Component {
     }
   }
   render() {
+    console.log(`this.props.user.details?.isAdmin`, this.props.user.details?.isAdmin)
     return (
       <div className="App">
         <Layout>
@@ -140,6 +172,9 @@ class App extends Component {
                   <Route path="/:sport/groups/:year/:season/group/:groupId" component={Group} />
                   <Route path="/:sport/groups" component={Groups} />
                   <Route path="/:sport/oddsmovement/:year/:season/:gameWeek" component={OddsMovement} />
+                  {/* <Route path="/:sport/games/admin" component={props => 
+                    <RequireAuth {...props} user={this.props.user} Component={AdminPage} />}/> */}
+                  <Route path="/:sport/games/admin" component={AdminPage}/>
                   <Route path={["/:sport", "/:sport/games","/"]} component={Games} />
                 </Switch>
             </Content>
@@ -159,7 +194,8 @@ const mapStateToProps = (state) => ({
   loadingGames: state.games.loadingGames,
   games: state.games.games,
   gamePredictions: state.games.gamePredictions,
-  sport: state.sport
+  sport: state.sport,
+  user: state.user
 })
 
 const mapActionsToProps = {

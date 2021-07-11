@@ -13,7 +13,7 @@ const getLeaderboards = (req, res) => {
       return leaderboardResponse.json()
     })
     .then(leaderboardResponse => {
-      console.log('leaderboardResponse', leaderboardResponse)
+      // console.log('leaderboardResponse', leaderboardResponse)
       return res.status(200).json({ leaderboards: leaderboardResponse
       })
     })

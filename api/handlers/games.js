@@ -49,7 +49,7 @@ const getGamesByGameWeek = (req, res) => {
           return gamesResponse.json()
       })
       .then(gamesResponse => {
-        console.log({gamesResponse});
+        // console.log({gamesResponse});
         const gamesResponseObjs = gamesResponse.games.reduce((obj, game) => {
           obj[game.gameId] = game;
           return obj;
@@ -83,6 +83,26 @@ const submitPrediction = (req, res) => {
       console.log('predictionError: ', predictionError)
       return res.status(500).json({ message: predictionError})
     })
+}
+
+const submitGameUpdate = (req, res) => {
+  return ky.post(`https://y5f8dr2inb.execute-api.us-west-2.amazonaws.com/dev/gameupdate`, {
+    headers: {
+      Authorization: req.headers.authorization,
+      'Content-type': 'application/json'
+    },
+    body: JSON.stringify(req.body)
+  })
+  .then(gameUpdateResponse => {
+    //let predictionJSON = await predictionResponse.json()
+    console.log({gameUpdateResponse})
+    return res.status(200).json({ gameUpdate: gameUpdateResponse } )
+  })
+  .catch(gameUpdateError => {
+    console.log('gameUpdateError: ', gameUpdateError)
+    return res.status(500).json({ message: gameUpdateError})
+  })
+
 }
 
 const getOddsMovement = (req, res) => {

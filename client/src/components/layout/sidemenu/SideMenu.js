@@ -101,6 +101,11 @@ const SideMenu = (props) => {
             <Menu.Item key="7" className="drawerLink" icon={<Icon component={() => <FaGooglePlay title="Google Play" className="drawerIcon"/>} />}>
                     <a href="https://play.google.com/store/apps/details?id=com.cwsrn&pcampaignid=MKT-Other-global-all-co-prtnr-py-PartBadge-Mar2515-1" target="_blank" rel="nofollow">Google Play</a>
             </Menu.Item>
+            {user.details?.isAdmin && (
+                <Menu.Item key="8" className="drawerLink" icon={<Icon component={() => <FaList title="Contest Rules" className="drawerIcon" />} />}>
+                        <Link to="/nfl/games/admin">Admin</Link>
+                </Menu.Item>
+            )}
         </Menu>
 
         </Sider>
