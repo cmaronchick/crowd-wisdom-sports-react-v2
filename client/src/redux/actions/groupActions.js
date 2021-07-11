@@ -10,7 +10,6 @@ import {
     LEAVE_GROUP,
     CREATE_GROUP,
     CREATING_GROUP,
-    DELETE_GROUP,
     LOADING_GROUP_PREDICTIONS,
     SET_GROUP_PREDICTIONS,
     SET_ERRORS,
@@ -112,6 +111,9 @@ export const fetchGroup = (sport, year, season, groupId) => async (dispatch) => 
 }
 
 export const joinGroup = (sport, year, groupId, password) => async (dispatch) => {
+    dispatch({
+        type: JOINING_GROUP
+    })
     try {
         const currentUser = await Auth.currentAuthenticatedUser()
         const currentSession = await Auth.currentSession()
@@ -127,6 +129,10 @@ export const joinGroup = (sport, year, groupId, password) => async (dispatch) =>
         let joinGroupResponse = await apiHost.post(`group/${sport}/${year}/${groupId}/joingroup`, postOptions).json()
         console.log('joinGroupResponse', joinGroupResponse)
         dispatch(fetchGroup(sport,year, null,groupId))
+        dispatch({
+            type: JOIN_GROUP,
+            payload: currentUser
+        })
         dispatch({
             type: CLEAR_ERRORS
         })

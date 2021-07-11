@@ -1,24 +1,20 @@
 import React, { Fragment } from 'react';
 import PropTypes from 'prop-types'
 
-import { Card, Button, Spinner, Row, Col, Typography } from 'antd'
+import { Card, Button, Row, Col, Typography } from 'antd'
 import { CheckCircleOutlined } from '@ant-design/icons'
 // import * as apis from '../apis'
 import GamePreviewHeader from './GamePreview.Header'
-import GamePreviewCrowd from './GamePreview.Crowd'
 import GamePreviewResults from './GamePreview.Results'
 import GamePreviewPrediction from './GamePreview.Prediction'
-import GamePreviewPredictionQuarters from './GamePreview.Prediction.Quarters'
-import { ResultsCheck } from './GamePreview.ResultsCheck'
 import { checkGameStart } from '../../functions/utils'
 import GamePreviewHeaderRow from './GamePreview.HeaderRow'
 import './Game.less'
 
 import LoginButton from '../profile/LoginButton'
-import { toggleOddsChangeModal } from '../../redux/actions/uiActions';
 
 
-const { Title, Paragraph, Text } = Typography
+const { Title, Text } = Typography
 
 const GamePreview = (props) => {
   const { game, predictions, user } = props
@@ -35,27 +31,18 @@ const GamePreview = (props) => {
         ...prediction
       }
     }
+    return false;
   })
   
-  const oddsPrefix = game.odds.spread > 0 ? '+' : '';
-  const showQuarters = game.season === "post" && game.gameWeek === 4 ? true : false
   const gameCannotBeUpdated = checkGameStart(game.startDateTime)
   const { season, gameWeek } = game
-  const showPrediction = predictions && predictions.length > 0 || game.results
+  const showPrediction = (predictions && predictions.length > 0) || game.results
 
 
   const toggleOddsChangeModal = (game, prediction) => {
     props.toggleOddsChangeModal(game, prediction)
   }
 
-  
-  const handleOnChangeStarSpread = (event) => {
-    this.props.onChangeStarSpread(this.props.game.gameId, event)
-  }
-
-  const handleOnChangeStarTotal = (event) => {
-    this.props.onChangeStarTotal(this.props.game.gameId, event)
-  }
 
   //check for super bowl and set quarters state
   let periods = {};
@@ -82,7 +69,6 @@ const GamePreview = (props) => {
     let { value } = event.target
     let periodsObj = {...this.state.periods}
     let teamScore = 0
-    let teamKey = team === 'awayTeam' ? 'awayTeamScore' : 'homeTeamScore'
     if (!isNaN(value)) {
       periodsObj[team][quarter] = parseInt(value)
       Object.keys(periodsObj[team]).forEach(key => {
@@ -250,7 +236,11 @@ GamePreview.propTypes = {
   headerRowArrowClick: PropTypes.func.isRequired,
   game: PropTypes.object.isRequired,
   predictions: PropTypes.array,
-  users: PropTypes.array
+  users: PropTypes.array,
+  user: PropTypes.object.isRequired,
+  handleChangeGameScore: PropTypes.func.isRequired,
+  handleSubmitPrediction: PropTypes.func.isRequired,
+  toggleOddsChangeModal: PropTypes.func.isRequired,
 }
 
 

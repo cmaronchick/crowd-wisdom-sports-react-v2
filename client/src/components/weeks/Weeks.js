@@ -1,13 +1,11 @@
-import React, { Fragment } from 'react';
-import Week from './Week';
+import React from 'react';
 import './Weeks.less'
 
 import { Link } from 'react-router-dom'
-import { List, Button, Row, Col } from 'antd'
+import { List } from 'antd'
 
 import { connect } from 'react-redux'
 
-import { fetchGameWeekGames } from '../../redux/actions/gamesActions'
 import { changeGameWeek } from '../../redux/actions/sportActions'
 
 

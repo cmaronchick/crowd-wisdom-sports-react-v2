@@ -20,7 +20,7 @@ const layout = {
   };
 
 const Profile = (props) => {
-    const { user, loginModalShow, newPassword, confirmPassword, passwordMatch, changePassword, changeUserDetails, updateUserDetails, uploadImage } = props
+    const { user, changePassword, changeUserDetails, updateUserDetails, uploadImage } = props
 
     const attributeNames = {
         email: 'E-mail',

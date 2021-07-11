@@ -1,18 +1,18 @@
 import React, { Fragment } from 'react'
-import {Button, Modal, Card, Tabs, Form, Input, Typography, InputNumber } from 'antd'
-import Icon, { EditOutlined } from '@ant-design/icons'
+import {Button, Modal, Card, Tabs, Form, Input, Typography } from 'antd'
+import Icon from '@ant-design/icons'
 import { connect } from 'react-redux';
 
 import { generateRandomString } from '../../functions/utils'
 
 import { login, signUp, confirmUser, resendConfirmation, forgotPassword, resetPassword } from '../../redux/actions/userActions'
 import { toggleLoginModal, onChangeText, onChangeCheckbox } from '../../redux/actions/uiActions'
-import { isEmail, handleEditPicture, handleImageChange } from '../../functions/utils'
+import { handleEditPicture, handleImageChange } from '../../functions/utils'
 import store from '../../redux/store'
-import { SET_ERRORS, SET_FORGOT_PASSWORD, SET_UNAUTHENTICATED } from '../../redux/types';
+import { SET_FORGOT_PASSWORD, SET_UNAUTHENTICATED } from '../../redux/types';
 
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
-import { faApple, faGoogle } from '@fortawesome/free-brands-svg-icons'
+import { faApple } from '@fortawesome/free-brands-svg-icons'
 
 import SignUpForm from './loginForms/SignUpForm'
 

@@ -10,7 +10,6 @@ import './Leaderboards.less'
 import LeaderboardSelector from './LeaderboardSelector'
 import LoginButton from '../profile/LoginButton'
 
-import SeasonSelector from '../seasonSelector/SeasonSelector'
 import Weeks from '../weeks/Weeks'
 
 const { Title } = Typography

@@ -21,7 +21,7 @@ const About = () => {
 
             <div className="row footer">
                 <div className="col-xs-12">
-                    <a href="/" style={{color: '#fff'}}>Stakehouse Sports</a> | <a href="https://app.termly.io/document/privacy-policy/79832fc4-999b-4a5c-b459-002bb84e862e" target="_blank" style={{color:'#fff'}}>Privacy Policy</a>
+                    <a href="/" style={{color: '#fff'}} rel="noopener noreferrer">Stakehouse Sports</a> | <a href="https://app.termly.io/document/privacy-policy/79832fc4-999b-4a5c-b459-002bb84e862e" rel="noopener noreferrer" target="_blank" style={{color:'#fff'}}>Privacy Policy</a>
                 </div> 
             </div>
         </div>

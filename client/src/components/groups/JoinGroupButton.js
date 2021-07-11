@@ -1,9 +1,6 @@
 import React from 'react';
-import { Popconfirm, Button, Typography } from 'antd'
+import { Popconfirm, Button } from 'antd'
 import LoginButton from '../profile/LoginButton';
-
-
-const { Text } = Typography
 
 const JoinGroupButton = ({authenticated, isOwner, memberOf, handleJoinGroupClick, handleLeaveGroupConfirm, joiningGroup, groupName, btnClassName}) => {
     return memberOf ? (

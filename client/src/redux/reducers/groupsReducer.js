@@ -9,8 +9,7 @@ import {
     JOINING_GROUP,
     LEAVE_GROUP,
     CREATE_GROUP,
-    CREATING_GROUP,
-    DELETE_GROUP
+    CREATING_GROUP
     } from '../types'
 
 

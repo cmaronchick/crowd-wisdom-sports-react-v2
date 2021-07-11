@@ -1,4 +1,4 @@
-import React, { Component } from 'react';
+import React from 'react';
 import PropTypes from 'prop-types'
 import { Link } from 'react-router-dom'
 import { withRouter } from 'react-router-dom'
@@ -6,12 +6,13 @@ import { withRouter } from 'react-router-dom'
 // Redux Stuff
 import { connect } from 'react-redux'
 import { fetchGame, fetchGameWeekGames, toggleOddsChartType } from '../../redux/actions/gamesActions'
-import { submitPrediction, changeGameScore } from '../../redux/actions/predictionsActions'
+import { submitPrediction, changeGameScore, changeStakesValue } from '../../redux/actions/predictionsActions'
+import { toggleOddsChangeModal } from '../../redux/actions/uiActions'
 import GamePreview from './GamePreview'
 import GameOddsChart from './GameOddsChart'
 
 import { Spin, Button } from 'antd'
-import { LoadingOutlined, ArrowLeftOutlined } from '@ant-design/icons'
+import { LoadingOutlined } from '@ant-design/icons'
 
 const antIcon = <LoadingOutlined title="Loading Game" alt="Loading Game" style={{ fontSize: 24 }} spin />;
 
@@ -47,7 +48,7 @@ const Game = (props) => {
               handleChangeGameScore={props.changeGameScore}
               handleSubmitPrediction={props.submitPrediction}
               user={props.user}
-
+              toggleOddsChangeModal={props.toggleOddsChangeModal}
               />
               {/* {game.odds && game.odds.history ? (
                 <GameOddsChart ref={this.chartReference} game={game} />
@@ -71,7 +72,8 @@ const Game = (props) => {
 }
 
 Game.propTypes = {
-  game: PropTypes.object.isRequired
+  game: PropTypes.object.isRequired,
+  submitPrediction: PropTypes.func.isRequired
 };
 
 const mapStateToProps = (state) => ({
@@ -85,8 +87,10 @@ const mapActionsToProps = {
   fetchGameWeekGames,
   fetchGame,
   toggleOddsChartType,
+  toggleOddsChangeModal,
   submitPrediction,
-  changeGameScore
+  changeGameScore,
+  changeStakesValue
 }
 
 export default withRouter(connect(mapStateToProps, mapActionsToProps)(Game));

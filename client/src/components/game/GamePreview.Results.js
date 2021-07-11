@@ -1,8 +1,7 @@
 import React from 'react'
 import {spreadPrediction, totalPrediction} from '../../functions/utils'
-import { Row, Col, Typography} from 'antd'
+import { Row, Col } from 'antd'
 
-const {Title, Text} = Typography
 
 const GamePreviewResults = ({game}) => {
     const {results, odds} = game;

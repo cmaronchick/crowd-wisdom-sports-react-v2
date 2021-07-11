@@ -1,16 +1,15 @@
 import React, {Fragment} from 'react';
 import PropTypes from 'prop-types'
-import { Link } from 'react-router-dom'
 import JoinCrowdButton from './JoinGroupButton'
 
 import { connect } from 'react-redux'
 import { fetchGroup, joinGroup, leaveGroup, selectGroupSeason, updateGroupDetails, uploadGroupImage } from '../../redux/actions/groupActions'
 import { fetchGameWeekGames, fetchGame } from '../../redux/actions/gamesActions'
 import { onChangeText } from '../../redux/actions/uiActions'
-import { isEmail, handleEditPicture, handleImageChange } from '../../functions/utils'
+import { handleEditPicture, handleImageChange } from '../../functions/utils'
 
 import { Tabs, Table, Spin, Typography, Form, Input, Row, Col, Button, Popconfirm} from 'antd'
-import { ArrowLeftOutlined, MailOutlined, ShareAltOutlined, EditOutlined } from '@ant-design/icons'
+import { ArrowLeftOutlined, ShareAltOutlined, EditOutlined } from '@ant-design/icons'
 import { antIcon } from '../../functions/utils'
 
 import GamesList from '../gamesList/GamesList'

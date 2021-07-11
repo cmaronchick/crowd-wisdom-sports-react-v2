@@ -1,7 +1,6 @@
 import { Auth } from '@aws-amplify/auth'
 //import { apiHost } from '../../constants/config'
 import ky from 'ky/umd'
-import store from '../store'
 import { LOADING_LEADERBOARDS,
     SET_LEADERBOARDS,
     SELECT_LEADERBOARD_TYPE,
@@ -27,6 +26,9 @@ export const fetchLeaderboards = (sport, year, season, week) => async (dispatch)
         dispatch({
             type: SET_LEADERBOARDS,
             payload: leaderboardResponse.leaderboards
+        })
+        dispatch({
+            type: CLEAR_ERRORS
         })
     } catch (fetchLeaderboardsError) {
         console.log('fetchLeaderboardsError', fetchLeaderboardsError)

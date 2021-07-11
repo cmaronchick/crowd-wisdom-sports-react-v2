@@ -1,5 +1,5 @@
 import React from 'react'
-import { CheckOutlined, CloseOutlined, AimOutlined } from '@ant-design/icons'
+import { AimOutlined } from '@ant-design/icons'
 
  export const straightUpResults = (results, prediction) => {
     return (results.awayTeam.score > results.homeTeam.score)

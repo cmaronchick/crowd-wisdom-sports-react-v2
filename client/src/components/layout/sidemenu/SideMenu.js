@@ -8,11 +8,7 @@ import Icon, { UserOutlined } from '@ant-design/icons'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faFootballBall,
     faSchool,
-    faBasketballBall,
-    faTrophy,
-    faUserFriends,
-    faList,
-    faUser
+    faBasketballBall
  } from '@fortawesome/free-solid-svg-icons'
 // import { faAppStore, faGooglePlay } from '@fortawesome/free-brands-svg-icons'
 import {
@@ -47,8 +43,6 @@ const sportsVariables = {
         icon: faBasketballBall
     }
 }
-
-const faIcon = (sport) => (<FontAwesomeIcon icon={sportsVariables[sport].icon}/>)
 
 const SideMenu = (props) => {
     const { sport, user } = props

@@ -1,15 +1,12 @@
 import React, { Fragment } from 'react'
-import { Row, Col, Typography, Form, Input, InputNumber } from 'antd'
-import StarRatingComponent from 'react-star-rating-component'
-import OddsChangeModal from './Game.OddsChangeModal';
+import { Row, Col, Typography, Form, Input } from 'antd'
 import { checkBullseye, straightUpResults, spreadResults, totalResults } from './GamePreview.ResultsCheck'
 import GamePreviewStakes from './GamePreview.Stakes'
 import { spreadPrediction, totalPrediction, checkGameStart } from '../../functions/utils'
-import { toggleOddsModal } from '../../redux/actions/uiActions';
 
 import { WarningOutlined } from '@ant-design/icons'
 
-const { Title, Text, Paragraph } = Typography
+const { Text } = Typography
 
 const GamePreviewPrediction = (props) => {
   const { 
@@ -168,7 +165,7 @@ const GamePreviewPrediction = (props) => {
         {prediction && prediction.results ? (
           <Row className='predictionScoreBox'>
             <Col span={24}>
-              Prediction Score: {prediction.predictionScore}
+              Prediction Score: {prediction.predictionScore ? prediction.predictionScore : prediction.results.predictionScore ? prediction.results.predictionScore : 0}
             </Col>
           </Row>
         ) : null}
@@ -179,7 +176,7 @@ const GamePreviewPrediction = (props) => {
             <Row className="oddsChangeAlert alertText"
             onClick={() => toggleOddsChangeModal(game, prediction)}>
               <Col span={24}>
-                <Text type="warning"><WarningOutlined /> - Odds have changed</Text>
+                <Text type="warning" style={{cursor: 'pointer'}}><WarningOutlined /> - Odds have changed</Text>
                 </Col>
             </Row>
           ) : game.odds && (

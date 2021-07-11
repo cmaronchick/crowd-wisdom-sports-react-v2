@@ -1,13 +1,12 @@
 import React, { Fragment } from 'react'
 import PropTypes from 'prop-types'
-import { connect } from 'react-redux'
 import dayjs from 'dayjs'
 
 import { Row, Col, Typography } from 'antd'
 
 import WeatherIcon from './WeatherIcons'
 
-const { Title, Text } = Typography
+const { Text } = Typography
 
 export const GamePreviewHeaderRow = (props) => {
     const { game, showPrediction } = props

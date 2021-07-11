@@ -1,4 +1,4 @@
-import React, {Fragment} from 'react'
+import React from 'react'
 import PropTypes from 'prop-types'
 import { Link } from 'react-router-dom'
 import { ArrowRightOutlined, ArrowLeftOutlined } from '@ant-design/icons'
@@ -6,7 +6,7 @@ import { ArrowRightOutlined, ArrowLeftOutlined } from '@ant-design/icons'
 import { Typography } from 'antd'
 
 
-const { Title, Text, Paragraph } = Typography
+const { Title } = Typography
 
 const HeaderTitle = ({game}) => (
   <span>
@@ -23,7 +23,8 @@ const GamePreviewHeader = (props) => {
     }
 
     return window.location.pathname.indexOf('/game/') === -1 ? (
-        <Link to={`/${game.sport}/games/${game.year}/${game.season}/${game.gameWeek}/game/${game.gameId}`} onClick={handleGamesListClick}>
+      <div className="game-header-div">
+        <Link to={`/${game.sport}/games/${game.year}/${game.season}/${game.gameWeek}/game/${game.gameId}`} onClick={() => props.onClick()}>
           <Title level={4} className="game-header">
           {game.bowlName && (
             <div className="bowlName">
@@ -35,7 +36,12 @@ const GamePreviewHeader = (props) => {
           <ArrowRightOutlined />
           </Title>
         </Link>
+        </div>
       ) : (
+        <div className="game-header-div">
+        <Link to={`/${game.sport}/games/${game.year}/${game.season}/${game.gameWeek}`}>
+          <ArrowLeftOutlined className="left-arrow"/>
+        </Link>
         <Title level={4} className="game-header">
         {game.bowlName && (
           <div className="bowlName">
@@ -52,6 +58,7 @@ const GamePreviewHeader = (props) => {
             </Link>
           <HeaderTitle game={game} />
         </Title>
+        </div>
       )
 }
 
