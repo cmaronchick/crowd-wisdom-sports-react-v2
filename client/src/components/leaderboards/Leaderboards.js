@@ -8,6 +8,7 @@ import { fetchLeaderboards, selectLeaderboardType } from '../../redux/actions/le
 import { selectSeason } from '../../redux/actions/sportActions'
 import './Leaderboards.less'
 import LeaderboardSelector from './LeaderboardSelector'
+import SeasonSelector from '../seasonSelector/SeasonSelector'
 import LoginButton from '../profile/LoginButton'
 
 import Weeks from '../weeks/Weeks'

@@ -201,12 +201,10 @@ const mapStateToProps = (state) => ({
   UI: state.UI
 })
 
-const mapActionsToProps = {
-  toggleOddsChangeModal
-})
 
 const mapActionsToProps = {
-  getUserDetails
+  getUserDetails,
+  toggleOddsChangeModal
 }
 
 export default connect(mapStateToProps, mapActionsToProps)(App);
