@@ -16,10 +16,14 @@ const Rules = () => {
                 <div className="col-xs-12"><h1>Stakehouse Sports Official Rules</h1>
                     <p>NO PURCHASE NECESSARY. VOID WHERE PROHIBITED BY LAW. THE FOLLOWING PROMOTION IS INTENDED FOR VIEWING IN THE UNITED STATES AND THE DISTRICT OF COLUMBIA ONLY (EXCLUDING PUERTO RICO, OTHER U.S. TERRITORIES AND FOREIGN TERRITORIES) AND SHALL BE CONSTRUED AND EVALUATED ACCORDING TO UNITED STATES LAW.</p>
                     <h3>Odds</h3>
-                    <p>Odds are provided by <a href="https://oddsshark.com" target="_blank" rel="noopener noreferrer">oddsshark.com</a>.</p>
+                    <p>Odds are provided by <a href="https://pinnacle.com" target="_blank" rel="noopener noreferrer">pinnacle.com</a>.</p>
+                    <h4>For Individuals</h4>
                     <p>Odds are locked when you make your prediction. If the spread or total odds line changes after you make your prediction, your odds will remain as they were when you made your prediction.<br/>
                     If you update your prediction, you will be given the odds at that time.<br/>
                     Your prediction score and stakes return will be evaluated against the odds associated to your prediction.</p>
+                    <h4>For Groups</h4>
+                    <p>Odds are determined whenever a group member makes a prediction, as the group prediction is recalculated at that point.<br/>
+                    For exampbe, if a group makes a prediction 5 minutes before kickoff, the odds at that time will determine the odds by which the group prediction is measured.</p>
                     <h3>Scoring</h3>
                     <p>Each prediction can earn a maximum of 10 points, and a correct score is determined by the spread at the time that the prediction is made:</p>
                     <ul>
@@ -59,11 +63,26 @@ const Rules = () => {
                     </ol>
                     <h3>Prizes</h3>
                     <h4>Weekly</h4>
-                    <p>There are two $25 weekly prizes available.</p>
-                    <ol>
-                        <li>The user who earns the highest prediction score</li>
-                        <li>The user who wins the most stakes</li>
-                    </ol>
+                    <h5>Individual Users</h5>
+                    <p>A $25 weekly prize will be sent to the user who earns the highest prediction score.</p>
+                    <p>The Overall Weekly Prediction Contest requires <strong>a minimum of 25 individual users</strong> (excluding the managers of the Stakehouse Sports and any accounts they manage, such as experts).<br/>
+                    If there are fewer than 25 users in a given week, no prize money will be distributed for that period.</p>
+                    <h5>Groups</h5>
+                    <p>The Group Prediction contest requires:
+                        <ol>
+                            <li>10 unique groups composed of at least 5 unique users making a minimum of 10 predictions per week</li>
+                            <li>A minimum of 50 unique users across all groups, per week per period</li>
+                        </ol>
+                    </p>
+                    <p>If there are fewer than 10 unique groups or 50 unique users, or the groups do not meet the minimum weekly prediction requirement, no prize money will be distributed for that period.</p>
+                    <p>A $250 prize will be given to the group with the highest prediction score for the following regular season periods:
+                        <ol>
+                            <li>Weeks 1-5</li>
+                            <li>Weeks 6-9</li>
+                            <li>Weeks 10-13</li>
+                            <li>Weeks 14-18</li>
+                        </ol>
+                    </p>
                 </div>
             </div>
         </div>
