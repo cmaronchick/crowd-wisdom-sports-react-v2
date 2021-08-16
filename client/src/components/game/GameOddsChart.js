@@ -40,24 +40,26 @@ const GameOddsChart = (props) => {
     let dataSpread = []
     let dataTotal = []
     let firstOddsDate = new Date(new Date(game.startDateTime) - (1000 * 60 * 60 * 24 * 14))
+    let oddsHistoryLength = odds.history ? odds.history.length : 0
     if (odds && odds.history && odds.history.length > 0) {
-        odds.history.forEach(odds => {
-            let firstOddsDate = new Date(new Date(game.startDateTime) - (1000 * 60 * 60 * 24 * 14))
-            if (new Date(odds.date) >= firstOddsDate) {
-                labels.push(`${new Date(odds.date).getMonth() + 1}/${new Date(odds.date).getDate()}`)
-                dataSpread.push(odds.spread ? odds.spread : null)
+        odds.history.forEach(oddsElement => {
+            // let firstOddsDate = new Date(new Date(game.startDateTime) - (1000 * 60 * 60 * 24 * 14))
+            if (oddsHistoryLength < 14 || (new Date(oddsElement.date) >= firstOddsDate)) {
+                labels.push(`${new Date(oddsElement.date).getMonth() + 1}/${new Date(oddsElement.date).getDate()}`)
+                dataSpread.push(oddsElement.spread ? oddsElement.spread : null)
 
-                dataTotal.push(odds.total ? odds.total : null)
+                dataTotal.push(oddsElement.total ? oddsElement.total : null)
             }
         })
     }
     let spreadArray = []
     let totalArray = []
-    odds.history.forEach(odds => {
-        if (new Date(odds.date) >= firstOddsDate) {
-            spreadArray.push({x: odds.date, y: odds.spread})
-            if (odds.total > 0) {
-                totalArray.push({x: odds.date, y: odds.total})
+    odds.history.forEach(oddsElement => {
+        console.log(`odds`, oddsElement)
+        if (oddsHistoryLength < 14 || (oddsHistoryLength >= 14 && new Date(oddsElement.date) >= firstOddsDate)) {
+            spreadArray.push({x: oddsElement.date, y: oddsElement.spread})
+            if (oddsElement.total > 0) {
+                totalArray.push({x: oddsElement.date, y: oddsElement.total})
             }
         }
     })
@@ -110,6 +112,7 @@ const GameOddsChart = (props) => {
             }
         }
     // console.log({spreadMin, spreadMax, spreadArray, totalArray})
+    console.log(`spreadArray, spreadMin, spreadMax, totalMax`, spreadArray, spreadMin, spreadMax, totalMax)
     return (
         <div className="chartContainer">
             <div>Open: {(odds.history && odds.history.length > 0) ? `${dayjs(firstSpread.date).format('MMMM DD')} Spread: ${firstSpread.spread} Total: ${firstTotal.total}` : null}</div>

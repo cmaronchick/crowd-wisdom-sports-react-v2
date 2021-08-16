@@ -139,7 +139,7 @@ class App extends Component {
       let year = parseInt(routeParams[3])
       let season = routeParams[4]
       let week = parseInt(routeParams[5])
-      store.dispatch(setSport(sport ? sport : 'nfl', year, season, week))
+      this.props.setSport(sport ? sport : 'nfl', year, season, week)
       // if (page === 'leaderboards') {
       //   store.dispatch(fetchLeaderboards(sport ? sport : 'nfl', year ? year : 2019, season ? season : 'post', week ? week : 4))
       // }
@@ -204,7 +204,8 @@ const mapStateToProps = (state) => ({
 
 const mapActionsToProps = {
   getUserDetails,
-  toggleOddsChangeModal
+  toggleOddsChangeModal,
+  setSport
 }
 
 export default connect(mapStateToProps, mapActionsToProps)(App);
