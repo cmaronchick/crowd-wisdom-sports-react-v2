@@ -22,6 +22,7 @@ export const setSport = (sport, year, season, week) => (dispatch) => {
         type: SET_SPORT,
         payload: sport
     })
+    console.log(`sport, year, season, week`, sport, year, season, week)
     dispatch(setGameWeek(sport, year, season, week))
 }
 
@@ -47,7 +48,7 @@ export const setGameWeek = (sport, selectedYear, selectedSeason, selectedWeek) =
             type: SET_GAMEWEEK,
             payload: gameWeekData.data
         })
-        const { week, year, season } = gameWeekData.data
+        let { week, year, season } = gameWeekData.data
         try {
             const user = await Auth.currentAuthenticatedUser()
 

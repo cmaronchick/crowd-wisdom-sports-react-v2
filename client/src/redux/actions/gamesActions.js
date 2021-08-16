@@ -39,18 +39,20 @@ export const fetchGameWeekGames = (sport, year, season, gameWeek) => async (disp
 
     try {
         let gameWeekGames = await apiHost.get(`${sport}/games/${year}/${season}/${gameWeek}`, getOptions).json()
+        console.log(`gameWeekGames`, gameWeekGames)
         dispatch({
             type: SET_GAMES,
             payload: gameWeekGames
         })
-        dispatch(getCrowdResults(sport, year, season, gameWeek))
-        dispatch(setGamePredictions(gameWeekGames.games))
-        dispatch(getWeeklyOddsMovement(sport, year, season, gameWeek))
-        // window.history.pushState({ sport, year, season, gameWeek }, `${sport}: ${year} / ${season} / Week ${gameWeek}`, `/${sport}/games/${year}/${season}/${gameWeek}`)
+        if (Object.keys(gameWeekGames).length > 0) {
+            dispatch(getCrowdResults(sport, year, season, gameWeek))
+            dispatch(setGamePredictions(gameWeekGames.games))
+            dispatch(getWeeklyOddsMovement(sport, year, season, gameWeek))
+            // window.history.pushState({ sport, year, season, gameWeek }, `${sport}: ${year} / ${season} / Week ${gameWeek}`, `/${sport}/games/${year}/${season}/${gameWeek}`)
+        }
 
 
     } catch (getGameWeekGamesError) {
-        console.log('getGameWeekGamesError', getGameWeekGamesError)
         dispatch({
             type: SET_GAMES,
             games: {}
@@ -64,7 +66,6 @@ export const fetchGameWeekGames = (sport, year, season, gameWeek) => async (disp
 
   export const setGamePredictions = (games) => (dispatch) => {
       let gamePredictions = {}
-      console.log('games', games)
       Object.keys(games).forEach(gameId => {
         let prediction = games[gameId].prediction
         if (prediction) {
