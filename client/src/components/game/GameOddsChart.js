@@ -52,17 +52,28 @@ const GameOddsChart = (props) => {
             }
         })
     }
-    let spreadArray = []
-    let totalArray = []
-    odds.history.forEach(oddsElement => {
-        console.log(`odds`, oddsElement)
-        if (oddsHistoryLength < 14 || (oddsHistoryLength >= 14 && new Date(oddsElement.date) >= firstOddsDate)) {
-            spreadArray.push({x: oddsElement.date, y: oddsElement.spread})
-            if (oddsElement.total > 0) {
-                totalArray.push({x: oddsElement.date, y: oddsElement.total})
-            }
+    
+  let spreadArray = []
+  let totalArray = []
+  let dateTicks = []
+  odds.history.sort((a,b) => a.date > b.date ? -1 : 1)
+  odds.history.forEach(odds => {
+    let oddsLength = 1;
+    // console.log(`odds.date`, odds.date)
+        
+      if (oddsLength < 15) {
+        spreadArray.push({x: odds.date, y: odds.spread})
+        if (odds.total && odds.total > 0) {
+          totalArray.push({x: odds.date, y: odds.total})
         }
-    })
+        dateTicks.push(odds.date)
+        oddsLength++;
+      }
+  })
+  // console.log(`spreadArray`, spreadArray)
+  dateTicks.sort((a,b) => a < b ? -1 : 1)
+  spreadArray.sort((a,b) => a.x < b.x ? -1 : 1)
+  totalArray.sort((a,b) => a.x < b.x ? -1 : 1)
     // console.log({dataSpread});
     let dataSpreadMin = Math.min(...dataSpread),
         dataSpreadMax = Math.max(...dataSpread),
