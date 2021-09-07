@@ -1,9 +1,7 @@
-
 import React from 'react'
 import '../../styles/Rules.less'
 
-const Privacy = () => {
-    return (
+const Privacy = () => (
      <div>
      <p>This privacy policy has been compiled to better serve those who are concerned with how their 'Personally Identifiable Information' (PII) is being used online. PII, as described in US privacy law and information security, is information that can be used on its own or with other information to identify, contact, or locate a single person, or to identify an individual in context. Please read our privacy policy carefully to get a clear understanding of how we collect, use, protect or otherwise handle your Personally Identifiable Information in accordance with our website.</p>
 <p>
@@ -175,10 +173,10 @@ crowdsourcedscores.com<br/>
 Seattle, WA 98104<br/>
 USA<br/>
 <a href="mailto:feedback@stakehousesports.com">feedback@stakehousesports.com</a>
-<p>
+</p>
 <p>
 Last Edited on 2018-04-15
 </p>
 </div>)
- 
+
  export default Privacy
