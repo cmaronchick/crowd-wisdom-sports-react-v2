@@ -24,6 +24,7 @@ import Group from './components/groups/Group'
 import Profile from './components/profile/Profile'
 import Rules from './components/static/Rules'
 import About from './components/static/About'
+import Privacy from './components/static/Privacy'
 import OddsChangeModal from './components/game/Game.OddsChangeModal'
 import AdminPage from './components/admin/AdminPage';
 
@@ -164,6 +165,7 @@ class App extends Component {
                   <Route path="/profile" component={Profile} />
                   <Route path="/rules" component={Rules} />
                   <Route path="/about" component={About} />
+                  <Route path="/privacy" component={Privacy} />
                   <Route path="/:sport/games/:year/:season/:gameWeek/game/:gameId" component={Game} />
                   <Route path="/:sport/leaderboards" component={Leaderboards} />
                   <Route path="/:sport/groups/:year/:season/group/:groupId" component={Group} />
