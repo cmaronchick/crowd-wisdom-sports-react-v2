@@ -175,7 +175,7 @@ USA<br/>
 <a href="mailto:feedback@stakehousesports.com">feedback@stakehousesports.com</a>
 </p>
 <p>
-Last Edited on 2018-04-15
+Last Edited on 2021-09-07
 </p>
 </div>)
 
