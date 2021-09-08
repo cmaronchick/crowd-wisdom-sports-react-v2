@@ -36,13 +36,14 @@ const getGroups = (req, res) => {
 
 const getGroup = (req, res) => {
     const { sport, year, groupId } = req.params;
-    const { season } = req.query
+    const { season, week } = req.query
       const callOptionsObject = callOptions(req.headers.authorization);
-      console.log('callOptionsObject', callOptionsObject)
+      // console.log('callOptionsObject', callOptionsObject)
       const anonString = callOptionsObject.anonString;
       const getOptions = callOptionsObject.callOptions;
-      console.log('getOptions', getOptions)
-        return ky.get(`https://y5f8dr2inb.execute-api.us-west-2.amazonaws.com/dev/group/${sport}/${parseInt(year)}/${parseInt(groupId)}${anonString}${season ? `?season=${season}` : ''}`, getOptions)
+      console.log('groupId', groupId, season, week)
+      console.log(`https://y5f8dr2inb.execute-api.us-west-2.amazonaws.com/dev/group/${sport}/${parseInt(year)}/${parseInt(groupId)}${anonString}${season ? `?season=${season}` : ''}${week ? `&week=${week}` : ''}`)
+        return ky.get(`https://y5f8dr2inb.execute-api.us-west-2.amazonaws.com/dev/group/${sport}/${parseInt(year)}/${parseInt(groupId)}${anonString}${season ? `?season=${season}` : ''}${week ? `&week=${week}` : ''}`, getOptions)
         .then((groupResponse) => {
           console.log('groupResponse 37', groupResponse)
           return groupResponse.json()
@@ -52,7 +53,7 @@ const getGroup = (req, res) => {
           return res.status(200).json({ group: groupResponse })
         })
         .catch(groupResponseError => {
-          console.log('api leaderboard index 153 crowdResponseError: ', groupResponseError)
+          console.log('api leaderboard index 55 crowdResponseError: ', groupResponseError)
           return res.status(500).json({ message: groupResponseError})
         })
 }
@@ -82,7 +83,7 @@ const joinGroup = (req, res) => {
           return res.status(200).json({ group: groupResponse })
         })
         .catch(groupResponseError => {
-          console.log('api leaderboard index 153 crowdResponseError: ', groupResponseError)
+          console.log('api leaderboard index 85 crowdResponseError: ', groupResponseError)
           return res.status(500).json({ message: groupResponseError})
         })
   }
@@ -104,7 +105,7 @@ const leaveGroup = (req, res) => {
         return res.status(200).json({ group: groupResponse })
     })
     .catch(groupResponseError => {
-        console.log('api leaderboard index 153 crowdResponseError: ', groupResponseError)
+        console.log('api leaderboard index 107 crowdResponseError: ', groupResponseError)
         return res.status(500).json({ message: groupResponseError})
     })
 }
@@ -140,7 +141,7 @@ const createGroup = (req, res) => {
       return res.status(200).json({ group: groupResponse })
   })
   .catch(groupResponseError => {
-      console.log('api leaderboard index 153 crowdResponseError: ', groupResponseError)
+      console.log('api leaderboard index 143 crowdResponseError: ', groupResponseError)
       return res.status(500).json({ message: groupResponseError})
   })
 }
@@ -176,7 +177,7 @@ const updateGroup = (req, res) => {
       return res.status(200).json({ group: groupResponse })
   })
   .catch(groupResponseError => {
-      console.log('api leaderboard index 153 crowdResponseError: ', groupResponseError)
+      console.log('api leaderboard index 179 crowdResponseError: ', groupResponseError)
       return res.status(500).json({ message: groupResponseError})
   })
 

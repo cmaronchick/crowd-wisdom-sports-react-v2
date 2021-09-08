@@ -55,9 +55,9 @@ export const fetchGroups = (sport, year, season) => async (dispatch) => {
     }
 }
 
-export const fetchGroup = (sport, year, season, groupId) => async (dispatch) => {
+export const fetchGroup = (sport, year, season, week, groupId) => async (dispatch) => {
     dispatch({type: LOADING_GROUP})
-    console.log('sport, year, season, groupId', sport, year, season, groupId)
+    console.log('sport, year, season, groupId', sport, year, season, week, groupId)
     let currentSession, IdToken;
     let getOptions = {};
     try {
@@ -72,7 +72,8 @@ export const fetchGroup = (sport, year, season, groupId) => async (dispatch) => 
         console.log('getUserError', getUserError)
     }
     try {
-        let fetchGroupResponse = await apiHost.get(`group/${sport}/${year}/${groupId}${season ? `?season=${season}` : ''}`,getOptions).json()
+        console.log(`groupId`, groupId)
+        let fetchGroupResponse = await apiHost.get(`group/${sport}/${year}/${groupId}${season ? `?season=${season}` : ''}${week ? season ? `&week=${week}` : `?week=${week}` : ''}`,getOptions).json()
         console.log('fetchGroupResponse', fetchGroupResponse)
 
         // set the group selected season
