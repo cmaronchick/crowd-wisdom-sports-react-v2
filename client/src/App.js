@@ -150,7 +150,7 @@ class App extends Component {
     }
   }
   render() {
-    console.log(`this.props.user.details?.isAdmin`, this.props.user.details?.isAdmin)
+    // console.log(`this.props.user.details?.isAdmin`, this.props.user.details?.isAdmin)
     return (
       <div className="App">
         <Layout>

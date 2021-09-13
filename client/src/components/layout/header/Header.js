@@ -20,7 +20,7 @@ const StakehouseHeader = ({ message,user, logout }) => {
   const profileChoices = (
   
     <Menu>
-      <Menu.Item>
+      <Menu.Item key="profile">
         <Link to="/profile">
           {window.innerWidth < 800 ? (
             <span>{user.attributes.preferred_username}</span>
@@ -29,7 +29,7 @@ const StakehouseHeader = ({ message,user, logout }) => {
           )}
         </Link>
       </Menu.Item>
-      <Menu.Item>
+      <Menu.Item key="logout">
         <Button type="primary" onClick={() => logout()}>
           Logout
         </Button>

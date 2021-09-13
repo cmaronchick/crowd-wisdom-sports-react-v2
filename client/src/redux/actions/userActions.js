@@ -281,7 +281,7 @@ export const resendConfirmation = (username) => async (dispatch) => {
         })
     } catch (resendConfirmationError) {
         console.log('resendConfirmationError', resendConfirmationError)
-        dispatchEvent({
+        dispatch({
             type: SET_ERRORS,
             payload: resendConfirmationError
         })

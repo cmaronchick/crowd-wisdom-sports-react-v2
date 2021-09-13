@@ -10,6 +10,7 @@
     "clean": "rimraf dist",
     "prod": "cross-env NODE_ENV=production npm-run-all clean build server:prod",
     "start": "node server.js",
+    "start:dev": "node server.js && cd client && yarn start",
     "server": "nodemon server.js",
     "heroku-postbuild": "NPM_CONFIG_PRODUCTION=false yarn install && cd client && yarn install && yarn build"
   },

@@ -198,7 +198,7 @@ const AdminPage = (props) => {
                         <Select
                             defaultValue={status}
                             style={{ width: 120 }}
-                            onChange={(event) => handleStatusChange({gameId, status: event.target.value})}>
+                            onChange={(value) => handleStatusChange({gameId, status: value})}>
                                 <Option value="notStarted">Not Started</Option>
                                 <Option value="inProgress">In Progress</Option>
                                 <Option value="final">final</Option>

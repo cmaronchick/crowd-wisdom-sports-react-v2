@@ -39,7 +39,6 @@ export const fetchGameWeekGames = (sport, year, season, gameWeek) => async (disp
 
     try {
         let gameWeekGames = await apiHost.get(`${sport}/games/${year}/${season}/${gameWeek}`, getOptions).json()
-        console.log(`gameWeekGames`, gameWeekGames)
         dispatch({
             type: SET_GAMES,
             payload: gameWeekGames
