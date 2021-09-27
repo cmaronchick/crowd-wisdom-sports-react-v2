@@ -1,6 +1,7 @@
 import React, { Fragment } from 'react'
 
 import { Tabs, Table, Spin, Typography } from 'antd'
+import Icon from '@ant-design/icons'
 import { antIcon } from '../../functions/utils'
 
 import { connect } from 'react-redux'
@@ -10,6 +11,7 @@ import './Leaderboards.less'
 import LeaderboardSelector from './LeaderboardSelector'
 import SeasonSelector from '../seasonSelector/SeasonSelector'
 import LoginButton from '../profile/LoginButton'
+import { FaFacebook } from 'react-icons/fa'
 
 import Weeks from '../weeks/Weeks'
 
@@ -22,7 +24,7 @@ const Leaderboards = (props) => {
     const { sport, year, season, week } = props.sport.gameWeekData
     const {params} = props.match
     const { weekly, overall } = leaderboards.leaderboards
-
+    console.log(`weekly`, weekly)
     /* check for leaderboard data - !weekly || !overall
     if no leaderboard data, check for loading state - !loadingLeaderboards
     if not loading, fetch leaderboard data using the sport data in the redux store
@@ -50,6 +52,19 @@ const Leaderboards = (props) => {
             title: 'User',
             dataIndex: 'preferred_username',
             key: 'username',
+            render: (preferred_username) => {
+                return (<div>{preferred_username}</div>)
+            },
+            fixed: 'left',
+            width: 150
+        },
+        {
+            title: 'User',
+            dataIndex: 'username',
+            key: 'username',
+            render: (username) => {
+                return (<div>{username.indexOf('Facebook') > -1 && (<a href="https://www.facebook.com/paulcullin/"><Icon component={() => <FaFacebook title="Facebook Profile" className="drawerIcon" />}/></a>)}</div>)
+            },
             fixed: 'left',
             width: 150
         },
