@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useState } from 'react'
 import PropTypes from 'prop-types'
 import { NavLink, Link } from "react-router-dom";
 
@@ -45,15 +45,17 @@ const sportsVariables = {
 }
 
 const SideMenu = (props) => {
+    const [collapsed, toggleCollapsed] = useState(window.innerWidth < 560 ? true : false)
     const { sport, user } = props
     const sportKeys = {
         nfl: 'nfl'
     }
     return (
         //<!-- Sidebar -->
-        <Sider breakpoint="sm"
-        collapsedWidth="80">
-
+        <Sider
+            breakpoint="sm"
+            collapsedWidth="0"
+            >
           <Menu
             mode="inline"
             defaultOpenKeys={[sportKeys[sport.sport]]}
@@ -61,9 +63,9 @@ const SideMenu = (props) => {
             className="sideMenu"
           >
             <SubMenu style={{borderBottom: '1px solid #3d5a80'}} key="nfl" icon={<Icon component={() => <FaFootballBall title="NFL" className="drawerIcon" />} />} title='NFL'>
-    <Menu.Item className="drawerLink" key="1" icon={<Icon component={() => <FaFootballBall title="Games" className="drawerIcon" />} />}><NavLink activeClassName="activeNavLink" to="/nfl/games">Games</NavLink></Menu.Item>
-    <Menu.Item className="drawerLink" key="2" icon={<Icon component={() => <FaTrophy title="Leaderboards" className="drawerIcon" />} />}><NavLink activeClassName="activeNavLink" to="/nfl/leaderboards">Leaderboards</NavLink></Menu.Item>
-    <Menu.Item className="drawerLink" key="3" icon={<Icon component={() => <FaUserFriends title="Groups" className="drawerIcon" />} />}><NavLink activeClassName="activeNavLink" to="/nfl/groups">Groups</NavLink></Menu.Item>
+                <Menu.Item className="drawerLink" key="1" icon={<Icon component={() => <FaFootballBall title="Games" className="drawerIcon" />} />}><NavLink activeClassName="activeNavLink" to="/nfl/games">Games</NavLink></Menu.Item>
+                <Menu.Item className="drawerLink" key="2" icon={<Icon component={() => <FaTrophy title="Leaderboards" className="drawerIcon" />} />}><NavLink activeClassName="activeNavLink" to="/nfl/leaderboards">Leaderboards</NavLink></Menu.Item>
+                <Menu.Item className="drawerLink" key="3" icon={<Icon component={() => <FaUserFriends title="Groups" className="drawerIcon" />} />}><NavLink activeClassName="activeNavLink" to="/nfl/groups">Groups</NavLink></Menu.Item>
             </SubMenu>
             <Menu.Item key="9" className="drawerLink" icon={<Icon component={() => <FaChartLine title="Notifications" className="drawerIcon" />} />}>
                 <Link to={`/${sport.sport}/oddsmovement/${sport.gameWeekData.year}/${sport.gameWeekData.season}/${sport.gameWeekData.week}`}>Odds Movement</Link>
@@ -101,7 +103,6 @@ const SideMenu = (props) => {
                 </Menu.Item>
             )}
         </Menu>
-
         </Sider>
     )
 }
