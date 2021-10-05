@@ -180,17 +180,18 @@ const AdminPage = (props) => {
             </div>
             {games && Object.keys(games.games).length > 0 && Object.keys(games.games).map(gameId => {
                 const { awayTeam, homeTeam, odds, status, updating, results } = games.games[gameId]
+                console.log(`awayTeam, homeTeam`, awayTeam, homeTeam)
                 return (
                 <Card key={gameId} title={`${gameId}: ${awayTeam.shortName} at ${homeTeam.shortName}`}>
                     <Row>
                         <Col>
-                        <div>{awayTeam.code}<input value={gamesObj[gameId]?.results?.awayTeam?.score ? gamesObj[gameId].results.awayTeam.score : ''} type="number" id="awayTeamScore" onChange={(event) => { handleScoreChange({gameId, team: 'awayTeam', score: event.target.value})}} /></div>
+                        <div>{awayTeam.code}<input value={gamesObj[gameId] && gamesObj[gameId].results && gamesObj[gameId].results.awayTeam && gamesObj[gameId].results.awayTeam.score !== null ? gamesObj[gameId].results.awayTeam.score : ''} type="number" id="awayTeamScore" onChange={(event) => { handleScoreChange({gameId, team: 'awayTeam', score: event.target.value})}} /></div>
                         </Col>
                         <Col>
                         at
                         </Col>
                         <Col>
-                        <div>{homeTeam.code}<input type="number" value={gamesObj[gameId]?.results?.homeTeam?.score ? gamesObj[gameId].results.homeTeam.score : ''} id="homeTeamScore" onChange={(event) => { handleScoreChange({gameId, team: 'homeTeam', score: event.target.value})}} /></div>
+                        <div>{homeTeam.code}<input type="number" value={gamesObj[gameId] && gamesObj[gameId].results && gamesObj[gameId].results.homeTeam && gamesObj[gameId].results.homeTeam.score !== null ? gamesObj[gameId].results.homeTeam.score : ''} id="homeTeamScore" onChange={(event) => { handleScoreChange({gameId, team: 'homeTeam', score: event.target.value})}} /></div>
                         </Col>
                     </Row>
                     <Row>
@@ -198,7 +199,7 @@ const AdminPage = (props) => {
                         <Select
                             defaultValue={status}
                             style={{ width: 120 }}
-                            onChange={(event) => handleStatusChange({gameId, status: event.target.value})}>
+                            onChange={(value) => handleStatusChange({gameId, status: value})}>
                                 <Option value="notStarted">Not Started</Option>
                                 <Option value="inProgress">In Progress</Option>
                                 <Option value="final">final</Option>

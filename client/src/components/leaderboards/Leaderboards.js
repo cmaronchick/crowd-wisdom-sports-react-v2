@@ -1,6 +1,7 @@
 import React, { Fragment } from 'react'
 
 import { Tabs, Table, Spin, Typography } from 'antd'
+import Icon from '@ant-design/icons'
 import { antIcon } from '../../functions/utils'
 
 import { connect } from 'react-redux'
@@ -10,6 +11,7 @@ import './Leaderboards.less'
 import LeaderboardSelector from './LeaderboardSelector'
 import SeasonSelector from '../seasonSelector/SeasonSelector'
 import LoginButton from '../profile/LoginButton'
+import { FaFacebook } from 'react-icons/fa'
 
 import Weeks from '../weeks/Weeks'
 
@@ -22,7 +24,7 @@ const Leaderboards = (props) => {
     const { sport, year, season, week } = props.sport.gameWeekData
     const {params} = props.match
     const { weekly, overall } = leaderboards.leaderboards
-
+    // console.log(`weekly`, weekly)
     /* check for leaderboard data - !weekly || !overall
     if no leaderboard data, check for loading state - !loadingLeaderboards
     if not loading, fetch leaderboard data using the sport data in the redux store
@@ -45,18 +47,33 @@ const Leaderboards = (props) => {
     }
 
     // setting column information for the antd Table
+    /*{
+            title: 'User',
+            dataIndex: 'username',
+            key: 'username',
+            render: (username) => {
+                return (<div>{username.indexOf('Facebook') > -1 && (<a href="https://www.facebook.com/paulcullin/"><Icon component={() => <FaFacebook title="Facebook Profile" className="drawerIcon" />}/></a>)}</div>)
+            },
+            fixed: 'left',
+            width: 150
+        },*/
     const predictionScoreColumns = [
         {
             title: 'User',
             dataIndex: 'preferred_username',
             key: 'username',
+            render: (preferred_username) => {
+                return (<div>{preferred_username}</div>)
+            },
             fixed: 'left',
             width: 150
         },
         {
             title: 'Prediction Score',
             dataIndex: 'predictionScore',
-            width: 100
+            width: 100,
+            sorter: (a,b) => a.predictionScore - b.predictionScore.wagered,
+            defaultSortOrder: 'descend'
         },
         {
             title: 'Winners',
@@ -66,7 +83,9 @@ const Leaderboards = (props) => {
                     {winner.correct}
                 </span>
             ),
-            width: 100
+            width: 100,
+            sorter: (a,b) => a.winner.correct - b.winner.correct,
+            defaultSortOrder: 'descend'
         },
         {
             title: 'Spread',
@@ -76,7 +95,9 @@ const Leaderboards = (props) => {
                     {spread.correct}
                 </span>
             ),
-            width: 100
+            width: 100,
+            sorter: (a,b) => a.spread.correct - b.spread.correct,
+            defaultSortOrder: 'descend'
         },
         {
             title: 'Total',
@@ -86,7 +107,9 @@ const Leaderboards = (props) => {
                     {total.correct}
                 </span>
             ),
-            width: 100
+            width: 100,
+            sorter: (a,b) => a.total.correct - b.total.correct,
+            defaultSortOrder: 'descend'
         }
 
     ]
@@ -140,8 +163,8 @@ const Leaderboards = (props) => {
         }
     ]
     if (!loadingLeaderboards) {
-        console.log('weekly.users', weekly ? weekly.users : null)
-        console.log('overall.users: ', overall ? overall.users : null)
+        // console.log('weekly.users', weekly ? weekly.users : null)
+        // console.log('overall.users: ', overall ? overall.users : null)
     }
     const extraContent = <LeaderboardSelector leaderboardType={props.leaderboards.leaderboardType} handleChangeLeaderboardType={props.selectLeaderboardType} />
     return props.user.authenticated ? (
@@ -168,7 +191,8 @@ const Leaderboards = (props) => {
                                 dataSource={
                                     leaderboardType === 'predictionScore' ? weekly.users.sort((a,b) => a.predictionScore > b.predictionScore ? -1 : 1)
                                         : weekly.usersStars.sort((a,b) => a.stars.net > b.stars.net ? -1 : 1)}
-                                        columns={leaderboardType === 'predictionScore' ? predictionScoreColumns : stakesColumns} />
+                                        columns={leaderboardType === 'predictionScore' ? predictionScoreColumns : stakesColumns}
+                            pagination={false}/>
                         ) : (
                             <div>No Weekly Leaderboard</div>
                         )}
@@ -180,7 +204,8 @@ const Leaderboards = (props) => {
                                 dataSource={
                                     leaderboardType === 'predictionScore' ? overall.users.sort((a,b) => a.predictionScore > b.predictionScore ? -1 : 1)
                                 : overall.usersStars.sort((a,b) => a.stars.net > b.stars.net ? -1 : 1)}
-                                columns={leaderboardType === 'predictionScore' ? predictionScoreColumns : stakesColumns} />
+                                columns={leaderboardType === 'predictionScore' ? predictionScoreColumns : stakesColumns}
+                                pagination={false}/>
                         ) : (
                             <div>No Overall Leaderboard</div>
                         )}

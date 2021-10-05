@@ -85,11 +85,11 @@ const Group = ({
 
     NOTE: the setTimeout is to allow the component to render completely before fetching data
     */ 
-    if (!groupName && !loadingGroup && sportObj.sport && sportObj.gameWeekData.year && sportObj.gameWeekData.season && params.groupId) {
-        // console.log('sport, year, season, params.groupId', sport, year, season, params.groupId)
+    if (!groupName && !loadingGroup && sportObj.sport && sportObj.gameWeekData.year && sportObj.gameWeekData.season && sportObj.gameWeekData.week && params.groupId) {
+        console.log('sportObj.gameWeekData',  sportObj.gameWeekData)
         loadingGroup = true;
         setTimeout(() => {
-            fetchGroup(sport, parseInt(year), season, parseInt(params.groupId))
+            fetchGroup(sport, parseInt(year), season, sportObj.gameWeekData.week, parseInt(params.groupId))
         }, 100)
     }
 
