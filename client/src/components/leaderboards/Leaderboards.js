@@ -47,6 +47,16 @@ const Leaderboards = (props) => {
     }
 
     // setting column information for the antd Table
+    /*{
+            title: 'User',
+            dataIndex: 'username',
+            key: 'username',
+            render: (username) => {
+                return (<div>{username.indexOf('Facebook') > -1 && (<a href="https://www.facebook.com/paulcullin/"><Icon component={() => <FaFacebook title="Facebook Profile" className="drawerIcon" />}/></a>)}</div>)
+            },
+            fixed: 'left',
+            width: 150
+        },*/
     const predictionScoreColumns = [
         {
             title: 'User',
@@ -54,16 +64,6 @@ const Leaderboards = (props) => {
             key: 'username',
             render: (preferred_username) => {
                 return (<div>{preferred_username}</div>)
-            },
-            fixed: 'left',
-            width: 150
-        },
-        {
-            title: 'User',
-            dataIndex: 'username',
-            key: 'username',
-            render: (username) => {
-                return (<div>{username.indexOf('Facebook') > -1 && (<a href="https://www.facebook.com/paulcullin/"><Icon component={() => <FaFacebook title="Facebook Profile" className="drawerIcon" />}/></a>)}</div>)
             },
             fixed: 'left',
             width: 150
