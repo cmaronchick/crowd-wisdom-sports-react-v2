@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import PropTypes from 'prop-types'
 import { Link } from 'react-router-dom'
 import { withRouter } from 'react-router-dom'
@@ -18,6 +18,7 @@ const antIcon = <LoadingOutlined title="Loading Game" alt="Loading Game" style={
 
 const Game = (props) => {
     const { game, predictions, loadingGame, match } = props;
+    const [chartType, setChartType] = useState('spread')
     const urlParams = {...match.params}
     urlParams.gameId = parseInt(urlParams.gameId);
     const prediction = predictions?.user && Object.keys(predictions.user).length > 0 ? predictions.user[game.gameId] : game.prediction ? game.prediction : null
@@ -55,9 +56,15 @@ const Game = (props) => {
               ) : null} */}
             {game && game.odds && (
               <div className="chartContainer">
-                <Button type="primary" onClick={() => props.toggleOddsChartType()}>
-                  Show {game.oddsChartType === 'total' || !game.oddsChartType ? 'Spread' : 'Total'} Odds History</Button>
-                <GameOddsChart game={game} />
+                <div className="chartButton">
+                  <Button type="primary" onClick={() => setChartType(chartType === 'spread' ? 'total' : 'spread')}>
+                    Show {chartType === 'total' || chartType === 'totalOdds' ? 'Spread' : 'Total'} Odds History</Button>
+                </div>
+                <div className="chartButton">
+                  <Button type="primary" onClick={() => setChartType(chartType === 'spread' || chartType === 'spreadOdds' ? (chartType === 'spreadOdds' ? 'spread' : 'spreadOdds') : (chartType === 'totalOdds' ? 'total' : 'totalOdds'))}>
+                    Show {chartType === 'spread' || chartType === 'spreadOdds' ? 'Spread' : 'Total'} {chartType.indexOf('Odds') > -1 ? 'Odds' : 'Moneyline'} History</Button>
+                </div>
+                <GameOddsChart game={game} chartType={chartType} />
               </div>
             )}
             <Link
