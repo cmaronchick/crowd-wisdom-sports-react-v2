@@ -143,7 +143,8 @@ const AdminPage = (props) => {
                             ...gamesObj,
                             [gameId]: {
                                 ...gamesObj[gameId],
-                                updating: false
+                                updating: false,
+                                updated: true
                             }
                         }
                     })
@@ -156,7 +157,8 @@ const AdminPage = (props) => {
                             ...gamesObj,
                             [gameId]: {
                                 ...gamesObj[gameId],
-                                updating: false
+                                updating: false,
+                                updated: false
                             }
                         }
                     })
@@ -178,9 +180,12 @@ const AdminPage = (props) => {
                 />
                 <Weeks onGameWeekClick={fetchGameWeekGames} page="games" />
             </div>
-            {games && Object.keys(games.games).length > 0 && Object.keys(games.games).map(gameId => {
-                const { awayTeam, homeTeam, odds, status, updating, results } = games.games[gameId]
-                console.log(`awayTeam, homeTeam`, awayTeam, homeTeam)
+            {games && Object.keys(games.games).length > 0 && Object.keys(games.games).sort((a,b) => {
+                return games.games[a].startDateTime > games.games[b].startDateTime ? 1 : -1
+            }).map(gameId => {
+                const { awayTeam, homeTeam, odds, status, updating, updated, results } = games.games[gameId]
+                console.log(`updated`, updated)
+                // console.log(`awayTeam, homeTeam`, awayTeam, homeTeam)
                 return (
                 <Card key={gameId} title={`${gameId}: ${awayTeam.shortName} at ${homeTeam.shortName}`}>
                     <Row>
@@ -212,6 +217,7 @@ const AdminPage = (props) => {
                         disabled={updating}>
                             Submit Update
                         </Button>
+                        {updated && (<div style="color: 'green'">Updated!</div>)}
                     </Row>
                 </Card>
                 )}
