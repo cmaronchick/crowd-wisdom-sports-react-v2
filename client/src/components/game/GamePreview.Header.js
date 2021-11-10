@@ -39,9 +39,13 @@ const GamePreviewHeader = (props) => {
         </div>
       ) : (
         <div className="game-header-div">
-        <Link to={`/${game.sport}/games/${game.year}/${game.season}/${game.gameWeek}`}>
-          <ArrowLeftOutlined className="left-arrow"/>
-        </Link>
+          <Link
+              className="home-link link"
+              onClick={handleGamesListClick}
+              to={`/${sport}/games/${year}/${season}/${gameWeek}`}>
+              {/* <i className="fas fa-arrow-left" style={{fontSize: '1.2em', fontWeight: 'bold' }}></i> */}
+              <ArrowLeftOutlined className="left-arrow" title="Go Back" />
+            </Link>
         <Title level={4} className="game-header">
         {game.bowlName && (
           <div className="bowlName">
@@ -49,13 +53,7 @@ const GamePreviewHeader = (props) => {
           </div>
           )}
 
-            <Link
-              className="home-link link"
-              onClick={handleGamesListClick}
-              to={`/${sport}/games/${year}/${season}/${gameWeek}`}>
-              {/* <i className="fas fa-arrow-left" style={{fontSize: '1.2em', fontWeight: 'bold' }}></i> */}
-              <ArrowLeftOutlined className="left-arrow" title="Go Back" />
-            </Link>
+            
           <HeaderTitle game={game} />
         </Title>
         </div>
