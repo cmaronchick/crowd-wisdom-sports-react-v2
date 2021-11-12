@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useRef } from 'react';
 import PropTypes from 'prop-types'
 import { Link } from 'react-router-dom'
 import { withRouter } from 'react-router-dom'
@@ -17,6 +17,7 @@ import { LoadingOutlined } from '@ant-design/icons'
 const antIcon = <LoadingOutlined title="Loading Game" alt="Loading Game" style={{ fontSize: 24 }} spin />;
 
 const Game = (props) => {
+    const gameRef = useRef()
     const { game, predictions, loadingGame, match } = props;
     const [chartType, setChartType] = useState('spread')
     const urlParams = {...match.params}
