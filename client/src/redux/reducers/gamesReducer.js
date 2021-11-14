@@ -47,6 +47,10 @@ export default function(state = initialState, action) {
         case SET_GAME:
             return {
                 ...state,
+                games: {
+                    ...state.games,
+                    [action.payload.game.gameId]: {...action.payload.game}
+                },
                 ...action.payload,
                 loadingGame: false
             }

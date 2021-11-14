@@ -6,6 +6,8 @@ import {
     SUBMITTED_PREDICTION
 } from '../types'
 
+import { fetchGame } from './gamesActions'
+
 import { Auth } from '@aws-amplify/auth'
 import ky from 'ky/umd'
 import ReactGA from 'react-ga'
@@ -66,6 +68,8 @@ export const submitPrediction = (gameId, prediction) => async (dispatch) => {
                 prediction
             }
         })
+        const { sport, year, season, gameWeek } = prediction
+        dispatch(fetchGame(sport, year, season, gameWeek, gameId))
     } catch (submitPredictionError) {
         console.log('submitPredictionError', submitPredictionError)
 
