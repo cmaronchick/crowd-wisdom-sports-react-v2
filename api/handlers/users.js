@@ -75,4 +75,18 @@ const uploadImage = (req, res) => {
     busboy.end(req.rawBody);
 }
 
-module.exports = { getExtendedProfile, uploadImage, getUserNotifications }
+const getUserPredictions = (req, res) => {
+    let { sport, year, season, week, userId } = req.query;
+    return ky.get(`https://y5f8dr2inb.execute-api.us-west-2.amazonaws.com/dev/predictions?sport=${sport}&year=${year}&season=${season}&week=${week}&userId=${userId}`)
+    .then((userPredictionsResponse) => {
+        console.log(`userPredictionsResponse`, userPredictionsResponse)
+        return userPredictionsResponse.json()
+    })
+    .then(userPredictionsResponseJSON => {
+      console.log('userPredictionsResponseJSON', userPredictionsResponseJSON)
+      return  res.send({ userPredictions: userPredictionsResponseJSON })
+     })
+     .catch(userStatsResponseError => console.log('api leaderboard index 150 userStatsResponseError: ', userStatsResponseError))
+}
+
+module.exports = { getExtendedProfile, uploadImage, getUserNotifications, getUserPredictions }
