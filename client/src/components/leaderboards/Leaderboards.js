@@ -3,15 +3,19 @@ import React, { Fragment } from 'react'
 import { Tabs, Table, Spin, Typography } from 'antd'
 import Icon from '@ant-design/icons'
 import { antIcon } from '../../functions/utils'
+import { Link } from 'react-router-dom'
 
 import { connect } from 'react-redux'
 import { fetchLeaderboards, selectLeaderboardType } from '../../redux/actions/leaderboardActions'
 import { selectSeason } from '../../redux/actions/sportActions'
+import { getUserPredictions } from '../../redux/actions/predictionsActions'
 import './Leaderboards.less'
 import LeaderboardSelector from './LeaderboardSelector'
 import SeasonSelector from '../seasonSelector/SeasonSelector'
 import LoginButton from '../profile/LoginButton'
 import { FaFacebook } from 'react-icons/fa'
+import { AiOutlineArrowRight } from 'react-icons/ai'
+
 
 import Weeks from '../weeks/Weeks'
 
@@ -63,7 +67,7 @@ const Leaderboards = (props) => {
             dataIndex: 'preferred_username',
             key: 'username',
             render: (preferred_username) => {
-                return (<div>{preferred_username}</div>)
+                return (<div><Link to={`/user/predictions/${preferred_username}`}>{preferred_username}<AiOutlineArrowRight /></Link></div>)
             },
             fixed: 'left',
             width: 150
@@ -72,7 +76,7 @@ const Leaderboards = (props) => {
             title: 'Prediction Score',
             dataIndex: 'predictionScore',
             width: 100,
-            sorter: (a,b) => a.predictionScore - b.predictionScore.wagered,
+            sorter: (a,b) => a.predictionScore - b.predictionScore,
             defaultSortOrder: 'descend'
         },
         {
@@ -234,7 +238,8 @@ const mapStateToProps = (state) => ({
 const mapActionsToProps = {
     fetchLeaderboards,
     selectLeaderboardType,
-    selectSeason
+    selectSeason,
+    getUserPredictions
 }
 
 export default connect(mapStateToProps, mapActionsToProps)(Leaderboards)

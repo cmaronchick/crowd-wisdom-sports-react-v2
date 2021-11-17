@@ -17,7 +17,7 @@ export const GamePreviewHeaderRow = (props) => {
             <Row className="headerRow">
             <Col span={8} className="gameDate">
             <Text>
-            {!game.results ? gameDate : `FINAL`}
+            {!game.results && game.status === "final" ? gameDate : `FINAL`}
             </Text>
             </Col>
             <Col span={8}>

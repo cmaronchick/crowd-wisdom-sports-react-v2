@@ -9,7 +9,7 @@ import {
     CHANGE_GAME_STAKES,
     SUBMITTING_PREDICTION,
     SUBMITTED_PREDICTION,
-
+    GETTING_COMPARED_USER_PREDICTIONS
     } from '../types'
 
 
@@ -19,7 +19,10 @@ import {
 const initialState = {
     user: {},
     group: {},
-    comparedUser: {},
+    comparedUser: {
+        gettingPredictions: false,
+        predictions: null
+    },
     loadingUserPredictions: false,
     loadingGroupPredictions: false,
     loadingComparedUserPredictions: false,
@@ -133,11 +136,22 @@ export default function(state = initialState, action) {
                     }
                 }
             }
+        case GETTING_COMPARED_USER_PREDICTIONS:
+            return {
+                ...state,
+                comparedUser: {
+                    gettingPredictions: true,
+                    predictions: null
+                },
+                loadingComparedUserPredictions: false
+            }
+
         case SET_COMPARED_USER_PREDICTIONS:
             return {
                 ...state,
                 comparedUser: {
-                    ...action.payload
+                    gettingPredictions: false,
+                    predictions: action.payload
                 },
                 loadingComparedUserPredictions: false
             }

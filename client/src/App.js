@@ -37,6 +37,7 @@ import { setSport } from './redux/actions/sportActions'
 import { toggleOddsChangeModal } from './redux/actions/uiActions'
 
 import { getFacebookUser, getUserDetails } from './redux/actions/userActions'
+import Predictions from './components/profile/Predictions';
 
 const { Footer, Content } = Layout;
 var stateKey = 'amplify_auth_state';
@@ -174,6 +175,7 @@ class App extends Component {
                   {/* <Route path="/:sport/games/admin" component={props => 
                     <RequireAuth {...props} user={this.props.user} Component={AdminPage} />}/> */}
                   <Route path="/:sport/games/admin" component={AdminPage}/>
+                  <Route path="/user/predictions/:userId" component={Predictions} />
                   <Route path={["/:sport", "/:sport/games","/"]} component={Games} />
                 </Switch>
             </Content>

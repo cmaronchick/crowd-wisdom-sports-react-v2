@@ -16,7 +16,7 @@ const { getGameWeek, getGame, getGamesByGameWeek, submitPrediction, getOddsMovem
 const { getSportSeason } = require('./handlers/sport')
 const { getLeaderboards, getCrowdLeaderboards } = require('./handlers/leaderboards')
 const { getGroups, getGroup, joinGroup, leaveGroup, createGroup, updateGroup } = require('./handlers/groups')
-const { getExtendedProfile, getUserNotifications, uploadImage } = require('./handlers/users')
+const { getExtendedProfile, getUserNotifications, uploadImage, getUserPredictions } = require('./handlers/users')
 
 const { callOptions} = require('./utils');
 
@@ -45,6 +45,7 @@ router.get(['/group/:sport/:year', '/:sport/crowds/:year'], getGroups)
 router.get('/extendedprofile/notifications', getUserNotifications)
 router.get('/extendedprofile', getExtendedProfile)
 router.post('/user/image', uploadImage)
+router.get('/user/predictions', getUserPredictions)
 
 
 module.exports = router;

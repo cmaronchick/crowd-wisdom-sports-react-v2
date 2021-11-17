@@ -3,7 +3,9 @@ import {
     CHANGE_GAME_STAKES,
     SET_ERRORS,
     SUBMITTING_PREDICTION,
-    SUBMITTED_PREDICTION
+    SUBMITTED_PREDICTION,
+    GETTING_COMPARED_USER_PREDICTIONS,
+    SET_COMPARED_USER_PREDICTIONS
 } from '../types'
 
 import { fetchGame } from './gamesActions'
@@ -79,6 +81,41 @@ export const submitPrediction = (gameId, prediction) => async (dispatch) => {
                 gameId,
                 prediction
             }
+        })
+
+        dispatch({
+            type: SET_ERRORS,
+            payload: submitPredictionError
+        })
+    }
+}
+
+
+export const getUserPredictions = (sport, year, season, gameWeek, userId) => async (dispatch) => {
+    console.log(`sport, year, season, gameWeek, userId`, sport, year, season, gameWeek, userId)
+    dispatch({
+        type: GETTING_COMPARED_USER_PREDICTIONS
+    })
+    try {
+        let currentSession = await Auth.currentSession();
+        let userPredictionResponse = await apiHost.get(`user/predictions?sport=${sport}&year=${year}&season=${season}&week=${gameWeek}&userId=${userId}`)
+        let userPredictionResponseJSON = await userPredictionResponse.json()
+        console.log(`userPredictionResponseJSON`, userPredictionResponseJSON)
+        ReactGA.event({
+          category: 'prediction',
+          action: 'getAll',
+          label: userId
+        })
+        dispatch({
+            type: SET_COMPARED_USER_PREDICTIONS,
+            payload: userPredictionResponseJSON.userPredictions
+        })
+    } catch (submitPredictionError) {
+        console.log('submitPredictionError', submitPredictionError)
+
+        dispatch({
+            type: SET_COMPARED_USER_PREDICTIONS,
+            payload: []
         })
 
         dispatch({
