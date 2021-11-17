@@ -9,19 +9,19 @@ import { Table, Typography, Spinner } from 'antd'
 const { Title } = Typography
 
 export const Predictions = (props) => {
-    // console.log(`props.match`, props.match)
+    console.log(`props.match`, props.match)
     const {userId} = props.match.params
     const comparedPredictions = props.predictions.comparedUser?.predictions
     // console.log(`userId`, userId)
     const { sport, gameWeekData } = props.sport
     const { week, year, season } = gameWeekData
     useEffect(() => {
-        if (!userId) {
-            return <Redirect to="/leaderboards" />
-        }
-        console.log(`sport, year, season, week`, sport, year, season, week, comparedPredictions)
-        if (!comparedPredictions && sport && year && season && week) {
-            props.getUserPredictions(sport, year, season, week, userId)
+        if (userId) {
+                
+            console.log(`sport, year, season, week`, sport, year, season, week, comparedPredictions)
+            if (!comparedPredictions && sport && year && season && week) {
+                props.getUserPredictions(sport, year, season, week, userId)
+            }
         }
     }, [sport, gameWeekData, comparedPredictions])
     
@@ -74,17 +74,23 @@ export const Predictions = (props) => {
         }
 
     ]
-    return (
+    console.log(`userId`, userId, comparedPredictions)
+    return userId ? (
         <div>
             <Title>{userId} Predictions</Title>
             {props.predictions.comparedUser?.gettingPredictions ? (
                         <div className="oddsRow" style={{backgroundColor: '#fff', padding: 20}}>
-                            <img src={StakeIcon} className="loadingIcon" alt="Odds Loading" />
+                            <img role="loading" alt="Predictions loading..." src={StakeIcon} className="loadingIcon" />
                         </div>
                 ) : comparedPredictions && comparedPredictions.length > 0 ? (
-                <Table className="comparisonTable" rowKey="gameId" dataSource={comparedPredictions} columns={columns}
+                <Table
+                    className="comparisonTable"
+                    rowKey="gameId"
+                    dataSource={comparedPredictions}
+                    columns={columns}
+                    pagination={false}
                 
-                expandable={{
+                expandable={props.games?.games ? {
                     expandedRowRender: record => {
                         const game = props.games.games[record.gameId]
                         console.log(`game`, game)
@@ -124,12 +130,12 @@ export const Predictions = (props) => {
                             </div>)
                     },
                     columnWidth: 110
-                }} />
+                } : false} />
             ) : (
                 <div>No Predictions available yet. Check back soon!</div>
             )}
         </div>
-    )
+    ) : (<Redirect to="/leaderboards" />)
 }
 
 const mapStateToProps = (state) => ({
