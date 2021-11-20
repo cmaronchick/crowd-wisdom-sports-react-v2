@@ -15,6 +15,10 @@ const Weeks = (props) => {
     // console.log('weeks: ', weeks);
     const onWeekClick = (selectedWeek) => {
       console.log('selectedWeek', selectedWeek)
+      if (page === "Predictions") {
+        onGameWeekClick()
+        return;
+      }
       onGameWeekClick(sport.sport, year, season, selectedWeek)
       props.changeGameWeek(sport.gameWeekData, selectedWeek)
     }
@@ -26,13 +30,14 @@ const Weeks = (props) => {
     grid={{column: weeks.length, gutter: 4}}
       dataSource={weeks}
       renderItem={(item, index) => {
+        console.log(`week, index`, parseInt(week), index, (index + 1) === parseInt(week))
         return (
         
             <List.Item key={index}>
               <Link
                 to={`/${sport.sport}/${page}/${year}/${season}/${index + 1}`}
                 onClick={() => onWeekClick(index + 1)}
-                className={`week ${index + 1 === week ? 'selectedWeek' : null}`}
+                className={`week ${(index + 1) === parseInt(week) ? 'selectedWeek' : ''}`}
                 >
                 {item.weekName}
               </Link>

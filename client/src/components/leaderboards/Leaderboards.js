@@ -67,7 +67,7 @@ const Leaderboards = (props) => {
             dataIndex: 'preferred_username',
             key: 'username',
             render: (preferred_username) => {
-                return (<div><Link to={`/user/predictions/${preferred_username}`}>{preferred_username}<AiOutlineArrowRight /></Link></div>)
+                return (<div><Link to={`/user/predictions/${preferred_username}/${week}`}>{preferred_username}<AiOutlineArrowRight /></Link></div>)
             },
             fixed: 'left',
             width: 150

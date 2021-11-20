@@ -1,16 +1,18 @@
 import React, { useEffect} from 'react'
 import { connect } from 'react-redux'
+import { setGameWeek } from '../../redux/actions/sportActions'
 import { getUserPredictions } from '../../redux/actions/predictionsActions'
 import { Redirect } from 'react-router-dom/cjs/react-router-dom.min'
 import StakeIcon from '../../images/stake-image-blue-dual-ring.svg'
 
 import { Table, Typography, Spinner } from 'antd'
+import Weeks from '../weeks/Weeks'
 
 const { Title } = Typography
 
 export const Predictions = (props) => {
-    console.log(`props.match`, props.match)
-    const {userId} = props.match.params
+    // console.log(`props.match`, props.match)
+    const {userId, selectedWeek} = props.match.params
     const comparedPredictions = props.predictions.comparedUser?.predictions
     // console.log(`userId`, userId)
     const { sport, gameWeekData } = props.sport
@@ -18,9 +20,11 @@ export const Predictions = (props) => {
     useEffect(() => {
         if (userId) {
                 
-            console.log(`sport, year, season, week`, sport, year, season, week, comparedPredictions)
+            // console.log(`sport, year, season, week`, sport, year, season, week, comparedPredictions)
             if (!comparedPredictions && sport && year && season && week) {
-                props.getUserPredictions(sport, year, season, week, userId)
+                //use selected week instead of week if it exists
+                props.setGameWeek(sport, year, season, selectedWeek ? selectedWeek : week);
+                props.getUserPredictions(sport, year, season, selectedWeek ? selectedWeek : week, userId);
             }
         }
     }, [sport, gameWeekData, comparedPredictions])
@@ -31,7 +35,7 @@ export const Predictions = (props) => {
             dataIndex: 'awayTeam',
             key: 'gameId',
             render: (awayTeam) => {
-                console.log(`awayTeam`, awayTeam)
+                // console.log(`awayTeam`, awayTeam)
                 return (<div>{awayTeam.code ? (<span>{awayTeam.code}<br /></span>) : null}{awayTeam.score}</div>)
             },
             fixed: 'left',
@@ -74,63 +78,71 @@ export const Predictions = (props) => {
         }
 
     ]
-    console.log(`userId`, userId, comparedPredictions)
+    // console.log(`userId`, userId, comparedPredictions)
     return userId ? (
         <div>
-            <Title>{userId} Predictions</Title>
+            <Title>{userId} Week {selectedWeek ? selectedWeek : week} Predictions</Title>
+
+                        <Weeks
+                        sport={sport}
+                        onGameWeekClick={() => props.getUserPredictions(sport, year, season, selectedWeek ? selectedWeek : week, userId)}
+                        page={`predictions/${userId}`} />
             {props.predictions.comparedUser?.gettingPredictions ? (
                         <div className="oddsRow" style={{backgroundColor: '#fff', padding: 20}}>
                             <img role="loading" alt="Predictions loading..." src={StakeIcon} className="loadingIcon" />
                         </div>
                 ) : comparedPredictions && comparedPredictions.length > 0 ? (
-                <Table
-                    className="comparisonTable"
-                    rowKey="gameId"
-                    dataSource={comparedPredictions}
-                    columns={columns}
-                    pagination={false}
-                
-                expandable={props.games?.games ? {
-                    expandedRowRender: record => {
-                        const game = props.games.games[record.gameId]
-                        console.log(`game`, game)
-                        const gameResult = game ? { odds: game.odds, awayTeam: { score: game.results.awayTeam.score }, homeTeam: { score: game.results.homeTeam.score }} : null
-                        const myPrediction = props.predictions.user[record.gameId]
-                        const myColumns = [
-                            {
-                                title: 'Me',
-                                dataIndex: 'odds',
-                                className: 'embeddedTableNameColumn',
-                                render: (odds) => {
-                                    return (<div>Me</div>)
-                                },
-                                fixed: 'left'
+                        
+                        <Table
+                            className="comparisonTable"
+                            rowKey="gameId"
+                            dataSource={comparedPredictions}
+                            columns={columns}
+                            pagination={false}
+                        
+                        expandable={props.games?.games ? {
+                            expandedRowRender: record => {
+                                const game = props.games.games[record.gameId]
+                                // console.log(`game`, game)
+                                const gameResult = game ? { odds: game.odds, awayTeam: { score: game.results.awayTeam.score }, homeTeam: { score: game.results.homeTeam.score }} : null
+                                const myPrediction = props.predictions.user[record.gameId]
+                                const myColumns = [
+                                    {
+                                        title: 'Me',
+                                        dataIndex: 'odds',
+                                        key: 'me',
+                                        className: 'embeddedTableNameColumn',
+                                        render: (odds) => {
+                                            return (<div>Me</div>)
+                                        },
+                                        fixed: 'left'
+                                    },
+                                    ...columns]
+                                const gameColumns = [
+                                    {
+                                        title: 'FINAL',
+                                        dataIndex: 'odds',
+                                        key: 'game',
+                                        className: 'embeddedTableNameColumn',
+                                        render: (odds) => {
+                                            return (<div>FINAL</div>)
+                                        },
+                                        fixed: 'left'
+                                    },
+                                    ...columns]
+                                return (
+                                    <div>
+                                        {myPrediction && (
+                                            <Table showHeader={false} dataSource={[myPrediction]} columns={myColumns} pagination={false} />
+                                        )}
+                                        {gameResult && (
+                                            <Table showHeader={false} dataSource={[gameResult]} columns={gameColumns} pagination={false} />
+                                        )}
+                                    {/* <div style={{ margin: 0 }}>FINAL: {game.results.awayTeam.score}-{game.results.homeTeam.score} Spread: {game.odds.spread} Total: {game.odds.total} </div> */}
+                                    </div>)
                             },
-                            ...columns]
-                        const gameColumns = [
-                            {
-                                title: 'FINAL',
-                                dataIndex: 'odds',
-                                className: 'embeddedTableNameColumn',
-                                render: (odds) => {
-                                    return (<div>FINAL</div>)
-                                },
-                                fixed: 'left'
-                            },
-                            ...columns]
-                        return (
-                            <div>
-                                {myPrediction && (
-                                    <Table showHeader={false} dataSource={[myPrediction]} columns={myColumns} pagination={false} />
-                                )}
-                                {gameResult && (
-                                    <Table showHeader={false} dataSource={[gameResult]} columns={gameColumns} pagination={false} />
-                                )}
-                            {/* <div style={{ margin: 0 }}>FINAL: {game.results.awayTeam.score}-{game.results.homeTeam.score} Spread: {game.odds.spread} Total: {game.odds.total} </div> */}
-                            </div>)
-                    },
-                    columnWidth: 110
-                } : false} />
+                            columnWidth: 110
+                        } : false} />
             ) : (
                 <div>No Predictions available yet. Check back soon!</div>
             )}
@@ -145,7 +157,8 @@ const mapStateToProps = (state) => ({
 })
 
 const mapDispatchToProps = {
-    getUserPredictions
+    getUserPredictions,
+    setGameWeek
 }
 
 export default connect(mapStateToProps, mapDispatchToProps)(Predictions)
