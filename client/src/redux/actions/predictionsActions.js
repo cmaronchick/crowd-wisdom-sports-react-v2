@@ -92,7 +92,6 @@ export const submitPrediction = (gameId, prediction) => async (dispatch) => {
 
 
 export const getUserPredictions = (sport, year, season, gameWeek, userId) => async (dispatch) => {
-    console.log(`sport, year, season, gameWeek, userId`, sport, year, season, gameWeek, userId)
     dispatch({
         type: GETTING_COMPARED_USER_PREDICTIONS
     })
@@ -100,7 +99,6 @@ export const getUserPredictions = (sport, year, season, gameWeek, userId) => asy
         let currentSession = await Auth.currentSession();
         let userPredictionResponse = await apiHost.get(`user/predictions?sport=${sport}&year=${year}&season=${season}&week=${gameWeek}&userId=${userId}`)
         let userPredictionResponseJSON = await userPredictionResponse.json()
-        console.log(`userPredictionResponseJSON`, userPredictionResponseJSON)
         ReactGA.event({
           category: 'prediction',
           action: 'getAll',
