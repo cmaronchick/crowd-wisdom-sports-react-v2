@@ -47,7 +47,7 @@ const GamePreviewPrediction = (props) => {
             <Col span={4} className="team">
               <Text>{prediction.name && (prediction.name.length <= 5 ? prediction.name : `${prediction.name.substring(0, 4)}...`)}</Text>
             </Col>
-            <Col span={showPrediction ? 5 : 10}>{game.results ? prediction ? (
+            <Col span={showPrediction ? 5 : 10}>{game.status === 'final' ? prediction ? (
                 <div style={{position: 'relative'}}>
                   {results && prediction && (checkBullseye(prediction.awayTeam.score, results.awayTeam.score))}
                   {results && prediction && (prediction.awayTeam.score > prediction.homeTeam.score) && (straightUpResults(results, prediction))}
@@ -80,7 +80,7 @@ const GamePreviewPrediction = (props) => {
               )}
             </Col>
             <Col span={showPrediction ? 5 : 10}>
-              {game.results ? prediction ? (
+              {game.status === 'final' ? prediction ? (
                 <div style={{position: 'relative'}}>
                   {checkBullseye(prediction.homeTeam.score, results.homeTeam.score)}
                   {(prediction.homeTeam.score > prediction.awayTeam.score) ? straightUpResults(results, prediction) : null}
@@ -172,7 +172,7 @@ const GamePreviewPrediction = (props) => {
         {prediction.awayTeam && prediction.homeTeam && prediction.type !== 'crowd' && (<GamePreviewStakes game={game} prediction={prediction} />)}
 
         {prediction && prediction.odds && ((game.odds.spread !== prediction.odds.spread) || (game.odds.total !== prediction.odds.total)) ? (
-          !game.results ? (
+          gameCannotBeUpdated ? (
             <Row className="oddsChangeAlert alertText"
             onClick={() => toggleOddsChangeModal(game, prediction)}>
               <Col span={24}>
