@@ -28,5 +28,6 @@ module.exports = {
           },
         },
       },
-    ]
+    ],
+    setupFilesAfterEnv: ['./craco.setup.js']
 };

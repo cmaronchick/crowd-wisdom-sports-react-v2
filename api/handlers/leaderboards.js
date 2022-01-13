@@ -25,7 +25,7 @@ const getLeaderboards = (req, res) => {
 
 const getCrowdLeaderboards = (req, res) => {
     const { sport, year, season, week } = req.params;
-    console.log({ sport, year, season, week });
+    console.log('leaderboards 28', { sport, year, season, week });
     const callOptionsObject = callOptions(req.headers.authorization);
     const anonString = callOptionsObject.anonString;
     const getOptions = callOptionsObject.callOptions;
