@@ -1,4 +1,4 @@
-import React, { useEffect} from 'react'
+import React, { useEffect, useState} from 'react'
 import { connect } from 'react-redux'
 import { setGameWeek } from '../../redux/actions/sportActions'
 import { getUserPredictions } from '../../redux/actions/predictionsActions'
@@ -13,7 +13,9 @@ const { Title } = Typography
 export const Predictions = (props) => {
     // console.log(`props.match`, props.match)
     const {userId, selectedWeek} = props.match.params
-    const comparedPredictions = props.predictions.comparedUser?.predictions
+    const [comparedPredictions, setComparedPredictions] = useState(props.predictions.comparedUser?.predictions ? props.predictions.comparedUser?.predictions : [])
+    
+
     // console.log(`userId`, userId)
     const { sport, gameWeekData } = props.sport
     const { week, year, season } = gameWeekData

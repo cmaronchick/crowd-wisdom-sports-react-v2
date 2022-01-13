@@ -1,4 +1,4 @@
 module.exports = {
-  modulePathIgnorePatterns: ["client"]
+  modulePathIgnorePatterns: ["client"],
+  setupFilesAfterEnv: ['./jest.setup.js']
   }
-  

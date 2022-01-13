@@ -20,9 +20,9 @@ const initialState = {
     game: {},
     oddsMovement: [],
     gameResults: 0,
-    loadingGames: true,
-    loadingGame: true,
-    loadingOdds: true,
+    loadingGames: null,
+    loadingGame: null,
+    loadingOdds: null,
 }
 
 

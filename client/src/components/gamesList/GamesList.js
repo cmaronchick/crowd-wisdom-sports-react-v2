@@ -14,10 +14,11 @@ import { antIcon } from '../../functions/utils'
 
 
 const GamesList = (props) => {
-  const { sport, games, predictions, loadingGames } = props
+  const { sport, predictions } = props
+  const { games, loadingGames } = props.games
   //{ games, gamePredictions, onGameClick, onChangeGameScore, onChangeStarSpread, onChangeStarTotal, onSubmitPrediction }
-  
-  if (games && Object.keys(games).length === 0 && sport && sport.sport && !loadingGames) {
+  console.log(`games`, games)
+  if (games && Object.keys(games).length === 0 && sport && sport.sport && loadingGames === null) {
     const { year, season, week } = sport.gameWeekData
     props.fetchGameWeekGames(sport.sport, year, season, week)
   }
@@ -76,7 +77,6 @@ const GamesList = (props) => {
 GamesList.propTypes = {
   games: PropTypes.object.isRequired,
   predictions: PropTypes.object.isRequired,
-  loadingGames: PropTypes.bool.isRequired,
   sport: PropTypes.object.isRequired,
   fetchGame: PropTypes.func.isRequired,
   fetchGameWeekGames: PropTypes.func.isRequired,
@@ -85,8 +85,10 @@ GamesList.propTypes = {
 
 const mapStateToProps = (state) => ({
   user: state.user,
-  UI: state.UI
-
+  UI: state.UI,
+  sport: state.sport,
+  games: state.games,
+  predictions: state.predictions
 })
 
 const mapActionsToProps = {
