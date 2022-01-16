@@ -11,7 +11,7 @@ import SeasonSelector from '../seasonSelector/SeasonSelector'
 import Weeks from '../weeks/Weeks'
 
 import { fetchGameWeekGames } from '../../redux/actions/gamesActions'
-import ky from 'ky'
+import ky from 'ky/umd'
 
 const { Option } = Select
 

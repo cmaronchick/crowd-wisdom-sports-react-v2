@@ -62,7 +62,7 @@ const SideMenu = (props) => {
             style={{ height: '100%' }}
             className="sideMenu"
           >
-            <SubMenu style={{borderBottom: '1px solid #3d5a80'}} key="nfl" icon={<Icon component={() => <FaFootballBall title="NFL" className="drawerIcon" />} />} title='NFL'>
+            <SubMenu style={{borderBottom: '1px solid #3d5a80'}} key="nfl" icon={<Icon component={() => <FaFootballBall title="football" className="drawerIcon" />} />} title='NFL'>
                 <Menu.Item className="drawerLink" key="1" icon={<Icon component={() => <FaFootballBall title="Games" className="drawerIcon" />} />}><NavLink activeClassName="activeNavLink" to="/nfl/games">Games</NavLink></Menu.Item>
                 <Menu.Item className="drawerLink" key="2" icon={<Icon component={() => <FaTrophy title="Leaderboards" className="drawerIcon" />} />}><NavLink activeClassName="activeNavLink" to="/nfl/leaderboards">Leaderboards</NavLink></Menu.Item>
                 <Menu.Item className="drawerLink" key="3" icon={<Icon component={() => <FaUserFriends title="Groups" className="drawerIcon" />} />}><NavLink activeClassName="activeNavLink" to="/nfl/groups">Groups</NavLink></Menu.Item>
@@ -84,7 +84,7 @@ const SideMenu = (props) => {
                 <Menu.Item key="3" icon={<Icon component={() => <FontAwesomeIcon icon={faUserFriends} />} />}><NavLink activeClassName="activeNavLink" to="/ncaam/groups">Groups</NavLink></Menu.Item>
             </SubMenu> */}
             {user.authenticated && (
-            <Menu.Item key="4" className="drawerLink" icon={<Icon component={() => <FaUser title="Profile" className="drawerIcon" />} />}>
+            <Menu.Item key="4" className="drawerLink" icon={<Icon component={() => <FaUser title="Person" className="drawerIcon" />} />}>
                     <Link to="/profile">Profile</Link>
             </Menu.Item>
             )}

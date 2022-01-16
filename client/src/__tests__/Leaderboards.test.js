@@ -15,10 +15,26 @@ import {
   } from '@testing-library/dom'
   // adds special assertions like toHaveTextContent
   import '@testing-library/jest-dom/extend-expect'
+import { SET_USER } from '../redux/types';
 
-describe('render the game screen', () => {
+import { FBUser, user } from '../__mocks__/UserTestData'
+
+describe('render the leaderboard screen', () => {
     
+    test('present a login button when user is not logged in', () => {
+        const {getByText} = render(
+        <Provider store={store}>
+            <Router><Route component={Leaderboards} /></Router>
+        </Provider>);
+        console.log({getByText});
+        const NoLeaderboard = getByText('Login/Sign Up');
+        expect(NoLeaderboard).toBeInTheDocument();;
+    })
     test('present a loading game message when game is missing', () => {
+        store.dispatch({
+            type: SET_USER,
+            payload: user
+        })
         const {getByText} = render(
         <Provider store={store}>
             <Router><Route component={Leaderboards} /></Router>
