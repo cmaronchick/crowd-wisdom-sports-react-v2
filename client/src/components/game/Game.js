@@ -27,16 +27,13 @@ const Game = (props) => {
     const handleGamesListClick = () => {
       props.fetchGameWeekGames(sport, year, season, gameWeek)
     }
-    if (game.gameId && urlParams.gameId && game.gameId !== urlParams.gameId && !loadingGame) {
+    if (game.gameId && urlParams.gameId && game.gameId !== urlParams.gameId && loadingGame === null) {
       props.fetchGame(sport ? sport : urlParams.sport, year ? year : parseInt(urlParams.year), season ? season : urlParams.season, gameWeek ? gameWeek : parseInt(urlParams.gameWeek), urlParams.gameId)
     }
 
-    if (Object.keys(game).length === 0 && loadingGame) {
-      return (
+    return (Object.keys(game).length === 0 && loadingGame) ? (
         <Spin indicator={antIcon} />
-      )
-    }
-    return (
+      ) : (Object.keys(game).length > 0 ? (
           <div className="Game">
             <GamePreview
               // onChangeGameScore={this.props.onChangeGameScore}
@@ -76,7 +73,7 @@ const Game = (props) => {
             </Link>
 
           </div>
-    );
+    ) : (<div>No game found</div>));
 }
 
 Game.propTypes = {

@@ -3,19 +3,7 @@ import { BrowserRouter as Router, Switch, Route, Link } from "react-router-dom";
 import { render } from '@testing-library/react';
 import { Provider } from 'react-redux'
 import store from '../redux/store'
-Object.defineProperty(window, 'matchMedia', {
-    writable: true,
-    value: jest.fn().mockImplementation(query => ({
-      matches: false,
-      media: query,
-      onchange: null,
-      addListener: jest.fn(), // deprecated
-      removeListener: jest.fn(), // deprecated
-      addEventListener: jest.fn(),
-      removeEventListener: jest.fn(),
-      dispatchEvent: jest.fn(),
-    })),
-  });
+
 import Game from '../../src/components/game/Game'
 import { SET_GAMEWEEK, SET_GAME, LOADING_GAME } from '../redux/types';
 
