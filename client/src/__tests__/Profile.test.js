@@ -6,19 +6,7 @@ import { BrowserRouter as Router } from 'react-router-dom'
 import { Provider } from 'react-redux'
 import store from '../redux/store'
 import { SET_AUTHENTICATED, SET_USER, CHANGE_USER_DETAILS, UPDATE_USER } from '../redux/types';
-Object.defineProperty(window, 'matchMedia', {
-    writable: true,
-    value: jest.fn().mockImplementation(query => ({
-      matches: false,
-      media: query,
-      onchange: null,
-      addListener: jest.fn(), // deprecated
-      removeListener: jest.fn(), // deprecated
-      addEventListener: jest.fn(),
-      removeEventListener: jest.fn(),
-      dispatchEvent: jest.fn(),
-    })),
-  });
+
 describe('profile tests', () => {
     test('renders login message', () => {
     const { getByText } = render(

@@ -105,7 +105,9 @@ class App extends Component {
   }
 
   async componentDidMount() {
-    ReactGA.initialize(analytics.trackingId)
+    if (process.env.NODE_ENV !== 'test') {
+      ReactGA.initialize(analytics.trackingId)
+    }
     store.dispatch({
       type: LOADING_USER
     })
@@ -154,7 +156,7 @@ class App extends Component {
   render() {
     // console.log(`this.props.user.details?.isAdmin`, this.props.user.details?.isAdmin)
     return (
-      <div className="App">
+      <div className="App" role={'application'}>
         <Layout>
         <Header />
         <Content>

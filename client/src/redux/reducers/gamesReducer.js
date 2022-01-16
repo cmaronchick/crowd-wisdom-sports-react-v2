@@ -45,12 +45,13 @@ export default function(state = initialState, action) {
                 loadingGame: true
             }
         case SET_GAME:
+            const gamesState = action.payload.game ? {
+                ...state.games,
+                [action.payload.game.gameId]: {...action.payload.game}
+            } : { ...state.games }
             return {
                 ...state,
-                games: {
-                    ...state.games,
-                    [action.payload.game.gameId]: {...action.payload.game}
-                },
+                games: gamesState,
                 ...action.payload,
                 loadingGame: false
             }

@@ -19,7 +19,6 @@ import {
 import { GETTING_COMPARED_USER_PREDICTIONS, SET_COMPARED_USER_PREDICTIONS } from '../redux/types'
 
 describe('render the game screen', () => {
-    console.log(`window.matchMedia`, window.matchMedia)
     test('present a loading game message when predictions are loading', async () => {
         render(<Provider store={store}>
             <Predictions match={{params: {userId: "cmaronchick"}}} />
