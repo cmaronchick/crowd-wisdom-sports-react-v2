@@ -17,7 +17,7 @@ const GamesList = (props) => {
   const { sport, predictions } = props
   const { games, loadingGames } = props.games
   //{ games, gamePredictions, onGameClick, onChangeGameScore, onChangeStarSpread, onChangeStarTotal, onSubmitPrediction }
-  console.log(`games`, games)
+  // console.log(`games`, games)
   if (games && Object.keys(games).length === 0 && sport && sport.sport && loadingGames === null) {
     const { year, season, week } = sport.gameWeekData
     props.fetchGameWeekGames(sport.sport, year, season, week)

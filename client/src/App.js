@@ -5,7 +5,7 @@ import ReactGA from 'react-ga'
 import { config as analytics } from './constants/analytics'
 
 
-import { Router, Switch, Route, Redirect } from 'react-router-dom'
+import { Switch, Route, Redirect } from 'react-router-dom'
 import { createBrowserHistory } from 'history'
 import { Layout } from 'antd';
 
