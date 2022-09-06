@@ -31,7 +31,7 @@ const Groups = (props) => {
     }
 
     const onGroupClick = (sport, year, season, groupId) => {
-        fetchGroup(sport, year, season, groupId)
+        fetchGroup(sport, year, season, groupId, week)
     }
 
     const columns = [
