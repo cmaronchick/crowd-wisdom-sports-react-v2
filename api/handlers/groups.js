@@ -80,7 +80,7 @@ const joinGroup = (req, res) => {
         })
         .then(groupResponse => {
          console.log('api/index 119 gameWeekResponse', groupResponse)
-          return res.status(200).json({ group: groupResponse })
+          return res.status(200).json({ succeeded: groupResponse.succeeded, message: groupResponse.message, group: groupResponse })
         })
         .catch(groupResponseError => {
           console.log('api leaderboard index 85 crowdResponseError: ', groupResponseError)
