@@ -21,6 +21,8 @@ import ky from 'ky/umd'
 import { Auth } from '@aws-amplify/auth'
 import { Storage } from '@aws-amplify/storage'
 
+import store from '../store'
+
 export const apiHost = ky.create({prefixUrl: process.env.NODE_ENV === 'development' ? 'http://localhost:5000/api/' : 'https://app.stakehousesports.com/api/'})
     
 
@@ -55,7 +57,7 @@ export const fetchGroups = (sport, year, season) => async (dispatch) => {
     }
 }
 
-export const fetchGroup = (sport, year, season, week, groupId) => async (dispatch) => {
+export const fetchGroup = (sport, year, season, groupId, week) => async (dispatch) => {
     dispatch({type: LOADING_GROUP})
     console.log('sport, year, season, groupId', sport, year, season, week, groupId)
     let currentSession, IdToken;
@@ -129,14 +131,18 @@ export const joinGroup = (sport, year, groupId, password) => async (dispatch) =>
         }
         let joinGroupResponse = await apiHost.post(`group/${sport}/${year}/${groupId}/joingroup`, postOptions).json()
         console.log('joinGroupResponse', joinGroupResponse)
-        dispatch(fetchGroup(sport,year, null,groupId))
-        dispatch({
-            type: JOIN_GROUP,
-            payload: currentUser
-        })
-        dispatch({
-            type: CLEAR_ERRORS
-        })
+        if (joinGroupResponse.succeeded) {
+            let season = store.getState().sport.gameWeekData.season;
+            dispatch({
+                type: CLEAR_ERRORS
+            })
+            dispatch(fetchGroup(sport,year, season, groupId, store.getState().sport.gameWeekData.week));
+        } else {
+            dispatch({
+                type: SET_ERRORS,
+                payload: joinGroupResponse.message 
+            })
+        }
     } catch (joinGroupError) {
         console.log('joinGroupError', joinGroupError)
 
@@ -175,7 +181,7 @@ export const selectGroupSeason = (sport, year, selectedSeason, groupId) => (disp
         payload: selectedSeason
     })
     console.log('sport, year, selectedSeason, groupId', sport, year, selectedSeason, groupId)
-    dispatch(fetchGroup(sport, year, selectedSeason, groupId))
+    dispatch(fetchGroup(sport, year, selectedSeason, groupId, store.getState().sport.gameWeekData.week))
 }
 
 export const createGroup = (groupDetails, picture) => async (dispatch) => {

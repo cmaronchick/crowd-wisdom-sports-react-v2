@@ -89,7 +89,7 @@ const Group = ({
         console.log('sportObj.gameWeekData',  sportObj.gameWeekData)
         loadingGroup = true;
         setTimeout(() => {
-            fetchGroup(sport, parseInt(year), season, sportObj.gameWeekData.week, parseInt(params.groupId))
+            fetchGroup(sport, parseInt(year), season, parseInt(params.groupId), sportObj.gameWeekData.week)
         }, 100)
     }
 

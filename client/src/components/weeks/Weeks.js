@@ -30,7 +30,7 @@ const Weeks = (props) => {
     grid={{column: weeks.length, gutter: 4}}
       dataSource={weeks}
       renderItem={(item, index) => {
-        console.log(`week, index`, parseInt(week), index, (index + 1) === parseInt(week))
+        // console.log(`week, index`, parseInt(week), index, (index + 1) === parseInt(week))
         return (
         
             <List.Item key={index}>
