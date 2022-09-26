@@ -18,7 +18,8 @@ const OddsMovement = (props) => {
                         <div className="oddsRow" style={{backgroundColor: '#fff', padding: 20}}>
                             <img src={StakeIcon} className="loadingIcon" alt="Odds Loading" />
                         </div>
-                ) : props.games && props.games.oddsMovement && props.games.oddsMovement.length > 0 ? props.games.oddsMovement.map(game => {
+                ) : props.games && props.games.games && Object.keys(props.games.games).length > 0 ? Object.keys(props.games.games).map(gameKey => {
+                    const game = props.games.games[gameKey]
                     const columns = [{
                         title: `${game.awayTeam.code} vs. ${game.homeTeam.code}`,
                         dataIndex: 'matchup',
@@ -42,6 +43,9 @@ const OddsMovement = (props) => {
                     }
 
                     game.odds && game.odds.history && game.odds.history.length > 0 && game.odds.history.forEach((odds,index) => {
+                        const timeDifference = new Date(game.startDateTime).getTime() - new Date(odds.date).getTime()
+                        const daysDifference = timeDifference/(1000*60*60*24)
+                        if (daysDifference <= 14 && (odds.spread || odds.total)) {
                             columns.push({
                                 title: dayjs(odds.date).format('MM/DD'),
                                 dataIndex: index,
@@ -49,10 +53,9 @@ const OddsMovement = (props) => {
                             })
                             dataSourceSpreadObj[index] = odds.spread
                             dataSourceTotalObj[index] = odds.total
-                            if (odds.prices) {
-                                dataSourceSpreadPriceObj[index] = `${odds.prices.spreadAwayPrice}/${odds.prices.spreadHomePrice}`
-                                dataSourceTotalPriceObj[index] = `${odds.prices.totalUnderPrice}/${odds.prices.totalOverPrice}`
-                            }
+                            dataSourceTotalPriceObj[index] = `${odds.totalOdds}`
+                            dataSourceSpreadPriceObj[index] = `${odds.spreadOdds}`
+                        }
                     })
 
                     const dataSource = [
@@ -62,7 +65,7 @@ const OddsMovement = (props) => {
                         dataSourceTotalPriceObj]
                     return (
 
-                    <div className="oddsRow" style={{flexDirection: 'column'}} key={game.gameUID}>
+                    <div className="oddsRow" style={{flexDirection: 'column'}} key={gameKey}>
                         <Row>
                             <Col span={12}>
                                 <div>
