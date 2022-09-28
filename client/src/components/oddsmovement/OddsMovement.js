@@ -18,7 +18,9 @@ const OddsMovement = (props) => {
                         <div className="oddsRow" style={{backgroundColor: '#fff', padding: 20}}>
                             <img src={StakeIcon} className="loadingIcon" alt="Odds Loading" />
                         </div>
-                ) : props.games && props.games.games && Object.keys(props.games.games).length > 0 ? Object.keys(props.games.games).map(gameKey => {
+                ) : props.games && props.games.games && Object.keys(props.games.games).length > 0 ? Object.keys(props.games.games).sort((a,b) => {
+                    return (props.games.games[b].status === props.games.games[a].status) ? new Date(props.games.games[a].startDateTime) - new Date(props.games.games[b].startDateTime) : new Date(props.games.games[b].startDateTime) - new Date(props.games.games[a].startDateTime)
+                  }).map(gameKey => {
                     const game = props.games.games[gameKey]
                     const columns = [{
                         title: `${game.awayTeam.code} vs. ${game.homeTeam.code}`,
