@@ -41,11 +41,24 @@ const OddsMovement = (props) => {
                         matchup: (<span>Total Price<br/>(Under/Over)</span>),
                         key: `${game.awayTeam.code}${game.homeTeam.code}totalprices`
                     }
-
+                    let lastSpread, lastSpreadOdds, lastTotal, lastTotalOdds, lastDate;
                     game.odds && game.odds.history && game.odds.history.length > 0 && game.odds.history.forEach((odds,index) => {
-                        const timeDifference = new Date(game.startDateTime).getTime() - new Date(odds.date).getTime()
+                        const { date, spread, total, spreadOdds, totalOdds } = odds
+                        // set lastDate to first Odds Date if it hasn't already been set
+                        if (lastDate === null) {
+                            lastDate = date;
+                        }
+                        const timeDifference = new Date(game.startDateTime).getTime() - new Date(date).getTime()
                         const daysDifference = timeDifference/(1000*60*60*24)
-                        if (daysDifference <= 14 && (odds.spread || odds.total)) {
+                        const oddsTimeDifference = new Date(date).getTime() - new Date(lastDate).getTime()
+                        const oddsDaysDifference = oddsTimeDifference/(1000*60*60*24)
+                        if (daysDifference <= 8 && (((spread || total)
+                            && (spread !== lastSpread || spreadOdds !== lastSpreadOdds || total !== lastTotal || totalOdds !== lastTotalOdds)) || oddsDaysDifference > 1)) {
+                                lastSpread = spread;
+                                lastSpreadOdds = spreadOdds;
+                                lastTotal = total;
+                                lastTotalOdds = totalOdds;
+                                lastDate = date;
                             columns.push({
                                 title: dayjs(odds.date).format('MM/DD'),
                                 dataIndex: index,
