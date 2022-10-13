@@ -48,6 +48,7 @@ const Game = (props) => {
               handleSubmitPrediction={props.submitPrediction}
               user={props.user}
               toggleOddsChangeModal={props.toggleOddsChangeModal}
+              loadingGame={props.loadingGame}
               />
               {/* {game.odds && game.odds.history ? (
                 <GameOddsChart ref={this.chartReference} game={game} />

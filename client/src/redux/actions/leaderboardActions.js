@@ -8,7 +8,7 @@ import { LOADING_LEADERBOARDS,
     SET_CROWD_RESULTS,
     SET_ERRORS,
     CLEAR_ERRORS } from '../types'
-const apiHost = ky.create({prefixUrl: process.env.NODE_ENV === 'development' ? 'http://localhost:5000/api/' : 'https://app.stakehousesports.com/api/'})
+const apiHost = ky.create({prefixUrl: process.env.NODE_ENV === 'development' ? 'http://localhost:5001/api/' : 'https://app.stakehousesports.com/api/'})
 
 export const fetchLeaderboards = (sport, year, season, week) => async (dispatch) => {
     dispatch({

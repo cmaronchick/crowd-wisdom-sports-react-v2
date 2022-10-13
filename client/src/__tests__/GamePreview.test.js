@@ -56,6 +56,18 @@ describe('Game Preview UI Presentations', () => {
     
         expect(noGamePredictionFoundElement).toBeInTheDocument();
     })
+    test('shows game information when a game is final and prediction is loading', () => {
+        gameFinal.results = results
+        const { getByText } = render(
+        <Provider store={store}>
+            <Router>
+                <GamePreview game={gameFinal} loadingGame={true} predictions={[{type: 'user'}]} onClick={() => {return;}} />
+            </Router>
+        </Provider>);
+        const noGamePredictionFoundElement = getByText(/Loading Prediction/i);
+    
+        expect(noGamePredictionFoundElement).toBeInTheDocument();
+    })
     test('shows game information when a game is final and prediction is submitted', () => {
         gameFinal.results = results
         gameFinal.prediction = prediction

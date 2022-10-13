@@ -19,7 +19,7 @@ const AdminPage = (props) => {
     const { sport, games, user, fetchGameWeekGames} = props
     const [gamesObj, setGames] = useState({})
 
-    const apiHost = ky.create({prefixUrl: process.env.NODE_ENV === 'development' ? 'http://localhost:5000/api/' : 'https://app.stakehousesports.com/api/'})
+    const apiHost = ky.create({prefixUrl: process.env.NODE_ENV === 'development' ? 'http://localhost:5001/api/' : 'https://app.stakehousesports.com/api/'})
 
 
     useEffect(() => {

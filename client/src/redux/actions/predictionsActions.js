@@ -14,7 +14,7 @@ import { Auth } from '@aws-amplify/auth'
 import ky from 'ky/umd'
 import ReactGA from 'react-ga'
 
-const apiHost = ky.create({prefixUrl: process.env.NODE_ENV === 'development' ? 'http://localhost:5000/api/' : 'https://app.stakehousesports.com/api/'})
+const apiHost = ky.create({prefixUrl: process.env.NODE_ENV === 'development' ? 'http://localhost:5001/api/' : 'https://app.stakehousesports.com/api/'})
 
 export const changeGameScore = (gameId, event) => (dispatch) => {
     const { name, value } = event.target

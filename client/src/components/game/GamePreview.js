@@ -17,7 +17,7 @@ import LoginButton from '../profile/LoginButton'
 const { Title, Text } = Typography
 
 const GamePreview = (props) => {
-  const { game, predictions, user } = props
+  const { game, predictions, user, loadingGame } = props
   if (!game || !game.gameId) {
     return (
       <div>No game found</div>
@@ -130,6 +130,7 @@ const GamePreview = (props) => {
                 prediction={userPrediction ? userPrediction : game.prediction ? game.prediction : { type: 'user', name: 'Me'}}
                 handleChangeGameScore={props.handleChangeGameScore}
                 toggleOddsChangeModal={toggleOddsChangeModal}
+                loadingGame={loadingGame}
                 // override game.prediction with temporary gamePrediction
                 // onChangeGameScore={onChangeGameScore}
                 // onChangeStarSpread={onChangeStarSpread}
@@ -145,6 +146,7 @@ const GamePreview = (props) => {
             game={game}
             prediction={prediction}
             toggleOddsChangeModal={toggleOddsChangeModal}
+            loadingGame={loadingGame}
             // oddsChangeModalShow={oddsChangeModalShow}
             />
           )}) : (

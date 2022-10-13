@@ -14,7 +14,8 @@ const GamePreviewPrediction = (props) => {
     prediction,
     showPrediction,
     toggleOddsChangeModal,
-    user
+    user,
+    loadingGame
   } = props
 
     const handleOnChangeGameScore = (event) => {
@@ -40,20 +41,21 @@ const GamePreviewPrediction = (props) => {
     if (prediction.type === 'user') {
       // console.log('prediction', prediction, prediction.awayTeam, prediction.awayTeam.score, prediction.awayTeam.score !== null)
     }
-    return (
+    console.log('prediction, results', prediction, results)
+    return loadingGame ? (<Row style={{justifyContent: 'center', paddingTop: 5, paddingBottom: 5}}>Loading Prediction</Row>) : (
       <Row className={`${prediction.type === 'crowd' && (`crowdRow`)} predictionRow`}>
         <Col span={24}>
           <Row style={{flexFlow: 'nowrap'}}>
             <Col span={4} className="team">
               <Text>{prediction.name && (prediction.name.length <= 5 ? prediction.name : `${prediction.name.substring(0, 4)}...`)}</Text>
             </Col>
-            <Col span={showPrediction ? 5 : 10}>{game.status === 'final' ? prediction ? (
+            <Col span={showPrediction ? 5 : 10}>{game.status === 'final' ? (prediction && prediction.awayTeam ? (
                 <div style={{position: 'relative'}}>
                   {results && prediction && (checkBullseye(prediction.awayTeam.score, results.awayTeam.score))}
                   {results && prediction && (prediction.awayTeam.score > prediction.homeTeam.score) && (straightUpResults(results, prediction))}
-                  {prediction.awayTeam.score}
+                  {prediction.awayTeam ? prediction.awayTeam.score : ''}
                 </div>
-                ) : '' : prediction.type === 'user' ? (
+                ) : 'No Prediction') : prediction.type === 'user' ? (
                   <Form
                   initialValues={
                     {
@@ -80,13 +82,13 @@ const GamePreviewPrediction = (props) => {
               )}
             </Col>
             <Col span={showPrediction ? 5 : 10}>
-              {game.status === 'final' ? prediction ? (
+              {game.status === 'final' ? (prediction && prediction.awayTeam && prediction.homeTeam ? (
                 <div style={{position: 'relative'}}>
                   {checkBullseye(prediction.homeTeam.score, results.homeTeam.score)}
                   {(prediction.homeTeam.score > prediction.awayTeam.score) ? straightUpResults(results, prediction) : null}
                   {prediction.homeTeam.score}
                   </div>
-                ) : '' : prediction.type === 'user' ? (
+                ) : 'No Prediction') : prediction.type === 'user' ? (
                   <Form
                   initialValues={
                     {

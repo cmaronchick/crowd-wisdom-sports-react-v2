@@ -3,7 +3,7 @@ const ky = require('ky/umd')
 describe('Endpoints', () => {
   it('get games', () => {
 
-    ky.get('http://localhost:5000/api/games')
+    ky.get('http://localhost:5001/api/games')
     .then(res => {
       console.log({res})
       // .post('/group/update')

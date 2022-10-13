@@ -156,7 +156,7 @@ const GameOddsChart = (props) => {
         }
     // console.log({spreadMin, spreadMax, spreadArray, totalArray})
     
-    console.log(`dataTotalVig, totalVigArray`, dataTotalVig, totalVigArray, totalVigMax)
+    // console.log(`dataTotalVig, totalVigArray`, dataTotalVig, totalVigArray, totalVigMax)
     return (
         <div className="chartContainer">
             <div>Open: {(odds.history && odds.history.length > 0) ? `${dayjs(firstSpread.date).format('MMMM DD')} Spread: ${firstSpread.spread} Total: ${firstTotal.total}` : null}</div>

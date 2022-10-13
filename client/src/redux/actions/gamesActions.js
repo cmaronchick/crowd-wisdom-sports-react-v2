@@ -15,7 +15,7 @@ import ky from 'ky/umd'
 import store from '../store';
 import { getCrowdResults } from './leaderboardActions'
 
-const apiHost = ky.create({prefixUrl: process.env.NODE_ENV === 'development' ? 'http://localhost:5000/api/' : 'https://app.stakehousesports.com/api/'})
+const apiHost = ky.create({prefixUrl: process.env.NODE_ENV === 'development' ? 'http://localhost:5001/api/' : 'https://app.stakehousesports.com/api/'})
 
 export const fetchGameWeekGames = (sport, year, season, gameWeek) => async (dispatch) => {
 
