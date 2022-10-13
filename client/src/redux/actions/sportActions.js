@@ -10,7 +10,7 @@ import { Auth } from 'aws-amplify'
 import { getUserDetails } from './userActions'
 
 import ky from 'ky/umd'
-const apiHost = ky.create({prefixUrl: process.env.NODE_ENV === 'development' ? 'http://localhost:5000/api/' : 'https://app.stakehousesports.com/api/'})
+const apiHost = ky.create({prefixUrl: process.env.NODE_ENV === 'development' ? 'http://localhost:5001/api/' : 'https://app.stakehousesports.com/api/'})
 
 const validSeasons = ['pre','reg', 'post']
 const validYears = [2018, 2019, 2020]
