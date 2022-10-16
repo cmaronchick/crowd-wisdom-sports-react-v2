@@ -8,6 +8,9 @@ import dayjs from 'dayjs'
 
 const GameOddsChart = (props) => {
     const { game, chartType } = props;
+    if (!game) {
+        return (<div>No game provided</div>)
+    }
     const { odds } = game;
     // console.log({odds});
     let firstSpread = {
@@ -43,6 +46,7 @@ const GameOddsChart = (props) => {
     let dataTotalVig = []
     let firstOddsDate = new Date(new Date(game.startDateTime) - (1000 * 60 * 60 * 24 * 14))
     let oddsHistoryLength = odds.history ? odds.history.length : 0
+    // get min and max values for spread and total for the chart y axis
     if (odds && odds.history && odds.history.length > 0) {
         odds.history.forEach(oddsElement => {
             // let firstOddsDate = new Date(new Date(game.startDateTime) - (1000 * 60 * 60 * 24 * 14))
@@ -66,28 +70,41 @@ const GameOddsChart = (props) => {
   let totalVigArray = []
   let dateTicks = []
   odds.history.sort((a,b) => a.date > b.date ? -1 : 1)
+  let oddsLength = 1, lastDate, lastSpread, lastSpreadOdds, lastTotal, lastTotalOdds;
+    
   odds.history.forEach(odds => {
-    let oddsLength = 1;
     const { date, spread, spreadOdds, total, totalOdds } = odds
-        
-      if (oddsLength < 15) {
-        if (spread !== '') {
-            spreadArray.push({x: odds.date, y: odds.spread})
-            if (Number.isInteger(odds.spreadOdds)) {
-                let spreadDecimalOdds = (100/Math.abs(odds.spreadOdds)) + 1;
+    let spreadAdded = false, totalAdded = false;
+    const timeDifference = new Date(game.startDateTime).getTime() - new Date(date).getTime()
+    const daysDifference = timeDifference/(1000*60*60*24)
+    let oddsTimeDifference = new Date(date).getTime() - new Date(lastDate).getTime()
+    let oddsDaysDifference = oddsTimeDifference ? oddsTimeDifference/(1000*60*60*24) : 2
+    if (daysDifference <= 8 && (((spread || total)
+    && (spread !== lastSpread || spreadOdds !== lastSpreadOdds || total !== lastTotal || totalOdds !== lastTotalOdds)) || oddsDaysDifference > 1)) {
+        if (spread !== '' && (spread !== lastSpread || lastSpreadOdds !== spreadOdds || oddsDaysDifference < -1)) {
+            lastSpread = spread;
+            lastSpreadOdds = spreadOdds;
+            lastDate = date;
+            spreadArray.push({x: date, y: spread})
+            if (Number.isInteger(spreadOdds)) {
+                let spreadDecimalOdds = (100/Math.abs(spreadOdds)) + 1;
 
-                spreadVigArray.push({x: odds.date, y: spreadDecimalOdds})
+                spreadVigArray.push({x: date, y: spreadDecimalOdds})
             }
+            spreadAdded = true;
         }
-        if (odds.total !== '' && odds.total > 0) {
+        if (odds.total !== '' && odds.total > 0 && (total !== lastTotal || lastTotalOdds !== totalOdds || oddsDaysDifference < -1)) {
+
+            lastTotal = spread;
+            lastTotalOdds = spreadOdds;
             totalArray.push({x: odds.date, y: odds.total})
             if (Number.isInteger(odds.totalOdds)) {
                 let totalDecimalOdds = (100/Math.abs(odds.totalOdds)) + 1;
-                console.log(`totalDecimalOdds`, totalDecimalOdds)
                 totalVigArray.push({x: odds.date, y: totalDecimalOdds})
             }
+            totalAdded = true;
         }
-        if (odds.spread !== '' && odds.total !== '') {
+        if (spreadAdded || totalAdded) {
             dateTicks.push(odds.date)
             oddsLength++;
         }
@@ -154,7 +171,7 @@ const GameOddsChart = (props) => {
                 }]
             }
         }
-    // console.log({spreadMin, spreadMax, spreadArray, totalArray})
+    console.log({spreadArray, totalArray})
     
     // console.log(`dataTotalVig, totalVigArray`, dataTotalVig, totalVigArray, totalVigMax)
     return (
@@ -192,7 +209,7 @@ const GameOddsChart = (props) => {
                     }}
                     containerComponent={
                         <VictoryVoronoiContainer
-                            labels={({ datum }) => `${datum.y}`}
+                            labels={({ datum }) => `${dayjs(datum.x).format('DD MMM')}: ${datum.y === 0 ? 'PICKEM' : (game.homeTeam.code + ` ` + (datum.y > 0 ? `+` + datum.y : datum.y))}`}
                         />}
                     theme={VictoryTheme.material}>
                         <VictoryAxis

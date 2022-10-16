@@ -5,6 +5,7 @@ import { Provider } from 'react-redux'
 import store from '../redux/store'
 
 import Game from '../../src/components/game/Game'
+import GameOddsChart from '../components/game/GameOddsChart';
 import { SET_GAMEWEEK, SET_GAME, LOADING_GAME } from '../redux/types';
 
 // const game = {
@@ -55,4 +56,15 @@ describe('render the game screen', () => {
     })
 
 
+})
+
+describe('render the odds charts', () => {
+
+    test('no game provided', () => {
+        const { getByText } = render(<Provider store={store}><Router><Route component={GameOddsChart} /></Router></Provider>);
+        const linkElement = getByText(/No game provided/i);
+        
+        expect(linkElement).toBeInTheDocument();
+
+    })
 })
