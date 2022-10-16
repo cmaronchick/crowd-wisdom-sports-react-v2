@@ -8,6 +8,10 @@ import { SET_GAMES } from '../redux/types';
 
 describe('testing the games list', () => {
   test('renders No games', () => {
+    store.dispatch({
+      type: SET_GAMES,
+      payload: {}
+    })
     const { getByText } = render(<Provider store={store}><Router><Route component={GamesList} /></Router></Provider>);
     const linkElement = getByText(/No games/i);
     expect(linkElement).toBeInTheDocument();
@@ -47,7 +51,8 @@ describe('testing the games list', () => {
             weekName: "Wild Card",
             year: 2021,
             _id: "61ddda92958657f5d346a815"
-          }
+          },
+          loadingGames: false,
         }
       }
     })
