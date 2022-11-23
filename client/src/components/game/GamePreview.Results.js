@@ -5,7 +5,7 @@ import { Row, Col } from 'antd'
 
 const GamePreviewResults = ({game}) => {
     const {results, odds, status} = game;
-    return (
+    return results.awayTeam && results.homeTeam ? (
         <Row className="predictionRow team results">
             <Col span={4}>{status === 'final' ? 'FINAL' : 'IN PROGRESS'}</Col>
             <Col span={5}>{results.awayTeam.score}</Col>
@@ -32,6 +32,8 @@ const GamePreviewResults = ({game}) => {
                 {totalPrediction(game, game.odds, results.awayTeam.score, results.homeTeam.score)}<br/>({results.awayTeam.score + results.homeTeam.score})
             </Col>
         </Row>
+    ) : (
+        <Row>No Score Yet</Row>
     )
 }
 

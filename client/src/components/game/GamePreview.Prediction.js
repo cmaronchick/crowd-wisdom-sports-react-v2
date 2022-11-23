@@ -119,9 +119,9 @@ const GamePreviewPrediction = (props) => {
             <Col span={5} className="odds">
               {(showPrediction && odds && prediction.awayTeam && prediction.homeTeam) && (
                 <div style={{position: 'relative'}}>
-                  {results ? spreadResults(odds, results,prediction) : null}
+                  {results && prediction.results ? spreadResults(odds, results,prediction) : null}
                   
-                  {results ? checkBullseye(prediction.spread, results.spread) : null}
+                  {results && prediction.results ? checkBullseye(prediction.spread, results.spread) : null}
                   {spreadPrediction(game, odds, prediction.awayTeam.score, prediction.homeTeam.score)}
                   {document.width > 500 && (
                   <Fragment>
@@ -151,8 +151,8 @@ const GamePreviewPrediction = (props) => {
                 {(showPrediction && odds && prediction.awayTeam && prediction.homeTeam) && (
                 <div style={{position: 'relative'}}>
                   
-                {results ? totalResults(odds, results,prediction) : null}
-                {results ? checkBullseye(prediction.total, results.total) : null}
+                {results && prediction.results ? totalResults(odds, results,prediction) : null}
+                {results && prediction.results ? checkBullseye(prediction.total, results.total) : null}
                 {totalPrediction(game, odds, prediction.awayTeam.score, prediction.homeTeam.score)} 
                 {document.width > 500 && (
                   <Fragment>
