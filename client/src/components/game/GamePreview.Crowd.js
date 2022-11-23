@@ -28,8 +28,8 @@ const GamePreviewCrowd = ({game}) => {
                 </span>
                 </div>
                 <div style={{position: 'relative'}}>
-                {results ? ResultsCheck.checkBullseye(crowd.spread, results.spread) : null}
-                {results ? ResultsCheck.spreadResults(game.odds,results, crowd) : null}
+                {results && crowd.results ? ResultsCheck.checkBullseye(crowd.spread, results.spread) : null}
+                {results && crowd.results ? ResultsCheck.spreadResults(game.odds,results, crowd) : null}
                 {/* {((game.prediction || results) && crowd && game.odds) ? apis.spreadPrediction(game, crowdAwayTeamScore, crowdHomeTeamScore) : ''}<br/> */}
 
                 <span className="predictionSpread">(
