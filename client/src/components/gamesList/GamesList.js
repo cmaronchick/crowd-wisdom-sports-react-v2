@@ -12,6 +12,11 @@ import { connect } from 'react-redux'
 import { Spin } from 'antd'
 import { antIcon } from '../../functions/utils'
 
+const statusPriority = {
+  "inProgress": 1,
+  "scheduled": 2,
+  "final": 3
+}
 
 const GamesList = (props) => {
   const { sport, predictions } = props
@@ -29,7 +34,7 @@ const GamesList = (props) => {
         ) : games && Object.keys(games).length > 0 ? (
         <Fragment>
           {Object.keys(games).sort((a,b) => {
-            return (games[b].status === games[a].status) ? new Date(games[a].startDateTime) - new Date(games[b].startDateTime) : new Date(games[b].startDateTime) - new Date(games[a].startDateTime)
+            return (games[b].status === games[a].status) ? new Date(games[a].startDateTime) - new Date(games[b].startDateTime) : statusPriority[games[a].status] - statusPriority[games[b].status]
           }).map(gameId => {
             let predictionsArray = []
             if (predictions && Object.keys(predictions).length > 0) {
