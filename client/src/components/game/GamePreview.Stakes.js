@@ -44,7 +44,7 @@ export const GamePreviewStakes = (props) => {
                 className="starRatingComponent"
                 editing={!results}
                 renderStarIcon={(index) => {
-                    return (<StakeIcon className={`${prediction.stars && prediction.stars.spread >= index ? `stakeSelected ${results ? ((prediction && prediction.results && prediction.results.spread.correct === 1) ? 'stakeCorrect' : 'stakeIncorrect') : ''}` : "stakeUnselected"}`} />)
+                    return (<StakeIcon className={`${prediction.stars && prediction.stars.spread >= index ? `stakeSelected ${prediction && prediction.results ? (prediction.results.spread.correct === 1 ? 'stakeCorrect' : 'stakeIncorrect') : ''}` : "stakeUnselected"}`} />)
                 }}
                 value={(prediction && prediction.stars) ? prediction.stars.spread : 0}
                 starCount={3}
@@ -72,7 +72,7 @@ export const GamePreviewStakes = (props) => {
                 name='total'
                 editing={!results}
                 renderStarIcon={(index) => {
-                    return (<StakeIcon className={`${prediction.stars && prediction.stars.total >= index ? `stakeSelected ${results ? ((prediction && prediction.results && prediction.results.total.correct === 1) ? 'stakeCorrect' : 'stakeIncorrect') : ''}` : "stakeUnselected"}`} />)
+                    return (<StakeIcon className={`${prediction.stars && prediction.stars.total >= index ? `stakeSelected ${(prediction && prediction.results) ? (prediction.results.total.correct === 1 ? 'stakeCorrect' : 'stakeIncorrect') : ''}` : "stakeUnselected"}`} />)
                 }}
                 value={(prediction && prediction.stars) ? prediction.stars.total : 0}
                 starCount={3}
