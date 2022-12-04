@@ -174,7 +174,7 @@ const GamePreviewPrediction = (props) => {
         {prediction.awayTeam && prediction.homeTeam && prediction.type !== 'crowd' && (<GamePreviewStakes game={game} prediction={prediction} />)}
 
         {prediction && prediction.odds && ((game.odds.spread !== prediction.odds.spread) || (game.odds.total !== prediction.odds.total)) ? (
-          gameCannotBeUpdated ? (
+          !gameCannotBeUpdated ? (
             <Row className="oddsChangeAlert alertText"
             onClick={() => toggleOddsChangeModal(game, prediction)}>
               <Col span={24}>
