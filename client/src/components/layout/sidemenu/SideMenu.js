@@ -6,7 +6,7 @@ import './SideMenu.less'
 import { Layout, Menu, Popover } from 'antd'
 import Icon, { UserOutlined } from '@ant-design/icons'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
-import { faFootballBall,
+import { 
     faSchool,
     faBasketballBall
  } from '@fortawesome/free-solid-svg-icons'
@@ -32,7 +32,7 @@ const { SubMenu, Item } = Menu
 const sportsVariables = {
     nfl: {
         name: 'NFL',
-        icon: faFootballBall
+        icon: FaFootballBall
     },
     ncaaf: {
         name: 'NCAAF',
@@ -73,12 +73,12 @@ const SideMenu = (props) => {
             {/* <Menu.Item key="8" className="drawerLink" icon={<Icon component={() => <FaBell title="Notifications" className="drawerIcon" />} />}>
                 Notifications
             </Menu.Item> */}
-            {/* <SubMenu key="ncaaf" title="NCAAF" icon={<Icon component={() => faIcon('ncaaf')} />}>
-                <Menu.Item key="1" icon={<Icon component={() => <FontAwesomeIcon icon={faFootballBall} />} />}><NavLink activeClassName="activeNavLink" to="/ncaaf/games">Games</NavLink></Menu.Item>
-                <Menu.Item key="2" icon={<Icon component={() => <FontAwesomeIcon icon={faTrophy} />} />}><NavLink activeClassName="activeNavLink" to="/ncaaf/leaderboards">Leaderboards</NavLink></Menu.Item>
-                <Menu.Item key="3" icon={<Icon component={() => <FontAwesomeIcon icon={faUserFriends} />} />}><NavLink activeClassName="activeNavLink" to="/ncaaf/groups">Groups</NavLink></Menu.Item>
+            <SubMenu key="ncaaf" title="NCAAF" icon={<Icon component={() => <FaFootballBall title="NCAAF" className="drawerIcon" />}/>}>
+                <Menu.Item className="drawerLink" key="1" icon={<Icon component={() => <FaFootballBall title="Games" className="drawerIcon" />} />}><NavLink activeClassName="activeNavLink" to="/ncaaf/games">Games</NavLink></Menu.Item>
+                <Menu.Item className="drawerLink" key="2" icon={<Icon component={() => <FaTrophy title="Leaderboards" className="drawerIcon" />} />}><NavLink activeClassName="activeNavLink" to="/ncaaf/leaderboards">Leaderboards</NavLink></Menu.Item>
+                <Menu.Item className="drawerLink" key="3" icon={<Icon component={() => <FaUserFriends title="Groups" className="drawerIcon" />} />}><NavLink activeClassName="activeNavLink" to="/ncaaf/groups">Groups</NavLink></Menu.Item>
             </SubMenu>
-            <SubMenu key="ncaam" title="NCAAM" icon={<Icon component={() => faIcon('ncaam')} />}>
+            {/* <SubMenu key="ncaam" title="NCAAM" icon={<Icon component={() => faIcon('ncaam')} />}>
                 <Menu.Item key="1" icon={<Icon component={() => <FontAwesomeIcon icon={faFootballBall} />} />}><NavLink activeClassName="activeNavLink" to="/ncaam/games">Games</NavLink></Menu.Item>
                 <Menu.Item key="2" icon={<Icon component={() => <FontAwesomeIcon icon={faTrophy} />} />}><NavLink activeClassName="activeNavLink" to="/ncaam/leaderboards">Leaderboards</NavLink></Menu.Item>
                 <Menu.Item key="3" icon={<Icon component={() => <FontAwesomeIcon icon={faUserFriends} />} />}><NavLink activeClassName="activeNavLink" to="/ncaam/groups">Groups</NavLink></Menu.Item>
