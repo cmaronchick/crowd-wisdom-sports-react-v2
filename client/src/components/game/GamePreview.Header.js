@@ -8,12 +8,14 @@ import { Typography } from 'antd'
 
 const { Title } = Typography
 
-const HeaderTitle = ({game}) => (
-  <span>
-  {game.awayTeam.rank ? `#${game.awayTeam.rank} ` : ''}
-  {window.innerWidth > 799 ? game.awayTeam.fullName : game.awayTeam.code} vs. {game.homeTeam.rank ? `#${game.homeTeam.rank} ` : ''}{window.innerWidth > 799 ? game.homeTeam.fullName : game.homeTeam.code}
-  </span>
-)
+const HeaderTitle = ({game}) => {
+  return (
+    <span>
+    {game.awayTeam.rank ? `#${game.awayTeam.rank} ` : ''}
+    {window.innerWidth > 799 ? game.awayTeam.fullName : game.awayTeam.code} vs. {game.homeTeam.rank ? `#${game.homeTeam.rank} ` : ''}{window.innerWidth > 799 ? game.homeTeam.fullName : game.homeTeam.code}
+    </span>
+  )
+}
 
 const GamePreviewHeader = (props) => {
     const { game } = props
