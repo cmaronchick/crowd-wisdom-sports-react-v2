@@ -88,9 +88,9 @@ const SideMenu = (props) => {
                     <Link to="/profile">Profile</Link>
             </Menu.Item>
             )}
-            <Menu.Item key="5" className="drawerLink" icon={<Icon component={() => <FaList title="Contest Rules" className="drawerIcon" />} />}>
+            {/* <Menu.Item key="5" className="drawerLink" icon={<Icon component={() => <FaList title="Contest Rules" className="drawerIcon" />} />}>
                     <Link to="/rules">Contest Rules</Link>
-            </Menu.Item>
+            </Menu.Item> */}
             <Menu.Item key="6" className="drawerLink" icon={<Icon component={() => <FaAppStore title="App Store" className="drawerIcon" />} />}>
                     <a href="https://apps.apple.com/us/app/stakehouse-sports/id1475324522?ls=1" target="_blank">App Store</a>
             </Menu.Item>
