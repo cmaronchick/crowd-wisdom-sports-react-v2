@@ -42,7 +42,7 @@
     "react-ga": "^3.1.2"
   },
   "engines": {
-    "node": "12.9.1"
+    "node": "12.x"
   },
   "devDependencies": {
     "@babel/cli": "^7.10.5",
