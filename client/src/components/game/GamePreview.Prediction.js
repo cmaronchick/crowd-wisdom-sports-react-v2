@@ -19,7 +19,7 @@ const GamePreviewPrediction = (props) => {
   } = props
 
     const handleOnChangeGameScore = (event) => {
-      console.log('event.target', event.target)
+      // console.log('event.target', event.target)
         props.handleChangeGameScore(game.gameId, event)
     }
     
@@ -41,7 +41,7 @@ const GamePreviewPrediction = (props) => {
     if (prediction.type === 'user') {
       // console.log('prediction', prediction, prediction.awayTeam, prediction.awayTeam.score, prediction.awayTeam.score !== null)
     }
-    console.log('prediction, results', prediction, results)
+    // console.log('prediction, results', prediction, results)
     return loadingGame ? (<Row style={{justifyContent: 'center', paddingTop: 5, paddingBottom: 5}}>Loading Prediction</Row>) : (
       <Row className={`${prediction.type === 'crowd' && (`crowdRow`)} predictionRow`}>
         <Col span={24}>

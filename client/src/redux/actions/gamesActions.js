@@ -104,7 +104,7 @@ export const fetchGameWeekGames = (sport, year, season, gameWeek) => async (disp
     try {
         let getGameResponse = await apiHost.get(`${sport}/games/${year}/${season}/${gameWeek}/game/${gameId}`, getOptions).json()
         getGameResponse.game.oddsChartType = 'spread'
-        console.log('getGameResponse', getGameResponse)
+        // console.log('getGameResponse', getGameResponse)
         dispatch({
             type: SET_GAME,
             payload: getGameResponse
