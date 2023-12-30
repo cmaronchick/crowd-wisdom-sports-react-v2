@@ -127,7 +127,7 @@ const LoginModal = (props) => {
                 disabled={!UI.loginUsername || !UI.loginPassword}>
                   Submit
               </Button>
-              <Button variant="contained" name="facebookSignInButton" onClick={() => handleFBClick('Facebook')} className="btn facebook-button socialButton-customizable loginButton">
+              <Button type="contained" name="facebookSignInButton" onClick={() => handleFBClick('Facebook')} className="btn facebook-button socialButton-customizable loginButton">
                 <span><svg className="social-logo" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 216 216" color="#ffffff">
                     <path fill="#ffffff" d="
                         M204.1 0H11.9C5.3 0 0 5.3 0 11.9v192.2c0 6.6 5.3 11.9 11.9
@@ -139,11 +139,11 @@ const LoginModal = (props) => {
                 <span>Continue with Facebook</span>
               </Button>
               <div className="socialMediaButtons">
-                <Button value="small" variant="contained" name="appleSignInButton" onClick={() => handleFBClick('SignInWithApple')} className="btn loginButton" style={{ color: "#000", borderColor: '#000', fontFamily: 'SF Pro Display,SF Pro Icons,Helvetica Neue,Helvetica,Arial,sans-serif'}}>
+                <Button value="small" type="contained" name="appleSignInButton" onClick={() => handleFBClick('SignInWithApple')} className="btn loginButton" style={{ color: "#000", borderColor: '#000', fontFamily: 'SF Pro Display,SF Pro Icons,Helvetica Neue,Helvetica,Arial,sans-serif'}}>
                 <Icon component={() => <FontAwesomeIcon icon={faApple} />} />
                   <span>Continue with Apple</span>
                 </Button>
-                <Button value="small" variant="contained" name="googleSignInButton" onClick={() => handleFBClick('Google')} className="btn loginButton" style={{ color: "#000", borderColor: '#000', fontFamily: 'Roboto, sans-serif'}}>
+                <Button value="small" type="contained" name="googleSignInButton" onClick={() => handleFBClick('Google')} className="btn loginButton" style={{ color: "#000", borderColor: '#000', fontFamily: 'Roboto, sans-serif'}}>
                 <img style={{width: 32, height: 32}} src="/images/btn_google_light_normal_ios.svg" alt="Continue with Google" />
                   <span>Continue with Google</span>
                 </Button>
@@ -172,13 +172,13 @@ const LoginModal = (props) => {
                 <Form>
                   <Form.Item
                     label="Confirmation Code">
-                    <Input type="number" name="confirmUserCode" placeholder="####" onChange={props.onChangeText} />
+                    <Input type="number" name="confirmUserCode" placeholder="######" onChange={props.onChangeText} />
                   </Form.Item>
                   
-                  <Button className="loginButton" variant="primary" onClick={handleConfirmUserClick}>
+                  <Button className="loginButton" type="primary" onClick={handleConfirmUserClick}>
                     Confirm
                   </Button>
-                  <Button className="loginButton" variant="secondary" onClick={handleResendClick}>
+                  <Button className="loginButton" type="secondary" onClick={handleResendClick}>
                     Resend Code
                   </Button>
                 </Form>
@@ -200,19 +200,19 @@ const LoginModal = (props) => {
                       label="Confirmation Code">
                       <Input type="number" name="resetConfirmCode" placeholder="######" onChange={props.onChangeText} />
                     </Form.Item>
-                    <Button className="loginButton" variant="primary" onClick={handleResetPassword}
+                    <Button className="loginButton" type="primary" onClick={handleResetPassword}
                       loading={props.sendingNewPassword}
                       >
                         <span>Submit</span>
                     </Button>
                   </Fragment>
                 ) : (
-                  <Button className="loginButton" variant="primary" onClick={handleForgotPasswordSubmit}
+                  <Button className="loginButton" type="primary" onClick={handleForgotPasswordSubmit}
                     loading={props.sendingPasswordReset}>
                       <span>Reset Password</span>
                   </Button>
                 )}
-                <Button className="loginButton" variant="primary" onClick={handleCancelForgotPassword}>
+                <Button className="loginButton" type="primary" onClick={handleCancelForgotPassword}>
                     <span>Cancel</span>
                 </Button>
               </Form>

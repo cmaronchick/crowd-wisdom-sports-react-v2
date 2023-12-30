@@ -89,4 +89,30 @@ const getUserPredictions = (req, res) => {
      .catch(userStatsResponseError => console.log('api leaderboard index 150 userStatsResponseError: ', userStatsResponseError))
 }
 
-module.exports = { getExtendedProfile, uploadImage, getUserNotifications, getUserPredictions }
+const deleteAccount = (req, res) => {
+    const callOptionsObject = callOptions(req.headers.authorization);
+    const deleteOptions = callOptionsObject.callOptions;
+    console.log('deleting user')
+    // let deleteUserResponse = await fetch(`https://y5f8dr2inb.execute-api.us-west-2.amazonaws.com/dev/extendedprofile`, {
+    //     method: 'DELETE',
+    //     headers: {
+    //         Authorization: IdToken,
+    //         'Content-type': 'application/json'
+    //     },
+    //     body: JSON.stringify({ confirmation })
+    // })
+    deleteOptions.headers['Content-type'] = 'application/json'
+    deleteOptions.body = JSON.stringify({ confirmation: true })
+    return ky.delete(`https://y5f8dr2inb.execute-api.us-west-2.amazonaws.com/dev/extendedprofile`, deleteOptions)
+    .then((deleteUserResponse) => {
+        console.log(`deleteUserResponse`, deleteUserResponse)
+        return deleteUserResponse.json()
+    })
+    .then(deleteUserResponseJSON => {
+      console.log('deleteUserResponseJSON', deleteUserResponseJSON)
+      return  res.send({ deleteUser: deleteUserResponseJSON })
+     })
+     .catch(deleteUserResponseError => console.log('api leaderboard index 150 deleteUserResponseError: ', deleteUserResponseError))
+}
+
+module.exports = { getExtendedProfile, uploadImage, getUserNotifications, getUserPredictions, deleteAccount }

@@ -8,13 +8,15 @@ import { toggleLoginModal } from '../../redux/actions/uiActions'
 import { logout } from '../../redux/actions/userActions'
 
 // Ant Design stuff
-import { Button, Row, Col, Typography } from 'antd'
+import { Button, Row, Col, Typography, Popconfirm, message } from 'antd'
 import LoginButton from './LoginButton'
 import LoginModal from './LoginModal'
 
 const { Text } = Typography
 
 const Authenticate = (props) => {
+    const [deleteModalVisible, setDeleteModalVisible] = useState(false)
+
     const { user, UI } = props
         return (
             <div>
@@ -53,7 +55,8 @@ const mapStateToProps = (state) => ({
 
 const mapDispatchToProps = {
     toggleLoginModal,
-    logout
+    logout,
+    deleteAccount
 }
 
 export default connect(mapStateToProps, mapDispatchToProps)(Authenticate)

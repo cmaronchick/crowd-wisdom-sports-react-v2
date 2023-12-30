@@ -4,18 +4,20 @@ import React from 'react';
 import PropTypes from 'prop-types'
 
 import { connect } from 'react-redux'
-import { logout } from '../../../redux/actions/userActions'
+import { logout, deleteAccount } from '../../../redux/actions/userActions'
 
 import logo from '../../../images/stake-image-gold-dual-ring.svg'
 import LoginButton from '../../profile/LoginButton'
-import { Layout, Typography, Button, Dropdown, Menu } from 'antd'
+import { Layout, Typography, Button, Dropdown, Menu, Popconfirm } from 'antd'
 import { Link } from 'react-router-dom'
 import { DownOutlined, UserOutlined } from '@ant-design/icons'
+
+import ReactGA from 'react-ga'
 const { Text } = Typography;
 
 const { Header } = Layout
 
-const StakehouseHeader = ({ message,user, logout }) => {
+const StakehouseHeader = ({ message,user, logout, deleteAccount }) => {
 
   const profileChoices = (
   
@@ -33,6 +35,40 @@ const StakehouseHeader = ({ message,user, logout }) => {
         <Button type="primary" onClick={() => logout()}>
           Logout
         </Button>
+      </Menu.Item>
+      <Menu.Item key="delete">
+        <Popconfirm className='deleteAccountPopconfirm'
+            title="Are you sure you want to delete your account?"
+            description="Are you sure you want to delete your account?"
+            onConfirm={() => {
+
+                ReactGA.event({
+                    category: 'account',
+                    action: 'delete',
+                    label: 'confirm',
+                    value: 1
+                })
+                deleteAccount(true)
+            }}
+            onCancel={() => {
+
+                ReactGA.event({
+                    category: 'account',
+                    action: 'delete',
+                    label: 'confirm',
+                    value: 0
+                })
+                console.log('cancel')
+            }}
+            okText="Confirm"
+            okButtonProps={{ type: 'danger', size: 'small', className: 'deleteAccountConfirmButton' }}
+            cancelText="No - Back to Safety"
+            cancelButtonProps={{ type: 'primary', size: 'large', className: 'deleteAccountCancelButton' }}
+>
+          <Button type='danger' size="large">
+              Delete
+          </Button>
+        </Popconfirm>
       </Menu.Item>
     </Menu>
   )
@@ -84,7 +120,8 @@ const mapStateToProps = (state) => ({
 })
 
 const mapActionsToProps = {
-  logout
+  logout,
+  deleteAccount
 }
 
 export default connect(mapStateToProps, mapActionsToProps)(StakehouseHeader);

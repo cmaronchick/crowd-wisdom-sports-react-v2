@@ -556,3 +556,45 @@ export const changePassword = (currentPassword, newPassword) => async (dispatch)
     }
 }
 
+export const deleteAccount = (confirmation) => async (dispatch) => {
+    if (!confirmation) {
+        console.log('no confirmation')
+        dispatch({
+            type: SET_ERRORS,
+            errors: 'Please confirm that you would like to delete your account.'
+        })
+        return
+    }
+    try {
+        
+        let currentSession = await Auth.currentSession()
+        let IdToken = await currentSession.getIdToken().getJwtToken()
+        
+        // let deleteUserResponse = await fetch(`https://y5f8dr2inb.execute-api.us-west-2.amazonaws.com/dev/extendedprofile`, {
+    //     method: 'DELETE',
+    //     headers: {
+    //         Authorization: IdToken,
+    //         'Content-type': 'application/json'
+    //     },
+    //     body: JSON.stringify({ confirmation })
+    // })
+        console.log(`${apiHost}user/delete`)
+
+        dispatch(logout())
+        let deleteUserResponse = await apiHost.delete('user/delete', {
+            headers: {
+                Authorization: IdToken,
+                'Content-type': 'application/json'
+            },
+            body: JSON.stringify({ confirmation })
+        })
+        console.log('deleteUserResponse', deleteUserResponse)
+    } catch (deleteUserError) {
+        console.log('deleteUserError', deleteUserError)
+        dispatch({
+            type: SET_ERRORS,
+            errors: deleteUserError
+        })
+    }
+}
+

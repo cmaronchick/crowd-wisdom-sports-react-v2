@@ -58,3 +58,8 @@ code {
   justify-content: center;
   align-items: center;
 }
+
+.deleteAccountPopconfirm {
+  margin: 26px 16px 16px;
+  display: block;
+}
