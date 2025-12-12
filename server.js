@@ -14,11 +14,14 @@ app.use(express.static(path.join(__dirname, 'client/build')));
 app.use(express.static(path.join(__dirname, 'client/public')));
 
 
-app.get('/*', (req, res) => {
+app.get(/.*/, (req, res) => {
+
+
+
   res.sendFile(path.join(__dirname, 'client/build', 'index.html'));
 });
 
 //Start server
 app.listen(port, (req, res) => {
-    console.log(`server listening on port: ${port}`)
+  console.log(`server listening on port: ${port}`)
 });

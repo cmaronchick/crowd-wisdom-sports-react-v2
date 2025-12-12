@@ -1,4 +1,5 @@
-Object.defineProperty(window, 'matchMedia', {
+if (typeof window !== 'undefined') {
+  Object.defineProperty(window, 'matchMedia', {
     writable: true,
     value: jest.fn().mockImplementation(query => ({
       matches: false,
@@ -11,3 +12,4 @@ Object.defineProperty(window, 'matchMedia', {
       dispatchEvent: jest.fn()
     }))
   })
+}

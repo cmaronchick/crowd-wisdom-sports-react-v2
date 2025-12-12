@@ -1,70 +1,136 @@
+@import '../../App.less';
 
 .GamePreview {
-    box-shadow: 0 4px 6px 0 rgba(0, 0, 0, 0.2);
-    margin: 10px;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+    margin: 16px 10px;
     max-width: 640px;
-}
-@media (max-width: 767px) {
-    .GamePreview {
-        margin: 0 6px;
+    border-radius: 12px;
+    border: none;
+    transition: all 0.3s ease;
+    overflow: hidden; // Ensure header doesn't spill out
+
+    &:hover {
+        transform: translateY(-2px);
+        box-shadow: 0 8px 20px rgba(0, 0, 0, 0.12);
+    }
+
+    .ant-card-head {
+        padding: 0;
+        border-bottom: none;
+        min-height: auto;
+
+        .ant-card-head-title {
+            padding: 0;
+            white-space: normal;
+        }
+    }
+
+    .ant-card-body {
+        padding: 12px !important;
     }
 }
+
+@media (max-width: 767px) {
+    .GamePreview {
+        margin: 12px 6px;
+    }
+}
+
 .game-header-div {
     display: flex;
     flex-direction: row;
     width: 100%;
-    background-color: #231f20;
+    background: linear-gradient(to right, #231f20, #3a3637);
     align-items: center;
     justify-content: center;
-    padding: 5px 10px;
+    padding: 12px 16px;
     position: relative;
+
     .left-arrow {
         position: relative;
         left: 0;
-        color: #fff;
+        color: rgba(255, 255, 255, 0.9);
+        font-size: 1.2rem;
     }
+
     .game-header {
         color: #fff;
         margin-bottom: 0;
+        font-weight: 600;
+        letter-spacing: 0.5px;
+        display: flex;
+        align-items: center;
+        width: 100%;
+        justify-content: center;
+
+        .anticon-arrow-right {
+            margin-left: 10px;
+            font-size: 0.9em;
+            opacity: 0.8;
+        }
+    }
+
+    a {
+        width: 100%;
+        text-align: center;
+        color: inherit;
+
+        &:hover {
+            color: @highlight-color;
+
+            .game-header {
+                color: @highlight-color;
+            }
+        }
     }
 }
+
 .left-arrow {
     color: #fff;
 }
+
 .gameWeather {
     display: flex;
     flex-direction: row;
     justify-content: center;
     align-items: center;
 }
+
 h4.game-header {
     color: #fff;
     white-space: normal;
 }
+
 .headerRow {
     border-bottom: 1px solid rgba(35, 31, 32, 0.2);
     display: flex;
     flex-direction: row;
     align-items: center;
 }
-.headerRow > .gameDate {
+
+.headerRow>.gameDate {
     font-weight: 700;
 }
+
 .crowdTable {
     display: flex;
     flex-direction: column;
     justify-content: center;
     align-items: center;
     margin: 0 20px;
+
     .ant-row {
         width: 100%;
         background-color: #0b0a07;
+
         .ant-typography {
             color: #fff;
         }
     }
+
     .resultsRow {
         background-color: #fff;
+
         .ant-typography {
             color: #0b0a07;
         }
@@ -76,19 +142,23 @@ h4.game-header {
     flex-direction: row;
     justify-content: space-evenly;
     margin: 10px 20px;
+
     .oddsChangeText {
         color: #cc2936;
         font-weight: 700;
         cursor: pointer;
     }
 }
+
 .predictionRow {
     padding: 5px 3px;
+
     /* border-bottom: 1px solid rgba(35, 31, 32, 0.2); */
     .noPrediction {
         text-align: center;
     }
 }
+
 .predictionScoreBox {
     font-weight: 700;
 }
@@ -107,6 +177,7 @@ h4.game-header {
     top: 0.3rem;
     left: -0.4rem;
 }
+
 .resultTriangle {
     width: 0;
     height: 0;
@@ -116,26 +187,31 @@ h4.game-header {
     border-left: 12px solid transparent;
     border-top: 12px solid;
 }
+
 .resultWin {
-    color:#124734;
+    color: #124734;
     border-top-color: rgba(18, 71, 52, 1.0);
 }
+
 .resultLoss {
     color: red;
     border-top-color: rgba(224, 20, 7, 1.0);
 }
+
 .stakes {
     display: flex;
     flex-direction: row;
     align-items: center;
     justify-content: center;
 }
+
 .stakesRow {
     display: flex;
     flex-direction: row;
     justify-content: space-evenly;
     align-items: center;
 }
+
 .stakesCol {
     min-height: 40px;
     display: flex;
@@ -143,6 +219,7 @@ h4.game-header {
     align-items: center;
     justify-content: center;
 }
+
 .stakesLabel {
     padding-right: 6px;
 }
@@ -152,34 +229,40 @@ h4.game-header {
     width: 30px;
     margin-top: -0.4em;
 }
+
 .stakeUnselected {
     opacity: 0.5;
     height: 30px;
     margin: 0;
 }
+
 .stakeSelected {
     border: #000 solid 1px;
     border-radius: 5px;
     box-shadow: 0 4px 6px 0 rgba(0, 0, 0, 0.2);
     margin: 0 2px;
 }
+
 .stakeCorrect {
     border: #124734 solid 3px;
 }
+
 .stakeIncorrect {
     border: #e01407 solid 2px;
 }
+
 .team {
     min-width: 45px;
     text-overflow: ellipsis;
 }
 
 .triangle-top-right {
-	width: 0;
-	height: 0;
-	border-top: 140px solid #103252;
-	border-left: 140px solid transparent;
+    width: 0;
+    height: 0;
+    border-top: 140px solid #103252;
+    border-left: 140px solid transparent;
 }
+
 .weatherIcon {
     width: 30px;
     height: 30px;

@@ -6,7 +6,7 @@ import PropTypes from 'prop-types'
 import { connect } from 'react-redux'
 import { logout } from '../../../redux/actions/userActions'
 
-import logo from '../../../images/stake-image-gold-dual-ring.svg'
+import logo from '../../../images/stake-image.png'
 import LoginButton from '../../profile/LoginButton'
 import { Layout, Typography, Button, Dropdown, Menu } from 'antd'
 import { Link } from 'react-router-dom'
@@ -15,10 +15,10 @@ const { Text } = Typography;
 
 const { Header } = Layout
 
-const StakehouseHeader = ({ message,user, logout }) => {
+const StakehouseHeader = ({ message, user, logout }) => {
 
   const profileChoices = (
-  
+
     <Menu>
       <Menu.Item key="profile">
         <Link to="/profile">
@@ -57,16 +57,16 @@ const StakehouseHeader = ({ message,user, logout }) => {
       {!user.authenticated ? (
         <LoginButton buttonClass="headerButton" />
       ) : (
-      <Dropdown overlay={profileChoices}>
-        <a href="#profile" className="ant-dropdown-link headerUserDropdown" overlay={profileChoices} onClick={e => e.preventDefault()}>
-          {window.innerWidth < 500 ? (
-            <UserOutlined />
-          ) : (
-            user.attributes.preferred_username
-          )}
-          <DownOutlined />
-        </a>
-      </Dropdown>
+        <Dropdown overlay={profileChoices}>
+          <a href="#profile" className="ant-dropdown-link headerUserDropdown" overlay={profileChoices} onClick={e => e.preventDefault()}>
+            {window.innerWidth < 500 ? (
+              <UserOutlined />
+            ) : (
+              user.attributes.preferred_username
+            )}
+            <DownOutlined />
+          </a>
+        </Dropdown>
       )}
 
     </Header>

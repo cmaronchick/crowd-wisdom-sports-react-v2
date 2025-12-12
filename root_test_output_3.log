@@ -1,0 +1,28 @@
+yarn run v1.22.22
+$ jest
+Browserslist: browsers data (caniuse-lite) is 12 months old. Please run:
+  npx update-browserslist-db@latest
+  Why you should do it regularly: https://github.com/browserslist/update-db#readme
+FAIL __tests__/routes.test.js
+  ● Test suite failed to run
+
+    TypeError: ky.create is not a function
+
+    [0m [90m  6 |[39m [36mconst[39m [33mAmplify[39m [33m=[39m require([32m'aws-amplify'[39m)
+     [90m  7 |[39m
+    [31m[1m>[22m[39m[90m  8 |[39m [36mconst[39m apiHost [33m=[39m ky[33m.[39mcreate({prefixUrl[33m:[39m [32m`https://y5f8dr2inb.execute-api.us-west-2.amazonaws.com/dev/`[39m})
+     [90m    |[39m                    [31m[1m^[22m[39m
+     [90m  9 |[39m [36mconst[39m router [33m=[39m express()[33m;[39m
+     [90m 10 |[39m router[33m.[39muse(bodyParser[33m.[39mjson()) [90m// for parsing application/json[39m
+     [90m 11 |[39m router[33m.[39muse(bodyParser[33m.[39murlencoded({ extended[33m:[39m [36mtrue[39m })) [90m// for parsing application/x-www-form-urlencoded[39m[0m
+
+      at Object.create (api/index.js:8:20)
+      at Object.require (__tests__/routes.test.js:1:13)
+
+Test Suites: 1 failed, 1 total
+Tests:       0 total
+Snapshots:   0 total
+Time:        1.844 s, estimated 4 s
+Ran all test suites.
+error Command failed with exit code 1.
+info Visit https://yarnpkg.com/en/docs/cli/run for documentation about this command.

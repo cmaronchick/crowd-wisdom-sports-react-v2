@@ -1,0 +1,56 @@
+yarn run v1.22.22
+$ jest
+Browserslist: browsers data (caniuse-lite) is 12 months old. Please run:
+  npx update-browserslist-db@latest
+  Why you should do it regularly: https://github.com/browserslist/update-db#readme
+PASS __tests__/routes.test.js
+  Endpoints
+    √ get games (4 ms)
+
+Test Suites: 1 passed, 1 total
+Tests:       1 passed, 1 total
+Snapshots:   0 total
+Time:        3.474 s
+Ran all test suites.
+node:internal/deps/undici/undici:13510
+      Error.captureStackTrace(err);
+            ^
+
+TypeError: fetch failed
+    at node:internal/deps/undici/undici:13510:13
+    at processTicksAndRejections (node:internal/process/task_queues:105:5)
+    at fn (C:\Users\christopher.aronchic\crowd-wisdom-sports-react-v2\node_modules\ky\umd.js:303:20)
+    at Ky._retry (C:\Users\christopher.aronchic\crowd-wisdom-sports-react-v2\node_modules\ky\umd.js:392:12) {
+  [cause]: AggregateError: 
+      at internalConnectMultiple (node:net:1139:18)
+      at afterConnectMultiple (node:net:1714:7)
+      at TCPConnectWrap.callbackTrampoline (node:internal/async_hooks:130:17) {
+    code: 'ECONNREFUSED',
+    [errors]: [
+      Error: connect ECONNREFUSED ::1:5001
+          at createConnectionError (node:net:1677:14)
+          at afterConnectMultiple (node:net:1707:16)
+          at TCPConnectWrap.callbackTrampoline (node:internal/async_hooks:130:17) {
+        errno: -4078,
+        code: 'ECONNREFUSED',
+        syscall: 'connect',
+        address: '::1',
+        port: 5001
+      },
+      Error: connect ECONNREFUSED 127.0.0.1:5001
+          at createConnectionError (node:net:1677:14)
+          at afterConnectMultiple (node:net:1707:16)
+          at TCPConnectWrap.callbackTrampoline (node:internal/async_hooks:130:17) {
+        errno: -4078,
+        code: 'ECONNREFUSED',
+        syscall: 'connect',
+        address: '127.0.0.1',
+        port: 5001
+      }
+    ]
+  }
+}
+
+Node.js v22.16.0
+error Command failed with exit code 1.
+info Visit https://yarnpkg.com/en/docs/cli/run for documentation about this command.

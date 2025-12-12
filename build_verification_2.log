@@ -1,0 +1,178 @@
+yarn run v1.22.22
+$ cross-env NPM_CONFIG_PRODUCTION=false yarn install && cd client && yarn install && yarn build
+[1/5] Validating package.json...
+[2/5] Resolving packages...
+success Already up-to-date.
+[1/4] Resolving packages...
+success Already up-to-date.
+$ craco build
+Creating an optimized production build...
+Browserslist: browsers data (caniuse-lite) is 12 months old. Please run:
+  npx update-browserslist-db@latest
+  Why you should do it regularly: https://github.com/browserslist/update-db#readme
+Browserslist: browsers data (caniuse-lite) is 12 months old. Please run:
+  npx update-browserslist-db@latest
+  Why you should do it regularly: https://github.com/browserslist/update-db#readme
+Compiled with warnings.
+
+[eslint] 
+src\App.js
+  Line 52:7:    'RequireAuth' is assigned a value but never used  no-unused-vars
+  Line 142:11:  'page' is assigned a value but never used         no-unused-vars
+
+src\components\admin\AdminPage.js
+  Line 4:24:    'Spinner' is defined but never used                                                                          no-unused-vars
+  Line 4:43:    'Typography' is defined but never used                                                                       no-unused-vars
+  Line 19:27:   'user' is assigned a value but never used                                                                    no-unused-vars
+  Line 22:11:   'apiHost' is assigned a value but never used                                                                 no-unused-vars
+  Line 27:149:  Unexpected mix of '!==' and '>'. Use parentheses to clarify the intended order of operations                 no-mixed-operators
+  Line 27:182:  Unexpected mix of '!==' and '>'. Use parentheses to clarify the intended order of operations                 no-mixed-operators
+  Line 35:8:    React Hook useEffect has a missing dependency: 'gamesObj'. Either include it or remove the dependency array  react-hooks/exhaustive-deps
+  Line 186:45:  'odds' is assigned a value but never used                                                                    no-unused-vars
+  Line 186:78:  'results' is assigned a value but never used                                                                 no-unused-vars
+  Line 220:43:  Style prop value must be an object                                                                           react/style-prop-object
+
+src\components\game\ContestBanner.js
+  Line 5:16:  'Text' is assigned a value but never used  no-unused-vars
+
+src\components\game\Game.js
+  Line 20:11:  'gameRef' is assigned a value but never used  no-unused-vars
+
+src\components\game\GameOddsChart.js
+  Line 4:8:    'PropTypes' is defined but never used                 no-unused-vars
+  Line 73:7:   'oddsLength' is assigned a value but never used       no-unused-vars
+  Line 126:9:  'dataTotalVigMin' is assigned a value but never used  no-unused-vars
+  Line 131:9:  'spreadVigMin' is assigned a value but never used     no-unused-vars
+  Line 135:9:  'totalVigMin' is assigned a value but never used      no-unused-vars
+  Line 281:7:  'styles' is assigned a value but never used           no-unused-vars
+
+src\components\game\GamePreview.js
+  Line 50:7:   'periods' is assigned a value but never used                     no-unused-vars
+  Line 64:13:  'showQuarters' is assigned a value but never used                no-unused-vars
+  Line 67:9:   'handleOnChangeTextQuarters' is assigned a value but never used  no-unused-vars
+
+src\components\gamesList\GamesList.js
+  Line 41:58:  Array.prototype.map() expects a value to be returned at the end of arrow function  array-callback-return
+  Line 48:19:  Array.prototype.map() expects a return value from arrow function                   array-callback-return
+
+src\components\games\Games.js
+  Line 6:8:  'Stats' is defined but never used  no-unused-vars
+
+src\components\layout\sidemenu\SideMenu.js
+  Line 6:24:   'Popover' is defined but never used                                                                                                                                                    no-unused-vars
+  Line 7:16:   'UserOutlined' is defined but never used                                                                                                                                               no-unused-vars
+  Line 8:10:   'FontAwesomeIcon' is defined but never used                                                                                                                                            no-unused-vars
+  Line 22:5:   'FaBell' is defined but never used                                                                                                                                                     no-unused-vars
+  Line 30:18:  'Item' is assigned a value but never used                                                                                                                                              no-unused-vars
+  Line 32:7:   'sportsVariables' is assigned a value but never used                                                                                                                                   no-unused-vars
+  Line 48:12:  'collapsed' is assigned a value but never used                                                                                                                                         no-unused-vars
+  Line 48:23:  'toggleCollapsed' is assigned a value but never used                                                                                                                                   no-unused-vars
+  Line 95:21:  Using target="_blank" without rel="noreferrer" (which implies rel="noopener") is a security risk in older browsers: see https://mathiasbynens.github.io/rel-noopener/#recommendations  react/jsx-no-target-blank
+  Line 98:21:  Using target="_blank" without rel="noreferrer" (which implies rel="noopener") is a security risk in older browsers: see https://mathiasbynens.github.io/rel-noopener/#recommendations  react/jsx-no-target-blank
+
+src\components\leaderboards\Leaderboards.js
+  Line 4:8:    'Icon' is defined but never used           no-unused-vars
+  Line 16:10:  'FaFacebook' is defined but never used     no-unused-vars
+  Line 26:27:  'user' is assigned a value but never used  no-unused-vars
+
+src\components\oddsmovement\OddsMovement.js
+  Line 3:20:  'Divider' is defined but never used  no-unused-vars
+  Line 3:36:  'Spin' is defined but never used     no-unused-vars
+
+src\components\profile\LoginModal.js
+  Line 49:9:  Unnecessarily computed property ['custom:notifyPredictRemind'] found  no-useless-computed-key
+
+src\components\profile\Predictions.js
+  Line 8:29:   'Spinner' is defined but never used                                                                                                                                                                                                                                                                                                                                   no-unused-vars
+  Line 16:33:  'setComparedPredictions' is assigned a value but never used                                                                                                                                                                                                                                                                                                           no-unused-vars
+  Line 32:8:   React Hook useEffect has missing dependencies: 'props', 'season', 'selectedWeek', 'userId', 'week', and 'year'. Either include them or remove the dependency array. However, 'props' will change when *any* prop changes, so the preferred fix is to destructure the 'props' object outside of the useEffect call and refer to those specific props inside useEffect  react-hooks/exhaustive-deps
+  Line 94:34:  Elements with ARIA roles must use a valid, non-abstract ARIA role                                                                                                                                                                                                                                                                                                     jsx-a11y/aria-role
+
+src\functions\utils.js
+  Line 3:8:    'StakeIcon' is defined but never used  no-unused-vars
+  Line 32:36:  Unnecessary escape character: \[       no-useless-escape
+  Line 32:61:  Unnecessary escape character: \[       no-useless-escape
+
+src\redux\actions\gamesActions.js
+  Line 10:5:    'CLEAR_ERRORS' is defined but never used  no-unused-vars
+  Line 118:13:  Do not assign to the exception parameter  no-ex-assign
+
+src\redux\actions\groupActions.js
+  Line 8:5:     'JOIN_GROUP' is defined but never used                   no-unused-vars
+  Line 13:5:    'LOADING_GROUP_PREDICTIONS' is defined but never used    no-unused-vars
+  Line 121:15:  'currentUser' is assigned a value but never used         no-unused-vars
+  Line 162:13:  'leaveGroupResponse' is assigned a value but never used  no-unused-vars
+  Line 224:48:  Unnecessary escape character: \p                         no-useless-escape
+  Line 224:80:  Unnecessary escape character: \j                         no-useless-escape
+  Line 246:13:  'currentUser' is assigned a value but never used         no-unused-vars
+  Line 289:13:  'currentUser' is assigned a value but never used         no-unused-vars
+  Line 290:13:  'currentSession' is assigned a value but never used      no-unused-vars
+  Line 302:15:  'stored' is assigned a value but never used              no-unused-vars
+
+src\redux\actions\predictionsActions.js
+  Line 53:13:   'predictionResponse' is assigned a value but never used  no-unused-vars
+  Line 100:13:  'currentSession' is assigned a value but never used      no-unused-vars
+
+src\redux\actions\sportActions.js
+  Line 53:19:  'user' is assigned a value but never used             no-unused-vars
+  Line 55:19:  'extendedProfile' is assigned a value but never used  no-unused-vars
+
+src\redux\actions\userActions.js
+  Line 202:13:  'signUpResponse' is assigned a value but never used                   no-unused-vars
+  Line 210:17:  Unnecessarily computed property ['custom:notifyPredictRemind'] found  no-useless-computed-key
+  Line 211:17:  Unnecessarily computed property ['custom:acceptRulesandTOU'] found    no-useless-computed-key
+  Line 299:13:  'forgotPasswordResponse' is assigned a value but never used           no-unused-vars
+
+src\redux\reducers\gamesReducer.js
+  Line 6:5:   'LOADING_PREDICTIONS' is defined but never used  no-unused-vars
+  Line 7:5:   'SET_PREDICTIONS' is defined but never used      no-unused-vars
+  Line 29:1:  Unexpected default export of anonymous function  import/no-anonymous-default-export
+
+src\redux\reducers\groupsReducer.js
+  Line 28:1:  Unexpected default export of anonymous function  import/no-anonymous-default-export
+
+src\redux\reducers\leaderboardReducer.js
+  Line 5:5:   'LOADING_CROWD_RESULTS' is defined but never used  no-unused-vars
+  Line 20:1:  Unexpected default export of anonymous function    import/no-anonymous-default-export
+
+src\redux\reducers\predictionsReducer.js
+  Line 31:1:  Unexpected default export of anonymous function  import/no-anonymous-default-export
+
+src\redux\reducers\sportReducer.js
+  Line 14:1:  Unexpected default export of anonymous function  import/no-anonymous-default-export
+
+src\redux\reducers\uiReducer.js
+  Line 23:1:  Unexpected default export of anonymous function  import/no-anonymous-default-export
+
+src\redux\reducers\userReducer.js
+  Line 35:1:  Unexpected default export of anonymous function  import/no-anonymous-default-export
+
+src\redux\store.js
+  Line 26:7:  'composeEnhancers' is assigned a value but never used  no-unused-vars
+
+Search for the keywords to learn more about each warning.
+To ignore, add // eslint-disable-next-line to the line before.
+
+File sizes after gzip:
+
+  566.82 kB (-14.35 kB)  build\static\js\main.466947bd.js
+  70.9 kB                build\static\css\main.e5a7485a.css
+
+The bundle size is significantly larger than recommended.
+Consider reducing it with code splitting: https://goo.gl/9VhYWB
+You can also analyze the project dependencies: https://goo.gl/LeUzfb
+
+The project was built assuming it is hosted at /.
+You can control this with the homepage field in your package.json.
+
+The build folder is ready to be deployed.
+You may serve it with a static server:
+
+  yarn global add serve
+  serve -s build
+
+Find out more about deployment here:
+
+  https://cra.link/deployment
+
+Done in 38.87s.
