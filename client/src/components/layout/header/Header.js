@@ -6,7 +6,7 @@ import PropTypes from 'prop-types'
 import { connect } from 'react-redux'
 import { logout } from '../../../redux/actions/userActions'
 
-import logo from '../../../images/stake-image.png'
+import logo from '../../../images/stake-image-brown.png'
 import LoginButton from '../../profile/LoginButton'
 import { Layout, Typography, Button, Dropdown, Menu } from 'antd'
 import { Link } from 'react-router-dom'
