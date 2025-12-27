@@ -32,7 +32,7 @@ import { fetchGameWeekGames } from './gamesActions'
 import { setSport } from './sportActions'
 
 import { apiHost } from '../../constants/config'
-import ReactGA from 'react-ga'
+import ReactGA from 'react-ga4'
 
 const userPool = new CognitoUserPool({
     
@@ -106,7 +106,7 @@ export const getFacebookUser = (location) => async (dispatch) => {
        })
        dispatch(getUserDetails(store.getState().sport.sport,store.getState().sport.gameWeekData.year,store.getState().sport.gameWeekData.season,store.getState().sport.gameWeekData.week))
        
-       ReactGA.send({
+       ReactGA.event({
             category: 'user',
             action: 'login',
             label: 'oauth',

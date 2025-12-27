@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import {Auth} from '@aws-amplify/auth'
 
-import ReactGA from 'react-ga'
+import ReactGA from 'react-ga4'
 import { config as analytics } from './constants/analytics'
 
 
@@ -46,7 +46,7 @@ var stateKey = 'amplify_auth_state';
 const history = createBrowserHistory()
 history.listen(location => {
     ReactGA.set({ page: location.pathname })
-    ReactGA.pageview(location.pathname)
+    ReactGA.ga('send', 'pageview', location.pathname)
 })
 
 const RequireAuth = (props) => {
@@ -105,9 +105,9 @@ class App extends Component {
   }
 
   async componentDidMount() {
-    if (process.env.NODE_ENV !== 'test') {
+    // if (process.env.NODE_ENV !== 'test') {
       ReactGA.initialize(analytics.trackingId)
-    }
+    // }
     store.dispatch({
       type: LOADING_USER
     })
