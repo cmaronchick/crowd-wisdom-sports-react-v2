@@ -32,7 +32,7 @@ import createMuiTheme from '@material-ui/core/styles/createMuiTheme'
 import themeFile from '../constants/theme'
 import Button from '@material-ui/core/Button'
 
-import ReactGA from 'react-ga'
+import ReactGA from 'react-ga4'
 import * as analytics from '../constants/analytics'
 const pushState = (obj, url) =>
   window.history.pushState(obj, '', url);
