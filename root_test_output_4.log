@@ -1,0 +1,20 @@
+yarn run v1.22.22
+$ jest
+Browserslist: browsers data (caniuse-lite) is 12 months old. Please run:
+  npx update-browserslist-db@latest
+  Why you should do it regularly: https://github.com/browserslist/update-db#readme
+  console.log
+    { res: { statusCode: 201, body: { post: true } } }
+
+      at log (__tests__/routes.test.js:26:17)
+
+PASS __tests__/routes.test.js
+  Endpoints
+    √ get games (18 ms)
+
+Test Suites: 1 passed, 1 total
+Tests:       1 passed, 1 total
+Snapshots:   0 total
+Time:        1.84 s
+Ran all test suites.
+Done in 2.71s.

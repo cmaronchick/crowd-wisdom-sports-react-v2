@@ -1,0 +1,2046 @@
+yarn run v1.22.22
+$ craco test --watchAll=false
+PASS src/__tests__/GamesList.test.js (6.821 s)
+  ● Console
+
+    console.log
+      setupTests.js is running
+
+      at Object.<anonymous> (src/setupTests.js:6:9)
+
+    console.log
+      GamesList.test.js: window.matchMedia type: function
+
+      at Object.<anonymous> (src/__tests__/GamesList.test.js:2:9)
+
+    console.log
+      GamesList.test.js: matchMedia returns: {
+        matches: false,
+        media: 'max-width: 600px',
+        onchange: null,
+        addListener: [Function: mockConstructor] {
+          _isMockFunction: true,
+          getMockImplementation: [Function (anonymous)],
+          mock: [Getter/Setter],
+          mockClear: [Function (anonymous)],
+          mockReset: [Function (anonymous)],
+          mockRestore: [Function (anonymous)],
+          mockReturnValueOnce: [Function (anonymous)],
+          mockResolvedValueOnce: [Function (anonymous)],
+          mockRejectedValueOnce: [Function (anonymous)],
+          mockReturnValue: [Function (anonymous)],
+          mockResolvedValue: [Function (anonymous)],
+          mockRejectedValue: [Function (anonymous)],
+          mockImplementationOnce: [Function (anonymous)],
+          mockImplementation: [Function (anonymous)],
+          mockReturnThis: [Function (anonymous)],
+          mockName: [Function (anonymous)],
+          getMockName: [Function (anonymous)]
+        },
+        removeListener: [Function: mockConstructor] {
+          _isMockFunction: true,
+          getMockImplementation: [Function (anonymous)],
+          mock: [Getter/Setter],
+          mockClear: [Function (anonymous)],
+          mockReset: [Function (anonymous)],
+          mockRestore: [Function (anonymous)],
+          mockReturnValueOnce: [Function (anonymous)],
+          mockResolvedValueOnce: [Function (anonymous)],
+          mockRejectedValueOnce: [Function (anonymous)],
+          mockReturnValue: [Function (anonymous)],
+          mockResolvedValue: [Function (anonymous)],
+          mockRejectedValue: [Function (anonymous)],
+          mockImplementationOnce: [Function (anonymous)],
+          mockImplementation: [Function (anonymous)],
+          mockReturnThis: [Function (anonymous)],
+          mockName: [Function (anonymous)],
+          getMockName: [Function (anonymous)]
+        },
+        addEventListener: [Function: mockConstructor] {
+          _isMockFunction: true,
+          getMockImplementation: [Function (anonymous)],
+          mock: [Getter/Setter],
+          mockClear: [Function (anonymous)],
+          mockReset: [Function (anonymous)],
+          mockRestore: [Function (anonymous)],
+          mockReturnValueOnce: [Function (anonymous)],
+          mockResolvedValueOnce: [Function (anonymous)],
+          mockRejectedValueOnce: [Function (anonymous)],
+          mockReturnValue: [Function (anonymous)],
+          mockResolvedValue: [Function (anonymous)],
+          mockRejectedValue: [Function (anonymous)],
+          mockImplementationOnce: [Function (anonymous)],
+          mockImplementation: [Function (anonymous)],
+          mockReturnThis: [Function (anonymous)],
+          mockName: [Function (anonymous)],
+          getMockName: [Function (anonymous)]
+        },
+        removeEventListener: [Function: mockConstructor] {
+          _isMockFunction: true,
+          getMockImplementation: [Function (anonymous)],
+          mock: [Getter/Setter],
+          mockClear: [Function (anonymous)],
+          mockReset: [Function (anonymous)],
+          mockRestore: [Function (anonymous)],
+          mockReturnValueOnce: [Function (anonymous)],
+          mockResolvedValueOnce: [Function (anonymous)],
+          mockRejectedValueOnce: [Function (anonymous)],
+          mockReturnValue: [Function (anonymous)],
+          mockResolvedValue: [Function (anonymous)],
+          mockRejectedValue: [Function (anonymous)],
+          mockImplementationOnce: [Function (anonymous)],
+          mockImplementation: [Function (anonymous)],
+          mockReturnThis: [Function (anonymous)],
+          mockName: [Function (anonymous)],
+          getMockName: [Function (anonymous)]
+        },
+        dispatchEvent: [Function: mockConstructor] {
+          _isMockFunction: true,
+          getMockImplementation: [Function (anonymous)],
+          mock: [Getter/Setter],
+          mockClear: [Function (anonymous)],
+          mockReset: [Function (anonymous)],
+          mockRestore: [Function (anonymous)],
+          mockReturnValueOnce: [Function (anonymous)],
+          mockResolvedValueOnce: [Function (anonymous)],
+          mockRejectedValueOnce: [Function (anonymous)],
+          mockReturnValue: [Function (anonymous)],
+          mockResolvedValue: [Function (anonymous)],
+          mockRejectedValue: [Function (anonymous)],
+          mockImplementationOnce: [Function (anonymous)],
+          mockImplementation: [Function (anonymous)],
+          mockReturnThis: [Function (anonymous)],
+          mockName: [Function (anonymous)],
+          getMockName: [Function (anonymous)]
+        }
+      }
+
+      at Object.<anonymous> (src/__tests__/GamesList.test.js:3:34)
+
+PASS src/__tests__/Game.test.js (6.995 s)
+  ● Console
+
+    console.log
+      setupTests.js is running
+
+      at Object.<anonymous> (src/setupTests.js:6:9)
+
+PASS src/__tests__/GamePreview.test.js (6.981 s)
+  ● Console
+
+    console.log
+      setupTests.js is running
+
+      at Object.<anonymous> (src/setupTests.js:6:9)
+
+    console.error
+      Warning: Failed prop type: The prop `headerRowArrowClick` is marked as required in `GamePreview`, but its value is `undefined`.
+          at GamePreview (C:\Users\christopher.aronchic\crowd-wisdom-sports-react-v2\client\src\components\game\GamePreview.js:20:11)
+
+    [0m [90m 13 |[39m     test([32m'shows no game preview state when a game is missing'[39m[33m,[39m () [33m=>[39m {
+     [90m 14 |[39m         [36mconst[39m { getByText } [33m=[39m render([33m<[39m[33mProvider[39m store[33m=[39m{store}[33m>[39m[33m<[39m[33mRouter[39m[33m>[39m
+    [31m[1m>[22m[39m[90m 15 |[39m             [33m<[39m[33mGamePreview[39m game[33m=[39m{{}} onClick[33m=[39m{() [33m=>[39m {[36mreturn[39m[33m;[39m}} handleChangeGameScore[33m=[39m{() [33m=>[39m [36mtrue[39m} [33m/[39m[33m>[39m
+     [90m    |[39m             [31m[1m^[22m[39m
+     [90m 16 |[39m             [33m<[39m[33m/[39m[33mRouter[39m[33m>[39m
+     [90m 17 |[39m         [33m<[39m[33m/[39m[33mProvider[39m[33m>[39m)[33m;[39m
+     [90m 18 |[39m         [36mconst[39m noGameFoundElement [33m=[39m getByText([35m/No game found/i[39m)[33m;[39m[0m
+
+      at printWarning (node_modules/react/cjs/react-jsx-dev-runtime.development.js:87:30)
+      at error (node_modules/react/cjs/react-jsx-dev-runtime.development.js:61:7)
+      at checkPropTypes (node_modules/react/cjs/react-jsx-dev-runtime.development.js:631:11)
+      at validatePropTypes (node_modules/react/cjs/react-jsx-dev-runtime.development.js:1164:7)
+      at jsxWithValidation (node_modules/react/cjs/react-jsx-dev-runtime.development.js:1303:7)
+      at Object.<anonymous> (src/__tests__/GamePreview.test.js:15:13)
+
+    console.error
+      Warning: Failed prop type: The prop `user` is marked as required in `GamePreview`, but its value is `undefined`.
+          at GamePreview (C:\Users\christopher.aronchic\crowd-wisdom-sports-react-v2\client\src\components\game\GamePreview.js:20:11)
+
+    [0m [90m 13 |[39m     test([32m'shows no game preview state when a game is missing'[39m[33m,[39m () [33m=>[39m {
+     [90m 14 |[39m         [36mconst[39m { getByText } [33m=[39m render([33m<[39m[33mProvider[39m store[33m=[39m{store}[33m>[39m[33m<[39m[33mRouter[39m[33m>[39m
+    [31m[1m>[22m[39m[90m 15 |[39m             [33m<[39m[33mGamePreview[39m game[33m=[39m{{}} onClick[33m=[39m{() [33m=>[39m {[36mreturn[39m[33m;[39m}} handleChangeGameScore[33m=[39m{() [33m=>[39m [36mtrue[39m} [33m/[39m[33m>[39m
+     [90m    |[39m             [31m[1m^[22m[39m
+     [90m 16 |[39m             [33m<[39m[33m/[39m[33mRouter[39m[33m>[39m
+     [90m 17 |[39m         [33m<[39m[33m/[39m[33mProvider[39m[33m>[39m)[33m;[39m
+     [90m 18 |[39m         [36mconst[39m noGameFoundElement [33m=[39m getByText([35m/No game found/i[39m)[33m;[39m[0m
+
+      at printWarning (node_modules/react/cjs/react-jsx-dev-runtime.development.js:87:30)
+      at error (node_modules/react/cjs/react-jsx-dev-runtime.development.js:61:7)
+      at checkPropTypes (node_modules/react/cjs/react-jsx-dev-runtime.development.js:631:11)
+      at validatePropTypes (node_modules/react/cjs/react-jsx-dev-runtime.development.js:1164:7)
+      at jsxWithValidation (node_modules/react/cjs/react-jsx-dev-runtime.development.js:1303:7)
+      at Object.<anonymous> (src/__tests__/GamePreview.test.js:15:13)
+
+    console.error
+      Warning: Failed prop type: The prop `handleSubmitPrediction` is marked as required in `GamePreview`, but its value is `undefined`.
+          at GamePreview (C:\Users\christopher.aronchic\crowd-wisdom-sports-react-v2\client\src\components\game\GamePreview.js:20:11)
+
+    [0m [90m 13 |[39m     test([32m'shows no game preview state when a game is missing'[39m[33m,[39m () [33m=>[39m {
+     [90m 14 |[39m         [36mconst[39m { getByText } [33m=[39m render([33m<[39m[33mProvider[39m store[33m=[39m{store}[33m>[39m[33m<[39m[33mRouter[39m[33m>[39m
+    [31m[1m>[22m[39m[90m 15 |[39m             [33m<[39m[33mGamePreview[39m game[33m=[39m{{}} onClick[33m=[39m{() [33m=>[39m {[36mreturn[39m[33m;[39m}} handleChangeGameScore[33m=[39m{() [33m=>[39m [36mtrue[39m} [33m/[39m[33m>[39m
+     [90m    |[39m             [31m[1m^[22m[39m
+     [90m 16 |[39m             [33m<[39m[33m/[39m[33mRouter[39m[33m>[39m
+     [90m 17 |[39m         [33m<[39m[33m/[39m[33mProvider[39m[33m>[39m)[33m;[39m
+     [90m 18 |[39m         [36mconst[39m noGameFoundElement [33m=[39m getByText([35m/No game found/i[39m)[33m;[39m[0m
+
+      at printWarning (node_modules/react/cjs/react-jsx-dev-runtime.development.js:87:30)
+      at error (node_modules/react/cjs/react-jsx-dev-runtime.development.js:61:7)
+      at checkPropTypes (node_modules/react/cjs/react-jsx-dev-runtime.development.js:631:11)
+      at validatePropTypes (node_modules/react/cjs/react-jsx-dev-runtime.development.js:1164:7)
+      at jsxWithValidation (node_modules/react/cjs/react-jsx-dev-runtime.development.js:1303:7)
+      at Object.<anonymous> (src/__tests__/GamePreview.test.js:15:13)
+
+    console.error
+      Warning: Failed prop type: The prop `toggleOddsChangeModal` is marked as required in `GamePreview`, but its value is `undefined`.
+          at GamePreview (C:\Users\christopher.aronchic\crowd-wisdom-sports-react-v2\client\src\components\game\GamePreview.js:20:11)
+
+    [0m [90m 13 |[39m     test([32m'shows no game preview state when a game is missing'[39m[33m,[39m () [33m=>[39m {
+     [90m 14 |[39m         [36mconst[39m { getByText } [33m=[39m render([33m<[39m[33mProvider[39m store[33m=[39m{store}[33m>[39m[33m<[39m[33mRouter[39m[33m>[39m
+    [31m[1m>[22m[39m[90m 15 |[39m             [33m<[39m[33mGamePreview[39m game[33m=[39m{{}} onClick[33m=[39m{() [33m=>[39m {[36mreturn[39m[33m;[39m}} handleChangeGameScore[33m=[39m{() [33m=>[39m [36mtrue[39m} [33m/[39m[33m>[39m
+     [90m    |[39m             [31m[1m^[22m[39m
+     [90m 16 |[39m             [33m<[39m[33m/[39m[33mRouter[39m[33m>[39m
+     [90m 17 |[39m         [33m<[39m[33m/[39m[33mProvider[39m[33m>[39m)[33m;[39m
+     [90m 18 |[39m         [36mconst[39m noGameFoundElement [33m=[39m getByText([35m/No game found/i[39m)[33m;[39m[0m
+
+      at printWarning (node_modules/react/cjs/react-jsx-dev-runtime.development.js:87:30)
+      at error (node_modules/react/cjs/react-jsx-dev-runtime.development.js:61:7)
+      at checkPropTypes (node_modules/react/cjs/react-jsx-dev-runtime.development.js:631:11)
+      at validatePropTypes (node_modules/react/cjs/react-jsx-dev-runtime.development.js:1164:7)
+      at jsxWithValidation (node_modules/react/cjs/react-jsx-dev-runtime.development.js:1303:7)
+      at Object.<anonymous> (src/__tests__/GamePreview.test.js:15:13)
+
+    console.error
+      Warning: Failed prop type: The prop `handleChangeGameScore` is marked as required in `GamePreview`, but its value is `undefined`.
+          at GamePreview (C:\Users\christopher.aronchic\crowd-wisdom-sports-react-v2\client\src\components\game\GamePreview.js:20:11)
+
+    [0m [90m 24 |[39m         [33m<[39m[33mProvider[39m store[33m=[39m{store}[33m>[39m
+     [90m 25 |[39m             [33m<[39m[33mRouter[39m[33m>[39m
+    [31m[1m>[22m[39m[90m 26 |[39m                 [33m<[39m[33mGamePreview[39m
+     [90m    |[39m                 [31m[1m^[22m[39m
+     [90m 27 |[39m                     game[33m=[39m{gameNotFinal}
+     [90m 28 |[39m                      onClick[33m=[39m{() [33m=>[39m {[36mreturn[39m[33m;[39m}} [33m/[39m[33m>[39m
+     [90m 29 |[39m             [33m<[39m[33m/[39m[33mRouter[39m[33m>[39m[0m
+
+      at printWarning (node_modules/react/cjs/react-jsx-dev-runtime.development.js:87:30)
+      at error (node_modules/react/cjs/react-jsx-dev-runtime.development.js:61:7)
+      at checkPropTypes (node_modules/react/cjs/react-jsx-dev-runtime.development.js:631:11)
+      at validatePropTypes (node_modules/react/cjs/react-jsx-dev-runtime.development.js:1164:7)
+      at jsxWithValidation (node_modules/react/cjs/react-jsx-dev-runtime.development.js:1303:7)
+      at Object.<anonymous> (src/__tests__/GamePreview.test.js:26:17)
+
+    console.error
+      Warning: Failed prop type: The prop `onClick` is marked as required in `GamePreviewHeader`, but its value is `undefined`.
+          at GamePreviewHeader (C:\Users\christopher.aronchic\crowd-wisdom-sports-react-v2\client\src\components\game\GamePreview.Header.js:21:13)
+          at GamePreview (C:\Users\christopher.aronchic\crowd-wisdom-sports-react-v2\client\src\components\game\GamePreview.js:20:11)
+          at Router (C:\Users\christopher.aronchic\crowd-wisdom-sports-react-v2\client\node_modules\react-router\cjs\react-router.js:283:30)
+          at BrowserRouter (C:\Users\christopher.aronchic\crowd-wisdom-sports-react-v2\client\node_modules\react-router-dom\cjs\react-router-dom.js:75:35)
+          at Provider (C:\Users\christopher.aronchic\crowd-wisdom-sports-react-v2\client\node_modules\react-redux\src\components\Provider.tsx:60:11)
+
+    [0m [90m 117 |[39m       [36mreturn[39m (
+     [90m 118 |[39m       [33m<[39m[33mCard[39m bodyStyle[33m=[39m{{ padding[33m:[39m window[33m.[39minnerWidth [33m<[39m [35m768[39m [33m?[39m [35m12[39m [33m:[39m [35m24[39m }} title[33m=[39m{
+    [31m[1m>[22m[39m[90m 119 |[39m         [33m<[39m[33mGamePreviewHeader[39m game[33m=[39m{game} onClick[33m=[39m{props[33m.[39mheaderRowArrowClick} [33m/[39m[33m>[39m
+     [90m     |[39m         [31m[1m^[22m[39m
+     [90m 120 |[39m         } className[33m=[39m[32m"link GamePreview"[39m[33m>[39m
+     [90m 121 |[39m         [33m<[39m[33mRow[39m className[33m=[39m[32m"game-details"[39m[33m>[39m
+     [90m 122 |[39m           [33m<[39m[33mCol[39m span[33m=[39m{[35m24[39m}[33m>[39m[0m
+
+      at printWarning (node_modules/react/cjs/react-jsx-dev-runtime.development.js:87:30)
+      at error (node_modules/react/cjs/react-jsx-dev-runtime.development.js:61:7)
+      at checkPropTypes (node_modules/react/cjs/react-jsx-dev-runtime.development.js:631:11)
+      at validatePropTypes (node_modules/react/cjs/react-jsx-dev-runtime.development.js:1164:7)
+      at jsxWithValidation (node_modules/react/cjs/react-jsx-dev-runtime.development.js:1303:7)
+      at GamePreview (src/components/game/GamePreview.js:119:9)
+      at renderWithHooks (node_modules/react-dom/cjs/react-dom.development.js:15486:18)
+      at mountIndeterminateComponent (node_modules/react-dom/cjs/react-dom.development.js:20103:13)
+      at beginWork (node_modules/react-dom/cjs/react-dom.development.js:21626:16)
+      at beginWork$1 (node_modules/react-dom/cjs/react-dom.development.js:27465:14)
+      at performUnitOfWork (node_modules/react-dom/cjs/react-dom.development.js:26599:12)
+      at workLoopSync (node_modules/react-dom/cjs/react-dom.development.js:26505:5)
+      at renderRootSync (node_modules/react-dom/cjs/react-dom.development.js:26473:7)
+      at performConcurrentWorkOnRoot (node_modules/react-dom/cjs/react-dom.development.js:25777:74)
+      at flushActQueue (node_modules/react/cjs/react.development.js:2667:24)
+      at act (node_modules/react/cjs/react.development.js:2582:11)
+      at node_modules/@testing-library/react/dist/act-compat.js:47:25
+      at renderRoot (node_modules/@testing-library/react/dist/pure.js:190:26)
+      at render (node_modules/@testing-library/react/dist/pure.js:292:10)
+      at Object.<anonymous> (src/__tests__/GamePreview.test.js:23:67)
+
+    console.error
+      Warning: Each child in a list should have a unique "key" prop.
+      
+      Check the render method of `GamePreview`. See https://reactjs.org/link/warning-keys for more information.
+          at GamePreviewPrediction (C:\Users\christopher.aronchic\crowd-wisdom-sports-react-v2\client\src\components\game\GamePreview.Prediction.js:13:5)
+          at GamePreview (C:\Users\christopher.aronchic\crowd-wisdom-sports-react-v2\client\src\components\game\GamePreview.js:20:11)
+          at Router (C:\Users\christopher.aronchic\crowd-wisdom-sports-react-v2\client\node_modules\react-router\cjs\react-router.js:283:30)
+          at BrowserRouter (C:\Users\christopher.aronchic\crowd-wisdom-sports-react-v2\client\node_modules\react-router-dom\cjs\react-router-dom.js:75:35)
+          at Provider (C:\Users\christopher.aronchic\crowd-wisdom-sports-react-v2\client\node_modules\react-redux\src\components\Provider.tsx:60:11)
+
+    [0m [90m 120 |[39m         } className[33m=[39m[32m"link GamePreview"[39m[33m>[39m
+     [90m 121 |[39m         [33m<[39m[33mRow[39m className[33m=[39m[32m"game-details"[39m[33m>[39m
+    [31m[1m>[22m[39m[90m 122 |[39m           [33m<[39m[33mCol[39m span[33m=[39m{[35m24[39m}[33m>[39m
+     [90m     |[39m           [31m[1m^[22m[39m
+     [90m 123 |[39m             [33m<[39m[33mGamePreviewHeaderRow[39m game[33m=[39m{game} showPrediction[33m=[39m{showPrediction}[33m/[39m[33m>[39m
+     [90m 124 |[39m           {[90m/* only show comparison of predictions once game goes final */[39m}
+     [90m 125 |[39m           {[33m![39mgame[33m.[39mresults [33m?[39m ([0m
+
+      at printWarning (node_modules/react/cjs/react-jsx-dev-runtime.development.js:87:30)
+      at error (node_modules/react/cjs/react-jsx-dev-runtime.development.js:61:7)
+      at validateExplicitKey (node_modules/react/cjs/react-jsx-dev-runtime.development.js:1078:5)
+      at validateChildKeys (node_modules/react/cjs/react-jsx-dev-runtime.development.js:1105:11)
+      at jsxWithValidation (node_modules/react/cjs/react-jsx-dev-runtime.development.js:1267:15)
+      at GamePreview (src/components/game/GamePreview.js:122:11)
+      at renderWithHooks (node_modules/react-dom/cjs/react-dom.development.js:15486:18)
+      at mountIndeterminateComponent (node_modules/react-dom/cjs/react-dom.development.js:20103:13)
+      at beginWork (node_modules/react-dom/cjs/react-dom.development.js:21626:16)
+      at beginWork$1 (node_modules/react-dom/cjs/react-dom.development.js:27465:14)
+      at performUnitOfWork (node_modules/react-dom/cjs/react-dom.development.js:26599:12)
+      at workLoopSync (node_modules/react-dom/cjs/react-dom.development.js:26505:5)
+      at renderRootSync (node_modules/react-dom/cjs/react-dom.development.js:26473:7)
+      at performConcurrentWorkOnRoot (node_modules/react-dom/cjs/react-dom.development.js:25777:74)
+      at flushActQueue (node_modules/react/cjs/react.development.js:2667:24)
+      at act (node_modules/react/cjs/react.development.js:2582:11)
+      at node_modules/@testing-library/react/dist/act-compat.js:47:25
+      at renderRoot (node_modules/@testing-library/react/dist/pure.js:190:26)
+      at render (node_modules/@testing-library/react/dist/pure.js:292:10)
+      at Object.<anonymous> (src/__tests__/GamePreview.test.js:61:37)
+
+    console.log
+      results, prediction {
+        awayTeam: { score: 20, periods: { q1: 3, q2: 7, q3: 10, q4: 0 } },
+        homeTeam: { score: 31, periods: { q1: 7, q2: 3, q3: 0, q4: 21 } },
+        total: 51,
+        spread: -11
+      } {
+        type: 'user',
+        name: 'Me',
+        awayTeam: { score: 23, periods: { q1: 3, q2: 7, q3: 6, q4: 7 } },
+        homeTeam: { score: 20, periods: { q1: 3, q2: 7, q3: 7, q4: 3 } },
+        total: 43,
+        spread: 3,
+        results: {
+          winner: { correct: 0, push: 0, bullseyes: 0 },
+          spread: { correct: 0, push: 0, bullseyes: 0, stars: [Object] },
+          total: { correct: 1, push: 0, bullseyes: 0, stars: [Object] }
+        },
+        odds: { spread: -1.5, total: 54 },
+        predictionScore: 4,
+        stars: { spread: 3, total: 3 }
+      }
+
+      at totalResults (src/components/game/GamePreview.ResultsCheck.js:27:13)
+
+    console.warn
+      Warning: componentWillReceiveProps has been renamed, and is not recommended for use. See https://reactjs.org/link/unsafe-component-lifecycles for details.
+      
+      * Move data fetching code or side effects to componentDidUpdate.
+      * If you're updating state whenever props change, refactor your code to use memoization techniques or move it to static getDerivedStateFromProps. Learn more at: https://reactjs.org/link/derived-state
+      * Rename componentWillReceiveProps to UNSAFE_componentWillReceiveProps to suppress this warning in non-strict mode. In React 18.x, only the UNSAFE_ name will work. To rename all deprecated lifecycles to their new names, you can run `npx react-codemod rename-unsafe-lifecycles` in your project source folder.
+      
+      Please update the following components: StarRatingComponent
+
+    [0m [90m 72 |[39m         gameFinal[33m.[39mresults [33m=[39m results
+     [90m 73 |[39m         gameFinal[33m.[39mprediction [33m=[39m prediction
+    [31m[1m>[22m[39m[90m 74 |[39m         [36mconst[39m { getByText } [33m=[39m render(
+     [90m    |[39m                                     [31m[1m^[22m[39m
+     [90m 75 |[39m         [33m<[39m[33mProvider[39m store[33m=[39m{store}[33m>[39m[33m<[39m[33mRouter[39m[33m>[39m
+     [90m 76 |[39m             [33m<[39m[33mGamePreview[39m game[33m=[39m{gameFinal}
+     [90m 77 |[39m             predictions[33m=[39m{[{ type[33m:[39m [32m'user'[39m[33m,[39m name[33m:[39m [32m'Me'[39m[33m,[39m [33m...[39mprediction}]}[0m
+
+      at printWarning (node_modules/react-dom/cjs/react-dom.development.js:86:30)
+      at warn (node_modules/react-dom/cjs/react-dom.development.js:49:7)
+      at Object.<anonymous>.ReactStrictModeWarnings.flushPendingUnsafeLifecycleWarnings (node_modules/react-dom/cjs/react-dom.development.js:12912:7)
+      at flushRenderPhaseStrictModeWarningsInDEV (node_modules/react-dom/cjs/react-dom.development.js:27349:31)
+      at commitRootImpl (node_modules/react-dom/cjs/react-dom.development.js:26741:3)
+      at commitRoot (node_modules/react-dom/cjs/react-dom.development.js:26721:5)
+      at finishConcurrentRender (node_modules/react-dom/cjs/react-dom.development.js:26020:9)
+      at performConcurrentWorkOnRoot (node_modules/react-dom/cjs/react-dom.development.js:25848:7)
+      at flushActQueue (node_modules/react/cjs/react.development.js:2667:24)
+      at act (node_modules/react/cjs/react.development.js:2582:11)
+      at node_modules/@testing-library/react/dist/act-compat.js:47:25
+      at renderRoot (node_modules/@testing-library/react/dist/pure.js:190:26)
+      at render (node_modules/@testing-library/react/dist/pure.js:292:10)
+      at Object.<anonymous> (src/__tests__/GamePreview.test.js:74:37)
+
+    console.log
+      results, prediction {
+        awayTeam: { score: 20, periods: { q1: 3, q2: 7, q3: 10, q4: 0 } },
+        homeTeam: { score: 31, periods: { q1: 7, q2: 3, q3: 0, q4: 21 } },
+        total: 51,
+        spread: -11
+      } {
+        name: 'Me',
+        type: 'user',
+        awayTeam: { score: 23, periods: { q1: 3, q2: 7, q3: 6, q4: 7 } },
+        homeTeam: { score: 20, periods: { q1: 3, q2: 7, q3: 7, q4: 3 } },
+        total: 43,
+        spread: 3,
+        results: {
+          winner: { correct: 0, push: 0, bullseyes: 0 },
+          spread: { correct: 0, push: 0, bullseyes: 0, stars: [Object] },
+          total: { correct: 1, push: 0, bullseyes: 0, stars: [Object] }
+        },
+        odds: { spread: -1.5, total: 54 },
+        predictionScore: 4,
+        stars: { spread: 3, total: 3 }
+      }
+
+      at totalResults (src/components/game/GamePreview.ResultsCheck.js:27:13)
+
+    console.log
+      results, prediction {
+        awayTeam: { score: 20, periods: { q1: 3, q2: 7, q3: 10, q4: 0 } },
+        homeTeam: { score: 31, periods: { q1: 7, q2: 3, q3: 0, q4: 21 } },
+        total: 51,
+        spread: -11
+      } {
+        name: 'ATN Heroes',
+        type: 'group',
+        awayTeam: { score: 23, periods: { q1: 3, q2: 7, q3: 6, q4: 7 } },
+        homeTeam: { score: 20, periods: { q1: 3, q2: 7, q3: 7, q4: 3 } },
+        total: 43,
+        spread: 3,
+        results: {
+          winner: { correct: 0, push: 0, bullseyes: 0 },
+          spread: { correct: 0, push: 0, bullseyes: 0, stars: [Object] },
+          total: { correct: 1, push: 0, bullseyes: 0, stars: [Object] }
+        },
+        odds: { spread: -1.5, total: 54 },
+        predictionScore: 4,
+        stars: { spread: 3, total: 3 }
+      }
+
+      at totalResults (src/components/game/GamePreview.ResultsCheck.js:27:13)
+
+    console.log
+      results, prediction {
+        awayTeam: { score: 20, periods: { q1: 3, q2: 7, q3: 10, q4: 0 } },
+        homeTeam: { score: 31, periods: { q1: 7, q2: 3, q3: 0, q4: 21 } },
+        total: 51,
+        spread: -11
+      } {
+        name: 'PaulCullin',
+        type: 'user',
+        awayTeam: { score: 23, periods: { q1: 3, q2: 7, q3: 6, q4: 7 } },
+        homeTeam: { score: 20, periods: { q1: 3, q2: 7, q3: 7, q4: 3 } },
+        total: 43,
+        spread: 3,
+        results: {
+          winner: { correct: 0, push: 0, bullseyes: 0 },
+          spread: { correct: 0, push: 0, bullseyes: 0, stars: [Object] },
+          total: { correct: 1, push: 0, bullseyes: 0, stars: [Object] }
+        },
+        odds: { spread: -1.5, total: 54 },
+        predictionScore: 4,
+        stars: { spread: 3, total: 3 }
+      }
+
+      at totalResults (src/components/game/GamePreview.ResultsCheck.js:27:13)
+
+    console.log
+      results, prediction { clock: '5:43', period: 1 } {
+        name: 'Me',
+        type: 'user',
+        awayTeam: { score: 23, periods: { q1: 3, q2: 7, q3: 6, q4: 7 } },
+        homeTeam: { score: 20, periods: { q1: 3, q2: 7, q3: 7, q4: 3 } },
+        total: 43,
+        spread: 3,
+        results: {
+          winner: { correct: 0, push: 0, bullseyes: 0 },
+          spread: { correct: 0, push: 0, bullseyes: 0, stars: [Object] },
+          total: { correct: 1, push: 0, bullseyes: 0, stars: [Object] }
+        },
+        odds: { spread: -1.5, total: 54 },
+        predictionScore: 4,
+        stars: { spread: 3, total: 3 }
+      }
+
+      at totalResults (src/components/game/GamePreview.ResultsCheck.js:27:13)
+
+    console.log
+      results, prediction { clock: '5:43', period: 1 } {
+        name: 'ATN Heroes',
+        type: 'group',
+        awayTeam: { score: 23, periods: { q1: 3, q2: 7, q3: 6, q4: 7 } },
+        homeTeam: { score: 20, periods: { q1: 3, q2: 7, q3: 7, q4: 3 } },
+        total: 43,
+        spread: 3,
+        results: {
+          winner: { correct: 0, push: 0, bullseyes: 0 },
+          spread: { correct: 0, push: 0, bullseyes: 0, stars: [Object] },
+          total: { correct: 1, push: 0, bullseyes: 0, stars: [Object] }
+        },
+        odds: { spread: -1.5, total: 54 },
+        predictionScore: 4,
+        stars: { spread: 3, total: 3 }
+      }
+
+      at totalResults (src/components/game/GamePreview.ResultsCheck.js:27:13)
+
+    console.log
+      results, prediction { clock: '5:43', period: 1 } {
+        name: 'PaulCullin',
+        type: 'user',
+        awayTeam: { score: 23, periods: { q1: 3, q2: 7, q3: 6, q4: 7 } },
+        homeTeam: { score: 20, periods: { q1: 3, q2: 7, q3: 7, q4: 3 } },
+        total: 43,
+        spread: 3,
+        results: {
+          winner: { correct: 0, push: 0, bullseyes: 0 },
+          spread: { correct: 0, push: 0, bullseyes: 0, stars: [Object] },
+          total: { correct: 1, push: 0, bullseyes: 0, stars: [Object] }
+        },
+        odds: { spread: -1.5, total: 54 },
+        predictionScore: 4,
+        stars: { spread: 3, total: 3 }
+      }
+
+      at totalResults (src/components/game/GamePreview.ResultsCheck.js:27:13)
+
+PASS src/__tests__/Leaderboards.test.js (9.067 s)
+  ● Console
+
+    console.log
+      setupTests.js is running
+
+      at Object.<anonymous> (src/setupTests.js:6:9)
+
+    console.log
+      { getByText: [Function: bound ] }
+
+      at Object.<anonymous> (src/__tests__/Leaderboards.test.js:29:17)
+
+    console.error
+      Warning: [antd: Tabs] Tabs.TabPane is deprecated. Please use `items` directly.
+
+    [0m [90m 36 |[39m             payload[33m:[39m user
+     [90m 37 |[39m         })
+    [31m[1m>[22m[39m[90m 38 |[39m         [36mconst[39m { getByText } [33m=[39m render(
+     [90m    |[39m                                     [31m[1m^[22m[39m
+     [90m 39 |[39m             [33m<[39m[33mProvider[39m store[33m=[39m{store}[33m>[39m
+     [90m 40 |[39m                 [33m<[39m[33mRouter[39m[33m>[39m[33m<[39m[33mRoute[39m component[33m=[39m{[33mLeaderboards[39m} [33m/[39m[33m>[39m[33m<[39m[33m/[39m[33mRouter[39m[33m>[39m
+     [90m 41 |[39m             [33m<[39m[33m/[39m[33mProvider[39m[33m>[39m)[33m;[39m[0m
+
+      at warning (node_modules/rc-util/lib/warning.js:43:15)
+      at call (node_modules/rc-util/lib/warning.js:64:5)
+      at warningOnce (node_modules/rc-util/lib/warning.js:71:3)
+      at warning (node_modules/antd/lib/_util/warning.js:21:29)
+      at useLegacyItems (node_modules/antd/lib/tabs/hooks/useLegacyItems.js:30:67)
+      at Tabs (node_modules/antd/lib/tabs/index.js:66:52)
+      at renderWithHooks (node_modules/react-dom/cjs/react-dom.development.js:15486:18)
+      at mountIndeterminateComponent (node_modules/react-dom/cjs/react-dom.development.js:20103:13)
+      at beginWork (node_modules/react-dom/cjs/react-dom.development.js:21626:16)
+      at beginWork$1 (node_modules/react-dom/cjs/react-dom.development.js:27465:14)
+      at performUnitOfWork (node_modules/react-dom/cjs/react-dom.development.js:26599:12)
+      at workLoopSync (node_modules/react-dom/cjs/react-dom.development.js:26505:5)
+      at renderRootSync (node_modules/react-dom/cjs/react-dom.development.js:26473:7)
+      at performConcurrentWorkOnRoot (node_modules/react-dom/cjs/react-dom.development.js:25777:74)
+      at flushActQueue (node_modules/react/cjs/react.development.js:2667:24)
+      at act (node_modules/react/cjs/react.development.js:2582:11)
+      at node_modules/@testing-library/react/dist/act-compat.js:47:25
+      at renderRoot (node_modules/@testing-library/react/dist/pure.js:190:26)
+      at render (node_modules/@testing-library/react/dist/pure.js:292:10)
+      at Object.<anonymous> (src/__tests__/Leaderboards.test.js:38:37)
+
+    console.log
+      { getByText: [Function: bound ] }
+
+      at Object.<anonymous> (src/__tests__/Leaderboards.test.js:42:17)
+
+PASS src/__tests__/Predictions.test.js (9.188 s)
+  ● Console
+
+    console.log
+      setupTests.js is running
+
+      at Object.<anonymous> (src/setupTests.js:6:9)
+
+PASS src/__tests__/LoginModal.test.js (9.294 s)
+  ● Console
+
+    console.log
+      setupTests.js is running
+
+      at Object.<anonymous> (src/setupTests.js:6:9)
+
+    console.error
+      Warning: [antd: Modal] `visible` will be removed in next major version, please use `open` instead.
+
+    [0m [90m 20 |[39m             payload[33m:[39m [36mtrue[39m
+     [90m 21 |[39m         })
+    [31m[1m>[22m[39m[90m 22 |[39m         [36mconst[39m { getAllByText } [33m=[39m render(
+     [90m    |[39m                                        [31m[1m^[22m[39m
+     [90m 23 |[39m             [33m<[39m[33mProvider[39m store[33m=[39m{store}[33m>[39m
+     [90m 24 |[39m             [33m<[39m[33mLoginModal[39m [33m/[39m[33m>[39m
+     [90m 25 |[39m             [33m<[39m[33m/[39m[33mProvider[39m[33m>[39m)[33m;[39m[0m
+
+      at warning (node_modules/rc-util/lib/warning.js:43:15)
+      at call (node_modules/rc-util/lib/warning.js:64:5)
+      at warningOnce (node_modules/rc-util/lib/warning.js:71:3)
+      at warning (node_modules/antd/lib/_util/warning.js:21:29)
+      at Modal (node_modules/antd/lib/modal/Modal.js:65:67)
+      at renderWithHooks (node_modules/react-dom/cjs/react-dom.development.js:15486:18)
+      at mountIndeterminateComponent (node_modules/react-dom/cjs/react-dom.development.js:20103:13)
+      at beginWork (node_modules/react-dom/cjs/react-dom.development.js:21626:16)
+      at beginWork$1 (node_modules/react-dom/cjs/react-dom.development.js:27465:14)
+      at performUnitOfWork (node_modules/react-dom/cjs/react-dom.development.js:26599:12)
+      at workLoopSync (node_modules/react-dom/cjs/react-dom.development.js:26505:5)
+      at renderRootSync (node_modules/react-dom/cjs/react-dom.development.js:26473:7)
+      at performConcurrentWorkOnRoot (node_modules/react-dom/cjs/react-dom.development.js:25777:74)
+      at flushActQueue (node_modules/react/cjs/react.development.js:2667:24)
+      at act (node_modules/react/cjs/react.development.js:2582:11)
+      at node_modules/@testing-library/react/dist/act-compat.js:47:25
+      at renderRoot (node_modules/@testing-library/react/dist/pure.js:190:26)
+      at render (node_modules/@testing-library/react/dist/pure.js:292:10)
+      at Object.<anonymous> (src/__tests__/LoginModal.test.js:22:40)
+
+    console.error
+      Warning: [antd: Tabs] Tabs.TabPane is deprecated. Please use `items` directly.
+
+    [0m [90m 20 |[39m             payload[33m:[39m [36mtrue[39m
+     [90m 21 |[39m         })
+    [31m[1m>[22m[39m[90m 22 |[39m         [36mconst[39m { getAllByText } [33m=[39m render(
+     [90m    |[39m                                        [31m[1m^[22m[39m
+     [90m 23 |[39m             [33m<[39m[33mProvider[39m store[33m=[39m{store}[33m>[39m
+     [90m 24 |[39m             [33m<[39m[33mLoginModal[39m [33m/[39m[33m>[39m
+     [90m 25 |[39m             [33m<[39m[33m/[39m[33mProvider[39m[33m>[39m)[33m;[39m[0m
+
+      at warning (node_modules/rc-util/lib/warning.js:43:15)
+      at call (node_modules/rc-util/lib/warning.js:64:5)
+      at warningOnce (node_modules/rc-util/lib/warning.js:71:3)
+      at warning (node_modules/antd/lib/_util/warning.js:21:29)
+      at useLegacyItems (node_modules/antd/lib/tabs/hooks/useLegacyItems.js:30:67)
+      at Tabs (node_modules/antd/lib/tabs/index.js:66:52)
+      at renderWithHooks (node_modules/react-dom/cjs/react-dom.development.js:15486:18)
+      at mountIndeterminateComponent (node_modules/react-dom/cjs/react-dom.development.js:20103:13)
+      at beginWork (node_modules/react-dom/cjs/react-dom.development.js:21626:16)
+      at beginWork$1 (node_modules/react-dom/cjs/react-dom.development.js:27465:14)
+      at performUnitOfWork (node_modules/react-dom/cjs/react-dom.development.js:26599:12)
+      at workLoopSync (node_modules/react-dom/cjs/react-dom.development.js:26505:5)
+      at renderRootSync (node_modules/react-dom/cjs/react-dom.development.js:26473:7)
+      at performConcurrentWorkOnRoot (node_modules/react-dom/cjs/react-dom.development.js:25777:74)
+      at flushActQueue (node_modules/react/cjs/react.development.js:2667:24)
+      at act (node_modules/react/cjs/react.development.js:2582:11)
+      at node_modules/@testing-library/react/dist/act-compat.js:47:25
+      at renderRoot (node_modules/@testing-library/react/dist/pure.js:190:26)
+      at render (node_modules/@testing-library/react/dist/pure.js:292:10)
+      at Object.<anonymous> (src/__tests__/LoginModal.test.js:22:40)
+
+    console.error
+      Warning: [antd: Modal] `visible` will be removed in next major version, please use `open` instead.
+
+    [0m [90m 33 |[39m             type[33m:[39m [33mSET_FORGOT_PASSWORD[39m
+     [90m 34 |[39m         })
+    [31m[1m>[22m[39m[90m 35 |[39m         [36mconst[39m { getAllByText } [33m=[39m render(
+     [90m    |[39m                                        [31m[1m^[22m[39m
+     [90m 36 |[39m             [33m<[39m[33mProvider[39m store[33m=[39m{store}[33m>[39m
+     [90m 37 |[39m             [33m<[39m[33mLoginModal[39m [33m/[39m[33m>[39m
+     [90m 38 |[39m             [33m<[39m[33m/[39m[33mProvider[39m[33m>[39m)[33m;[39m[0m
+
+      at warning (node_modules/rc-util/lib/warning.js:43:15)
+      at call (node_modules/rc-util/lib/warning.js:64:5)
+      at warningOnce (node_modules/rc-util/lib/warning.js:71:3)
+      at warning (node_modules/antd/lib/_util/warning.js:21:29)
+      at Modal (node_modules/antd/lib/modal/Modal.js:65:67)
+      at renderWithHooks (node_modules/react-dom/cjs/react-dom.development.js:15486:18)
+      at mountIndeterminateComponent (node_modules/react-dom/cjs/react-dom.development.js:20103:13)
+      at beginWork (node_modules/react-dom/cjs/react-dom.development.js:21626:16)
+      at beginWork$1 (node_modules/react-dom/cjs/react-dom.development.js:27465:14)
+      at performUnitOfWork (node_modules/react-dom/cjs/react-dom.development.js:26599:12)
+      at workLoopSync (node_modules/react-dom/cjs/react-dom.development.js:26505:5)
+      at renderRootSync (node_modules/react-dom/cjs/react-dom.development.js:26473:7)
+      at performConcurrentWorkOnRoot (node_modules/react-dom/cjs/react-dom.development.js:25777:74)
+      at flushActQueue (node_modules/react/cjs/react.development.js:2667:24)
+      at act (node_modules/react/cjs/react.development.js:2582:11)
+      at node_modules/@testing-library/react/dist/act-compat.js:47:25
+      at renderRoot (node_modules/@testing-library/react/dist/pure.js:190:26)
+      at render (node_modules/@testing-library/react/dist/pure.js:292:10)
+      at Object.<anonymous> (src/__tests__/LoginModal.test.js:35:40)
+
+    console.error
+      Warning: [antd: Modal] `visible` will be removed in next major version, please use `open` instead.
+
+    [0m [90m 45 |[39m             type[33m:[39m [33mSET_RESET_PASSWORD_SENT[39m
+     [90m 46 |[39m         })
+    [31m[1m>[22m[39m[90m 47 |[39m         [36mconst[39m { getAllByText } [33m=[39m render(
+     [90m    |[39m                                        [31m[1m^[22m[39m
+     [90m 48 |[39m             [33m<[39m[33mProvider[39m store[33m=[39m{store}[33m>[39m
+     [90m 49 |[39m             [33m<[39m[33mLoginModal[39m [33m/[39m[33m>[39m
+     [90m 50 |[39m             [33m<[39m[33m/[39m[33mProvider[39m[33m>[39m)[33m;[39m[0m
+
+      at warning (node_modules/rc-util/lib/warning.js:43:15)
+      at call (node_modules/rc-util/lib/warning.js:64:5)
+      at warningOnce (node_modules/rc-util/lib/warning.js:71:3)
+      at warning (node_modules/antd/lib/_util/warning.js:21:29)
+      at Modal (node_modules/antd/lib/modal/Modal.js:65:67)
+      at renderWithHooks (node_modules/react-dom/cjs/react-dom.development.js:15486:18)
+      at mountIndeterminateComponent (node_modules/react-dom/cjs/react-dom.development.js:20103:13)
+      at beginWork (node_modules/react-dom/cjs/react-dom.development.js:21626:16)
+      at beginWork$1 (node_modules/react-dom/cjs/react-dom.development.js:27465:14)
+      at performUnitOfWork (node_modules/react-dom/cjs/react-dom.development.js:26599:12)
+      at workLoopSync (node_modules/react-dom/cjs/react-dom.development.js:26505:5)
+      at renderRootSync (node_modules/react-dom/cjs/react-dom.development.js:26473:7)
+      at performConcurrentWorkOnRoot (node_modules/react-dom/cjs/react-dom.development.js:25777:74)
+      at flushActQueue (node_modules/react/cjs/react.development.js:2667:24)
+      at act (node_modules/react/cjs/react.development.js:2582:11)
+      at node_modules/@testing-library/react/dist/act-compat.js:47:25
+      at renderRoot (node_modules/@testing-library/react/dist/pure.js:190:26)
+      at render (node_modules/@testing-library/react/dist/pure.js:292:10)
+      at Object.<anonymous> (src/__tests__/LoginModal.test.js:47:40)
+
+PASS src/__tests__/Header.test.js (9.311 s)
+  ● Console
+
+    console.log
+      setupTests.js is running
+
+      at Object.<anonymous> (src/setupTests.js:6:9)
+
+PASS src/__tests__/SideMenu.test.js (9.322 s)
+  ● Console
+
+    console.log
+      setupTests.js is running
+
+      at Object.<anonymous> (src/setupTests.js:6:9)
+
+    console.error
+      Warning: [antd: Menu] `children` will be removed in next major version. Please use `items` instead.
+
+    [0m [90m  8 |[39m describe([32m'side menu tests'[39m[33m,[39m () [33m=>[39m {
+     [90m  9 |[39m     test([32m'renders only the nac'[39m[33m,[39m () [33m=>[39m {
+    [31m[1m>[22m[39m[90m 10 |[39m     [36mconst[39m { getByText } [33m=[39m render([33m<[39m[33mProvider[39m store[33m=[39m{store}[33m>[39m[33m<[39m[33mRouter[39m[33m>[39m[33m<[39m[33mSideMenu[39m [33m/[39m[33m>[39m[33m<[39m[33m/[39m[33mRouter[39m[33m>[39m[33m<[39m[33m/[39m[33mProvider[39m[33m>[39m)[33m;[39m
+     [90m    |[39m                                 [31m[1m^[22m[39m
+     [90m 11 |[39m     [36mconst[39m title [33m=[39m getByText([35m/NFL/i[39m)[33m;[39m
+     [90m 12 |[39m     expect(title)[33m.[39mtoBeInTheDocument()[33m;[39m
+     [90m 13 |[39m     })[33m;[39m[0m
+
+      at warning (node_modules/rc-util/lib/warning.js:43:15)
+      at call (node_modules/rc-util/lib/warning.js:64:5)
+      at warningOnce (node_modules/rc-util/lib/warning.js:71:3)
+      at warning (node_modules/antd/lib/_util/warning.js:21:29)
+      at node_modules/antd/lib/menu/index.js:71:67
+      at renderWithHooks (node_modules/react-dom/cjs/react-dom.development.js:15486:18)
+      at updateForwardRef (node_modules/react-dom/cjs/react-dom.development.js:19245:20)
+      at beginWork (node_modules/react-dom/cjs/react-dom.development.js:21675:16)
+      at beginWork$1 (node_modules/react-dom/cjs/react-dom.development.js:27465:14)
+      at performUnitOfWork (node_modules/react-dom/cjs/react-dom.development.js:26599:12)
+      at workLoopSync (node_modules/react-dom/cjs/react-dom.development.js:26505:5)
+      at renderRootSync (node_modules/react-dom/cjs/react-dom.development.js:26473:7)
+      at performConcurrentWorkOnRoot (node_modules/react-dom/cjs/react-dom.development.js:25777:74)
+      at flushActQueue (node_modules/react/cjs/react.development.js:2667:24)
+      at act (node_modules/react/cjs/react.development.js:2582:11)
+      at node_modules/@testing-library/react/dist/act-compat.js:47:25
+      at renderRoot (node_modules/@testing-library/react/dist/pure.js:190:26)
+      at render (node_modules/@testing-library/react/dist/pure.js:292:10)
+      at Object.<anonymous> (src/__tests__/SideMenu.test.js:10:33)
+
+    console.error
+      Warning: Duplicated key '1' used in Menu by path [ncaaf > 1]
+
+    [0m [90m  8 |[39m describe([32m'side menu tests'[39m[33m,[39m () [33m=>[39m {
+     [90m  9 |[39m     test([32m'renders only the nac'[39m[33m,[39m () [33m=>[39m {
+    [31m[1m>[22m[39m[90m 10 |[39m     [36mconst[39m { getByText } [33m=[39m render([33m<[39m[33mProvider[39m store[33m=[39m{store}[33m>[39m[33m<[39m[33mRouter[39m[33m>[39m[33m<[39m[33mSideMenu[39m [33m/[39m[33m>[39m[33m<[39m[33m/[39m[33mRouter[39m[33m>[39m[33m<[39m[33m/[39m[33mProvider[39m[33m>[39m)[33m;[39m
+     [90m    |[39m                                 [31m[1m^[22m[39m
+     [90m 11 |[39m     [36mconst[39m title [33m=[39m getByText([35m/NFL/i[39m)[33m;[39m
+     [90m 12 |[39m     expect(title)[33m.[39mtoBeInTheDocument()[33m;[39m
+     [90m 13 |[39m     })[33m;[39m[0m
+
+      at warning (node_modules/rc-util/lib/warning.js:43:15)
+      at call (node_modules/rc-util/lib/warning.js:64:5)
+      at warningOnce (node_modules/rc-util/lib/warning.js:71:3)
+      at Object.registerPath (node_modules/rc-menu/lib/hooks/useKeyRecords.js:46:28)
+      at node_modules/rc-menu/lib/MenuItem.js:210:15
+      at commitHookEffectListMount (node_modules/react-dom/cjs/react-dom.development.js:23189:26)
+      at commitPassiveMountOnFiber (node_modules/react-dom/cjs/react-dom.development.js:24970:11)
+      at commitPassiveMountEffects_complete (node_modules/react-dom/cjs/react-dom.development.js:24930:9)
+      at commitPassiveMountEffects_begin (node_modules/react-dom/cjs/react-dom.development.js:24917:7)
+      at commitPassiveMountEffects (node_modules/react-dom/cjs/react-dom.development.js:24905:3)
+      at flushPassiveEffectsImpl (node_modules/react-dom/cjs/react-dom.development.js:27078:3)
+      at flushPassiveEffects (node_modules/react-dom/cjs/react-dom.development.js:27023:14)
+      at performSyncWorkOnRoot (node_modules/react-dom/cjs/react-dom.development.js:26115:3)
+      at flushSyncCallbacks (node_modules/react-dom/cjs/react-dom.development.js:12042:22)
+      at commitRootImpl (node_modules/react-dom/cjs/react-dom.development.js:26998:3)
+      at commitRoot (node_modules/react-dom/cjs/react-dom.development.js:26721:5)
+      at finishConcurrentRender (node_modules/react-dom/cjs/react-dom.development.js:26020:9)
+      at performConcurrentWorkOnRoot (node_modules/react-dom/cjs/react-dom.development.js:25848:7)
+      at flushActQueue (node_modules/react/cjs/react.development.js:2667:24)
+      at act (node_modules/react/cjs/react.development.js:2582:11)
+      at node_modules/@testing-library/react/dist/act-compat.js:47:25
+      at renderRoot (node_modules/@testing-library/react/dist/pure.js:190:26)
+      at render (node_modules/@testing-library/react/dist/pure.js:292:10)
+      at Object.<anonymous> (src/__tests__/SideMenu.test.js:10:33)
+
+    console.error
+      Warning: Duplicated key '2' used in Menu by path [ncaaf > 2]
+
+    [0m [90m  8 |[39m describe([32m'side menu tests'[39m[33m,[39m () [33m=>[39m {
+     [90m  9 |[39m     test([32m'renders only the nac'[39m[33m,[39m () [33m=>[39m {
+    [31m[1m>[22m[39m[90m 10 |[39m     [36mconst[39m { getByText } [33m=[39m render([33m<[39m[33mProvider[39m store[33m=[39m{store}[33m>[39m[33m<[39m[33mRouter[39m[33m>[39m[33m<[39m[33mSideMenu[39m [33m/[39m[33m>[39m[33m<[39m[33m/[39m[33mRouter[39m[33m>[39m[33m<[39m[33m/[39m[33mProvider[39m[33m>[39m)[33m;[39m
+     [90m    |[39m                                 [31m[1m^[22m[39m
+     [90m 11 |[39m     [36mconst[39m title [33m=[39m getByText([35m/NFL/i[39m)[33m;[39m
+     [90m 12 |[39m     expect(title)[33m.[39mtoBeInTheDocument()[33m;[39m
+     [90m 13 |[39m     })[33m;[39m[0m
+
+      at warning (node_modules/rc-util/lib/warning.js:43:15)
+      at call (node_modules/rc-util/lib/warning.js:64:5)
+      at warningOnce (node_modules/rc-util/lib/warning.js:71:3)
+      at Object.registerPath (node_modules/rc-menu/lib/hooks/useKeyRecords.js:46:28)
+      at node_modules/rc-menu/lib/MenuItem.js:210:15
+      at commitHookEffectListMount (node_modules/react-dom/cjs/react-dom.development.js:23189:26)
+      at commitPassiveMountOnFiber (node_modules/react-dom/cjs/react-dom.development.js:24970:11)
+      at commitPassiveMountEffects_complete (node_modules/react-dom/cjs/react-dom.development.js:24930:9)
+      at commitPassiveMountEffects_begin (node_modules/react-dom/cjs/react-dom.development.js:24917:7)
+      at commitPassiveMountEffects (node_modules/react-dom/cjs/react-dom.development.js:24905:3)
+      at flushPassiveEffectsImpl (node_modules/react-dom/cjs/react-dom.development.js:27078:3)
+      at flushPassiveEffects (node_modules/react-dom/cjs/react-dom.development.js:27023:14)
+      at performSyncWorkOnRoot (node_modules/react-dom/cjs/react-dom.development.js:26115:3)
+      at flushSyncCallbacks (node_modules/react-dom/cjs/react-dom.development.js:12042:22)
+      at commitRootImpl (node_modules/react-dom/cjs/react-dom.development.js:26998:3)
+      at commitRoot (node_modules/react-dom/cjs/react-dom.development.js:26721:5)
+      at finishConcurrentRender (node_modules/react-dom/cjs/react-dom.development.js:26020:9)
+      at performConcurrentWorkOnRoot (node_modules/react-dom/cjs/react-dom.development.js:25848:7)
+      at flushActQueue (node_modules/react/cjs/react.development.js:2667:24)
+      at act (node_modules/react/cjs/react.development.js:2582:11)
+      at node_modules/@testing-library/react/dist/act-compat.js:47:25
+      at renderRoot (node_modules/@testing-library/react/dist/pure.js:190:26)
+      at render (node_modules/@testing-library/react/dist/pure.js:292:10)
+      at Object.<anonymous> (src/__tests__/SideMenu.test.js:10:33)
+
+    console.error
+      Warning: Duplicated key '3' used in Menu by path [ncaaf > 3]
+
+    [0m [90m  8 |[39m describe([32m'side menu tests'[39m[33m,[39m () [33m=>[39m {
+     [90m  9 |[39m     test([32m'renders only the nac'[39m[33m,[39m () [33m=>[39m {
+    [31m[1m>[22m[39m[90m 10 |[39m     [36mconst[39m { getByText } [33m=[39m render([33m<[39m[33mProvider[39m store[33m=[39m{store}[33m>[39m[33m<[39m[33mRouter[39m[33m>[39m[33m<[39m[33mSideMenu[39m [33m/[39m[33m>[39m[33m<[39m[33m/[39m[33mRouter[39m[33m>[39m[33m<[39m[33m/[39m[33mProvider[39m[33m>[39m)[33m;[39m
+     [90m    |[39m                                 [31m[1m^[22m[39m
+     [90m 11 |[39m     [36mconst[39m title [33m=[39m getByText([35m/NFL/i[39m)[33m;[39m
+     [90m 12 |[39m     expect(title)[33m.[39mtoBeInTheDocument()[33m;[39m
+     [90m 13 |[39m     })[33m;[39m[0m
+
+      at warning (node_modules/rc-util/lib/warning.js:43:15)
+      at call (node_modules/rc-util/lib/warning.js:64:5)
+      at warningOnce (node_modules/rc-util/lib/warning.js:71:3)
+      at Object.registerPath (node_modules/rc-menu/lib/hooks/useKeyRecords.js:46:28)
+      at node_modules/rc-menu/lib/MenuItem.js:210:15
+      at commitHookEffectListMount (node_modules/react-dom/cjs/react-dom.development.js:23189:26)
+      at commitPassiveMountOnFiber (node_modules/react-dom/cjs/react-dom.development.js:24970:11)
+      at commitPassiveMountEffects_complete (node_modules/react-dom/cjs/react-dom.development.js:24930:9)
+      at commitPassiveMountEffects_begin (node_modules/react-dom/cjs/react-dom.development.js:24917:7)
+      at commitPassiveMountEffects (node_modules/react-dom/cjs/react-dom.development.js:24905:3)
+      at flushPassiveEffectsImpl (node_modules/react-dom/cjs/react-dom.development.js:27078:3)
+      at flushPassiveEffects (node_modules/react-dom/cjs/react-dom.development.js:27023:14)
+      at performSyncWorkOnRoot (node_modules/react-dom/cjs/react-dom.development.js:26115:3)
+      at flushSyncCallbacks (node_modules/react-dom/cjs/react-dom.development.js:12042:22)
+      at commitRootImpl (node_modules/react-dom/cjs/react-dom.development.js:26998:3)
+      at commitRoot (node_modules/react-dom/cjs/react-dom.development.js:26721:5)
+      at finishConcurrentRender (node_modules/react-dom/cjs/react-dom.development.js:26020:9)
+      at performConcurrentWorkOnRoot (node_modules/react-dom/cjs/react-dom.development.js:25848:7)
+      at flushActQueue (node_modules/react/cjs/react.development.js:2667:24)
+      at act (node_modules/react/cjs/react.development.js:2582:11)
+      at node_modules/@testing-library/react/dist/act-compat.js:47:25
+      at renderRoot (node_modules/@testing-library/react/dist/pure.js:190:26)
+      at render (node_modules/@testing-library/react/dist/pure.js:292:10)
+      at Object.<anonymous> (src/__tests__/SideMenu.test.js:10:33)
+
+    console.error
+      Warning: An update to ForwardRef inside a test was not wrapped in act(...).
+      
+      When testing, code that causes React state updates should be wrapped into act(...):
+      
+      act(() => {
+        /* fire events that update state */
+      });
+      /* assert on the output */
+      
+      This ensures that you're testing the behavior the user would see in the browser. Learn more at https://reactjs.org/link/wrap-tests-with-act
+          at C:\Users\christopher.aronchic\crowd-wisdom-sports-react-v2\client\node_modules\rc-menu\lib\Menu.js:55:27
+          at C:\Users\christopher.aronchic\crowd-wisdom-sports-react-v2\client\node_modules\antd\lib\menu\index.js:45:24
+          at Menu (C:\Users\christopher.aronchic\crowd-wisdom-sports-react-v2\client\node_modules\antd\lib\menu\index.js:152:37)
+          at div
+          at aside
+          at C:\Users\christopher.aronchic\crowd-wisdom-sports-react-v2\client\node_modules\antd\lib\layout\Sider.js:48:31
+          at SideMenu (C:\Users\christopher.aronchic\crowd-wisdom-sports-react-v2\client\src\components\layout\sidemenu\SideMenu.js:48:50)
+          at ConnectFunction (C:\Users\christopher.aronchic\crowd-wisdom-sports-react-v2\client\node_modules\react-redux\src\components\connect.tsx:526:15)
+          at Router (C:\Users\christopher.aronchic\crowd-wisdom-sports-react-v2\client\node_modules\react-router\cjs\react-router.js:283:30)
+          at BrowserRouter (C:\Users\christopher.aronchic\crowd-wisdom-sports-react-v2\client\node_modules\react-router-dom\cjs\react-router-dom.js:75:35)
+          at Provider (C:\Users\christopher.aronchic\crowd-wisdom-sports-react-v2\client\node_modules\react-redux\src\components\Provider.tsx:60:11)
+
+      at printWarning (node_modules/react-dom/cjs/react-dom.development.js:86:30)
+      at error (node_modules/react-dom/cjs/react-dom.development.js:60:7)
+      at warnIfUpdatesNotWrappedWithActDEV (node_modules/react-dom/cjs/react-dom.development.js:27628:9)
+      at scheduleUpdateOnFiber (node_modules/react-dom/cjs/react-dom.development.js:25547:5)
+      at dispatchSetState (node_modules/react-dom/cjs/react-dom.development.js:16708:7)
+      at forceUpdate (node_modules/rc-menu/lib/hooks/useKeyRecords.js:40:7)
+      at node_modules/rc-menu/lib/hooks/useKeyRecords.js:57:9
+
+    console.error
+      Warning: [antd: Menu] `children` will be removed in next major version. Please use `items` instead.
+
+    [0m [90m 18 |[39m             type[33m:[39m [33mSET_AUTHENTICATED[39m
+     [90m 19 |[39m         })
+    [31m[1m>[22m[39m[90m 20 |[39m         [36mconst[39m { getByText } [33m=[39m render([33m<[39m[33mProvider[39m store[33m=[39m{store} user[33m=[39m{{authenticated[33m:[39m [36mtrue[39m}}[33m>[39m[33m<[39m[33mRouter[39m[33m>[39m[33m<[39m[33mSideMenu[39m [33m/[39m[33m>[39m[33m<[39m[33m/[39m[33mRouter[39m[33m>[39m[33m<[39m[33m/[39m[33mProvider[39m[33m>[39m)[33m;[39m
+     [90m    |[39m                                     [31m[1m^[22m[39m
+     [90m 21 |[39m         [36mconst[39m message [33m=[39m getByText([35m/Profile/i[39m)[33m;[39m
+     [90m 22 |[39m         expect(message)[33m.[39mtoBeInTheDocument()[33m;[39m
+     [90m 23 |[39m     })[33m;[39m[0m
+
+      at warning (node_modules/rc-util/lib/warning.js:43:15)
+      at call (node_modules/rc-util/lib/warning.js:64:5)
+      at warningOnce (node_modules/rc-util/lib/warning.js:71:3)
+      at warning (node_modules/antd/lib/_util/warning.js:21:29)
+      at node_modules/antd/lib/menu/index.js:71:67
+      at renderWithHooks (node_modules/react-dom/cjs/react-dom.development.js:15486:18)
+      at updateForwardRef (node_modules/react-dom/cjs/react-dom.development.js:19245:20)
+      at beginWork (node_modules/react-dom/cjs/react-dom.development.js:21675:16)
+      at beginWork$1 (node_modules/react-dom/cjs/react-dom.development.js:27465:14)
+      at performUnitOfWork (node_modules/react-dom/cjs/react-dom.development.js:26599:12)
+      at workLoopSync (node_modules/react-dom/cjs/react-dom.development.js:26505:5)
+      at renderRootSync (node_modules/react-dom/cjs/react-dom.development.js:26473:7)
+      at performConcurrentWorkOnRoot (node_modules/react-dom/cjs/react-dom.development.js:25777:74)
+      at flushActQueue (node_modules/react/cjs/react.development.js:2667:24)
+      at act (node_modules/react/cjs/react.development.js:2582:11)
+      at node_modules/@testing-library/react/dist/act-compat.js:47:25
+      at renderRoot (node_modules/@testing-library/react/dist/pure.js:190:26)
+      at render (node_modules/@testing-library/react/dist/pure.js:292:10)
+      at Object.<anonymous> (src/__tests__/SideMenu.test.js:20:37)
+
+    console.error
+      Warning: Duplicated key '1' used in Menu by path [ncaaf > 1]
+
+    [0m [90m 18 |[39m             type[33m:[39m [33mSET_AUTHENTICATED[39m
+     [90m 19 |[39m         })
+    [31m[1m>[22m[39m[90m 20 |[39m         [36mconst[39m { getByText } [33m=[39m render([33m<[39m[33mProvider[39m store[33m=[39m{store} user[33m=[39m{{authenticated[33m:[39m [36mtrue[39m}}[33m>[39m[33m<[39m[33mRouter[39m[33m>[39m[33m<[39m[33mSideMenu[39m [33m/[39m[33m>[39m[33m<[39m[33m/[39m[33mRouter[39m[33m>[39m[33m<[39m[33m/[39m[33mProvider[39m[33m>[39m)[33m;[39m
+     [90m    |[39m                                     [31m[1m^[22m[39m
+     [90m 21 |[39m         [36mconst[39m message [33m=[39m getByText([35m/Profile/i[39m)[33m;[39m
+     [90m 22 |[39m         expect(message)[33m.[39mtoBeInTheDocument()[33m;[39m
+     [90m 23 |[39m     })[33m;[39m[0m
+
+      at warning (node_modules/rc-util/lib/warning.js:43:15)
+      at call (node_modules/rc-util/lib/warning.js:64:5)
+      at warningOnce (node_modules/rc-util/lib/warning.js:71:3)
+      at Object.registerPath (node_modules/rc-menu/lib/hooks/useKeyRecords.js:46:28)
+      at node_modules/rc-menu/lib/MenuItem.js:210:15
+      at commitHookEffectListMount (node_modules/react-dom/cjs/react-dom.development.js:23189:26)
+      at commitPassiveMountOnFiber (node_modules/react-dom/cjs/react-dom.development.js:24970:11)
+      at commitPassiveMountEffects_complete (node_modules/react-dom/cjs/react-dom.development.js:24930:9)
+      at commitPassiveMountEffects_begin (node_modules/react-dom/cjs/react-dom.development.js:24917:7)
+      at commitPassiveMountEffects (node_modules/react-dom/cjs/react-dom.development.js:24905:3)
+      at flushPassiveEffectsImpl (node_modules/react-dom/cjs/react-dom.development.js:27078:3)
+      at flushPassiveEffects (node_modules/react-dom/cjs/react-dom.development.js:27023:14)
+      at performSyncWorkOnRoot (node_modules/react-dom/cjs/react-dom.development.js:26115:3)
+      at flushSyncCallbacks (node_modules/react-dom/cjs/react-dom.development.js:12042:22)
+      at commitRootImpl (node_modules/react-dom/cjs/react-dom.development.js:26998:3)
+      at commitRoot (node_modules/react-dom/cjs/react-dom.development.js:26721:5)
+      at finishConcurrentRender (node_modules/react-dom/cjs/react-dom.development.js:26020:9)
+      at performConcurrentWorkOnRoot (node_modules/react-dom/cjs/react-dom.development.js:25848:7)
+      at flushActQueue (node_modules/react/cjs/react.development.js:2667:24)
+      at act (node_modules/react/cjs/react.development.js:2582:11)
+      at node_modules/@testing-library/react/dist/act-compat.js:47:25
+      at renderRoot (node_modules/@testing-library/react/dist/pure.js:190:26)
+      at render (node_modules/@testing-library/react/dist/pure.js:292:10)
+      at Object.<anonymous> (src/__tests__/SideMenu.test.js:20:37)
+
+    console.error
+      Warning: Duplicated key '2' used in Menu by path [ncaaf > 2]
+
+    [0m [90m 18 |[39m             type[33m:[39m [33mSET_AUTHENTICATED[39m
+     [90m 19 |[39m         })
+    [31m[1m>[22m[39m[90m 20 |[39m         [36mconst[39m { getByText } [33m=[39m render([33m<[39m[33mProvider[39m store[33m=[39m{store} user[33m=[39m{{authenticated[33m:[39m [36mtrue[39m}}[33m>[39m[33m<[39m[33mRouter[39m[33m>[39m[33m<[39m[33mSideMenu[39m [33m/[39m[33m>[39m[33m<[39m[33m/[39m[33mRouter[39m[33m>[39m[33m<[39m[33m/[39m[33mProvider[39m[33m>[39m)[33m;[39m
+     [90m    |[39m                                     [31m[1m^[22m[39m
+     [90m 21 |[39m         [36mconst[39m message [33m=[39m getByText([35m/Profile/i[39m)[33m;[39m
+     [90m 22 |[39m         expect(message)[33m.[39mtoBeInTheDocument()[33m;[39m
+     [90m 23 |[39m     })[33m;[39m[0m
+
+      at warning (node_modules/rc-util/lib/warning.js:43:15)
+      at call (node_modules/rc-util/lib/warning.js:64:5)
+      at warningOnce (node_modules/rc-util/lib/warning.js:71:3)
+      at Object.registerPath (node_modules/rc-menu/lib/hooks/useKeyRecords.js:46:28)
+      at node_modules/rc-menu/lib/MenuItem.js:210:15
+      at commitHookEffectListMount (node_modules/react-dom/cjs/react-dom.development.js:23189:26)
+      at commitPassiveMountOnFiber (node_modules/react-dom/cjs/react-dom.development.js:24970:11)
+      at commitPassiveMountEffects_complete (node_modules/react-dom/cjs/react-dom.development.js:24930:9)
+      at commitPassiveMountEffects_begin (node_modules/react-dom/cjs/react-dom.development.js:24917:7)
+      at commitPassiveMountEffects (node_modules/react-dom/cjs/react-dom.development.js:24905:3)
+      at flushPassiveEffectsImpl (node_modules/react-dom/cjs/react-dom.development.js:27078:3)
+      at flushPassiveEffects (node_modules/react-dom/cjs/react-dom.development.js:27023:14)
+      at performSyncWorkOnRoot (node_modules/react-dom/cjs/react-dom.development.js:26115:3)
+      at flushSyncCallbacks (node_modules/react-dom/cjs/react-dom.development.js:12042:22)
+      at commitRootImpl (node_modules/react-dom/cjs/react-dom.development.js:26998:3)
+      at commitRoot (node_modules/react-dom/cjs/react-dom.development.js:26721:5)
+      at finishConcurrentRender (node_modules/react-dom/cjs/react-dom.development.js:26020:9)
+      at performConcurrentWorkOnRoot (node_modules/react-dom/cjs/react-dom.development.js:25848:7)
+      at flushActQueue (node_modules/react/cjs/react.development.js:2667:24)
+      at act (node_modules/react/cjs/react.development.js:2582:11)
+      at node_modules/@testing-library/react/dist/act-compat.js:47:25
+      at renderRoot (node_modules/@testing-library/react/dist/pure.js:190:26)
+      at render (node_modules/@testing-library/react/dist/pure.js:292:10)
+      at Object.<anonymous> (src/__tests__/SideMenu.test.js:20:37)
+
+    console.error
+      Warning: Duplicated key '3' used in Menu by path [ncaaf > 3]
+
+    [0m [90m 18 |[39m             type[33m:[39m [33mSET_AUTHENTICATED[39m
+     [90m 19 |[39m         })
+    [31m[1m>[22m[39m[90m 20 |[39m         [36mconst[39m { getByText } [33m=[39m render([33m<[39m[33mProvider[39m store[33m=[39m{store} user[33m=[39m{{authenticated[33m:[39m [36mtrue[39m}}[33m>[39m[33m<[39m[33mRouter[39m[33m>[39m[33m<[39m[33mSideMenu[39m [33m/[39m[33m>[39m[33m<[39m[33m/[39m[33mRouter[39m[33m>[39m[33m<[39m[33m/[39m[33mProvider[39m[33m>[39m)[33m;[39m
+     [90m    |[39m                                     [31m[1m^[22m[39m
+     [90m 21 |[39m         [36mconst[39m message [33m=[39m getByText([35m/Profile/i[39m)[33m;[39m
+     [90m 22 |[39m         expect(message)[33m.[39mtoBeInTheDocument()[33m;[39m
+     [90m 23 |[39m     })[33m;[39m[0m
+
+      at warning (node_modules/rc-util/lib/warning.js:43:15)
+      at call (node_modules/rc-util/lib/warning.js:64:5)
+      at warningOnce (node_modules/rc-util/lib/warning.js:71:3)
+      at Object.registerPath (node_modules/rc-menu/lib/hooks/useKeyRecords.js:46:28)
+      at node_modules/rc-menu/lib/MenuItem.js:210:15
+      at commitHookEffectListMount (node_modules/react-dom/cjs/react-dom.development.js:23189:26)
+      at commitPassiveMountOnFiber (node_modules/react-dom/cjs/react-dom.development.js:24970:11)
+      at commitPassiveMountEffects_complete (node_modules/react-dom/cjs/react-dom.development.js:24930:9)
+      at commitPassiveMountEffects_begin (node_modules/react-dom/cjs/react-dom.development.js:24917:7)
+      at commitPassiveMountEffects (node_modules/react-dom/cjs/react-dom.development.js:24905:3)
+      at flushPassiveEffectsImpl (node_modules/react-dom/cjs/react-dom.development.js:27078:3)
+      at flushPassiveEffects (node_modules/react-dom/cjs/react-dom.development.js:27023:14)
+      at performSyncWorkOnRoot (node_modules/react-dom/cjs/react-dom.development.js:26115:3)
+      at flushSyncCallbacks (node_modules/react-dom/cjs/react-dom.development.js:12042:22)
+      at commitRootImpl (node_modules/react-dom/cjs/react-dom.development.js:26998:3)
+      at commitRoot (node_modules/react-dom/cjs/react-dom.development.js:26721:5)
+      at finishConcurrentRender (node_modules/react-dom/cjs/react-dom.development.js:26020:9)
+      at performConcurrentWorkOnRoot (node_modules/react-dom/cjs/react-dom.development.js:25848:7)
+      at flushActQueue (node_modules/react/cjs/react.development.js:2667:24)
+      at act (node_modules/react/cjs/react.development.js:2582:11)
+      at node_modules/@testing-library/react/dist/act-compat.js:47:25
+      at renderRoot (node_modules/@testing-library/react/dist/pure.js:190:26)
+      at render (node_modules/@testing-library/react/dist/pure.js:292:10)
+      at Object.<anonymous> (src/__tests__/SideMenu.test.js:20:37)
+
+    console.error
+      Warning: An update to ForwardRef inside a test was not wrapped in act(...).
+      
+      When testing, code that causes React state updates should be wrapped into act(...):
+      
+      act(() => {
+        /* fire events that update state */
+      });
+      /* assert on the output */
+      
+      This ensures that you're testing the behavior the user would see in the browser. Learn more at https://reactjs.org/link/wrap-tests-with-act
+          at C:\Users\christopher.aronchic\crowd-wisdom-sports-react-v2\client\node_modules\rc-menu\lib\Menu.js:55:27
+          at C:\Users\christopher.aronchic\crowd-wisdom-sports-react-v2\client\node_modules\antd\lib\menu\index.js:45:24
+          at Menu (C:\Users\christopher.aronchic\crowd-wisdom-sports-react-v2\client\node_modules\antd\lib\menu\index.js:152:37)
+          at div
+          at aside
+          at C:\Users\christopher.aronchic\crowd-wisdom-sports-react-v2\client\node_modules\antd\lib\layout\Sider.js:48:31
+          at SideMenu (C:\Users\christopher.aronchic\crowd-wisdom-sports-react-v2\client\src\components\layout\sidemenu\SideMenu.js:48:50)
+          at ConnectFunction (C:\Users\christopher.aronchic\crowd-wisdom-sports-react-v2\client\node_modules\react-redux\src\components\connect.tsx:526:15)
+          at Router (C:\Users\christopher.aronchic\crowd-wisdom-sports-react-v2\client\node_modules\react-router\cjs\react-router.js:283:30)
+          at BrowserRouter (C:\Users\christopher.aronchic\crowd-wisdom-sports-react-v2\client\node_modules\react-router-dom\cjs\react-router-dom.js:75:35)
+          at Provider (C:\Users\christopher.aronchic\crowd-wisdom-sports-react-v2\client\node_modules\react-redux\src\components\Provider.tsx:60:11)
+
+      at printWarning (node_modules/react-dom/cjs/react-dom.development.js:86:30)
+      at error (node_modules/react-dom/cjs/react-dom.development.js:60:7)
+      at warnIfUpdatesNotWrappedWithActDEV (node_modules/react-dom/cjs/react-dom.development.js:27628:9)
+      at scheduleUpdateOnFiber (node_modules/react-dom/cjs/react-dom.development.js:25547:5)
+      at dispatchSetState (node_modules/react-dom/cjs/react-dom.development.js:16708:7)
+      at forceUpdate (node_modules/rc-menu/lib/hooks/useKeyRecords.js:40:7)
+      at node_modules/rc-menu/lib/hooks/useKeyRecords.js:57:9
+
+PASS src/__tests__/Profile.test.js (9.406 s)
+  ● Console
+
+    console.log
+      setupTests.js is running
+
+      at Object.<anonymous> (src/setupTests.js:6:9)
+
+    console.log
+      picture undefined
+
+      at Profile (src/components/profile/Profile.js:52:13)
+
+    console.log
+      picture undefined
+
+      at Profile (src/components/profile/Profile.js:52:13)
+
+    console.log
+      testing change user details
+
+      at Object.<anonymous> (src/__tests__/Profile.test.js:48:17)
+
+PASS src/__tests__/Groups.test.js (9.684 s)
+  ● Console
+
+    console.log
+      setupTests.js is running
+
+      at Object.<anonymous> (src/setupTests.js:6:9)
+
+    console.error
+      Warning: [antd: Tabs] Tabs.TabPane is deprecated. Please use `items` directly.
+
+    [0m [90m 672 |[39m         })
+     [90m 673 |[39m
+    [31m[1m>[22m[39m[90m 674 |[39m         [36mconst[39m { getByText } [33m=[39m render([33m<[39m[33mProvider[39m store[33m=[39m{store}[33m>[39m[33m<[39m[33mRouter[39m[33m>[39m[33m<[39m[33mRoute[39m component[33m=[39m{[33mGroup[39m} [33m/[39m[33m>[39m[33m<[39m[33m/[39m[33mRouter[39m[33m>[39m[33m<[39m[33m/[39m[33mProvider[39m[33m>[39m)[33m;[39m
+     [90m     |[39m                                     [31m[1m^[22m[39m
+     [90m 675 |[39m         [36mconst[39m linkElement [33m=[39m getByText([35m/SHS Playoffs/i[39m)[33m;[39m
+     [90m 676 |[39m         
+     [90m 677 |[39m         expect(linkElement)[33m.[39mtoBeInTheDocument()[33m;[39m[0m
+
+      at warning (node_modules/rc-util/lib/warning.js:43:15)
+      at call (node_modules/rc-util/lib/warning.js:64:5)
+      at warningOnce (node_modules/rc-util/lib/warning.js:71:3)
+      at warning (node_modules/antd/lib/_util/warning.js:21:29)
+      at useLegacyItems (node_modules/antd/lib/tabs/hooks/useLegacyItems.js:30:67)
+      at Tabs (node_modules/antd/lib/tabs/index.js:66:52)
+      at renderWithHooks (node_modules/react-dom/cjs/react-dom.development.js:15486:18)
+      at mountIndeterminateComponent (node_modules/react-dom/cjs/react-dom.development.js:20103:13)
+      at beginWork (node_modules/react-dom/cjs/react-dom.development.js:21626:16)
+      at beginWork$1 (node_modules/react-dom/cjs/react-dom.development.js:27465:14)
+      at performUnitOfWork (node_modules/react-dom/cjs/react-dom.development.js:26599:12)
+      at workLoopSync (node_modules/react-dom/cjs/react-dom.development.js:26505:5)
+      at renderRootSync (node_modules/react-dom/cjs/react-dom.development.js:26473:7)
+      at performConcurrentWorkOnRoot (node_modules/react-dom/cjs/react-dom.development.js:25777:74)
+      at flushActQueue (node_modules/react/cjs/react.development.js:2667:24)
+      at act (node_modules/react/cjs/react.development.js:2582:11)
+      at node_modules/@testing-library/react/dist/act-compat.js:47:25
+      at renderRoot (node_modules/@testing-library/react/dist/pure.js:190:26)
+      at render (node_modules/@testing-library/react/dist/pure.js:292:10)
+      at Object.<anonymous> (src/__tests__/Groups.test.js:674:37)
+
+    console.error
+      Warning: Table: Support for defaultProps will be removed from function components in a future major release. Use JavaScript default parameters instead.
+          at Table (C:\Users\christopher.aronchic\crowd-wisdom-sports-react-v2\client\node_modules\rc-table\lib\Table.js:141:25)
+          at div
+          at div
+          at Spin (C:\Users\christopher.aronchic\crowd-wisdom-sports-react-v2\client\node_modules\antd\lib\spin\index.js:63:25)
+          at SpinFC (C:\Users\christopher.aronchic\crowd-wisdom-sports-react-v2\client\node_modules\antd\lib\spin\index.js:123:34)
+          at div
+          at InternalTable (C:\Users\christopher.aronchic\crowd-wisdom-sports-react-v2\client\node_modules\antd\lib\table\Table.js:39:34)
+          at div
+          at C:\Users\christopher.aronchic\crowd-wisdom-sports-react-v2\client\node_modules\rc-tabs\lib\TabPanelList\TabPane.js:14:24
+          at DomWrapper (C:\Users\christopher.aronchic\crowd-wisdom-sports-react-v2\client\node_modules\rc-motion\lib\DomWrapper.js:20:34)
+          at C:\Users\christopher.aronchic\crowd-wisdom-sports-react-v2\client\node_modules\rc-motion\lib\CSSMotion.js:42:32
+          at div
+          at div
+          at TabPanelList (C:\Users\christopher.aronchic\crowd-wisdom-sports-react-v2\client\node_modules\rc-tabs\lib\TabPanelList\index.js:22:17)
+          at div
+          at Tabs (C:\Users\christopher.aronchic\crowd-wisdom-sports-react-v2\client\node_modules\rc-tabs\lib\Tabs.js:40:17)
+          at Tabs (C:\Users\christopher.aronchic\crowd-wisdom-sports-react-v2\client\node_modules\antd\lib\tabs\index.js:32:17)
+          at div
+          at C:\Users\christopher.aronchic\crowd-wisdom-sports-react-v2\client\node_modules\antd\lib\grid\col.js:35:33
+          at div
+          at C:\Users\christopher.aronchic\crowd-wisdom-sports-react-v2\client\node_modules\antd\lib\grid\row.js:59:34
+          at div
+          at C:\Users\christopher.aronchic\crowd-wisdom-sports-react-v2\client\node_modules\antd\lib\grid\col.js:35:33
+          at div
+          at C:\Users\christopher.aronchic\crowd-wisdom-sports-react-v2\client\node_modules\antd\lib\grid\row.js:59:34
+          at div
+          at Group (C:\Users\christopher.aronchic\crowd-wisdom-sports-react-v2\client\src\components\groups\Group.js:25:5)
+          at ConnectFunction (C:\Users\christopher.aronchic\crowd-wisdom-sports-react-v2\client\node_modules\react-redux\src\components\connect.tsx:526:15)
+          at Route (C:\Users\christopher.aronchic\crowd-wisdom-sports-react-v2\client\node_modules\react-router\cjs\react-router.js:664:29)
+          at Router (C:\Users\christopher.aronchic\crowd-wisdom-sports-react-v2\client\node_modules\react-router\cjs\react-router.js:283:30)
+          at BrowserRouter (C:\Users\christopher.aronchic\crowd-wisdom-sports-react-v2\client\node_modules\react-router-dom\cjs\react-router-dom.js:75:35)
+          at Provider (C:\Users\christopher.aronchic\crowd-wisdom-sports-react-v2\client\node_modules\react-redux\src\components\Provider.tsx:60:11)
+
+    [0m [90m 672 |[39m         })
+     [90m 673 |[39m
+    [31m[1m>[22m[39m[90m 674 |[39m         [36mconst[39m { getByText } [33m=[39m render([33m<[39m[33mProvider[39m store[33m=[39m{store}[33m>[39m[33m<[39m[33mRouter[39m[33m>[39m[33m<[39m[33mRoute[39m component[33m=[39m{[33mGroup[39m} [33m/[39m[33m>[39m[33m<[39m[33m/[39m[33mRouter[39m[33m>[39m[33m<[39m[33m/[39m[33mProvider[39m[33m>[39m)[33m;[39m
+     [90m     |[39m                                     [31m[1m^[22m[39m
+     [90m 675 |[39m         [36mconst[39m linkElement [33m=[39m getByText([35m/SHS Playoffs/i[39m)[33m;[39m
+     [90m 676 |[39m         
+     [90m 677 |[39m         expect(linkElement)[33m.[39mtoBeInTheDocument()[33m;[39m[0m
+
+      at printWarning (node_modules/react-dom/cjs/react-dom.development.js:86:30)
+      at error (node_modules/react-dom/cjs/react-dom.development.js:60:7)
+      at validateFunctionComponentInDev (node_modules/react-dom/cjs/react-dom.development.js:20230:9)
+      at mountIndeterminateComponent (node_modules/react-dom/cjs/react-dom.development.js:20189:7)
+      at beginWork (node_modules/react-dom/cjs/react-dom.development.js:21626:16)
+      at beginWork$1 (node_modules/react-dom/cjs/react-dom.development.js:27465:14)
+      at performUnitOfWork (node_modules/react-dom/cjs/react-dom.development.js:26599:12)
+      at workLoopSync (node_modules/react-dom/cjs/react-dom.development.js:26505:5)
+      at renderRootSync (node_modules/react-dom/cjs/react-dom.development.js:26473:7)
+      at performConcurrentWorkOnRoot (node_modules/react-dom/cjs/react-dom.development.js:25777:74)
+      at flushActQueue (node_modules/react/cjs/react.development.js:2667:24)
+      at act (node_modules/react/cjs/react.development.js:2582:11)
+      at node_modules/@testing-library/react/dist/act-compat.js:47:25
+      at renderRoot (node_modules/@testing-library/react/dist/pure.js:190:26)
+      at render (node_modules/@testing-library/react/dist/pure.js:292:10)
+      at Object.<anonymous> (src/__tests__/Groups.test.js:674:37)
+
+    console.error
+      Warning: [antd: Modal] `visible` will be removed in next major version, please use `open` instead.
+
+    [0m [90m 684 |[39m
+     [90m 685 |[39m
+    [31m[1m>[22m[39m[90m 686 |[39m         [36mconst[39m { getByRole[33m,[39m getByText } [33m=[39m render([33m<[39m[33mProvider[39m store[33m=[39m{store}[33m>[39m[33m<[39m[33mRouter[39m[33m>[39m[33m<[39m[33mRoute[39m component[33m=[39m{[33mGroups[39m} [33m/[39m[33m>[39m[33m<[39m[33m/[39m[33mRouter[39m[33m>[39m[33m<[39m[33m/[39m[33mProvider[39m[33m>[39m)[33m;[39m
+     [90m     |[39m                                                [31m[1m^[22m[39m
+     [90m 687 |[39m         [36mconst[39m createGroupModal [33m=[39m screen[33m.[39mgetByRole([32m'dialog'[39m)
+     [90m 688 |[39m         expect(createGroupModal)[33m.[39mtoBeInTheDocument()[33m;[39m
+     [90m 689 |[39m     })[0m
+
+      at warning (node_modules/rc-util/lib/warning.js:43:15)
+      at call (node_modules/rc-util/lib/warning.js:64:5)
+      at warningOnce (node_modules/rc-util/lib/warning.js:71:3)
+      at warning (node_modules/antd/lib/_util/warning.js:21:29)
+      at Modal (node_modules/antd/lib/modal/Modal.js:65:67)
+      at renderWithHooks (node_modules/react-dom/cjs/react-dom.development.js:15486:18)
+      at mountIndeterminateComponent (node_modules/react-dom/cjs/react-dom.development.js:20103:13)
+      at beginWork (node_modules/react-dom/cjs/react-dom.development.js:21626:16)
+      at beginWork$1 (node_modules/react-dom/cjs/react-dom.development.js:27465:14)
+      at performUnitOfWork (node_modules/react-dom/cjs/react-dom.development.js:26599:12)
+      at workLoopSync (node_modules/react-dom/cjs/react-dom.development.js:26505:5)
+      at renderRootSync (node_modules/react-dom/cjs/react-dom.development.js:26473:7)
+      at performConcurrentWorkOnRoot (node_modules/react-dom/cjs/react-dom.development.js:25777:74)
+      at flushActQueue (node_modules/react/cjs/react.development.js:2667:24)
+      at act (node_modules/react/cjs/react.development.js:2582:11)
+      at node_modules/@testing-library/react/dist/act-compat.js:47:25
+      at renderRoot (node_modules/@testing-library/react/dist/pure.js:190:26)
+      at render (node_modules/@testing-library/react/dist/pure.js:292:10)
+      at Object.<anonymous> (src/__tests__/Groups.test.js:686:48)
+
+PASS src/__tests__/App.test.js (10.087 s)
+  ● Console
+
+    console.log
+      setupTests.js is running
+
+      at Object.<anonymous> (src/setupTests.js:6:9)
+
+    console.error
+      Warning: [antd: Menu] `children` will be removed in next major version. Please use `items` instead.
+
+    [0m [90m 11 |[39m
+     [90m 12 |[39m test([32m'renders learn react link'[39m[33m,[39m () [33m=>[39m {
+    [31m[1m>[22m[39m[90m 13 |[39m   [36mconst[39m { getByText[33m,[39m getByRole } [33m=[39m render([33m<[39m[33mProvider[39m store[33m=[39m{store}[33m>[39m[33m<[39m[33mRouter[39m[33m>[39m[33m<[39m[33mRoute[39m component[33m=[39m{[33mApp[39m} [33m/[39m[33m>[39m[33m<[39m[33m/[39m[33mRouter[39m[33m>[39m[33m<[39m[33m/[39m[33mProvider[39m[33m>[39m)[33m;[39m
+     [90m    |[39m                                          [31m[1m^[22m[39m
+     [90m 14 |[39m   [36mconst[39m linkElement [33m=[39m getByRole([32m'application'[39m)[33m;[39m
+     [90m 15 |[39m   expect(linkElement)[33m.[39mtoBeInTheDocument()[33m;[39m
+     [90m 16 |[39m })[33m;[39m[0m
+
+      at warning (node_modules/rc-util/lib/warning.js:43:15)
+      at call (node_modules/rc-util/lib/warning.js:64:5)
+      at warningOnce (node_modules/rc-util/lib/warning.js:71:3)
+      at warning (node_modules/antd/lib/_util/warning.js:21:29)
+      at node_modules/antd/lib/menu/index.js:71:67
+      at renderWithHooks (node_modules/react-dom/cjs/react-dom.development.js:15486:18)
+      at updateForwardRef (node_modules/react-dom/cjs/react-dom.development.js:19245:20)
+      at beginWork (node_modules/react-dom/cjs/react-dom.development.js:21675:16)
+      at beginWork$1 (node_modules/react-dom/cjs/react-dom.development.js:27465:14)
+      at performUnitOfWork (node_modules/react-dom/cjs/react-dom.development.js:26599:12)
+      at workLoopSync (node_modules/react-dom/cjs/react-dom.development.js:26505:5)
+      at renderRootSync (node_modules/react-dom/cjs/react-dom.development.js:26473:7)
+      at performConcurrentWorkOnRoot (node_modules/react-dom/cjs/react-dom.development.js:25777:74)
+      at flushActQueue (node_modules/react/cjs/react.development.js:2667:24)
+      at act (node_modules/react/cjs/react.development.js:2582:11)
+      at node_modules/@testing-library/react/dist/act-compat.js:47:25
+      at renderRoot (node_modules/@testing-library/react/dist/pure.js:190:26)
+      at render (node_modules/@testing-library/react/dist/pure.js:292:10)
+      at Object.<anonymous> (src/__tests__/App.test.js:13:42)
+
+    console.error
+      Warning: [antd: Modal] `visible` will be removed in next major version, please use `open` instead.
+
+    [0m [90m 11 |[39m
+     [90m 12 |[39m test([32m'renders learn react link'[39m[33m,[39m () [33m=>[39m {
+    [31m[1m>[22m[39m[90m 13 |[39m   [36mconst[39m { getByText[33m,[39m getByRole } [33m=[39m render([33m<[39m[33mProvider[39m store[33m=[39m{store}[33m>[39m[33m<[39m[33mRouter[39m[33m>[39m[33m<[39m[33mRoute[39m component[33m=[39m{[33mApp[39m} [33m/[39m[33m>[39m[33m<[39m[33m/[39m[33mRouter[39m[33m>[39m[33m<[39m[33m/[39m[33mProvider[39m[33m>[39m)[33m;[39m
+     [90m    |[39m                                          [31m[1m^[22m[39m
+     [90m 14 |[39m   [36mconst[39m linkElement [33m=[39m getByRole([32m'application'[39m)[33m;[39m
+     [90m 15 |[39m   expect(linkElement)[33m.[39mtoBeInTheDocument()[33m;[39m
+     [90m 16 |[39m })[33m;[39m[0m
+
+      at warning (node_modules/rc-util/lib/warning.js:43:15)
+      at call (node_modules/rc-util/lib/warning.js:64:5)
+      at warningOnce (node_modules/rc-util/lib/warning.js:71:3)
+      at warning (node_modules/antd/lib/_util/warning.js:21:29)
+      at Modal (node_modules/antd/lib/modal/Modal.js:65:67)
+      at renderWithHooks (node_modules/react-dom/cjs/react-dom.development.js:15486:18)
+      at mountIndeterminateComponent (node_modules/react-dom/cjs/react-dom.development.js:20103:13)
+      at beginWork (node_modules/react-dom/cjs/react-dom.development.js:21626:16)
+      at beginWork$1 (node_modules/react-dom/cjs/react-dom.development.js:27465:14)
+      at performUnitOfWork (node_modules/react-dom/cjs/react-dom.development.js:26599:12)
+      at workLoopSync (node_modules/react-dom/cjs/react-dom.development.js:26505:5)
+      at renderRootSync (node_modules/react-dom/cjs/react-dom.development.js:26473:7)
+      at performConcurrentWorkOnRoot (node_modules/react-dom/cjs/react-dom.development.js:25777:74)
+      at flushActQueue (node_modules/react/cjs/react.development.js:2667:24)
+      at act (node_modules/react/cjs/react.development.js:2582:11)
+      at node_modules/@testing-library/react/dist/act-compat.js:47:25
+      at renderRoot (node_modules/@testing-library/react/dist/pure.js:190:26)
+      at render (node_modules/@testing-library/react/dist/pure.js:292:10)
+      at Object.<anonymous> (src/__tests__/App.test.js:13:42)
+
+    console.error
+      Warning: [antd: Modal] `visible` will be removed in next major version, please use `open` instead.
+
+    [0m [90m 11 |[39m
+     [90m 12 |[39m test([32m'renders learn react link'[39m[33m,[39m () [33m=>[39m {
+    [31m[1m>[22m[39m[90m 13 |[39m   [36mconst[39m { getByText[33m,[39m getByRole } [33m=[39m render([33m<[39m[33mProvider[39m store[33m=[39m{store}[33m>[39m[33m<[39m[33mRouter[39m[33m>[39m[33m<[39m[33mRoute[39m component[33m=[39m{[33mApp[39m} [33m/[39m[33m>[39m[33m<[39m[33m/[39m[33mRouter[39m[33m>[39m[33m<[39m[33m/[39m[33mProvider[39m[33m>[39m)[33m;[39m
+     [90m    |[39m                                          [31m[1m^[22m[39m
+     [90m 14 |[39m   [36mconst[39m linkElement [33m=[39m getByRole([32m'application'[39m)[33m;[39m
+     [90m 15 |[39m   expect(linkElement)[33m.[39mtoBeInTheDocument()[33m;[39m
+     [90m 16 |[39m })[33m;[39m[0m
+
+      at warning (node_modules/rc-util/lib/warning.js:43:15)
+      at call (node_modules/rc-util/lib/warning.js:64:5)
+      at warningOnce (node_modules/rc-util/lib/warning.js:71:3)
+      at warning (node_modules/antd/lib/_util/warning.js:21:29)
+      at Modal (node_modules/antd/lib/modal/Modal.js:65:67)
+      at renderWithHooks (node_modules/react-dom/cjs/react-dom.development.js:15486:18)
+      at mountIndeterminateComponent (node_modules/react-dom/cjs/react-dom.development.js:20103:13)
+      at beginWork (node_modules/react-dom/cjs/react-dom.development.js:21626:16)
+      at beginWork$1 (node_modules/react-dom/cjs/react-dom.development.js:27465:14)
+      at performUnitOfWork (node_modules/react-dom/cjs/react-dom.development.js:26599:12)
+      at workLoopSync (node_modules/react-dom/cjs/react-dom.development.js:26505:5)
+      at renderRootSync (node_modules/react-dom/cjs/react-dom.development.js:26473:7)
+      at performConcurrentWorkOnRoot (node_modules/react-dom/cjs/react-dom.development.js:25777:74)
+      at flushActQueue (node_modules/react/cjs/react.development.js:2667:24)
+      at act (node_modules/react/cjs/react.development.js:2582:11)
+      at node_modules/@testing-library/react/dist/act-compat.js:47:25
+      at renderRoot (node_modules/@testing-library/react/dist/pure.js:190:26)
+      at render (node_modules/@testing-library/react/dist/pure.js:292:10)
+      at Object.<anonymous> (src/__tests__/App.test.js:13:42)
+
+    console.error
+      Warning: [antd: Modal] `visible` will be removed in next major version, please use `open` instead.
+
+    [0m [90m 11 |[39m
+     [90m 12 |[39m test([32m'renders learn react link'[39m[33m,[39m () [33m=>[39m {
+    [31m[1m>[22m[39m[90m 13 |[39m   [36mconst[39m { getByText[33m,[39m getByRole } [33m=[39m render([33m<[39m[33mProvider[39m store[33m=[39m{store}[33m>[39m[33m<[39m[33mRouter[39m[33m>[39m[33m<[39m[33mRoute[39m component[33m=[39m{[33mApp[39m} [33m/[39m[33m>[39m[33m<[39m[33m/[39m[33mRouter[39m[33m>[39m[33m<[39m[33m/[39m[33mProvider[39m[33m>[39m)[33m;[39m
+     [90m    |[39m                                          [31m[1m^[22m[39m
+     [90m 14 |[39m   [36mconst[39m linkElement [33m=[39m getByRole([32m'application'[39m)[33m;[39m
+     [90m 15 |[39m   expect(linkElement)[33m.[39mtoBeInTheDocument()[33m;[39m
+     [90m 16 |[39m })[33m;[39m[0m
+
+      at warning (node_modules/rc-util/lib/warning.js:43:15)
+      at call (node_modules/rc-util/lib/warning.js:64:5)
+      at warningOnce (node_modules/rc-util/lib/warning.js:71:3)
+      at warning (node_modules/antd/lib/_util/warning.js:21:29)
+      at Modal (node_modules/antd/lib/modal/Modal.js:65:67)
+      at renderWithHooks (node_modules/react-dom/cjs/react-dom.development.js:15486:18)
+      at mountIndeterminateComponent (node_modules/react-dom/cjs/react-dom.development.js:20103:13)
+      at beginWork (node_modules/react-dom/cjs/react-dom.development.js:21626:16)
+      at beginWork$1 (node_modules/react-dom/cjs/react-dom.development.js:27465:14)
+      at performUnitOfWork (node_modules/react-dom/cjs/react-dom.development.js:26599:12)
+      at workLoopSync (node_modules/react-dom/cjs/react-dom.development.js:26505:5)
+      at renderRootSync (node_modules/react-dom/cjs/react-dom.development.js:26473:7)
+      at performConcurrentWorkOnRoot (node_modules/react-dom/cjs/react-dom.development.js:25777:74)
+      at flushActQueue (node_modules/react/cjs/react.development.js:2667:24)
+      at act (node_modules/react/cjs/react.development.js:2582:11)
+      at node_modules/@testing-library/react/dist/act-compat.js:47:25
+      at renderRoot (node_modules/@testing-library/react/dist/pure.js:190:26)
+      at render (node_modules/@testing-library/react/dist/pure.js:292:10)
+      at Object.<anonymous> (src/__tests__/App.test.js:13:42)
+
+    console.error
+      Warning: Duplicated key '1' used in Menu by path [ncaaf > 1]
+
+    [0m [90m 11 |[39m
+     [90m 12 |[39m test([32m'renders learn react link'[39m[33m,[39m () [33m=>[39m {
+    [31m[1m>[22m[39m[90m 13 |[39m   [36mconst[39m { getByText[33m,[39m getByRole } [33m=[39m render([33m<[39m[33mProvider[39m store[33m=[39m{store}[33m>[39m[33m<[39m[33mRouter[39m[33m>[39m[33m<[39m[33mRoute[39m component[33m=[39m{[33mApp[39m} [33m/[39m[33m>[39m[33m<[39m[33m/[39m[33mRouter[39m[33m>[39m[33m<[39m[33m/[39m[33mProvider[39m[33m>[39m)[33m;[39m
+     [90m    |[39m                                          [31m[1m^[22m[39m
+     [90m 14 |[39m   [36mconst[39m linkElement [33m=[39m getByRole([32m'application'[39m)[33m;[39m
+     [90m 15 |[39m   expect(linkElement)[33m.[39mtoBeInTheDocument()[33m;[39m
+     [90m 16 |[39m })[33m;[39m[0m
+
+      at warning (node_modules/rc-util/lib/warning.js:43:15)
+      at call (node_modules/rc-util/lib/warning.js:64:5)
+      at warningOnce (node_modules/rc-util/lib/warning.js:71:3)
+      at Object.registerPath (node_modules/rc-menu/lib/hooks/useKeyRecords.js:46:28)
+      at node_modules/rc-menu/lib/MenuItem.js:210:15
+      at commitHookEffectListMount (node_modules/react-dom/cjs/react-dom.development.js:23189:26)
+      at commitPassiveMountOnFiber (node_modules/react-dom/cjs/react-dom.development.js:24970:11)
+      at commitPassiveMountEffects_complete (node_modules/react-dom/cjs/react-dom.development.js:24930:9)
+      at commitPassiveMountEffects_begin (node_modules/react-dom/cjs/react-dom.development.js:24917:7)
+      at commitPassiveMountEffects (node_modules/react-dom/cjs/react-dom.development.js:24905:3)
+      at flushPassiveEffectsImpl (node_modules/react-dom/cjs/react-dom.development.js:27078:3)
+      at flushPassiveEffects (node_modules/react-dom/cjs/react-dom.development.js:27023:14)
+      at performSyncWorkOnRoot (node_modules/react-dom/cjs/react-dom.development.js:26115:3)
+      at flushSyncCallbacks (node_modules/react-dom/cjs/react-dom.development.js:12042:22)
+      at commitRootImpl (node_modules/react-dom/cjs/react-dom.development.js:26998:3)
+      at commitRoot (node_modules/react-dom/cjs/react-dom.development.js:26721:5)
+      at finishConcurrentRender (node_modules/react-dom/cjs/react-dom.development.js:26020:9)
+      at performConcurrentWorkOnRoot (node_modules/react-dom/cjs/react-dom.development.js:25848:7)
+      at flushActQueue (node_modules/react/cjs/react.development.js:2667:24)
+      at act (node_modules/react/cjs/react.development.js:2582:11)
+      at node_modules/@testing-library/react/dist/act-compat.js:47:25
+      at renderRoot (node_modules/@testing-library/react/dist/pure.js:190:26)
+      at render (node_modules/@testing-library/react/dist/pure.js:292:10)
+      at Object.<anonymous> (src/__tests__/App.test.js:13:42)
+
+    console.error
+      Warning: Duplicated key '2' used in Menu by path [ncaaf > 2]
+
+    [0m [90m 11 |[39m
+     [90m 12 |[39m test([32m'renders learn react link'[39m[33m,[39m () [33m=>[39m {
+    [31m[1m>[22m[39m[90m 13 |[39m   [36mconst[39m { getByText[33m,[39m getByRole } [33m=[39m render([33m<[39m[33mProvider[39m store[33m=[39m{store}[33m>[39m[33m<[39m[33mRouter[39m[33m>[39m[33m<[39m[33mRoute[39m component[33m=[39m{[33mApp[39m} [33m/[39m[33m>[39m[33m<[39m[33m/[39m[33mRouter[39m[33m>[39m[33m<[39m[33m/[39m[33mProvider[39m[33m>[39m)[33m;[39m
+     [90m    |[39m                                          [31m[1m^[22m[39m
+     [90m 14 |[39m   [36mconst[39m linkElement [33m=[39m getByRole([32m'application'[39m)[33m;[39m
+     [90m 15 |[39m   expect(linkElement)[33m.[39mtoBeInTheDocument()[33m;[39m
+     [90m 16 |[39m })[33m;[39m[0m
+
+      at warning (node_modules/rc-util/lib/warning.js:43:15)
+      at call (node_modules/rc-util/lib/warning.js:64:5)
+      at warningOnce (node_modules/rc-util/lib/warning.js:71:3)
+      at Object.registerPath (node_modules/rc-menu/lib/hooks/useKeyRecords.js:46:28)
+      at node_modules/rc-menu/lib/MenuItem.js:210:15
+      at commitHookEffectListMount (node_modules/react-dom/cjs/react-dom.development.js:23189:26)
+      at commitPassiveMountOnFiber (node_modules/react-dom/cjs/react-dom.development.js:24970:11)
+      at commitPassiveMountEffects_complete (node_modules/react-dom/cjs/react-dom.development.js:24930:9)
+      at commitPassiveMountEffects_begin (node_modules/react-dom/cjs/react-dom.development.js:24917:7)
+      at commitPassiveMountEffects (node_modules/react-dom/cjs/react-dom.development.js:24905:3)
+      at flushPassiveEffectsImpl (node_modules/react-dom/cjs/react-dom.development.js:27078:3)
+      at flushPassiveEffects (node_modules/react-dom/cjs/react-dom.development.js:27023:14)
+      at performSyncWorkOnRoot (node_modules/react-dom/cjs/react-dom.development.js:26115:3)
+      at flushSyncCallbacks (node_modules/react-dom/cjs/react-dom.development.js:12042:22)
+      at commitRootImpl (node_modules/react-dom/cjs/react-dom.development.js:26998:3)
+      at commitRoot (node_modules/react-dom/cjs/react-dom.development.js:26721:5)
+      at finishConcurrentRender (node_modules/react-dom/cjs/react-dom.development.js:26020:9)
+      at performConcurrentWorkOnRoot (node_modules/react-dom/cjs/react-dom.development.js:25848:7)
+      at flushActQueue (node_modules/react/cjs/react.development.js:2667:24)
+      at act (node_modules/react/cjs/react.development.js:2582:11)
+      at node_modules/@testing-library/react/dist/act-compat.js:47:25
+      at renderRoot (node_modules/@testing-library/react/dist/pure.js:190:26)
+      at render (node_modules/@testing-library/react/dist/pure.js:292:10)
+      at Object.<anonymous> (src/__tests__/App.test.js:13:42)
+
+    console.error
+      Warning: Duplicated key '3' used in Menu by path [ncaaf > 3]
+
+    [0m [90m 11 |[39m
+     [90m 12 |[39m test([32m'renders learn react link'[39m[33m,[39m () [33m=>[39m {
+    [31m[1m>[22m[39m[90m 13 |[39m   [36mconst[39m { getByText[33m,[39m getByRole } [33m=[39m render([33m<[39m[33mProvider[39m store[33m=[39m{store}[33m>[39m[33m<[39m[33mRouter[39m[33m>[39m[33m<[39m[33mRoute[39m component[33m=[39m{[33mApp[39m} [33m/[39m[33m>[39m[33m<[39m[33m/[39m[33mRouter[39m[33m>[39m[33m<[39m[33m/[39m[33mProvider[39m[33m>[39m)[33m;[39m
+     [90m    |[39m                                          [31m[1m^[22m[39m
+     [90m 14 |[39m   [36mconst[39m linkElement [33m=[39m getByRole([32m'application'[39m)[33m;[39m
+     [90m 15 |[39m   expect(linkElement)[33m.[39mtoBeInTheDocument()[33m;[39m
+     [90m 16 |[39m })[33m;[39m[0m
+
+      at warning (node_modules/rc-util/lib/warning.js:43:15)
+      at call (node_modules/rc-util/lib/warning.js:64:5)
+      at warningOnce (node_modules/rc-util/lib/warning.js:71:3)
+      at Object.registerPath (node_modules/rc-menu/lib/hooks/useKeyRecords.js:46:28)
+      at node_modules/rc-menu/lib/MenuItem.js:210:15
+      at commitHookEffectListMount (node_modules/react-dom/cjs/react-dom.development.js:23189:26)
+      at commitPassiveMountOnFiber (node_modules/react-dom/cjs/react-dom.development.js:24970:11)
+      at commitPassiveMountEffects_complete (node_modules/react-dom/cjs/react-dom.development.js:24930:9)
+      at commitPassiveMountEffects_begin (node_modules/react-dom/cjs/react-dom.development.js:24917:7)
+      at commitPassiveMountEffects (node_modules/react-dom/cjs/react-dom.development.js:24905:3)
+      at flushPassiveEffectsImpl (node_modules/react-dom/cjs/react-dom.development.js:27078:3)
+      at flushPassiveEffects (node_modules/react-dom/cjs/react-dom.development.js:27023:14)
+      at performSyncWorkOnRoot (node_modules/react-dom/cjs/react-dom.development.js:26115:3)
+      at flushSyncCallbacks (node_modules/react-dom/cjs/react-dom.development.js:12042:22)
+      at commitRootImpl (node_modules/react-dom/cjs/react-dom.development.js:26998:3)
+      at commitRoot (node_modules/react-dom/cjs/react-dom.development.js:26721:5)
+      at finishConcurrentRender (node_modules/react-dom/cjs/react-dom.development.js:26020:9)
+      at performConcurrentWorkOnRoot (node_modules/react-dom/cjs/react-dom.development.js:25848:7)
+      at flushActQueue (node_modules/react/cjs/react.development.js:2667:24)
+      at act (node_modules/react/cjs/react.development.js:2582:11)
+      at node_modules/@testing-library/react/dist/act-compat.js:47:25
+      at renderRoot (node_modules/@testing-library/react/dist/pure.js:190:26)
+      at render (node_modules/@testing-library/react/dist/pure.js:292:10)
+      at Object.<anonymous> (src/__tests__/App.test.js:13:42)
+
+    console.error
+      Warning: [antd: Menu] `children` will be removed in next major version. Please use `items` instead.
+
+    [0m [90m 11 |[39m
+     [90m 12 |[39m test([32m'renders learn react link'[39m[33m,[39m () [33m=>[39m {
+    [31m[1m>[22m[39m[90m 13 |[39m   [36mconst[39m { getByText[33m,[39m getByRole } [33m=[39m render([33m<[39m[33mProvider[39m store[33m=[39m{store}[33m>[39m[33m<[39m[33mRouter[39m[33m>[39m[33m<[39m[33mRoute[39m component[33m=[39m{[33mApp[39m} [33m/[39m[33m>[39m[33m<[39m[33m/[39m[33mRouter[39m[33m>[39m[33m<[39m[33m/[39m[33mProvider[39m[33m>[39m)[33m;[39m
+     [90m    |[39m                                          [31m[1m^[22m[39m
+     [90m 14 |[39m   [36mconst[39m linkElement [33m=[39m getByRole([32m'application'[39m)[33m;[39m
+     [90m 15 |[39m   expect(linkElement)[33m.[39mtoBeInTheDocument()[33m;[39m
+     [90m 16 |[39m })[33m;[39m[0m
+
+      at warning (node_modules/rc-util/lib/warning.js:43:15)
+      at call (node_modules/rc-util/lib/warning.js:64:5)
+      at warningOnce (node_modules/rc-util/lib/warning.js:71:3)
+      at warning (node_modules/antd/lib/_util/warning.js:21:29)
+      at node_modules/antd/lib/menu/index.js:71:67
+      at renderWithHooks (node_modules/react-dom/cjs/react-dom.development.js:15486:18)
+      at updateForwardRef (node_modules/react-dom/cjs/react-dom.development.js:19245:20)
+      at beginWork (node_modules/react-dom/cjs/react-dom.development.js:21675:16)
+      at beginWork$1 (node_modules/react-dom/cjs/react-dom.development.js:27465:14)
+      at performUnitOfWork (node_modules/react-dom/cjs/react-dom.development.js:26599:12)
+      at workLoopSync (node_modules/react-dom/cjs/react-dom.development.js:26505:5)
+      at renderRootSync (node_modules/react-dom/cjs/react-dom.development.js:26473:7)
+      at performSyncWorkOnRoot (node_modules/react-dom/cjs/react-dom.development.js:26124:20)
+      at flushSyncCallbacks (node_modules/react-dom/cjs/react-dom.development.js:12042:22)
+      at commitRootImpl (node_modules/react-dom/cjs/react-dom.development.js:26998:3)
+      at commitRoot (node_modules/react-dom/cjs/react-dom.development.js:26721:5)
+      at finishConcurrentRender (node_modules/react-dom/cjs/react-dom.development.js:26020:9)
+      at performConcurrentWorkOnRoot (node_modules/react-dom/cjs/react-dom.development.js:25848:7)
+      at flushActQueue (node_modules/react/cjs/react.development.js:2667:24)
+      at act (node_modules/react/cjs/react.development.js:2582:11)
+      at node_modules/@testing-library/react/dist/act-compat.js:47:25
+      at renderRoot (node_modules/@testing-library/react/dist/pure.js:190:26)
+      at render (node_modules/@testing-library/react/dist/pure.js:292:10)
+      at Object.<anonymous> (src/__tests__/App.test.js:13:42)
+
+    console.error
+      Warning: [antd: Modal] `visible` will be removed in next major version, please use `open` instead.
+
+    [0m [90m 11 |[39m
+     [90m 12 |[39m test([32m'renders learn react link'[39m[33m,[39m () [33m=>[39m {
+    [31m[1m>[22m[39m[90m 13 |[39m   [36mconst[39m { getByText[33m,[39m getByRole } [33m=[39m render([33m<[39m[33mProvider[39m store[33m=[39m{store}[33m>[39m[33m<[39m[33mRouter[39m[33m>[39m[33m<[39m[33mRoute[39m component[33m=[39m{[33mApp[39m} [33m/[39m[33m>[39m[33m<[39m[33m/[39m[33mRouter[39m[33m>[39m[33m<[39m[33m/[39m[33mProvider[39m[33m>[39m)[33m;[39m
+     [90m    |[39m                                          [31m[1m^[22m[39m
+     [90m 14 |[39m   [36mconst[39m linkElement [33m=[39m getByRole([32m'application'[39m)[33m;[39m
+     [90m 15 |[39m   expect(linkElement)[33m.[39mtoBeInTheDocument()[33m;[39m
+     [90m 16 |[39m })[33m;[39m[0m
+
+      at warning (node_modules/rc-util/lib/warning.js:43:15)
+      at call (node_modules/rc-util/lib/warning.js:64:5)
+      at warningOnce (node_modules/rc-util/lib/warning.js:71:3)
+      at warning (node_modules/antd/lib/_util/warning.js:21:29)
+      at Modal (node_modules/antd/lib/modal/Modal.js:65:67)
+      at renderWithHooks (node_modules/react-dom/cjs/react-dom.development.js:15486:18)
+      at updateFunctionComponent (node_modules/react-dom/cjs/react-dom.development.js:19617:20)
+      at beginWork (node_modules/react-dom/cjs/react-dom.development.js:21640:16)
+      at beginWork$1 (node_modules/react-dom/cjs/react-dom.development.js:27465:14)
+      at performUnitOfWork (node_modules/react-dom/cjs/react-dom.development.js:26599:12)
+      at workLoopSync (node_modules/react-dom/cjs/react-dom.development.js:26505:5)
+      at renderRootSync (node_modules/react-dom/cjs/react-dom.development.js:26473:7)
+      at performSyncWorkOnRoot (node_modules/react-dom/cjs/react-dom.development.js:26124:20)
+      at flushSyncCallbacks (node_modules/react-dom/cjs/react-dom.development.js:12042:22)
+      at commitRootImpl (node_modules/react-dom/cjs/react-dom.development.js:26998:3)
+      at commitRoot (node_modules/react-dom/cjs/react-dom.development.js:26721:5)
+      at finishConcurrentRender (node_modules/react-dom/cjs/react-dom.development.js:26020:9)
+      at performConcurrentWorkOnRoot (node_modules/react-dom/cjs/react-dom.development.js:25848:7)
+      at flushActQueue (node_modules/react/cjs/react.development.js:2667:24)
+      at act (node_modules/react/cjs/react.development.js:2582:11)
+      at node_modules/@testing-library/react/dist/act-compat.js:47:25
+      at renderRoot (node_modules/@testing-library/react/dist/pure.js:190:26)
+      at render (node_modules/@testing-library/react/dist/pure.js:292:10)
+      at Object.<anonymous> (src/__tests__/App.test.js:13:42)
+
+    console.error
+      Warning: [antd: Modal] `visible` will be removed in next major version, please use `open` instead.
+
+    [0m [90m 11 |[39m
+     [90m 12 |[39m test([32m'renders learn react link'[39m[33m,[39m () [33m=>[39m {
+    [31m[1m>[22m[39m[90m 13 |[39m   [36mconst[39m { getByText[33m,[39m getByRole } [33m=[39m render([33m<[39m[33mProvider[39m store[33m=[39m{store}[33m>[39m[33m<[39m[33mRouter[39m[33m>[39m[33m<[39m[33mRoute[39m component[33m=[39m{[33mApp[39m} [33m/[39m[33m>[39m[33m<[39m[33m/[39m[33mRouter[39m[33m>[39m[33m<[39m[33m/[39m[33mProvider[39m[33m>[39m)[33m;[39m
+     [90m    |[39m                                          [31m[1m^[22m[39m
+     [90m 14 |[39m   [36mconst[39m linkElement [33m=[39m getByRole([32m'application'[39m)[33m;[39m
+     [90m 15 |[39m   expect(linkElement)[33m.[39mtoBeInTheDocument()[33m;[39m
+     [90m 16 |[39m })[33m;[39m[0m
+
+      at warning (node_modules/rc-util/lib/warning.js:43:15)
+      at call (node_modules/rc-util/lib/warning.js:64:5)
+      at warningOnce (node_modules/rc-util/lib/warning.js:71:3)
+      at warning (node_modules/antd/lib/_util/warning.js:21:29)
+      at Modal (node_modules/antd/lib/modal/Modal.js:65:67)
+      at renderWithHooks (node_modules/react-dom/cjs/react-dom.development.js:15486:18)
+      at updateFunctionComponent (node_modules/react-dom/cjs/react-dom.development.js:19617:20)
+      at beginWork (node_modules/react-dom/cjs/react-dom.development.js:21640:16)
+      at beginWork$1 (node_modules/react-dom/cjs/react-dom.development.js:27465:14)
+      at performUnitOfWork (node_modules/react-dom/cjs/react-dom.development.js:26599:12)
+      at workLoopSync (node_modules/react-dom/cjs/react-dom.development.js:26505:5)
+      at renderRootSync (node_modules/react-dom/cjs/react-dom.development.js:26473:7)
+      at performSyncWorkOnRoot (node_modules/react-dom/cjs/react-dom.development.js:26124:20)
+      at flushSyncCallbacks (node_modules/react-dom/cjs/react-dom.development.js:12042:22)
+      at commitRootImpl (node_modules/react-dom/cjs/react-dom.development.js:26998:3)
+      at commitRoot (node_modules/react-dom/cjs/react-dom.development.js:26721:5)
+      at finishConcurrentRender (node_modules/react-dom/cjs/react-dom.development.js:26020:9)
+      at performConcurrentWorkOnRoot (node_modules/react-dom/cjs/react-dom.development.js:25848:7)
+      at flushActQueue (node_modules/react/cjs/react.development.js:2667:24)
+      at act (node_modules/react/cjs/react.development.js:2582:11)
+      at node_modules/@testing-library/react/dist/act-compat.js:47:25
+      at renderRoot (node_modules/@testing-library/react/dist/pure.js:190:26)
+      at render (node_modules/@testing-library/react/dist/pure.js:292:10)
+      at Object.<anonymous> (src/__tests__/App.test.js:13:42)
+
+    console.error
+      Warning: [antd: Modal] `visible` will be removed in next major version, please use `open` instead.
+
+    [0m [90m 11 |[39m
+     [90m 12 |[39m test([32m'renders learn react link'[39m[33m,[39m () [33m=>[39m {
+    [31m[1m>[22m[39m[90m 13 |[39m   [36mconst[39m { getByText[33m,[39m getByRole } [33m=[39m render([33m<[39m[33mProvider[39m store[33m=[39m{store}[33m>[39m[33m<[39m[33mRouter[39m[33m>[39m[33m<[39m[33mRoute[39m component[33m=[39m{[33mApp[39m} [33m/[39m[33m>[39m[33m<[39m[33m/[39m[33mRouter[39m[33m>[39m[33m<[39m[33m/[39m[33mProvider[39m[33m>[39m)[33m;[39m
+     [90m    |[39m                                          [31m[1m^[22m[39m
+     [90m 14 |[39m   [36mconst[39m linkElement [33m=[39m getByRole([32m'application'[39m)[33m;[39m
+     [90m 15 |[39m   expect(linkElement)[33m.[39mtoBeInTheDocument()[33m;[39m
+     [90m 16 |[39m })[33m;[39m[0m
+
+      at warning (node_modules/rc-util/lib/warning.js:43:15)
+      at call (node_modules/rc-util/lib/warning.js:64:5)
+      at warningOnce (node_modules/rc-util/lib/warning.js:71:3)
+      at warning (node_modules/antd/lib/_util/warning.js:21:29)
+      at Modal (node_modules/antd/lib/modal/Modal.js:65:67)
+      at renderWithHooks (node_modules/react-dom/cjs/react-dom.development.js:15486:18)
+      at updateFunctionComponent (node_modules/react-dom/cjs/react-dom.development.js:19617:20)
+      at beginWork (node_modules/react-dom/cjs/react-dom.development.js:21640:16)
+      at beginWork$1 (node_modules/react-dom/cjs/react-dom.development.js:27465:14)
+      at performUnitOfWork (node_modules/react-dom/cjs/react-dom.development.js:26599:12)
+      at workLoopSync (node_modules/react-dom/cjs/react-dom.development.js:26505:5)
+      at renderRootSync (node_modules/react-dom/cjs/react-dom.development.js:26473:7)
+      at performSyncWorkOnRoot (node_modules/react-dom/cjs/react-dom.development.js:26124:20)
+      at flushSyncCallbacks (node_modules/react-dom/cjs/react-dom.development.js:12042:22)
+      at commitRootImpl (node_modules/react-dom/cjs/react-dom.development.js:26998:3)
+      at commitRoot (node_modules/react-dom/cjs/react-dom.development.js:26721:5)
+      at finishConcurrentRender (node_modules/react-dom/cjs/react-dom.development.js:26020:9)
+      at performConcurrentWorkOnRoot (node_modules/react-dom/cjs/react-dom.development.js:25848:7)
+      at flushActQueue (node_modules/react/cjs/react.development.js:2667:24)
+      at act (node_modules/react/cjs/react.development.js:2582:11)
+      at node_modules/@testing-library/react/dist/act-compat.js:47:25
+      at renderRoot (node_modules/@testing-library/react/dist/pure.js:190:26)
+      at render (node_modules/@testing-library/react/dist/pure.js:292:10)
+      at Object.<anonymous> (src/__tests__/App.test.js:13:42)
+
+    console.error
+      Warning: An update to ForwardRef inside a test was not wrapped in act(...).
+      
+      When testing, code that causes React state updates should be wrapped into act(...):
+      
+      act(() => {
+        /* fire events that update state */
+      });
+      /* assert on the output */
+      
+      This ensures that you're testing the behavior the user would see in the browser. Learn more at https://reactjs.org/link/wrap-tests-with-act
+          at C:\Users\christopher.aronchic\crowd-wisdom-sports-react-v2\client\node_modules\rc-menu\lib\Menu.js:55:27
+          at C:\Users\christopher.aronchic\crowd-wisdom-sports-react-v2\client\node_modules\antd\lib\menu\index.js:45:24
+          at Menu (C:\Users\christopher.aronchic\crowd-wisdom-sports-react-v2\client\node_modules\antd\lib\menu\index.js:152:37)
+          at div
+          at aside
+          at C:\Users\christopher.aronchic\crowd-wisdom-sports-react-v2\client\node_modules\antd\lib\layout\Sider.js:48:31
+          at SideMenu (C:\Users\christopher.aronchic\crowd-wisdom-sports-react-v2\client\src\components\layout\sidemenu\SideMenu.js:48:50)
+          at ConnectFunction (C:\Users\christopher.aronchic\crowd-wisdom-sports-react-v2\client\node_modules\react-redux\src\components\connect.tsx:526:15)
+          at section
+          at C:\Users\christopher.aronchic\crowd-wisdom-sports-react-v2\client\node_modules\antd\lib\layout\layout.js:70:34
+          at C:\Users\christopher.aronchic\crowd-wisdom-sports-react-v2\client\node_modules\antd\lib\layout\layout.js:40:37
+          at main
+          at C:\Users\christopher.aronchic\crowd-wisdom-sports-react-v2\client\node_modules\antd\lib\layout\layout.js:57:25
+          at C:\Users\christopher.aronchic\crowd-wisdom-sports-react-v2\client\node_modules\antd\lib\layout\layout.js:40:37
+          at section
+          at C:\Users\christopher.aronchic\crowd-wisdom-sports-react-v2\client\node_modules\antd\lib\layout\layout.js:70:34
+          at C:\Users\christopher.aronchic\crowd-wisdom-sports-react-v2\client\node_modules\antd\lib\layout\layout.js:40:37
+          at div
+          at App (C:\Users\christopher.aronchic\crowd-wisdom-sports-react-v2\client\src\App.js:81:5)
+          at ConnectFunction (C:\Users\christopher.aronchic\crowd-wisdom-sports-react-v2\client\node_modules\react-redux\src\components\connect.tsx:526:15)
+          at Route (C:\Users\christopher.aronchic\crowd-wisdom-sports-react-v2\client\node_modules\react-router\cjs\react-router.js:664:29)
+          at Router (C:\Users\christopher.aronchic\crowd-wisdom-sports-react-v2\client\node_modules\react-router\cjs\react-router.js:283:30)
+          at BrowserRouter (C:\Users\christopher.aronchic\crowd-wisdom-sports-react-v2\client\node_modules\react-router-dom\cjs\react-router-dom.js:75:35)
+          at Provider (C:\Users\christopher.aronchic\crowd-wisdom-sports-react-v2\client\node_modules\react-redux\src\components\Provider.tsx:60:11)
+
+      at printWarning (node_modules/react-dom/cjs/react-dom.development.js:86:30)
+      at error (node_modules/react-dom/cjs/react-dom.development.js:60:7)
+      at warnIfUpdatesNotWrappedWithActDEV (node_modules/react-dom/cjs/react-dom.development.js:27628:9)
+      at scheduleUpdateOnFiber (node_modules/react-dom/cjs/react-dom.development.js:25547:5)
+      at dispatchSetState (node_modules/react-dom/cjs/react-dom.development.js:16708:7)
+      at forceUpdate (node_modules/rc-menu/lib/hooks/useKeyRecords.js:40:7)
+      at node_modules/rc-menu/lib/hooks/useKeyRecords.js:57:9
+
+    console.log
+      getCurrentUserError The user is not authenticated
+
+      at App.componentDidMount (src/App.js:136:15)
+
+    console.error
+      Warning: An update to Connect(App) inside a test was not wrapped in act(...).
+      
+      When testing, code that causes React state updates should be wrapped into act(...):
+      
+      act(() => {
+        /* fire events that update state */
+      });
+      /* assert on the output */
+      
+      This ensures that you're testing the behavior the user would see in the browser. Learn more at https://reactjs.org/link/wrap-tests-with-act
+          at ConnectFunction (C:\Users\christopher.aronchic\crowd-wisdom-sports-react-v2\client\node_modules\react-redux\src\components\connect.tsx:526:15)
+          at Route (C:\Users\christopher.aronchic\crowd-wisdom-sports-react-v2\client\node_modules\react-router\cjs\react-router.js:664:29)
+          at Router (C:\Users\christopher.aronchic\crowd-wisdom-sports-react-v2\client\node_modules\react-router\cjs\react-router.js:283:30)
+          at BrowserRouter (C:\Users\christopher.aronchic\crowd-wisdom-sports-react-v2\client\node_modules\react-router-dom\cjs\react-router-dom.js:75:35)
+          at Provider (C:\Users\christopher.aronchic\crowd-wisdom-sports-react-v2\client\node_modules\react-redux\src\components\Provider.tsx:60:11)
+
+    [0m [90m 19 |[39m     [90m//validate URL parameters - Sport[39m
+     [90m 20 |[39m     sport [33m=[39m sport [33m&&[39m sport [33m!==[39m [32m''[39m [33m&&[39m validSports[33m.[39mindexOf(sport) [33m>[39m [33m-[39m[35m1[39m [33m?[39m sport [33m:[39m [32m'nfl'[39m[33m;[39m
+    [31m[1m>[22m[39m[90m 21 |[39m     dispatch({
+     [90m    |[39m     [31m[1m^[22m[39m
+     [90m 22 |[39m         type[33m:[39m [33mSET_SPORT[39m[33m,[39m
+     [90m 23 |[39m         payload[33m:[39m sport
+     [90m 24 |[39m     })[0m
+
+      at printWarning (node_modules/react-dom/cjs/react-dom.development.js:86:30)
+      at error (node_modules/react-dom/cjs/react-dom.development.js:60:7)
+      at warnIfUpdatesNotWrappedWithActDEV (node_modules/react-dom/cjs/react-dom.development.js:27628:9)
+      at scheduleUpdateOnFiber (node_modules/react-dom/cjs/react-dom.development.js:25547:5)
+      at forceStoreRerender (node_modules/react-dom/cjs/react-dom.development.js:16158:5)
+      at handleStoreChange (node_modules/react-dom/cjs/react-dom.development.js:16134:7)
+      at Object.checkForUpdates [as onStateChange] (node_modules/react-redux/src/components/connect.tsx:158:7)
+      at Object.handleChangeWrapper [as callback] (node_modules/react-redux/src/utils/Subscription.ts:129:20)
+      at node_modules/react-redux/src/utils/Subscription.ts:29:20
+      at defaultNoopBatch (node_modules/react-redux/src/utils/batch.ts:3:3)
+      at Object.notify (node_modules/react-redux/src/utils/Subscription.ts:26:7)
+      at Object.notifyNestedSubs (node_modules/react-redux/src/utils/Subscription.ts:124:15)
+      at handleChangeWrapper (node_modules/react-redux/src/utils/Subscription.ts:129:20)
+      at node_modules/redux/src/createStore.ts:220:7
+          at Map.forEach (<anonymous>)
+      at dispatch (node_modules/redux/src/createStore.ts:219:15)
+      at node_modules/redux-thunk/lib/index.js:27:16
+      at dispatch (node_modules/redux/src/applyMiddleware.ts:52:38)
+      at src/redux/actions/sportActions.js:21:5
+      at node_modules/redux-thunk/lib/index.js:23:18
+      at Object.setSport (node_modules/react-redux/src/utils/bindActionCreators.ts:12:47)
+      at App.componentDidMount (src/App.js:146:18)
+
+    console.log
+      sport, year, season, week nfl NaN undefined NaN
+
+      at src/redux/actions/sportActions.js:25:13
+
+    console.error
+      Warning: [antd: Modal] `visible` will be removed in next major version, please use `open` instead.
+
+      at warning (node_modules/rc-util/lib/warning.js:43:15)
+      at call (node_modules/rc-util/lib/warning.js:64:5)
+      at warningOnce (node_modules/rc-util/lib/warning.js:71:3)
+      at warning (node_modules/antd/lib/_util/warning.js:21:29)
+      at Modal (node_modules/antd/lib/modal/Modal.js:65:67)
+      at renderWithHooks (node_modules/react-dom/cjs/react-dom.development.js:15486:18)
+      at updateFunctionComponent (node_modules/react-dom/cjs/react-dom.development.js:19617:20)
+      at beginWork (node_modules/react-dom/cjs/react-dom.development.js:21640:16)
+      at beginWork$1 (node_modules/react-dom/cjs/react-dom.development.js:27465:14)
+      at performUnitOfWork (node_modules/react-dom/cjs/react-dom.development.js:26599:12)
+      at workLoopSync (node_modules/react-dom/cjs/react-dom.development.js:26505:5)
+      at renderRootSync (node_modules/react-dom/cjs/react-dom.development.js:26473:7)
+      at performSyncWorkOnRoot (node_modules/react-dom/cjs/react-dom.development.js:26124:20)
+      at flushSyncCallbacks (node_modules/react-dom/cjs/react-dom.development.js:12042:22)
+      at node_modules/react-dom/cjs/react-dom.development.js:25690:13
+      at node_modules/jsdom/lib/jsdom/browser/Window.js:550:9
+
+    console.error
+      Warning: [antd: Modal] `visible` will be removed in next major version, please use `open` instead.
+
+      at warning (node_modules/rc-util/lib/warning.js:43:15)
+      at call (node_modules/rc-util/lib/warning.js:64:5)
+      at warningOnce (node_modules/rc-util/lib/warning.js:71:3)
+      at warning (node_modules/antd/lib/_util/warning.js:21:29)
+      at Modal (node_modules/antd/lib/modal/Modal.js:65:67)
+      at renderWithHooks (node_modules/react-dom/cjs/react-dom.development.js:15486:18)
+      at updateFunctionComponent (node_modules/react-dom/cjs/react-dom.development.js:19617:20)
+      at beginWork (node_modules/react-dom/cjs/react-dom.development.js:21640:16)
+      at beginWork$1 (node_modules/react-dom/cjs/react-dom.development.js:27465:14)
+      at performUnitOfWork (node_modules/react-dom/cjs/react-dom.development.js:26599:12)
+      at workLoopSync (node_modules/react-dom/cjs/react-dom.development.js:26505:5)
+      at renderRootSync (node_modules/react-dom/cjs/react-dom.development.js:26473:7)
+      at performSyncWorkOnRoot (node_modules/react-dom/cjs/react-dom.development.js:26124:20)
+      at flushSyncCallbacks (node_modules/react-dom/cjs/react-dom.development.js:12042:22)
+      at node_modules/react-dom/cjs/react-dom.development.js:25690:13
+      at node_modules/jsdom/lib/jsdom/browser/Window.js:550:9
+
+    console.error
+      Warning: An update to Connect(StakehouseHeader) inside a test was not wrapped in act(...).
+      
+      When testing, code that causes React state updates should be wrapped into act(...):
+      
+      act(() => {
+        /* fire events that update state */
+      });
+      /* assert on the output */
+      
+      This ensures that you're testing the behavior the user would see in the browser. Learn more at https://reactjs.org/link/wrap-tests-with-act
+          at ConnectFunction (C:\Users\christopher.aronchic\crowd-wisdom-sports-react-v2\client\node_modules\react-redux\src\components\connect.tsx:526:15)
+          at section
+          at C:\Users\christopher.aronchic\crowd-wisdom-sports-react-v2\client\node_modules\antd\lib\layout\layout.js:70:34
+          at C:\Users\christopher.aronchic\crowd-wisdom-sports-react-v2\client\node_modules\antd\lib\layout\layout.js:40:37
+          at div
+          at App (C:\Users\christopher.aronchic\crowd-wisdom-sports-react-v2\client\src\App.js:81:5)
+          at ConnectFunction (C:\Users\christopher.aronchic\crowd-wisdom-sports-react-v2\client\node_modules\react-redux\src\components\connect.tsx:526:15)
+          at Route (C:\Users\christopher.aronchic\crowd-wisdom-sports-react-v2\client\node_modules\react-router\cjs\react-router.js:664:29)
+          at Router (C:\Users\christopher.aronchic\crowd-wisdom-sports-react-v2\client\node_modules\react-router\cjs\react-router.js:283:30)
+          at BrowserRouter (C:\Users\christopher.aronchic\crowd-wisdom-sports-react-v2\client\node_modules\react-router-dom\cjs\react-router-dom.js:75:35)
+          at Provider (C:\Users\christopher.aronchic\crowd-wisdom-sports-react-v2\client\node_modules\react-redux\src\components\Provider.tsx:60:11)
+
+      at printWarning (node_modules/react-dom/cjs/react-dom.development.js:86:30)
+      at error (node_modules/react-dom/cjs/react-dom.development.js:60:7)
+      at warnIfUpdatesNotWrappedWithActDEV (node_modules/react-dom/cjs/react-dom.development.js:27628:9)
+      at scheduleUpdateOnFiber (node_modules/react-dom/cjs/react-dom.development.js:25547:5)
+      at forceStoreRerender (node_modules/react-dom/cjs/react-dom.development.js:16158:5)
+      at handleStoreChange (node_modules/react-dom/cjs/react-dom.development.js:16134:7)
+      at Object.checkForUpdates [as onStateChange] (node_modules/react-redux/src/components/connect.tsx:158:7)
+      at Object.handleChangeWrapper [as callback] (node_modules/react-redux/src/utils/Subscription.ts:129:20)
+      at node_modules/react-redux/src/utils/Subscription.ts:29:20
+      at defaultNoopBatch (node_modules/react-redux/src/utils/batch.ts:3:3)
+      at Object.notify (node_modules/react-redux/src/utils/Subscription.ts:26:7)
+      at Object.notifyNestedSubs (node_modules/react-redux/src/utils/Subscription.ts:124:15)
+      at captureWrapperProps (node_modules/react-redux/src/components/connect.tsx:87:5)
+      at node_modules/react-redux/src/components/connect.tsx:67:35
+      at commitHookEffectListMount (node_modules/react-dom/cjs/react-dom.development.js:23189:26)
+      at commitLayoutEffectOnFiber (node_modules/react-dom/cjs/react-dom.development.js:23312:15)
+      at commitLayoutMountEffects_complete (node_modules/react-dom/cjs/react-dom.development.js:24727:9)
+      at commitLayoutEffects_begin (node_modules/react-dom/cjs/react-dom.development.js:24713:7)
+      at commitLayoutEffects (node_modules/react-dom/cjs/react-dom.development.js:24651:3)
+      at commitRootImpl (node_modules/react-dom/cjs/react-dom.development.js:26862:5)
+      at commitRoot (node_modules/react-dom/cjs/react-dom.development.js:26721:5)
+      at performSyncWorkOnRoot (node_modules/react-dom/cjs/react-dom.development.js:26156:3)
+      at flushSyncCallbacks (node_modules/react-dom/cjs/react-dom.development.js:12042:22)
+      at node_modules/react-dom/cjs/react-dom.development.js:25690:13
+      at node_modules/jsdom/lib/jsdom/browser/Window.js:550:9
+
+    console.error
+      Warning: An update to Connect(SideMenu) inside a test was not wrapped in act(...).
+      
+      When testing, code that causes React state updates should be wrapped into act(...):
+      
+      act(() => {
+        /* fire events that update state */
+      });
+      /* assert on the output */
+      
+      This ensures that you're testing the behavior the user would see in the browser. Learn more at https://reactjs.org/link/wrap-tests-with-act
+          at ConnectFunction (C:\Users\christopher.aronchic\crowd-wisdom-sports-react-v2\client\node_modules\react-redux\src\components\connect.tsx:526:15)
+          at section
+          at C:\Users\christopher.aronchic\crowd-wisdom-sports-react-v2\client\node_modules\antd\lib\layout\layout.js:70:34
+          at C:\Users\christopher.aronchic\crowd-wisdom-sports-react-v2\client\node_modules\antd\lib\layout\layout.js:40:37
+          at main
+          at C:\Users\christopher.aronchic\crowd-wisdom-sports-react-v2\client\node_modules\antd\lib\layout\layout.js:57:25
+          at C:\Users\christopher.aronchic\crowd-wisdom-sports-react-v2\client\node_modules\antd\lib\layout\layout.js:40:37
+          at section
+          at C:\Users\christopher.aronchic\crowd-wisdom-sports-react-v2\client\node_modules\antd\lib\layout\layout.js:70:34
+          at C:\Users\christopher.aronchic\crowd-wisdom-sports-react-v2\client\node_modules\antd\lib\layout\layout.js:40:37
+          at div
+          at App (C:\Users\christopher.aronchic\crowd-wisdom-sports-react-v2\client\src\App.js:81:5)
+          at ConnectFunction (C:\Users\christopher.aronchic\crowd-wisdom-sports-react-v2\client\node_modules\react-redux\src\components\connect.tsx:526:15)
+          at Route (C:\Users\christopher.aronchic\crowd-wisdom-sports-react-v2\client\node_modules\react-router\cjs\react-router.js:664:29)
+          at Router (C:\Users\christopher.aronchic\crowd-wisdom-sports-react-v2\client\node_modules\react-router\cjs\react-router.js:283:30)
+          at BrowserRouter (C:\Users\christopher.aronchic\crowd-wisdom-sports-react-v2\client\node_modules\react-router-dom\cjs\react-router-dom.js:75:35)
+          at Provider (C:\Users\christopher.aronchic\crowd-wisdom-sports-react-v2\client\node_modules\react-redux\src\components\Provider.tsx:60:11)
+
+      at printWarning (node_modules/react-dom/cjs/react-dom.development.js:86:30)
+      at error (node_modules/react-dom/cjs/react-dom.development.js:60:7)
+      at warnIfUpdatesNotWrappedWithActDEV (node_modules/react-dom/cjs/react-dom.development.js:27628:9)
+      at scheduleUpdateOnFiber (node_modules/react-dom/cjs/react-dom.development.js:25547:5)
+      at forceStoreRerender (node_modules/react-dom/cjs/react-dom.development.js:16158:5)
+      at handleStoreChange (node_modules/react-dom/cjs/react-dom.development.js:16134:7)
+      at Object.checkForUpdates [as onStateChange] (node_modules/react-redux/src/components/connect.tsx:158:7)
+      at Object.handleChangeWrapper [as callback] (node_modules/react-redux/src/utils/Subscription.ts:129:20)
+      at node_modules/react-redux/src/utils/Subscription.ts:29:20
+      at defaultNoopBatch (node_modules/react-redux/src/utils/batch.ts:3:3)
+      at Object.notify (node_modules/react-redux/src/utils/Subscription.ts:26:7)
+      at Object.notifyNestedSubs (node_modules/react-redux/src/utils/Subscription.ts:124:15)
+      at captureWrapperProps (node_modules/react-redux/src/components/connect.tsx:87:5)
+      at node_modules/react-redux/src/components/connect.tsx:67:35
+      at commitHookEffectListMount (node_modules/react-dom/cjs/react-dom.development.js:23189:26)
+      at commitLayoutEffectOnFiber (node_modules/react-dom/cjs/react-dom.development.js:23312:15)
+      at commitLayoutMountEffects_complete (node_modules/react-dom/cjs/react-dom.development.js:24727:9)
+      at commitLayoutEffects_begin (node_modules/react-dom/cjs/react-dom.development.js:24713:7)
+      at commitLayoutEffects (node_modules/react-dom/cjs/react-dom.development.js:24651:3)
+      at commitRootImpl (node_modules/react-dom/cjs/react-dom.development.js:26862:5)
+      at commitRoot (node_modules/react-dom/cjs/react-dom.development.js:26721:5)
+      at performSyncWorkOnRoot (node_modules/react-dom/cjs/react-dom.development.js:26156:3)
+      at flushSyncCallbacks (node_modules/react-dom/cjs/react-dom.development.js:12042:22)
+      at node_modules/react-dom/cjs/react-dom.development.js:25690:13
+      at node_modules/jsdom/lib/jsdom/browser/Window.js:550:9
+
+    console.error
+      Warning: An update to Connect(Weeks) inside a test was not wrapped in act(...).
+      
+      When testing, code that causes React state updates should be wrapped into act(...):
+      
+      act(() => {
+        /* fire events that update state */
+      });
+      /* assert on the output */
+      
+      This ensures that you're testing the behavior the user would see in the browser. Learn more at https://reactjs.org/link/wrap-tests-with-act
+          at ConnectFunction (C:\Users\christopher.aronchic\crowd-wisdom-sports-react-v2\client\node_modules\react-redux\src\components\connect.tsx:526:15)
+          at div
+          at div
+          at Games (C:\Users\christopher.aronchic\crowd-wisdom-sports-react-v2\client\src\components\games\Games.js:18:50)
+          at ConnectFunction (C:\Users\christopher.aronchic\crowd-wisdom-sports-react-v2\client\node_modules\react-redux\src\components\connect.tsx:526:15)
+          at Route (C:\Users\christopher.aronchic\crowd-wisdom-sports-react-v2\client\node_modules\react-router\cjs\react-router.js:664:29)
+          at Switch (C:\Users\christopher.aronchic\crowd-wisdom-sports-react-v2\client\node_modules\react-router\cjs\react-router.js:866:29)
+          at main
+          at C:\Users\christopher.aronchic\crowd-wisdom-sports-react-v2\client\node_modules\antd\lib\layout\layout.js:57:25
+          at C:\Users\christopher.aronchic\crowd-wisdom-sports-react-v2\client\node_modules\antd\lib\layout\layout.js:40:37
+          at section
+          at C:\Users\christopher.aronchic\crowd-wisdom-sports-react-v2\client\node_modules\antd\lib\layout\layout.js:70:34
+          at C:\Users\christopher.aronchic\crowd-wisdom-sports-react-v2\client\node_modules\antd\lib\layout\layout.js:40:37
+          at main
+          at C:\Users\christopher.aronchic\crowd-wisdom-sports-react-v2\client\node_modules\antd\lib\layout\layout.js:57:25
+          at C:\Users\christopher.aronchic\crowd-wisdom-sports-react-v2\client\node_modules\antd\lib\layout\layout.js:40:37
+          at section
+          at C:\Users\christopher.aronchic\crowd-wisdom-sports-react-v2\client\node_modules\antd\lib\layout\layout.js:70:34
+          at C:\Users\christopher.aronchic\crowd-wisdom-sports-react-v2\client\node_modules\antd\lib\layout\layout.js:40:37
+          at div
+          at App (C:\Users\christopher.aronchic\crowd-wisdom-sports-react-v2\client\src\App.js:81:5)
+          at ConnectFunction (C:\Users\christopher.aronchic\crowd-wisdom-sports-react-v2\client\node_modules\react-redux\src\components\connect.tsx:526:15)
+          at Route (C:\Users\christopher.aronchic\crowd-wisdom-sports-react-v2\client\node_modules\react-router\cjs\react-router.js:664:29)
+          at Router (C:\Users\christopher.aronchic\crowd-wisdom-sports-react-v2\client\node_modules\react-router\cjs\react-router.js:283:30)
+          at BrowserRouter (C:\Users\christopher.aronchic\crowd-wisdom-sports-react-v2\client\node_modules\react-router-dom\cjs\react-router-dom.js:75:35)
+          at Provider (C:\Users\christopher.aronchic\crowd-wisdom-sports-react-v2\client\node_modules\react-redux\src\components\Provider.tsx:60:11)
+
+      at printWarning (node_modules/react-dom/cjs/react-dom.development.js:86:30)
+      at error (node_modules/react-dom/cjs/react-dom.development.js:60:7)
+      at warnIfUpdatesNotWrappedWithActDEV (node_modules/react-dom/cjs/react-dom.development.js:27628:9)
+      at scheduleUpdateOnFiber (node_modules/react-dom/cjs/react-dom.development.js:25547:5)
+      at forceStoreRerender (node_modules/react-dom/cjs/react-dom.development.js:16158:5)
+      at handleStoreChange (node_modules/react-dom/cjs/react-dom.development.js:16134:7)
+      at Object.checkForUpdates [as onStateChange] (node_modules/react-redux/src/components/connect.tsx:158:7)
+      at Object.handleChangeWrapper [as callback] (node_modules/react-redux/src/utils/Subscription.ts:129:20)
+      at node_modules/react-redux/src/utils/Subscription.ts:29:20
+      at defaultNoopBatch (node_modules/react-redux/src/utils/batch.ts:3:3)
+      at Object.notify (node_modules/react-redux/src/utils/Subscription.ts:26:7)
+      at Object.notifyNestedSubs (node_modules/react-redux/src/utils/Subscription.ts:124:15)
+      at Object.checkForUpdates [as onStateChange] (node_modules/react-redux/src/components/connect.tsx:145:9)
+      at Object.handleChangeWrapper [as callback] (node_modules/react-redux/src/utils/Subscription.ts:129:20)
+      at node_modules/react-redux/src/utils/Subscription.ts:29:20
+      at defaultNoopBatch (node_modules/react-redux/src/utils/batch.ts:3:3)
+      at Object.notify (node_modules/react-redux/src/utils/Subscription.ts:26:7)
+      at Object.notifyNestedSubs (node_modules/react-redux/src/utils/Subscription.ts:124:15)
+      at captureWrapperProps (node_modules/react-redux/src/components/connect.tsx:87:5)
+      at node_modules/react-redux/src/components/connect.tsx:67:35
+      at commitHookEffectListMount (node_modules/react-dom/cjs/react-dom.development.js:23189:26)
+      at commitLayoutEffectOnFiber (node_modules/react-dom/cjs/react-dom.development.js:23312:15)
+      at commitLayoutMountEffects_complete (node_modules/react-dom/cjs/react-dom.development.js:24727:9)
+      at commitLayoutEffects_begin (node_modules/react-dom/cjs/react-dom.development.js:24713:7)
+      at commitLayoutEffects (node_modules/react-dom/cjs/react-dom.development.js:24651:3)
+      at commitRootImpl (node_modules/react-dom/cjs/react-dom.development.js:26862:5)
+      at commitRoot (node_modules/react-dom/cjs/react-dom.development.js:26721:5)
+      at performSyncWorkOnRoot (node_modules/react-dom/cjs/react-dom.development.js:26156:3)
+      at flushSyncCallbacks (node_modules/react-dom/cjs/react-dom.development.js:12042:22)
+      at node_modules/react-dom/cjs/react-dom.development.js:25690:13
+      at node_modules/jsdom/lib/jsdom/browser/Window.js:550:9
+
+    console.error
+      Warning: An update to Connect(LoginModal) inside a test was not wrapped in act(...).
+      
+      When testing, code that causes React state updates should be wrapped into act(...):
+      
+      act(() => {
+        /* fire events that update state */
+      });
+      /* assert on the output */
+      
+      This ensures that you're testing the behavior the user would see in the browser. Learn more at https://reactjs.org/link/wrap-tests-with-act
+          at ConnectFunction (C:\Users\christopher.aronchic\crowd-wisdom-sports-react-v2\client\node_modules\react-redux\src\components\connect.tsx:526:15)
+          at div
+          at App (C:\Users\christopher.aronchic\crowd-wisdom-sports-react-v2\client\src\App.js:81:5)
+          at ConnectFunction (C:\Users\christopher.aronchic\crowd-wisdom-sports-react-v2\client\node_modules\react-redux\src\components\connect.tsx:526:15)
+          at Route (C:\Users\christopher.aronchic\crowd-wisdom-sports-react-v2\client\node_modules\react-router\cjs\react-router.js:664:29)
+          at Router (C:\Users\christopher.aronchic\crowd-wisdom-sports-react-v2\client\node_modules\react-router\cjs\react-router.js:283:30)
+          at BrowserRouter (C:\Users\christopher.aronchic\crowd-wisdom-sports-react-v2\client\node_modules\react-router-dom\cjs\react-router-dom.js:75:35)
+          at Provider (C:\Users\christopher.aronchic\crowd-wisdom-sports-react-v2\client\node_modules\react-redux\src\components\Provider.tsx:60:11)
+
+      at printWarning (node_modules/react-dom/cjs/react-dom.development.js:86:30)
+      at error (node_modules/react-dom/cjs/react-dom.development.js:60:7)
+      at warnIfUpdatesNotWrappedWithActDEV (node_modules/react-dom/cjs/react-dom.development.js:27628:9)
+      at scheduleUpdateOnFiber (node_modules/react-dom/cjs/react-dom.development.js:25547:5)
+      at forceStoreRerender (node_modules/react-dom/cjs/react-dom.development.js:16158:5)
+      at handleStoreChange (node_modules/react-dom/cjs/react-dom.development.js:16134:7)
+      at Object.checkForUpdates [as onStateChange] (node_modules/react-redux/src/components/connect.tsx:158:7)
+      at Object.handleChangeWrapper [as callback] (node_modules/react-redux/src/utils/Subscription.ts:129:20)
+      at node_modules/react-redux/src/utils/Subscription.ts:29:20
+      at defaultNoopBatch (node_modules/react-redux/src/utils/batch.ts:3:3)
+      at Object.notify (node_modules/react-redux/src/utils/Subscription.ts:26:7)
+      at Object.notifyNestedSubs (node_modules/react-redux/src/utils/Subscription.ts:124:15)
+      at captureWrapperProps (node_modules/react-redux/src/components/connect.tsx:87:5)
+      at node_modules/react-redux/src/components/connect.tsx:67:35
+      at commitHookEffectListMount (node_modules/react-dom/cjs/react-dom.development.js:23189:26)
+      at commitLayoutEffectOnFiber (node_modules/react-dom/cjs/react-dom.development.js:23312:15)
+      at commitLayoutMountEffects_complete (node_modules/react-dom/cjs/react-dom.development.js:24727:9)
+      at commitLayoutEffects_begin (node_modules/react-dom/cjs/react-dom.development.js:24713:7)
+      at commitLayoutEffects (node_modules/react-dom/cjs/react-dom.development.js:24651:3)
+      at commitRootImpl (node_modules/react-dom/cjs/react-dom.development.js:26862:5)
+      at commitRoot (node_modules/react-dom/cjs/react-dom.development.js:26721:5)
+      at performSyncWorkOnRoot (node_modules/react-dom/cjs/react-dom.development.js:26156:3)
+      at flushSyncCallbacks (node_modules/react-dom/cjs/react-dom.development.js:12042:22)
+      at node_modules/react-dom/cjs/react-dom.development.js:25690:13
+      at node_modules/jsdom/lib/jsdom/browser/Window.js:550:9
+
+    console.error
+      Warning: [antd: Menu] `children` will be removed in next major version. Please use `items` instead.
+
+      at warning (node_modules/rc-util/lib/warning.js:43:15)
+      at call (node_modules/rc-util/lib/warning.js:64:5)
+      at warningOnce (node_modules/rc-util/lib/warning.js:71:3)
+      at warning (node_modules/antd/lib/_util/warning.js:21:29)
+      at node_modules/antd/lib/menu/index.js:71:67
+      at renderWithHooks (node_modules/react-dom/cjs/react-dom.development.js:15486:18)
+      at updateForwardRef (node_modules/react-dom/cjs/react-dom.development.js:19245:20)
+      at beginWork (node_modules/react-dom/cjs/react-dom.development.js:21675:16)
+      at beginWork$1 (node_modules/react-dom/cjs/react-dom.development.js:27465:14)
+      at performUnitOfWork (node_modules/react-dom/cjs/react-dom.development.js:26599:12)
+      at workLoopSync (node_modules/react-dom/cjs/react-dom.development.js:26505:5)
+      at renderRootSync (node_modules/react-dom/cjs/react-dom.development.js:26473:7)
+      at performSyncWorkOnRoot (node_modules/react-dom/cjs/react-dom.development.js:26124:20)
+      at flushSyncCallbacks (node_modules/react-dom/cjs/react-dom.development.js:12042:22)
+      at node_modules/react-dom/cjs/react-dom.development.js:25690:13
+      at node_modules/jsdom/lib/jsdom/browser/Window.js:550:9
+
+    console.error
+      Warning: [antd: Modal] `visible` will be removed in next major version, please use `open` instead.
+
+      at warning (node_modules/rc-util/lib/warning.js:43:15)
+      at call (node_modules/rc-util/lib/warning.js:64:5)
+      at warningOnce (node_modules/rc-util/lib/warning.js:71:3)
+      at warning (node_modules/antd/lib/_util/warning.js:21:29)
+      at Modal (node_modules/antd/lib/modal/Modal.js:65:67)
+      at renderWithHooks (node_modules/react-dom/cjs/react-dom.development.js:15486:18)
+      at updateFunctionComponent (node_modules/react-dom/cjs/react-dom.development.js:19617:20)
+      at beginWork (node_modules/react-dom/cjs/react-dom.development.js:21640:16)
+      at beginWork$1 (node_modules/react-dom/cjs/react-dom.development.js:27465:14)
+      at performUnitOfWork (node_modules/react-dom/cjs/react-dom.development.js:26599:12)
+      at workLoopSync (node_modules/react-dom/cjs/react-dom.development.js:26505:5)
+      at renderRootSync (node_modules/react-dom/cjs/react-dom.development.js:26473:7)
+      at performSyncWorkOnRoot (node_modules/react-dom/cjs/react-dom.development.js:26124:20)
+      at flushSyncCallbacks (node_modules/react-dom/cjs/react-dom.development.js:12042:22)
+      at node_modules/react-dom/cjs/react-dom.development.js:25690:13
+      at node_modules/jsdom/lib/jsdom/browser/Window.js:550:9
+
+    console.error
+      Warning: An update to Connect(LoginButton) inside a test was not wrapped in act(...).
+      
+      When testing, code that causes React state updates should be wrapped into act(...):
+      
+      act(() => {
+        /* fire events that update state */
+      });
+      /* assert on the output */
+      
+      This ensures that you're testing the behavior the user would see in the browser. Learn more at https://reactjs.org/link/wrap-tests-with-act
+          at ConnectFunction (C:\Users\christopher.aronchic\crowd-wisdom-sports-react-v2\client\node_modules\react-redux\src\components\connect.tsx:526:15)
+          at header
+          at C:\Users\christopher.aronchic\crowd-wisdom-sports-react-v2\client\node_modules\antd\lib\layout\layout.js:57:25
+          at C:\Users\christopher.aronchic\crowd-wisdom-sports-react-v2\client\node_modules\antd\lib\layout\layout.js:40:37
+          at StakehouseHeader (C:\Users\christopher.aronchic\crowd-wisdom-sports-react-v2\client\src\components\layout\header\Header.js:18:29)
+          at ConnectFunction (C:\Users\christopher.aronchic\crowd-wisdom-sports-react-v2\client\node_modules\react-redux\src\components\connect.tsx:526:15)
+          at section
+          at C:\Users\christopher.aronchic\crowd-wisdom-sports-react-v2\client\node_modules\antd\lib\layout\layout.js:70:34
+          at C:\Users\christopher.aronchic\crowd-wisdom-sports-react-v2\client\node_modules\antd\lib\layout\layout.js:40:37
+          at div
+          at App (C:\Users\christopher.aronchic\crowd-wisdom-sports-react-v2\client\src\App.js:81:5)
+          at ConnectFunction (C:\Users\christopher.aronchic\crowd-wisdom-sports-react-v2\client\node_modules\react-redux\src\components\connect.tsx:526:15)
+          at Route (C:\Users\christopher.aronchic\crowd-wisdom-sports-react-v2\client\node_modules\react-router\cjs\react-router.js:664:29)
+          at Router (C:\Users\christopher.aronchic\crowd-wisdom-sports-react-v2\client\node_modules\react-router\cjs\react-router.js:283:30)
+          at BrowserRouter (C:\Users\christopher.aronchic\crowd-wisdom-sports-react-v2\client\node_modules\react-router-dom\cjs\react-router-dom.js:75:35)
+          at Provider (C:\Users\christopher.aronchic\crowd-wisdom-sports-react-v2\client\node_modules\react-redux\src\components\Provider.tsx:60:11)
+
+      at printWarning (node_modules/react-dom/cjs/react-dom.development.js:86:30)
+      at error (node_modules/react-dom/cjs/react-dom.development.js:60:7)
+      at warnIfUpdatesNotWrappedWithActDEV (node_modules/react-dom/cjs/react-dom.development.js:27628:9)
+      at scheduleUpdateOnFiber (node_modules/react-dom/cjs/react-dom.development.js:25547:5)
+      at forceStoreRerender (node_modules/react-dom/cjs/react-dom.development.js:16158:5)
+      at handleStoreChange (node_modules/react-dom/cjs/react-dom.development.js:16134:7)
+      at Object.checkForUpdates [as onStateChange] (node_modules/react-redux/src/components/connect.tsx:158:7)
+      at Object.handleChangeWrapper [as callback] (node_modules/react-redux/src/utils/Subscription.ts:129:20)
+      at node_modules/react-redux/src/utils/Subscription.ts:29:20
+      at defaultNoopBatch (node_modules/react-redux/src/utils/batch.ts:3:3)
+      at Object.notify (node_modules/react-redux/src/utils/Subscription.ts:26:7)
+      at Object.notifyNestedSubs (node_modules/react-redux/src/utils/Subscription.ts:124:15)
+      at captureWrapperProps (node_modules/react-redux/src/components/connect.tsx:87:5)
+      at node_modules/react-redux/src/components/connect.tsx:67:35
+      at commitHookEffectListMount (node_modules/react-dom/cjs/react-dom.development.js:23189:26)
+      at commitLayoutEffectOnFiber (node_modules/react-dom/cjs/react-dom.development.js:23312:15)
+      at commitLayoutMountEffects_complete (node_modules/react-dom/cjs/react-dom.development.js:24727:9)
+      at commitLayoutEffects_begin (node_modules/react-dom/cjs/react-dom.development.js:24713:7)
+      at commitLayoutEffects (node_modules/react-dom/cjs/react-dom.development.js:24651:3)
+      at commitRootImpl (node_modules/react-dom/cjs/react-dom.development.js:26862:5)
+      at commitRoot (node_modules/react-dom/cjs/react-dom.development.js:26721:5)
+      at performSyncWorkOnRoot (node_modules/react-dom/cjs/react-dom.development.js:26156:3)
+      at flushSyncCallbacks (node_modules/react-dom/cjs/react-dom.development.js:12042:22)
+      at node_modules/react-dom/cjs/react-dom.development.js:25690:13
+      at node_modules/jsdom/lib/jsdom/browser/Window.js:550:9
+
+
+Test Suites: 11 passed, 11 total
+Tests:       32 passed, 32 total
+Snapshots:   0 total
+Time:        11.982 s
+Ran all test suites.
+Done in 13.24s.

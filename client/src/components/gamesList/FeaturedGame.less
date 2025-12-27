@@ -1,0 +1,129 @@
+@import '../../App.less';
+
+.featured-game-card {
+  margin-bottom: 24px;
+  background: linear-gradient(135deg, @primary-color 0%, darken(@primary-color, 20%) 100%) !important;
+  border-radius: 12px;
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.15);
+  overflow: hidden;
+  position: relative;
+  cursor: pointer;
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+
+  &:hover {
+    transform: translateY(-4px);
+    box-shadow: 0 12px 30px rgba(0, 0, 0, 0.2);
+  }
+
+  .ant-card-body {
+    padding: 24px !important;
+    background: transparent !important;
+  }
+
+  .featured-badge {
+    position: absolute;
+    top: 16px;
+    left: 16px;
+    z-index: 2;
+    
+    .ant-tag {
+        font-weight: bold;
+        border: none;
+        padding: 4px 10px;
+    }
+  }
+
+  .matchup-content {
+      position: relative;
+      z-index: 1;
+  }
+
+  .team-col {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+  }
+
+  .team-logo-placeholder {
+    width: 80px;
+    height: 80px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 24px;
+    font-weight: 900;
+    margin-bottom: 12px;
+    border: 3px solid rgba(255,255,255,0.2);
+    box-shadow: 0 4px 12px rgba(0,0,0,0.2);
+    text-transform: uppercase;
+  }
+
+  .team-name {
+    color: #fff !important;
+    margin-bottom: 0 !important;
+    font-size: 1.2rem;
+    text-shadow: 0 2px 4px rgba(0,0,0,0.3);
+    background-color: #ffffff2e;
+    
+    @media (max-width: 576px) {
+        font-size: 1rem;
+    }
+  }
+
+  .vs-col {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+  }
+
+  .vs-text {
+    font-size: 2rem;
+    font-weight: 900;
+    color: rgba(255, 255, 255, 0.3);
+    font-style: italic;
+    line-height: 1;
+    margin-bottom: 4px;
+  }
+
+  .game-time {
+    color: @highlight-color;
+    font-weight: 600;
+    font-size: 0.9rem;
+    background: rgba(0,0,0,0.3);
+    padding: 4px 12px;
+    border-radius: 20px;
+  }
+
+  .cta-section {
+    margin-top: 24px;
+    text-align: center;
+
+    .ant-btn-primary {
+        background-color: @tertiary-color;
+        border-color: @tertiary-color;
+        font-weight: bold;
+        height: 48px;
+        padding: 0 32px;
+        font-size: 1.1rem;
+        
+        &:hover {
+            background-color: lighten(@tertiary-color, 10%);
+            border-color: lighten(@tertiary-color, 10%);
+        }
+    }
+    .cta-button-disabled {
+      color:rgba(255,255,255) !important;
+    }
+
+    .engagement-text {
+        margin-top: 12px;
+        .ant-typography {
+            color: rgba(255,255,255,0.8);
+        }
+    }
+  }
+}

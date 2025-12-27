@@ -1,0 +1,82 @@
+@import '../../App.less';
+
+.matchup-ticker-container {
+    position: sticky;
+    top: 0; // Header is not sticky, so ticker should stick to top of viewport
+    z-index: 1000;
+    background-color: #231f20; // Opaque dark background
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.4); // Stronger shadow for separation
+    width: 100%;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+.matchup-ticker {
+    display: flex;
+    flex-direction: row;
+    overflow-x: auto;
+    white-space: nowrap;
+    padding: 10px 0;
+    margin: 0;
+    // Hide scrollbar but keep functionality
+    -ms-overflow-style: none;
+    /* IE and Edge */
+    scrollbar-width: none;
+    /* Firefox */
+
+    &::-webkit-scrollbar {
+        display: none;
+    }
+}
+
+.ticker-item {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 6px 16px;
+    margin: 0 8px;
+    background-color: rgba(255, 255, 255, 0.05);
+    border-radius: 20px;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    color: rgba(255, 255, 255, 0.6);
+    font-weight: 600;
+    font-size: 0.9rem;
+    border: 1px solid transparent;
+
+    &:first-child {
+        margin-left: 16px;
+    }
+
+    &:last-child {
+        margin-right: 16px;
+    }
+
+    &:hover {
+        background-color: rgba(255, 255, 255, 0.1);
+        color: #fff;
+    }
+
+    &.active {
+        background-color: @primary-color;
+        color: #fff;
+        transform: scale(1.05);
+        box-shadow: 0 2px 8px rgba(0, 0, 0, 0.2);
+    }
+
+    .ticker-team {
+        letter-spacing: 0.5px;
+    }
+
+    .ticker-cnct {
+        margin: 0 6px;
+        opacity: 0.5;
+        font-size: 0.8em;
+    }
+}
+
+// Mobile specific adjustments
+@media (max-width: 768px) {
+    .matchup-ticker-container {
+        top: 0; // Header might behave differently on mobile
+    }
+}

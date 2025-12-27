@@ -12,7 +12,7 @@
     "start": "node server.js",
     "start:dev": "node server.js && cd client && yarn start",
     "server": "nodemon server.js",
-    "heroku-postbuild": "NPM_CONFIG_PRODUCTION=false yarn install && cd client && yarn install && yarn build"
+    "heroku-postbuild": "cross-env NPM_CONFIG_PRODUCTION=false yarn install && cd client && yarn install && yarn build"
   },
   "repository": {
     "type": "git",
@@ -31,12 +31,12 @@
     "@fortawesome/fontawesome-svg-core": "^1.2.28",
     "@fortawesome/free-solid-svg-icons": "^5.13.0",
     "@fortawesome/react-fontawesome": "^0.1.9",
-    "aws-amplify": "^3.0.14",
+    "aws-amplify": "4.3.12",
     "busboy": "^0.3.1",
-    "concurrently": "^5.2.0",
+    "concurrently": "^9.2.1",
     "cors": "^2.8.5",
-    "express": "^4.17.1",
-    "jest": "26.6.0",
+    "express": "^5.2.1",
+    "jest": "^30.2.0",
     "ky": "^0.20.0",
     "ky-universal": "^0.6.0",
     "react-ga": "^3.1.2"
@@ -50,8 +50,13 @@
     "@babel/preset-react": "^7.10.4",
     "babel-polyfill": "^6.26.0",
     "craco-less": "^1.17.0",
+    "cross-env": "^10.1.0",
     "css-loader": "^3.6.0",
     "style-loader": "^1.2.1",
     "webpack-cli": "^3.3.12"
-  }
+  },
+  "engines": {
+    "node": ">=20.0.0"
+  },
+  "packageManager": "yarn@1.22.22+sha512.a6b2f7906b721bba3d67d4aff083df04dad64c399707841b7acf00f6b133b7ac24255f2652fa22ae3534329dc6180534e98d17432037ff6fd140556e2bb3137e"
 }

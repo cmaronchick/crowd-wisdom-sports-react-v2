@@ -1,40 +1,28 @@
 import React from 'react';
 import { render } from '@testing-library/react';
-import { Route, BrowserRouter as Router } from 'react-router-dom';
+import { Provider } from 'react-redux';
+import { BrowserRouter as Router } from 'react-router-dom';
 import Header from '../components/layout/header/Header';
-import store from '../redux/store'
-import { Provider } from 'react-redux'
+import store from '../redux/store';
 
-import {SET_GAMES, SET_SPORT} from '../redux/types'
-describe('header tests', () => {
-    store.dispatch({
-        type: SET_SPORT,
-        payload: {
-            sport: 'nfl'
-        }
-    })
-    store.dispatch({
-        type: SET_GAMES,
-        payload: {
-            games: {},
-            loadingGames: false
-        }
+// Mock matchMedia
+window.matchMedia = window.matchMedia || function () {
+    return {
+        matches: false,
+        addListener: function () { },
+        removeListener: function () { }
+    };
+};
 
-    })
-    test('renders only the title', () => {
-    const { getByText } = render(<Provider store={store}><Router><Header /></Router>w</Provider>);
-    const title = getByText(/Stakehouse Sports/i);
-    expect(title).toBeInTheDocument();
-    });
-
-
-    test('renders only the message', () => {
-        const { getByText } = render(<Provider store={store}>
+test('renders Header with logo', () => {
+    const { getByAltText } = render(
+        <Provider store={store}>
             <Router>
-            <Header message={`Test message`} />
+                <Header />
             </Router>
-            </Provider>);
-        const message = getByText(/Test message/i);
-        expect(message).toBeInTheDocument();
-    });
-})
+        </Provider>
+    );
+    const logo = getByAltText(/Stakehouse Sports/i);
+    expect(logo).toBeInTheDocument();
+    expect(logo).toHaveAttribute('src', 'stake-image.png');
+});

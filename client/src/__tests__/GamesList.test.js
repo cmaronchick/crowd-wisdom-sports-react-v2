@@ -1,4 +1,7 @@
-import React from 'react';
+import React from 'react'
+console.log('GamesList.test.js: window.matchMedia type:', typeof window.matchMedia);
+if (window.matchMedia) { console.log('GamesList.test.js: matchMedia returns:', window.matchMedia('max-width: 600px')); }
+;
 import { render } from '@testing-library/react';
 import { BrowserRouter as Router, Route } from 'react-router-dom'
 import GamesList from '../components/gamesList/GamesList';
@@ -22,13 +25,13 @@ describe('testing the games list', () => {
       type: SET_GAMES,
       payload: {
         games: {
-          4638149:{
+          4638149: {
             awayTeam: {
               participantId: 1536, code: 'PHI', shortName: 'Eagles', fullName: 'Philadelphia Eagles'
             },
             crowd: {
-              awayTeam: {score: 13},
-              homeTeam: {score: 31},
+              awayTeam: { score: 13 },
+              homeTeam: { score: 31 },
               total: 44, spread: -18
             },
             gameId: 4638149,
@@ -52,13 +55,13 @@ describe('testing the games list', () => {
             year: 2021,
             _id: "61ddda92958657f5d346a815"
           },
-          4638150:{
+          4638150: {
             awayTeam: {
               participantId: 1536, code: 'PHI', shortName: 'Eagles', fullName: 'Philadelphia Eagles'
             },
             crowd: {
-              awayTeam: {score: 13},
-              homeTeam: {score: 31},
+              awayTeam: { score: 13 },
+              homeTeam: { score: 31 },
               total: 44, spread: -18
             },
             gameId: 4638149,
@@ -82,7 +85,8 @@ describe('testing the games list', () => {
             year: 2021,
             _id: "61ddda92958657f5d346a815"
           },
-          loadingGames: false,
+
+
         }
       }
     })
