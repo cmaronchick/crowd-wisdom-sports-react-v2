@@ -104,6 +104,10 @@ const GamesList = (props) => {
             <div id={`game-${featuredGameId}`} data-game-id={featuredGameId} ref={el => gameRefs.current[featuredGameId] = el}>
               <FeaturedGame
                 game={games[featuredGameId]}
+                user={props.user}
+                prediction={predictions && predictions["user"][featuredGameId] ? predictions["user"][featuredGameId] : null}
+                handleOnChangeGameScore={props.changeGameScore}
+                handleSubmitPrediction={props.submitPrediction}
                 onGameClick={(gameId) => props.fetchGame(games[gameId].sport, games[gameId].year, games[gameId].season, games[gameId].gameWeek, gameId)}
               />
             </div>
