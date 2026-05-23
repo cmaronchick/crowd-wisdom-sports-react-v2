@@ -74,12 +74,17 @@ export default function(state = initialState, action) {
                     changeGameScorePrediction.spread = changeGameScorePrediction.awayTeam ? changeGameScorePrediction.awayTeam.score - action.payload.value : action.payload.value
                 }
             } else {
+                const defaultWager = parseInt(localStorage.getItem('shs_default_wager') || '1');
                 changeGameScorePrediction = {
                     [action.payload.name]: {
                         score: action.payload.value
                     },
                     total: action.payload.value,
-                    spread: action.payload.name === 'awayTeam' ? action.payload.value : action.payload.value * -1
+                    spread: action.payload.name === 'awayTeam' ? action.payload.value : action.payload.value * -1,
+                    stars: {
+                        spread: defaultWager,
+                        total: defaultWager
+                    }
                 }
             }
             return {

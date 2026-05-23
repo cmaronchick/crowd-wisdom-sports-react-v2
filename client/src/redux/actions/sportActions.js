@@ -14,7 +14,7 @@ const apiHost = ky.create({prefixUrl: process.env.NODE_ENV === 'development' ? '
 
 const validSeasons = ['pre','reg', 'post']
 const validYears = [2018, 2019, 2020]
-const validSports = ['nfl', 'ncaaf', 'ncaam']
+const validSports = ['nfl', 'ncaaf', 'ncaam', 'nba']
 export const setSport = (sport, year, season, week) => (dispatch) => {
     //validate URL parameters - Sport
     sport = sport && sport !== '' && validSports.indexOf(sport) > -1 ? sport : 'nfl';

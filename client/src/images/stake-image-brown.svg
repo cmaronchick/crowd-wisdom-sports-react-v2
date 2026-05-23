@@ -22,7 +22,7 @@
      inkscape:document-units="mm"
      showgrid="false"
      inkscape:zoom="0.5532197"
-     inkscape:cx="396.76823"
+     inkscape:cx="61.458405"
      inkscape:cy="561.25984"
      inkscape:window-width="1312"
      inkscape:window-height="847"
@@ -42,11 +42,17 @@
        style="opacity:1;fill:#f6dfa4;fill-opacity:1;stroke:#000000;stroke-width:0.250726;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:0"
        d="m 105.04698,123.24646 c -21.428466,0 -38.799609,17.45438 -38.799609,38.98543 0,21.53106 28.118112,34.3061 38.799609,38.98544 9.82135,4.30252 19.39976,8.72713 19.39976,19.49266 0,10.76553 -8.68554,19.49277 -19.39976,19.49277 -10.71415,0 -19.39979,-8.72724 -19.39979,-19.49277 h -0.01173 c 0.0098,-0.0796 0.01173,-0.15952 0.01173,-0.24007 0,-2.72483 -4.3262,-4.91833 -9.699929,-4.91833 -5.373729,0 -9.69989,2.1935 -9.69989,4.91833 0,0.0805 0.0049,0.16051 0.01212,0.24007 h -0.01212 c 0,21.53106 17.371143,38.98544 38.799609,38.98544 21.42844,0 38.79962,-17.45438 38.79962,-38.98544 0,-21.53105 -26.67713,-32.33047 -38.79962,-38.98543 -9.402369,-5.16155 -19.39979,-8.72714 -19.39979,-19.49267 0,-10.76552 8.68564,-19.49266 19.39979,-19.49266 10.71422,0 19.39976,8.72714 19.39976,19.49266 h 0.01 c 0.01,2.72149 4.3303,4.91126 9.69934,4.91126 5.37383,0 9.69993,-2.1935 9.69993,-4.91833 0,-0.0688 0,-0.13772 -0.01,-0.20609 -0.11448,-21.43273 -17.43961,-38.77227 -38.79708,-38.77227 z"
        id="rect54"
-       inkscape:connector-curvature="0" />
+       inkscape:connector-curvature="0"
+       inkscape:export-filename="/Users/chrisaronchick/GitHub/crowd-wisdom-sports-react-v2/client/src/images/stake-image-brown.png"
+       inkscape:export-xdpi="96"
+       inkscape:export-ydpi="96" />
     <path
        style="opacity:1;fill:none;fill-opacity:1;stroke:#f6dfa4;stroke-width:10.3713;stroke-linecap:round;stroke-linejoin:round;stroke-miterlimit:4;stroke-dasharray:41.4852, 20.7426;stroke-dashoffset:0;stroke-opacity:1;paint-order:markers fill stroke"
        d="M 204.9159,191.47094 A 99.86511,100.34337 0 0 1 105.05069,291.81431 99.86511,100.34337 0 0 1 5.1856503,191.47094 99.86511,100.34337 0 0 1 105.05069,91.127603 99.86511,100.34337 0 0 1 204.9159,191.47094 Z"
        id="path5269"
-       inkscape:connector-curvature="0" />
+       inkscape:connector-curvature="0"
+       inkscape:export-filename="/Users/chrisaronchick/GitHub/crowd-wisdom-sports-react-v2/client/src/images/stake-image-brown.png"
+       inkscape:export-xdpi="96"
+       inkscape:export-ydpi="96" />
   </g>
 </svg>

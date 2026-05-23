@@ -19,6 +19,7 @@ import {
     FaUserFriends,
     FaTrophy,
     FaFootballBall,
+    FaBasketballBall,
     FaBell,
     FaChartLine } from 'react-icons/fa'
 
@@ -40,7 +41,11 @@ const sportsVariables = {
     },
     ncaam: {
         name: 'NCAAM',
-        icon: faBasketballBall
+        icon: FaBasketballBall
+    },
+    nba: {
+        name: 'NBA',
+        icon: FaBasketballBall
     }
 }
 
@@ -48,7 +53,10 @@ const SideMenu = (props) => {
     const [collapsed, toggleCollapsed] = useState(window.innerWidth < 560 ? true : false)
     const { sport, user } = props
     const sportKeys = {
-        nfl: 'nfl'
+        nfl: 'nfl',
+        ncaaf: 'ncaaf',
+        ncaam: 'ncaam',
+        nba: 'nba'
     }
     return (
         //<!-- Sidebar -->
@@ -78,11 +86,16 @@ const SideMenu = (props) => {
                 <Menu.Item className="drawerLink" key="2" icon={<Icon component={() => <FaTrophy title="Leaderboards" className="drawerIcon" />} />}><NavLink activeClassName="activeNavLink" to="/ncaaf/leaderboards">Leaderboards</NavLink></Menu.Item>
                 <Menu.Item className="drawerLink" key="3" icon={<Icon component={() => <FaUserFriends title="Groups" className="drawerIcon" />} />}><NavLink activeClassName="activeNavLink" to="/ncaaf/groups">Groups</NavLink></Menu.Item>
             </SubMenu>
-            {/* <SubMenu key="ncaam" title="NCAAM" icon={<Icon component={() => faIcon('ncaam')} />}>
-                <Menu.Item key="1" icon={<Icon component={() => <FontAwesomeIcon icon={faFootballBall} />} />}><NavLink activeClassName="activeNavLink" to="/ncaam/games">Games</NavLink></Menu.Item>
-                <Menu.Item key="2" icon={<Icon component={() => <FontAwesomeIcon icon={faTrophy} />} />}><NavLink activeClassName="activeNavLink" to="/ncaam/leaderboards">Leaderboards</NavLink></Menu.Item>
-                <Menu.Item key="3" icon={<Icon component={() => <FontAwesomeIcon icon={faUserFriends} />} />}><NavLink activeClassName="activeNavLink" to="/ncaam/groups">Groups</NavLink></Menu.Item>
-            </SubMenu> */}
+            <SubMenu key="ncaam" title="NCAAM" icon={<Icon component={() => <FaBasketballBall title="NCAAM" className="drawerIcon" />} />}>
+                <Menu.Item className="drawerLink" key="1" icon={<Icon component={() => <FaBasketballBall title="Games" className="drawerIcon" />} />}><NavLink activeClassName="activeNavLink" to="/ncaam/games">Games</NavLink></Menu.Item>
+                <Menu.Item className="drawerLink" key="2" icon={<Icon component={() => <FaTrophy title="Leaderboards" className="drawerIcon" />} />}><NavLink activeClassName="activeNavLink" to="/ncaam/leaderboards">Leaderboards</NavLink></Menu.Item>
+                <Menu.Item className="drawerLink" key="3" icon={<Icon component={() => <FaUserFriends title="Groups" className="drawerIcon" />} />}><NavLink activeClassName="activeNavLink" to="/ncaam/groups">Groups</NavLink></Menu.Item>
+            </SubMenu>
+            <SubMenu key="nba" title="NBA" icon={<Icon component={() => <FaBasketballBall title="NBA" className="drawerIcon" />} />}>
+                <Menu.Item className="drawerLink" key="1" icon={<Icon component={() => <FaBasketballBall title="Games" className="drawerIcon" />} />}><NavLink activeClassName="activeNavLink" to="/nba/games">Games</NavLink></Menu.Item>
+                <Menu.Item className="drawerLink" key="2" icon={<Icon component={() => <FaTrophy title="Leaderboards" className="drawerIcon" />} />}><NavLink activeClassName="activeNavLink" to="/nba/leaderboards">Leaderboards</NavLink></Menu.Item>
+                <Menu.Item className="drawerLink" key="3" icon={<Icon component={() => <FaUserFriends title="Groups" className="drawerIcon" />} />}><NavLink activeClassName="activeNavLink" to="/nba/groups">Groups</NavLink></Menu.Item>
+            </SubMenu>
             {user.authenticated && (
             <Menu.Item key="4" className="drawerLink" icon={<Icon component={() => <FaUser title="Person" className="drawerIcon" />} />}>
                     <Link to="/profile">Profile</Link>

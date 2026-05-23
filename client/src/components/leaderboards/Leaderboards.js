@@ -188,13 +188,14 @@ const Leaderboards = (props) => {
                 centered={true}
                 >
                     <TabPane tab="Weekly" key="1">
-                        {weekly && weekly.users ? (
+                        {weekly && (weekly.users || weekly.usersStars) ? (
                             <Table
                             scroll={{x: 550}}
                              rowKey="username"
                                 dataSource={
-                                    leaderboardType === 'predictionScore' ? weekly.users.sort((a,b) => a.predictionScore > b.predictionScore ? -1 : 1)
-                                        : weekly.usersStars.sort((a,b) => a.stars.net > b.stars.net ? -1 : 1)}
+                                    leaderboardType === 'predictionScore' ? (weekly.users ? [...weekly.users].sort((a,b) => a.predictionScore > b.predictionScore ? -1 : 1) : [])
+                                        : leaderboardType === 'roi' ? (weekly.usersStars ? [...weekly.usersStars].sort((a,b) => a.stars.roi > b.stars.roi ? -1 : 1) : [])
+                                        : (weekly.usersStars ? [...weekly.usersStars].sort((a,b) => a.stars.net > b.stars.net ? -1 : 1) : [])}
                                         columns={leaderboardType === 'predictionScore' ? predictionScoreColumns : stakesColumns}
                             pagination={false}/>
                         ) : (
@@ -202,12 +203,13 @@ const Leaderboards = (props) => {
                         )}
                     </TabPane>
                     <TabPane tab="Overall" key="2">
-                        {overall && overall.users ? (
+                        {overall && (overall.users || overall.usersStars) ? (
                             <Table rowKey="username"
                             scroll={{x: 550}}
                                 dataSource={
-                                    leaderboardType === 'predictionScore' ? overall.users.sort((a,b) => a.predictionScore > b.predictionScore ? -1 : 1)
-                                : overall.usersStars.sort((a,b) => a.stars.net > b.stars.net ? -1 : 1)}
+                                    leaderboardType === 'predictionScore' ? (overall.users ? [...overall.users].sort((a,b) => a.predictionScore > b.predictionScore ? -1 : 1) : [])
+                                        : leaderboardType === 'roi' ? (overall.usersStars ? [...overall.usersStars].sort((a,b) => a.stars.roi > b.stars.roi ? -1 : 1) : [])
+                                        : (overall.usersStars ? [...overall.usersStars].sort((a,b) => a.stars.net > b.stars.net ? -1 : 1) : [])}
                                 columns={leaderboardType === 'predictionScore' ? predictionScoreColumns : stakesColumns}
                                 pagination={false}/>
                         ) : (

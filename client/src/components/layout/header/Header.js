@@ -57,16 +57,25 @@ const StakehouseHeader = ({ message, user, logout }) => {
       {!user.authenticated ? (
         <LoginButton buttonClass="headerButton" />
       ) : (
-        <Dropdown overlay={profileChoices}>
-          <a href="#profile" className="ant-dropdown-link headerUserDropdown" overlay={profileChoices} onClick={e => e.preventDefault()}>
-            {window.innerWidth < 500 ? (
-              <UserOutlined />
-            ) : (
-              user.attributes.preferred_username
-            )}
-            <DownOutlined />
-          </a>
-        </Dropdown>
+        <React.Fragment>
+          <span className="headerBalance">
+            💰 {(user.details?.balance !== undefined 
+              ? user.details.balance 
+              : (user.attributes?.['custom:balance'] !== undefined 
+                  ? parseInt(user.attributes['custom:balance']) || 0
+                  : (1000 + (user.details?.results?.overall?.stars?.net || 0)))).toLocaleString()} pts
+          </span>
+          <Dropdown overlay={profileChoices}>
+            <a href="#profile" className="ant-dropdown-link headerUserDropdown" overlay={profileChoices} onClick={e => e.preventDefault()}>
+              {window.innerWidth < 500 ? (
+                <UserOutlined />
+              ) : (
+                user.attributes.preferred_username
+              )}
+              <DownOutlined />
+            </a>
+          </Dropdown>
+        </React.Fragment>
       )}
 
     </Header>

@@ -9,10 +9,13 @@ const LeaderboardSelector = props => {
     const { leaderboardType, handleChangeLeaderboardType } = props
     return (
         <Select
-        defaultValue="predictionScore" style={{ width: 120 }}
-            onChange={handleChangeLeaderboardType}>
-          <Option disabled={leaderboardType === 'predictionScore'} value="predictionScore">Prediction Score</Option>
-          <Option disabled={leaderboardType === 'stakes'} value="stakes">Stakes</Option>
+            value={leaderboardType}
+            style={{ width: 150 }}
+            onChange={handleChangeLeaderboardType}
+        >
+          <Option value="predictionScore">Prediction Score</Option>
+          <Option value="stakes">Currency Won</Option>
+          <Option value="roi">ROI</Option>
         </Select>
     )
 }
