@@ -10,7 +10,7 @@ FAIL __tests__/routes.test.js
 
     [0m [90m  6 |[39m [36mconst[39m [33mAmplify[39m [33m=[39m require([32m'aws-amplify'[39m)
      [90m  7 |[39m
-    [31m[1m>[22m[39m[90m  8 |[39m [36mconst[39m apiHost [33m=[39m ky[33m.[39mcreate({prefixUrl[33m:[39m [32m`https://y5f8dr2inb.execute-api.us-west-2.amazonaws.com/dev/`[39m})
+    [31m[1m>[22m[39m[90m  8 |[39m [36mconst[39m apiHost [33m=[39m ky[33m.[39mcreate({prefixUrl[33m:[39m [32m`https://3tsywitgn8.execute-api.us-west-2.amazonaws.com/dev/`[39m})
      [90m    |[39m                    [31m[1m^[22m[39m
      [90m  9 |[39m [36mconst[39m router [33m=[39m express()[33m;[39m
      [90m 10 |[39m router[33m.[39muse(bodyParser[33m.[39mjson()) [90m// for parsing application/json[39m

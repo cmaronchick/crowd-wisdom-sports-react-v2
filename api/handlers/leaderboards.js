@@ -1,5 +1,5 @@
 const ky = require('ky-universal');
-const apiHost = ky.create({prefixUrl: `https://y5f8dr2inb.execute-api.us-west-2.amazonaws.com/dev/`})
+const apiHost = ky.create({prefixUrl: `https://3tsywitgn8.execute-api.us-west-2.amazonaws.com/dev/`})
 const { callOptions } = require('../utils')
 
 const getLeaderboards = (req, res) => {
@@ -7,7 +7,7 @@ const getLeaderboards = (req, res) => {
     const anonString = callOptionsObject.anonString;
     const getOptions = callOptionsObject.callOptions;
     const { sport, year, season, week } = req.params
-    return ky.get(`https://y5f8dr2inb.execute-api.us-west-2.amazonaws.com/dev/${sport}/${year}/${season}/${week}/leaderboards`, getOptions)
+    return ky.get(`https://3tsywitgn8.execute-api.us-west-2.amazonaws.com/dev/${sport}/${year}/${season}/${week}/leaderboards`, getOptions)
     .then((leaderboardResponse) => {
       //console.log('overallLeaderboardResponse: ', overallLeaderboardResponse.data)
       return leaderboardResponse.json()
@@ -29,7 +29,7 @@ const getCrowdLeaderboards = (req, res) => {
     const callOptionsObject = callOptions(req.headers.authorization);
     const anonString = callOptionsObject.anonString;
     const getOptions = callOptionsObject.callOptions;
-    return ky.get(`https://y5f8dr2inb.execute-api.us-west-2.amazonaws.com/dev/${sport}/${year}/${season}/${week}/leaderboards/crowdoverall`, getOptions)
+    return ky.get(`https://3tsywitgn8.execute-api.us-west-2.amazonaws.com/dev/${sport}/${year}/${season}/${week}/leaderboards/crowdoverall`, getOptions)
     .then((crowdOverallResponse) => {
       return crowdOverallResponse.json()
     })

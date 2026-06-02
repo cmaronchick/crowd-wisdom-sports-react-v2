@@ -1,12 +1,12 @@
 const ky = require('ky-universal');
 
-const apiHost = ky.create({prefixUrl: `https://y5f8dr2inb.execute-api.us-west-2.amazonaws.com/dev/`})
+const apiHost = ky.create({prefixUrl: `https://3tsywitgn8.execute-api.us-west-2.amazonaws.com/dev/`})
 const { callOptions } = require('../utils')
 const getGameWeek = (req, res) => {
     const callOptionsObject = callOptions(req.headers.authorization);
     const anonString = callOptionsObject.anonString;
     const getOptions = callOptionsObject.callOptions;
-      return apiHost.get(`${req.params.sport}/week${anonString}`, getOptions)
+      return apiHost.get(`${req.params.sport}/week`, getOptions)
       .then((gameWeekResponse) => {
           return gameWeekResponse.json()
       })
@@ -25,7 +25,7 @@ const getGame = (req, res) => {
     const callOptionsObject = callOptions(req.headers.authorization);
     const anonString = callOptionsObject.anonString;
     const getOptions = callOptionsObject.callOptions;
-    return ky.get(`https://y5f8dr2inb.execute-api.us-west-2.amazonaws.com/dev/${req.params.sport}/${req.params.year}/${req.params.season}/${req.params.gameWeek}/games/${req.params.gameId}${anonString}`, getOptions)
+    return ky.get(`https://3tsywitgn8.execute-api.us-west-2.amazonaws.com/dev/${req.params.sport}/${req.params.year}/${req.params.season}/${req.params.gameWeek}/games/${req.params.gameId}${anonString}`, getOptions)
     .then((gameResponse) => {
       return gameResponse.json()
     })
@@ -67,7 +67,7 @@ const getGamesByGameWeek = (req, res) => {
 
 const submitPrediction = (req, res) => {
     console.log('api/index 69 req.body: ', req.body)
-    return ky.post(`https://y5f8dr2inb.execute-api.us-west-2.amazonaws.com/dev/predictions`, {
+    return ky.post(`https://3tsywitgn8.execute-api.us-west-2.amazonaws.com/dev/predictions`, {
       headers: {
         Authorization: req.headers.authorization,
         'Content-type': 'application/json'
@@ -86,7 +86,7 @@ const submitPrediction = (req, res) => {
 }
 
 const submitGameUpdate = (req, res) => {
-  return ky.post(`https://y5f8dr2inb.execute-api.us-west-2.amazonaws.com/dev/gameupdate`, {
+  return ky.post(`https://3tsywitgn8.execute-api.us-west-2.amazonaws.com/dev/gameupdate`, {
     headers: {
       Authorization: req.headers.authorization,
       'Content-type': 'application/json'
@@ -107,7 +107,7 @@ const submitGameUpdate = (req, res) => {
 
 const getOddsMovement = (req, res) => {
   const { sport, year, season, gameWeek } = req.params
-  return ky.get(`https://y5f8dr2inb.execute-api.us-west-2.amazonaws.com/dev/${sport}/${year}/${season}/${gameWeek}/games/live`)
+  return ky.get(`https://3tsywitgn8.execute-api.us-west-2.amazonaws.com/dev/${sport}/${year}/${season}/${gameWeek}/games/live`)
   .then(oddsMovementResponse => {
     return oddsMovementResponse.json()
   })

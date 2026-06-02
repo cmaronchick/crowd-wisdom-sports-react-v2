@@ -1,5 +1,5 @@
 const ky = require('ky-universal');
-const apiHost = ky.create({prefixUrl: `https://y5f8dr2inb.execute-api.us-west-2.amazonaws.com/dev/`})
+const apiHost = ky.create({prefixUrl: `https://3tsywitgn8.execute-api.us-west-2.amazonaws.com/dev/`})
 const { callOptions } = require('../utils')
 
 const getExtendedProfile = (req, res) => {
@@ -7,7 +7,7 @@ const getExtendedProfile = (req, res) => {
     let { sport, year, season, week } = req.query;
     const callOptionsObject = callOptions(req.headers.authorization);
     const getOptions = callOptionsObject.callOptions;
-    return ky.get(`https://y5f8dr2inb.execute-api.us-west-2.amazonaws.com/dev/extendedprofile?sport=${sport}&year=${year}&season=${season}&week=${week}`, getOptions)
+    return ky.get(`https://3tsywitgn8.execute-api.us-west-2.amazonaws.com/dev/extendedprofile?sport=${sport}&year=${year}&season=${season}&week=${week}`, getOptions)
     .then((userStatsResponse) => {
         return userStatsResponse.json()
     })
@@ -23,7 +23,7 @@ const getUserNotifications = (req, res) => {
 
     const callOptionsObject = callOptions(req.headers.authorization);
     const getOptions = callOptionsObject.callOptions;
-    return ky.get(`https://y5f8dr2inb.execute-api.us-west-2.amazonaws.com/dev/extendedprofile/notifications`, getOptions)
+    return ky.get(`https://3tsywitgn8.execute-api.us-west-2.amazonaws.com/dev/extendedprofile/notifications`, getOptions)
     .then((notifications) => {
         return notifications.json()
     })
@@ -77,7 +77,7 @@ const uploadImage = (req, res) => {
 
 const getUserPredictions = (req, res) => {
     let { sport, year, season, week, userId } = req.query;
-    return ky.get(`https://y5f8dr2inb.execute-api.us-west-2.amazonaws.com/dev/predictions?sport=${sport}&year=${year}&season=${season}&week=${week}&userId=${userId}`)
+    return ky.get(`https://3tsywitgn8.execute-api.us-west-2.amazonaws.com/dev/predictions?sport=${sport}&year=${year}&season=${season}&week=${week}&userId=${userId}`)
     .then((userPredictionsResponse) => {
         console.log(`userPredictionsResponse`, userPredictionsResponse)
         return userPredictionsResponse.json()

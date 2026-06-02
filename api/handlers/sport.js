@@ -1,5 +1,5 @@
 const ky = require('ky-universal');
-const apiHost = ky.create({prefixUrl: `https://y5f8dr2inb.execute-api.us-west-2.amazonaws.com/dev/`})
+const apiHost = ky.create({prefixUrl: `https://3tsywitgn8.execute-api.us-west-2.amazonaws.com/dev/`})
 const { callOptions } = require('../utils')
 
 const getSportSeason = (req, res) => {

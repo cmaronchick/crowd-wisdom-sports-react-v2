@@ -129,7 +129,7 @@ const AdminPage = (props) => {
             //     #end
             // }
             if (currentSession && tokenPayload['cognito:groups'] && tokenPayload['cognito:groups'].indexOf('admins') > -1) {
-                ky.post(`https://y5f8dr2inb.execute-api.us-west-2.amazonaws.com/dev/gameupdate`,{
+                ky.post(`https://3tsywitgn8.execute-api.us-west-2.amazonaws.com/dev/gameupdate`,{
                     headers: {
                     Authorization: IdToken.getJwtToken(),
                     'Content-type': 'application/json'

@@ -1,5 +1,5 @@
 const ky = require('ky-universal');
-const apiHost = ky.create({prefixUrl: `https://y5f8dr2inb.execute-api.us-west-2.amazonaws.com/dev/`})
+const apiHost = ky.create({prefixUrl: `https://3tsywitgn8.execute-api.us-west-2.amazonaws.com/dev/`})
 const { callOptions } = require('../utils')
 
 const getGroups = (req, res) => {
@@ -12,7 +12,7 @@ const getGroups = (req, res) => {
       const getOptions = callOptionsObject.callOptions;
 
       
-      return ky.get(`https://y5f8dr2inb.execute-api.us-west-2.amazonaws.com/dev/group/${sport}/${year}${anonString}${season ? `?season=${season}` : ''}`, getOptions)
+      return ky.get(`https://3tsywitgn8.execute-api.us-west-2.amazonaws.com/dev/group/${sport}/${year}${anonString}${season ? `?season=${season}` : ''}`, getOptions)
         .then((groupsResponse) => {
           // console.log(`groupsResponse`, groupsResponse)
           return  groupsResponse.json()
@@ -42,8 +42,8 @@ const getGroup = (req, res) => {
       const anonString = callOptionsObject.anonString;
       const getOptions = callOptionsObject.callOptions;
       console.log('groupId', groupId, season, week)
-      console.log(`https://y5f8dr2inb.execute-api.us-west-2.amazonaws.com/dev/group/${sport}/${parseInt(year)}/${parseInt(groupId)}${anonString}${season ? `?season=${season}` : ''}${week ? `&week=${week}` : ''}`)
-        return ky.get(`https://y5f8dr2inb.execute-api.us-west-2.amazonaws.com/dev/group/${sport}/${parseInt(year)}/${parseInt(groupId)}${anonString}${season ? `?season=${season}` : ''}${week ? `&week=${week}` : ''}`, getOptions)
+      console.log(`https://3tsywitgn8.execute-api.us-west-2.amazonaws.com/dev/group/${sport}/${parseInt(year)}/${parseInt(groupId)}${anonString}${season ? `?season=${season}` : ''}${week ? `&week=${week}` : ''}`)
+        return ky.get(`https://3tsywitgn8.execute-api.us-west-2.amazonaws.com/dev/group/${sport}/${parseInt(year)}/${parseInt(groupId)}${anonString}${season ? `?season=${season}` : ''}${week ? `&week=${week}` : ''}`, getOptions)
         .then((groupResponse) => {
           console.log('groupResponse 37', groupResponse)
           return groupResponse.json()
@@ -67,7 +67,7 @@ const joinGroup = (req, res) => {
       return res.status(403).json({ message: 'Please log in again.'})
     }
       const callOptionsObject = callOptions(req.headers.authorization);
-        return ky.post(`https://y5f8dr2inb.execute-api.us-west-2.amazonaws.com/dev/group/${sport}/${parseInt(year)}/${parseInt(groupId)}`, {
+        return ky.post(`https://3tsywitgn8.execute-api.us-west-2.amazonaws.com/dev/group/${sport}/${parseInt(year)}/${parseInt(groupId)}`, {
           headers: {
             Authorization: req.headers.authorization,
             'Content-type': 'application/json'
@@ -95,7 +95,7 @@ const leaveGroup = (req, res) => {
     const callOptionsObject = callOptions(req.headers.authorization);
     const getOptions = callOptionsObject.callOptions;
     
-    return ky.post(`https://y5f8dr2inb.execute-api.us-west-2.amazonaws.com/dev/group/${sport}/${parseInt(year)}/${parseInt(groupId)}/leavegroup`, getOptions)
+    return ky.post(`https://3tsywitgn8.execute-api.us-west-2.amazonaws.com/dev/group/${sport}/${parseInt(year)}/${parseInt(groupId)}/leavegroup`, getOptions)
     .then((groupResponse) => {
         console.log('leve groupResponse 86', groupResponse)
         return groupResponse.json()
@@ -131,7 +131,7 @@ const createGroup = (req, res) => {
   getOptions.body = JSON.stringify(req.body)
   console.log('109 getOptions', getOptions)
   
-  return ky.post(`https://y5f8dr2inb.execute-api.us-west-2.amazonaws.com/dev/group/create`, getOptions)
+  return ky.post(`https://3tsywitgn8.execute-api.us-west-2.amazonaws.com/dev/group/create`, getOptions)
   .then((groupResponse) => {
       console.log('create groupResponse 110', groupResponse)
       return groupResponse.json()
@@ -167,7 +167,7 @@ const updateGroup = (req, res) => {
   getOptions.body = JSON.stringify(req.body)
   console.log('157 getOptions', getOptions)
   
-  return ky.post(`https://y5f8dr2inb.execute-api.us-west-2.amazonaws.com/dev/group`, getOptions)
+  return ky.post(`https://3tsywitgn8.execute-api.us-west-2.amazonaws.com/dev/group`, getOptions)
   .then((groupResponse) => {
       console.log('create groupResponse 162', groupResponse)
       return groupResponse.json()
