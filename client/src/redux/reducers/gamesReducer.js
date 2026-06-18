@@ -7,7 +7,9 @@ import {
     SET_PREDICTIONS,
     TOGGLE_ODDS_CHART_TYPE,
     SET_ODDS_MOVEMENT,
-    LOADING_ODDS_MOVEMENT
+    LOADING_ODDS_MOVEMENT,
+    LOADING_ODDS,
+    SET_GAME_ODDS
     } from '../types'
 
 
@@ -22,7 +24,7 @@ const initialState = {
     gameResults: 0,
     loadingGames: true,
     loadingGame: true,
-    loadingOdds: true,
+    loadingOdds: false,
 }
 
 
@@ -76,6 +78,23 @@ export default function(state = initialState, action) {
             return {
                 ...state,
                 oddsMovement: action.payload,
+                loadingOdds: false
+            }
+        case LOADING_ODDS:
+            return {
+                ...state,
+                loadingOdds: true
+            }
+        case SET_GAME_ODDS:
+            return {
+                ...state,
+                games: {
+                    ...action.payload.games
+                },
+                game: {
+                    ...state.game,
+                    currentLines: action.payload.currentLines
+                },
                 loadingOdds: false
             }
         default:

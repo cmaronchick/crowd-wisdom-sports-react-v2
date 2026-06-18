@@ -42,6 +42,14 @@ const StakehouseHeader = ({ message, user, logout }) => {
       <Link to="/">
         <img src={logo} alt="Stakehouse Sports" className="headerImage" />
       </Link>
+      {user?.authenticated && user.details?.currency && (
+        <div className="headerCurrencyContainer">
+          <span>Currency:</span>
+          <span className="headerCurrencyText">
+            {user.details?.currency}
+          </span>
+        </div>
+      )}
       {window.innerWidth < 768 ? (
         <span className="headerText">
           SHS

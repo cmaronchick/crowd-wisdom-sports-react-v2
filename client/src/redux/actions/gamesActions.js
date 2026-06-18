@@ -7,7 +7,9 @@ import { LOADING_GAMES,
     SET_ODDS_MOVEMENT,
     LOADING_ODDS_MOVEMENT,
     SET_ERRORS,
-    CLEAR_ERRORS
+    CLEAR_ERRORS,
+    LOADING_ODDS,
+    SET_GAME_ODDS
 } from '../types'
 
 import { Auth } from '@aws-amplify/auth'
@@ -151,5 +153,55 @@ export const fetchGameWeekGames = (sport, year, season, gameWeek) => async (disp
           })
       } catch (getOddsMovementError) {
           console.log('getOddsMovementError', getOddsMovementError)
+      }
+  }
+
+  export const fetchCurrentLines = (sport, year, season, gameWeek, gameId, awayTeamId, homeTeamId) => async (dispatch) => {
+      dispatch({
+          type: LOADING_ODDS,
+          payload: {
+              gameId
+          }
+      })
+      if (!awayTeamId || !homeTeamId) {
+          return;
+      }
+      try {
+          let getOptions = {}
+          try {
+              let currentSession = await Auth.currentSession()
+              let IdToken = await currentSession.getIdToken().getJwtToken()
+              getOptions = {
+                  headers: {
+                      Authorization: IdToken
+                  }
+              }
+          } catch (authError) {
+              // Ignore auth error for anonymous view if applicable
+          }
+          
+          let getCurrentLinesResponseJSON = await apiHost.get(`${sport}/games/${year}/${season}/${gameWeek}/game/${gameId}/currentlines?awayTeamId=${awayTeamId}&homeTeamId=${homeTeamId}`, getOptions).json()
+          
+          let gameOdds = { ...store.getState().games.games }
+          let gameObj = {}
+          if (gameOdds[gameId]) {
+              gameOdds[gameId] = { ...gameOdds[gameId], currentLines: getCurrentLinesResponseJSON.lines }
+              gameObj = gameOdds[gameId]
+          }
+          dispatch({
+              type: SET_GAME_ODDS,
+              payload: {
+                  games: gameOdds,
+                  gameId: gameId,
+                  currentLines: getCurrentLinesResponseJSON.lines
+              }
+          })
+          return gameObj
+      } catch (getCurrentLinesError) {
+          console.log('getCurrentLinesError', gameId, getCurrentLinesError)
+          dispatch({
+              type: SET_ERRORS,
+              payload: getCurrentLinesError
+          })
       }
   }

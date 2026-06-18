@@ -120,3 +120,45 @@ export const antIcon = (props) => {
     console.log('props', props)
     return (<LoadingOutlined style={{ fontSize: 24 }} spin />)
 }
+
+export const straightUpPredictionWager = (game, prediction, wagerObj) => {
+  if (wagerObj && wagerObj.wager) {
+     let wager = wagerObj.wager;
+     let selection = wager.participantId === game.homeTeam.participantId ? game.homeTeam.code : game.awayTeam.code;
+     return `${selection} ML`;
+  }
+  if (!prediction || !prediction.awayTeam || !prediction.homeTeam) return '';
+  return prediction.awayTeam.score === prediction.homeTeam.score 
+    ? 'TIE' 
+    : (prediction.awayTeam.score > prediction.homeTeam.score 
+       ? `${game.awayTeam.code}` 
+       : `${game.homeTeam.code}`)
+}
+
+export const spreadPredictionWager = (game, prediction, wagerObj) => {
+  const odds = prediction && prediction.odds ? prediction.odds : game.odds;
+  if (!odds) return '';
+  if (odds.spread === 0) {
+    if (!prediction || !prediction.awayTeam || !prediction.homeTeam) return '';
+    return prediction.homeTeam.score > prediction.awayTeam.score ? `${game.homeTeam.code} PK` : `${game.awayTeam.code} PK`;
+  }
+  
+  if (wagerObj && wagerObj.wager && wagerObj.wager.spreadTotal !== undefined) {
+    let selection = wagerObj.wager.participantId === game.homeTeam.participantId ? game.homeTeam.code : game.awayTeam.code;
+    return `${selection} ${wagerObj.wager.spreadTotal > 0 ? '+' : ''}${wagerObj.wager.spreadTotal}`;
+  }
+
+  if (!prediction || !prediction.awayTeam || !prediction.homeTeam) return '';
+  return ((prediction.homeTeam.score + odds.spread) < prediction.awayTeam.score)
+    ? (odds.spread < 0 ? `${game.awayTeam.code} +${odds.spread * -1}` : `${game.awayTeam.code} ${odds.spread * -1}`)
+    : (odds.spread > 0 ? `${game.homeTeam.code} +${odds.spread}` : `${game.homeTeam.code} ${odds.spread}`);
+}
+
+export const totalPredictionWager = (game, prediction, wagerObj) => {
+  const odds = prediction && prediction.odds ? prediction.odds : game.odds;
+  if (!odds) return '';
+  const totalVal = (wagerObj && wagerObj.wager && wagerObj.wager.spreadTotal !== undefined) ? wagerObj.wager.spreadTotal : odds.total;
+  if (!prediction || !prediction.awayTeam || !prediction.homeTeam) return '';
+  const totalScore = parseFloat(prediction.awayTeam.score) + parseFloat(prediction.homeTeam.score);
+  return totalScore === odds.total ? 'PUSH' : (totalScore > odds.total ? `OVER ${totalVal}` : `UNDER ${totalVal}`);
+}
