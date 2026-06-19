@@ -29,11 +29,15 @@ const MatchupTicker = ({ games, activeGameId, onMatchupClick }) => {
             });
         }
     }, [activeGameId]);
-
     return (
         <div className="matchup-ticker-container">
             <div className="matchup-ticker" ref={tickerRef}>
-                {games.map(game => (
+                {games.map(game => {
+
+                    if (!game.awayTeam || !game.homeTeam) {
+                        return null; // Skip games with missing team info
+                    }
+                    return (
                     <div
                         key={game.gameId}
                         ref={el => itemRefs.current[game.gameId] = el}
@@ -45,7 +49,8 @@ const MatchupTicker = ({ games, activeGameId, onMatchupClick }) => {
                         <span className="ticker-cnct">@</span>
                         <span className="ticker-team">{game.homeTeam ? game.homeTeam.code : 'Missing code'}</span>
                     </div>
-                ))}
+                )}
+                )}
             </div>
         </div>
     );

@@ -275,7 +275,7 @@ const FeaturedGame = ({ game, onGameClick, user, handleOnChangeGameScore, predic
 
                 <div className="cta-section">
                     <Button type="primary" size="large" shape="round" onClick={(e) => onSubmitPrediction(e)} icon={<RightCircleOutlined className={game.prediction || userPrediction.submitted ? "cta-button-icon" : "cta-button-disabled"} />}
-                        disabled={!(userPrediction?.awayTeam && parseInt(userPrediction?.awayTeam.score) && userPrediction?.homeTeam && parseInt(userPrediction.homeTeam.score)) || userPrediction?.submitting}
+                        disabled={!(userPrediction?.awayTeam && parseInt(userPrediction?.awayTeam?.score) && userPrediction?.homeTeam && parseInt(userPrediction.homeTeam.score)) || userPrediction?.submitting}
                         loading={userPrediction && userPrediction.submitting}>
                         {game.prediction || userPrediction.submitted ? (
                             <span>Update</span>
