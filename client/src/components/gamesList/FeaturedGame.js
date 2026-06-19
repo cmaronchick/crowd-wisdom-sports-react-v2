@@ -40,13 +40,13 @@ const FeaturedGame = ({ game, onGameClick, user, handleOnChangeGameScore, predic
             fullName: game.awayTeam.fullName,
             shortName: game.awayTeam.shortName,
             code: game.awayTeam.code,
-            score: userPrediction && userPrediction.awayTeam ? userPrediction.awayTeam.score : game.prediction.awayTeam.score,
+            score: userPrediction && userPrediction.awayTeam ? userPrediction.awayTeam.score : game.prediction?.awayTeam?.score,
         },
         homeTeam: {
             fullName: game.homeTeam.fullName,
             shortName: game.homeTeam.shortName,
             code: game.homeTeam.code,
-            score: userPrediction && userPrediction.homeTeam ? userPrediction.homeTeam.score : game.prediction.homeTeam.score,
+            score: userPrediction && userPrediction.homeTeam ? userPrediction.homeTeam.score : game.prediction?.homeTeam?.score,
         },
         stars: userPrediction.stars ? {
             spread: userPrediction.stars.spread ? userPrediction.stars.spread : 0,
@@ -57,7 +57,7 @@ const FeaturedGame = ({ game, onGameClick, user, handleOnChangeGameScore, predic
         handleSubmitPrediction(game.gameId, newprediction)
     }
     
-    console.log('prediction :>> ', prediction);
+    console.log('prediction :>> ', prediction, prediction?.homeTeam?.score);
     return (
         <Card className="featured-game-card" bordered={false}>
             <div className="featured-badge">
@@ -91,7 +91,7 @@ const FeaturedGame = ({ game, onGameClick, user, handleOnChangeGameScore, predic
                                 name='awayTeam'
                                 id={`${gameId}awayTeam_input`}
                                 placeholder={`${(!prediction || (prediction && !prediction.awayTeam) || (prediction && prediction.awayTeam && !prediction.awayTeam.score)) ? ('##') : null}`}
-                                value={(prediction && prediction?.awayTeam?.score !== null) ? prediction.awayTeam.score : ''}
+                                value={(prediction && prediction?.awayTeam?.score >= 0) ? prediction.awayTeam.score : ''}
                                 />
                             </Form.Item>
                         </Form>
@@ -125,7 +125,7 @@ const FeaturedGame = ({ game, onGameClick, user, handleOnChangeGameScore, predic
                                 name='homeTeam'
                                 id={`${gameId}homeTeam_input`}
                                 placeholder={`${(!prediction || (prediction && !prediction.homeTeam) || (prediction && prediction.homeTeam && !prediction.homeTeam.score)) ? ('##') : null}`}
-                                value={(prediction && prediction?.homeTeam?.score !== null) ? prediction.homeTeam.score : ''}
+                                value={(prediction && prediction?.homeTeam?.score >= 0) ? prediction.homeTeam.score : ''}
                                 />
                             </Form.Item>
                         </Form>
@@ -134,7 +134,7 @@ const FeaturedGame = ({ game, onGameClick, user, handleOnChangeGameScore, predic
 
                 <div className="cta-section">
                     <Button type="primary" size="large" shape="round" onClick={(e) => onSubmitPrediction(e)} icon={<RightCircleOutlined className={game.prediction || userPrediction.submitted ? "cta-button-icon" : "cta-button-disabled"} />}
-                        disabled={!(userPrediction?.awayTeam && parseInt(userPrediction?.awayTeam.score) && userPrediction?.homeTeam && parseInt(userPrediction.homeTeam.score)) || userPrediction?.submitting}
+                        disabled={!(userPrediction?.awayTeam && parseInt(userPrediction?.awayTeam?.score) && userPrediction?.homeTeam && parseInt(userPrediction.homeTeam.score)) || userPrediction?.submitting}
                         loading={userPrediction && userPrediction.submitting}>
                         {game.prediction || userPrediction.submitted ? (
                             <span>Update</span>

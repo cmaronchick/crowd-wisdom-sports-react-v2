@@ -27,7 +27,7 @@ const GamePreviewPrediction = (props) => {
     const { odds } = prediction && prediction.odds ? prediction : game
     
     let awayTeamSpreadResult, homeTeamSpreadResult, totalResult;
-    if (prediction.awayTeam && prediction.awayTeam.score && prediction.homeTeam && prediction.homeTeam.score) {
+    if (prediction.awayTeam?.score && prediction.homeTeam?.score) {
       awayTeamSpreadResult = (prediction.awayTeam.score - prediction.homeTeam.score) % 1 === 0 ? (prediction.awayTeam.score - prediction.homeTeam.score) : (prediction.awayTeam.score - prediction.homeTeam.score).toFixed(2)
       homeTeamSpreadResult = (prediction.homeTeam.score - prediction.awayTeam.score) % 1 === 0 ? (prediction.homeTeam.score - prediction.awayTeam.score) : (prediction.homeTeam.score - prediction.awayTeam.score).toFixed(2)
       totalResult = (prediction.awayTeam.score + prediction.homeTeam.score) % 1 === 0 ? (prediction.awayTeam.score + prediction.homeTeam.score) : (prediction.awayTeam.score + prediction.homeTeam.score).toFixed(2)
@@ -92,7 +92,7 @@ const GamePreviewPrediction = (props) => {
                   <Form
                   initialValues={
                     {
-                      homeTeam: prediction && prediction.homeTeam && prediction.homeTeam.score ? prediction.homeTeam.score : null
+                      homeTeam: prediction?.homeTeam?.score ? prediction.homeTeam.score : null
                     }
                   }
                   name={`${game.gameId}homeTeam`}>
