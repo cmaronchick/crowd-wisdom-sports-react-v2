@@ -32,6 +32,7 @@ const getCrowdLeaderboards = (req, res) => {
     console.log('getCrowdLeaderboards callOptionsObject', callOptionsObject)
     return ky.get(`https://3tsywitgn8.execute-api.us-west-2.amazonaws.com/dev/${sport}/${year}/${season}/${week}/leaderboards/crowdoverall`, getOptions)
     .then((crowdOverallResponse) => {
+      console.log('crowdOverallResponse: ', crowdOverallResponse) 
       return crowdOverallResponse.json()
     })
     .then(crowdOverallResponseJSON => {
