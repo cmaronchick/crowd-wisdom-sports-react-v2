@@ -29,8 +29,10 @@ const getCrowdLeaderboards = (req, res) => {
     const callOptionsObject = callOptions(req.headers.authorization);
     const anonString = callOptionsObject.anonString;
     const getOptions = callOptionsObject.callOptions;
+    console.log('getCrowdLeaderboards getOptions: ', getOptions); 
     return ky.get(`https://3tsywitgn8.execute-api.us-west-2.amazonaws.com/dev/${sport}/${year}/${season}/${week}/leaderboards/crowdoverall`, getOptions)
     .then((crowdOverallResponse) => {
+      console.log('crowdOverallResponse: ', crowdOverallResponse) 
       return crowdOverallResponse.json()
     })
     .then(crowdOverallResponseJSON => {
