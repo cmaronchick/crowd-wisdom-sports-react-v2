@@ -72,6 +72,7 @@ export default function(state = initialState, action) {
                 loadingOdds: true
             }
         case SET_ODDS_MOVEMENT:
+            console.log('action.payload in reducer: ', action.payload)
             action.payload.sort((a,b) => {
                 return new Date(a.startDateTime) > new Date(b.startDateTime) ? 1 : -1
             })

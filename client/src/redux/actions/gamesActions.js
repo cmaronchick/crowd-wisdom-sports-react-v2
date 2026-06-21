@@ -145,14 +145,14 @@ export const fetchGameWeekGames = (sport, year, season, gameWeek) => async (disp
       })
       try {
           const oddsMovement = await apiHost.get(`${sport}/games/${year}/${season}/${week}/live`).json()
-          console.log('oddsMovement', oddsMovement.games)
+          console.log('oddsMovement', oddsMovement)
           
           dispatch({
               type: SET_ODDS_MOVEMENT,
               payload: oddsMovement.games?.Items ? oddsMovement.games.Items.reduce((acc, game) => {
-                  acc[game.gameId] = game
-                  return acc
-              }, {}) : {}
+                  acc[game.gameId] = game;
+                  return acc;
+              }, {}) : []
           })
       } catch (getOddsMovementError) {
           console.log('getOddsMovementError', getOddsMovementError)
