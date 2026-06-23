@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react'
 import { connect } from 'react-redux'
 import { Button, Row, Col, Alert, Spin, message } from 'antd'
-import { RefreshOutlined, CheckCircleOutlined, CloseCircleOutlined } from '@ant-design/icons'
+import { LoadingOutlined, CheckCircleOutlined, CloseCircleOutlined } from '@ant-design/icons'
 import WagerRow from './WagerRow'
 import { submitWager, fetchWagers } from '../../redux/actions/predictionsActions'
 import { fetchCurrentLines } from '../../redux/actions/gamesActions'
@@ -407,7 +407,7 @@ const PredictionStakesPredict = ({
       <Button 
         type="dashed"
         block
-        icon={<RefreshOutlined />}
+        icon={<LoadingOutlined />}
         style={{ marginTop: '15px' }}
         onClick={handleRefreshOdds}
         loading={refreshingOdds}

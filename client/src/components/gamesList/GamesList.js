@@ -105,6 +105,8 @@ const GamesList = (props) => {
               <FeaturedGame
                 game={games[featuredGameId]}
                 user={props.user}
+                games={games}
+                predictions={predictions}
                 prediction={predictions && predictions["user"][featuredGameId] ? predictions["user"][featuredGameId] : null}
                 handleOnChangeGameScore={props.changeGameScore}
                 handleSubmitPrediction={props.submitPrediction}
@@ -120,7 +122,8 @@ const GamesList = (props) => {
             let predictionsArray = []
             if (predictions && Object.keys(predictions).length > 0) {
               Object.keys(predictions).map(predictionKey => {
-                if (predictions[predictionKey][gameId]) {
+                // console.log(`predictions[predictionKey][gameId]`, predictions[predictionKey][gameId])
+                if (predictions && predictions[predictionKey] && predictions[predictionKey][gameId]) {
                   predictionsArray.push({
                     type: predictionKey,
                     name: predictions[predictionKey].name,

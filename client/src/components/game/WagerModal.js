@@ -1,12 +1,33 @@
-import React from 'react'
+import React, { useEffect } from 'react'
 import { Modal } from 'antd'
 import PredictionStakesPredict from './PredictionStakesPredict'
 import WagerSlip from './WagerSlip'
+import { connect } from 'react-redux'
+import { submitWager, fetchWagers } from '../../redux/actions/predictionsActions'
+import { fetchCurrentLines } from '../../redux/actions/gamesActions'
 
-const WagerModal = ({ showWagerModal, hideModal, prediction, game, odds, gameCannotBeUpdated }) => {
+const WagerModal = ({ 
+  showWagerModal,
+  hideModal,
+  prediction,
+  game,
+  odds,
+  gameCannotBeUpdated,
+  fetchCurrentLines,
+  submitWager,
+  user }) => {
+    
+  useEffect(() => {
+    if (showWagerModal && game && game.gameId) {
+      console.log('WagerModal useEffect', game.gameId)
+      const { sport, year, season, gameWeek, gameId, awayTeam, homeTeam } = game
+      fetchCurrentLines(sport, year, season, gameWeek, gameId, awayTeam?.participantId, homeTeam?.participantId)
+    }
+  }, [showWagerModal, game.gameId])
+
   return (
     <Modal
-      title={
+      title={() => (
         <span style={{ fontSize: '18px', fontWeight: '600' }}>
           My Prediction: {
             prediction?.awayTeam?.score !== undefined && prediction?.homeTeam?.score !== undefined
@@ -14,7 +35,7 @@ const WagerModal = ({ showWagerModal, hideModal, prediction, game, odds, gameCan
               : `${game.awayTeam.code} vs ${game.homeTeam.code}`
           }
         </span>
-      }
+  )}
       visible={showWagerModal}
       onCancel={() => hideModal(false)}
       footer={null}
@@ -31,6 +52,17 @@ const WagerModal = ({ showWagerModal, hideModal, prediction, game, odds, gameCan
             game={game}
             gameCannotBeUpdated={gameCannotBeUpdated}
             hideModal={hideModal}
+
+  // user,
+  // prediction,
+  // odds,
+  // games,
+  // game,
+  // gameCannotBeUpdated,
+  // submitWager,
+  // fetchWagers,
+  // fetchCurrentLines,
+  // hideModal
           />
         ) : (
           <WagerSlip
@@ -48,4 +80,15 @@ const WagerModal = ({ showWagerModal, hideModal, prediction, game, odds, gameCan
   )
 }
 
-export default WagerModal
+const mapStateToProps = (state) => ({
+  user: state.user,
+  games: state.games.games
+})
+
+const mapActionsToProps = {
+  submitWager,
+  fetchWagers,
+  fetchCurrentLines
+}
+
+export default connect(mapStateToProps, mapActionsToProps)(WagerModal)

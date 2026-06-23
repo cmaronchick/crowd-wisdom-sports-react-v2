@@ -160,6 +160,7 @@ export const fetchGameWeekGames = (sport, year, season, gameWeek) => async (disp
   }
 
   export const fetchCurrentLines = (sport, year, season, gameWeek, gameId, awayTeamId, homeTeamId) => async (dispatch) => {
+    console.log('fetchCurrentLines', sport, year, season, gameWeek, gameId, awayTeamId, homeTeamId)
       dispatch({
           type: LOADING_ODDS,
           payload: {
@@ -184,6 +185,7 @@ export const fetchGameWeekGames = (sport, year, season, gameWeek) => async (disp
           }
           
           let getCurrentLinesResponseJSON = await apiHost.get(`${sport}/games/${year}/${season}/${gameWeek}/game/${gameId}/currentlines?awayTeamId=${awayTeamId}&homeTeamId=${homeTeamId}`, getOptions).json()
+                                                            //'/:sport/games/:year/:season/:gameWeek/game/:gameId/currentlines'
           
           let gameOdds = { ...store.getState().games.games }
           let gameObj = {}

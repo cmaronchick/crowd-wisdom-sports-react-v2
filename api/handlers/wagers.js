@@ -3,6 +3,7 @@ const { callOptions } = require('../utils');
 
 const getCurrentLines = (req, res) => {
     const { sport, year, season, gameWeek, gameId } = req.params;
+    console.log('getCurrentLines', sport, year, season, gameWeek, gameId)
     const { awayTeamId, homeTeamId } = req.query;
     const callOptionsObject = callOptions(req.headers.authorization);
     const getOptions = callOptionsObject.callOptions;
