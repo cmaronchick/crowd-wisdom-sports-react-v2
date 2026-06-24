@@ -157,7 +157,9 @@ export const login = (username, password) => async (dispatch) => {
             value: 1
         })
         if (Object.keys(store.getState().sport.gameWeekData).length > 0) {
-            const { sport, year, season, week } = store.getState().sport.gameWeekData
+            const { sport, gameWeekData } = store.getState().sport
+            const { year, season, week } = gameWeekData
+            console.log('dispatching fetchGameWeekGames and getUserDetails', sport, year, season, week)
             dispatch(fetchGameWeekGames(sport, year, season, week))
             dispatch(getUserDetails(sport, year, season, week))
         } else {
@@ -363,7 +365,8 @@ export const logout = () => async (dispatch) => {
             type: SET_UNAUTHENTICATED
         })
         if (Object.keys(store.getState().sport.gameWeekData).length > 0) {
-            const { sport, year, season, week } = store.getState().sport.gameWeekData
+            const { sport, gameWeekData } = store.getState().sport
+            const { year, season, week } = gameWeekData
             dispatch(fetchGameWeekGames(sport, year, season, week))
         } else {
             dispatch(setSport('nfl'))
@@ -382,7 +385,7 @@ export const getUserDetails = (sport, year, season, week) => async (dispatch) =>
         let currentSession = await Auth.currentSession()
         let IdToken = await currentSession.getIdToken().getJwtToken()
         let tokenPayload = await currentSession.getIdToken().decodePayload()
-        let getProfileResponse = await apiHost.get(`extendedprofile?sport=${sport}&year=${year}&season=${season}&week=${week}`,{
+        let getProfileResponse = await apiHost.get(`extendedprofile?sport=${sport && sport !== 'undefined' ? sport : ''}&year=${year && year !== 'undefined' ? year : ''}&season=${season && season !== 'undefined' ? season : ''}&week=${week && week !== 'undefined' ? week : ''}`,{
             headers: {
                 Authorization: IdToken
             }
@@ -395,12 +398,17 @@ export const getUserDetails = (sport, year, season, week) => async (dispatch) =>
                 details: getProfileResponse.userStatsResponse
             }
         })
+        if (Object.keys(store.getState().games?.games || {}).length === 0) {
+            store.dispatch(setSport(store.getState().sport.sport, store.getState().sport.gameWeekData.year, store.getState().sport.gameWeekData.season, store.getState().sport.gameWeekData.week))
+            console.log('dispatching fetchGameWeekGames and getUserDetails')
+            // dispatch(fetchGameWeekGames(sport, year, season, week))
+        }
         dispatch(getUserNotifications())
     } catch (getProfileResponseError) {
       console.error(getProfileResponseError)
       dispatch({
           type: SET_ERRORS,
-          errors: getProfileResponseError
+                    payload: getProfileResponseError
       })
     }
   }
@@ -415,7 +423,7 @@ export const getUserNotifications = () => async (dispatch) => {
             }
         }).json()
         console.log('getUserNotificationsResponse', getUserNotificationsResponse)
-        let notifications = getUserNotificationsResponse.notifications.Items
+        let notifications = getUserNotificationsResponse.notifications?.Items
         if (notifications) {
             dispatch({
                 type: SET_USER_NOTIFICATIONS,

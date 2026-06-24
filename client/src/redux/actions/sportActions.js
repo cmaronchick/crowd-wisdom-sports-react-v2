@@ -48,7 +48,10 @@ export const setGameWeek = (sport, selectedYear, selectedSeason, selectedWeek) =
         }
         dispatch({
             type: SET_GAMEWEEK,
-            payload: gameWeekData.data
+            payload: {
+                sport,
+                ...gameWeekData.data
+            }
         })
         let { week, year, season } = gameWeekData.data
         try {

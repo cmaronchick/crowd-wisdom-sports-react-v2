@@ -29,17 +29,23 @@ const getCrowdLeaderboards = (req, res) => {
     const callOptionsObject = callOptions(req.headers.authorization);
     const anonString = callOptionsObject.anonString;
     const getOptions = callOptionsObject.callOptions;
-    console.log('getCrowdLeaderboards getOptions: ', getOptions); 
+    // console.log('getCrowdLeaderboards getOptions: ', getOptions); 
     return ky.get(`https://3tsywitgn8.execute-api.us-west-2.amazonaws.com/dev/${sport}/${year}/${season}/${week}/leaderboards/crowdoverall`, getOptions)
     .then((crowdOverallResponse) => {
-      console.log('crowdOverallResponse: ', crowdOverallResponse) 
+      // console.log('crowdOverallResponse: ', crowdOverallResponse) 
       return crowdOverallResponse.json()
     })
     .then(crowdOverallResponseJSON => {
       // console.log('api/index 134 crowdOverallResponse', crowdOverallResponse)
        return res.send({ crowd: crowdOverallResponseJSON })
      })
-     .catch(crowdOverallResponseError => console.log('api leaderboard index 137 crowdOverallResponse: ', crowdOverallResponseError))
+     .catch(async (crowdOverallResponseError) => {
+      console.log('api leaderboard index 137 crowdOverallResponse: ', crowdOverallResponseError)
+      if (crowdOverallResponseError.response) {
+        crowdOverallResponseError = await crowdOverallResponseError.response.json()
+      }
+      return res.status(500).json({ message: crowdOverallResponseError })
+     })
 }
 
 module.exports = { getLeaderboards, getCrowdLeaderboards }

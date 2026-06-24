@@ -37,6 +37,7 @@ import { setSport } from './redux/actions/sportActions'
 import { toggleOddsChangeModal } from './redux/actions/uiActions'
 
 import { getFacebookUser, getUserDetails } from './redux/actions/userActions'
+import { fetchGameWeekGames } from './redux/actions/gamesActions'
 import Predictions from './components/profile/Predictions';
 
 const { Footer, Content } = Layout;
@@ -151,6 +152,9 @@ class App extends Component {
           attributes: currentUser.attributes
         }
       })
+      const { sport, year, season, week } = store.getState().sport.gameWeekData
+      store.dispatch(fetchGameWeekGames(sport, year, season, week))
+      store.dispatch(getUserDetails(sport, year, season, week))
     } catch (getCurrentUserError) {
       console.log('getCurrentUserError', getCurrentUserError)
     }
@@ -225,7 +229,8 @@ const mapStateToProps = (state) => ({
 const mapActionsToProps = {
   getUserDetails,
   toggleOddsChangeModal,
-  setSport
+  setSport,
+  fetchGameWeekGames
 }
 
 export default connect(mapStateToProps, mapActionsToProps)(App);
