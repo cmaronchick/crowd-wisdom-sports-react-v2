@@ -11,6 +11,7 @@ const getGameWeek = (req, res) => {
           return gameWeekResponse.json()
       })
       .then(gameWeekResponseData => {
+        console.log('gameWeekResponseData', gameWeekResponseData)
         return res.status(200).json({ data: gameWeekResponseData })
       })
       .catch(gameWeekResponseError => {

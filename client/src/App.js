@@ -89,6 +89,25 @@ class App extends Component {
     }
   }
 
+  syncSportFromPath = (pathname) => {
+    if (!pathname) {
+      return
+    }
+
+    const routeParams = pathname.split('/')
+    const sport = routeParams[1]
+    const year = parseInt(routeParams[3])
+    const season = routeParams[4]
+    const week = parseInt(routeParams[5])
+    const validSports = ['nfl', 'ncaaf', 'ncaam']
+
+    if (validSports.indexOf(sport) > -1) {
+      this.props.setSport(sport, year, season, week)
+    } else if (pathname === '/' || pathname === '') {
+      this.props.setSport('nfl', year, season, week)
+    }
+  }
+
   
 
   handleAmplifyCallback = async (location) => {
@@ -135,22 +154,17 @@ class App extends Component {
     } catch (getCurrentUserError) {
       console.log('getCurrentUserError', getCurrentUserError)
     }
-    //check pathname for sports variables
-    if (this.props.location.pathname) {
-      let routeParams = this.props.location.pathname.split('/')
-      let sport = routeParams[1]
-      let page = routeParams[2]
-      let year = parseInt(routeParams[3])
-      let season = routeParams[4]
-      let week = parseInt(routeParams[5])
-      this.props.setSport(sport ? sport : 'nfl', year, season, week)
-      // if (page === 'leaderboards') {
-      //   store.dispatch(fetchLeaderboards(sport ? sport : 'nfl', year ? year : 2019, season ? season : 'post', week ? week : 4))
-      // }
-    }
+    this.syncSportFromPath(this.props.location.pathname)
+
     if (window.location.pathname === '/callback' && window.location.search.indexOf('error') === -1) {
       console.log('starting FB login', window.location)
       this.handleAmplifyCallback(window.location)
+    }
+  }
+
+  componentDidUpdate(prevProps) {
+    if (prevProps.location.pathname !== this.props.location.pathname) {
+      this.syncSportFromPath(this.props.location.pathname)
     }
   }
   render() {

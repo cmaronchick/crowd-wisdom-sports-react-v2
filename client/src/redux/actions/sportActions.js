@@ -22,6 +22,7 @@ export const setSport = (sport, year, season, week) => (dispatch) => {
         type: SET_SPORT,
         payload: sport
     })
+
     console.log(`sport, year, season, week`, sport, year, season, week)
     dispatch(setGameWeek(sport, year, season, week))
 }
@@ -30,6 +31,7 @@ export const setGameWeek = (sport, selectedYear, selectedSeason, selectedWeek) =
     // selectedYear and selectedSeason are both validated to ensure mistyped URLs still work
     try {
         let gameWeekData = await apiHost.get(`${sport}/week`).json()
+        console.log('gameWeekData', gameWeekData)
         if (selectedYear && validYears.indexOf(selectedYear) > -1) {
             gameWeekData.data.year = selectedYear;
         }
