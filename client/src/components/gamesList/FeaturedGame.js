@@ -172,28 +172,30 @@ const FeaturedGame = ({ game, onGameClick, user, handleOnChangeGameScore, predic
     const onSubmitPrediction = (event) => {
         event.preventDefault()
         const newprediction = {
-            gameId: game.gameId,
-            gameWeek: game.gameWeek,
-            year: game.year,
-            sport: game.sport,
-            season: game.season,
+        gameId: game.gameId,
+        gameWeek: game.gameWeek,
+        year: game.year,
+        sport: game.sport,
+        season: game.season,
+        prediction: {
             awayTeam: {
                 fullName: game.awayTeam.fullName,
                 shortName: game.awayTeam.shortName,
                 code: game.awayTeam.code,
-                score: userPrediction && userPrediction.awayTeam ? userPrediction.awayTeam.score : game.prediction.awayTeam.score,
+                score: userPrediction && userPrediction.awayTeam ? userPrediction.awayTeam.score : game.prediction?.awayTeam?.score,
             },
             homeTeam: {
                 fullName: game.homeTeam.fullName,
                 shortName: game.homeTeam.shortName,
                 code: game.homeTeam.code,
-                score: userPrediction && userPrediction.homeTeam ? userPrediction.homeTeam.score : game.prediction.homeTeam.score,
+                score: userPrediction && userPrediction.homeTeam ? userPrediction.homeTeam.score : game.prediction?.homeTeam?.score,
             },
             stars: userPrediction.stars ? {
                 spread: userPrediction.stars.spread ? userPrediction.stars.spread : 0,
                 total: userPrediction.stars.total ? userPrediction.stars.total : 0
             } : { spread: 0, total: 0 },
             odds: game.odds
+            }
         }
         handleSubmitPrediction(game.gameId, newprediction)
     }
