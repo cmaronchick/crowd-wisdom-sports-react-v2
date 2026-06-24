@@ -21,7 +21,7 @@ export default function(state = initialState, action) {
         case SET_GAMEWEEK:
             return {
                 ...state,
-                sport: action.payload.sport,
+                sport: action.payload.sport ? action.payload.sport : state.sport,
                 gameWeekData: {
                     ...action.payload
                 },
@@ -30,6 +30,7 @@ export default function(state = initialState, action) {
         case SET_SEASON: 
             return {
                 ...state,
+                sport: action.payload.sport ? action.payload.sport : state.sport,
                 gameWeekData: {
                     ...action.payload
                 }

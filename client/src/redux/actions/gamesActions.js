@@ -18,6 +18,40 @@ import store from '../store';
 import { getCrowdResults } from './leaderboardActions'
 
 const apiHost = ky.create({prefixUrl: process.env.NODE_ENV === 'development' ? 'http://localhost:5001/api/' : 'https://app.stakehousesports.com/api/'})
+const AUTH_SESSION_TIMEOUT_MS = 5000
+
+const getAuthOptions = async () => {
+    try {
+        const currentSession = await Promise.race([
+            Auth.currentSession(),
+            new Promise((_, reject) => setTimeout(() => reject(new Error('Auth session timeout')), AUTH_SESSION_TIMEOUT_MS))
+        ])
+        const IdToken = await currentSession.getIdToken().getJwtToken()
+        return {
+            headers: {
+                Authorization: IdToken
+            }
+        }
+    } catch (getGamesUserSessionError) {
+        console.log('getGamesUserSessionError', getGamesUserSessionError)
+        return {}
+    }
+}
+
+const normalizeRequestError = async (error) => {
+    if (error.response) {
+        try {
+            return await error.response.json()
+        } catch (responseParseError) {
+            console.log('responseParseError', responseParseError)
+        }
+    }
+
+    return {
+        name: error.name,
+        message: error.message
+    }
+}
 
 export const fetchGameWeekGames = (sport, year, season, gameWeek) => async (dispatch) => {
 
@@ -25,22 +59,21 @@ export const fetchGameWeekGames = (sport, year, season, gameWeek) => async (disp
         type: LOADING_GAMES
     })
 
-    let currentSession, IdToken;
-    let getOptions = {};
-    try {
-        currentSession = await Auth.currentSession()
-        IdToken = await currentSession.getIdToken().getJwtToken()
-        getOptions = {
-            headers: {
-                Authorization: IdToken
-            }
-        }
-    } catch (getGamesUserSessionError) {
-        console.log('getGamesUserSessionError', getGamesUserSessionError)
-    }
+    const getOptions = await getAuthOptions()
 
     try {
-        let gameWeekGames = await apiHost.get(`${sport}/games/${year}/${season}/${gameWeek}`, getOptions).json()
+        console.log(`fetchGameWeekGames: ${sport}/${year}/${season}/${gameWeek}`, getOptions)
+        let gameWeekGames
+        try {
+            gameWeekGames = await apiHost.get(`${sport}/games/${year}/${season}/${gameWeek}`, getOptions).json()
+        } catch (getGameWeekGamesError) {
+            if (getGameWeekGamesError && getGameWeekGamesError.name === 'TimeoutError' && getOptions && getOptions.headers) {
+                console.log('fetchGameWeekGames timed out with auth, retrying without auth header')
+                gameWeekGames = await apiHost.get(`${sport}/games/${year}/${season}/${gameWeek}`).json()
+            } else {
+                throw getGameWeekGamesError
+            }
+        }
         dispatch({
             type: SET_GAMES,
             payload: gameWeekGames
@@ -54,13 +87,17 @@ export const fetchGameWeekGames = (sport, year, season, gameWeek) => async (disp
 
 
     } catch (getGameWeekGamesError) {
+        const normalizedError = await normalizeRequestError(getGameWeekGamesError)
         dispatch({
             type: SET_GAMES,
-            games: {}
+            payload: {
+                games: {}
+            }
         })
+        console.log('getGameWeekGamesError', normalizedError)
         dispatch({
             type: SET_ERRORS,
-            errors: getGameWeekGamesError
+            payload: normalizedError
         })
     }
   };
@@ -89,19 +126,7 @@ export const fetchGameWeekGames = (sport, year, season, gameWeek) => async (disp
     dispatch({
         type: LOADING_GAME
     })
-    let currentSession, IdToken;
-    let getOptions = {};
-    try {
-        currentSession = await Auth.currentSession()
-        IdToken = await currentSession.getIdToken().getJwtToken()
-        getOptions = {
-            headers: {
-                Authorization: IdToken
-            }
-        }
-    } catch (getGamesUserSessionError) {
-        console.log('getGamesUserSessionError', getGamesUserSessionError)
-    }
+    const getOptions = await getAuthOptions()
 
     try {
         let getGameResponse = await apiHost.get(`${sport}/games/${year}/${season}/${gameWeek}/game/${gameId}`, getOptions).json()
@@ -115,18 +140,15 @@ export const fetchGameWeekGames = (sport, year, season, gameWeek) => async (disp
             dispatch(fetchGameWeekGames(sport, year, season, gameWeek))
         }
     } catch (getGameError) {
-        console.log('getGameError', getGameError)
-        if (getGameError.response) {
-            getGameError = await getGameError.response.json()
-        }
-        console.log('getGameError', getGameError)
+        const normalizedError = await normalizeRequestError(getGameError)
+        console.log('getGameError', normalizedError)
         dispatch({
             type: SET_GAME,
             payload: {}
         })
         dispatch({
             type: SET_ERRORS,
-            errors: getGameError
+            payload: normalizedError
         })
     }
     // return apiHost.get(`/api/${sport}/games/${year}/${season}/${gameWeek}/${gameId}${compareUsername ? `?compareUsername=${compareUsername}` : ''}`, getOptionsObj.callOptions)

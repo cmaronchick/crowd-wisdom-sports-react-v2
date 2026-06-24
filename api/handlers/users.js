@@ -7,7 +7,7 @@ const getExtendedProfile = (req, res) => {
     let { sport, year, season, week } = req.query;
     const callOptionsObject = callOptions(req.headers.authorization);
     const getOptions = callOptionsObject.callOptions;
-    return ky.get(`https://3tsywitgn8.execute-api.us-west-2.amazonaws.com/dev/extendedprofile?sport=${sport}&year=${year}&season=${season}&week=${week}`, getOptions)
+    return ky.get(`https://3tsywitgn8.execute-api.us-west-2.amazonaws.com/dev/extendedprofile?sport=${sport || sport !== 'undefined' ? sport : ''}&year=${year || year !== 'undefined' ? year : ''}&season=${season || season !== 'undefined' ? season : ''}&week=${week || week !== 'undefined' ? week : ''}`, getOptions)
     .then((userStatsResponse) => {
         return userStatsResponse.json()
     })
@@ -15,7 +15,13 @@ const getExtendedProfile = (req, res) => {
     //   console.log('userStatsResponseJSON', userStatsResponseJSON)
       return  res.send({ userStatsResponse: userStatsResponseJSON })
      })
-     .catch(userStatsResponseError => console.log('api leaderboard index 150 userStatsResponseError: ', userStatsResponseError))
+         .catch(async (userStatsResponseError) => {
+                console.log('api leaderboard index 150 userStatsResponseError: ', userStatsResponseError)
+                if (userStatsResponseError.response) {
+                        userStatsResponseError = await userStatsResponseError.response.json()
+                }
+                return res.status(500).json({ message: userStatsResponseError })
+         })
   
 }
 
@@ -30,7 +36,13 @@ const getUserNotifications = (req, res) => {
     .then(notificationsJSON => {
       return  res.send({ notifications: notificationsJSON.body })
      })
-     .catch(notificationsError => console.log('api leaderboard index 150 notificationsError: ', notificationsError))
+         .catch(async (notificationsError) => {
+                console.log('api leaderboard index 150 notificationsError: ', notificationsError)
+                if (notificationsError.response) {
+                        notificationsError = await notificationsError.response.json()
+                }
+                return res.status(500).json({ message: notificationsError })
+         })
 }
 
 const uploadImage = (req, res) => {
@@ -86,7 +98,13 @@ const getUserPredictions = (req, res) => {
       console.log('userPredictionsResponseJSON', userPredictionsResponseJSON)
       return  res.send({ userPredictions: userPredictionsResponseJSON })
      })
-     .catch(userStatsResponseError => console.log('api leaderboard index 150 userStatsResponseError: ', userStatsResponseError))
+         .catch(async (userStatsResponseError) => {
+                console.log('api leaderboard index 150 userStatsResponseError: ', userStatsResponseError)
+                if (userStatsResponseError.response) {
+                        userStatsResponseError = await userStatsResponseError.response.json()
+                }
+                return res.status(500).json({ message: userStatsResponseError })
+         })
 }
 
 module.exports = { getExtendedProfile, uploadImage, getUserNotifications, getUserPredictions }
