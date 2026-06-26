@@ -11,6 +11,7 @@ const FeaturedGame = ({ game, onGameClick, user, handleOnChangeGameScore, predic
     if (!game) return null;
 
     const { awayTeam, homeTeam, startDateTime, gameId } = game;
+    // console.log('awayTeam, homeTeam, startDateTime, gameId', awayTeam, homeTeam, startDateTime, gameId)
     const gameDate = new Date(startDateTime).toLocaleDateString(undefined, {
         weekday: 'short',
         month: 'short',
@@ -59,7 +60,7 @@ const FeaturedGame = ({ game, onGameClick, user, handleOnChangeGameScore, predic
         handleSubmitPrediction(game.gameId, newprediction)
     }
     
-    console.log('prediction :>> ', prediction, prediction?.homeTeam?.score);
+    // console.log('prediction :>> ', prediction, prediction?.homeTeam?.score);
     return (
         <Card className="featured-game-card" bordered={false}>
             <div className="featured-badge">

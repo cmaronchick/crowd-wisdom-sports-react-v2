@@ -18,6 +18,7 @@ const { Title, Text } = Typography
 
 const GamePreview = (props) => {
   const { game, predictions, user, loadingGame } = props
+  const [gameScores, setGameScores] = React.useState({awayTeamScore: game?.prediction?.awayTeam?.score || '', homeTeamScore: game?.prediction?.homeTeam?.score || ''})
   if (!game || !game.gameId) {
     return (
       <div>No game found</div>
@@ -87,8 +88,14 @@ const GamePreview = (props) => {
   
 
   const handleSubmitPrediction = (event) => {
+    console.log('handleSubmitPrediction', props.predictions)
     event.preventDefault()
-    const { prediction: userPrediction } = props
+    if (!userPrediction || !userPrediction.awayTeam?.score || !userPrediction.homeTeam?.score) {
+      console.log('no userPrediction found, creating new prediction', userPrediction?.awayTeam?.score ? userPrediction.awayTeam.score : 'no away score', userPrediction?.homeTeam?.score ? userPrediction.homeTeam.score : 'no home score')
+      
+      return
+    }
+    // const { prediction: userPrediction } = props
     const prediction = {
       gameId: game.gameId,
       gameWeek: game.gameWeek,
@@ -100,13 +107,13 @@ const GamePreview = (props) => {
           fullName: game.awayTeam.fullName,
           shortName: game.awayTeam.shortName,
           code: game.awayTeam.code,
-          score: userPrediction && userPrediction.awayTeam ? userPrediction.awayTeam.score : game.prediction.awayTeam.score,
+          score: userPrediction && userPrediction.awayTeam ? userPrediction.awayTeam.score : game.prediction?.awayTeam?.score,
         },
         homeTeam: {
           fullName: game.homeTeam.fullName,
           shortName: game.homeTeam.shortName,
           code: game.homeTeam.code,
-          score: userPrediction && userPrediction.homeTeam ? userPrediction.homeTeam.score : game.prediction.homeTeam.score,
+          score: userPrediction && userPrediction.homeTeam ? userPrediction.homeTeam.score : game.prediction?.homeTeam?.score,
         },
         stars: userPrediction.stars ? {
           spread: userPrediction.stars.spread ? userPrediction.stars.spread : 0,
