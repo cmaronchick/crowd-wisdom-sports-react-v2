@@ -23,4 +23,20 @@ const getSportSeason = (req, res) => {
 
 }
 
+const getSport = (req, res) => {
+    const callOptionsObject = callOptions(req.headers.authorization);
+    return apiHost.get(`/sport`, callOptionsObject.callOptions)
+    .then((sportResponse) => {
+        return sportResponse.json()
+    })
+    .then(sportResponseData => {
+      return res.status(200).json({ data: sportResponseData })
+    })
+    .catch(sportResponseError => {
+        console.log('api index 38 sportResponseError: ', sportResponseError)
+        return res.status(500).json({ message: 'Something went wrong.'})
+    })
+
+}
+
 module.exports = { getSportSeason }

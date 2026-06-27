@@ -58,7 +58,16 @@ export const fetchGameWeekGames = (sport, year, season, gameWeek) => async (disp
     })
 
     const getOptions = await getAuthOptions()
-
+    if (!sport || !year || !season || !gameWeek) {
+        console.log('fetchGameWeekGames missing parameters', { sport, year, season, gameWeek })
+        dispatch({
+            type: SET_GAMES,
+            payload: {
+                games: {}
+            }
+        })
+        return
+    }
     try {
         console.log(`fetchGameWeekGames: ${sport}/${year}/${season}/${gameWeek}`, getOptions)
         let gameWeekGames
