@@ -2,6 +2,32 @@ const ky = require('ky-universal');
 
 const apiHost = ky.create({prefixUrl: `https://3tsywitgn8.execute-api.us-west-2.amazonaws.com/dev/`})
 const { callOptions } = require('../utils')
+const {getSport} = require('./sport')
+
+function conditionalFetch(sport, year, season, gameWeek) {
+  console.log('conditionalFetch called with:', { sport, year, season, gameWeek });
+    if (!sport || !year || !season || !gameWeek) {
+        // Example async operation (simulated with setTimeout)
+        return getSport()
+            .then(sportResponse => {
+              
+                const { sport, year, season, week } = sportResponse.data;
+                console.log('conditionalFetch fetched sport data:', { sport, year, season, gameWeek: week });
+                return Promise.resolve({ sport, year, season, gameWeek: week });
+            })
+            .then((sport) => {
+              console.log('conditionalFetch calling getGameWeek with sport:', sport);
+              return getGameWeek(sport)
+            })
+            .catch(error => {
+                console.error('Error fetching sport data:', error);
+                return Promise.reject(error);
+            });
+    } else {
+        // Return an already-resolved Promise
+        return Promise.resolve({ sport, year, season, gameWeek });
+    }
+}
 const getGameWeek = (req, res) => {
     const callOptionsObject = callOptions(req.headers.authorization);
     const anonString = callOptionsObject.anonString;
@@ -40,13 +66,20 @@ const getGame = (req, res) => {
 }
 
 const getGamesByGameWeek = (req, res) => {
-    //console.log('api index 57 query', req.params, req.url)
+    console.log('api index 57 query', req.params, req.url)
     const { sport, year, season, gameWeek } = req.params
     const callOptionsObject = callOptions(req.headers.authorization);
     const anonString = callOptionsObject.anonString;
     const getOptions = callOptionsObject.callOptions;
-    return apiHost.get(`${sport}/${year}/${season}/${gameWeek}/games${anonString}${req.query && req.query.compareUsername ? `?compareUsername=${req.query.compareUsername}` : ''}`, getOptions)
+    
+
+    return conditionalFetch(sport, year, season, gameWeek)
+      .then(({sport, year, season, gameWeek}) => {
+        // console.log('conditionalFetch resolved, proceeding to fetch games with args:', { sport, year, season, gameWeek });
+        return apiHost.get(`${sport}/${year}/${season}/${gameWeek}/games${anonString}${req.query && req.query.compareUsername ? `?compareUsername=${req.query.compareUsername}` : ''}`, getOptions)
+      })
       .then((gamesResponse) => {
+        // console.log('gamesResponse received:', gamesResponse);
           return gamesResponse.json()
       })
       .then(gamesResponse => {
