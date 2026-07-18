@@ -33,7 +33,7 @@ import { getUrlParameters } from './functions/utils'
 // redux stuff
 import store from './redux/store'
 import { LOADING_USER, SET_USER, LOADING_GAMES, LOADING_GAME } from './redux/types'
-import { setSport } from './redux/actions/sportActions'
+import { setSport, fetchSportsbooks } from './redux/actions/sportActions'
 import { toggleOddsChangeModal } from './redux/actions/uiActions'
 
 import { getFacebookUser, getUserDetails } from './redux/actions/userActions'
@@ -155,6 +155,7 @@ class App extends Component {
       const { sport, year, season, week } = store.getState().sport.gameWeekData
       store.dispatch(fetchGameWeekGames(sport, year, season, week))
       store.dispatch(getUserDetails(sport, year, season, week))
+      store.dispatch(fetchSportsbooks())
     } catch (getCurrentUserError) {
       console.log('getCurrentUserError', getCurrentUserError)
     }
@@ -230,7 +231,8 @@ const mapActionsToProps = {
   getUserDetails,
   toggleOddsChangeModal,
   setSport,
-  fetchGameWeekGames
+  fetchGameWeekGames,
+  fetchSportsbooks
 }
 
 export default connect(mapStateToProps, mapActionsToProps)(App);

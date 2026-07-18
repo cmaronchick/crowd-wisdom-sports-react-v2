@@ -97,24 +97,20 @@
     padding: 4px 12px;
     border-radius: 20px;
   }
+  .game-odds {
+    color: @highlight-color;
+    font-weight: 600;
+    font-size: 0.9rem;
+    background: rgba(0,0,0,0.3);
+    padding: 4px 12px;
+    border-radius: 20px;
+    margin-top: 8px;
+  }
 
   .cta-section {
     margin-top: 24px;
     text-align: center;
 
-    .ant-btn-primary {
-        background-color: @tertiary-color;
-        border-color: @tertiary-color;
-        font-weight: bold;
-        height: 48px;
-        padding: 0 32px;
-        font-size: 1.1rem;
-        
-        &:hover {
-            background-color: lighten(@tertiary-color, 10%);
-            border-color: lighten(@tertiary-color, 10%);
-        }
-    }
     .cta-button-disabled {
       color:rgba(255,255,255) !important;
     }
@@ -124,6 +120,10 @@
         .ant-typography {
             color: rgba(255,255,255,0.8);
         }
+    }
+    button {
+      margin: 0 10px;
+      border-radius: 4px;
     }
   }
 }

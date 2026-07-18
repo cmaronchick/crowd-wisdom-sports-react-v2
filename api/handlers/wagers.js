@@ -11,7 +11,10 @@ const getCurrentLines = (req, res) => {
     const url = `https://3tsywitgn8.execute-api.us-west-2.amazonaws.com/dev/${sport}/${year}/${season}/${gameWeek}/games/${gameId}/currentlines?awayTeamId=${awayTeamId || ''}&homeTeamId=${homeTeamId || ''}`;
     
     return ky.get(url, getOptions)
-    .then((response) => response.json())
+    .then((response) => {
+        console.log('getCurrentLines response status:', response);
+        return response.json();
+    })
     .then(data => res.status(200).json(data))
     .catch(err => {
         console.error('getCurrentLinesError:', err);
@@ -49,4 +52,20 @@ const getWagers = (req, res) => {
     });
 }
 
-module.exports = { getCurrentLines, submitWager, getWagers };
+const getSportsbooks = (req, res) => {
+    const callOptionsObject = callOptions(req.headers.authorization);
+    const getOptions = callOptionsObject.callOptions;
+    
+    return ky.get(`https://3tsywitgn8.execute-api.us-west-2.amazonaws.com/dev/predictions/wager/sportsbooks`, getOptions)
+    .then(response => {
+        console.log('getSportsbooks response status:', response);
+        return response.json();
+    })
+    .then(data => res.status(200).json(data))
+    .catch(err => {
+        console.error('getSportsbooksError:', err);
+        return res.status(500).json({ message: err.message || err });
+    });
+}
+
+module.exports = { getCurrentLines, submitWager, getWagers, getSportsbooks };

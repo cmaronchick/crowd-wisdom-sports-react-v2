@@ -2,7 +2,8 @@ import {
     SET_SPORT,
     SET_GAMEWEEK,
     SET_SEASON,
-    SET_ERRORS
+    SET_ERRORS,
+    SET_SPORTSBOOKS
 } from '../types'
 import { fetchGameWeekGames, fetchGame } from './gamesActions'
 import { getCrowdResults, fetchLeaderboards } from './leaderboardActions'
@@ -137,5 +138,19 @@ export const selectSeason = (sport, year, season) => async (dispatch) => {
 
     } catch(setSeasonError) {
 
+    }
+}
+
+export const fetchSportsbooks = () => async (dispatch) => {
+    try {
+        let sportsbooksResponse = await apiHost.get(`predictions/wager/sportsbooks`).json()
+        // console.log('sportsbooksResponse', sportsbooksResponse)
+        
+        dispatch({
+            type: 'SET_SPORTSBOOKS',
+            payload: sportsbooksResponse
+        })
+    } catch(fetchSportsbooksError) {
+        console.log('fetchSportsbooksError', fetchSportsbooksError)
     }
 }

@@ -124,6 +124,7 @@ const GamePreview = (props) => {
     }
     props.handleSubmitPrediction(props.game.gameId, prediction)
   }
+  // console.log('GamePreview props', userPrediction, gameCannotBeUpdated)
       return (
       <Card bodyStyle={{ padding: window.innerWidth < 768 ? 12 : 24 }} title={
         <GamePreviewHeader game={game} onClick={props.headerRowArrowClick} />
@@ -137,6 +138,8 @@ const GamePreview = (props) => {
                 showPrediction={showPrediction}
                 game={game}
                 user={user}
+                onOpenWagerModal={props.onOpenWagerModal}
+                canOpenWagerModal={props.canOpenWagerModal}
                 prediction={userPrediction ? userPrediction : game.prediction ? game.prediction : { type: 'user', name: 'Me'}}
                 handleChangeGameScore={props.handleChangeGameScore}
                 toggleOddsChangeModal={toggleOddsChangeModal}
@@ -154,6 +157,8 @@ const GamePreview = (props) => {
             key={prediction.name}
             showPrediction={showPrediction}
             game={game}
+            onOpenWagerModal={props.onOpenWagerModal}
+            canOpenWagerModal={props.canOpenWagerModal}
             prediction={prediction}
             toggleOddsChangeModal={toggleOddsChangeModal}
             loadingGame={loadingGame}
@@ -215,21 +220,38 @@ const GamePreview = (props) => {
           ) : (
             <Row style={{ flex: 1, flexDirection: 'row', alignItems: 'center', justifyContent: 'center' }}>
               {!gameCannotBeUpdated && userPrediction && (
-                <Button
-                  type="primary"
-                  style={{width: '100%'}} 
-                  onClick={handleSubmitPrediction}
-                  disabled={!(userPrediction && userPrediction.awayTeam && parseInt(userPrediction.awayTeam.score) && userPrediction.homeTeam && parseInt(userPrediction.homeTeam.score)) || userPrediction.submitting}
-                  loading={userPrediction && userPrediction.submitting}>
-                    {game.prediction || userPrediction.submitted ? (
-                      <span>Update</span>
-                    ) : (
-                      <span>Predict</span>
-                    )}
-                    {userPrediction.submitted && (
-                      <CheckCircleOutlined style={{color: '#fff'}} />
-                    )}
-                </Button>
+                <Fragment>
+                    <Button
+                      type="primary"
+                      size="large"
+                      style={{flex: 2}}
+                      className="cta-button atn-btn-primary"
+                      onClick={handleSubmitPrediction}
+                      disabled={!(userPrediction && userPrediction.awayTeam && parseInt(userPrediction.awayTeam.score) && userPrediction.homeTeam && parseInt(userPrediction.homeTeam.score)) || userPrediction.submitting}
+                      loading={userPrediction && userPrediction.submitting}>
+                        {game.prediction || userPrediction.submitted ? (
+                          <span>Update</span>
+                        ) : (
+                          <span>Predict</span>
+                        )}
+                        {userPrediction.submitted && (
+                          <CheckCircleOutlined style={{color: '#fff'}} />
+                        )}
+                    </Button>
+
+                        {userPrediction && userPrediction.awayTeam && userPrediction.homeTeam && userPrediction.type === 'user' && (
+                          
+                            <Button type="default" size="large" onClick={() => props.onOpenWagerModal && props.onOpenWagerModal(game.gameId)} disabled={!game.odds || gameCannotBeUpdated || !user.authenticated || !props.canOpenWagerModal}
+                            className="wager-button"
+                            style={{flex: 1}}>
+                                        {game.odds ? (
+                                            <span>Wager Stakes</span>
+                                        ) : (
+                                            <span className="cta-button-disabled">No Odds Available</span>
+                                        )}
+                                    </Button>
+                        )}
+                  </Fragment>
               )}
               {props.UI && props.UI.errors && (
                 <Text type="danger">{props.UI.errors}</Text>
@@ -253,6 +275,8 @@ GamePreview.propTypes = {
   handleChangeGameScore: PropTypes.func.isRequired,
   handleSubmitPrediction: PropTypes.func.isRequired,
   toggleOddsChangeModal: PropTypes.func.isRequired,
+  onOpenWagerModal: PropTypes.func,
+  canOpenWagerModal: PropTypes.bool,
 }
 
 

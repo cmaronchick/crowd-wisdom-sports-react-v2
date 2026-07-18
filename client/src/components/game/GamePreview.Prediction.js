@@ -1,11 +1,13 @@
 import React, { Fragment } from 'react'
-import { Row, Col, Typography, Form, Input } from 'antd'
+import { connect } from 'react-redux'
+import { Row, Col, Typography, Form, Input, Button } from 'antd'
 import { checkBullseye, straightUpResults, spreadResults, totalResults } from './GamePreview.ResultsCheck'
 import GamePreviewStakes from './GamePreview.Stakes'
 import { spreadPrediction, totalPrediction, checkGameStart } from '../../functions/utils'
 
-import { WarningOutlined } from '@ant-design/icons'
-
+import Icon, { WarningOutlined } from '@ant-design/icons'
+import {
+    FaInfoCircle } from 'react-icons/fa'
 const { Text } = Typography
 
 const GamePreviewPrediction = (props) => {
@@ -14,17 +16,22 @@ const GamePreviewPrediction = (props) => {
     prediction,
     showPrediction,
     toggleOddsChangeModal,
+    onOpenWagerModal,
+    canOpenWagerModal,
     user,
-    loadingGame
+    loadingGame,
+    sport
   } = props
 
     const handleOnChangeGameScore = (event) => {
       // console.log('event.target', event.target)
         props.handleChangeGameScore(game.gameId, event)
     }
+    const { sportsbooks } = sport || []
     
     const { results } = game
     const { odds } = prediction && prediction.odds ? prediction : game
+    // console.log('odds', odds)
     
     let awayTeamSpreadResult, homeTeamSpreadResult, totalResult;
     if (prediction.awayTeam?.score && prediction.homeTeam?.score) {
@@ -118,7 +125,8 @@ const GamePreviewPrediction = (props) => {
             {showPrediction && (
             <Col span={5} className="odds">
               {(showPrediction && odds && prediction.awayTeam && prediction.homeTeam) && (
-                <div style={{position: 'relative'}}>
+                <div style={{position: 'relative'}}
+                >
                   {results && prediction.results ? spreadResults(odds, results,prediction) : null}
                   
                   {results && prediction.results ? checkBullseye(prediction.spread, results.spread) : null}
@@ -126,7 +134,8 @@ const GamePreviewPrediction = (props) => {
                   {document.width > 500 && (
                   <Fragment>
                   <br/>
-                  <span className="predictionSpread">(
+                  <span className="predictionSpread"
+                  >(
                   {(prediction.homeTeam.score + odds.spread) > prediction.awayTeam.score // home team covers
                     ? prediction.awayTeam.score > prediction.homeTeam.score 
                       ? `${game.awayTeam.code} by ${awayTeamSpreadResult}`
@@ -142,6 +151,7 @@ const GamePreviewPrediction = (props) => {
                         : ''})</span>
                   </Fragment>
                   )}
+                <Icon style={{ marginLeft: 5 }} component={() => <FaInfoCircle title={sportsbooks && sportsbooks.filter(item => item.sportsbookId === odds.spreadBook).length > 0 ? sportsbooks.filter(item => item.sportsbookId === odds.spreadBook)[0].name : 'Sportsbook'} />}/>
                 </div>)}
               
               </Col>
@@ -171,7 +181,6 @@ const GamePreviewPrediction = (props) => {
             </Col>
           </Row>
         ) : null}
-        {prediction.awayTeam && prediction.homeTeam && prediction.type !== 'crowd' && (<GamePreviewStakes game={game} prediction={prediction} />)}
 
         {prediction && prediction.odds && ((game.odds.spread !== prediction.odds.spread) || (game.odds.total !== prediction.odds.total)) ? (
           !gameCannotBeUpdated ? (
@@ -196,4 +205,11 @@ const GamePreviewPrediction = (props) => {
     )
 }
 
-export default GamePreviewPrediction
+const mapStateToProps = (state) => {
+  return {
+    user: state.user,
+    sport: state.sport
+  }
+}
+
+export default connect(mapStateToProps)(GamePreviewPrediction)

@@ -1,4 +1,4 @@
-import React, { Fragment } from 'react';
+import React, { Fragment, useState } from 'react';
 import PropTypes from 'prop-types'
 import GamePreview from '../game/GamePreview';
 import './GamesList.less'
@@ -11,9 +11,11 @@ import { connect } from 'react-redux'
 
 import { Spin } from 'antd'
 import { antIcon } from '../../functions/utils'
+import { checkGameStart } from '../../functions/utils'
 
 import FeaturedGame from './FeaturedGame';
 import MatchupTicker from './MatchupTicker';
+import WagerModal from '../game/WagerModal'
 
 const statusPriority = {
   "inProgress": 1,
@@ -22,9 +24,12 @@ const statusPriority = {
 }
 
 const GamesList = (props) => {
-  const { sport, predictions } = props
+  const { sport, predictions, user } = props
   const { games, loadingGames } = props.games
   const [activeGameId, setActiveGameId] = React.useState(null);
+  const [showWagerModal, setShowWagerModal] = useState(false)
+  const [selectedWagerGameId, setSelectedWagerGameId] = useState(null)
+      
 
   // Ref for observer
   const observerRef = React.useRef(null);
@@ -66,6 +71,29 @@ const GamesList = (props) => {
     }
   };
 
+  const hasValidUserPrediction = (gameId) => {
+    const userPrediction = predictions && predictions.user ? predictions.user[gameId] : null
+    if (!userPrediction || !userPrediction.awayTeam || !userPrediction.homeTeam) {
+      return false
+    }
+
+    const awayScore = Number(userPrediction.awayTeam.score)
+    const homeScore = Number(userPrediction.homeTeam.score)
+    return Number.isFinite(awayScore) && Number.isFinite(homeScore)
+  }
+
+  const openWagerModal = (gameId) => {
+    if (!hasValidUserPrediction(gameId)) {
+      return
+    }
+    setSelectedWagerGameId(gameId)
+    setShowWagerModal(true)
+  }
+
+  const closeWagerModal = () => {
+    setShowWagerModal(false)
+  }
+
 
   //{ games, gamePredictions, onGameClick, onChangeGameScore, onChangeStarSpread, onChangeStarTotal, onSubmitPrediction }
   // console.log(`games`, games)
@@ -92,6 +120,10 @@ const GamesList = (props) => {
     }
   }
 
+  const selectedGame = selectedWagerGameId && games ? games[selectedWagerGameId] : null
+  const selectedPrediction = selectedWagerGameId && predictions && predictions.user ? predictions.user[selectedWagerGameId] : null
+  const selectedGameCannotBeUpdated = selectedGame ? checkGameStart(selectedGame.startDateTime) : false
+
   return (
     <div className="gamesList">
       {loadingGames ? (
@@ -104,6 +136,8 @@ const GamesList = (props) => {
             <div id={`game-${featuredGameId}`} data-game-id={featuredGameId} ref={el => gameRefs.current[featuredGameId] = el}>
               <FeaturedGame
                 game={games[featuredGameId]}
+                onOpenWagerModal={openWagerModal}
+                canOpenWagerModal={hasValidUserPrediction(featuredGameId)}
                 user={props.user}
                 games={games}
                 predictions={predictions}
@@ -143,6 +177,8 @@ const GamesList = (props) => {
               <div key={gameId} id={`game-${gameId}`} data-game-id={gameId} ref={el => gameRefs.current[gameId] = el}>
                 <GamePreview
                   user={props.user}
+                  onOpenWagerModal={openWagerModal}
+                  canOpenWagerModal={hasValidUserPrediction(gameId)}
                   headerRowArrowClick={() => props.fetchGame(games[gameId].sport, games[gameId].year, games[gameId].season, games[gameId].gameWeek, gameId)}
                   handleChangeGameScore={props.changeGameScore}
                   handleSubmitPrediction={props.submitPrediction}
@@ -162,6 +198,17 @@ const GamesList = (props) => {
       ) : (
         <div>No games available</div>
       )}
+
+      <WagerModal
+          showWagerModal={showWagerModal}
+          game={selectedGame}
+          odds={selectedGame ? selectedGame.odds : null}
+          hideModal={closeWagerModal}
+          gameCannotBeUpdated={selectedGameCannotBeUpdated}
+          user={user}
+          prediction={selectedPrediction}
+          games={games}
+      />
     </div>
   );
 }

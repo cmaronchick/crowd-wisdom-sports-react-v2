@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react'
+import React, { useEffect, useRef } from 'react'
 import { Modal } from 'antd'
 import PredictionStakesPredict from './PredictionStakesPredict'
 import WagerSlip from './WagerSlip'
@@ -10,21 +10,42 @@ const WagerModal = ({
   showWagerModal,
   hideModal,
   prediction,
+  games,
   game,
   odds,
   gameCannotBeUpdated,
   fetchCurrentLines,
   submitWager,
   user }) => {
+  const lastFetchedGameIdRef = useRef(null)
+
+  const gameId = game?.gameId
+  const awayTeamId = game?.awayTeam?.participantId
+  const homeTeamId = game?.homeTeam?.participantId
     
   useEffect(() => {
-    if (showWagerModal && game && game.gameId) {
-      console.log('WagerModal useEffect', game.gameId)
-      const { sport, year, season, gameWeek, gameId, awayTeam, homeTeam } = game
-      fetchCurrentLines(sport, year, season, gameWeek, gameId, awayTeam?.participantId, homeTeam?.participantId)
+    if (!showWagerModal || !gameId) {
+      if (!showWagerModal) {
+        lastFetchedGameIdRef.current = null
+      }
+      return
     }
-  }, [showWagerModal, game.gameId])
 
+    if (lastFetchedGameIdRef.current === gameId) {
+      return
+    }
+
+    const { sport, year, season, gameWeek } = game
+    lastFetchedGameIdRef.current = gameId
+    console.log('WagerModal useEffect', gameId)
+    fetchCurrentLines(sport, year, season, gameWeek, gameId, awayTeamId, homeTeamId)
+  }, [showWagerModal, gameId, awayTeamId, homeTeamId, fetchCurrentLines])
+
+  if (!game) {
+    return null
+  }
+
+  
   return (
     <Modal
       title={() => (
@@ -37,7 +58,7 @@ const WagerModal = ({
         </span>
   )}
       visible={showWagerModal}
-      onCancel={() => hideModal(false)}
+      onCancel={() => hideModal()}
       footer={null}
       width={750}
       className="wager-modal"
@@ -52,6 +73,7 @@ const WagerModal = ({
             game={game}
             gameCannotBeUpdated={gameCannotBeUpdated}
             hideModal={hideModal}
+            loadingOdds={games?.loadingOdds}
 
   // user,
   // prediction,

@@ -1,7 +1,8 @@
 import React, { Fragment } from 'react'
+import {connect} from 'react-redux'
 import { Row, Col, Input, Button, Spin, Tooltip, Badge } from 'antd'
 import { CloseCircleOutlined } from '@ant-design/icons'
-import StakeImage from '../../images/stake-image-blue-dual-ring.svg'
+import StakeImage from '../../images/stake-image-dual-ring.png'
 import { getWagerValueSignals } from '../../functions/oddsMovement'
 
 const WagerRow = ({
@@ -13,6 +14,7 @@ const WagerRow = ({
   wagerWinnerId,
   loadingOdds,
   game,
+  sport,
   prediction,
   currentLines,
   gameCannotBeUpdated,
@@ -24,6 +26,7 @@ const WagerRow = ({
 }) => {
   const displayLines = (currentLines || []).filter((item) => {
     const itemParticipantId = item?.['participant id'] ?? item?.participantId
+
     const isMatchingWinner = (wagerWinnerId !== undefined && wagerWinnerId !== null && itemParticipantId !== undefined && itemParticipantId !== null)
       ? String(wagerWinnerId) === String(itemParticipantId)
       : false
@@ -45,6 +48,8 @@ const WagerRow = ({
     return true
   })
 
+  const {sportsbooks} = sport || []
+
   const handleCustomWagerChange = (e) => {
     const value = e.target.value;
     onChangeWager(wagerType, value);
@@ -52,7 +57,7 @@ const WagerRow = ({
   }
 
   const selectedSportsbookId = wagerLine?.['sportsbook id'] ?? wagerLine?.sportsbookId
-
+  console.log('sportsbooks', sportsbooks)
   return (
     <div className="wager-row-container" style={{ margin: '15px 0', borderBottom: '1px solid #f0f0f0', paddingBottom: '15px' }}>
       <Row align="middle" gutter={[16, 16]}>
@@ -128,7 +133,11 @@ const WagerRow = ({
                 const hasValueUpgrade = betterLine || betterVig
                 const valueLabel = betterLine && betterVig ? 'Line + Vig Edge' : (betterLine ? 'Line Edge' : 'Vig Edge')
                 const OUPrediction = prediction.homeTeam.score + prediction.awayTeam.score
-
+                const sportsbookName = sportsbooks?.find(sb => {
+                  console.log('sb.id', sb.id, 'itemSportsbookId', itemSportsbookId)
+                  return String(sb.sportsbookId) === String(itemSportsbookId)
+                })?.name || 'Unknown'
+                // console.log('sportsbookName', sportsbookName, 'itemSportsbookId', itemSportsbookId, 'sportsbooks', sportsbooks)
                 return (
                   <div 
                     key={`${itemSportsbookId}-${item.type}`}
@@ -148,7 +157,7 @@ const WagerRow = ({
                     }}
                   >
                     <span style={{ fontWeight: '600', fontSize: '13px', color: isSelected ? '#1890ff' : '#262626' }}>
-                      {item.name}
+                      {sportsbookName}
                     </span>
                     <span style={{ fontSize: '13px', fontWeight: '700', marginTop: '2px' }}>
                       {item['american odds'] > 0 ? `+${item['american odds']}` : item['american odds']}
@@ -182,4 +191,10 @@ const WagerRow = ({
   )
 }
 
-export default WagerRow
+const mapStateToProps = (state) => ({
+  user: state.user,
+  games: state.games.games,
+  sport: state.sport
+})
+
+export default connect(mapStateToProps)(WagerRow)

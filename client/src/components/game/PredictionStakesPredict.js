@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react'
 import { connect } from 'react-redux'
 import { Button, Row, Col, Alert, Spin, message } from 'antd'
-import { LoadingOutlined, CheckCircleOutlined, CloseCircleOutlined } from '@ant-design/icons'
+import { LoadingOutlined, CheckCircleOutlined, CloseCircleOutlined, CiCircleOutlined } from '@ant-design/icons'
 import WagerRow from './WagerRow'
 import { submitWager, fetchWagers } from '../../redux/actions/predictionsActions'
 import { fetchCurrentLines } from '../../redux/actions/gamesActions'
@@ -24,6 +24,7 @@ const PredictionStakesPredict = ({
   games,
   game,
   gameCannotBeUpdated,
+  loadingOdds,
   submitWager,
   fetchWagers,
   fetchCurrentLines,
@@ -292,11 +293,13 @@ const PredictionStakesPredict = ({
     }
   }
 
+  console.log('refreshingOdds', refreshingOdds, 'submittingWagers', submittingWagers, 'wagersAccepted', wagersAccepted)
+
   return game && currentLines ? (
     <div>
       <div style={{ backgroundColor: '#f6dfa4', padding: '10px 15px', borderRadius: '6px', marginBottom: '15px', display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
         <span style={{ fontWeight: '700', color: '#231f20' }}>STAKES SYSTEM</span>
-        <span style={{ fontSize: '13px', color: '#595959' }}>Predict and back your choice with currency wagers</span>
+        <span style={{ fontSize: '13px', color: '#595959' }}>Feeling confident? Put some stakes behind it!</span>
       </div>
 
       <div>
@@ -317,7 +320,7 @@ const PredictionStakesPredict = ({
             resetStakes={resetStakes}
             wagerAlerts={wagerAlerts}
             currentLines={currentLines['moneyline']}
-            loadingOdds={games.loadingOdds}
+            loadingOdds={loadingOdds}
           />
         ) : (
           <PushRow odds={currentLines.moneyline?.length === 0 ? null : odds.homeML} oddsTitle={'the moneyline'} />
@@ -340,7 +343,7 @@ const PredictionStakesPredict = ({
             resetStakes={resetStakes}
             wagerAlerts={wagerAlerts}
             currentLines={currentLines['spread']}
-            loadingOdds={games.loadingOdds}
+            loadingOdds={loadingOdds}
           />
         ) : (
           <PushRow odds={odds.spread} oddsTitle={'the spread'} />
@@ -363,7 +366,7 @@ const PredictionStakesPredict = ({
             onChangeOdds={onChangeOdds}
             resetStakes={resetStakes}
             wagerAlerts={wagerAlerts}
-            loadingOdds={games.loadingOdds}
+            loadingOdds={loadingOdds}
           />
         ) : (
           <PushRow odds={odds.total} oddsTitle={'the over/under'} />
@@ -407,7 +410,7 @@ const PredictionStakesPredict = ({
       <Button 
         type="dashed"
         block
-        icon={<LoadingOutlined />}
+        icon={refreshingOdds ? <LoadingOutlined /> : <CiCircleOutlined />}
         style={{ marginTop: '15px' }}
         onClick={handleRefreshOdds}
         loading={refreshingOdds}

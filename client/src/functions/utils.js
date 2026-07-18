@@ -131,8 +131,8 @@ export const straightUpPredictionWager = (game, prediction, wagerObj) => {
   return prediction.awayTeam.score === prediction.homeTeam.score 
     ? 'TIE' 
     : (prediction.awayTeam.score > prediction.homeTeam.score 
-       ? `${game.awayTeam.code}` 
-       : `${game.homeTeam.code}`)
+       ? `${game.awayTeam.code}${wagerObj && ` ML`}` 
+       : `${game.homeTeam.code}${wagerObj && ` ML`}`);
 }
 
 export const spreadPredictionWager = (game, prediction, wagerObj) => {
