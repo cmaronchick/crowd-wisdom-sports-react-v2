@@ -18,7 +18,19 @@ const getCurrentLines = (req, res) => {
     .then(data => res.status(200).json(data))
     .catch(err => {
         console.error('getCurrentLinesError:', err);
-        return res.status(500).json({ message: err.message || err });
+        const status = err.response?.status || 500;
+        if (err.response) {
+            return err.response.text()
+                .then((body) => {
+                    try {
+                        return res.status(status).json(JSON.parse(body));
+                    } catch (parseError) {
+                        return res.status(status).json({ message: body || err.message || err });
+                    }
+                })
+                .catch(() => res.status(status).json({ message: err.message || err }));
+        }
+        return res.status(status).json({ message: err.message || err });
     });
 }
 
@@ -34,7 +46,19 @@ const submitWager = (req, res) => {
     .then(data => res.status(200).json(data))
     .catch(err => {
         console.error('submitWagerError:', err);
-        return res.status(500).json({ message: err.message || err });
+        const status = err.response?.status || 500;
+        if (err.response) {
+            return err.response.text()
+                .then((body) => {
+                    try {
+                        return res.status(status).json(JSON.parse(body));
+                    } catch (parseError) {
+                        return res.status(status).json({ message: body || err.message || err });
+                    }
+                })
+                .catch(() => res.status(status).json({ message: err.message || err }));
+        }
+        return res.status(status).json({ message: err.message || err });
     });
 }
 
@@ -42,13 +66,27 @@ const getWagers = (req, res) => {
     const callOptionsObject = callOptions(req.headers.authorization);
     const getOptions = callOptionsObject.callOptions;
     const queryStr = new URLSearchParams(req.query).toString();
-    
-    return ky.get(`https://3tsywitgn8.execute-api.us-west-2.amazonaws.com/dev/predictions/wager?${queryStr}`, getOptions)
+    console.log('queryStr: ', queryStr);
+    // console.log(`https://3tsywitgn8.execute-api.us-west-2.amazonaws.com/dev/predictions/wager${queryStr && queryStr !== '' ? `?${queryStr}` : ''}`);
+    //             https://3tsywitgn8.execute-api.us-west-2.amazonaws.com/dev/predictions/wager
+    return ky.get(`https://3tsywitgn8.execute-api.us-west-2.amazonaws.com/dev/predictions/wager${queryStr && queryStr !== '' ? `?${queryStr}` : ''}`, getOptions)
     .then(response => response.json())
     .then(data => res.status(200).json(data))
     .catch(err => {
         console.error('getWagersError:', err);
-        return res.status(500).json({ message: err.message || err });
+        const status = err.response?.status || 500;
+        if (err.response) {
+            return err.response.text()
+                .then((body) => {
+                    try {
+                        return res.status(status).json(JSON.parse(body));
+                    } catch (parseError) {
+                        return res.status(status).json({ message: body || err.message || err });
+                    }
+                })
+                .catch(() => res.status(status).json({ message: err.message || err }));
+        }
+        return res.status(status).json({ message: err.message || err });
     });
 }
 
@@ -64,7 +102,19 @@ const getSportsbooks = (req, res) => {
     .then(data => res.status(200).json(data))
     .catch(err => {
         console.error('getSportsbooksError:', err);
-        return res.status(500).json({ message: err.message || err });
+        const status = err.response?.status || 500;
+        if (err.response) {
+            return err.response.text()
+                .then((body) => {
+                    try {
+                        return res.status(status).json(JSON.parse(body));
+                    } catch (parseError) {
+                        return res.status(status).json({ message: body || err.message || err });
+                    }
+                })
+                .catch(() => res.status(status).json({ message: err.message || err }));
+        }
+        return res.status(status).json({ message: err.message || err });
     });
 }
 
