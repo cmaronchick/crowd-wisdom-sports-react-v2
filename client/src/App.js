@@ -39,6 +39,7 @@ import { toggleOddsChangeModal } from './redux/actions/uiActions'
 import { getFacebookUser, getUserDetails } from './redux/actions/userActions'
 import { fetchGameWeekGames } from './redux/actions/gamesActions'
 import Predictions from './components/profile/Predictions';
+import WagerSlip from './components/game/WagerSlip'
 
 const { Footer, Content } = Layout;
 var stateKey = 'amplify_auth_state';
@@ -193,6 +194,13 @@ class App extends Component {
                   <Route path="/:sport/groups/:year/:season/group/:groupId" component={Group} />
                   <Route path="/:sport/groups" component={Groups} />
                   <Route path="/:sport/oddsmovement/:year/:season/:gameWeek" component={OddsMovement} />
+
+                  <Route
+                    exact
+                    path="/wagerslip"
+                    render={() => <Redirect to={`/${store.getState().sport.sport || 'nfl'}/wagerslip`} />}
+                  />
+                  <Route path="/:sport/wagerslip" component={WagerSlip} />
                   {/* <Route path="/:sport/games/admin" component={props => 
                     <RequireAuth {...props} user={this.props.user} Component={AdminPage} />}/> */}
                   <Route path="/:sport/games/admin" component={AdminPage}/>
