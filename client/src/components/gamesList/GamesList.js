@@ -16,6 +16,7 @@ import { checkGameStart } from '../../functions/utils'
 import FeaturedGame from './FeaturedGame';
 import MatchupTicker from './MatchupTicker';
 import WagerModal from '../game/WagerModal'
+import WagerSlipModal from '../game/WagerSlipModal'
 
 const statusPriority = {
   "inProgress": 1,
@@ -28,6 +29,7 @@ const GamesList = (props) => {
   const { games, loadingGames } = props.games
   const [activeGameId, setActiveGameId] = React.useState(null);
   const [showWagerModal, setShowWagerModal] = useState(false)
+  const [showWagerSlip, setShowWagerSlip] = useState(false)
   const [selectedWagerGameId, setSelectedWagerGameId] = useState(null)
       
 
@@ -89,9 +91,20 @@ const GamesList = (props) => {
     setSelectedWagerGameId(gameId)
     setShowWagerModal(true)
   }
+  const openWagerSlip = (gameId) => {
+    if (!hasValidUserPrediction(gameId)) {
+      return
+    }
+    setSelectedWagerGameId(gameId)
+    setShowWagerSlip(true)
+  }
 
   const closeWagerModal = () => {
     setShowWagerModal(false)
+  }
+  const closeWagerSlip = () => {
+    console.log('closeWagerSlip')
+    setShowWagerSlip(false)
   }
 
 
@@ -105,6 +118,7 @@ const GamesList = (props) => {
   // Generate sorted games list once
   let sortedGames = [];
   let featuredGameId = null;
+  let featuredGameWagers = [];
 
   if (games && Object.keys(games).length > 0) {
     const sortedGameIds = Object.keys(games).sort((a, b) => {
@@ -119,7 +133,10 @@ const GamesList = (props) => {
       featuredGameId = sortedGameIds[0];
     }
   }
-
+  
+  if (predictions && predictions.wagers && predictions.wagers.length > 0) {
+      featuredGameWagers = predictions.wagers.filter(wager => parseInt(wager.gameId) === parseInt(featuredGameId))
+  }
   const selectedGame = selectedWagerGameId && games ? games[selectedWagerGameId] : null
   const selectedPrediction = selectedWagerGameId && predictions && predictions.user ? predictions.user[selectedWagerGameId] : null
   const selectedGameCannotBeUpdated = selectedGame ? checkGameStart(selectedGame.startDateTime) : false
@@ -142,6 +159,9 @@ const GamesList = (props) => {
                 games={games}
                 predictions={predictions}
                 prediction={predictions && predictions["user"][featuredGameId] ? predictions["user"][featuredGameId] : null}
+                wagers={featuredGameWagers}
+
+                onOpenWagerSlipModal={openWagerSlip}
                 handleOnChangeGameScore={props.changeGameScore}
                 handleSubmitPrediction={props.submitPrediction}
                 onGameClick={(gameId) => props.fetchGame(games[gameId].sport, games[gameId].year, games[gameId].season, games[gameId].gameWeek, gameId)}
@@ -179,6 +199,7 @@ const GamesList = (props) => {
                   user={props.user}
                   onOpenWagerModal={openWagerModal}
                   canOpenWagerModal={hasValidUserPrediction(gameId)}
+                  onOpenWagerSlipModal={openWagerSlip}
                   headerRowArrowClick={() => props.fetchGame(games[gameId].sport, games[gameId].year, games[gameId].season, games[gameId].gameWeek, gameId)}
                   handleChangeGameScore={props.changeGameScore}
                   handleSubmitPrediction={props.submitPrediction}
@@ -188,7 +209,10 @@ const GamesList = (props) => {
                   // onChangeStarTotal={onChangeStarTotal}
                   // onSubmitPrediction={onSubmitPrediction}
                   game={games[gameId]}
-                  predictions={predictionsArray} />
+                  predictions={predictionsArray}
+                  wagers={props.predictions.wagers}
+                  />
+
               </div>
             )
           }
@@ -208,6 +232,19 @@ const GamesList = (props) => {
           user={user}
           prediction={selectedPrediction}
           games={games}
+      />
+      <WagerSlipModal
+          isOpen={showWagerSlip}
+          onOpenWagerSlip={openWagerSlip}
+          onClose={closeWagerSlip}
+          game={selectedGame}
+          odds={selectedGame ? selectedGame.odds : null}
+          hideModal={() => setShowWagerSlip(false)}
+          gameCannotBeUpdated={selectedGameCannotBeUpdated}
+          user={user}
+          prediction={selectedPrediction}
+          games={games}
+          gameId={selectedWagerGameId}
       />
     </div>
   );
