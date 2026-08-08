@@ -18,6 +18,7 @@ import ky from 'ky/umd'
 import ReactGA from 'react-ga4'
 
 const apiHost = ky.create({prefixUrl: process.env.NODE_ENV === 'development' ? 'http://localhost:5001/api/' : 'https://app.stakehousesports.com/api/'})
+const AUTH_SESSION_TIMEOUT_MS = 5000
 
 export const changeGameScore = (gameId, event) => (dispatch) => {
     const { name, value } = event.target
@@ -190,12 +191,13 @@ export const submitWager = (game, prediction, wager) => async (dispatch) => {
 }
 
 export const fetchWagers = ({ sport, year, season, week, gameId }) => async (dispatch) => {
+    console.log('fetchWagers', sport, year, season, week, gameId)
     try {
         dispatch({ type: LOADING_WAGERS })
         let currentSession = await Auth.currentSession()
         let IdToken = await currentSession.getIdToken().getJwtToken()
         
-        let fetchWagerResponse = await apiHost.get(`predictions/wager?sport=${sport ? sport : ''}&year=${year ? year : ''}&season=${season ? season : ''}&gameWeek=${week ? week : ''}&gameId=${gameId ? gameId : ''}`, {
+        let fetchWagerResponse = await apiHost.get(`predictions/wager?${sport ? `sport=${sport}` : ''}${year ? `&year=${year}` : ''}${season ? `&season=${season}` : ''}${week ? `&gameWeek=${week}` : ''}${gameId ? `&gameId=${gameId}` : ''}`, {
             headers: {
                 Authorization: IdToken
             }
@@ -204,6 +206,62 @@ export const fetchWagers = ({ sport, year, season, week, gameId }) => async (dis
         if (fetchWagerResponseJSON.errorType) {
             return fetchWagerResponseJSON
         }
+        console.log('fetchWagerResponseJSON', fetchWagerResponseJSON)
+        if (fetchWagerResponseJSON.status === 200) {
+            dispatch({
+                type: SET_WAGERS,
+                payload: fetchWagerResponseJSON.wagers
+            })
+            return { wagers: fetchWagerResponseJSON.wagers, status: 200 }
+        }
+    } catch (wagerError) {
+        console.error(wagerError)
+        dispatch({
+            type: SET_ERRORS,
+            payload: wagerError
+        })
+    }
+}
+
+export const fetchUserWagers = ({ userId, sport, year, season }) => async (dispatch) => {
+    console.log('fetchUserWagers', userId, sport, year, season)
+    if (!userId) {
+        dispatch({
+            type: SET_WAGERS,
+            payload: []
+        })
+        return []
+    }
+
+    try {
+        dispatch({ type: LOADING_WAGERS })
+        let currentSession = await Promise.race([
+            Auth.currentSession(),
+            new Promise((_, reject) => setTimeout(() => reject(new Error('Auth session timeout')), AUTH_SESSION_TIMEOUT_MS))
+        ])
+        let IdToken = await currentSession.getIdToken().getJwtToken()
+
+        const queryParams = new URLSearchParams({ userId })
+        if (sport) {
+            queryParams.set('sport', sport)
+        }
+        if (year) {
+            queryParams.set('year', year)
+        }
+        if (season) {
+            queryParams.set('season', season)
+        }
+
+        let fetchWagerResponse = await apiHost.get(`predictions/wager?${queryParams.toString()}`, {
+            headers: {
+                Authorization: IdToken
+            }
+        })
+        let fetchWagerResponseJSON = await fetchWagerResponse.json()
+        if (fetchWagerResponseJSON.errorType) {
+            return fetchWagerResponseJSON
+        }
+        console.log('fetchUserWagers response', fetchWagerResponseJSON)
         if (fetchWagerResponseJSON.status === 200) {
             dispatch({
                 type: SET_WAGERS,
