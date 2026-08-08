@@ -13,7 +13,7 @@ const ContestBanner = ({howToPlayModalOpen, toggleHowToPlayModal}) => {
             <span onClick={() => toggleHowToPlayModal()} style={{cursor: 'pointer'}}>Play and Win</span> | <Link to="/rules">Contest Rules</Link>
         </div>
 
-        <Modal visible={howToPlayModalOpen} onOk={() => toggleHowToPlayModal()} onCancel={() => toggleHowToPlayModal()}>
+        <Modal open={howToPlayModalOpen} onOk={() => toggleHowToPlayModal()} onCancel={() => toggleHowToPlayModal()}>
                 <Title>How to Play</Title>
 
                     <div className="howToPlayText">
