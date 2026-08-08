@@ -57,7 +57,7 @@ const WagerModal = ({
           }
         </span>
   )}
-      visible={showWagerModal}
+      open={showWagerModal}
       onCancel={() => hideModal()}
       footer={null}
       width={750}
