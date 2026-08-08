@@ -1,15 +1,16 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import { Card, Button, Typography, Row, Col, Tag, Form, Input } from 'antd';
+import { Card, Button, Typography, Row, Col, Tag, Form, Input, Image } from 'antd';
 import { FireOutlined, RightCircleOutlined, CheckCircleOutlined } from '@ant-design/icons';
 import './FeaturedGame.less';
 import { checkGameStart } from '../../functions/utils';
 import { spreadPrediction, totalPrediction } from '../../functions/utils';
+import StakeIcon from '../../images/stake-image.png' //images/stake-image.png';
 
 const { Title, Text } = Typography;
 
-const FeaturedGame = ({ game, onGameClick, user, handleOnChangeGameScore, prediction, handleSubmitPrediction, onOpenWagerModal, canOpenWagerModal }) => {
-
+const FeaturedGame = ({ game, onGameClick, user, handleOnChangeGameScore, prediction, wagers, handleSubmitPrediction, onOpenWagerModal, canOpenWagerModal, onOpenWagerSlipModal }) => {
+    console.log('FeaturedGame wagers :>> ', wagers);
     if (!game) return null;
 
     const { awayTeam, homeTeam, startDateTime, gameId } = game;
@@ -126,12 +127,16 @@ const FeaturedGame = ({ game, onGameClick, user, handleOnChangeGameScore, predic
                         <div className="game-odds">
                             {odds ? (prediction?.homeTeam?.score !== null && prediction?.awayTeam?.score !== null && (
                                 <div className="odds-container">
-                                    <div className="odds-label">Side</div>
-                                    <div className="odds-value">{
-                                        spreadPrediction(game, odds, prediction.awayTeam.score, prediction.homeTeam.score)
-                                    }</div>
-                                    <div className="odds-label">Total</div>
-                                    <div className="odds-value">{totalPrediction(game, odds, prediction.awayTeam.score, prediction.homeTeam.score)}</div>
+                                    {prediction && prediction.awayTeam && prediction.homeTeam ? (<div>
+                                        <div className="odds-label">Side</div>
+                                        <div className="odds-value">{
+                                            spreadPrediction(game, odds, prediction.awayTeam.score, prediction.homeTeam.score)
+                                        }</div>
+                                        <div className="odds-label">Total</div>
+                                        <div className="odds-value">{totalPrediction(game, odds, prediction.awayTeam.score, prediction.homeTeam.score)}</div>
+                                        </div>) : (
+                                            <div>Enter your prediction to see the odds</div>
+                                        )}
                                 </div>
                             )) : (
                                 <div className="no-odds">No Odds Available</div>
@@ -162,7 +167,7 @@ const FeaturedGame = ({ game, onGameClick, user, handleOnChangeGameScore, predic
                                     name='homeTeam'
                                     id={`${gameId}homeTeam_input`}
                                     placeholder={`${(!prediction || (prediction && !prediction.homeTeam) || (prediction && prediction.homeTeam && !prediction.homeTeam.score)) ? ('##') : null}`}
-                                    value={(prediction && prediction?.homeTeam?.score !== null) ? prediction.homeTeam.score : ''}
+                                    value={(prediction?.homeTeam?.score) ? prediction.homeTeam.score : ''}
                                 />
                             </Form.Item>
                         </Form>
@@ -183,13 +188,19 @@ const FeaturedGame = ({ game, onGameClick, user, handleOnChangeGameScore, predic
                             <CheckCircleOutlined style={{ color: '#fff' }} />
                         )}
                     </Button>
-                    <Button type="default" size="large" onClick={() => onOpenWagerModal(game.gameId)} disabled={!game.odds || gameCannotBeUpdated || !user.authenticated || !canOpenWagerModal} className="wager-button">
                         {game.odds ? (
-                            <span>Wager Stakes</span>
+                            <Button type="default" size="large" onClick={() => onOpenWagerModal(game.gameId)} disabled={!game.odds || gameCannotBeUpdated || !user.authenticated || !canOpenWagerModal} className="wager-button">
+                                    <span>Wager Stakes</span>
+                            </Button>
                         ) : (
-                            <span className="cta-button-disabled">No Odds Available</span>
+                            <span className="cta-button-disabled">Wager Stakes once game odds are available</span>
                         )}
-                    </Button>
+                        {wagers && wagers.length > 0 && (
+                            <Button type="default" size="large" onClick={() => onOpenWagerSlipModal(game.gameId)} disabled={!game.odds || gameCannotBeUpdated || !user.authenticated || !canOpenWagerModal} className="wager-slip-button">
+                                <Image style={{width: '24px', height: '24px'}} src={StakeIcon} alt="View Wager Slip" preview={false} className="stake-icon" />
+                            </Button>
+                        )}
+
                     {!game.prediction && !userPrediction.submitted && (
                         <div className="engagement-text">
                             <Text type="secondary">Join the crowd and predict the winner!</Text>
