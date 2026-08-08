@@ -24,5 +24,5 @@ test('renders Header with logo', () => {
     );
     const logo = getByAltText(/Stakehouse Sports/i);
     expect(logo).toBeInTheDocument();
-    expect(logo).toHaveAttribute('src', 'stake-image.png');
+    expect(logo).toHaveAttribute('src', 'stake-image-brown.png');
 });

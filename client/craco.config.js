@@ -35,5 +35,9 @@ module.exports = {
       resetMocks: false,
 
     },
+    "testPathIgnorePatterns": ["<rootDir>/dist"],
+    "transform": {
+      "^.+\\.(js|jsx|ts|tsx)$": "babel-jest"
+    }
   },
 };
