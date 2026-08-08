@@ -169,6 +169,7 @@ const GamePreviewPrediction = (props) => {
                     <br/><span className="predictionSpread">({((prediction || (prediction.awayTeam.score + prediction.homeTeam.score)) && odds) ? `${totalResult}` : ''})</span>
                     </Fragment>
                   )}
+                <Icon style={{ marginLeft: 5 }} component={() => <FaInfoCircle title={sportsbooks && sportsbooks.filter(item => item.sportsbookId === odds.totalBook).length > 0 ? sportsbooks.filter(item => item.sportsbookId === odds.totalBook)[0].name : 'Sportsbook'} />}/>
                 </div>
               )}
               </Col>
