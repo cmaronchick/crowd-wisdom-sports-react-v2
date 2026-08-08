@@ -16,6 +16,7 @@ import { Auth } from '@aws-amplify/auth'
 import ky from 'ky/umd'
 import store from '../store';
 import { getCrowdResults } from './leaderboardActions'
+import { fetchWagers } from './predictionsActions'
 
 const apiHost = ky.create({prefixUrl: process.env.NODE_ENV === 'development' ? 'http://localhost:5001/api/' : 'https://app.stakehousesports.com/api/'})
 const AUTH_SESSION_TIMEOUT_MS = 5000
@@ -129,6 +130,9 @@ export const fetchGameWeekGames = (sport, year, season, gameWeek) => async (disp
               ...gamePredictions
           }
       })
+      const { year, season, week } = store.getState().sport.gameWeekData
+      const sport = store.getState().sport.sport
+      dispatch(fetchWagers({ sport, year, season, week }))
   }
 
   export const fetchGame = (sport, year, season, gameWeek, gameId, compareUsername) => async (dispatch) => {
