@@ -45,9 +45,9 @@ const MatchupTicker = ({ games, activeGameId, onMatchupClick }) => {
 
                         onClick={() => onMatchupClick(game.gameId)}
                     >
-                        <span className="ticker-team">{game.awayTeam?.code ? game.awayTeam.code : 'Code missing'}</span>
+                        <span className="ticker-team">{game.awayTeam ? game.awayTeam.code : 'Missing code'}</span>
                         <span className="ticker-cnct">@</span>
-                        <span className="ticker-team">{game.homeTeam?.code ? game.homeTeam.code : 'Code missing'}</span>
+                        <span className="ticker-team">{game.homeTeam ? game.homeTeam.code : 'Missing code'}</span>
                     </div>
                 )}
                 )}

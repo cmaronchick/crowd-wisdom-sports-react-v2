@@ -14,34 +14,60 @@ import { DownOutlined, UserOutlined } from '@ant-design/icons'
 const { Text } = Typography;
 
 const { Header } = Layout
+/*
 
+          <Link to="/profile">
+            {window.innerWidth < 800 ? (
+              <span>{user.attributes.preferred_username}</span>
+            ) : (
+              <span>My Profile</span>
+            )}
+          </Link>
+        </Menu.Item>
+        <Menu.Item key="logout">
+          <Button type="primary" onClick={() => logout()}>
+            Logout
+          </Button>
+        </Menu.Item>
+*/
 const StakehouseHeader = ({ message, user, logout }) => {
 
-  const profileChoices = (
-
-    <Menu>
-      <Menu.Item key="profile">
-        <Link to="/profile">
-          {window.innerWidth < 800 ? (
-            <span>{user.attributes.preferred_username}</span>
-          ) : (
-            <span>My Profile</span>
-          )}
-        </Link>
-      </Menu.Item>
-      <Menu.Item key="logout">
-        <Button type="primary" onClick={() => logout()}>
-          Logout
-        </Button>
-      </Menu.Item>
-    </Menu>
-  )
+  const items = [
+          {
+            key: 'profile',
+            label: (
+              <Link to="/profile">
+                {window.innerWidth < 800 ? (
+                  <span>{user.attributes.preferred_username}</span>
+                ) : (
+                  <span>My Profile</span>
+                )}
+              </Link>
+            )
+          },
+          {
+            key: 'logout',
+            label: (
+              <Button type="primary" onClick={() => logout()}>
+                Logout
+              </Button>
+            )
+          }
+        ]
 
   return (
     <Header className="header">
       <Link to="/">
         <img src={logo} alt="Stakehouse Sports" className="headerImage" />
       </Link>
+      {user?.authenticated && user.details?.currency && (
+        <div className="headerCurrencyContainer">
+          <span>Currency:</span>
+          <span className="headerCurrencyText">
+            {user.details?.currency}
+          </span>
+        </div>
+      )}
       {window.innerWidth < 768 ? (
         <span className="headerText">
           SHS
@@ -57,8 +83,8 @@ const StakehouseHeader = ({ message, user, logout }) => {
       {!user.authenticated ? (
         <LoginButton buttonClass="headerButton" />
       ) : (
-        <Dropdown overlay={profileChoices}>
-          <a href="#profile" className="ant-dropdown-link headerUserDropdown" overlay={profileChoices} onClick={e => e.preventDefault()}>
+        <Dropdown menu={{ items }}>
+          <a href="#profile" className="ant-dropdown-link headerUserDropdown" onClick={e => e.preventDefault()}>
             {window.innerWidth < 500 ? (
               <UserOutlined />
             ) : (

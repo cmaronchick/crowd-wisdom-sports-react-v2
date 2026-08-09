@@ -64,7 +64,7 @@ describe('testing the games list', () => {
               homeTeam: { score: 31 },
               total: 44, spread: -18
             },
-            gameId: 4638149,
+            gameId: 4638150,
             gameWeek: 1,
             homeTeam: {
               participantId: 1544, code: 'TB', shortName: 'Buccaneers', fullName: 'Tampa Bay Buccaneers'

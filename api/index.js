@@ -17,6 +17,7 @@ const { getSportSeason } = require('./handlers/sport')
 const { getLeaderboards, getCrowdLeaderboards } = require('./handlers/leaderboards')
 const { getGroups, getGroup, joinGroup, leaveGroup, createGroup, updateGroup } = require('./handlers/groups')
 const { getExtendedProfile, getUserNotifications, uploadImage, getUserPredictions } = require('./handlers/users')
+const { getCurrentLines, submitWager, getWagers, getSportsbooks } = require('./handlers/wagers')
 
 const { callOptions} = require('./utils');
 
@@ -28,6 +29,12 @@ router.get('/:sport/games/:year/:season/:gameWeek/live', getOddsMovement)
 router.get('/:sport/games/:year/:season/:gameWeek/game/:gameId', getGame);
 router.get(['/:sport/games', '/:sport/games/:year/:season/:gameWeek'], getGamesByGameWeek);
 router.post('/submitPrediction', submitPrediction)
+
+// wagering calls
+router.get('/:sport/games/:year/:season/:gameWeek/game/:gameId/currentlines', getCurrentLines)
+router.post('/predictions/wager', submitWager)
+router.get('/predictions/wager', getWagers)
+router.get('/predictions/wager/sportsbooks', getSportsbooks)
 
 //leaderboards calls
 router.get('/:sport/leaderboards/:year/:season/:week', getLeaderboards)

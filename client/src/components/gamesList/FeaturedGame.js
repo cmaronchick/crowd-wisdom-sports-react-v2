@@ -1,13 +1,16 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import { Card, Button, Typography, Row, Col, Tag, Form, Input } from 'antd';
+import { Card, Button, Typography, Row, Col, Tag, Form, Input, Image } from 'antd';
 import { FireOutlined, RightCircleOutlined, CheckCircleOutlined } from '@ant-design/icons';
 import './FeaturedGame.less';
 import { checkGameStart } from '../../functions/utils';
+import { spreadPrediction, totalPrediction } from '../../functions/utils';
+import StakeIcon from '../../images/stake-image.png' //images/stake-image.png';
 
 const { Title, Text } = Typography;
 
-const FeaturedGame = ({ game, onGameClick, user, handleOnChangeGameScore, prediction, handleSubmitPrediction }) => {
+const FeaturedGame = ({ game, onGameClick, user, handleOnChangeGameScore, prediction, wagers, handleSubmitPrediction, onOpenWagerModal, canOpenWagerModal, onOpenWagerSlipModal }) => {
+    console.log('FeaturedGame wagers :>> ', wagers);
     if (!game) return null;
 
     const { awayTeam, homeTeam, startDateTime, gameId } = game;
@@ -23,12 +26,30 @@ const FeaturedGame = ({ game, onGameClick, user, handleOnChangeGameScore, predic
     const handleChangeGameScore = (e) => {
         handleOnChangeGameScore(gameId, e);
     }
+    const { odds, currentLines } = game;
+
+    // prediction && straightUpPredictionWager(game, prediction, true)}
+    // wagerType={"ML"}
+    // wagerAmount={MLWager}
+    // wagerStakes={MLStakes}
+    // wagerLine={MLLine}
+    // wagerWinnerId={MLWinnerId}
+    // game={game}
+    // prediction={prediction}
+    // gameCannotBeUpdated={gameCannotBeUpdated}
+    // onChangeStakes={onChangeStakes}
+    // onChangeWager={onChangeWager}
+    // onChangeOdds={onChangeOdds}
+    // resetStakes={resetStakes}
+    // wagerAlerts={wagerAlerts}
+    // currentLines={currentLines['moneyline']}
+    // loadingOdds={games.loadingOdds}
 
     const userPrediction = {
-            type: 'user',
-            name: 'Me',
-            ...prediction
-        }
+        type: 'user',
+        name: 'Me',
+        ...prediction
+    }
     const onSubmitPrediction = (event) => {
         event.preventDefault()
         const newprediction = {
@@ -79,7 +100,7 @@ const FeaturedGame = ({ game, onGameClick, user, handleOnChangeGameScore, predic
                         <Form
                             initialValues={
                                 {
-                                awayTeam: prediction?.awayTeam?.score ? prediction.awayTeam.score : null
+                                    awayTeam: prediction?.awayTeam?.score ? prediction.awayTeam.score : null
                                 }
                             }
                             name={`${game.gameId}awayTeam`}>
@@ -87,14 +108,14 @@ const FeaturedGame = ({ game, onGameClick, user, handleOnChangeGameScore, predic
                                 name="awayTeam"
                                 id={`${gameId}awayTeam`}>
                                 <Input
-                                disabled={gameCannotBeUpdated || !user.authenticated}
-                                type="number"
-                                style={{width: '100%'}}
-                                onChange={handleChangeGameScore}
-                                name='awayTeam'
-                                id={`${gameId}awayTeam_input`}
-                                placeholder={`${(!prediction || (prediction && !prediction.awayTeam) || (prediction && prediction.awayTeam && !prediction.awayTeam.score)) ? ('##') : null}`}
-                                value={(prediction && prediction?.awayTeam?.score >= 0) ? prediction.awayTeam.score : ''}
+                                    disabled={gameCannotBeUpdated || !user.authenticated}
+                                    type="number"
+                                    style={{ width: '100%' }}
+                                    onChange={handleChangeGameScore}
+                                    name='awayTeam'
+                                    id={`${gameId}awayTeam_input`}
+                                    placeholder={`${(!prediction || (prediction && !prediction.awayTeam) || (prediction && prediction.awayTeam && !prediction.awayTeam.score)) ? ('##') : null}`}
+                                    value={(prediction && prediction?.awayTeam?.score !== null) ? prediction.awayTeam.score : ''}
                                 />
                             </Form.Item>
                         </Form>
@@ -103,6 +124,24 @@ const FeaturedGame = ({ game, onGameClick, user, handleOnChangeGameScore, predic
                     <Col xs={4} sm={8} className="vs-col">
                         <Text className="vs-text">VS</Text>
                         <div className="game-time">{gameDate}</div>
+                        <div className="game-odds">
+                            {odds ? (prediction?.homeTeam?.score !== null && prediction?.awayTeam?.score !== null && (
+                                <div className="odds-container">
+                                    {prediction && prediction.awayTeam && prediction.homeTeam ? (<div>
+                                        <div className="odds-label">Side</div>
+                                        <div className="odds-value">{
+                                            spreadPrediction(game, odds, prediction.awayTeam.score, prediction.homeTeam.score)
+                                        }</div>
+                                        <div className="odds-label">Total</div>
+                                        <div className="odds-value">{totalPrediction(game, odds, prediction.awayTeam.score, prediction.homeTeam.score)}</div>
+                                        </div>) : (
+                                            <div>Enter your prediction to see the odds</div>
+                                        )}
+                                </div>
+                            )) : (
+                                <div className="no-odds">No Odds Available</div>
+                            )}
+                        </div>
                     </Col>
 
                     <Col xs={10} sm={8} className="team-col">
@@ -113,7 +152,7 @@ const FeaturedGame = ({ game, onGameClick, user, handleOnChangeGameScore, predic
                         <Form
                             initialValues={
                                 {
-                                homeTeam: prediction?.homeTeam?.score ? prediction.homeTeam.score : null
+                                    homeTeam: prediction?.homeTeam?.score ? prediction.homeTeam.score : null
                                 }
                             }
                             name={`${game.gameId}homeTeam`}>
@@ -121,14 +160,14 @@ const FeaturedGame = ({ game, onGameClick, user, handleOnChangeGameScore, predic
                                 name="homeTeam"
                                 id={`${gameId}homeTeam`}>
                                 <Input
-                                disabled={gameCannotBeUpdated || !user.authenticated}
-                                type="number"
-                                style={{width: '100%'}}
-                                onChange={handleChangeGameScore}
-                                name='homeTeam'
-                                id={`${gameId}homeTeam_input`}
-                                placeholder={`${(!prediction || (prediction && !prediction.homeTeam) || (prediction && prediction.homeTeam && !prediction.homeTeam.score)) ? ('##') : null}`}
-                                value={(prediction && prediction?.homeTeam?.score >= 0) ? prediction.homeTeam.score : ''}
+                                    disabled={gameCannotBeUpdated || !user.authenticated}
+                                    type="number"
+                                    style={{ width: '100%' }}
+                                    onChange={handleChangeGameScore}
+                                    name='homeTeam'
+                                    id={`${gameId}homeTeam_input`}
+                                    placeholder={`${(!prediction || (prediction && !prediction.homeTeam) || (prediction && prediction.homeTeam && !prediction.homeTeam.score)) ? ('##') : null}`}
+                                    value={(prediction?.homeTeam?.score) ? prediction.homeTeam.score : ''}
                                 />
                             </Form.Item>
                         </Form>
@@ -136,24 +175,37 @@ const FeaturedGame = ({ game, onGameClick, user, handleOnChangeGameScore, predic
                 </Row>
 
                 <div className="cta-section">
-                    <Button type="primary" size="large" shape="round" onClick={(e) => onSubmitPrediction(e)} icon={<RightCircleOutlined className={game.prediction || userPrediction.submitted ? "cta-button-icon" : "cta-button-disabled"} />}
+                    <Button type="primary" size="large" onClick={(e) => onSubmitPrediction(e)} icon={<RightCircleOutlined className={game.prediction || userPrediction.submitted ? "cta-button-icon" : "cta-button-disabled"} />}
                         disabled={!(userPrediction?.awayTeam && parseInt(userPrediction?.awayTeam?.score) && userPrediction?.homeTeam && parseInt(userPrediction.homeTeam.score)) || userPrediction?.submitting}
                         loading={userPrediction && userPrediction.submitting}>
                         {game.prediction || userPrediction.submitted ? (
                             <span>Update</span>
                         ) : (
                             <span className="cta-button-disabled">Make Your Prediction</span>
-                            
+
                         )}
                         {userPrediction.submitted && (
-                            <CheckCircleOutlined style={{color: '#fff'}} />
+                            <CheckCircleOutlined style={{ color: '#fff' }} />
                         )}
                     </Button>
-                        {!game.prediction && !userPrediction.submitted && (
-                            <div className="engagement-text">
-                                <Text type="secondary">Join the crowd and predict the winner!</Text>
-                            </div>
+                        {game.odds ? (
+                            <Button type="default" size="large" onClick={() => onOpenWagerModal(game.gameId)} disabled={!game.odds || gameCannotBeUpdated || !user.authenticated || !canOpenWagerModal} className="wager-button">
+                                    <span>Wager Stakes</span>
+                            </Button>
+                        ) : (
+                            <span className="cta-button-disabled">Wager Stakes once game odds are available</span>
                         )}
+                        {wagers && wagers.length > 0 && (
+                            <Button type="default" size="large" onClick={() => onOpenWagerSlipModal(game.gameId)} disabled={!game.odds || gameCannotBeUpdated || !user.authenticated || !canOpenWagerModal} className="wager-slip-button">
+                                <Image style={{width: '24px', height: '24px'}} src={StakeIcon} alt="View Wager Slip" preview={false} className="stake-icon" />
+                            </Button>
+                        )}
+
+                    {!game.prediction && !userPrediction.submitted && (
+                        <div className="engagement-text">
+                            <Text type="secondary">Join the crowd and predict the winner!</Text>
+                        </div>
+                    )}
                 </div>
             </div>
         </Card>
@@ -163,6 +215,8 @@ const FeaturedGame = ({ game, onGameClick, user, handleOnChangeGameScore, predic
 FeaturedGame.propTypes = {
     game: PropTypes.object.isRequired,
     onGameClick: PropTypes.func.isRequired,
+    onOpenWagerModal: PropTypes.func.isRequired,
+    canOpenWagerModal: PropTypes.bool,
 };
 
 export default FeaturedGame;

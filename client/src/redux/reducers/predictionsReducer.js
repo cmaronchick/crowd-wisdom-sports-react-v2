@@ -9,7 +9,10 @@ import {
     CHANGE_GAME_STAKES,
     SUBMITTING_PREDICTION,
     SUBMITTED_PREDICTION,
-    GETTING_COMPARED_USER_PREDICTIONS
+    GETTING_COMPARED_USER_PREDICTIONS,
+    SET_WAGERS,
+    ADD_WAGER,
+    LOADING_WAGERS
     } from '../types'
 
 
@@ -23,9 +26,11 @@ const initialState = {
         gettingPredictions: false,
         predictions: null
     },
+    wagers: null,
     loadingUserPredictions: false,
     loadingGroupPredictions: false,
     loadingComparedUserPredictions: false,
+    loadingWagers: false
 }
 
 export default function(state = initialState, action) {
@@ -162,6 +167,25 @@ export default function(state = initialState, action) {
                     ...action.payload
                 },
                 loadingGroupPredictions: false
+            }
+        case SET_WAGERS:
+            return {
+                ...state,
+                wagers: action.payload,
+                loadingWagers: false
+            }
+        case ADD_WAGER:
+            return {
+                ...state,
+                wagers: state.wagers ? [
+                    ...state.wagers,
+                    action.payload
+                ] : [action.payload]
+            }
+        case LOADING_WAGERS:
+            return {
+                ...state,
+                loadingWagers: true
             }
         default:
             return {

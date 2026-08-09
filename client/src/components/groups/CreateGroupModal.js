@@ -50,7 +50,7 @@ export const CreateGroup = (props) => {
     return (
         <Modal
             footer={null}
-            visible={UI.createGroupModalOpen}
+            open={UI.createGroupModalOpen}
             confirmLoading={groups.creatingGroup}
             onCancel={() => props.toggleCreateGroupModal(!UI.createGroupModalOpen)}
             title="Create a New Group">

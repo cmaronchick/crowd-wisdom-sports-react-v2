@@ -11,7 +11,7 @@ const mockGame = {
 };
 
 test('renders FeaturedGame component', () => {
-    const { getByText } = render(<FeaturedGame game={mockGame} onGameClick={() => { }} />);
+    const { getByText } = render(<FeaturedGame onOpenWagerModal={() => {}} game={mockGame} onGameClick={() => { }} />);
     expect(getByText(/TRENDING MATCHUP/i)).toBeInTheDocument();
     expect(getByText(/Kansas City Chiefs/i)).toBeInTheDocument();
     expect(getByText(/San Francisco 49ers/i)).toBeInTheDocument();

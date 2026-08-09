@@ -33,12 +33,13 @@ import { getUrlParameters } from './functions/utils'
 // redux stuff
 import store from './redux/store'
 import { LOADING_USER, SET_USER, LOADING_GAMES, LOADING_GAME } from './redux/types'
-import { setSport } from './redux/actions/sportActions'
+import { setSport, fetchSportsbooks } from './redux/actions/sportActions'
 import { toggleOddsChangeModal } from './redux/actions/uiActions'
 
 import { getFacebookUser, getUserDetails } from './redux/actions/userActions'
 import { fetchGameWeekGames } from './redux/actions/gamesActions'
 import Predictions from './components/profile/Predictions';
+import WagerSlip from './components/game/WagerSlip'
 
 const { Footer, Content } = Layout;
 var stateKey = 'amplify_auth_state';
@@ -155,6 +156,7 @@ class App extends Component {
       const { sport, year, season, week } = store.getState().sport.gameWeekData
       store.dispatch(fetchGameWeekGames(sport, year, season, week))
       store.dispatch(getUserDetails(sport, year, season, week))
+      store.dispatch(fetchSportsbooks())
     } catch (getCurrentUserError) {
       console.log('getCurrentUserError', getCurrentUserError)
     }
@@ -192,6 +194,13 @@ class App extends Component {
                   <Route path="/:sport/groups/:year/:season/group/:groupId" component={Group} />
                   <Route path="/:sport/groups" component={Groups} />
                   <Route path="/:sport/oddsmovement/:year/:season/:gameWeek" component={OddsMovement} />
+
+                  <Route
+                    exact
+                    path="/wagerslip"
+                    render={() => <Redirect to={`/${store.getState().sport.sport || 'nfl'}/wagerslip`} />}
+                  />
+                  <Route path="/:sport/wagerslip" component={WagerSlip} />
                   {/* <Route path="/:sport/games/admin" component={props => 
                     <RequireAuth {...props} user={this.props.user} Component={AdminPage} />}/> */}
                   <Route path="/:sport/games/admin" component={AdminPage}/>
@@ -230,7 +239,8 @@ const mapActionsToProps = {
   getUserDetails,
   toggleOddsChangeModal,
   setSport,
-  fetchGameWeekGames
+  fetchGameWeekGames,
+  fetchSportsbooks
 }
 
 export default connect(mapStateToProps, mapActionsToProps)(App);

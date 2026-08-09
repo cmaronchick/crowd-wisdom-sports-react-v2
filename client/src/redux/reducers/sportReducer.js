@@ -1,14 +1,16 @@
 import {
     SET_SPORT,
     SET_GAMEWEEK,
-    SET_SEASON
+    SET_SEASON,
+    SET_SPORTSBOOKS
     } from '../types'
 
 
 const initialState = {
     sport: null,
     gameWeekData: {},
-    loadingSport: true
+    loadingSport: true,
+    sportsbooks: []
 }
 
 export default function(state = initialState, action) {
@@ -35,6 +37,11 @@ export default function(state = initialState, action) {
                     ...action.payload
                 }
 
+            }
+        case SET_SPORTSBOOKS:
+            return {
+                ...state,
+                sportsbooks: action.payload.sportsbooks ? action.payload.sportsbooks : state.sportsbooks
             }
         default:
             return {

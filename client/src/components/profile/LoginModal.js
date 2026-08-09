@@ -89,7 +89,7 @@ const LoginModal = (props) => {
     }
 
     return (
-      <Modal footer={null} visible={UI.loginModalOpen} onCancel={() => props.toggleLoginModal(!UI.loginModalOpen)} confirmLoading={user.loading}>
+      <Modal footer={null} open={UI.loginModalOpen} onCancel={() => props.toggleLoginModal(!UI.loginModalOpen)} confirmLoading={user.loading}>
         {!confirmUser && !forgotPassword ?
         
         <Tabs defaultActiveKey="signIn" id="uncontrolled-tab-example">
