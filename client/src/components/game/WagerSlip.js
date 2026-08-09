@@ -4,11 +4,21 @@ import {fetchUserWagers} from '../../redux/actions/predictionsActions'
 import dayjs from 'dayjs';
 import { spreadPredictionWager, totalPredictionWager } from '../../functions/utils';
 import SummaryCard from './WagerSlipSummaryCard';
+import { Row } from 'antd';
+import StakeIcon from '../../images/stake-image-dual-ring.svg'
 import './WagerSlip.less';
+import Icon from '@ant-design/icons'
 
 const formatCurrency = (value) => {
   const amount = Number(value) || 0;
-  return `${amount < 0 ? '-' : ''}$${Math.abs(amount).toFixed(2)}`;
+  return (
+    <div style={{ display: 'inline-flex', alignItems: 'center', gap: '6px' }}>
+      {amount < 0 ? '-' : ''}
+      {/* <Icon src={StakeIcon} alt="Stake" style={{ width: '18px', height: '18px' }} /> */}
+      <img src={StakeIcon} alt="Stakes" style={{width: '18px', height: '18px', filter: amount >= 0 ? 'invert(55%) sepia(63%) saturate(1763%) hue-rotate(116deg) brightness(101%) contrast(83%)' : 'filter: invert(19%) sepia(100%) saturate(2067%) hue-rotate(340deg) brightness(122%) contrast(84%)'}} />
+      {Math.abs(amount).toFixed(0)}
+    </div>
+  );
 };
 
 const formatPercent = (value) => `${value >= 0 ? '+' : ''}${value.toFixed(2)}%`;
@@ -74,17 +84,21 @@ const getUniqueValues = (values) => {
   return Array.from(new Set(values.filter((value) => value !== undefined && value !== null && value !== '')));
 };
 
-const getFilterOptions = ({ wagers, sportName, historyYear, historySeason }) => {
-  const sportWagers = wagers.filter((wager) => {
-    if (sportName && wager.sport && wager.sport !== sportName) {
+const getScopedWagers = ({ wagers, sportName, historyScope }) => {
+  return wagers.filter((wager) => {
+    if (historyScope === 'SPORT' && sportName && wager.sport && wager.sport !== sportName) {
       return false;
     }
 
     return true;
   });
+};
 
-  const yearOptions = getUniqueValues(sportWagers.map((wager) => String(wager.year))).sort((a, b) => Number(b) - Number(a));
-  const seasonSource = sportWagers.filter((wager) => historyYear === 'all' || String(wager.year) === String(historyYear));
+const getFilterOptions = ({ wagers, sportName, historyScope, historyYear, historySeason }) => {
+  const scopedWagers = getScopedWagers({ wagers, sportName, historyScope });
+
+  const yearOptions = getUniqueValues(scopedWagers.map((wager) => String(wager.year))).sort((a, b) => Number(b) - Number(a));
+  const seasonSource = scopedWagers.filter((wager) => historyYear === 'all' || String(wager.year) === String(historyYear));
   const seasonOptions = getUniqueValues(seasonSource.map((wager) => wager.season));
   const weekSource = seasonSource.filter((wager) => historySeason === 'all' || wager.season === historySeason);
   const weekOptions = getUniqueValues(weekSource.map((wager) => String(wager.gameWeek))).sort((a, b) => Number(a) - Number(b));
@@ -96,11 +110,10 @@ const getFilterOptions = ({ wagers, sportName, historyYear, historySeason }) => 
   };
 };
 
-const filterWagers = ({ wagers, sportName, gameId, weekId, historyYear, historySeason, historyWeek, historyType, historyStatus, showFilters }) => {
-  return wagers.filter((wager) => {
-    if (sportName && wager.sport && wager.sport !== sportName) {
-      return false;
-    }
+const filterWagers = ({ wagers, sportName, historyScope, gameId, weekId, historyYear, historySeason, historyWeek, historyType, historyStatus, showFilters }) => {
+  const scopedWagers = getScopedWagers({ wagers, sportName, historyScope });
+
+  return scopedWagers.filter((wager) => {
 
     if (gameId) {
       return wager.gameId === gameId;
@@ -130,7 +143,7 @@ const filterWagers = ({ wagers, sportName, gameId, weekId, historyYear, historyS
       return false;
     }
 
-    if (historyWeek && historyWeek !== 'all' && `${wager.gameWeek}` !== `${historyWeek.week}`) {
+    if (historyWeek && historyWeek !== 'all' && `${wager.gameWeek}` !== `${historyWeek}`) {
       return false;
     }
 
@@ -213,7 +226,7 @@ const WagerSlipSummary = ({ wagerSummary, gradedWagers, visibleWagers, roi }) =>
       <SummaryCard
         label="Net Profit"
         value={formatCurrency(wagerSummary.netProfit)}
-        sub={`Risk ${formatCurrency(wagerSummary.totalRisk)}`}
+        sub={`Risk ${wagerSummary.totalRisk}`}
         accent={wagerSummary.netProfit >= 0 ? '#16c784' : '#ea3943'}
       />
       <SummaryCard
@@ -231,9 +244,61 @@ const WagerSlipSummary = ({ wagerSummary, gradedWagers, visibleWagers, roi }) =>
   );
 };
 
-const WagerSlipFilters = ({ yearOptions, seasonOptions, weekOptions, historyYear, historySeason, historyWeek, historyType, historyStatus, setHistoryYear, setHistorySeason, setHistoryWeek, setHistoryType, setHistoryStatus }) => {
+const WagerSlipFilters = ({ yearOptions, seasonOptions, weekOptions, historyScope, historyYear, historySeason, historyWeek, historyType, historyStatus, sportLabel, onChangeHistoryScope, onChangeHistoryYear, onChangeHistorySeason, onChangeHistoryWeek, setHistoryType, setHistoryStatus }) => {
   return (
-    <>
+    <div style={{
+      display: 'flex',
+      flexDirection: 'column',
+      padding: '0 12px',
+    }}>
+      <Row>
+      <div
+        style={{
+          display: 'flex',
+          alignItems: 'center',
+          gap: '12px',
+          marginBottom: '16px',
+          flexWrap: 'wrap',
+        }}>
+        <span
+          style={{
+            fontFamily: "'DM Mono', monospace",
+            fontSize: '11px',
+            color: '#6b7a94',
+            letterSpacing: '0.08em',
+            textTransform: 'uppercase',
+          }}>
+          History
+        </span>
+        {[
+          { value: 'SPORT', label: sportLabel || 'Current Sport' },
+          { value: 'ALL', label: 'All Sports' },
+        ].map((scopeOption) => (
+          <button
+            key={scopeOption.value}
+            onClick={() => onChangeHistoryScope(scopeOption.value)}
+            style={{
+              padding: '5px 10px',
+              borderRadius: '4px',
+              border:
+                historyScope === scopeOption.value ? '1px solid #16c784' : '1px solid #1e2330',
+              background:
+                historyScope === scopeOption.value ? 'rgba(22,199,132,0.12)' : 'transparent',
+              color: historyScope === scopeOption.value ? '#16c784' : '#8b95a8',
+              fontFamily: "'DM Mono', monospace",
+              fontSize: '12px',
+              fontWeight: 500,
+              cursor: 'pointer',
+              transition: 'all 0.15s',
+            }}
+          >
+            {scopeOption.label}
+          </button>
+        ))}
+      </div>
+      </Row>
+
+      <Row>
       <div
         style={{
           display: 'flex',
@@ -255,7 +320,7 @@ const WagerSlipFilters = ({ yearOptions, seasonOptions, weekOptions, historyYear
         {['all', ...yearOptions].map((yearValue) => (
           <button
             key={`year-${yearValue}`}
-            onClick={() => setHistoryYear(yearValue)}
+            onClick={() => onChangeHistoryYear(yearValue)}
             style={{
               padding: '5px 10px',
               borderRadius: '4px',
@@ -297,7 +362,7 @@ const WagerSlipFilters = ({ yearOptions, seasonOptions, weekOptions, historyYear
         {['all', ...seasonOptions].map((seasonValue) => (
           <button
             key={`season-${seasonValue}`}
-            onClick={() => setHistorySeason(seasonValue)}
+            onClick={() => onChangeHistorySeason(seasonValue)}
             style={{
               padding: '5px 10px',
               borderRadius: '4px',
@@ -339,7 +404,7 @@ const WagerSlipFilters = ({ yearOptions, seasonOptions, weekOptions, historyYear
         {['all', ...weekOptions].map((weekValue) => (
           <button
             key={`week-${weekValue}`}
-            onClick={() => setHistoryWeek(weekValue)}
+            onClick={() => onChangeHistoryWeek(weekValue)}
             style={{
               padding: '5px 10px',
               borderRadius: '4px',
@@ -360,6 +425,8 @@ const WagerSlipFilters = ({ yearOptions, seasonOptions, weekOptions, historyYear
         ))}
       </div>
 
+      </Row>
+      <Row>
       <div
         style={{
           display: 'flex',
@@ -443,7 +510,8 @@ const WagerSlipFilters = ({ yearOptions, seasonOptions, weekOptions, historyYear
           </button>
         ))}
       </div>
-    </>
+    </Row>
+    </div>
   );
 };
 
@@ -551,7 +619,7 @@ const WagerSlipList = ({ wagers, gamesData }) => {
                 minWidth: 200,
               }}
             >
-              {wager.awayTeam.code} at {wager.homeTeam.code}
+              {wager.awayTeam?.code} at {wager.homeTeam?.code}
               <p className="bet-type"><span style={{
                 fontFamily: "'DM Mono', monospace",
                 fontSize: '10px',
@@ -594,8 +662,10 @@ const WagerSlipList = ({ wagers, gamesData }) => {
   );
 };
 
-const WagerSlipContent = ({ sport, gamesData, wagers, gameId = null, weekId = null, showFilters = true, title }) => {
+const WagerSlipContent = ({ sport, gamesData, wagers, gameId = null, weekId = null, showFilters = true, title, onChangeHistoryScope = null }) => {
   const sportName = sport?.sport || null;
+  const sportLabel = 'Current Sport';
+  const [historyScope, setHistoryScope] = useState(sportName ? 'SPORT' : 'ALL');
   const [historyYear, setHistoryYear] = useState('all');
   const [historySeason, setHistorySeason] = useState('all');
   const [historyWeek, setHistoryWeek] = useState(weekId ? String(weekId) : 'all');
@@ -605,6 +675,7 @@ const WagerSlipContent = ({ sport, gamesData, wagers, gameId = null, weekId = nu
   const { yearOptions, seasonOptions, weekOptions } = getFilterOptions({
     wagers,
     sportName,
+    historyScope,
     historyYear,
     historySeason,
   });
@@ -618,6 +689,46 @@ const WagerSlipContent = ({ sport, gamesData, wagers, gameId = null, weekId = nu
       setHistoryWeek(String(weekId));
     }
   }, [showFilters, weekId]);
+
+  useEffect(() => {
+    if (!sportName && historyScope !== 'ALL') {
+      setHistoryScope('ALL');
+    }
+  }, [historyScope, sportName]);
+
+  const handleHistoryScopeChange = async (nextScope) => {
+    if (nextScope === historyScope) {
+      return;
+    }
+
+    if (nextScope === 'ALL') {
+      setHistoryYear('all');
+      setHistorySeason('all');
+      setHistoryWeek('all');
+    }
+
+    const canChangeScope = onChangeHistoryScope ? await onChangeHistoryScope(nextScope) : true;
+    if (canChangeScope === false) {
+      return;
+    }
+
+    setHistoryScope(nextScope);
+  };
+
+  const handleHistoryYearChange = (nextYear) => {
+    setHistoryYear(nextYear);
+    setHistorySeason('all');
+    setHistoryWeek('all');
+  };
+
+  const handleHistorySeasonChange = (nextSeason) => {
+    setHistorySeason(nextSeason);
+    setHistoryWeek('all');
+  };
+
+  const handleHistoryWeekChange = (nextWeek) => {
+    setHistoryWeek(nextWeek);
+  };
 
   useEffect(() => {
     if (historyYear !== 'all' && !yearOptions.includes(String(historyYear))) {
@@ -640,6 +751,7 @@ const WagerSlipContent = ({ sport, gamesData, wagers, gameId = null, weekId = nu
   const visibleWagers = filterWagers({
     wagers,
     sportName,
+    historyScope,
     gameId,
     weekId,
     historyYear,
@@ -672,14 +784,17 @@ const WagerSlipContent = ({ sport, gamesData, wagers, gameId = null, weekId = nu
           yearOptions={yearOptions}
           seasonOptions={seasonOptions}
           weekOptions={weekOptions}
+          historyScope={historyScope}
           historyYear={historyYear}
           historySeason={historySeason}
           historyWeek={historyWeek}
           historyType={historyType}
           historyStatus={historyStatus}
-          setHistoryYear={setHistoryYear}
-          setHistorySeason={setHistorySeason}
-          setHistoryWeek={setHistoryWeek}
+          sportLabel={sportLabel}
+          onChangeHistoryScope={handleHistoryScopeChange}
+          onChangeHistoryYear={handleHistoryYearChange}
+          onChangeHistorySeason={handleHistorySeasonChange}
+          onChangeHistoryWeek={handleHistoryWeekChange}
           setHistoryType={setHistoryType}
           setHistoryStatus={setHistoryStatus}
         />
@@ -695,21 +810,35 @@ const BaseWagerSlip = ({ sport, user, games, gameId = null, weekId = null, wager
   const [error, setError] = useState(null);
   const gamesData = games.games || {};
   const userId = user?.attributes?.preferred_username || user?.username;
+  const sportName = sport?.sport || null;
+  const [hasLoadedFullHistory, setHasLoadedFullHistory] = useState(false);
 
   const wagersState = Array.isArray(initialWagers) ? initialWagers : [];
   const hasInitialWagers = wagersState.length > 0;
 
 
+  useEffect(() => {
+    setHasLoadedFullHistory(false);
+  }, [sportName]);
+
 
   useEffect(() => {
-    if (hasInitialWagers || !userId) {
+    if (!userId) {
+      return;
+    }
+
+    if (!showFilters && hasInitialWagers) {
       return;
     }
 
     setLoading(true);
     const fetchData = async () => {
       try {
-        await fetchUserWagers({ userId });
+        if (showFilters && !hasLoadedFullHistory) {
+          await fetchUserWagers({ userId, sport: sportName || undefined });
+        } else {
+          await fetchUserWagers({ userId });
+        }
         setError(null);
       } catch (err) {
         setError(err.message);
@@ -719,7 +848,30 @@ const BaseWagerSlip = ({ sport, user, games, gameId = null, weekId = null, wager
     };
 
     fetchData();
-  }, [fetchUserWagers, hasInitialWagers, userId]);
+  }, [fetchUserWagers, hasInitialWagers, hasLoadedFullHistory, showFilters, sportName, userId]);
+
+  const handleHistoryScopeChange = async (nextScope) => {
+    if (nextScope !== 'ALL' || hasLoadedFullHistory || !showFilters) {
+      return true;
+    }
+
+    if (!userId) {
+      return false;
+    }
+
+    setLoading(true);
+    try {
+      await fetchUserWagers({ userId });
+      setHasLoadedFullHistory(true);
+      setError(null);
+      return true;
+    } catch (err) {
+      setError(err.message);
+      return false;
+    } finally {
+      setLoading(false);
+    }
+  };
   
 
 
@@ -753,6 +905,7 @@ const BaseWagerSlip = ({ sport, user, games, gameId = null, weekId = null, wager
       weekId={weekId}
       showFilters={showFilters}
       title={title}
+      onChangeHistoryScope={handleHistoryScopeChange}
     />
   );
 };
@@ -803,6 +956,7 @@ const defaultBetTypeStyle = {
 
 export const GameWagerSlip = connect(mapStateToProps, mapActionToProps)(GameWagerSlipBase);
 
+export { BaseWagerSlip };
 export { WagerSlipContent };
 
 export default connect(mapStateToProps, mapActionToProps)(WagerSlip);

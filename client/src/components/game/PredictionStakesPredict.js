@@ -196,11 +196,6 @@ const PredictionStakesPredict = ({
             participantId: MLLine["participant id"],
             'spreadTotal': MLLine['spread / total']
           }
-          let submitWagerResult = await submitWager(game, prediction, MLWagerObject)
-          if (submitWagerResult?.status === 200) {
-            countSuccess++
-            resetCurrency('ML')
-          }
         }
 
         if (ATSWager > 0 && ATSLine) {

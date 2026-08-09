@@ -1,6 +1,6 @@
 import React from 'react';
-import { fireEvent, render, screen } from '@testing-library/react';
-import { WagerSlipContent } from '../components/game/WagerSlip';
+import { fireEvent, render, screen, waitFor } from '@testing-library/react';
+import { BaseWagerSlip, WagerSlipContent } from '../components/game/WagerSlip';
 
 jest.mock('../redux/actions/predictionsActions', () => ({
   fetchUserWagers: jest.fn(),
@@ -99,6 +99,28 @@ const wagers = [
     result: 0,
     net: 30,
   },
+  {
+    _id: 'wager-5',
+    gameId: 'game-5',
+    sport: 'ncaaf',
+    year: 2022,
+    season: 'reg',
+    gameWeek: 5,
+    submitted: '2022-10-01T12:00:00.000Z',
+    awayTeam: { code: 'ALA' },
+    homeTeam: { code: 'UGA' },
+    prediction: {
+      awayTeam: { code: 'ALA', score: 31 },
+      homeTeam: { code: 'UGA', score: 34 },
+    },
+    wager: {
+      wagerType: 'spread',
+      currency: 20,
+      odds: -108,
+    },
+    result: 1,
+    net: 38.52,
+  },
 ];
 
 const renderWagerSlip = () => {
@@ -113,7 +135,33 @@ const renderWagerSlip = () => {
   );
 };
 
+const renderBaseWagerSlip = (fetchUserWagers = jest.fn().mockResolvedValue({ wagers, status: 200 })) => {
+  return render(
+    <BaseWagerSlip
+      sport={sport}
+      user={{ username: 'tester' }}
+      games={{ games: {} }}
+      wagers={wagers}
+      fetchUserWagers={fetchUserWagers}
+      showFilters={true}
+      title="Wager History"
+    />
+  );
+};
+
 describe('WagerSlipContent filters', () => {
+  test('toggles between current sport history and all user history', () => {
+    renderWagerSlip();
+
+    expect(screen.queryByText('ALA at UGA')).not.toBeInTheDocument();
+    expect(screen.queryByRole('button', { name: '2022' })).not.toBeInTheDocument();
+
+    fireEvent.click(screen.getByRole('button', { name: 'All Sports' }));
+
+    expect(screen.getByText('ALA at UGA')).toBeInTheDocument();
+    expect(screen.getByRole('button', { name: '2022' })).toBeInTheDocument();
+  });
+
   test('filters wagers by year and season', () => {
     renderWagerSlip();
 
@@ -135,6 +183,27 @@ describe('WagerSlipContent filters', () => {
     expect(screen.queryByText('DAL at PHI')).not.toBeInTheDocument();
   });
 
+  test('shows years, seasons, and weeks based on the selected user history scope', () => {
+    renderWagerSlip();
+
+    fireEvent.click(screen.getByRole('button', { name: 'All Sports' }));
+
+    expect(screen.getByRole('button', { name: '2022' })).toBeInTheDocument();
+
+    fireEvent.click(screen.getByRole('button', { name: '2022' }));
+
+    expect(screen.getByRole('button', { name: 'Regular' })).toBeInTheDocument();
+
+    fireEvent.click(screen.getByRole('button', { name: 'Regular' }));
+
+    expect(screen.getByRole('button', { name: 'WK 5' })).toBeInTheDocument();
+
+    fireEvent.click(screen.getByRole('button', { name: 'WK 5' }));
+
+    expect(screen.getByText('ALA at UGA')).toBeInTheDocument();
+    expect(screen.queryByText('BUF at KC')).not.toBeInTheDocument();
+  });
+
   test('composes year and season filters with type and status filters', () => {
     renderWagerSlip();
 
@@ -147,5 +216,21 @@ describe('WagerSlipContent filters', () => {
     expect(screen.queryByText('BUF at KC')).not.toBeInTheDocument();
     expect(screen.queryByText('MIA at BAL')).not.toBeInTheDocument();
     expect(screen.queryByText('NYJ at NE')).not.toBeInTheDocument();
+  });
+
+  test('fetches current sport by default and full history on All Sports', async () => {
+    const fetchUserWagers = jest.fn().mockResolvedValue({ wagers, status: 200 });
+
+    renderBaseWagerSlip(fetchUserWagers);
+
+    await waitFor(() => {
+      expect(fetchUserWagers).toHaveBeenCalledWith({ userId: 'tester', sport: 'nfl' });
+    });
+
+    fireEvent.click(await screen.findByRole('button', { name: 'All Sports' }));
+
+    await waitFor(() => {
+      expect(fetchUserWagers).toHaveBeenCalledWith({ userId: 'tester' });
+    });
   });
 });

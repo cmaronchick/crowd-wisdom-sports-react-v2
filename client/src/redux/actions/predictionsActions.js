@@ -191,7 +191,7 @@ export const submitWager = (game, prediction, wager) => async (dispatch) => {
 }
 
 export const fetchWagers = ({ sport, year, season, week, gameId }) => async (dispatch) => {
-    console.log('fetchWagers', sport, year, season, week, gameId)
+    // console.log('fetchWagers', sport, year, season, week, gameId)
     try {
         dispatch({ type: LOADING_WAGERS })
         let currentSession = await Auth.currentSession()
@@ -206,11 +206,15 @@ export const fetchWagers = ({ sport, year, season, week, gameId }) => async (dis
         if (fetchWagerResponseJSON.errorType) {
             return fetchWagerResponseJSON
         }
-        console.log('fetchWagerResponseJSON', fetchWagerResponseJSON)
+        // console.log('fetchWagerResponseJSON', fetchWagerResponseJSON)
         if (fetchWagerResponseJSON.status === 200) {
+            const sortedWagers = fetchWagerResponseJSON.wagers.sort((a,b) => {
+                console.log('a.submitted, b.submitted', a.submitted, b.submitted)
+                return a.submitted < b.submitted ? -1 : 1
+            })
             dispatch({
                 type: SET_WAGERS,
-                payload: fetchWagerResponseJSON.wagers
+                payload: sortedWagers
             })
             return { wagers: fetchWagerResponseJSON.wagers, status: 200 }
         }
