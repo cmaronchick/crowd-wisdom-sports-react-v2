@@ -12,6 +12,12 @@ describe('side menu tests', () => {
     expect(title).toBeInTheDocument();
     });
 
+    test('renders a link to wager slip', () => {
+        const { getByText } = render(<Provider store={store}><Router><SideMenu /></Router></Provider>);
+        const message = getByText(/Wager Slip/i);
+        expect(message).toBeInTheDocument();
+    });
+
 
     test('renders a link to the profile', () => {
         store.dispatch({

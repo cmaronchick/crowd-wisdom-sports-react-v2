@@ -1,6 +1,6 @@
 import React, { useState } from 'react'
 import PropTypes from 'prop-types'
-import { NavLink, Link } from "react-router-dom";
+import { useHistory } from "react-router-dom";
 
 import './SideMenu.less'
 import { Layout, Menu, Popover } from 'antd'
@@ -45,7 +45,17 @@ const sportsVariables = {
     }
 }
 
-const menuItems = [
+const getMenuItems = (sportData) => {
+    const sportKey = sportData?.sport || 'nfl'
+    const gameWeekData = sportData?.gameWeekData || {}
+    const year = gameWeekData.year
+    const season = gameWeekData.season
+    const week = gameWeekData.week
+    const oddsMovementPath = year && season && week
+        ? `/${sportKey}/oddsmovement/${year}/${season}/${week}`
+        : `/${sportKey}/games`
+
+    return ([
     {
         key: 'nfl',
         label: 'NFL',
@@ -53,20 +63,20 @@ const menuItems = [
         children: [
             {
                 key: 'nfl-1',
-                label: (<a href="/nfl/games/">Games</a>),
-                link: '/nfl/games',
+                label: 'Games',
+                path: '/nfl/games',
                 icon: <FaFootballBall />
             },
             {
                 key: 'nfl-2',
-                label: (<a href="/nfl/leaderboards">Leaderboards</a>),
-                link: '/nfl/leaderboards',
+                label: 'Leaderboards',
+                path: '/nfl/leaderboards',
                 icon: <FaTrophy/>
             },
             {
                 key: 'nfl-3',
-                label: (<a href="/nfl/groups">Groups</a>),
-                link: '/nfl/groups',
+                label: 'Groups',
+                path: '/nfl/groups',
                 icon: <FaUserFriends/>
             }
         ]
@@ -78,20 +88,20 @@ const menuItems = [
         children: [
             {
                 key: 'ncaaf-1',
-                label: (<a href="/ncaaf/games/">Games</a>),
-                link: '/ncaaf/games',
+                label: 'Games',
+                path: '/ncaaf/games',
                 icon: <FaFootballBall />
             },
             {
                 key: 'ncaaf-2',
-                label: (<a href="/ncaaf/leaderboards">Leaderboards</a>),
-                link: '/ncaaf/leaderboards',
+                label: 'Leaderboards',
+                path: '/ncaaf/leaderboards',
                 icon: <FaTrophy/>
             },
             {
                 key: 'ncaaf-3',
-                label: (<a href="/ncaaf/groups">Groups</a>),
-                link: '/ncaaf/groups',
+                label: 'Groups',
+                path: '/ncaaf/groups',
                 icon: <FaUserFriends/>
             }
         ]
@@ -103,57 +113,62 @@ const menuItems = [
         children: [
             {
                 key: 'ncaam-1',
-                label: (<a href="/ncaam/games/">Games</a>),
-                link: '/ncaam/games',
+                label: 'Games',
+                path: '/ncaam/games',
                 icon: <FaBasketballBall />
             },
             {
                 key: 'ncaam-2',
-                label: (<a href="/ncaam/leaderboards">Leaderboards</a>),
-                link: '/ncaam/leaderboards',
+                label: 'Leaderboards',
+                path: '/ncaam/leaderboards',
                 icon: <FaTrophy/>
             },
             {
                 key: 'ncaam-3',
-                label: (<a href="/ncaam/groups">Groups</a>),
-                link: '/ncaam/groups',
+                label: 'Groups',
+                path: '/ncaam/groups',
                 icon: <FaUserFriends/>
             }
         ]
     },
     {
         key: 'wager-slip',
-        label: (<a href="/wagerslip">Wager Slip</a>),
+        label: 'Wager Slip',
+        path: `/${sportKey}/wagerslip`,
         icon: <FaBell />
     },
     {
         key: 'odds-movement',
         label: 'Odds Movement',
         icon: <FaChartLine />,
-        link: '/nfl/oddsmovement'
+        path: oddsMovementPath
     },
     {
         key: 'profile',
         label: 'Profile',
         icon: <FaUser />,
-        link: '/profile'
+        path: '/profile'
     }, 
     {
         key: 'app-store',
-        label: (<a href="https://apps.apple.com/us/app/stakehouse-sports/id1475324522?ls=1" target="_blank">App Store</a>),
+        label: 'App Store',
+        href: 'https://apps.apple.com/us/app/stakehouse-sports/id1475324522?ls=1',
         icon: <FaAppStore />
     },
     {
         key: 'google-play',
-        label: (<a href="https://play.google.com/store/apps/details?id=com.cwsrn&pcampaignid=MKT-Other-global-all-co-prtnr-py-PartBadge-Mar2515-1" target="_blank" rel="nofollow">Google Play</a>),
+        label: 'Google Play',
+        href: 'https://play.google.com/store/apps/details?id=com.cwsrn&pcampaignid=MKT-Other-global-all-co-prtnr-py-PartBadge-Mar2515-1',
         icon: <FaGooglePlay />
     },
     {
         key: 'admin',
-        label: (<a href="/nfl/games/admin">Admin</a>),
+        label: 'Admin',
+        path: '/nfl/games/admin',
         icon: <FaList />,
     }
-]
+])
+}
 
 const getLevelKeys = (items1) => {
   const key = {};
@@ -171,29 +186,51 @@ const getLevelKeys = (items1) => {
   return key;
 };
 
-const levelKeys = getLevelKeys(menuItems);
+const levelKeys = getLevelKeys(getMenuItems({ sport: 'nfl' }));
+
+const findMenuItemByKey = (items, targetKey) => {
+    for (const item of items) {
+        if (item.key === targetKey) {
+            return item
+        }
+
+        if (item.children) {
+            const match = findMenuItemByKey(item.children, targetKey)
+            if (match) {
+                return match
+            }
+        }
+    }
+
+    return null
+}
 
 const SideMenu = (props) => {
     const [collapsed, toggleCollapsed] = useState(window.innerWidth < 560 ? true : false)
 
     const [current, setCurrent] = useState('nfl');
-    
+    const { sport } = props
+        const history = useHistory()
+        const menuItems = getMenuItems(sport)
+
     const onClick = (e) => {
-        console.log('click ', e);
         setCurrent(e.key);
-    };
-    console.log('current :>> ', current);
-  const { sport, user } = props
-    const menuItemsWithSportWagerSlip = menuItems.map((item) => {
-        if (item.key !== 'wager-slip') {
-            return item
+
+        const selectedItem = findMenuItemByKey(menuItems, e.key)
+        if (!selectedItem) {
+            return
         }
 
-        return {
-            ...item,
-            label: (<a href={`/${sport?.sport || 'nfl'}/wagerslip`}>Wager Slip</a>),
+        if (selectedItem.path) {
+            history.push(selectedItem.path)
+            return
         }
-    })
+
+        if (selectedItem.href) {
+            window.open(selectedItem.href, '_blank', 'noopener,noreferrer')
+        }
+    };
+
     const sportKeys = {
         nfl: 'nfl',
         ncaaf: 'ncaaf',
@@ -210,7 +247,7 @@ const SideMenu = (props) => {
             mode="inline"
             style={{ height: '100%' }}
             className="sideMenu"
-                        items={menuItemsWithSportWagerSlip}
+                        items={menuItems}
             defaultOpenKeys={[sportKeys[sport.sport]]}
             onClick={onClick}
             selectedKeys={[current]}
