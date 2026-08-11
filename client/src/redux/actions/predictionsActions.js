@@ -210,13 +210,13 @@ export const fetchWagers = ({ sport, year, season, week, gameId }) => async (dis
         if (fetchWagerResponseJSON.status === 200) {
             const sortedWagers = fetchWagerResponseJSON.wagers.sort((a,b) => {
                 console.log('a.submitted, b.submitted', a.submitted, b.submitted)
-                return a.submitted < b.submitted ? -1 : 1
+                return a.submitted < b.submitted ? 1 : -1
             })
             dispatch({
                 type: SET_WAGERS,
                 payload: sortedWagers
             })
-            return { wagers: fetchWagerResponseJSON.wagers, status: 200 }
+            return { wagers: sortedWagers, status: 200 }
         }
     } catch (wagerError) {
         console.error(wagerError)
@@ -267,11 +267,15 @@ export const fetchUserWagers = ({ userId, sport, year, season }) => async (dispa
         }
         console.log('fetchUserWagers response', fetchWagerResponseJSON)
         if (fetchWagerResponseJSON.status === 200) {
+            const sortedWagers = fetchWagerResponseJSON.wagers.sort((a,b) => {
+                console.log('a.submitted, b.submitted', a.submitted, b.submitted)
+                return a.submitted < b.submitted ? 1 : -1
+            })
             dispatch({
                 type: SET_WAGERS,
-                payload: fetchWagerResponseJSON.wagers
+                payload: sortedWagers
             })
-            return { wagers: fetchWagerResponseJSON.wagers, status: 200 }
+            return { wagers: sortedWagers, status: 200 }
         }
     } catch (wagerError) {
         console.error(wagerError)
