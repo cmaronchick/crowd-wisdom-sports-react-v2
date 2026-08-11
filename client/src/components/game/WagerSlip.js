@@ -9,13 +9,13 @@ import StakeIcon from '../../images/stake-image-dual-ring.svg'
 import './WagerSlip.less';
 import Icon from '@ant-design/icons'
 
-const formatCurrency = (value) => {
+const formatCurrency = (value, styledIcon) => {
   const amount = Number(value) || 0;
   return (
     <div style={{ display: 'inline-flex', alignItems: 'center', gap: '6px' }}>
       {amount < 0 ? '-' : ''}
       {/* <Icon src={StakeIcon} alt="Stake" style={{ width: '18px', height: '18px' }} /> */}
-      <img src={StakeIcon} alt="Stakes" style={{width: '18px', height: '18px', filter: amount >= 0 ? 'invert(55%) sepia(63%) saturate(1763%) hue-rotate(116deg) brightness(101%) contrast(83%)' : 'filter: invert(19%) sepia(100%) saturate(2067%) hue-rotate(340deg) brightness(122%) contrast(84%)'}} />
+      <img src={StakeIcon} alt="Stakes" style={{width: '18px', height: '18px', filter: styledIcon ? (amount >= 0 ? 'invert(55%) sepia(63%) saturate(1763%) hue-rotate(116deg) brightness(101%) contrast(83%)' : 'invert(19%) sepia(100%) saturate(2067%) hue-rotate(340deg) brightness(122%) contrast(84%)') : 'grayscale(100%)'}} />
       {Math.abs(amount).toFixed(0)}
     </div>
   );
@@ -664,7 +664,7 @@ const WagerSlipList = ({ wagers, gamesData }) => {
 
 const WagerSlipContent = ({ sport, gamesData, wagers, gameId = null, weekId = null, showFilters = true, title, onChangeHistoryScope = null }) => {
   const sportName = sport?.sport || null;
-  const sportLabel = 'Current Sport';
+  const sportLabel = sportName ? sportName.toUpperCase() : '';
   const [historyScope, setHistoryScope] = useState(sportName ? 'SPORT' : 'ALL');
   const [historyYear, setHistoryYear] = useState('all');
   const [historySeason, setHistorySeason] = useState('all');
