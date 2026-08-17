@@ -1,8 +1,8 @@
 const ky = require('ky-universal');
 
 const apiHost = ky.create({prefixUrl: `https://3tsywitgn8.execute-api.us-west-2.amazonaws.com/dev/`})
-const { callOptions } = require('../utils')
-const {getSport} = require('./sport')
+const { callOptions } = require('../utils');
+const {getSport} = require('./sport');
 
 function conditionalFetch(sport, year, season, gameWeek) {
   console.log('conditionalFetch called with:', { sport, year, season, gameWeek });
@@ -155,4 +155,4 @@ const getOddsMovement = (req, res) => {
 
 }
 
-module.exports = { getGameWeek, getGame, getGamesByGameWeek, submitPrediction, getOddsMovement }
+module.exports = { getGameWeek, getGame, getGamesByGameWeek, submitPrediction, getOddsMovement, submitGameUpdate }

@@ -12,7 +12,7 @@ router.use(bodyParser.urlencoded({ extended: true })) // for parsing application
 const cors = require('cors')
 router.use(cors())
 
-const { getGameWeek, getGame, getGamesByGameWeek, submitPrediction, getOddsMovement } = require('./handlers/games')
+const { getGameWeek, getGame, getGamesByGameWeek, submitPrediction, getOddsMovement, submitGameUpdate } = require('./handlers/games')
 const { getSportSeason } = require('./handlers/sport')
 const { getLeaderboards, getCrowdLeaderboards } = require('./handlers/leaderboards')
 const { getGroups, getGroup, joinGroup, leaveGroup, createGroup, updateGroup } = require('./handlers/groups')
@@ -29,6 +29,7 @@ router.get('/:sport/games/:year/:season/:gameWeek/live', getOddsMovement)
 router.get('/:sport/games/:year/:season/:gameWeek/game/:gameId', getGame);
 router.get(['/:sport/games', '/:sport/games/:year/:season/:gameWeek'], getGamesByGameWeek);
 router.post('/submitPrediction', submitPrediction)
+router.post('/gameupdate', submitGameUpdate)
 
 // wagering calls
 router.get('/:sport/games/:year/:season/:gameWeek/game/:gameId/currentlines', getCurrentLines)

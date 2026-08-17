@@ -15,11 +15,12 @@ import ky from 'ky/umd'
 
 const { Option } = Select
 
+const apiHost = ky.create({prefixUrl: process.env.NODE_ENV === 'development' ? 'http://localhost:5001/api/' : 'https://app.stakehousesports.com/api/'})
+
 const AdminPage = (props) => {
     const { sport, games, user, fetchGameWeekGames} = props
     const [gamesObj, setGames] = useState({})
 
-    const apiHost = ky.create({prefixUrl: process.env.NODE_ENV === 'development' ? 'http://localhost:5001/api/' : 'https://app.stakehousesports.com/api/'})
 
 
     useEffect(() => {
@@ -68,7 +69,7 @@ const AdminPage = (props) => {
         })
     }
 
-    const handleGameUpdateSubmit = (gameId) => {
+    const handleGameUpdateSubmit = async (gameId) => {
         const gameDetails = gamesObj[gameId]
         setGames(() => {
             return {
@@ -79,17 +80,18 @@ const AdminPage = (props) => {
                 }
             }
         })
+        try {
         
-        Auth.currentSession()
-        .then(currentSession => {
-            let IdToken = currentSession.getIdToken()
-            let tokenPayload = IdToken.decodePayload()
-            const { gameId, gameWeek, year, sport, status, season, startDateTime, results, odds } = gameDetails
+            let currentSession = await Auth.currentSession()
+            let IdToken = await currentSession.getIdToken().getJwtToken()
+              
+            let tokenPayload = await currentSession.getAccessToken().decodePayload()
+            const { gameWeek, year, sport, status, season, startDateTime, results, odds } = gameDetails
             const updatedGameDetails = {
 
                 gameId,
                 gameWeek,
-                year,
+                year, 
                 sport,
                 status,
                 season,
@@ -128,48 +130,48 @@ const AdminPage = (props) => {
             //         "spread" : $input.path('$.odds.spread')
             //     #end
             // }
-            if (currentSession && tokenPayload['cognito:groups'] && tokenPayload['cognito:groups'].indexOf('admins') > -1) {
-                ky.post(`https://3tsywitgn8.execute-api.us-west-2.amazonaws.com/dev/gameupdate`,{
-                    headers: {
-                    Authorization: IdToken.getJwtToken(),
-                    'Content-type': 'application/json'
-                    },
-                    body: JSON.stringify(updatedGameDetails)
-                })
-                .then(response => {
-                    console.log(`response`, response);
-                    setGames(() => {
-                        return {
-                            ...gamesObj,
-                            [gameId]: {
-                                ...gamesObj[gameId],
-                                updating: false,
-                                updated: true
+                if (currentSession && tokenPayload['cognito:groups'] && tokenPayload['cognito:groups'].indexOf('admins') > -1) {
+                    console.log(`URL: ${apiHost}gameupdate`)
+                    try {
+                        let response = await apiHost.post(`gameupdate`,{
+                            headers: {
+                            Authorization: IdToken,
+                            'Content-type': 'application/json'
+                            },
+                            body: JSON.stringify(updatedGameDetails)
+                        })
+                        let responseJSON = await response.json()
+                        console.log(`response`, response);
+                        setGames(() => {
+                            return {
+                                ...gamesObj,
+                                [gameId]: {
+                                    ...gamesObj[gameId],
+                                    updating: false,
+                                    updated: true
+                                }
                             }
-                        }
-                    })
-                })
-                .catch(updateGameError => {
-                    console.log(`updateGameError`, updateGameError)
+                        })
+                    } catch (updateGameError) {
+                        console.log(`updateGameError`, updateGameError)
 
-                    setGames(() => {
-                        return {
-                            ...gamesObj,
-                            [gameId]: {
-                                ...gamesObj[gameId],
-                                updating: false,
-                                updated: false
+                        setGames(() => {
+                            return {
+                                ...gamesObj,
+                                [gameId]: {
+                                    ...gamesObj[gameId],
+                                    updating: false,
+                                    updated: false
+                                }
                             }
-                        }
-                    })
-                })
-            } else {
-                throw new Error('user is not an admin')
-            }
-        })
-        .catch((adminCheckError) => {
+                        })
+                    }
+                } else {
+                    throw new Error('user is not an admin')
+                }
+        } catch (adminCheckError) {
             console.log(`adminCheckError`, adminCheckError)
-        })
+        }
     }
     return props.user.details?.isAdmin ? (
         

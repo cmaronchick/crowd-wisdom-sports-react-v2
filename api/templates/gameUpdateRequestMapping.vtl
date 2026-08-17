@@ -1,0 +1,37 @@
+## API Gateway "Integration Request" mapping template (Content-Type: application/json)
+## for the POST /gameupdate endpoint used by AdminPage's manual game status update.
+## $util.parseJson is used instead of repeated $input.path calls so optional
+## nested fields (results/odds) don't throw "path not found" errors when absent.
+#set($inputRoot = $util.parseJson($input.json('$')))
+{
+    "gameId" : "$inputRoot.gameId",
+    "gameWeek" : $inputRoot.gameWeek,
+    "year" : $inputRoot.year,
+    "sport" : "$inputRoot.sport",
+    "status" : "$inputRoot.status",
+    "season" : "$inputRoot.season",
+    "startDateTime" : $inputRoot.startDateTime
+    #if($inputRoot.results && ($inputRoot.results.awayTeam.score >= 0 || $inputRoot.results.homeTeam.score >= 0))
+    ,
+    "results" : {
+        "awayTeam" : {
+            "score" : $inputRoot.results.awayTeam.score
+        },
+        "homeTeam" : {
+            "score" : $inputRoot.results.homeTeam.score
+        }
+    }
+    #end
+    #if($inputRoot.odds && ($inputRoot.odds.total || $inputRoot.odds.spread))
+    ,
+    "odds" : {
+        #if($inputRoot.odds.total)
+        "total" : $inputRoot.odds.total#if($inputRoot.odds.spread),#end
+
+        #end
+        #if($inputRoot.odds.spread)
+        "spread" : $inputRoot.odds.spread
+        #end
+    }
+    #end
+}
