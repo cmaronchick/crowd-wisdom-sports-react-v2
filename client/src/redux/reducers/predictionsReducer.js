@@ -9,7 +9,18 @@ import {
     CHANGE_GAME_STAKES,
     SUBMITTING_PREDICTION,
     SUBMITTED_PREDICTION,
-    GETTING_COMPARED_USER_PREDICTIONS
+    GETTING_COMPARED_USER_PREDICTIONS,
+    SET_WAGERS,
+    ADD_WAGER,
+    LOADING_WAGERS,
+    SUBMITTING_SURVIVOR_PICK,
+    SUBMITTED_SURVIVOR_PICK,
+    SET_SURVIVOR_PICK_ERROR,
+    CLEAR_SURVIVOR_PICK_ERROR,
+    SUBMITTING_TEASER,
+    SUBMITTED_TEASER,
+    SET_TEASER_ERROR,
+    CLEAR_TEASER_ERROR
     } from '../types'
 
 
@@ -23,9 +34,15 @@ const initialState = {
         gettingPredictions: false,
         predictions: null
     },
+    wagers: null,
+    survivorPick: null,
+    survivorPickError: null,
+    teaser: null,
+    teaserError: null,
     loadingUserPredictions: false,
     loadingGroupPredictions: false,
     loadingComparedUserPredictions: false,
+    loadingWagers: false
 }
 
 export default function(state = initialState, action) {
@@ -162,6 +179,93 @@ export default function(state = initialState, action) {
                     ...action.payload
                 },
                 loadingGroupPredictions: false
+            }
+        case SET_WAGERS:
+            return {
+                ...state,
+                wagers: action.payload,
+                loadingWagers: false
+            }
+        case ADD_WAGER:
+            return {
+                ...state,
+                wagers: state.wagers ? [
+                    ...state.wagers,
+                    action.payload
+                ] : [action.payload]
+            }
+        case LOADING_WAGERS:
+            return {
+                ...state,
+                loadingWagers: true
+            }
+        case SUBMITTING_SURVIVOR_PICK:
+            return {
+                ...state,
+                survivorPick: {
+                    ...(state.survivorPick || {}),
+                    submitting: true
+                },
+                survivorPickError: null
+            }
+        case SUBMITTED_SURVIVOR_PICK:
+            return {
+                ...state,
+                survivorPick: {
+                    ...(state.survivorPick || {}),
+                    ...action.payload,
+                    submitting: false,
+                    submitted: true
+                },
+                survivorPickError: null
+            }
+        case SET_SURVIVOR_PICK_ERROR:
+            return {
+                ...state,
+                survivorPick: {
+                    ...(state.survivorPick || {}),
+                    submitting: false
+                },
+                survivorPickError: action.payload && action.payload.error ? action.payload.error : action.payload
+            }
+        case CLEAR_SURVIVOR_PICK_ERROR:
+            return {
+                ...state,
+                survivorPickError: null
+            }
+        case SUBMITTING_TEASER:
+            return {
+                ...state,
+                teaser: {
+                    ...(state.teaser || {}),
+                    submitting: true
+                },
+                teaserError: null
+            }
+        case SUBMITTED_TEASER:
+            return {
+                ...state,
+                teaser: {
+                    ...(state.teaser || {}),
+                    ...action.payload,
+                    submitting: false,
+                    submitted: true
+                },
+                teaserError: null
+            }
+        case SET_TEASER_ERROR:
+            return {
+                ...state,
+                teaser: {
+                    ...(state.teaser || {}),
+                    submitting: false
+                },
+                teaserError: action.payload && action.payload.error ? action.payload.error : action.payload
+            }
+        case CLEAR_TEASER_ERROR:
+            return {
+                ...state,
+                teaserError: null
             }
         default:
             return {

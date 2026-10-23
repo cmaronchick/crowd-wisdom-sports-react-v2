@@ -1,5 +1,5 @@
 const ky = require('ky-universal');
-const apiHost = ky.create({prefixUrl: `https://y5f8dr2inb.execute-api.us-west-2.amazonaws.com/dev/`})
+const apiHost = ky.create({prefixUrl: `https://3tsywitgn8.execute-api.us-west-2.amazonaws.com/dev/`})
 const { callOptions } = require('../utils')
 
 const getSportSeason = (req, res) => {
@@ -20,6 +20,22 @@ const getSportSeason = (req, res) => {
           console.log('api index 72 seasonDetailsReponseError: ', seasonDetailsReponseError)
           return res.status(500).json({ message: `Something went wrong. - ${errorMessage}`})
       })
+
+}
+
+const getSport = (req, res) => {
+    const callOptionsObject = callOptions(req.headers.authorization);
+    return apiHost.get(`/sport`, callOptionsObject.callOptions)
+    .then((sportResponse) => {
+        return sportResponse.json()
+    })
+    .then(sportResponseData => {
+      return res.status(200).json({ data: sportResponseData })
+    })
+    .catch(sportResponseError => {
+        console.log('api index 38 sportResponseError: ', sportResponseError)
+        return res.status(500).json({ message: 'Something went wrong.'})
+    })
 
 }
 

@@ -107,7 +107,7 @@ const signUp = props => {
                 name="facebookSignUpButton"
                 onClick={handleFBClick}
                 className="btn facebook-button socialButton-customizable loginButton">
-                <span><svg className="social-logo" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 216 216" color="#ffffff">
+                <span><svg className="social-logo"  viewBox="0 0 216 216" color="#ffffff">
                     <path fill="#ffffff" d="
                         M204.1 0H11.9C5.3 0 0 5.3 0 11.9v192.2c0 6.6 5.3 11.9 11.9
                         11.9h103.5v-83.6H87.2V99.8h28.1v-24c0-27.9 17-43.1 41.9-43.1

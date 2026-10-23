@@ -12,21 +12,21 @@ import {
     // Tip: all queries are also exposed on an object
     // called "queries" which you could import here as well
     waitFor,
-  } from '@testing-library/dom'
-  // adds special assertions like toHaveTextContent
-  import '@testing-library/jest-dom/extend-expect'
+} from '@testing-library/dom'
+// adds special assertions like toHaveTextContent
+import '@testing-library/jest-dom'
 import { SET_USER } from '../redux/types';
 
 import { FBUser, user } from '../__mocks__/UserTestData'
 
 describe('render the leaderboard screen', () => {
-    
+
     test('present a login button when user is not logged in', () => {
-        const {getByText} = render(
-        <Provider store={store}>
-            <Router><Route component={Leaderboards} /></Router>
-        </Provider>);
-        console.log({getByText});
+        const { getByText } = render(
+            <Provider store={store}>
+                <Router><Route component={Leaderboards} /></Router>
+            </Provider>);
+        console.log({ getByText });
         const NoLeaderboard = getByText('Login/Sign Up');
         expect(NoLeaderboard).toBeInTheDocument();;
     })
@@ -35,11 +35,11 @@ describe('render the leaderboard screen', () => {
             type: SET_USER,
             payload: user
         })
-        const {getByText} = render(
-        <Provider store={store}>
-            <Router><Route component={Leaderboards} /></Router>
-        </Provider>);
-        console.log({getByText});
+        const { getByText } = render(
+            <Provider store={store}>
+                <Router><Route component={Leaderboards} /></Router>
+            </Provider>);
+        console.log({ getByText });
         const NoLeaderboard = getByText('No Weekly Leaderboard');
         expect(NoLeaderboard).toBeInTheDocument();;
     })

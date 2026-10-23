@@ -22,6 +22,62 @@ import Weeks from '../weeks/Weeks'
 const { Title } = Typography
 const { TabPane } = Tabs
 
+const asNumber = (value, fallback = 0) => {
+    const parsed = Number(value)
+    return Number.isFinite(parsed) ? parsed : fallback
+}
+
+const getSurvivorStatus = (item = {}) => {
+    const survivorStats = item?.survivor ?? item?.survivorStats ?? {}
+    const resultStats = item?.results?.survivor ?? {}
+    const streak = asNumber(survivorStats.streak ?? resultStats.streak ?? item?.survivorStreak ?? item?.consecutiveCorrectWeeks ?? 0)
+    const misses = asNumber(survivorStats.misses ?? resultStats.misses ?? item?.survivorMisses ?? item?.missedSurvivorPicks ?? 0)
+    const perfect = streak > 0 && misses === 0
+    const bonus = perfect ? (streak * 10) + 25 : streak > 0 ? Math.max(0, streak - 1) * 5 : 0
+    const badge = perfect
+        ? `Perfect survivor ${streak}x`
+        : streak > 0
+            ? `Survivor ${streak}x`
+            : null
+
+    return {
+        streak,
+        misses,
+        perfect,
+        bonus,
+        badge
+    }
+}
+
+const renderSurvivorStatus = (item) => {
+    const survivorStatus = getSurvivorStatus(item)
+    if (!survivorStatus.badge) {
+        return <span>—</span>
+    }
+
+    return (
+        <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'flex-start', gap: 4 }}>
+            <span
+                style={{
+                    display: 'inline-flex',
+                    alignItems: 'center',
+                    padding: '2px 8px',
+                    borderRadius: '999px',
+                    background: survivorStatus.perfect ? '#d97706' : '#e0e7ff',
+                    color: survivorStatus.perfect ? '#fff' : '#1f2937',
+                    fontSize: '10px',
+                    fontWeight: 700,
+                    letterSpacing: '0.02em'
+                }}>
+                {survivorStatus.badge}
+            </span>
+            {survivorStatus.bonus > 0 && (
+                <small style={{ color: '#475569', fontSize: '10px' }}>+{survivorStatus.bonus} bonus</small>
+            )}
+        </div>
+    )
+}
+
 const Leaderboards = (props) => {
     const { leaderboards, user,selectSeason } = props
     let { loadingLeaderboards, leaderboardType } = leaderboards
@@ -75,8 +131,25 @@ const Leaderboards = (props) => {
         {
             title: 'Prediction Score',
             dataIndex: 'predictionScore',
-            width: 100,
+            render: (predictionScore, item) => {
+                const survivorStatus = getSurvivorStatus(item)
+                const scoreText = survivorStatus.bonus > 0 ? `${predictionScore} (+${survivorStatus.bonus})` : `${predictionScore}`
+                return <span>{scoreText}</span>
+            },
+            width: 140,
             sorter: (a,b) => a.predictionScore - b.predictionScore,
+            defaultSortOrder: 'descend'
+        },
+        {
+            title: 'Survivor',
+            dataIndex: 'survivor',
+            render: (survivor, item) => renderSurvivorStatus(item),
+            width: 170,
+            sorter: (a, b) => {
+                const aStatus = getSurvivorStatus(a)
+                const bStatus = getSurvivorStatus(b)
+                return aStatus.streak - bStatus.streak
+            },
             defaultSortOrder: 'descend'
         },
         {

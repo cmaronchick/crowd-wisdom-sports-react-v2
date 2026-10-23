@@ -1,16 +1,43 @@
 const ky = require('ky-universal');
 
-const apiHost = ky.create({prefixUrl: `https://y5f8dr2inb.execute-api.us-west-2.amazonaws.com/dev/`})
-const { callOptions } = require('../utils')
+const apiHost = ky.create({prefixUrl: `https://3tsywitgn8.execute-api.us-west-2.amazonaws.com/dev/`})
+const { callOptions } = require('../utils');
+const {getSport} = require('./sport');
+
+function conditionalFetch(sport, year, season, gameWeek) {
+  console.log('conditionalFetch called with:', { sport, year, season, gameWeek });
+    if (!sport || !year || !season || !gameWeek) {
+        // Example async operation (simulated with setTimeout)
+        return getSport()
+            .then(sportResponse => {
+              
+                const { sport, year, season, week } = sportResponse.data;
+                console.log('conditionalFetch fetched sport data:', { sport, year, season, gameWeek: week });
+                return Promise.resolve({ sport, year, season, gameWeek: week });
+            })
+            .then((sport) => {
+              console.log('conditionalFetch calling getGameWeek with sport:', sport);
+              return getGameWeek(sport)
+            })
+            .catch(error => {
+                console.error('Error fetching sport data:', error);
+                return Promise.reject(error);
+            });
+    } else {
+        // Return an already-resolved Promise
+        return Promise.resolve({ sport, year, season, gameWeek });
+    }
+}
 const getGameWeek = (req, res) => {
     const callOptionsObject = callOptions(req.headers.authorization);
     const anonString = callOptionsObject.anonString;
     const getOptions = callOptionsObject.callOptions;
-      return apiHost.get(`${req.params.sport}/week${anonString}`, getOptions)
+      return apiHost.get(`${req.params.sport}/week`, getOptions)
       .then((gameWeekResponse) => {
           return gameWeekResponse.json()
       })
       .then(gameWeekResponseData => {
+        console.log('gameWeekResponseData', gameWeekResponseData)
         return res.status(200).json({ data: gameWeekResponseData })
       })
       .catch(gameWeekResponseError => {
@@ -25,7 +52,7 @@ const getGame = (req, res) => {
     const callOptionsObject = callOptions(req.headers.authorization);
     const anonString = callOptionsObject.anonString;
     const getOptions = callOptionsObject.callOptions;
-    return ky.get(`https://y5f8dr2inb.execute-api.us-west-2.amazonaws.com/dev/${req.params.sport}/${req.params.year}/${req.params.season}/${req.params.gameWeek}/games/${req.params.gameId}${anonString}`, getOptions)
+    return ky.get(`https://3tsywitgn8.execute-api.us-west-2.amazonaws.com/dev/${req.params.sport}/${req.params.year}/${req.params.season}/${req.params.gameWeek}/games/${req.params.gameId}${anonString}`, getOptions)
     .then((gameResponse) => {
       return gameResponse.json()
     })
@@ -39,13 +66,20 @@ const getGame = (req, res) => {
 }
 
 const getGamesByGameWeek = (req, res) => {
-    //console.log('api index 57 query', req.params, req.url)
+    console.log('api index 57 query', req.params, req.url)
     const { sport, year, season, gameWeek } = req.params
     const callOptionsObject = callOptions(req.headers.authorization);
     const anonString = callOptionsObject.anonString;
     const getOptions = callOptionsObject.callOptions;
-    return apiHost.get(`${sport}/${year}/${season}/${gameWeek}/games${anonString}${req.query && req.query.compareUsername ? `?compareUsername=${req.query.compareUsername}` : ''}`, getOptions)
+    
+
+    return conditionalFetch(sport, year, season, gameWeek)
+      .then(({sport, year, season, gameWeek}) => {
+        // console.log('conditionalFetch resolved, proceeding to fetch games with args:', { sport, year, season, gameWeek });
+        return apiHost.get(`${sport}/${year}/${season}/${gameWeek}/games${anonString}${req.query && req.query.compareUsername ? `?compareUsername=${req.query.compareUsername}` : ''}`, getOptions)
+      })
       .then((gamesResponse) => {
+        // console.log('gamesResponse received:', gamesResponse);
           return gamesResponse.json()
       })
       .then(gamesResponse => {
@@ -67,7 +101,7 @@ const getGamesByGameWeek = (req, res) => {
 
 const submitPrediction = (req, res) => {
     console.log('api/index 69 req.body: ', req.body)
-    return ky.post(`https://y5f8dr2inb.execute-api.us-west-2.amazonaws.com/dev/predictions`, {
+    return ky.post(`https://3tsywitgn8.execute-api.us-west-2.amazonaws.com/dev/predictions`, {
       headers: {
         Authorization: req.headers.authorization,
         'Content-type': 'application/json'
@@ -86,7 +120,7 @@ const submitPrediction = (req, res) => {
 }
 
 const submitGameUpdate = (req, res) => {
-  return ky.post(`https://y5f8dr2inb.execute-api.us-west-2.amazonaws.com/dev/gameupdate`, {
+  return ky.post(`https://3tsywitgn8.execute-api.us-west-2.amazonaws.com/dev/gameupdate`, {
     headers: {
       Authorization: req.headers.authorization,
       'Content-type': 'application/json'
@@ -107,7 +141,7 @@ const submitGameUpdate = (req, res) => {
 
 const getOddsMovement = (req, res) => {
   const { sport, year, season, gameWeek } = req.params
-  return ky.get(`https://y5f8dr2inb.execute-api.us-west-2.amazonaws.com/dev/${sport}/${year}/${season}/${gameWeek}/games/live`)
+  return ky.get(`https://3tsywitgn8.execute-api.us-west-2.amazonaws.com/dev/${sport}/${year}/${season}/${gameWeek}/games/live`)
   .then(oddsMovementResponse => {
     return oddsMovementResponse.json()
   })
@@ -121,4 +155,4 @@ const getOddsMovement = (req, res) => {
 
 }
 
-module.exports = { getGameWeek, getGame, getGamesByGameWeek, submitPrediction, getOddsMovement }
+module.exports = { getGameWeek, getGame, getGamesByGameWeek, submitPrediction, getOddsMovement, submitGameUpdate }
