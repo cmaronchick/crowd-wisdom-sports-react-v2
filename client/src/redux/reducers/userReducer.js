@@ -66,6 +66,8 @@ export default function(state = initialState, action) {
                 authenticated: true,
                 tourCompleted: true,
                 loading: false,
+                signingIn: false,
+                signingUp: false,
                 updating: false,
                 confirmUser: false,
                 forgotPassword: false,
@@ -112,16 +114,20 @@ export default function(state = initialState, action) {
         case SET_USER_UNCONFIRMED:
             return {
                 ...state,
+                signingIn: false,
+                signingUp: false,
                 confirmUser: true
             }
         case SET_FORGOT_PASSWORD:
             return {
                 ...state,
+                signingIn: false,
                 forgotPassword: true
             }
         case SET_RESET_PASSWORD_SENT:
             return {
                 ...state,
+                signingIn: false,
                 resetCodeSent: true
             }
         case SET_USER_NOTIFICATIONS:

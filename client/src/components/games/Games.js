@@ -15,7 +15,7 @@ const Games = (props) => {
 
     return (
         <Fragment>
-        <ContestBanner howToPlayModalOpen={props.UI.howToPlayModalOpen} toggleHowToPlayModal={props.toggleHowToPlayModal} />
+        {/* <ContestBanner howToPlayModalOpen={props.UI.howToPlayModalOpen} toggleHowToPlayModal={props.toggleHowToPlayModal} /> */}
         <div className="gamesContainer">
             <div className="selectorHeader">
                 <SeasonSelector

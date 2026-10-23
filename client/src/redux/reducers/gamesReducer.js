@@ -7,7 +7,9 @@ import {
     SET_PREDICTIONS,
     TOGGLE_ODDS_CHART_TYPE,
     SET_ODDS_MOVEMENT,
-    LOADING_ODDS_MOVEMENT
+    LOADING_ODDS_MOVEMENT,
+    LOADING_ODDS,
+    SET_GAME_ODDS
     } from '../types'
 
 
@@ -22,7 +24,7 @@ const initialState = {
     gameResults: 0,
     loadingGames: true,
     loadingGame: true,
-    loadingOdds: true,
+    loadingOdds: false,
 }
 
 
@@ -70,12 +72,30 @@ export default function(state = initialState, action) {
                 loadingOdds: true
             }
         case SET_ODDS_MOVEMENT:
+            console.log('action.payload in reducer: ', action.payload)
             action.payload.sort((a,b) => {
                 return new Date(a.startDateTime) > new Date(b.startDateTime) ? 1 : -1
             })
             return {
                 ...state,
                 oddsMovement: action.payload,
+                loadingOdds: false
+            }
+        case LOADING_ODDS:
+            return {
+                ...state,
+                loadingOdds: true
+            }
+        case SET_GAME_ODDS:
+            return {
+                ...state,
+                games: {
+                    ...action.payload.games
+                },
+                game: {
+                    ...state.game,
+                    currentLines: action.payload.currentLines
+                },
                 loadingOdds: false
             }
         default:
