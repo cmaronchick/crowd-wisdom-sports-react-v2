@@ -49,6 +49,9 @@ export const getUrlParameters = (redirectUrl, sParam) => {
   }
 
   export const spreadPrediction = (game, odds, awayTeamScore, homeTeamScore) => {
+    if (!odds) {
+      return;
+    }
     const { homeTeam, awayTeam } = game
     awayTeamScore = parseFloat(awayTeamScore)
     homeTeamScore = parseFloat(homeTeamScore)
@@ -78,6 +81,9 @@ export const getUrlParameters = (redirectUrl, sParam) => {
 
   }
   export const totalPrediction = (game, odds, awayTeamScore, homeTeamScore) => {
+    if (!odds) {
+      return;
+    }
     awayTeamScore = parseFloat(awayTeamScore)
     homeTeamScore = parseFloat(homeTeamScore)
     const {total} = odds
@@ -113,4 +119,72 @@ export const handleEditPicture = () => {
 export const antIcon = (props) => {
     console.log('props', props)
     return (<LoadingOutlined style={{ fontSize: 24 }} spin />)
+}
+
+export const straightUpPredictionWager = (game, prediction, wagerObj) => {
+  if (wagerObj && wagerObj.wager) {
+     let wager = wagerObj.wager;
+     let selection = wager.participantId === game.homeTeam.participantId ? game.homeTeam.code : game.awayTeam.code;
+     return `${selection} ML`;
+  }
+  if (!prediction || !prediction.awayTeam || !prediction.homeTeam) return '';
+  return prediction.awayTeam.score === prediction.homeTeam.score 
+    ? 'TIE' 
+    : (prediction.awayTeam.score > prediction.homeTeam.score 
+       ? `${game.awayTeam.code}${wagerObj && ` ML`}` 
+       : `${game.homeTeam.code}${wagerObj && ` ML`}`);
+}
+
+export const spreadPredictionWager = (game, prediction, wagerObj) => {
+  const odds = prediction && prediction.odds ? prediction.odds : game.odds;
+  if (!odds) return '';
+  if (odds.spread === 0) {
+    if (!prediction || !prediction.awayTeam || !prediction.homeTeam) return '';
+    return prediction.homeTeam.score > prediction.awayTeam.score ? `${game.homeTeam.code} PK` : `${game.awayTeam.code} PK`;
+  }
+  
+  if (wagerObj && wagerObj.wager && wagerObj.wager.spreadTotal !== undefined) {
+    let selection = wagerObj.wager.participantId === game.homeTeam.participantId ? game.homeTeam.code : game.awayTeam.code;
+    return `${selection} ${wagerObj.wager.spreadTotal > 0 ? '+' : ''}${wagerObj.wager.spreadTotal}`;
+  }
+
+  if (!prediction || !prediction.awayTeam || !prediction.homeTeam) return '';
+  return ((prediction.homeTeam.score + odds.spread) < prediction.awayTeam.score)
+    ? (odds.spread < 0 ? `${game.awayTeam.code} +${odds.spread * -1}` : `${game.awayTeam.code} ${odds.spread * -1}`)
+    : (odds.spread > 0 ? `${game.homeTeam.code} +${odds.spread}` : `${game.homeTeam.code} ${odds.spread}`);
+}
+
+export const totalPredictionWager = (game, prediction, wagerObj) => {
+  const odds = prediction && prediction.odds ? prediction.odds : game.odds;
+  if (!odds) return '';
+  const totalVal = (wagerObj && wagerObj.wager && wagerObj.wager.spreadTotal !== undefined) ? wagerObj.wager.spreadTotal : odds.total;
+  if (!prediction || !prediction.awayTeam || !prediction.homeTeam) return '';
+  const totalScore = parseFloat(prediction.awayTeam.score) + parseFloat(prediction.homeTeam.score);
+  return totalScore === odds.total ? 'PUSH' : (totalScore > odds.total ? `OVER ${totalVal}` : `UNDER ${totalVal}`);
+}
+
+export const getTeaserOptions = (game, prediction) => {
+  const baseSpread = Number(prediction?.odds?.spread ?? game?.odds?.spread ?? 0)
+  const favoriteTeamCode = baseSpread < 0 ? game?.homeTeam?.code : game?.awayTeam?.code
+  const underdogTeamCode = baseSpread < 0 ? game?.awayTeam?.code : game?.homeTeam?.code
+  const formatLine = (value) => `${value > 0 ? '+' : ''}${value}`
+  const favoriteLine = baseSpread < 0 ? baseSpread + 6 : (baseSpread * -1) + 6
+  const underdogLine = Math.abs(baseSpread) + 6
+
+  return [
+    {
+      id: `${game?.gameId ?? 'game'}-${favoriteTeamCode}-teaser-${formatLine(favoriteLine)}`,
+      teamCode: favoriteTeamCode,
+      label: `${favoriteTeamCode} ${formatLine(favoriteLine)}`,
+      originalLine: baseSpread,
+      teasedLine: favoriteLine,
+    },
+    {
+      id: `${game?.gameId ?? 'game'}-${underdogTeamCode}-teaser-${formatLine(underdogLine)}`,
+      teamCode: underdogTeamCode,
+      label: `${underdogTeamCode} ${formatLine(underdogLine)}`,
+      originalLine: baseSpread * -1,
+      teasedLine: underdogLine,
+    },
+  ].filter((option) => option.teamCode)
 }

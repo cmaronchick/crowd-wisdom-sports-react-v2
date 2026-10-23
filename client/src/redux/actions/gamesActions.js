@@ -7,15 +7,52 @@ import { LOADING_GAMES,
     SET_ODDS_MOVEMENT,
     LOADING_ODDS_MOVEMENT,
     SET_ERRORS,
-    CLEAR_ERRORS
+    CLEAR_ERRORS,
+    LOADING_ODDS,
+    SET_GAME_ODDS
 } from '../types'
 
 import { Auth } from '@aws-amplify/auth'
 import ky from 'ky/umd'
 import store from '../store';
 import { getCrowdResults } from './leaderboardActions'
+import { fetchWagers } from './predictionsActions'
 
 const apiHost = ky.create({prefixUrl: process.env.NODE_ENV === 'development' ? 'http://localhost:5001/api/' : 'https://app.stakehousesports.com/api/'})
+const AUTH_SESSION_TIMEOUT_MS = 5000
+
+const getAuthOptions = async () => {
+    try {
+        const currentSession = await Promise.race([
+            Auth.currentSession(),
+            new Promise((_, reject) => setTimeout(() => reject(new Error('Auth session timeout')), AUTH_SESSION_TIMEOUT_MS))
+        ])
+        const IdToken = await currentSession.getIdToken().getJwtToken()
+        return {
+            headers: {
+                Authorization: IdToken
+            }
+        }
+    } catch (getGamesUserSessionError) {
+        console.log('getGamesUserSessionError', getGamesUserSessionError)
+        return {}
+    }
+}
+
+const normalizeRequestError = async (error) => {
+    if (error.response) {
+        try {
+            return await error.response.json()
+        } catch (responseParseError) {
+            console.log('responseParseError', responseParseError)
+        }
+    }
+
+    return {
+        name: error.name,
+        message: error.message
+    }
+}
 
 export const fetchGameWeekGames = (sport, year, season, gameWeek) => async (dispatch) => {
 
@@ -23,22 +60,30 @@ export const fetchGameWeekGames = (sport, year, season, gameWeek) => async (disp
         type: LOADING_GAMES
     })
 
-    let currentSession, IdToken;
-    let getOptions = {};
+    const getOptions = await getAuthOptions()
+    if (!sport || !year || !season || !gameWeek) {
+        console.log('fetchGameWeekGames missing parameters', { sport, year, season, gameWeek })
+        dispatch({
+            type: SET_GAMES,
+            payload: {
+                games: {}
+            }
+        })
+        return
+    }
     try {
-        currentSession = await Auth.currentSession()
-        IdToken = await currentSession.getIdToken().getJwtToken()
-        getOptions = {
-            headers: {
-                Authorization: IdToken
+        console.log(`fetchGameWeekGames: ${sport}/${year}/${season}/${gameWeek}`, getOptions)
+        let gameWeekGames
+        try {
+            gameWeekGames = await apiHost.get(`${sport}/games/${year}/${season}/${gameWeek}`, getOptions).json()
+        } catch (getGameWeekGamesError) {
+            if (getGameWeekGamesError && getGameWeekGamesError.name === 'TimeoutError' && getOptions && getOptions.headers) {
+                console.log('fetchGameWeekGames timed out with auth, retrying without auth header')
+                gameWeekGames = await apiHost.get(`${sport}/games/${year}/${season}/${gameWeek}`).json()
+            } else {
+                throw getGameWeekGamesError
             }
         }
-    } catch (getGamesUserSessionError) {
-        console.log('getGamesUserSessionError', getGamesUserSessionError)
-    }
-
-    try {
-        let gameWeekGames = await apiHost.get(`${sport}/games/${year}/${season}/${gameWeek}`, getOptions).json()
         dispatch({
             type: SET_GAMES,
             payload: gameWeekGames
@@ -52,13 +97,17 @@ export const fetchGameWeekGames = (sport, year, season, gameWeek) => async (disp
 
 
     } catch (getGameWeekGamesError) {
+        const normalizedError = await normalizeRequestError(getGameWeekGamesError)
         dispatch({
             type: SET_GAMES,
-            games: {}
+            payload: {
+                games: {}
+            }
         })
+        console.log('getGameWeekGamesError', normalizedError)
         dispatch({
             type: SET_ERRORS,
-            errors: getGameWeekGamesError
+            payload: normalizedError
         })
     }
   };
@@ -81,30 +130,21 @@ export const fetchGameWeekGames = (sport, year, season, gameWeek) => async (disp
               ...gamePredictions
           }
       })
+      const { year, season, week } = store.getState().sport.gameWeekData
+      const sport = store.getState().sport.sport
+      dispatch(fetchWagers({ sport, year, season, week }))
   }
 
   export const fetchGame = (sport, year, season, gameWeek, gameId, compareUsername) => async (dispatch) => {
     dispatch({
         type: LOADING_GAME
     })
-    let currentSession, IdToken;
-    let getOptions = {};
-    try {
-        currentSession = await Auth.currentSession()
-        IdToken = await currentSession.getIdToken().getJwtToken()
-        getOptions = {
-            headers: {
-                Authorization: IdToken
-            }
-        }
-    } catch (getGamesUserSessionError) {
-        console.log('getGamesUserSessionError', getGamesUserSessionError)
-    }
+    const getOptions = await getAuthOptions()
 
     try {
         let getGameResponse = await apiHost.get(`${sport}/games/${year}/${season}/${gameWeek}/game/${gameId}`, getOptions).json()
         getGameResponse.game.oddsChartType = 'spread'
-        console.log('getGameResponse', getGameResponse)
+        // console.log('getGameResponse', getGameResponse)
         dispatch({
             type: SET_GAME,
             payload: getGameResponse
@@ -113,18 +153,15 @@ export const fetchGameWeekGames = (sport, year, season, gameWeek) => async (disp
             dispatch(fetchGameWeekGames(sport, year, season, gameWeek))
         }
     } catch (getGameError) {
-        console.log('getGameError', getGameError)
-        if (getGameError.response) {
-            getGameError = await getGameError.response.json()
-        }
-        console.log('getGameError', getGameError)
+        const normalizedError = await normalizeRequestError(getGameError)
+        console.log('getGameError', normalizedError)
         dispatch({
             type: SET_GAME,
             payload: {}
         })
         dispatch({
             type: SET_ERRORS,
-            errors: getGameError
+            payload: normalizedError
         })
     }
     // return apiHost.get(`/api/${sport}/games/${year}/${season}/${gameWeek}/${gameId}${compareUsername ? `?compareUsername=${compareUsername}` : ''}`, getOptionsObj.callOptions)
@@ -143,13 +180,68 @@ export const fetchGameWeekGames = (sport, year, season, gameWeek) => async (disp
       })
       try {
           const oddsMovement = await apiHost.get(`${sport}/games/${year}/${season}/${week}/live`).json()
-          console.log('oddsMovement', oddsMovement.games)
+          console.log('oddsMovement', oddsMovement)
           
           dispatch({
               type: SET_ODDS_MOVEMENT,
-              payload: oddsMovement.games.Items
+              payload: oddsMovement.games?.Items ? oddsMovement.games.Items.reduce((acc, game) => {
+                  acc[game.gameId] = game
+                  return acc
+              }, {}) : []
           })
       } catch (getOddsMovementError) {
           console.log('getOddsMovementError', getOddsMovementError)
+      }
+  }
+
+  export const fetchCurrentLines = (sport, year, season, gameWeek, gameId, awayTeamId, homeTeamId) => async (dispatch) => {
+    console.log('fetchCurrentLines', sport, year, season, gameWeek, gameId, awayTeamId, homeTeamId)
+      dispatch({
+          type: LOADING_ODDS,
+          payload: {
+              gameId
+          }
+      })
+      if (!awayTeamId || !homeTeamId) {
+          return;
+      }
+      try {
+          let getOptions = {}
+          try {
+              let currentSession = await Auth.currentSession()
+              let IdToken = await currentSession.getIdToken().getJwtToken()
+              getOptions = {
+                  headers: {
+                      Authorization: IdToken
+                  }
+              }
+          } catch (authError) {
+              // Ignore auth error for anonymous view if applicable
+          }
+          
+          let getCurrentLinesResponseJSON = await apiHost.get(`${sport}/games/${year}/${season}/${gameWeek}/game/${gameId}/currentlines?awayTeamId=${awayTeamId}&homeTeamId=${homeTeamId}`, getOptions).json()
+                                                            //'/:sport/games/:year/:season/:gameWeek/game/:gameId/currentlines'
+          
+          let gameOdds = { ...store.getState().games.games }
+          let gameObj = {}
+          if (gameOdds[gameId]) {
+              gameOdds[gameId] = { ...gameOdds[gameId], currentLines: getCurrentLinesResponseJSON.lines }
+              gameObj = gameOdds[gameId]
+          }
+          dispatch({
+              type: SET_GAME_ODDS,
+              payload: {
+                  games: gameOdds,
+                  gameId: gameId,
+                  currentLines: getCurrentLinesResponseJSON.lines
+              }
+          })
+          return gameObj
+      } catch (getCurrentLinesError) {
+          console.log('getCurrentLinesError', gameId, getCurrentLinesError)
+          dispatch({
+              type: SET_ERRORS,
+              payload: getCurrentLinesError
+          })
       }
   }

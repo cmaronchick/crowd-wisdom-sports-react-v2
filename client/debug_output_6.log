@@ -1,0 +1,180 @@
+yarn run v1.22.22
+$ craco test src/__tests__/GamesList.test.js --watchAll=false
+  console.log
+    setupTests.js is running
+
+      at Object.<anonymous> (src/setupTests.js:6:9)
+
+  console.log
+    GamesList.test.js: window.matchMedia type: function
+
+      at Object.<anonymous> (src/__tests__/GamesList.test.js:2:9)
+
+  console.log
+    [setupMatchMedia] Called with query: max-width: 600px
+
+      at src/setupMatchMedia.js:5:17
+
+  console.log
+    GamesList.test.js: matchMedia returns: {
+      matches: false,
+      media: 'max-width: 600px',
+      onchange: null,
+      addListener: [Function: mockConstructor] {
+        _isMockFunction: true,
+        getMockImplementation: [Function (anonymous)],
+        mock: [Getter/Setter],
+        mockClear: [Function (anonymous)],
+        mockReset: [Function (anonymous)],
+        mockRestore: [Function (anonymous)],
+        mockReturnValueOnce: [Function (anonymous)],
+        mockResolvedValueOnce: [Function (anonymous)],
+        mockRejectedValueOnce: [Function (anonymous)],
+        mockReturnValue: [Function (anonymous)],
+        mockResolvedValue: [Function (anonymous)],
+        mockRejectedValue: [Function (anonymous)],
+        mockImplementationOnce: [Function (anonymous)],
+        mockImplementation: [Function (anonymous)],
+        mockReturnThis: [Function (anonymous)],
+        mockName: [Function (anonymous)],
+        getMockName: [Function (anonymous)]
+      },
+      removeListener: [Function: mockConstructor] {
+        _isMockFunction: true,
+        getMockImplementation: [Function (anonymous)],
+        mock: [Getter/Setter],
+        mockClear: [Function (anonymous)],
+        mockReset: [Function (anonymous)],
+        mockRestore: [Function (anonymous)],
+        mockReturnValueOnce: [Function (anonymous)],
+        mockResolvedValueOnce: [Function (anonymous)],
+        mockRejectedValueOnce: [Function (anonymous)],
+        mockReturnValue: [Function (anonymous)],
+        mockResolvedValue: [Function (anonymous)],
+        mockRejectedValue: [Function (anonymous)],
+        mockImplementationOnce: [Function (anonymous)],
+        mockImplementation: [Function (anonymous)],
+        mockReturnThis: [Function (anonymous)],
+        mockName: [Function (anonymous)],
+        getMockName: [Function (anonymous)]
+      },
+      addEventListener: [Function: mockConstructor] {
+        _isMockFunction: true,
+        getMockImplementation: [Function (anonymous)],
+        mock: [Getter/Setter],
+        mockClear: [Function (anonymous)],
+        mockReset: [Function (anonymous)],
+        mockRestore: [Function (anonymous)],
+        mockReturnValueOnce: [Function (anonymous)],
+        mockResolvedValueOnce: [Function (anonymous)],
+        mockRejectedValueOnce: [Function (anonymous)],
+        mockReturnValue: [Function (anonymous)],
+        mockResolvedValue: [Function (anonymous)],
+        mockRejectedValue: [Function (anonymous)],
+        mockImplementationOnce: [Function (anonymous)],
+        mockImplementation: [Function (anonymous)],
+        mockReturnThis: [Function (anonymous)],
+        mockName: [Function (anonymous)],
+        getMockName: [Function (anonymous)]
+      },
+      removeEventListener: [Function: mockConstructor] {
+        _isMockFunction: true,
+        getMockImplementation: [Function (anonymous)],
+        mock: [Getter/Setter],
+        mockClear: [Function (anonymous)],
+        mockReset: [Function (anonymous)],
+        mockRestore: [Function (anonymous)],
+        mockReturnValueOnce: [Function (anonymous)],
+        mockResolvedValueOnce: [Function (anonymous)],
+        mockRejectedValueOnce: [Function (anonymous)],
+        mockReturnValue: [Function (anonymous)],
+        mockResolvedValue: [Function (anonymous)],
+        mockRejectedValue: [Function (anonymous)],
+        mockImplementationOnce: [Function (anonymous)],
+        mockImplementation: [Function (anonymous)],
+        mockReturnThis: [Function (anonymous)],
+        mockName: [Function (anonymous)],
+        getMockName: [Function (anonymous)]
+      },
+      dispatchEvent: [Function: mockConstructor] {
+        _isMockFunction: true,
+        getMockImplementation: [Function (anonymous)],
+        mock: [Getter/Setter],
+        mockClear: [Function (anonymous)],
+        mockReset: [Function (anonymous)],
+        mockRestore: [Function (anonymous)],
+        mockReturnValueOnce: [Function (anonymous)],
+        mockResolvedValueOnce: [Function (anonymous)],
+        mockRejectedValueOnce: [Function (anonymous)],
+        mockReturnValue: [Function (anonymous)],
+        mockResolvedValue: [Function (anonymous)],
+        mockRejectedValue: [Function (anonymous)],
+        mockImplementationOnce: [Function (anonymous)],
+        mockImplementation: [Function (anonymous)],
+        mockReturnThis: [Function (anonymous)],
+        mockName: [Function (anonymous)],
+        getMockName: [Function (anonymous)]
+      }
+    }
+
+      at Object.<anonymous> (src/__tests__/GamesList.test.js:3:34)
+
+  console.log
+    [setupMatchMedia] Called with query: (max-width: 575px)
+
+      at src/setupMatchMedia.js:5:17
+          at Array.forEach (<anonymous>)
+
+  console.log
+    [setupMatchMedia] Called with query: (min-width: 576px)
+
+      at src/setupMatchMedia.js:5:17
+          at Array.forEach (<anonymous>)
+
+  console.log
+    [setupMatchMedia] Called with query: (min-width: 768px)
+
+      at src/setupMatchMedia.js:5:17
+          at Array.forEach (<anonymous>)
+
+  console.log
+    [setupMatchMedia] Called with query: (min-width: 992px)
+
+      at src/setupMatchMedia.js:5:17
+          at Array.forEach (<anonymous>)
+
+  console.log
+    [setupMatchMedia] Called with query: (min-width: 1200px)
+
+      at src/setupMatchMedia.js:5:17
+          at Array.forEach (<anonymous>)
+
+  console.log
+    [setupMatchMedia] Called with query: (min-width: 1600px)
+
+      at src/setupMatchMedia.js:5:17
+          at Array.forEach (<anonymous>)
+
+PASS src/__tests__/GamesList.test.js
+  testing the games list
+    √ renders No games (27 ms)
+    √ renders the games list (80 ms)
+
+Test Suites: 1 passed, 1 total
+Tests:       2 passed, 2 total
+Snapshots:   0 total
+Time:        4.741 s
+Ran all test suites matching /src\\__tests__\\GamesList.test.js/i.
+[0;33mOne of your dependencies, babel-preset-react-app, is importing the
+"@babel/plugin-proposal-private-property-in-object" package without
+declaring it in its dependencies. This is currently working because
+"@babel/plugin-proposal-private-property-in-object" is already in your
+node_modules folder for unrelated reasons, but it [1mmay break at any time[0;33m.
+
+babel-preset-react-app is part of the create-react-app project, [1mwhich
+is not maintianed anymore[0;33m. It is thus unlikely that this bug will
+ever be fixed. Add "@babel/plugin-proposal-private-property-in-object" to
+your devDependencies to work around this error. This will make this message
+go away.[0m
+  
+Done in 6.36s.

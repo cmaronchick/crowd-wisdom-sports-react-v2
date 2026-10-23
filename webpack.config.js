@@ -6,6 +6,8 @@ module.exports = {
     path: path.resolve('public'),
     filename: 'bundle.js'
   },
+  mode: 'development', // or 'production' with source maps
+  devtool: 'source-map', // or 'eval-source-map' for faster rebuilds
   module: {
     rules: [
       {
@@ -65,7 +67,7 @@ module.exports = {
         test: /\.(png|jpe?g|gif)$/i,
         use: [
           {
-            loader: 'file-loader',
+            loader: 'html-loader',
           },
         ],
       },
