@@ -89,7 +89,10 @@ const uploadImage = (req, res) => {
 
 const getUserPredictions = (req, res) => {
     let { sport, year, season, week, userId } = req.query;
-    return ky.get(`https://3tsywitgn8.execute-api.us-west-2.amazonaws.com/dev/predictions?sport=${sport}&year=${year}&season=${season}&week=${week}&userId=${userId}`)
+    const callOptionsObject = callOptions(req.headers.authorization);
+    const getOptions = callOptionsObject.callOptions;
+    console.log('getOptions:', getOptions)
+    return ky.get(`https://3tsywitgn8.execute-api.us-west-2.amazonaws.com/dev/predictions?sport=${sport}&year=${year}&season=${season}&week=${week}&userId=${userId}`, getOptions)
     .then((userPredictionsResponse) => {
         console.log(`userPredictionsResponse`, userPredictionsResponse)
         return userPredictionsResponse.json()

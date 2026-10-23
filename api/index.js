@@ -17,7 +17,7 @@ const { getSportSeason } = require('./handlers/sport')
 const { getLeaderboards, getCrowdLeaderboards } = require('./handlers/leaderboards')
 const { getGroups, getGroup, joinGroup, leaveGroup, createGroup, updateGroup } = require('./handlers/groups')
 const { getExtendedProfile, getUserNotifications, uploadImage, getUserPredictions } = require('./handlers/users')
-const { getCurrentLines, submitWager, getWagers, getSportsbooks } = require('./handlers/wagers')
+const { getCurrentLines, submitWager, getWagers, getSportsbooks, submitTeaser } = require('./handlers/wagers')
 
 const { callOptions} = require('./utils');
 
@@ -34,6 +34,7 @@ router.post('/gameupdate', submitGameUpdate)
 // wagering calls
 router.get('/:sport/games/:year/:season/:gameWeek/game/:gameId/currentlines', getCurrentLines)
 router.post('/predictions/wager', submitWager)
+router.post('/predictions/wager/teaser', submitTeaser)
 router.get('/predictions/wager', getWagers)
 router.get('/predictions/wager/sportsbooks', getSportsbooks)
 

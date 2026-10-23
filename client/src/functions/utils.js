@@ -162,3 +162,29 @@ export const totalPredictionWager = (game, prediction, wagerObj) => {
   const totalScore = parseFloat(prediction.awayTeam.score) + parseFloat(prediction.homeTeam.score);
   return totalScore === odds.total ? 'PUSH' : (totalScore > odds.total ? `OVER ${totalVal}` : `UNDER ${totalVal}`);
 }
+
+export const getTeaserOptions = (game, prediction) => {
+  const baseSpread = Number(prediction?.odds?.spread ?? game?.odds?.spread ?? 0)
+  const favoriteTeamCode = baseSpread < 0 ? game?.homeTeam?.code : game?.awayTeam?.code
+  const underdogTeamCode = baseSpread < 0 ? game?.awayTeam?.code : game?.homeTeam?.code
+  const formatLine = (value) => `${value > 0 ? '+' : ''}${value}`
+  const favoriteLine = baseSpread < 0 ? baseSpread + 6 : (baseSpread * -1) + 6
+  const underdogLine = Math.abs(baseSpread) + 6
+
+  return [
+    {
+      id: `${game?.gameId ?? 'game'}-${favoriteTeamCode}-teaser-${formatLine(favoriteLine)}`,
+      teamCode: favoriteTeamCode,
+      label: `${favoriteTeamCode} ${formatLine(favoriteLine)}`,
+      originalLine: baseSpread,
+      teasedLine: favoriteLine,
+    },
+    {
+      id: `${game?.gameId ?? 'game'}-${underdogTeamCode}-teaser-${formatLine(underdogLine)}`,
+      teamCode: underdogTeamCode,
+      label: `${underdogTeamCode} ${formatLine(underdogLine)}`,
+      originalLine: baseSpread * -1,
+      teasedLine: underdogLine,
+    },
+  ].filter((option) => option.teamCode)
+}
