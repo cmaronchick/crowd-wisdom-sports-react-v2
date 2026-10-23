@@ -1,0 +1,2123 @@
+yarn run v1.22.22
+$ craco test --watchAll=false
+FAIL src/__tests__/GamesList.test.js (5.754 s)
+  ● Console
+
+    console.error
+      Accessing element.ref was removed in React 19. ref is now a regular prop. It will be removed from the JSX Element type in a future release.
+
+    [0m [90m 87 |[39m       }
+     [90m 88 |[39m     })
+    [31m[1m>[22m[39m[90m 89 |[39m     [36mconst[39m { getByText[33m,[39m getAllByText } [33m=[39m render([33m<[39m[33mProvider[39m store[33m=[39m{store}[33m>[39m
+     [90m    |[39m                                               [31m[1m^[22m[39m
+     [90m 90 |[39m       [33m<[39m[33mRouter[39m[33m>[39m
+     [90m 91 |[39m         [33m<[39m[33mRoute[39m component[33m=[39m{[33mGamesList[39m} [33m/[39m[33m>[39m
+     [90m 92 |[39m       [33m<[39m[33m/[39m[33mRouter[39m[33m>[39m[0m
+
+      at Object.elementRefGetterWithDeprecationWarning (node_modules/react/cjs/react.development.js:194:17)
+      at Wave._this.renderWave (node_modules/antd/lib/_util/wave.js:145:46)
+      at Object.react_stack_bottom_frame (node_modules/react-dom/cjs/react-dom-client.development.js:25904:20)
+      at beginWork (node_modules/react-dom/cjs/react-dom-client.development.js:12189:28)
+      at runWithFiberInDEV (node_modules/react-dom/cjs/react-dom-client.development.js:874:13)
+      at performUnitOfWork (node_modules/react-dom/cjs/react-dom-client.development.js:17641:22)
+      at workLoopSync (node_modules/react-dom/cjs/react-dom-client.development.js:17469:41)
+      at renderRootSync (node_modules/react-dom/cjs/react-dom-client.development.js:17450:11)
+      at performWorkOnRoot (node_modules/react-dom/cjs/react-dom-client.development.js:16504:11)
+      at performWorkOnRootViaSchedulerTask (node_modules/react-dom/cjs/react-dom-client.development.js:18957:7)
+      at flushActQueue (node_modules/react/cjs/react.development.js:590:34)
+      at Object.<anonymous>.process.env.NODE_ENV.exports.act (node_modules/react/cjs/react.development.js:884:10)
+      at node_modules/@testing-library/react/dist/act-compat.js:47:25
+      at renderRoot (node_modules/@testing-library/react/dist/pure.js:190:26)
+      at render (node_modules/@testing-library/react/dist/pure.js:292:10)
+      at Object.<anonymous> (src/__tests__/GamesList.test.js:89:47)
+
+  ● testing the games list › renders the games list
+
+    AggregateError:
+
+    [0m [90m 87 |[39m       }
+     [90m 88 |[39m     })
+    [31m[1m>[22m[39m[90m 89 |[39m     [36mconst[39m { getByText[33m,[39m getAllByText } [33m=[39m render([33m<[39m[33mProvider[39m store[33m=[39m{store}[33m>[39m
+     [90m    |[39m                                               [31m[1m^[22m[39m
+     [90m 90 |[39m       [33m<[39m[33mRouter[39m[33m>[39m
+     [90m 91 |[39m         [33m<[39m[33mRoute[39m component[33m=[39m{[33mGamesList[39m} [33m/[39m[33m>[39m
+     [90m 92 |[39m       [33m<[39m[33m/[39m[33mRouter[39m[33m>[39m[0m
+
+      at aggregateErrors (node_modules/react/cjs/react.development.js:551:11)
+      at Object.<anonymous>.process.env.NODE_ENV.exports.act (node_modules/react/cjs/react.development.js:897:24)
+      at node_modules/@testing-library/react/dist/act-compat.js:47:25
+      at renderRoot (node_modules/@testing-library/react/dist/pure.js:190:26)
+      at render (node_modules/@testing-library/react/dist/pure.js:292:10)
+      at Object.<anonymous> (src/__tests__/GamesList.test.js:89:47)
+
+FAIL src/__tests__/GamePreview.test.js (5.938 s)
+  ● Console
+
+    console.error
+      Accessing element.ref was removed in React 19. ref is now a regular prop. It will be removed from the JSX Element type in a future release.
+
+    [0m [90m 21 |[39m     })
+     [90m 22 |[39m     test([32m'shows game information when a game is NOT final and prediction is missing'[39m[33m,[39m () [33m=>[39m {
+    [31m[1m>[22m[39m[90m 23 |[39m         [36mconst[39m { getByLabelText[33m,[39m getAllByPlaceholderText } [33m=[39m render(
+     [90m    |[39m                                                                   [31m[1m^[22m[39m
+     [90m 24 |[39m         [33m<[39m[33mProvider[39m store[33m=[39m{store}[33m>[39m
+     [90m 25 |[39m             [33m<[39m[33mRouter[39m[33m>[39m
+     [90m 26 |[39m                 [33m<[39m[33mGamePreview[39m[0m
+
+      at Object.elementRefGetterWithDeprecationWarning (node_modules/react/cjs/react.development.js:194:17)
+      at Wave._this.renderWave (node_modules/antd/lib/_util/wave.js:145:46)
+      at Object.react_stack_bottom_frame (node_modules/react-dom/cjs/react-dom-client.development.js:25904:20)
+      at beginWork (node_modules/react-dom/cjs/react-dom-client.development.js:12189:28)
+      at runWithFiberInDEV (node_modules/react-dom/cjs/react-dom-client.development.js:874:13)
+      at performUnitOfWork (node_modules/react-dom/cjs/react-dom-client.development.js:17641:22)
+      at workLoopSync (node_modules/react-dom/cjs/react-dom-client.development.js:17469:41)
+      at renderRootSync (node_modules/react-dom/cjs/react-dom-client.development.js:17450:11)
+      at performWorkOnRoot (node_modules/react-dom/cjs/react-dom-client.development.js:16504:11)
+      at performWorkOnRootViaSchedulerTask (node_modules/react-dom/cjs/react-dom-client.development.js:18957:7)
+      at flushActQueue (node_modules/react/cjs/react.development.js:590:34)
+      at Object.<anonymous>.process.env.NODE_ENV.exports.act (node_modules/react/cjs/react.development.js:884:10)
+      at node_modules/@testing-library/react/dist/act-compat.js:47:25
+      at renderRoot (node_modules/@testing-library/react/dist/pure.js:190:26)
+      at render (node_modules/@testing-library/react/dist/pure.js:292:10)
+      at Object.<anonymous> (src/__tests__/GamePreview.test.js:23:67)
+
+    console.error
+      Each child in a list should have a unique "key" prop.
+      
+      Check the render method of `div`. It was passed a child from GamePreview. See https://react.dev/link/warning-keys for more information.
+
+    [0m [90m 59 |[39m     test([32m'shows game information when a game is final and prediction is loading'[39m[33m,[39m () [33m=>[39m {
+     [90m 60 |[39m         gameFinal[33m.[39mresults [33m=[39m results
+    [31m[1m>[22m[39m[90m 61 |[39m         [36mconst[39m { getByText } [33m=[39m render(
+     [90m    |[39m                                     [31m[1m^[22m[39m
+     [90m 62 |[39m         [33m<[39m[33mProvider[39m store[33m=[39m{store}[33m>[39m
+     [90m 63 |[39m             [33m<[39m[33mRouter[39m[33m>[39m
+     [90m 64 |[39m                 [33m<[39m[33mGamePreview[39m game[33m=[39m{gameFinal} loadingGame[33m=[39m{[36mtrue[39m} predictions[33m=[39m{[{type[33m:[39m [32m'user'[39m}]} onClick[33m=[39m{() [33m=>[39m {[36mreturn[39m[33m;[39m}} [33m/[39m[33m>[39m[0m
+
+      at node_modules/react-dom/cjs/react-dom-client.development.js:26084:21
+      at runWithFiberInDEV (node_modules/react-dom/cjs/react-dom-client.development.js:874:13)
+      at warnForMissingKey (node_modules/react-dom/cjs/react-dom-client.development.js:26083:11)
+      at warnOnInvalidKey (node_modules/react-dom/cjs/react-dom-client.development.js:6591:13)
+      at reconcileChildrenArray (node_modules/react-dom/cjs/react-dom-client.development.js:6672:31)
+      at reconcileChildFibersImpl (node_modules/react-dom/cjs/react-dom-client.development.js:6993:30)
+      at node_modules/react-dom/cjs/react-dom-client.development.js:7098:33
+      at reconcileChildren (node_modules/react-dom/cjs/react-dom-client.development.js:9701:13)
+      at beginWork (node_modules/react-dom/cjs/react-dom-client.development.js:12126:13)
+      at runWithFiberInDEV (node_modules/react-dom/cjs/react-dom-client.development.js:874:13)
+      at performUnitOfWork (node_modules/react-dom/cjs/react-dom-client.development.js:17641:22)
+      at workLoopSync (node_modules/react-dom/cjs/react-dom-client.development.js:17469:41)
+      at renderRootSync (node_modules/react-dom/cjs/react-dom-client.development.js:17450:11)
+      at performWorkOnRoot (node_modules/react-dom/cjs/react-dom-client.development.js:16504:11)
+      at performWorkOnRootViaSchedulerTask (node_modules/react-dom/cjs/react-dom-client.development.js:18957:7)
+      at flushActQueue (node_modules/react/cjs/react.development.js:590:34)
+      at Object.<anonymous>.process.env.NODE_ENV.exports.act (node_modules/react/cjs/react.development.js:884:10)
+      at node_modules/@testing-library/react/dist/act-compat.js:47:25
+      at renderRoot (node_modules/@testing-library/react/dist/pure.js:190:26)
+      at render (node_modules/@testing-library/react/dist/pure.js:292:10)
+      at Object.<anonymous> (src/__tests__/GamePreview.test.js:61:37)
+
+    console.log
+      results, prediction {
+        awayTeam: { score: 20, periods: { q1: 3, q2: 7, q3: 10, q4: 0 } },
+        homeTeam: { score: 31, periods: { q1: 7, q2: 3, q3: 0, q4: 21 } },
+        total: 51,
+        spread: -11
+      } {
+        type: 'user',
+        name: 'Me',
+        awayTeam: { score: 23, periods: { q1: 3, q2: 7, q3: 6, q4: 7 } },
+        homeTeam: { score: 20, periods: { q1: 3, q2: 7, q3: 7, q4: 3 } },
+        total: 43,
+        spread: 3,
+        results: {
+          winner: { correct: 0, push: 0, bullseyes: 0 },
+          spread: { correct: 0, push: 0, bullseyes: 0, stars: [Object] },
+          total: { correct: 1, push: 0, bullseyes: 0, stars: [Object] }
+        },
+        odds: { spread: -1.5, total: 54 },
+        predictionScore: 4,
+        stars: { spread: 3, total: 3 }
+      }
+
+      at totalResults (src/components/game/GamePreview.ResultsCheck.js:27:13)
+
+    console.warn
+      componentWillReceiveProps has been renamed, and is not recommended for use. See https://react.dev/link/unsafe-component-lifecycles for details.
+      
+      * Move data fetching code or side effects to componentDidUpdate.
+      * If you're updating state whenever props change, refactor your code to use memoization techniques or move it to static getDerivedStateFromProps. Learn more at: https://react.dev/link/derived-state
+      * Rename componentWillReceiveProps to UNSAFE_componentWillReceiveProps to suppress this warning in non-strict mode. In React 18.x, only the UNSAFE_ name will work. To rename all deprecated lifecycles to their new names, you can run `npx react-codemod rename-unsafe-lifecycles` in your project source folder.
+      
+      Please update the following components: StarRatingComponent
+
+    [0m [90m 72 |[39m         gameFinal[33m.[39mresults [33m=[39m results
+     [90m 73 |[39m         gameFinal[33m.[39mprediction [33m=[39m prediction
+    [31m[1m>[22m[39m[90m 74 |[39m         [36mconst[39m { getByText } [33m=[39m render(
+     [90m    |[39m                                     [31m[1m^[22m[39m
+     [90m 75 |[39m         [33m<[39m[33mProvider[39m store[33m=[39m{store}[33m>[39m[33m<[39m[33mRouter[39m[33m>[39m
+     [90m 76 |[39m             [33m<[39m[33mGamePreview[39m game[33m=[39m{gameFinal}
+     [90m 77 |[39m             predictions[33m=[39m{[{ type[33m:[39m [32m'user'[39m[33m,[39m name[33m:[39m [32m'Me'[39m[33m,[39m [33m...[39mprediction}]}[0m
+
+      at Object.<anonymous>.process.env.NODE_ENV.ReactStrictModeWarnings.flushPendingUnsafeLifecycleWarnings (node_modules/react-dom/cjs/react-dom-client.development.js:25836:17)
+      at commitRoot (node_modules/react-dom/cjs/react-dom-client.development.js:17852:31)
+      at performWorkOnRoot (node_modules/react-dom/cjs/react-dom-client.development.js:16667:15)
+      at performWorkOnRootViaSchedulerTask (node_modules/react-dom/cjs/react-dom-client.development.js:18957:7)
+      at flushActQueue (node_modules/react/cjs/react.development.js:590:34)
+      at Object.<anonymous>.process.env.NODE_ENV.exports.act (node_modules/react/cjs/react.development.js:884:10)
+      at node_modules/@testing-library/react/dist/act-compat.js:47:25
+      at renderRoot (node_modules/@testing-library/react/dist/pure.js:190:26)
+      at render (node_modules/@testing-library/react/dist/pure.js:292:10)
+      at Object.<anonymous> (src/__tests__/GamePreview.test.js:74:37)
+
+    console.log
+      results, prediction {
+        awayTeam: { score: 20, periods: { q1: 3, q2: 7, q3: 10, q4: 0 } },
+        homeTeam: { score: 31, periods: { q1: 7, q2: 3, q3: 0, q4: 21 } },
+        total: 51,
+        spread: -11
+      } {
+        name: 'Me',
+        type: 'user',
+        awayTeam: { score: 23, periods: { q1: 3, q2: 7, q3: 6, q4: 7 } },
+        homeTeam: { score: 20, periods: { q1: 3, q2: 7, q3: 7, q4: 3 } },
+        total: 43,
+        spread: 3,
+        results: {
+          winner: { correct: 0, push: 0, bullseyes: 0 },
+          spread: { correct: 0, push: 0, bullseyes: 0, stars: [Object] },
+          total: { correct: 1, push: 0, bullseyes: 0, stars: [Object] }
+        },
+        odds: { spread: -1.5, total: 54 },
+        predictionScore: 4,
+        stars: { spread: 3, total: 3 }
+      }
+
+      at totalResults (src/components/game/GamePreview.ResultsCheck.js:27:13)
+
+    console.log
+      results, prediction {
+        awayTeam: { score: 20, periods: { q1: 3, q2: 7, q3: 10, q4: 0 } },
+        homeTeam: { score: 31, periods: { q1: 7, q2: 3, q3: 0, q4: 21 } },
+        total: 51,
+        spread: -11
+      } {
+        name: 'ATN Heroes',
+        type: 'group',
+        awayTeam: { score: 23, periods: { q1: 3, q2: 7, q3: 6, q4: 7 } },
+        homeTeam: { score: 20, periods: { q1: 3, q2: 7, q3: 7, q4: 3 } },
+        total: 43,
+        spread: 3,
+        results: {
+          winner: { correct: 0, push: 0, bullseyes: 0 },
+          spread: { correct: 0, push: 0, bullseyes: 0, stars: [Object] },
+          total: { correct: 1, push: 0, bullseyes: 0, stars: [Object] }
+        },
+        odds: { spread: -1.5, total: 54 },
+        predictionScore: 4,
+        stars: { spread: 3, total: 3 }
+      }
+
+      at totalResults (src/components/game/GamePreview.ResultsCheck.js:27:13)
+
+    console.log
+      results, prediction {
+        awayTeam: { score: 20, periods: { q1: 3, q2: 7, q3: 10, q4: 0 } },
+        homeTeam: { score: 31, periods: { q1: 7, q2: 3, q3: 0, q4: 21 } },
+        total: 51,
+        spread: -11
+      } {
+        name: 'PaulCullin',
+        type: 'user',
+        awayTeam: { score: 23, periods: { q1: 3, q2: 7, q3: 6, q4: 7 } },
+        homeTeam: { score: 20, periods: { q1: 3, q2: 7, q3: 7, q4: 3 } },
+        total: 43,
+        spread: 3,
+        results: {
+          winner: { correct: 0, push: 0, bullseyes: 0 },
+          spread: { correct: 0, push: 0, bullseyes: 0, stars: [Object] },
+          total: { correct: 1, push: 0, bullseyes: 0, stars: [Object] }
+        },
+        odds: { spread: -1.5, total: 54 },
+        predictionScore: 4,
+        stars: { spread: 3, total: 3 }
+      }
+
+      at totalResults (src/components/game/GamePreview.ResultsCheck.js:27:13)
+
+    console.log
+      results, prediction { clock: '5:43', period: 1 } {
+        name: 'Me',
+        type: 'user',
+        awayTeam: { score: 23, periods: { q1: 3, q2: 7, q3: 6, q4: 7 } },
+        homeTeam: { score: 20, periods: { q1: 3, q2: 7, q3: 7, q4: 3 } },
+        total: 43,
+        spread: 3,
+        results: {
+          winner: { correct: 0, push: 0, bullseyes: 0 },
+          spread: { correct: 0, push: 0, bullseyes: 0, stars: [Object] },
+          total: { correct: 1, push: 0, bullseyes: 0, stars: [Object] }
+        },
+        odds: { spread: -1.5, total: 54 },
+        predictionScore: 4,
+        stars: { spread: 3, total: 3 }
+      }
+
+      at totalResults (src/components/game/GamePreview.ResultsCheck.js:27:13)
+
+    console.log
+      results, prediction { clock: '5:43', period: 1 } {
+        name: 'ATN Heroes',
+        type: 'group',
+        awayTeam: { score: 23, periods: { q1: 3, q2: 7, q3: 6, q4: 7 } },
+        homeTeam: { score: 20, periods: { q1: 3, q2: 7, q3: 7, q4: 3 } },
+        total: 43,
+        spread: 3,
+        results: {
+          winner: { correct: 0, push: 0, bullseyes: 0 },
+          spread: { correct: 0, push: 0, bullseyes: 0, stars: [Object] },
+          total: { correct: 1, push: 0, bullseyes: 0, stars: [Object] }
+        },
+        odds: { spread: -1.5, total: 54 },
+        predictionScore: 4,
+        stars: { spread: 3, total: 3 }
+      }
+
+      at totalResults (src/components/game/GamePreview.ResultsCheck.js:27:13)
+
+    console.log
+      results, prediction { clock: '5:43', period: 1 } {
+        name: 'PaulCullin',
+        type: 'user',
+        awayTeam: { score: 23, periods: { q1: 3, q2: 7, q3: 6, q4: 7 } },
+        homeTeam: { score: 20, periods: { q1: 3, q2: 7, q3: 7, q4: 3 } },
+        total: 43,
+        spread: 3,
+        results: {
+          winner: { correct: 0, push: 0, bullseyes: 0 },
+          spread: { correct: 0, push: 0, bullseyes: 0, stars: [Object] },
+          total: { correct: 1, push: 0, bullseyes: 0, stars: [Object] }
+        },
+        odds: { spread: -1.5, total: 54 },
+        predictionScore: 4,
+        stars: { spread: 3, total: 3 }
+      }
+
+      at totalResults (src/components/game/GamePreview.ResultsCheck.js:27:13)
+
+  ● Game Preview UI Presentations › shows game information when a game is NOT final and prediction is missing
+
+    AggregateError:
+
+    [0m [90m 21 |[39m     })
+     [90m 22 |[39m     test([32m'shows game information when a game is NOT final and prediction is missing'[39m[33m,[39m () [33m=>[39m {
+    [31m[1m>[22m[39m[90m 23 |[39m         [36mconst[39m { getByLabelText[33m,[39m getAllByPlaceholderText } [33m=[39m render(
+     [90m    |[39m                                                                   [31m[1m^[22m[39m
+     [90m 24 |[39m         [33m<[39m[33mProvider[39m store[33m=[39m{store}[33m>[39m
+     [90m 25 |[39m             [33m<[39m[33mRouter[39m[33m>[39m
+     [90m 26 |[39m                 [33m<[39m[33mGamePreview[39m[0m
+
+      at aggregateErrors (node_modules/react/cjs/react.development.js:551:11)
+      at Object.<anonymous>.process.env.NODE_ENV.exports.act (node_modules/react/cjs/react.development.js:897:24)
+      at node_modules/@testing-library/react/dist/act-compat.js:47:25
+      at renderRoot (node_modules/@testing-library/react/dist/pure.js:190:26)
+      at render (node_modules/@testing-library/react/dist/pure.js:292:10)
+      at Object.<anonymous> (src/__tests__/GamePreview.test.js:23:67)
+
+  ● Game Preview UI Presentations › show prediction value when a prediction is defined and game is not final
+
+    AggregateError:
+
+    [0m [90m 35 |[39m     })
+     [90m 36 |[39m     test([32m'show prediction value when a prediction is defined and game is not final'[39m[33m,[39m () [33m=>[39m {
+    [31m[1m>[22m[39m[90m 37 |[39m         [36mconst[39m { getByLabelText[33m,[39m getAllByPlaceholderText } [33m=[39m render(
+     [90m    |[39m                                                                   [31m[1m^[22m[39m
+     [90m 38 |[39m         [33m<[39m[33mProvider[39m store[33m=[39m{store}[33m>[39m
+     [90m 39 |[39m             [33m<[39m[33mRouter[39m[33m>[39m
+     [90m 40 |[39m                 [33m<[39m[33mGamePreview[39m game[33m=[39m{gameNotFinal} onClick[33m=[39m{() [33m=>[39m {[36mreturn[39m[33m;[39m}} [33m/[39m[33m>[39m[0m
+
+      at aggregateErrors (node_modules/react/cjs/react.development.js:551:11)
+      at Object.<anonymous>.process.env.NODE_ENV.exports.act (node_modules/react/cjs/react.development.js:897:24)
+      at node_modules/@testing-library/react/dist/act-compat.js:47:25
+      at renderRoot (node_modules/@testing-library/react/dist/pure.js:190:26)
+      at render (node_modules/@testing-library/react/dist/pure.js:292:10)
+      at Object.<anonymous> (src/__tests__/GamePreview.test.js:37:67)
+
+  ● Game Preview UI Presentations › shows game information when a game is final and prediction is missing
+
+    AggregateError:
+
+    [0m [90m 47 |[39m     test([32m'shows game information when a game is final and prediction is missing'[39m[33m,[39m () [33m=>[39m {
+     [90m 48 |[39m         gameFinal[33m.[39mresults [33m=[39m results
+    [31m[1m>[22m[39m[90m 49 |[39m         [36mconst[39m { getByText } [33m=[39m render(
+     [90m    |[39m                                     [31m[1m^[22m[39m
+     [90m 50 |[39m         [33m<[39m[33mProvider[39m store[33m=[39m{store}[33m>[39m
+     [90m 51 |[39m             [33m<[39m[33mRouter[39m[33m>[39m
+     [90m 52 |[39m                 [33m<[39m[33mGamePreview[39m game[33m=[39m{gameFinal} onClick[33m=[39m{() [33m=>[39m {[36mreturn[39m[33m;[39m}} [33m/[39m[33m>[39m[0m
+
+      at aggregateErrors (node_modules/react/cjs/react.development.js:551:11)
+      at Object.<anonymous>.process.env.NODE_ENV.exports.act (node_modules/react/cjs/react.development.js:897:24)
+      at node_modules/@testing-library/react/dist/act-compat.js:47:25
+      at renderRoot (node_modules/@testing-library/react/dist/pure.js:190:26)
+      at render (node_modules/@testing-library/react/dist/pure.js:292:10)
+      at Object.<anonymous> (src/__tests__/GamePreview.test.js:49:37)
+
+  ● Game Preview UI Presentations › shows game information when a game is final and prediction is loading
+
+    AggregateError:
+
+    [0m [90m 59 |[39m     test([32m'shows game information when a game is final and prediction is loading'[39m[33m,[39m () [33m=>[39m {
+     [90m 60 |[39m         gameFinal[33m.[39mresults [33m=[39m results
+    [31m[1m>[22m[39m[90m 61 |[39m         [36mconst[39m { getByText } [33m=[39m render(
+     [90m    |[39m                                     [31m[1m^[22m[39m
+     [90m 62 |[39m         [33m<[39m[33mProvider[39m store[33m=[39m{store}[33m>[39m
+     [90m 63 |[39m             [33m<[39m[33mRouter[39m[33m>[39m
+     [90m 64 |[39m                 [33m<[39m[33mGamePreview[39m game[33m=[39m{gameFinal} loadingGame[33m=[39m{[36mtrue[39m} predictions[33m=[39m{[{type[33m:[39m [32m'user'[39m}]} onClick[33m=[39m{() [33m=>[39m {[36mreturn[39m[33m;[39m}} [33m/[39m[33m>[39m[0m
+
+      at aggregateErrors (node_modules/react/cjs/react.development.js:551:11)
+      at Object.<anonymous>.process.env.NODE_ENV.exports.act (node_modules/react/cjs/react.development.js:897:24)
+      at node_modules/@testing-library/react/dist/act-compat.js:47:25
+      at renderRoot (node_modules/@testing-library/react/dist/pure.js:190:26)
+      at render (node_modules/@testing-library/react/dist/pure.js:292:10)
+      at Object.<anonymous> (src/__tests__/GamePreview.test.js:61:37)
+
+  ● Game Preview UI Presentations › shows game information when a game is final and prediction is submitted
+
+    AggregateError:
+
+    [0m [90m 72 |[39m         gameFinal[33m.[39mresults [33m=[39m results
+     [90m 73 |[39m         gameFinal[33m.[39mprediction [33m=[39m prediction
+    [31m[1m>[22m[39m[90m 74 |[39m         [36mconst[39m { getByText } [33m=[39m render(
+     [90m    |[39m                                     [31m[1m^[22m[39m
+     [90m 75 |[39m         [33m<[39m[33mProvider[39m store[33m=[39m{store}[33m>[39m[33m<[39m[33mRouter[39m[33m>[39m
+     [90m 76 |[39m             [33m<[39m[33mGamePreview[39m game[33m=[39m{gameFinal}
+     [90m 77 |[39m             predictions[33m=[39m{[{ type[33m:[39m [32m'user'[39m[33m,[39m name[33m:[39m [32m'Me'[39m[33m,[39m [33m...[39mprediction}]}[0m
+
+      at aggregateErrors (node_modules/react/cjs/react.development.js:551:11)
+      at Object.<anonymous>.process.env.NODE_ENV.exports.act (node_modules/react/cjs/react.development.js:897:24)
+      at node_modules/@testing-library/react/dist/act-compat.js:47:25
+      at renderRoot (node_modules/@testing-library/react/dist/pure.js:190:26)
+      at render (node_modules/@testing-library/react/dist/pure.js:292:10)
+      at Object.<anonymous> (src/__tests__/GamePreview.test.js:74:37)
+
+  ● Game Preview UI Presentations › show a prediction for each user submitted
+
+    AggregateError:
+
+    [0m [90m 85 |[39m         gameFinal[33m.[39mresults [33m=[39m results
+     [90m 86 |[39m         [36mconst[39m predictions [33m=[39m [{ name[33m:[39m [32m'Me'[39m[33m,[39m type[33m:[39m [32m'user'[39m[33m,[39m [33m...[39mprediction }[33m,[39m { name[33m:[39m [32m"ATN Heroes"[39m[33m,[39m type[33m:[39m [32m'group'[39m[33m,[39m [33m...[39mprediction}[33m,[39m { name[33m:[39m [32m'PaulCullin'[39m[33m,[39m type[33m:[39m [32m'user'[39m[33m,[39m [33m...[39mprediction}]
+    [31m[1m>[22m[39m[90m 87 |[39m         [36mconst[39m { getByText } [33m=[39m render(
+     [90m    |[39m                                     [31m[1m^[22m[39m
+     [90m 88 |[39m         [33m<[39m[33mProvider[39m store[33m=[39m{store}[33m>[39m[33m<[39m[33mRouter[39m[33m>[39m
+     [90m 89 |[39m             [33m<[39m[33mGamePreview[39m game[33m=[39m{gameFinal}
+     [90m 90 |[39m             predictions[33m=[39m{predictions}[0m
+
+      at aggregateErrors (node_modules/react/cjs/react.development.js:551:11)
+      at Object.<anonymous>.process.env.NODE_ENV.exports.act (node_modules/react/cjs/react.development.js:897:24)
+      at node_modules/@testing-library/react/dist/act-compat.js:47:25
+      at renderRoot (node_modules/@testing-library/react/dist/pure.js:190:26)
+      at render (node_modules/@testing-library/react/dist/pure.js:292:10)
+      at Object.<anonymous> (src/__tests__/GamePreview.test.js:87:37)
+
+  ● Game Preview UI Presentations › present the period and clock for inProgress games
+
+    AggregateError:
+
+    [0m [90m 102 |[39m     test([32m'present the period and clock for inProgress games'[39m[33m,[39m () [33m=>[39m {
+     [90m 103 |[39m         [36mconst[39m predictions [33m=[39m [{ name[33m:[39m [32m'Me'[39m[33m,[39m type[33m:[39m [32m'user'[39m[33m,[39m [33m...[39mprediction }[33m,[39m { name[33m:[39m [32m"ATN Heroes"[39m[33m,[39m type[33m:[39m [32m'group'[39m[33m,[39m [33m...[39mprediction}[33m,[39m { name[33m:[39m [32m'PaulCullin'[39m[33m,[39m type[33m:[39m [32m'user'[39m[33m,[39m [33m...[39mprediction}]
+    [31m[1m>[22m[39m[90m 104 |[39m         [36mconst[39m { getByText[33m,[39m getAllByText } [33m=[39m render(
+     [90m     |[39m                                                   [31m[1m^[22m[39m
+     [90m 105 |[39m         [33m<[39m[33mProvider[39m store[33m=[39m{store}[33m>[39m[33m<[39m[33mRouter[39m[33m>[39m
+     [90m 106 |[39m             [33m<[39m[33mGamePreview[39m game[33m=[39m{gameInProgress}
+     [90m 107 |[39m             predictions[33m=[39m{predictions}[0m
+
+      at aggregateErrors (node_modules/react/cjs/react.development.js:551:11)
+      at Object.<anonymous>.process.env.NODE_ENV.exports.act (node_modules/react/cjs/react.development.js:897:24)
+      at node_modules/@testing-library/react/dist/act-compat.js:47:25
+      at renderRoot (node_modules/@testing-library/react/dist/pure.js:190:26)
+      at render (node_modules/@testing-library/react/dist/pure.js:292:10)
+      at Object.<anonymous> (src/__tests__/GamePreview.test.js:104:51)
+
+PASS src/__tests__/Game.test.js (5.966 s)
+PASS src/__tests__/Header.test.js (7.918 s)
+  ● Console
+
+    console.error
+      Accessing element.ref was removed in React 19. ref is now a regular prop. It will be removed from the JSX Element type in a future release.
+
+    [0m [90m 23 |[39m     })
+     [90m 24 |[39m     test([32m'renders only the title'[39m[33m,[39m () [33m=>[39m {
+    [31m[1m>[22m[39m[90m 25 |[39m     [36mconst[39m { getByText } [33m=[39m render([33m<[39m[33mProvider[39m store[33m=[39m{store}[33m>[39m[33m<[39m[33mRouter[39m[33m>[39m[33m<[39m[33mHeader[39m [33m/[39m[33m>[39m[33m<[39m[33m/[39m[33mRouter[39m[33m>[39mw[33m<[39m[33m/[39m[33mProvider[39m[33m>[39m)[33m;[39m
+     [90m    |[39m                                 [31m[1m^[22m[39m
+     [90m 26 |[39m     [36mconst[39m title [33m=[39m getByText([35m/Stakehouse Sports/i[39m)[33m;[39m
+     [90m 27 |[39m     expect(title)[33m.[39mtoBeInTheDocument()[33m;[39m
+     [90m 28 |[39m     })[33m;[39m[0m
+
+      at Object.elementRefGetterWithDeprecationWarning (node_modules/react/cjs/react.development.js:194:17)
+      at Wave._this.renderWave (node_modules/antd/lib/_util/wave.js:145:46)
+      at Object.react_stack_bottom_frame (node_modules/react-dom/cjs/react-dom-client.development.js:25904:20)
+      at beginWork (node_modules/react-dom/cjs/react-dom-client.development.js:12189:28)
+      at runWithFiberInDEV (node_modules/react-dom/cjs/react-dom-client.development.js:874:13)
+      at performUnitOfWork (node_modules/react-dom/cjs/react-dom-client.development.js:17641:22)
+      at workLoopSync (node_modules/react-dom/cjs/react-dom-client.development.js:17469:41)
+      at renderRootSync (node_modules/react-dom/cjs/react-dom-client.development.js:17450:11)
+      at performWorkOnRoot (node_modules/react-dom/cjs/react-dom-client.development.js:16504:11)
+      at performWorkOnRootViaSchedulerTask (node_modules/react-dom/cjs/react-dom-client.development.js:18957:7)
+      at flushActQueue (node_modules/react/cjs/react.development.js:590:34)
+      at Object.<anonymous>.process.env.NODE_ENV.exports.act (node_modules/react/cjs/react.development.js:884:10)
+      at node_modules/@testing-library/react/dist/act-compat.js:47:25
+      at renderRoot (node_modules/@testing-library/react/dist/pure.js:190:26)
+      at render (node_modules/@testing-library/react/dist/pure.js:292:10)
+      at Object.<anonymous> (src/__tests__/Header.test.js:25:33)
+
+FAIL src/__tests__/Predictions.test.js
+  ● Test suite failed to run
+
+    Cannot find module '@testing-library/jest-dom/extend-expect' from 'src/__tests__/Predictions.test.js'
+
+    [0m [90m 16 |[39m     screen[33m,[39m render[33m,[39m getByAltText } [36mfrom[39m [32m'@testing-library/react'[39m
+     [90m 17 |[39m   [90m// adds special assertions like toHaveTextContent[39m
+    [31m[1m>[22m[39m[90m 18 |[39m   [36mimport[39m [32m'@testing-library/jest-dom/extend-expect'[39m
+     [90m    |[39m   [31m[1m^[22m[39m
+     [90m 19 |[39m [36mimport[39m { [33mGETTING_COMPARED_USER_PREDICTIONS[39m[33m,[39m [33mSET_COMPARED_USER_PREDICTIONS[39m } [36mfrom[39m [32m'../redux/types'[39m
+     [90m 20 |[39m
+     [90m 21 |[39m describe([32m'render the game screen'[39m[33m,[39m () [33m=>[39m {[0m
+
+      at Resolver.resolveModule (node_modules/jest-resolve/build/resolver.js:324:11)
+      at Object.<anonymous> (src/__tests__/Predictions.test.js:18:3)
+
+FAIL src/__tests__/Leaderboards.test.js
+  ● Test suite failed to run
+
+    Cannot find module '@testing-library/jest-dom/extend-expect' from 'src/__tests__/Leaderboards.test.js'
+
+    [0m [90m 15 |[39m   } [36mfrom[39m [32m'@testing-library/dom'[39m
+     [90m 16 |[39m   [90m// adds special assertions like toHaveTextContent[39m
+    [31m[1m>[22m[39m[90m 17 |[39m   [36mimport[39m [32m'@testing-library/jest-dom/extend-expect'[39m
+     [90m    |[39m   [31m[1m^[22m[39m
+     [90m 18 |[39m [36mimport[39m { [33mSET_USER[39m } [36mfrom[39m [32m'../redux/types'[39m[33m;[39m
+     [90m 19 |[39m
+     [90m 20 |[39m [36mimport[39m { [33mFBUser[39m[33m,[39m user } [36mfrom[39m [32m'../__mocks__/UserTestData'[39m[0m
+
+      at Resolver.resolveModule (node_modules/jest-resolve/build/resolver.js:324:11)
+      at Object.<anonymous> (src/__tests__/Leaderboards.test.js:17:3)
+
+FAIL src/__tests__/Profile.test.js (8.179 s)
+  ● Console
+
+    console.log
+      picture undefined
+
+      at Profile (src/components/profile/Profile.js:52:13)
+
+    console.error
+      Accessing element.ref was removed in React 19. ref is now a regular prop. It will be removed from the JSX Element type in a future release.
+
+    [0m [90m 10 |[39m describe([32m'profile tests'[39m[33m,[39m () [33m=>[39m {
+     [90m 11 |[39m     test([32m'renders login message'[39m[33m,[39m () [33m=>[39m {
+    [31m[1m>[22m[39m[90m 12 |[39m     [36mconst[39m { getByText } [33m=[39m render(
+     [90m    |[39m                                 [31m[1m^[22m[39m
+     [90m 13 |[39m         [33m<[39m[33mProvider[39m store[33m=[39m{store}[33m>[39m
+     [90m 14 |[39m         [33m<[39m[33mRouter[39m[33m>[39m[33m<[39m[33mProfile[39m [33m/[39m[33m>[39m[33m<[39m[33m/[39m[33mRouter[39m[33m>[39m
+     [90m 15 |[39m         [33m<[39m[33m/[39m[33mProvider[39m[33m>[39m)[33m;[39m[0m
+
+      at Object.elementRefGetterWithDeprecationWarning (node_modules/react/cjs/react.development.js:194:17)
+      at Wave._this.renderWave (node_modules/antd/lib/_util/wave.js:145:46)
+      at Object.react_stack_bottom_frame (node_modules/react-dom/cjs/react-dom-client.development.js:25904:20)
+      at beginWork (node_modules/react-dom/cjs/react-dom-client.development.js:12189:28)
+      at runWithFiberInDEV (node_modules/react-dom/cjs/react-dom-client.development.js:874:13)
+      at performUnitOfWork (node_modules/react-dom/cjs/react-dom-client.development.js:17641:22)
+      at workLoopSync (node_modules/react-dom/cjs/react-dom-client.development.js:17469:41)
+      at renderRootSync (node_modules/react-dom/cjs/react-dom-client.development.js:17450:11)
+      at performWorkOnRoot (node_modules/react-dom/cjs/react-dom-client.development.js:16504:11)
+      at performWorkOnRootViaSchedulerTask (node_modules/react-dom/cjs/react-dom-client.development.js:18957:7)
+      at flushActQueue (node_modules/react/cjs/react.development.js:590:34)
+      at Object.<anonymous>.process.env.NODE_ENV.exports.act (node_modules/react/cjs/react.development.js:884:10)
+      at node_modules/@testing-library/react/dist/act-compat.js:47:25
+      at renderRoot (node_modules/@testing-library/react/dist/pure.js:190:26)
+      at render (node_modules/@testing-library/react/dist/pure.js:292:10)
+      at Object.<anonymous> (src/__tests__/Profile.test.js:12:33)
+
+    console.log
+      picture undefined
+
+      at Profile (src/components/profile/Profile.js:52:13)
+
+    console.log
+      testing change user details
+
+      at Object.<anonymous> (src/__tests__/Profile.test.js:48:17)
+
+  ● profile tests › renders login message
+
+    AggregateError:
+
+    [0m [90m 10 |[39m describe([32m'profile tests'[39m[33m,[39m () [33m=>[39m {
+     [90m 11 |[39m     test([32m'renders login message'[39m[33m,[39m () [33m=>[39m {
+    [31m[1m>[22m[39m[90m 12 |[39m     [36mconst[39m { getByText } [33m=[39m render(
+     [90m    |[39m                                 [31m[1m^[22m[39m
+     [90m 13 |[39m         [33m<[39m[33mProvider[39m store[33m=[39m{store}[33m>[39m
+     [90m 14 |[39m         [33m<[39m[33mRouter[39m[33m>[39m[33m<[39m[33mProfile[39m [33m/[39m[33m>[39m[33m<[39m[33m/[39m[33mRouter[39m[33m>[39m
+     [90m 15 |[39m         [33m<[39m[33m/[39m[33mProvider[39m[33m>[39m)[33m;[39m[0m
+
+      at aggregateErrors (node_modules/react/cjs/react.development.js:551:11)
+      at Object.<anonymous>.process.env.NODE_ENV.exports.act (node_modules/react/cjs/react.development.js:897:24)
+      at node_modules/@testing-library/react/dist/act-compat.js:47:25
+      at renderRoot (node_modules/@testing-library/react/dist/pure.js:190:26)
+      at render (node_modules/@testing-library/react/dist/pure.js:292:10)
+      at Object.<anonymous> (src/__tests__/Profile.test.js:12:33)
+
+  ● profile tests › renders an update Profile button
+
+    AggregateError:
+
+    [0m [90m 41 |[39m             }
+     [90m 42 |[39m         })
+    [31m[1m>[22m[39m[90m 43 |[39m         [36mconst[39m { getByText } [33m=[39m render([33m<[39m[33mProvider[39m store[33m=[39m{store} user[33m=[39m{{authenticated[33m:[39m [36mtrue[39m}}[33m>[39m[33m<[39m[33mRouter[39m[33m>[39m[33m<[39m[33mProfile[39m [33m/[39m[33m>[39m[33m<[39m[33m/[39m[33mRouter[39m[33m>[39m[33m<[39m[33m/[39m[33mProvider[39m[33m>[39m)[33m;[39m
+     [90m    |[39m                                     [31m[1m^[22m[39m
+     [90m 44 |[39m         [36mconst[39m message [33m=[39m getByText([35m/Update User Profile/i[39m)[33m;[39m
+     [90m 45 |[39m         expect(message)[33m.[39mtoBeInTheDocument()[33m;[39m
+     [90m 46 |[39m     })[33m;[39m[0m
+
+      at aggregateErrors (node_modules/react/cjs/react.development.js:551:11)
+      at Object.<anonymous>.process.env.NODE_ENV.exports.act (node_modules/react/cjs/react.development.js:897:24)
+      at node_modules/@testing-library/react/dist/act-compat.js:47:25
+      at renderRoot (node_modules/@testing-library/react/dist/pure.js:190:26)
+      at render (node_modules/@testing-library/react/dist/pure.js:292:10)
+      at Object.<anonymous> (src/__tests__/Profile.test.js:43:37)
+
+FAIL src/__tests__/SideMenu.test.js (8.232 s)
+  ● Console
+
+    console.error
+      Warning: [antd: Menu] `children` will be removed in next major version. Please use `items` instead.
+
+    [0m [90m  8 |[39m describe([32m'side menu tests'[39m[33m,[39m () [33m=>[39m {
+     [90m  9 |[39m     test([32m'renders only the nac'[39m[33m,[39m () [33m=>[39m {
+    [31m[1m>[22m[39m[90m 10 |[39m     [36mconst[39m { getByText } [33m=[39m render([33m<[39m[33mProvider[39m store[33m=[39m{store}[33m>[39m[33m<[39m[33mRouter[39m[33m>[39m[33m<[39m[33mSideMenu[39m [33m/[39m[33m>[39m[33m<[39m[33m/[39m[33mRouter[39m[33m>[39m[33m<[39m[33m/[39m[33mProvider[39m[33m>[39m)[33m;[39m
+     [90m    |[39m                                 [31m[1m^[22m[39m
+     [90m 11 |[39m     [36mconst[39m title [33m=[39m getByText([35m/NFL/i[39m)[33m;[39m
+     [90m 12 |[39m     expect(title)[33m.[39mtoBeInTheDocument()[33m;[39m
+     [90m 13 |[39m     })[33m;[39m[0m
+
+      at warning (node_modules/rc-util/lib/warning.js:43:15)
+      at call (node_modules/rc-util/lib/warning.js:64:5)
+      at warningOnce (node_modules/rc-util/lib/warning.js:71:3)
+      at warning (node_modules/antd/lib/_util/warning.js:21:29)
+      at node_modules/antd/lib/menu/index.js:71:67
+      at Object.react_stack_bottom_frame (node_modules/react-dom/cjs/react-dom-client.development.js:25904:20)
+      at renderWithHooks (node_modules/react-dom/cjs/react-dom-client.development.js:7662:22)
+      at updateForwardRef (node_modules/react-dom/cjs/react-dom-client.development.js:9724:19)
+      at beginWork (node_modules/react-dom/cjs/react-dom-client.development.js:12117:18)
+      at runWithFiberInDEV (node_modules/react-dom/cjs/react-dom-client.development.js:874:13)
+      at performUnitOfWork (node_modules/react-dom/cjs/react-dom-client.development.js:17641:22)
+      at workLoopSync (node_modules/react-dom/cjs/react-dom-client.development.js:17469:41)
+      at renderRootSync (node_modules/react-dom/cjs/react-dom-client.development.js:17450:11)
+      at performWorkOnRoot (node_modules/react-dom/cjs/react-dom-client.development.js:16504:11)
+      at performWorkOnRootViaSchedulerTask (node_modules/react-dom/cjs/react-dom-client.development.js:18957:7)
+      at flushActQueue (node_modules/react/cjs/react.development.js:590:34)
+      at Object.<anonymous>.process.env.NODE_ENV.exports.act (node_modules/react/cjs/react.development.js:884:10)
+      at node_modules/@testing-library/react/dist/act-compat.js:47:25
+      at renderRoot (node_modules/@testing-library/react/dist/pure.js:190:26)
+      at render (node_modules/@testing-library/react/dist/pure.js:292:10)
+      at Object.<anonymous> (src/__tests__/SideMenu.test.js:10:33)
+
+    console.error
+      Accessing element.ref was removed in React 19. ref is now a regular prop. It will be removed from the JSX Element type in a future release.
+
+    [0m [90m  8 |[39m describe([32m'side menu tests'[39m[33m,[39m () [33m=>[39m {
+     [90m  9 |[39m     test([32m'renders only the nac'[39m[33m,[39m () [33m=>[39m {
+    [31m[1m>[22m[39m[90m 10 |[39m     [36mconst[39m { getByText } [33m=[39m render([33m<[39m[33mProvider[39m store[33m=[39m{store}[33m>[39m[33m<[39m[33mRouter[39m[33m>[39m[33m<[39m[33mSideMenu[39m [33m/[39m[33m>[39m[33m<[39m[33m/[39m[33mRouter[39m[33m>[39m[33m<[39m[33m/[39m[33mProvider[39m[33m>[39m)[33m;[39m
+     [90m    |[39m                                 [31m[1m^[22m[39m
+     [90m 11 |[39m     [36mconst[39m title [33m=[39m getByText([35m/NFL/i[39m)[33m;[39m
+     [90m 12 |[39m     expect(title)[33m.[39mtoBeInTheDocument()[33m;[39m
+     [90m 13 |[39m     })[33m;[39m[0m
+
+      at Object.elementRefGetterWithDeprecationWarning (node_modules/react/cjs/react.development.js:194:17)
+      at Trigger.render (node_modules/rc-trigger/lib/index.js:762:73)
+      at Object.react_stack_bottom_frame (node_modules/react-dom/cjs/react-dom-client.development.js:25917:29)
+      at updateClassComponent (node_modules/react-dom/cjs/react-dom-client.development.js:10719:25)
+      at beginWork (node_modules/react-dom/cjs/react-dom-client.development.js:11792:13)
+      at runWithFiberInDEV (node_modules/react-dom/cjs/react-dom-client.development.js:874:13)
+      at performUnitOfWork (node_modules/react-dom/cjs/react-dom-client.development.js:17641:22)
+      at workLoopSync (node_modules/react-dom/cjs/react-dom-client.development.js:17469:41)
+      at renderRootSync (node_modules/react-dom/cjs/react-dom-client.development.js:17450:11)
+      at performWorkOnRoot (node_modules/react-dom/cjs/react-dom-client.development.js:16504:11)
+      at performWorkOnRootViaSchedulerTask (node_modules/react-dom/cjs/react-dom-client.development.js:18957:7)
+      at flushActQueue (node_modules/react/cjs/react.development.js:590:34)
+      at Object.<anonymous>.process.env.NODE_ENV.exports.act (node_modules/react/cjs/react.development.js:884:10)
+      at node_modules/@testing-library/react/dist/act-compat.js:47:25
+      at renderRoot (node_modules/@testing-library/react/dist/pure.js:190:26)
+      at render (node_modules/@testing-library/react/dist/pure.js:292:10)
+      at Object.<anonymous> (src/__tests__/SideMenu.test.js:10:33)
+
+    console.error
+      Warning: Duplicated key '1' used in Menu by path [ncaaf > 1]
+
+      at warning (node_modules/rc-util/lib/warning.js:43:15)
+      at call (node_modules/rc-util/lib/warning.js:64:5)
+      at warningOnce (node_modules/rc-util/lib/warning.js:71:3)
+      at Object.registerPath (node_modules/rc-menu/lib/hooks/useKeyRecords.js:46:28)
+      at node_modules/rc-menu/lib/MenuItem.js:210:15
+      at Object.react_stack_bottom_frame (node_modules/react-dom/cjs/react-dom-client.development.js:25989:20)
+      at runWithFiberInDEV (node_modules/react-dom/cjs/react-dom-client.development.js:874:13)
+      at commitHookEffectListMount (node_modules/react-dom/cjs/react-dom-client.development.js:13249:29)
+      at commitHookPassiveMountEffects (node_modules/react-dom/cjs/react-dom-client.development.js:13336:11)
+      at commitPassiveMountOnFiber (node_modules/react-dom/cjs/react-dom-client.development.js:15484:13)
+      at recursivelyTraversePassiveMountEffects (node_modules/react-dom/cjs/react-dom-client.development.js:15439:11)
+      at commitPassiveMountOnFiber (node_modules/react-dom/cjs/react-dom-client.development.js:15718:11)
+      at recursivelyTraversePassiveMountEffects (node_modules/react-dom/cjs/react-dom-client.development.js:15439:11)
+      at commitPassiveMountOnFiber (node_modules/react-dom/cjs/react-dom-client.development.js:15504:11)
+      at recursivelyTraversePassiveMountEffects (node_modules/react-dom/cjs/react-dom-client.development.js:15439:11)
+      at commitPassiveMountOnFiber (node_modules/react-dom/cjs/react-dom-client.development.js:15476:11)
+      at recursivelyTraversePassiveMountEffects (node_modules/react-dom/cjs/react-dom-client.development.js:15439:11)
+      at commitPassiveMountOnFiber (node_modules/react-dom/cjs/react-dom-client.development.js:15476:11)
+      at recursivelyTraversePassiveMountEffects (node_modules/react-dom/cjs/react-dom-client.development.js:15439:11)
+      at commitPassiveMountOnFiber (node_modules/react-dom/cjs/react-dom-client.development.js:15718:11)
+      at recursivelyTraversePassiveMountEffects (node_modules/react-dom/cjs/react-dom-client.development.js:15439:11)
+      at commitPassiveMountOnFiber (node_modules/react-dom/cjs/react-dom-client.development.js:15504:11)
+      at recursivelyTraversePassiveMountEffects (node_modules/react-dom/cjs/react-dom-client.development.js:15439:11)
+      at commitPassiveMountOnFiber (node_modules/react-dom/cjs/react-dom-client.development.js:15718:11)
+      at recursivelyTraversePassiveMountEffects (node_modules/react-dom/cjs/react-dom-client.development.js:15439:11)
+      at commitPassiveMountOnFiber (node_modules/react-dom/cjs/react-dom-client.development.js:15476:11)
+      at recursivelyTraversePassiveMountEffects (node_modules/react-dom/cjs/react-dom-client.development.js:15439:11)
+      at commitPassiveMountOnFiber (node_modules/react-dom/cjs/react-dom-client.development.js:15718:11)
+      at recursivelyTraversePassiveMountEffects (node_modules/react-dom/cjs/react-dom-client.development.js:15439:11)
+      at commitPassiveMountOnFiber (node_modules/react-dom/cjs/react-dom-client.development.js:15476:11)
+      at recursivelyTraversePassiveMountEffects (node_modules/react-dom/cjs/react-dom-client.development.js:15439:11)
+      at commitPassiveMountOnFiber (node_modules/react-dom/cjs/react-dom-client.development.js:15718:11)
+      at recursivelyTraversePassiveMountEffects (node_modules/react-dom/cjs/react-dom-client.development.js:15439:11)
+      at commitPassiveMountOnFiber (node_modules/react-dom/cjs/react-dom-client.development.js:15718:11)
+      at recursivelyTraversePassiveMountEffects (node_modules/react-dom/cjs/react-dom-client.development.js:15439:11)
+      at commitPassiveMountOnFiber (node_modules/react-dom/cjs/react-dom-client.development.js:15718:11)
+      at recursivelyTraversePassiveMountEffects (node_modules/react-dom/cjs/react-dom-client.development.js:15439:11)
+      at commitPassiveMountOnFiber (node_modules/react-dom/cjs/react-dom-client.development.js:15476:11)
+      at recursivelyTraversePassiveMountEffects (node_modules/react-dom/cjs/react-dom-client.development.js:15439:11)
+      at commitPassiveMountOnFiber (node_modules/react-dom/cjs/react-dom-client.development.js:15718:11)
+      at recursivelyTraversePassiveMountEffects (node_modules/react-dom/cjs/react-dom-client.development.js:15439:11)
+      at commitPassiveMountOnFiber (node_modules/react-dom/cjs/react-dom-client.development.js:15718:11)
+      at recursivelyTraversePassiveMountEffects (node_modules/react-dom/cjs/react-dom-client.development.js:15439:11)
+      at commitPassiveMountOnFiber (node_modules/react-dom/cjs/react-dom-client.development.js:15476:11)
+      at recursivelyTraversePassiveMountEffects (node_modules/react-dom/cjs/react-dom-client.development.js:15439:11)
+      at commitPassiveMountOnFiber (node_modules/react-dom/cjs/react-dom-client.development.js:15718:11)
+      at recursivelyTraversePassiveMountEffects (node_modules/react-dom/cjs/react-dom-client.development.js:15439:11)
+      at commitPassiveMountOnFiber (node_modules/react-dom/cjs/react-dom-client.development.js:15718:11)
+
+    console.error
+      Warning: Duplicated key '2' used in Menu by path [ncaaf > 2]
+
+      at warning (node_modules/rc-util/lib/warning.js:43:15)
+      at call (node_modules/rc-util/lib/warning.js:64:5)
+      at warningOnce (node_modules/rc-util/lib/warning.js:71:3)
+      at Object.registerPath (node_modules/rc-menu/lib/hooks/useKeyRecords.js:46:28)
+      at node_modules/rc-menu/lib/MenuItem.js:210:15
+      at Object.react_stack_bottom_frame (node_modules/react-dom/cjs/react-dom-client.development.js:25989:20)
+      at runWithFiberInDEV (node_modules/react-dom/cjs/react-dom-client.development.js:874:13)
+      at commitHookEffectListMount (node_modules/react-dom/cjs/react-dom-client.development.js:13249:29)
+      at commitHookPassiveMountEffects (node_modules/react-dom/cjs/react-dom-client.development.js:13336:11)
+      at commitPassiveMountOnFiber (node_modules/react-dom/cjs/react-dom-client.development.js:15484:13)
+      at recursivelyTraversePassiveMountEffects (node_modules/react-dom/cjs/react-dom-client.development.js:15439:11)
+      at commitPassiveMountOnFiber (node_modules/react-dom/cjs/react-dom-client.development.js:15718:11)
+      at recursivelyTraversePassiveMountEffects (node_modules/react-dom/cjs/react-dom-client.development.js:15439:11)
+      at commitPassiveMountOnFiber (node_modules/react-dom/cjs/react-dom-client.development.js:15504:11)
+      at recursivelyTraversePassiveMountEffects (node_modules/react-dom/cjs/react-dom-client.development.js:15439:11)
+      at commitPassiveMountOnFiber (node_modules/react-dom/cjs/react-dom-client.development.js:15476:11)
+      at recursivelyTraversePassiveMountEffects (node_modules/react-dom/cjs/react-dom-client.development.js:15439:11)
+      at commitPassiveMountOnFiber (node_modules/react-dom/cjs/react-dom-client.development.js:15476:11)
+      at recursivelyTraversePassiveMountEffects (node_modules/react-dom/cjs/react-dom-client.development.js:15439:11)
+      at commitPassiveMountOnFiber (node_modules/react-dom/cjs/react-dom-client.development.js:15718:11)
+      at recursivelyTraversePassiveMountEffects (node_modules/react-dom/cjs/react-dom-client.development.js:15439:11)
+      at commitPassiveMountOnFiber (node_modules/react-dom/cjs/react-dom-client.development.js:15504:11)
+      at recursivelyTraversePassiveMountEffects (node_modules/react-dom/cjs/react-dom-client.development.js:15439:11)
+      at commitPassiveMountOnFiber (node_modules/react-dom/cjs/react-dom-client.development.js:15718:11)
+      at recursivelyTraversePassiveMountEffects (node_modules/react-dom/cjs/react-dom-client.development.js:15439:11)
+      at commitPassiveMountOnFiber (node_modules/react-dom/cjs/react-dom-client.development.js:15476:11)
+      at recursivelyTraversePassiveMountEffects (node_modules/react-dom/cjs/react-dom-client.development.js:15439:11)
+      at commitPassiveMountOnFiber (node_modules/react-dom/cjs/react-dom-client.development.js:15718:11)
+      at recursivelyTraversePassiveMountEffects (node_modules/react-dom/cjs/react-dom-client.development.js:15439:11)
+      at commitPassiveMountOnFiber (node_modules/react-dom/cjs/react-dom-client.development.js:15476:11)
+      at recursivelyTraversePassiveMountEffects (node_modules/react-dom/cjs/react-dom-client.development.js:15439:11)
+      at commitPassiveMountOnFiber (node_modules/react-dom/cjs/react-dom-client.development.js:15718:11)
+      at recursivelyTraversePassiveMountEffects (node_modules/react-dom/cjs/react-dom-client.development.js:15439:11)
+      at commitPassiveMountOnFiber (node_modules/react-dom/cjs/react-dom-client.development.js:15718:11)
+      at recursivelyTraversePassiveMountEffects (node_modules/react-dom/cjs/react-dom-client.development.js:15439:11)
+      at commitPassiveMountOnFiber (node_modules/react-dom/cjs/react-dom-client.development.js:15718:11)
+      at recursivelyTraversePassiveMountEffects (node_modules/react-dom/cjs/react-dom-client.development.js:15439:11)
+      at commitPassiveMountOnFiber (node_modules/react-dom/cjs/react-dom-client.development.js:15476:11)
+      at recursivelyTraversePassiveMountEffects (node_modules/react-dom/cjs/react-dom-client.development.js:15439:11)
+      at commitPassiveMountOnFiber (node_modules/react-dom/cjs/react-dom-client.development.js:15718:11)
+      at recursivelyTraversePassiveMountEffects (node_modules/react-dom/cjs/react-dom-client.development.js:15439:11)
+      at commitPassiveMountOnFiber (node_modules/react-dom/cjs/react-dom-client.development.js:15718:11)
+      at recursivelyTraversePassiveMountEffects (node_modules/react-dom/cjs/react-dom-client.development.js:15439:11)
+      at commitPassiveMountOnFiber (node_modules/react-dom/cjs/react-dom-client.development.js:15476:11)
+      at recursivelyTraversePassiveMountEffects (node_modules/react-dom/cjs/react-dom-client.development.js:15439:11)
+      at commitPassiveMountOnFiber (node_modules/react-dom/cjs/react-dom-client.development.js:15718:11)
+      at recursivelyTraversePassiveMountEffects (node_modules/react-dom/cjs/react-dom-client.development.js:15439:11)
+      at commitPassiveMountOnFiber (node_modules/react-dom/cjs/react-dom-client.development.js:15718:11)
+
+    console.error
+      Warning: Duplicated key '3' used in Menu by path [ncaaf > 3]
+
+      at warning (node_modules/rc-util/lib/warning.js:43:15)
+      at call (node_modules/rc-util/lib/warning.js:64:5)
+      at warningOnce (node_modules/rc-util/lib/warning.js:71:3)
+      at Object.registerPath (node_modules/rc-menu/lib/hooks/useKeyRecords.js:46:28)
+      at node_modules/rc-menu/lib/MenuItem.js:210:15
+      at Object.react_stack_bottom_frame (node_modules/react-dom/cjs/react-dom-client.development.js:25989:20)
+      at runWithFiberInDEV (node_modules/react-dom/cjs/react-dom-client.development.js:874:13)
+      at commitHookEffectListMount (node_modules/react-dom/cjs/react-dom-client.development.js:13249:29)
+      at commitHookPassiveMountEffects (node_modules/react-dom/cjs/react-dom-client.development.js:13336:11)
+      at commitPassiveMountOnFiber (node_modules/react-dom/cjs/react-dom-client.development.js:15484:13)
+      at recursivelyTraversePassiveMountEffects (node_modules/react-dom/cjs/react-dom-client.development.js:15439:11)
+      at commitPassiveMountOnFiber (node_modules/react-dom/cjs/react-dom-client.development.js:15718:11)
+      at recursivelyTraversePassiveMountEffects (node_modules/react-dom/cjs/react-dom-client.development.js:15439:11)
+      at commitPassiveMountOnFiber (node_modules/react-dom/cjs/react-dom-client.development.js:15504:11)
+      at recursivelyTraversePassiveMountEffects (node_modules/react-dom/cjs/react-dom-client.development.js:15439:11)
+      at commitPassiveMountOnFiber (node_modules/react-dom/cjs/react-dom-client.development.js:15476:11)
+      at recursivelyTraversePassiveMountEffects (node_modules/react-dom/cjs/react-dom-client.development.js:15439:11)
+      at commitPassiveMountOnFiber (node_modules/react-dom/cjs/react-dom-client.development.js:15476:11)
+      at recursivelyTraversePassiveMountEffects (node_modules/react-dom/cjs/react-dom-client.development.js:15439:11)
+      at commitPassiveMountOnFiber (node_modules/react-dom/cjs/react-dom-client.development.js:15718:11)
+      at recursivelyTraversePassiveMountEffects (node_modules/react-dom/cjs/react-dom-client.development.js:15439:11)
+      at commitPassiveMountOnFiber (node_modules/react-dom/cjs/react-dom-client.development.js:15504:11)
+      at recursivelyTraversePassiveMountEffects (node_modules/react-dom/cjs/react-dom-client.development.js:15439:11)
+      at commitPassiveMountOnFiber (node_modules/react-dom/cjs/react-dom-client.development.js:15718:11)
+      at recursivelyTraversePassiveMountEffects (node_modules/react-dom/cjs/react-dom-client.development.js:15439:11)
+      at commitPassiveMountOnFiber (node_modules/react-dom/cjs/react-dom-client.development.js:15476:11)
+      at recursivelyTraversePassiveMountEffects (node_modules/react-dom/cjs/react-dom-client.development.js:15439:11)
+      at commitPassiveMountOnFiber (node_modules/react-dom/cjs/react-dom-client.development.js:15718:11)
+      at recursivelyTraversePassiveMountEffects (node_modules/react-dom/cjs/react-dom-client.development.js:15439:11)
+      at commitPassiveMountOnFiber (node_modules/react-dom/cjs/react-dom-client.development.js:15476:11)
+      at recursivelyTraversePassiveMountEffects (node_modules/react-dom/cjs/react-dom-client.development.js:15439:11)
+      at commitPassiveMountOnFiber (node_modules/react-dom/cjs/react-dom-client.development.js:15718:11)
+      at recursivelyTraversePassiveMountEffects (node_modules/react-dom/cjs/react-dom-client.development.js:15439:11)
+      at commitPassiveMountOnFiber (node_modules/react-dom/cjs/react-dom-client.development.js:15718:11)
+      at recursivelyTraversePassiveMountEffects (node_modules/react-dom/cjs/react-dom-client.development.js:15439:11)
+      at commitPassiveMountOnFiber (node_modules/react-dom/cjs/react-dom-client.development.js:15718:11)
+      at recursivelyTraversePassiveMountEffects (node_modules/react-dom/cjs/react-dom-client.development.js:15439:11)
+      at commitPassiveMountOnFiber (node_modules/react-dom/cjs/react-dom-client.development.js:15476:11)
+      at recursivelyTraversePassiveMountEffects (node_modules/react-dom/cjs/react-dom-client.development.js:15439:11)
+      at commitPassiveMountOnFiber (node_modules/react-dom/cjs/react-dom-client.development.js:15718:11)
+      at recursivelyTraversePassiveMountEffects (node_modules/react-dom/cjs/react-dom-client.development.js:15439:11)
+      at commitPassiveMountOnFiber (node_modules/react-dom/cjs/react-dom-client.development.js:15718:11)
+      at recursivelyTraversePassiveMountEffects (node_modules/react-dom/cjs/react-dom-client.development.js:15439:11)
+      at commitPassiveMountOnFiber (node_modules/react-dom/cjs/react-dom-client.development.js:15476:11)
+      at recursivelyTraversePassiveMountEffects (node_modules/react-dom/cjs/react-dom-client.development.js:15439:11)
+      at commitPassiveMountOnFiber (node_modules/react-dom/cjs/react-dom-client.development.js:15718:11)
+      at recursivelyTraversePassiveMountEffects (node_modules/react-dom/cjs/react-dom-client.development.js:15439:11)
+      at commitPassiveMountOnFiber (node_modules/react-dom/cjs/react-dom-client.development.js:15718:11)
+
+    console.error
+      Warning: [antd: Menu] `children` will be removed in next major version. Please use `items` instead.
+
+    [0m [90m 18 |[39m             type[33m:[39m [33mSET_AUTHENTICATED[39m
+     [90m 19 |[39m         })
+    [31m[1m>[22m[39m[90m 20 |[39m         [36mconst[39m { getByText } [33m=[39m render([33m<[39m[33mProvider[39m store[33m=[39m{store} user[33m=[39m{{authenticated[33m:[39m [36mtrue[39m}}[33m>[39m[33m<[39m[33mRouter[39m[33m>[39m[33m<[39m[33mSideMenu[39m [33m/[39m[33m>[39m[33m<[39m[33m/[39m[33mRouter[39m[33m>[39m[33m<[39m[33m/[39m[33mProvider[39m[33m>[39m)[33m;[39m
+     [90m    |[39m                                     [31m[1m^[22m[39m
+     [90m 21 |[39m         [36mconst[39m message [33m=[39m getByText([35m/Profile/i[39m)[33m;[39m
+     [90m 22 |[39m         expect(message)[33m.[39mtoBeInTheDocument()[33m;[39m
+     [90m 23 |[39m     })[33m;[39m[0m
+
+      at warning (node_modules/rc-util/lib/warning.js:43:15)
+      at call (node_modules/rc-util/lib/warning.js:64:5)
+      at warningOnce (node_modules/rc-util/lib/warning.js:71:3)
+      at warning (node_modules/antd/lib/_util/warning.js:21:29)
+      at node_modules/antd/lib/menu/index.js:71:67
+      at Object.react_stack_bottom_frame (node_modules/react-dom/cjs/react-dom-client.development.js:25904:20)
+      at renderWithHooks (node_modules/react-dom/cjs/react-dom-client.development.js:7662:22)
+      at updateForwardRef (node_modules/react-dom/cjs/react-dom-client.development.js:9724:19)
+      at beginWork (node_modules/react-dom/cjs/react-dom-client.development.js:12117:18)
+      at runWithFiberInDEV (node_modules/react-dom/cjs/react-dom-client.development.js:874:13)
+      at performUnitOfWork (node_modules/react-dom/cjs/react-dom-client.development.js:17641:22)
+      at workLoopSync (node_modules/react-dom/cjs/react-dom-client.development.js:17469:41)
+      at renderRootSync (node_modules/react-dom/cjs/react-dom-client.development.js:17450:11)
+      at performWorkOnRoot (node_modules/react-dom/cjs/react-dom-client.development.js:16504:11)
+      at performWorkOnRootViaSchedulerTask (node_modules/react-dom/cjs/react-dom-client.development.js:18957:7)
+      at flushActQueue (node_modules/react/cjs/react.development.js:590:34)
+      at Object.<anonymous>.process.env.NODE_ENV.exports.act (node_modules/react/cjs/react.development.js:884:10)
+      at node_modules/@testing-library/react/dist/act-compat.js:47:25
+      at renderRoot (node_modules/@testing-library/react/dist/pure.js:190:26)
+      at render (node_modules/@testing-library/react/dist/pure.js:292:10)
+      at Object.<anonymous> (src/__tests__/SideMenu.test.js:20:37)
+
+    console.error
+      Warning: Duplicated key '1' used in Menu by path [ncaaf > 1]
+
+      at warning (node_modules/rc-util/lib/warning.js:43:15)
+      at call (node_modules/rc-util/lib/warning.js:64:5)
+      at warningOnce (node_modules/rc-util/lib/warning.js:71:3)
+      at Object.registerPath (node_modules/rc-menu/lib/hooks/useKeyRecords.js:46:28)
+      at node_modules/rc-menu/lib/MenuItem.js:210:15
+      at Object.react_stack_bottom_frame (node_modules/react-dom/cjs/react-dom-client.development.js:25989:20)
+      at runWithFiberInDEV (node_modules/react-dom/cjs/react-dom-client.development.js:874:13)
+      at commitHookEffectListMount (node_modules/react-dom/cjs/react-dom-client.development.js:13249:29)
+      at commitHookPassiveMountEffects (node_modules/react-dom/cjs/react-dom-client.development.js:13336:11)
+      at commitPassiveMountOnFiber (node_modules/react-dom/cjs/react-dom-client.development.js:15484:13)
+      at recursivelyTraversePassiveMountEffects (node_modules/react-dom/cjs/react-dom-client.development.js:15439:11)
+      at commitPassiveMountOnFiber (node_modules/react-dom/cjs/react-dom-client.development.js:15718:11)
+      at recursivelyTraversePassiveMountEffects (node_modules/react-dom/cjs/react-dom-client.development.js:15439:11)
+      at commitPassiveMountOnFiber (node_modules/react-dom/cjs/react-dom-client.development.js:15504:11)
+      at recursivelyTraversePassiveMountEffects (node_modules/react-dom/cjs/react-dom-client.development.js:15439:11)
+      at commitPassiveMountOnFiber (node_modules/react-dom/cjs/react-dom-client.development.js:15476:11)
+      at recursivelyTraversePassiveMountEffects (node_modules/react-dom/cjs/react-dom-client.development.js:15439:11)
+      at commitPassiveMountOnFiber (node_modules/react-dom/cjs/react-dom-client.development.js:15476:11)
+      at recursivelyTraversePassiveMountEffects (node_modules/react-dom/cjs/react-dom-client.development.js:15439:11)
+      at commitPassiveMountOnFiber (node_modules/react-dom/cjs/react-dom-client.development.js:15718:11)
+      at recursivelyTraversePassiveMountEffects (node_modules/react-dom/cjs/react-dom-client.development.js:15439:11)
+      at commitPassiveMountOnFiber (node_modules/react-dom/cjs/react-dom-client.development.js:15504:11)
+      at recursivelyTraversePassiveMountEffects (node_modules/react-dom/cjs/react-dom-client.development.js:15439:11)
+      at commitPassiveMountOnFiber (node_modules/react-dom/cjs/react-dom-client.development.js:15718:11)
+      at recursivelyTraversePassiveMountEffects (node_modules/react-dom/cjs/react-dom-client.development.js:15439:11)
+      at commitPassiveMountOnFiber (node_modules/react-dom/cjs/react-dom-client.development.js:15476:11)
+      at recursivelyTraversePassiveMountEffects (node_modules/react-dom/cjs/react-dom-client.development.js:15439:11)
+      at commitPassiveMountOnFiber (node_modules/react-dom/cjs/react-dom-client.development.js:15718:11)
+      at recursivelyTraversePassiveMountEffects (node_modules/react-dom/cjs/react-dom-client.development.js:15439:11)
+      at commitPassiveMountOnFiber (node_modules/react-dom/cjs/react-dom-client.development.js:15476:11)
+      at recursivelyTraversePassiveMountEffects (node_modules/react-dom/cjs/react-dom-client.development.js:15439:11)
+      at commitPassiveMountOnFiber (node_modules/react-dom/cjs/react-dom-client.development.js:15718:11)
+      at recursivelyTraversePassiveMountEffects (node_modules/react-dom/cjs/react-dom-client.development.js:15439:11)
+      at commitPassiveMountOnFiber (node_modules/react-dom/cjs/react-dom-client.development.js:15718:11)
+      at recursivelyTraversePassiveMountEffects (node_modules/react-dom/cjs/react-dom-client.development.js:15439:11)
+      at commitPassiveMountOnFiber (node_modules/react-dom/cjs/react-dom-client.development.js:15718:11)
+      at recursivelyTraversePassiveMountEffects (node_modules/react-dom/cjs/react-dom-client.development.js:15439:11)
+      at commitPassiveMountOnFiber (node_modules/react-dom/cjs/react-dom-client.development.js:15476:11)
+      at recursivelyTraversePassiveMountEffects (node_modules/react-dom/cjs/react-dom-client.development.js:15439:11)
+      at commitPassiveMountOnFiber (node_modules/react-dom/cjs/react-dom-client.development.js:15718:11)
+      at recursivelyTraversePassiveMountEffects (node_modules/react-dom/cjs/react-dom-client.development.js:15439:11)
+      at commitPassiveMountOnFiber (node_modules/react-dom/cjs/react-dom-client.development.js:15718:11)
+      at recursivelyTraversePassiveMountEffects (node_modules/react-dom/cjs/react-dom-client.development.js:15439:11)
+      at commitPassiveMountOnFiber (node_modules/react-dom/cjs/react-dom-client.development.js:15476:11)
+      at recursivelyTraversePassiveMountEffects (node_modules/react-dom/cjs/react-dom-client.development.js:15439:11)
+      at commitPassiveMountOnFiber (node_modules/react-dom/cjs/react-dom-client.development.js:15718:11)
+      at recursivelyTraversePassiveMountEffects (node_modules/react-dom/cjs/react-dom-client.development.js:15439:11)
+      at commitPassiveMountOnFiber (node_modules/react-dom/cjs/react-dom-client.development.js:15718:11)
+
+    console.error
+      Warning: Duplicated key '2' used in Menu by path [ncaaf > 2]
+
+      at warning (node_modules/rc-util/lib/warning.js:43:15)
+      at call (node_modules/rc-util/lib/warning.js:64:5)
+      at warningOnce (node_modules/rc-util/lib/warning.js:71:3)
+      at Object.registerPath (node_modules/rc-menu/lib/hooks/useKeyRecords.js:46:28)
+      at node_modules/rc-menu/lib/MenuItem.js:210:15
+      at Object.react_stack_bottom_frame (node_modules/react-dom/cjs/react-dom-client.development.js:25989:20)
+      at runWithFiberInDEV (node_modules/react-dom/cjs/react-dom-client.development.js:874:13)
+      at commitHookEffectListMount (node_modules/react-dom/cjs/react-dom-client.development.js:13249:29)
+      at commitHookPassiveMountEffects (node_modules/react-dom/cjs/react-dom-client.development.js:13336:11)
+      at commitPassiveMountOnFiber (node_modules/react-dom/cjs/react-dom-client.development.js:15484:13)
+      at recursivelyTraversePassiveMountEffects (node_modules/react-dom/cjs/react-dom-client.development.js:15439:11)
+      at commitPassiveMountOnFiber (node_modules/react-dom/cjs/react-dom-client.development.js:15718:11)
+      at recursivelyTraversePassiveMountEffects (node_modules/react-dom/cjs/react-dom-client.development.js:15439:11)
+      at commitPassiveMountOnFiber (node_modules/react-dom/cjs/react-dom-client.development.js:15504:11)
+      at recursivelyTraversePassiveMountEffects (node_modules/react-dom/cjs/react-dom-client.development.js:15439:11)
+      at commitPassiveMountOnFiber (node_modules/react-dom/cjs/react-dom-client.development.js:15476:11)
+      at recursivelyTraversePassiveMountEffects (node_modules/react-dom/cjs/react-dom-client.development.js:15439:11)
+      at commitPassiveMountOnFiber (node_modules/react-dom/cjs/react-dom-client.development.js:15476:11)
+      at recursivelyTraversePassiveMountEffects (node_modules/react-dom/cjs/react-dom-client.development.js:15439:11)
+      at commitPassiveMountOnFiber (node_modules/react-dom/cjs/react-dom-client.development.js:15718:11)
+      at recursivelyTraversePassiveMountEffects (node_modules/react-dom/cjs/react-dom-client.development.js:15439:11)
+      at commitPassiveMountOnFiber (node_modules/react-dom/cjs/react-dom-client.development.js:15504:11)
+      at recursivelyTraversePassiveMountEffects (node_modules/react-dom/cjs/react-dom-client.development.js:15439:11)
+      at commitPassiveMountOnFiber (node_modules/react-dom/cjs/react-dom-client.development.js:15718:11)
+      at recursivelyTraversePassiveMountEffects (node_modules/react-dom/cjs/react-dom-client.development.js:15439:11)
+      at commitPassiveMountOnFiber (node_modules/react-dom/cjs/react-dom-client.development.js:15476:11)
+      at recursivelyTraversePassiveMountEffects (node_modules/react-dom/cjs/react-dom-client.development.js:15439:11)
+      at commitPassiveMountOnFiber (node_modules/react-dom/cjs/react-dom-client.development.js:15718:11)
+      at recursivelyTraversePassiveMountEffects (node_modules/react-dom/cjs/react-dom-client.development.js:15439:11)
+      at commitPassiveMountOnFiber (node_modules/react-dom/cjs/react-dom-client.development.js:15476:11)
+      at recursivelyTraversePassiveMountEffects (node_modules/react-dom/cjs/react-dom-client.development.js:15439:11)
+      at commitPassiveMountOnFiber (node_modules/react-dom/cjs/react-dom-client.development.js:15718:11)
+      at recursivelyTraversePassiveMountEffects (node_modules/react-dom/cjs/react-dom-client.development.js:15439:11)
+      at commitPassiveMountOnFiber (node_modules/react-dom/cjs/react-dom-client.development.js:15718:11)
+      at recursivelyTraversePassiveMountEffects (node_modules/react-dom/cjs/react-dom-client.development.js:15439:11)
+      at commitPassiveMountOnFiber (node_modules/react-dom/cjs/react-dom-client.development.js:15718:11)
+      at recursivelyTraversePassiveMountEffects (node_modules/react-dom/cjs/react-dom-client.development.js:15439:11)
+      at commitPassiveMountOnFiber (node_modules/react-dom/cjs/react-dom-client.development.js:15476:11)
+      at recursivelyTraversePassiveMountEffects (node_modules/react-dom/cjs/react-dom-client.development.js:15439:11)
+      at commitPassiveMountOnFiber (node_modules/react-dom/cjs/react-dom-client.development.js:15718:11)
+      at recursivelyTraversePassiveMountEffects (node_modules/react-dom/cjs/react-dom-client.development.js:15439:11)
+      at commitPassiveMountOnFiber (node_modules/react-dom/cjs/react-dom-client.development.js:15718:11)
+      at recursivelyTraversePassiveMountEffects (node_modules/react-dom/cjs/react-dom-client.development.js:15439:11)
+      at commitPassiveMountOnFiber (node_modules/react-dom/cjs/react-dom-client.development.js:15476:11)
+      at recursivelyTraversePassiveMountEffects (node_modules/react-dom/cjs/react-dom-client.development.js:15439:11)
+      at commitPassiveMountOnFiber (node_modules/react-dom/cjs/react-dom-client.development.js:15718:11)
+      at recursivelyTraversePassiveMountEffects (node_modules/react-dom/cjs/react-dom-client.development.js:15439:11)
+      at commitPassiveMountOnFiber (node_modules/react-dom/cjs/react-dom-client.development.js:15718:11)
+
+    console.error
+      Warning: Duplicated key '3' used in Menu by path [ncaaf > 3]
+
+      at warning (node_modules/rc-util/lib/warning.js:43:15)
+      at call (node_modules/rc-util/lib/warning.js:64:5)
+      at warningOnce (node_modules/rc-util/lib/warning.js:71:3)
+      at Object.registerPath (node_modules/rc-menu/lib/hooks/useKeyRecords.js:46:28)
+      at node_modules/rc-menu/lib/MenuItem.js:210:15
+      at Object.react_stack_bottom_frame (node_modules/react-dom/cjs/react-dom-client.development.js:25989:20)
+      at runWithFiberInDEV (node_modules/react-dom/cjs/react-dom-client.development.js:874:13)
+      at commitHookEffectListMount (node_modules/react-dom/cjs/react-dom-client.development.js:13249:29)
+      at commitHookPassiveMountEffects (node_modules/react-dom/cjs/react-dom-client.development.js:13336:11)
+      at commitPassiveMountOnFiber (node_modules/react-dom/cjs/react-dom-client.development.js:15484:13)
+      at recursivelyTraversePassiveMountEffects (node_modules/react-dom/cjs/react-dom-client.development.js:15439:11)
+      at commitPassiveMountOnFiber (node_modules/react-dom/cjs/react-dom-client.development.js:15718:11)
+      at recursivelyTraversePassiveMountEffects (node_modules/react-dom/cjs/react-dom-client.development.js:15439:11)
+      at commitPassiveMountOnFiber (node_modules/react-dom/cjs/react-dom-client.development.js:15504:11)
+      at recursivelyTraversePassiveMountEffects (node_modules/react-dom/cjs/react-dom-client.development.js:15439:11)
+      at commitPassiveMountOnFiber (node_modules/react-dom/cjs/react-dom-client.development.js:15476:11)
+      at recursivelyTraversePassiveMountEffects (node_modules/react-dom/cjs/react-dom-client.development.js:15439:11)
+      at commitPassiveMountOnFiber (node_modules/react-dom/cjs/react-dom-client.development.js:15476:11)
+      at recursivelyTraversePassiveMountEffects (node_modules/react-dom/cjs/react-dom-client.development.js:15439:11)
+      at commitPassiveMountOnFiber (node_modules/react-dom/cjs/react-dom-client.development.js:15718:11)
+      at recursivelyTraversePassiveMountEffects (node_modules/react-dom/cjs/react-dom-client.development.js:15439:11)
+      at commitPassiveMountOnFiber (node_modules/react-dom/cjs/react-dom-client.development.js:15504:11)
+      at recursivelyTraversePassiveMountEffects (node_modules/react-dom/cjs/react-dom-client.development.js:15439:11)
+      at commitPassiveMountOnFiber (node_modules/react-dom/cjs/react-dom-client.development.js:15718:11)
+      at recursivelyTraversePassiveMountEffects (node_modules/react-dom/cjs/react-dom-client.development.js:15439:11)
+      at commitPassiveMountOnFiber (node_modules/react-dom/cjs/react-dom-client.development.js:15476:11)
+      at recursivelyTraversePassiveMountEffects (node_modules/react-dom/cjs/react-dom-client.development.js:15439:11)
+      at commitPassiveMountOnFiber (node_modules/react-dom/cjs/react-dom-client.development.js:15718:11)
+      at recursivelyTraversePassiveMountEffects (node_modules/react-dom/cjs/react-dom-client.development.js:15439:11)
+      at commitPassiveMountOnFiber (node_modules/react-dom/cjs/react-dom-client.development.js:15476:11)
+      at recursivelyTraversePassiveMountEffects (node_modules/react-dom/cjs/react-dom-client.development.js:15439:11)
+      at commitPassiveMountOnFiber (node_modules/react-dom/cjs/react-dom-client.development.js:15718:11)
+      at recursivelyTraversePassiveMountEffects (node_modules/react-dom/cjs/react-dom-client.development.js:15439:11)
+      at commitPassiveMountOnFiber (node_modules/react-dom/cjs/react-dom-client.development.js:15718:11)
+      at recursivelyTraversePassiveMountEffects (node_modules/react-dom/cjs/react-dom-client.development.js:15439:11)
+      at commitPassiveMountOnFiber (node_modules/react-dom/cjs/react-dom-client.development.js:15718:11)
+      at recursivelyTraversePassiveMountEffects (node_modules/react-dom/cjs/react-dom-client.development.js:15439:11)
+      at commitPassiveMountOnFiber (node_modules/react-dom/cjs/react-dom-client.development.js:15476:11)
+      at recursivelyTraversePassiveMountEffects (node_modules/react-dom/cjs/react-dom-client.development.js:15439:11)
+      at commitPassiveMountOnFiber (node_modules/react-dom/cjs/react-dom-client.development.js:15718:11)
+      at recursivelyTraversePassiveMountEffects (node_modules/react-dom/cjs/react-dom-client.development.js:15439:11)
+      at commitPassiveMountOnFiber (node_modules/react-dom/cjs/react-dom-client.development.js:15718:11)
+      at recursivelyTraversePassiveMountEffects (node_modules/react-dom/cjs/react-dom-client.development.js:15439:11)
+      at commitPassiveMountOnFiber (node_modules/react-dom/cjs/react-dom-client.development.js:15476:11)
+      at recursivelyTraversePassiveMountEffects (node_modules/react-dom/cjs/react-dom-client.development.js:15439:11)
+      at commitPassiveMountOnFiber (node_modules/react-dom/cjs/react-dom-client.development.js:15718:11)
+      at recursivelyTraversePassiveMountEffects (node_modules/react-dom/cjs/react-dom-client.development.js:15439:11)
+      at commitPassiveMountOnFiber (node_modules/react-dom/cjs/react-dom-client.development.js:15718:11)
+
+  ● side menu tests › renders only the nac
+
+    TypeError: Cannot read properties of undefined (reading 'addListener')
+
+    [0m [90m  8 |[39m describe([32m'side menu tests'[39m[33m,[39m () [33m=>[39m {
+     [90m  9 |[39m     test([32m'renders only the nac'[39m[33m,[39m () [33m=>[39m {
+    [31m[1m>[22m[39m[90m 10 |[39m     [36mconst[39m { getByText } [33m=[39m render([33m<[39m[33mProvider[39m store[33m=[39m{store}[33m>[39m[33m<[39m[33mRouter[39m[33m>[39m[33m<[39m[33mSideMenu[39m [33m/[39m[33m>[39m[33m<[39m[33m/[39m[33mRouter[39m[33m>[39m[33m<[39m[33m/[39m[33mProvider[39m[33m>[39m)[33m;[39m
+     [90m    |[39m                                 [31m[1m^[22m[39m
+     [90m 11 |[39m     [36mconst[39m title [33m=[39m getByText([35m/NFL/i[39m)[33m;[39m
+     [90m 12 |[39m     expect(title)[33m.[39mtoBeInTheDocument()[33m;[39m
+     [90m 13 |[39m     })[33m;[39m[0m
+
+      at node_modules/antd/lib/layout/Sider.js:114:15
+      at Object.react_stack_bottom_frame (node_modules/react-dom/cjs/react-dom-client.development.js:25989:20)
+      at runWithFiberInDEV (node_modules/react-dom/cjs/react-dom-client.development.js:874:13)
+      at commitHookEffectListMount (node_modules/react-dom/cjs/react-dom-client.development.js:13249:29)
+      at commitHookPassiveMountEffects (node_modules/react-dom/cjs/react-dom-client.development.js:13336:11)
+      at commitPassiveMountOnFiber (node_modules/react-dom/cjs/react-dom-client.development.js:15484:13)
+      at recursivelyTraversePassiveMountEffects (node_modules/react-dom/cjs/react-dom-client.development.js:15439:11)
+      at commitPassiveMountOnFiber (node_modules/react-dom/cjs/react-dom-client.development.js:15476:11)
+      at recursivelyTraversePassiveMountEffects (node_modules/react-dom/cjs/react-dom-client.development.js:15439:11)
+      at commitPassiveMountOnFiber (node_modules/react-dom/cjs/react-dom-client.development.js:15718:11)
+      at recursivelyTraversePassiveMountEffects (node_modules/react-dom/cjs/react-dom-client.development.js:15439:11)
+      at commitPassiveMountOnFiber (node_modules/react-dom/cjs/react-dom-client.development.js:15476:11)
+      at recursivelyTraversePassiveMountEffects (node_modules/react-dom/cjs/react-dom-client.development.js:15439:11)
+      at commitPassiveMountOnFiber (node_modules/react-dom/cjs/react-dom-client.development.js:15718:11)
+      at recursivelyTraversePassiveMountEffects (node_modules/react-dom/cjs/react-dom-client.development.js:15439:11)
+      at commitPassiveMountOnFiber (node_modules/react-dom/cjs/react-dom-client.development.js:15718:11)
+      at recursivelyTraversePassiveMountEffects (node_modules/react-dom/cjs/react-dom-client.development.js:15439:11)
+      at commitPassiveMountOnFiber (node_modules/react-dom/cjs/react-dom-client.development.js:15504:11)
+      at recursivelyTraversePassiveMountEffects (node_modules/react-dom/cjs/react-dom-client.development.js:15439:11)
+      at commitPassiveMountOnFiber (node_modules/react-dom/cjs/react-dom-client.development.js:15504:11)
+      at recursivelyTraversePassiveMountEffects (node_modules/react-dom/cjs/react-dom-client.development.js:15439:11)
+      at commitPassiveMountOnFiber (node_modules/react-dom/cjs/react-dom-client.development.js:15718:11)
+      at recursivelyTraversePassiveMountEffects (node_modules/react-dom/cjs/react-dom-client.development.js:15439:11)
+      at commitPassiveMountOnFiber (node_modules/react-dom/cjs/react-dom-client.development.js:15476:11)
+      at recursivelyTraversePassiveMountEffects (node_modules/react-dom/cjs/react-dom-client.development.js:15439:11)
+      at commitPassiveMountOnFiber (node_modules/react-dom/cjs/react-dom-client.development.js:15519:11)
+      at flushPassiveEffects (node_modules/react-dom/cjs/react-dom-client.development.js:18432:9)
+      at flushPendingEffects (node_modules/react-dom/cjs/react-dom-client.development.js:18358:14)
+      at performSyncWorkOnRoot (node_modules/react-dom/cjs/react-dom-client.development.js:18969:11)
+      at flushSyncWorkAcrossRoots_impl (node_modules/react-dom/cjs/react-dom-client.development.js:18814:21)
+      at flushSpawnedWork (node_modules/react-dom/cjs/react-dom-client.development.js:18334:9)
+      at commitRoot (node_modules/react-dom/cjs/react-dom-client.development.js:17955:9)
+      at performWorkOnRoot (node_modules/react-dom/cjs/react-dom-client.development.js:16667:15)
+      at performWorkOnRootViaSchedulerTask (node_modules/react-dom/cjs/react-dom-client.development.js:18957:7)
+      at flushActQueue (node_modules/react/cjs/react.development.js:590:34)
+      at Object.<anonymous>.process.env.NODE_ENV.exports.act (node_modules/react/cjs/react.development.js:884:10)
+      at node_modules/@testing-library/react/dist/act-compat.js:47:25
+      at renderRoot (node_modules/@testing-library/react/dist/pure.js:190:26)
+      at render (node_modules/@testing-library/react/dist/pure.js:292:10)
+      at Object.<anonymous> (src/__tests__/SideMenu.test.js:10:33)
+
+  ● side menu tests › renders a link to the profile
+
+    TypeError: Cannot read properties of undefined (reading 'addListener')
+
+    [0m [90m 18 |[39m             type[33m:[39m [33mSET_AUTHENTICATED[39m
+     [90m 19 |[39m         })
+    [31m[1m>[22m[39m[90m 20 |[39m         [36mconst[39m { getByText } [33m=[39m render([33m<[39m[33mProvider[39m store[33m=[39m{store} user[33m=[39m{{authenticated[33m:[39m [36mtrue[39m}}[33m>[39m[33m<[39m[33mRouter[39m[33m>[39m[33m<[39m[33mSideMenu[39m [33m/[39m[33m>[39m[33m<[39m[33m/[39m[33mRouter[39m[33m>[39m[33m<[39m[33m/[39m[33mProvider[39m[33m>[39m)[33m;[39m
+     [90m    |[39m                                     [31m[1m^[22m[39m
+     [90m 21 |[39m         [36mconst[39m message [33m=[39m getByText([35m/Profile/i[39m)[33m;[39m
+     [90m 22 |[39m         expect(message)[33m.[39mtoBeInTheDocument()[33m;[39m
+     [90m 23 |[39m     })[33m;[39m[0m
+
+      at node_modules/antd/lib/layout/Sider.js:114:15
+      at Object.react_stack_bottom_frame (node_modules/react-dom/cjs/react-dom-client.development.js:25989:20)
+      at runWithFiberInDEV (node_modules/react-dom/cjs/react-dom-client.development.js:874:13)
+      at commitHookEffectListMount (node_modules/react-dom/cjs/react-dom-client.development.js:13249:29)
+      at commitHookPassiveMountEffects (node_modules/react-dom/cjs/react-dom-client.development.js:13336:11)
+      at commitPassiveMountOnFiber (node_modules/react-dom/cjs/react-dom-client.development.js:15484:13)
+      at recursivelyTraversePassiveMountEffects (node_modules/react-dom/cjs/react-dom-client.development.js:15439:11)
+      at commitPassiveMountOnFiber (node_modules/react-dom/cjs/react-dom-client.development.js:15476:11)
+      at recursivelyTraversePassiveMountEffects (node_modules/react-dom/cjs/react-dom-client.development.js:15439:11)
+      at commitPassiveMountOnFiber (node_modules/react-dom/cjs/react-dom-client.development.js:15718:11)
+      at recursivelyTraversePassiveMountEffects (node_modules/react-dom/cjs/react-dom-client.development.js:15439:11)
+      at commitPassiveMountOnFiber (node_modules/react-dom/cjs/react-dom-client.development.js:15476:11)
+      at recursivelyTraversePassiveMountEffects (node_modules/react-dom/cjs/react-dom-client.development.js:15439:11)
+      at commitPassiveMountOnFiber (node_modules/react-dom/cjs/react-dom-client.development.js:15718:11)
+      at recursivelyTraversePassiveMountEffects (node_modules/react-dom/cjs/react-dom-client.development.js:15439:11)
+      at commitPassiveMountOnFiber (node_modules/react-dom/cjs/react-dom-client.development.js:15718:11)
+      at recursivelyTraversePassiveMountEffects (node_modules/react-dom/cjs/react-dom-client.development.js:15439:11)
+      at commitPassiveMountOnFiber (node_modules/react-dom/cjs/react-dom-client.development.js:15504:11)
+      at recursivelyTraversePassiveMountEffects (node_modules/react-dom/cjs/react-dom-client.development.js:15439:11)
+      at commitPassiveMountOnFiber (node_modules/react-dom/cjs/react-dom-client.development.js:15504:11)
+      at recursivelyTraversePassiveMountEffects (node_modules/react-dom/cjs/react-dom-client.development.js:15439:11)
+      at commitPassiveMountOnFiber (node_modules/react-dom/cjs/react-dom-client.development.js:15718:11)
+      at recursivelyTraversePassiveMountEffects (node_modules/react-dom/cjs/react-dom-client.development.js:15439:11)
+      at commitPassiveMountOnFiber (node_modules/react-dom/cjs/react-dom-client.development.js:15476:11)
+      at recursivelyTraversePassiveMountEffects (node_modules/react-dom/cjs/react-dom-client.development.js:15439:11)
+      at commitPassiveMountOnFiber (node_modules/react-dom/cjs/react-dom-client.development.js:15519:11)
+      at flushPassiveEffects (node_modules/react-dom/cjs/react-dom-client.development.js:18432:9)
+      at flushPendingEffects (node_modules/react-dom/cjs/react-dom-client.development.js:18358:14)
+      at performSyncWorkOnRoot (node_modules/react-dom/cjs/react-dom-client.development.js:18969:11)
+      at flushSyncWorkAcrossRoots_impl (node_modules/react-dom/cjs/react-dom-client.development.js:18814:21)
+      at flushSpawnedWork (node_modules/react-dom/cjs/react-dom-client.development.js:18334:9)
+      at commitRoot (node_modules/react-dom/cjs/react-dom-client.development.js:17955:9)
+      at performWorkOnRoot (node_modules/react-dom/cjs/react-dom-client.development.js:16667:15)
+      at performWorkOnRootViaSchedulerTask (node_modules/react-dom/cjs/react-dom-client.development.js:18957:7)
+      at flushActQueue (node_modules/react/cjs/react.development.js:590:34)
+      at Object.<anonymous>.process.env.NODE_ENV.exports.act (node_modules/react/cjs/react.development.js:884:10)
+      at node_modules/@testing-library/react/dist/act-compat.js:47:25
+      at renderRoot (node_modules/@testing-library/react/dist/pure.js:190:26)
+      at render (node_modules/@testing-library/react/dist/pure.js:292:10)
+      at Object.<anonymous> (src/__tests__/SideMenu.test.js:20:37)
+
+FAIL src/__tests__/LoginModal.test.js (8.295 s)
+  ● Console
+
+    console.error
+      Warning: [antd: Modal] `visible` will be removed in next major version, please use `open` instead.
+
+    [0m [90m 20 |[39m             payload[33m:[39m [36mtrue[39m
+     [90m 21 |[39m         })
+    [31m[1m>[22m[39m[90m 22 |[39m         [36mconst[39m { getAllByText } [33m=[39m render(
+     [90m    |[39m                                        [31m[1m^[22m[39m
+     [90m 23 |[39m             [33m<[39m[33mProvider[39m store[33m=[39m{store}[33m>[39m
+     [90m 24 |[39m             [33m<[39m[33mLoginModal[39m [33m/[39m[33m>[39m
+     [90m 25 |[39m             [33m<[39m[33m/[39m[33mProvider[39m[33m>[39m)[33m;[39m[0m
+
+      at warning (node_modules/rc-util/lib/warning.js:43:15)
+      at call (node_modules/rc-util/lib/warning.js:64:5)
+      at warningOnce (node_modules/rc-util/lib/warning.js:71:3)
+      at warning (node_modules/antd/lib/_util/warning.js:21:29)
+      at Modal (node_modules/antd/lib/modal/Modal.js:65:67)
+      at Object.react_stack_bottom_frame (node_modules/react-dom/cjs/react-dom-client.development.js:25904:20)
+      at renderWithHooks (node_modules/react-dom/cjs/react-dom-client.development.js:7662:22)
+      at updateFunctionComponent (node_modules/react-dom/cjs/react-dom-client.development.js:10166:19)
+      at beginWork (node_modules/react-dom/cjs/react-dom-client.development.js:11778:18)
+      at runWithFiberInDEV (node_modules/react-dom/cjs/react-dom-client.development.js:874:13)
+      at performUnitOfWork (node_modules/react-dom/cjs/react-dom-client.development.js:17641:22)
+      at workLoopSync (node_modules/react-dom/cjs/react-dom-client.development.js:17469:41)
+      at renderRootSync (node_modules/react-dom/cjs/react-dom-client.development.js:17450:11)
+      at performWorkOnRoot (node_modules/react-dom/cjs/react-dom-client.development.js:16504:11)
+      at performWorkOnRootViaSchedulerTask (node_modules/react-dom/cjs/react-dom-client.development.js:18957:7)
+      at flushActQueue (node_modules/react/cjs/react.development.js:590:34)
+      at Object.<anonymous>.process.env.NODE_ENV.exports.act (node_modules/react/cjs/react.development.js:884:10)
+      at node_modules/@testing-library/react/dist/act-compat.js:47:25
+      at renderRoot (node_modules/@testing-library/react/dist/pure.js:190:26)
+      at render (node_modules/@testing-library/react/dist/pure.js:292:10)
+      at Object.<anonymous> (src/__tests__/LoginModal.test.js:22:40)
+
+    console.error
+      Warning: [antd: Tabs] Tabs.TabPane is deprecated. Please use `items` directly.
+
+    [0m [90m 20 |[39m             payload[33m:[39m [36mtrue[39m
+     [90m 21 |[39m         })
+    [31m[1m>[22m[39m[90m 22 |[39m         [36mconst[39m { getAllByText } [33m=[39m render(
+     [90m    |[39m                                        [31m[1m^[22m[39m
+     [90m 23 |[39m             [33m<[39m[33mProvider[39m store[33m=[39m{store}[33m>[39m
+     [90m 24 |[39m             [33m<[39m[33mLoginModal[39m [33m/[39m[33m>[39m
+     [90m 25 |[39m             [33m<[39m[33m/[39m[33mProvider[39m[33m>[39m)[33m;[39m[0m
+
+      at warning (node_modules/rc-util/lib/warning.js:43:15)
+      at call (node_modules/rc-util/lib/warning.js:64:5)
+      at warningOnce (node_modules/rc-util/lib/warning.js:71:3)
+      at warning (node_modules/antd/lib/_util/warning.js:21:29)
+      at useLegacyItems (node_modules/antd/lib/tabs/hooks/useLegacyItems.js:30:67)
+      at Tabs (node_modules/antd/lib/tabs/index.js:66:52)
+      at Object.react_stack_bottom_frame (node_modules/react-dom/cjs/react-dom-client.development.js:25904:20)
+      at renderWithHooks (node_modules/react-dom/cjs/react-dom-client.development.js:7662:22)
+      at updateFunctionComponent (node_modules/react-dom/cjs/react-dom-client.development.js:10166:19)
+      at beginWork (node_modules/react-dom/cjs/react-dom-client.development.js:11778:18)
+      at runWithFiberInDEV (node_modules/react-dom/cjs/react-dom-client.development.js:874:13)
+      at performUnitOfWork (node_modules/react-dom/cjs/react-dom-client.development.js:17641:22)
+      at workLoopSync (node_modules/react-dom/cjs/react-dom-client.development.js:17469:41)
+      at renderRootSync (node_modules/react-dom/cjs/react-dom-client.development.js:17450:11)
+      at performWorkOnRoot (node_modules/react-dom/cjs/react-dom-client.development.js:16504:11)
+      at performWorkOnRootViaSchedulerTask (node_modules/react-dom/cjs/react-dom-client.development.js:18957:7)
+      at flushActQueue (node_modules/react/cjs/react.development.js:590:34)
+      at Object.<anonymous>.process.env.NODE_ENV.exports.act (node_modules/react/cjs/react.development.js:884:10)
+      at node_modules/@testing-library/react/dist/act-compat.js:47:25
+      at renderRoot (node_modules/@testing-library/react/dist/pure.js:190:26)
+      at render (node_modules/@testing-library/react/dist/pure.js:292:10)
+      at Object.<anonymous> (src/__tests__/LoginModal.test.js:22:40)
+
+    console.error
+      Accessing element.ref was removed in React 19. ref is now a regular prop. It will be removed from the JSX Element type in a future release.
+
+    [0m [90m 20 |[39m             payload[33m:[39m [36mtrue[39m
+     [90m 21 |[39m         })
+    [31m[1m>[22m[39m[90m 22 |[39m         [36mconst[39m { getAllByText } [33m=[39m render(
+     [90m    |[39m                                        [31m[1m^[22m[39m
+     [90m 23 |[39m             [33m<[39m[33mProvider[39m store[33m=[39m{store}[33m>[39m
+     [90m 24 |[39m             [33m<[39m[33mLoginModal[39m [33m/[39m[33m>[39m
+     [90m 25 |[39m             [33m<[39m[33m/[39m[33mProvider[39m[33m>[39m)[33m;[39m[0m
+
+      at Object.elementRefGetterWithDeprecationWarning (node_modules/react/cjs/react.development.js:194:17)
+      at Wave._this.renderWave (node_modules/antd/lib/_util/wave.js:145:46)
+      at Object.react_stack_bottom_frame (node_modules/react-dom/cjs/react-dom-client.development.js:25904:20)
+      at beginWork (node_modules/react-dom/cjs/react-dom-client.development.js:12189:28)
+      at runWithFiberInDEV (node_modules/react-dom/cjs/react-dom-client.development.js:874:13)
+      at performUnitOfWork (node_modules/react-dom/cjs/react-dom-client.development.js:17641:22)
+      at workLoopSync (node_modules/react-dom/cjs/react-dom-client.development.js:17469:41)
+      at renderRootSync (node_modules/react-dom/cjs/react-dom-client.development.js:17450:11)
+      at performWorkOnRoot (node_modules/react-dom/cjs/react-dom-client.development.js:16504:11)
+      at performSyncWorkOnRoot (node_modules/react-dom/cjs/react-dom-client.development.js:18972:7)
+      at flushSyncWorkAcrossRoots_impl (node_modules/react-dom/cjs/react-dom-client.development.js:18814:21)
+      at flushSpawnedWork (node_modules/react-dom/cjs/react-dom-client.development.js:18334:9)
+      at commitRoot (node_modules/react-dom/cjs/react-dom-client.development.js:17955:9)
+      at performWorkOnRoot (node_modules/react-dom/cjs/react-dom-client.development.js:16667:15)
+      at performWorkOnRootViaSchedulerTask (node_modules/react-dom/cjs/react-dom-client.development.js:18957:7)
+      at flushActQueue (node_modules/react/cjs/react.development.js:590:34)
+      at Object.<anonymous>.process.env.NODE_ENV.exports.act (node_modules/react/cjs/react.development.js:884:10)
+      at node_modules/@testing-library/react/dist/act-compat.js:47:25
+      at renderRoot (node_modules/@testing-library/react/dist/pure.js:190:26)
+      at render (node_modules/@testing-library/react/dist/pure.js:292:10)
+      at Object.<anonymous> (src/__tests__/LoginModal.test.js:22:40)
+
+    console.error
+      Warning: [antd: Modal] `visible` will be removed in next major version, please use `open` instead.
+
+    [0m [90m 33 |[39m             type[33m:[39m [33mSET_FORGOT_PASSWORD[39m
+     [90m 34 |[39m         })
+    [31m[1m>[22m[39m[90m 35 |[39m         [36mconst[39m { getAllByText } [33m=[39m render(
+     [90m    |[39m                                        [31m[1m^[22m[39m
+     [90m 36 |[39m             [33m<[39m[33mProvider[39m store[33m=[39m{store}[33m>[39m
+     [90m 37 |[39m             [33m<[39m[33mLoginModal[39m [33m/[39m[33m>[39m
+     [90m 38 |[39m             [33m<[39m[33m/[39m[33mProvider[39m[33m>[39m)[33m;[39m[0m
+
+      at warning (node_modules/rc-util/lib/warning.js:43:15)
+      at call (node_modules/rc-util/lib/warning.js:64:5)
+      at warningOnce (node_modules/rc-util/lib/warning.js:71:3)
+      at warning (node_modules/antd/lib/_util/warning.js:21:29)
+      at Modal (node_modules/antd/lib/modal/Modal.js:65:67)
+      at Object.react_stack_bottom_frame (node_modules/react-dom/cjs/react-dom-client.development.js:25904:20)
+      at renderWithHooks (node_modules/react-dom/cjs/react-dom-client.development.js:7662:22)
+      at updateFunctionComponent (node_modules/react-dom/cjs/react-dom-client.development.js:10166:19)
+      at beginWork (node_modules/react-dom/cjs/react-dom-client.development.js:11778:18)
+      at runWithFiberInDEV (node_modules/react-dom/cjs/react-dom-client.development.js:874:13)
+      at performUnitOfWork (node_modules/react-dom/cjs/react-dom-client.development.js:17641:22)
+      at workLoopSync (node_modules/react-dom/cjs/react-dom-client.development.js:17469:41)
+      at renderRootSync (node_modules/react-dom/cjs/react-dom-client.development.js:17450:11)
+      at performWorkOnRoot (node_modules/react-dom/cjs/react-dom-client.development.js:16504:11)
+      at performWorkOnRootViaSchedulerTask (node_modules/react-dom/cjs/react-dom-client.development.js:18957:7)
+      at flushActQueue (node_modules/react/cjs/react.development.js:590:34)
+      at Object.<anonymous>.process.env.NODE_ENV.exports.act (node_modules/react/cjs/react.development.js:884:10)
+      at node_modules/@testing-library/react/dist/act-compat.js:47:25
+      at renderRoot (node_modules/@testing-library/react/dist/pure.js:190:26)
+      at render (node_modules/@testing-library/react/dist/pure.js:292:10)
+      at Object.<anonymous> (src/__tests__/LoginModal.test.js:35:40)
+
+    console.error
+      Warning: [antd: Modal] `visible` will be removed in next major version, please use `open` instead.
+
+    [0m [90m 45 |[39m             type[33m:[39m [33mSET_RESET_PASSWORD_SENT[39m
+     [90m 46 |[39m         })
+    [31m[1m>[22m[39m[90m 47 |[39m         [36mconst[39m { getAllByText } [33m=[39m render(
+     [90m    |[39m                                        [31m[1m^[22m[39m
+     [90m 48 |[39m             [33m<[39m[33mProvider[39m store[33m=[39m{store}[33m>[39m
+     [90m 49 |[39m             [33m<[39m[33mLoginModal[39m [33m/[39m[33m>[39m
+     [90m 50 |[39m             [33m<[39m[33m/[39m[33mProvider[39m[33m>[39m)[33m;[39m[0m
+
+      at warning (node_modules/rc-util/lib/warning.js:43:15)
+      at call (node_modules/rc-util/lib/warning.js:64:5)
+      at warningOnce (node_modules/rc-util/lib/warning.js:71:3)
+      at warning (node_modules/antd/lib/_util/warning.js:21:29)
+      at Modal (node_modules/antd/lib/modal/Modal.js:65:67)
+      at Object.react_stack_bottom_frame (node_modules/react-dom/cjs/react-dom-client.development.js:25904:20)
+      at renderWithHooks (node_modules/react-dom/cjs/react-dom-client.development.js:7662:22)
+      at updateFunctionComponent (node_modules/react-dom/cjs/react-dom-client.development.js:10166:19)
+      at beginWork (node_modules/react-dom/cjs/react-dom-client.development.js:11778:18)
+      at runWithFiberInDEV (node_modules/react-dom/cjs/react-dom-client.development.js:874:13)
+      at performUnitOfWork (node_modules/react-dom/cjs/react-dom-client.development.js:17641:22)
+      at workLoopSync (node_modules/react-dom/cjs/react-dom-client.development.js:17469:41)
+      at renderRootSync (node_modules/react-dom/cjs/react-dom-client.development.js:17450:11)
+      at performWorkOnRoot (node_modules/react-dom/cjs/react-dom-client.development.js:16504:11)
+      at performWorkOnRootViaSchedulerTask (node_modules/react-dom/cjs/react-dom-client.development.js:18957:7)
+      at flushActQueue (node_modules/react/cjs/react.development.js:590:34)
+      at Object.<anonymous>.process.env.NODE_ENV.exports.act (node_modules/react/cjs/react.development.js:884:10)
+      at node_modules/@testing-library/react/dist/act-compat.js:47:25
+      at renderRoot (node_modules/@testing-library/react/dist/pure.js:190:26)
+      at render (node_modules/@testing-library/react/dist/pure.js:292:10)
+      at Object.<anonymous> (src/__tests__/LoginModal.test.js:47:40)
+
+  ● login modal tests › renders login modal with sign in and sign up tabs
+
+    AggregateError:
+
+    [0m [90m 20 |[39m             payload[33m:[39m [36mtrue[39m
+     [90m 21 |[39m         })
+    [31m[1m>[22m[39m[90m 22 |[39m         [36mconst[39m { getAllByText } [33m=[39m render(
+     [90m    |[39m                                        [31m[1m^[22m[39m
+     [90m 23 |[39m             [33m<[39m[33mProvider[39m store[33m=[39m{store}[33m>[39m
+     [90m 24 |[39m             [33m<[39m[33mLoginModal[39m [33m/[39m[33m>[39m
+     [90m 25 |[39m             [33m<[39m[33m/[39m[33mProvider[39m[33m>[39m)[33m;[39m[0m
+
+      at aggregateErrors (node_modules/react/cjs/react.development.js:551:11)
+      at Object.<anonymous>.process.env.NODE_ENV.exports.act (node_modules/react/cjs/react.development.js:897:24)
+      at node_modules/@testing-library/react/dist/act-compat.js:47:25
+      at renderRoot (node_modules/@testing-library/react/dist/pure.js:190:26)
+      at render (node_modules/@testing-library/react/dist/pure.js:292:10)
+      at Object.<anonymous> (src/__tests__/LoginModal.test.js:22:40)
+
+  ● login modal tests › renders forgot password UI
+
+    TypeError: Cannot read properties of undefined (reading 'addListener')
+
+      at node_modules/antd/lib/_util/responsiveObserve.js:60:11
+          at Array.forEach (<anonymous>)
+      at Object.register (node_modules/antd/lib/_util/responsiveObserve.js:53:32)
+      at Object.subscribe (node_modules/antd/lib/_util/responsiveObserve.js:32:33)
+      at node_modules/antd/lib/grid/row.js:102:47
+      at Object.react_stack_bottom_frame (node_modules/react-dom/cjs/react-dom-client.development.js:25989:20)
+      at runWithFiberInDEV (node_modules/react-dom/cjs/react-dom-client.development.js:874:13)
+      at commitHookEffectListMount (node_modules/react-dom/cjs/react-dom-client.development.js:13249:29)
+      at commitHookPassiveMountEffects (node_modules/react-dom/cjs/react-dom-client.development.js:13336:11)
+      at commitPassiveMountOnFiber (node_modules/react-dom/cjs/react-dom-client.development.js:15484:13)
+      at recursivelyTraversePassiveMountEffects (node_modules/react-dom/cjs/react-dom-client.development.js:15439:11)
+      at commitPassiveMountOnFiber (node_modules/react-dom/cjs/react-dom-client.development.js:15718:11)
+      at recursivelyTraversePassiveMountEffects (node_modules/react-dom/cjs/react-dom-client.development.js:15439:11)
+      at commitPassiveMountOnFiber (node_modules/react-dom/cjs/react-dom-client.development.js:15476:11)
+      at recursivelyTraversePassiveMountEffects (node_modules/react-dom/cjs/react-dom-client.development.js:15439:11)
+      at commitPassiveMountOnFiber (node_modules/react-dom/cjs/react-dom-client.development.js:15476:11)
+      at recursivelyTraversePassiveMountEffects (node_modules/react-dom/cjs/react-dom-client.development.js:15439:11)
+      at commitPassiveMountOnFiber (node_modules/react-dom/cjs/react-dom-client.development.js:15718:11)
+      at recursivelyTraversePassiveMountEffects (node_modules/react-dom/cjs/react-dom-client.development.js:15439:11)
+      at commitPassiveMountOnFiber (node_modules/react-dom/cjs/react-dom-client.development.js:15718:11)
+      at recursivelyTraversePassiveMountEffects (node_modules/react-dom/cjs/react-dom-client.development.js:15439:11)
+      at commitPassiveMountOnFiber (node_modules/react-dom/cjs/react-dom-client.development.js:15718:11)
+      at recursivelyTraversePassiveMountEffects (node_modules/react-dom/cjs/react-dom-client.development.js:15439:11)
+      at commitPassiveMountOnFiber (node_modules/react-dom/cjs/react-dom-client.development.js:15476:11)
+      at recursivelyTraversePassiveMountEffects (node_modules/react-dom/cjs/react-dom-client.development.js:15439:11)
+      at commitPassiveMountOnFiber (node_modules/react-dom/cjs/react-dom-client.development.js:15718:11)
+      at recursivelyTraversePassiveMountEffects (node_modules/react-dom/cjs/react-dom-client.development.js:15439:11)
+      at commitPassiveMountOnFiber (node_modules/react-dom/cjs/react-dom-client.development.js:15718:11)
+      at recursivelyTraversePassiveMountEffects (node_modules/react-dom/cjs/react-dom-client.development.js:15439:11)
+      at commitPassiveMountOnFiber (node_modules/react-dom/cjs/react-dom-client.development.js:15476:11)
+      at recursivelyTraversePassiveMountEffects (node_modules/react-dom/cjs/react-dom-client.development.js:15439:11)
+      at commitPassiveMountOnFiber (node_modules/react-dom/cjs/react-dom-client.development.js:15476:11)
+      at recursivelyTraversePassiveMountEffects (node_modules/react-dom/cjs/react-dom-client.development.js:15439:11)
+      at commitPassiveMountOnFiber (node_modules/react-dom/cjs/react-dom-client.development.js:15718:11)
+      at recursivelyTraversePassiveMountEffects (node_modules/react-dom/cjs/react-dom-client.development.js:15439:11)
+      at commitPassiveMountOnFiber (node_modules/react-dom/cjs/react-dom-client.development.js:15718:11)
+      at recursivelyTraversePassiveMountEffects (node_modules/react-dom/cjs/react-dom-client.development.js:15439:11)
+      at commitPassiveMountOnFiber (node_modules/react-dom/cjs/react-dom-client.development.js:15476:11)
+      at recursivelyTraversePassiveMountEffects (node_modules/react-dom/cjs/react-dom-client.development.js:15439:11)
+      at commitPassiveMountOnFiber (node_modules/react-dom/cjs/react-dom-client.development.js:15718:11)
+      at recursivelyTraversePassiveMountEffects (node_modules/react-dom/cjs/react-dom-client.development.js:15439:11)
+      at commitPassiveMountOnFiber (node_modules/react-dom/cjs/react-dom-client.development.js:15476:11)
+      at recursivelyTraversePassiveMountEffects (node_modules/react-dom/cjs/react-dom-client.development.js:15439:11)
+      at commitPassiveMountOnFiber (node_modules/react-dom/cjs/react-dom-client.development.js:15476:11)
+      at recursivelyTraversePassiveMountEffects (node_modules/react-dom/cjs/react-dom-client.development.js:15439:11)
+      at commitPassiveMountOnFiber (node_modules/react-dom/cjs/react-dom-client.development.js:15718:11)
+      at recursivelyTraversePassiveMountEffects (node_modules/react-dom/cjs/react-dom-client.development.js:15439:11)
+      at commitPassiveMountOnFiber (node_modules/react-dom/cjs/react-dom-client.development.js:15718:11)
+      at recursivelyTraversePassiveMountEffects (node_modules/react-dom/cjs/react-dom-client.development.js:15439:11)
+      at commitPassiveMountOnFiber (node_modules/react-dom/cjs/react-dom-client.development.js:15476:11)
+      at recursivelyTraversePassiveMountEffects (node_modules/react-dom/cjs/react-dom-client.development.js:15439:11)
+      at commitPassiveMountOnFiber (node_modules/react-dom/cjs/react-dom-client.development.js:15718:11)
+      at recursivelyTraversePassiveMountEffects (node_modules/react-dom/cjs/react-dom-client.development.js:15439:11)
+      at commitPassiveMountOnFiber (node_modules/react-dom/cjs/react-dom-client.development.js:15718:11)
+      at recursivelyTraversePassiveMountEffects (node_modules/react-dom/cjs/react-dom-client.development.js:15439:11)
+      at commitPassiveMountOnFiber (node_modules/react-dom/cjs/react-dom-client.development.js:15476:11)
+      at recursivelyTraversePassiveMountEffects (node_modules/react-dom/cjs/react-dom-client.development.js:15439:11)
+      at commitPassiveMountOnFiber (node_modules/react-dom/cjs/react-dom-client.development.js:15718:11)
+      at recursivelyTraversePassiveMountEffects (node_modules/react-dom/cjs/react-dom-client.development.js:15439:11)
+      at commitPassiveMountOnFiber (node_modules/react-dom/cjs/react-dom-client.development.js:15718:11)
+      at recursivelyTraversePassiveMountEffects (node_modules/react-dom/cjs/react-dom-client.development.js:15439:11)
+      at commitPassiveMountOnFiber (node_modules/react-dom/cjs/react-dom-client.development.js:15476:11)
+      at recursivelyTraversePassiveMountEffects (node_modules/react-dom/cjs/react-dom-client.development.js:15439:11)
+      at commitPassiveMountOnFiber (node_modules/react-dom/cjs/react-dom-client.development.js:15504:11)
+      at recursivelyTraversePassiveMountEffects (node_modules/react-dom/cjs/react-dom-client.development.js:15439:11)
+      at commitPassiveMountOnFiber (node_modules/react-dom/cjs/react-dom-client.development.js:15476:11)
+      at recursivelyTraversePassiveMountEffects (node_modules/react-dom/cjs/react-dom-client.development.js:15439:11)
+      at commitPassiveMountOnFiber (node_modules/react-dom/cjs/react-dom-client.development.js:15476:11)
+      at recursivelyTraversePassiveMountEffects (node_modules/react-dom/cjs/react-dom-client.development.js:15439:11)
+      at commitPassiveMountOnFiber (node_modules/react-dom/cjs/react-dom-client.development.js:15718:11)
+      at recursivelyTraversePassiveMountEffects (node_modules/react-dom/cjs/react-dom-client.development.js:15439:11)
+      at commitPassiveMountOnFiber (node_modules/react-dom/cjs/react-dom-client.development.js:15718:11)
+      at recursivelyTraversePassiveMountEffects (node_modules/react-dom/cjs/react-dom-client.development.js:15439:11)
+      at commitPassiveMountOnFiber (node_modules/react-dom/cjs/react-dom-client.development.js:15476:11)
+      at recursivelyTraversePassiveMountEffects (node_modules/react-dom/cjs/react-dom-client.development.js:15439:11)
+      at commitPassiveMountOnFiber (node_modules/react-dom/cjs/react-dom-client.development.js:15718:11)
+      at recursivelyTraversePassiveMountEffects (node_modules/react-dom/cjs/react-dom-client.development.js:15439:11)
+      at commitPassiveMountOnFiber (node_modules/react-dom/cjs/react-dom-client.development.js:15718:11)
+      at recursivelyTraversePassiveMountEffects (node_modules/react-dom/cjs/react-dom-client.development.js:15439:11)
+      at commitPassiveMountOnFiber (node_modules/react-dom/cjs/react-dom-client.development.js:15476:11)
+      at recursivelyTraversePassiveMountEffects (node_modules/react-dom/cjs/react-dom-client.development.js:15439:11)
+      at commitPassiveMountOnFiber (node_modules/react-dom/cjs/react-dom-client.development.js:15476:11)
+      at recursivelyTraversePassiveMountEffects (node_modules/react-dom/cjs/react-dom-client.development.js:15439:11)
+      at commitPassiveMountOnFiber (node_modules/react-dom/cjs/react-dom-client.development.js:15718:11)
+      at recursivelyTraversePassiveMountEffects (node_modules/react-dom/cjs/react-dom-client.development.js:15439:11)
+      at commitPassiveMountOnFiber (node_modules/react-dom/cjs/react-dom-client.development.js:15476:11)
+      at recursivelyTraversePassiveMountEffects (node_modules/react-dom/cjs/react-dom-client.development.js:15439:11)
+      at commitPassiveMountOnFiber (node_modules/react-dom/cjs/react-dom-client.development.js:15718:11)
+      at recursivelyTraversePassiveMountEffects (node_modules/react-dom/cjs/react-dom-client.development.js:15439:11)
+      at commitPassiveMountOnFiber (node_modules/react-dom/cjs/react-dom-client.development.js:15476:11)
+      at recursivelyTraversePassiveMountEffects (node_modules/react-dom/cjs/react-dom-client.development.js:15439:11)
+      at commitPassiveMountOnFiber (node_modules/react-dom/cjs/react-dom-client.development.js:15476:11)
+      at recursivelyTraversePassiveMountEffects (node_modules/react-dom/cjs/react-dom-client.development.js:15439:11)
+      at commitPassiveMountOnFiber (node_modules/react-dom/cjs/react-dom-client.development.js:15476:11)
+      at recursivelyTraversePassiveMountEffects (node_modules/react-dom/cjs/react-dom-client.development.js:15439:11)
+      at commitPassiveMountOnFiber (node_modules/react-dom/cjs/react-dom-client.development.js:15718:11)
+      at recursivelyTraversePassiveMountEffects (node_modules/react-dom/cjs/react-dom-client.development.js:15439:11)
+      at commitPassiveMountOnFiber (node_modules/react-dom/cjs/react-dom-client.development.js:15476:11)
+      at recursivelyTraversePassiveMountEffects (node_modules/react-dom/cjs/react-dom-client.development.js:15439:11)
+      at commitPassiveMountOnFiber (node_modules/react-dom/cjs/react-dom-client.development.js:15718:11)
+
+  ● login modal tests › renders reset password UI
+
+    AggregateError:
+
+    [0m [90m 45 |[39m             type[33m:[39m [33mSET_RESET_PASSWORD_SENT[39m
+     [90m 46 |[39m         })
+    [31m[1m>[22m[39m[90m 47 |[39m         [36mconst[39m { getAllByText } [33m=[39m render(
+     [90m    |[39m                                        [31m[1m^[22m[39m
+     [90m 48 |[39m             [33m<[39m[33mProvider[39m store[33m=[39m{store}[33m>[39m
+     [90m 49 |[39m             [33m<[39m[33mLoginModal[39m [33m/[39m[33m>[39m
+     [90m 50 |[39m             [33m<[39m[33m/[39m[33mProvider[39m[33m>[39m)[33m;[39m[0m
+
+      at aggregateErrors (node_modules/react/cjs/react.development.js:551:11)
+      at Object.<anonymous>.process.env.NODE_ENV.exports.act (node_modules/react/cjs/react.development.js:897:24)
+      at node_modules/@testing-library/react/dist/act-compat.js:47:25
+      at renderRoot (node_modules/@testing-library/react/dist/pure.js:190:26)
+      at render (node_modules/@testing-library/react/dist/pure.js:292:10)
+      at Object.<anonymous> (src/__tests__/LoginModal.test.js:47:40)
+
+FAIL src/__tests__/Groups.test.js (8.417 s)
+  ● Console
+
+    console.error
+      Accessing element.ref was removed in React 19. ref is now a regular prop. It will be removed from the JSX Element type in a future release.
+
+    [0m [90m 672 |[39m         })
+     [90m 673 |[39m
+    [31m[1m>[22m[39m[90m 674 |[39m         [36mconst[39m { getByText } [33m=[39m render([33m<[39m[33mProvider[39m store[33m=[39m{store}[33m>[39m[33m<[39m[33mRouter[39m[33m>[39m[33m<[39m[33mRoute[39m component[33m=[39m{[33mGroup[39m} [33m/[39m[33m>[39m[33m<[39m[33m/[39m[33mRouter[39m[33m>[39m[33m<[39m[33m/[39m[33mProvider[39m[33m>[39m)[33m;[39m
+     [90m     |[39m                                     [31m[1m^[22m[39m
+     [90m 675 |[39m         [36mconst[39m linkElement [33m=[39m getByText([35m/SHS Playoffs/i[39m)[33m;[39m
+     [90m 676 |[39m         
+     [90m 677 |[39m         expect(linkElement)[33m.[39mtoBeInTheDocument()[33m;[39m[0m
+
+      at Object.elementRefGetterWithDeprecationWarning (node_modules/react/cjs/react.development.js:194:17)
+      at Wave._this.renderWave (node_modules/antd/lib/_util/wave.js:145:46)
+      at Object.react_stack_bottom_frame (node_modules/react-dom/cjs/react-dom-client.development.js:25904:20)
+      at beginWork (node_modules/react-dom/cjs/react-dom-client.development.js:12189:28)
+      at runWithFiberInDEV (node_modules/react-dom/cjs/react-dom-client.development.js:874:13)
+      at performUnitOfWork (node_modules/react-dom/cjs/react-dom-client.development.js:17641:22)
+      at workLoopSync (node_modules/react-dom/cjs/react-dom-client.development.js:17469:41)
+      at renderRootSync (node_modules/react-dom/cjs/react-dom-client.development.js:17450:11)
+      at performWorkOnRoot (node_modules/react-dom/cjs/react-dom-client.development.js:16504:11)
+      at performWorkOnRootViaSchedulerTask (node_modules/react-dom/cjs/react-dom-client.development.js:18957:7)
+      at flushActQueue (node_modules/react/cjs/react.development.js:590:34)
+      at Object.<anonymous>.process.env.NODE_ENV.exports.act (node_modules/react/cjs/react.development.js:884:10)
+      at node_modules/@testing-library/react/dist/act-compat.js:47:25
+      at renderRoot (node_modules/@testing-library/react/dist/pure.js:190:26)
+      at render (node_modules/@testing-library/react/dist/pure.js:292:10)
+      at Object.<anonymous> (src/__tests__/Groups.test.js:674:37)
+
+    console.error
+      Warning: [antd: Tabs] Tabs.TabPane is deprecated. Please use `items` directly.
+
+    [0m [90m 672 |[39m         })
+     [90m 673 |[39m
+    [31m[1m>[22m[39m[90m 674 |[39m         [36mconst[39m { getByText } [33m=[39m render([33m<[39m[33mProvider[39m store[33m=[39m{store}[33m>[39m[33m<[39m[33mRouter[39m[33m>[39m[33m<[39m[33mRoute[39m component[33m=[39m{[33mGroup[39m} [33m/[39m[33m>[39m[33m<[39m[33m/[39m[33mRouter[39m[33m>[39m[33m<[39m[33m/[39m[33mProvider[39m[33m>[39m)[33m;[39m
+     [90m     |[39m                                     [31m[1m^[22m[39m
+     [90m 675 |[39m         [36mconst[39m linkElement [33m=[39m getByText([35m/SHS Playoffs/i[39m)[33m;[39m
+     [90m 676 |[39m         
+     [90m 677 |[39m         expect(linkElement)[33m.[39mtoBeInTheDocument()[33m;[39m[0m
+
+      at warning (node_modules/rc-util/lib/warning.js:43:15)
+      at call (node_modules/rc-util/lib/warning.js:64:5)
+      at warningOnce (node_modules/rc-util/lib/warning.js:71:3)
+      at warning (node_modules/antd/lib/_util/warning.js:21:29)
+      at useLegacyItems (node_modules/antd/lib/tabs/hooks/useLegacyItems.js:30:67)
+      at Tabs (node_modules/antd/lib/tabs/index.js:66:52)
+      at Object.react_stack_bottom_frame (node_modules/react-dom/cjs/react-dom-client.development.js:25904:20)
+      at renderWithHooks (node_modules/react-dom/cjs/react-dom-client.development.js:7662:22)
+      at updateFunctionComponent (node_modules/react-dom/cjs/react-dom-client.development.js:10166:19)
+      at beginWork (node_modules/react-dom/cjs/react-dom-client.development.js:11778:18)
+      at runWithFiberInDEV (node_modules/react-dom/cjs/react-dom-client.development.js:874:13)
+      at performUnitOfWork (node_modules/react-dom/cjs/react-dom-client.development.js:17641:22)
+      at workLoopSync (node_modules/react-dom/cjs/react-dom-client.development.js:17469:41)
+      at renderRootSync (node_modules/react-dom/cjs/react-dom-client.development.js:17450:11)
+      at performWorkOnRoot (node_modules/react-dom/cjs/react-dom-client.development.js:16504:11)
+      at performWorkOnRootViaSchedulerTask (node_modules/react-dom/cjs/react-dom-client.development.js:18957:7)
+      at flushActQueue (node_modules/react/cjs/react.development.js:590:34)
+      at Object.<anonymous>.process.env.NODE_ENV.exports.act (node_modules/react/cjs/react.development.js:884:10)
+      at node_modules/@testing-library/react/dist/act-compat.js:47:25
+      at renderRoot (node_modules/@testing-library/react/dist/pure.js:190:26)
+      at render (node_modules/@testing-library/react/dist/pure.js:292:10)
+      at Object.<anonymous> (src/__tests__/Groups.test.js:674:37)
+
+    console.error
+      Warning: [antd: Modal] `visible` will be removed in next major version, please use `open` instead.
+
+    [0m [90m 684 |[39m
+     [90m 685 |[39m
+    [31m[1m>[22m[39m[90m 686 |[39m         [36mconst[39m { getByRole[33m,[39m getByText } [33m=[39m render([33m<[39m[33mProvider[39m store[33m=[39m{store}[33m>[39m[33m<[39m[33mRouter[39m[33m>[39m[33m<[39m[33mRoute[39m component[33m=[39m{[33mGroups[39m} [33m/[39m[33m>[39m[33m<[39m[33m/[39m[33mRouter[39m[33m>[39m[33m<[39m[33m/[39m[33mProvider[39m[33m>[39m)[33m;[39m
+     [90m     |[39m                                                [31m[1m^[22m[39m
+     [90m 687 |[39m         [36mconst[39m createGroupModal [33m=[39m screen[33m.[39mgetByRole([32m'dialog'[39m)
+     [90m 688 |[39m         expect(createGroupModal)[33m.[39mtoBeInTheDocument()[33m;[39m
+     [90m 689 |[39m     })[0m
+
+      at warning (node_modules/rc-util/lib/warning.js:43:15)
+      at call (node_modules/rc-util/lib/warning.js:64:5)
+      at warningOnce (node_modules/rc-util/lib/warning.js:71:3)
+      at warning (node_modules/antd/lib/_util/warning.js:21:29)
+      at Modal (node_modules/antd/lib/modal/Modal.js:65:67)
+      at Object.react_stack_bottom_frame (node_modules/react-dom/cjs/react-dom-client.development.js:25904:20)
+      at renderWithHooks (node_modules/react-dom/cjs/react-dom-client.development.js:7662:22)
+      at updateFunctionComponent (node_modules/react-dom/cjs/react-dom-client.development.js:10166:19)
+      at beginWork (node_modules/react-dom/cjs/react-dom-client.development.js:11778:18)
+      at runWithFiberInDEV (node_modules/react-dom/cjs/react-dom-client.development.js:874:13)
+      at performUnitOfWork (node_modules/react-dom/cjs/react-dom-client.development.js:17641:22)
+      at workLoopSync (node_modules/react-dom/cjs/react-dom-client.development.js:17469:41)
+      at renderRootSync (node_modules/react-dom/cjs/react-dom-client.development.js:17450:11)
+      at performWorkOnRoot (node_modules/react-dom/cjs/react-dom-client.development.js:16504:11)
+      at performWorkOnRootViaSchedulerTask (node_modules/react-dom/cjs/react-dom-client.development.js:18957:7)
+      at flushActQueue (node_modules/react/cjs/react.development.js:590:34)
+      at Object.<anonymous>.process.env.NODE_ENV.exports.act (node_modules/react/cjs/react.development.js:884:10)
+      at node_modules/@testing-library/react/dist/act-compat.js:47:25
+      at renderRoot (node_modules/@testing-library/react/dist/pure.js:190:26)
+      at render (node_modules/@testing-library/react/dist/pure.js:292:10)
+      at Object.<anonymous> (src/__tests__/Groups.test.js:686:48)
+
+  ● render the group screen › present a loading game message when game is missing
+
+    TypeError: Cannot read properties of undefined (reading 'addListener')
+
+    [0m [90m 650 |[39m             type[33m:[39m [33mLOADING_GROUP[39m
+     [90m 651 |[39m         })
+    [31m[1m>[22m[39m[90m 652 |[39m         [36mconst[39m { getByTitle } [33m=[39m render([33m<[39m[33mProvider[39m store[33m=[39m{store}[33m>[39m[33m<[39m[33mRouter[39m[33m>[39m[33m<[39m[33mRoute[39m component[33m=[39m{[33mGroup[39m} [33m/[39m[33m>[39m[33m<[39m[33m/[39m[33mRouter[39m[33m>[39m[33m<[39m[33m/[39m[33mProvider[39m[33m>[39m)[33m;[39m
+     [90m     |[39m                                      [31m[1m^[22m[39m
+     [90m 653 |[39m         [36mconst[39m linkElement [33m=[39m getByTitle([35m/Loading Group/i[39m)[33m;[39m
+     [90m 654 |[39m         
+     [90m 655 |[39m         expect(linkElement)[33m.[39mtoBeInTheDocument()[33m;[39m[0m
+
+      at node_modules/antd/lib/_util/responsiveObserve.js:60:11
+          at Array.forEach (<anonymous>)
+      at Object.register (node_modules/antd/lib/_util/responsiveObserve.js:53:32)
+      at Object.subscribe (node_modules/antd/lib/_util/responsiveObserve.js:32:33)
+      at node_modules/antd/lib/grid/row.js:102:47
+      at Object.react_stack_bottom_frame (node_modules/react-dom/cjs/react-dom-client.development.js:25989:20)
+      at runWithFiberInDEV (node_modules/react-dom/cjs/react-dom-client.development.js:874:13)
+      at commitHookEffectListMount (node_modules/react-dom/cjs/react-dom-client.development.js:13249:29)
+      at commitHookPassiveMountEffects (node_modules/react-dom/cjs/react-dom-client.development.js:13336:11)
+      at commitPassiveMountOnFiber (node_modules/react-dom/cjs/react-dom-client.development.js:15484:13)
+      at recursivelyTraversePassiveMountEffects (node_modules/react-dom/cjs/react-dom-client.development.js:15439:11)
+      at commitPassiveMountOnFiber (node_modules/react-dom/cjs/react-dom-client.development.js:15718:11)
+      at recursivelyTraversePassiveMountEffects (node_modules/react-dom/cjs/react-dom-client.development.js:15439:11)
+      at commitPassiveMountOnFiber (node_modules/react-dom/cjs/react-dom-client.development.js:15476:11)
+      at recursivelyTraversePassiveMountEffects (node_modules/react-dom/cjs/react-dom-client.development.js:15439:11)
+      at commitPassiveMountOnFiber (node_modules/react-dom/cjs/react-dom-client.development.js:15718:11)
+      at recursivelyTraversePassiveMountEffects (node_modules/react-dom/cjs/react-dom-client.development.js:15439:11)
+      at commitPassiveMountOnFiber (node_modules/react-dom/cjs/react-dom-client.development.js:15476:11)
+      at recursivelyTraversePassiveMountEffects (node_modules/react-dom/cjs/react-dom-client.development.js:15439:11)
+      at commitPassiveMountOnFiber (node_modules/react-dom/cjs/react-dom-client.development.js:15718:11)
+      at recursivelyTraversePassiveMountEffects (node_modules/react-dom/cjs/react-dom-client.development.js:15439:11)
+      at commitPassiveMountOnFiber (node_modules/react-dom/cjs/react-dom-client.development.js:15718:11)
+      at recursivelyTraversePassiveMountEffects (node_modules/react-dom/cjs/react-dom-client.development.js:15439:11)
+      at commitPassiveMountOnFiber (node_modules/react-dom/cjs/react-dom-client.development.js:15504:11)
+      at recursivelyTraversePassiveMountEffects (node_modules/react-dom/cjs/react-dom-client.development.js:15439:11)
+      at commitPassiveMountOnFiber (node_modules/react-dom/cjs/react-dom-client.development.js:15718:11)
+      at recursivelyTraversePassiveMountEffects (node_modules/react-dom/cjs/react-dom-client.development.js:15439:11)
+      at commitPassiveMountOnFiber (node_modules/react-dom/cjs/react-dom-client.development.js:15718:11)
+      at recursivelyTraversePassiveMountEffects (node_modules/react-dom/cjs/react-dom-client.development.js:15439:11)
+      at commitPassiveMountOnFiber (node_modules/react-dom/cjs/react-dom-client.development.js:15504:11)
+      at recursivelyTraversePassiveMountEffects (node_modules/react-dom/cjs/react-dom-client.development.js:15439:11)
+      at commitPassiveMountOnFiber (node_modules/react-dom/cjs/react-dom-client.development.js:15504:11)
+      at recursivelyTraversePassiveMountEffects (node_modules/react-dom/cjs/react-dom-client.development.js:15439:11)
+      at commitPassiveMountOnFiber (node_modules/react-dom/cjs/react-dom-client.development.js:15718:11)
+      at recursivelyTraversePassiveMountEffects (node_modules/react-dom/cjs/react-dom-client.development.js:15439:11)
+      at commitPassiveMountOnFiber (node_modules/react-dom/cjs/react-dom-client.development.js:15476:11)
+      at recursivelyTraversePassiveMountEffects (node_modules/react-dom/cjs/react-dom-client.development.js:15439:11)
+      at commitPassiveMountOnFiber (node_modules/react-dom/cjs/react-dom-client.development.js:15519:11)
+      at flushPassiveEffects (node_modules/react-dom/cjs/react-dom-client.development.js:18432:9)
+      at node_modules/react-dom/cjs/react-dom-client.development.js:17923:15
+      at flushActQueue (node_modules/react/cjs/react.development.js:590:34)
+      at Object.<anonymous>.process.env.NODE_ENV.exports.act (node_modules/react/cjs/react.development.js:884:10)
+      at node_modules/@testing-library/react/dist/act-compat.js:47:25
+      at renderRoot (node_modules/@testing-library/react/dist/pure.js:190:26)
+      at render (node_modules/@testing-library/react/dist/pure.js:292:10)
+      at Object.<anonymous> (src/__tests__/Groups.test.js:652:38)
+
+  ● render the group screen › present a no group found when no group is returned
+
+    TypeError: Cannot read properties of undefined (reading 'addListener')
+
+    [0m [90m 661 |[39m         })
+     [90m 662 |[39m
+    [31m[1m>[22m[39m[90m 663 |[39m         [36mconst[39m { getByText } [33m=[39m render([33m<[39m[33mProvider[39m store[33m=[39m{store}[33m>[39m[33m<[39m[33mRouter[39m[33m>[39m[33m<[39m[33mRoute[39m component[33m=[39m{[33mGroup[39m} [33m/[39m[33m>[39m[33m<[39m[33m/[39m[33mRouter[39m[33m>[39m[33m<[39m[33m/[39m[33mProvider[39m[33m>[39m)[33m;[39m
+     [90m     |[39m                                     [31m[1m^[22m[39m
+     [90m 664 |[39m         [36mconst[39m linkElement [33m=[39m getByText([35m/No group found/i[39m)[33m;[39m
+     [90m 665 |[39m         
+     [90m 666 |[39m         expect(linkElement)[33m.[39mtoBeInTheDocument()[33m;[39m[0m
+
+      at node_modules/antd/lib/_util/responsiveObserve.js:60:11
+          at Array.forEach (<anonymous>)
+      at Object.register (node_modules/antd/lib/_util/responsiveObserve.js:53:32)
+      at Object.subscribe (node_modules/antd/lib/_util/responsiveObserve.js:32:33)
+      at node_modules/antd/lib/grid/row.js:102:47
+      at Object.react_stack_bottom_frame (node_modules/react-dom/cjs/react-dom-client.development.js:25989:20)
+      at runWithFiberInDEV (node_modules/react-dom/cjs/react-dom-client.development.js:874:13)
+      at commitHookEffectListMount (node_modules/react-dom/cjs/react-dom-client.development.js:13249:29)
+      at commitHookPassiveMountEffects (node_modules/react-dom/cjs/react-dom-client.development.js:13336:11)
+      at commitPassiveMountOnFiber (node_modules/react-dom/cjs/react-dom-client.development.js:15484:13)
+      at recursivelyTraversePassiveMountEffects (node_modules/react-dom/cjs/react-dom-client.development.js:15439:11)
+      at commitPassiveMountOnFiber (node_modules/react-dom/cjs/react-dom-client.development.js:15718:11)
+      at recursivelyTraversePassiveMountEffects (node_modules/react-dom/cjs/react-dom-client.development.js:15439:11)
+      at commitPassiveMountOnFiber (node_modules/react-dom/cjs/react-dom-client.development.js:15476:11)
+      at recursivelyTraversePassiveMountEffects (node_modules/react-dom/cjs/react-dom-client.development.js:15439:11)
+      at commitPassiveMountOnFiber (node_modules/react-dom/cjs/react-dom-client.development.js:15718:11)
+      at recursivelyTraversePassiveMountEffects (node_modules/react-dom/cjs/react-dom-client.development.js:15439:11)
+      at commitPassiveMountOnFiber (node_modules/react-dom/cjs/react-dom-client.development.js:15476:11)
+      at recursivelyTraversePassiveMountEffects (node_modules/react-dom/cjs/react-dom-client.development.js:15439:11)
+      at commitPassiveMountOnFiber (node_modules/react-dom/cjs/react-dom-client.development.js:15718:11)
+      at recursivelyTraversePassiveMountEffects (node_modules/react-dom/cjs/react-dom-client.development.js:15439:11)
+      at commitPassiveMountOnFiber (node_modules/react-dom/cjs/react-dom-client.development.js:15718:11)
+      at recursivelyTraversePassiveMountEffects (node_modules/react-dom/cjs/react-dom-client.development.js:15439:11)
+      at commitPassiveMountOnFiber (node_modules/react-dom/cjs/react-dom-client.development.js:15504:11)
+      at recursivelyTraversePassiveMountEffects (node_modules/react-dom/cjs/react-dom-client.development.js:15439:11)
+      at commitPassiveMountOnFiber (node_modules/react-dom/cjs/react-dom-client.development.js:15718:11)
+      at recursivelyTraversePassiveMountEffects (node_modules/react-dom/cjs/react-dom-client.development.js:15439:11)
+      at commitPassiveMountOnFiber (node_modules/react-dom/cjs/react-dom-client.development.js:15718:11)
+      at recursivelyTraversePassiveMountEffects (node_modules/react-dom/cjs/react-dom-client.development.js:15439:11)
+      at commitPassiveMountOnFiber (node_modules/react-dom/cjs/react-dom-client.development.js:15504:11)
+      at recursivelyTraversePassiveMountEffects (node_modules/react-dom/cjs/react-dom-client.development.js:15439:11)
+      at commitPassiveMountOnFiber (node_modules/react-dom/cjs/react-dom-client.development.js:15504:11)
+      at recursivelyTraversePassiveMountEffects (node_modules/react-dom/cjs/react-dom-client.development.js:15439:11)
+      at commitPassiveMountOnFiber (node_modules/react-dom/cjs/react-dom-client.development.js:15718:11)
+      at recursivelyTraversePassiveMountEffects (node_modules/react-dom/cjs/react-dom-client.development.js:15439:11)
+      at commitPassiveMountOnFiber (node_modules/react-dom/cjs/react-dom-client.development.js:15476:11)
+      at recursivelyTraversePassiveMountEffects (node_modules/react-dom/cjs/react-dom-client.development.js:15439:11)
+      at commitPassiveMountOnFiber (node_modules/react-dom/cjs/react-dom-client.development.js:15519:11)
+      at flushPassiveEffects (node_modules/react-dom/cjs/react-dom-client.development.js:18432:9)
+      at node_modules/react-dom/cjs/react-dom-client.development.js:17923:15
+      at flushActQueue (node_modules/react/cjs/react.development.js:590:34)
+      at Object.<anonymous>.process.env.NODE_ENV.exports.act (node_modules/react/cjs/react.development.js:884:10)
+      at node_modules/@testing-library/react/dist/act-compat.js:47:25
+      at renderRoot (node_modules/@testing-library/react/dist/pure.js:190:26)
+      at render (node_modules/@testing-library/react/dist/pure.js:292:10)
+      at Object.<anonymous> (src/__tests__/Groups.test.js:663:37)
+
+  ● render the group screen › present a group found when a group is provided
+
+    AggregateError:
+
+    [0m [90m 672 |[39m         })
+     [90m 673 |[39m
+    [31m[1m>[22m[39m[90m 674 |[39m         [36mconst[39m { getByText } [33m=[39m render([33m<[39m[33mProvider[39m store[33m=[39m{store}[33m>[39m[33m<[39m[33mRouter[39m[33m>[39m[33m<[39m[33mRoute[39m component[33m=[39m{[33mGroup[39m} [33m/[39m[33m>[39m[33m<[39m[33m/[39m[33mRouter[39m[33m>[39m[33m<[39m[33m/[39m[33mProvider[39m[33m>[39m)[33m;[39m
+     [90m     |[39m                                     [31m[1m^[22m[39m
+     [90m 675 |[39m         [36mconst[39m linkElement [33m=[39m getByText([35m/SHS Playoffs/i[39m)[33m;[39m
+     [90m 676 |[39m         
+     [90m 677 |[39m         expect(linkElement)[33m.[39mtoBeInTheDocument()[33m;[39m[0m
+
+      at aggregateErrors (node_modules/react/cjs/react.development.js:551:11)
+      at Object.<anonymous>.process.env.NODE_ENV.exports.act (node_modules/react/cjs/react.development.js:897:24)
+      at node_modules/@testing-library/react/dist/act-compat.js:47:25
+      at renderRoot (node_modules/@testing-library/react/dist/pure.js:190:26)
+      at render (node_modules/@testing-library/react/dist/pure.js:292:10)
+      at Object.<anonymous> (src/__tests__/Groups.test.js:674:37)
+
+  ● render the group screen › render the create group modal
+
+    AggregateError:
+
+    [0m [90m 684 |[39m
+     [90m 685 |[39m
+    [31m[1m>[22m[39m[90m 686 |[39m         [36mconst[39m { getByRole[33m,[39m getByText } [33m=[39m render([33m<[39m[33mProvider[39m store[33m=[39m{store}[33m>[39m[33m<[39m[33mRouter[39m[33m>[39m[33m<[39m[33mRoute[39m component[33m=[39m{[33mGroups[39m} [33m/[39m[33m>[39m[33m<[39m[33m/[39m[33mRouter[39m[33m>[39m[33m<[39m[33m/[39m[33mProvider[39m[33m>[39m)[33m;[39m
+     [90m     |[39m                                                [31m[1m^[22m[39m
+     [90m 687 |[39m         [36mconst[39m createGroupModal [33m=[39m screen[33m.[39mgetByRole([32m'dialog'[39m)
+     [90m 688 |[39m         expect(createGroupModal)[33m.[39mtoBeInTheDocument()[33m;[39m
+     [90m 689 |[39m     })[0m
+
+      at aggregateErrors (node_modules/react/cjs/react.development.js:551:11)
+      at Object.<anonymous>.process.env.NODE_ENV.exports.act (node_modules/react/cjs/react.development.js:897:24)
+      at node_modules/@testing-library/react/dist/act-compat.js:47:25
+      at renderRoot (node_modules/@testing-library/react/dist/pure.js:190:26)
+      at render (node_modules/@testing-library/react/dist/pure.js:292:10)
+      at Object.<anonymous> (src/__tests__/Groups.test.js:686:48)
+
+FAIL src/__tests__/App.test.js (8.674 s)
+  ● Console
+
+    console.error
+      Accessing element.ref was removed in React 19. ref is now a regular prop. It will be removed from the JSX Element type in a future release.
+
+    [0m [90m 11 |[39m
+     [90m 12 |[39m test([32m'renders learn react link'[39m[33m,[39m () [33m=>[39m {
+    [31m[1m>[22m[39m[90m 13 |[39m   [36mconst[39m { getByText[33m,[39m getByRole } [33m=[39m render([33m<[39m[33mProvider[39m store[33m=[39m{store}[33m>[39m[33m<[39m[33mRouter[39m[33m>[39m[33m<[39m[33mRoute[39m component[33m=[39m{[33mApp[39m} [33m/[39m[33m>[39m[33m<[39m[33m/[39m[33mRouter[39m[33m>[39m[33m<[39m[33m/[39m[33mProvider[39m[33m>[39m)[33m;[39m
+     [90m    |[39m                                          [31m[1m^[22m[39m
+     [90m 14 |[39m   [36mconst[39m linkElement [33m=[39m getByRole([32m'application'[39m)[33m;[39m
+     [90m 15 |[39m   expect(linkElement)[33m.[39mtoBeInTheDocument()[33m;[39m
+     [90m 16 |[39m })[33m;[39m[0m
+
+      at Object.elementRefGetterWithDeprecationWarning (node_modules/react/cjs/react.development.js:194:17)
+      at Wave._this.renderWave (node_modules/antd/lib/_util/wave.js:145:46)
+      at Object.react_stack_bottom_frame (node_modules/react-dom/cjs/react-dom-client.development.js:25904:20)
+      at beginWork (node_modules/react-dom/cjs/react-dom-client.development.js:12189:28)
+      at runWithFiberInDEV (node_modules/react-dom/cjs/react-dom-client.development.js:874:13)
+      at performUnitOfWork (node_modules/react-dom/cjs/react-dom-client.development.js:17641:22)
+      at workLoopSync (node_modules/react-dom/cjs/react-dom-client.development.js:17469:41)
+      at renderRootSync (node_modules/react-dom/cjs/react-dom-client.development.js:17450:11)
+      at performWorkOnRoot (node_modules/react-dom/cjs/react-dom-client.development.js:16504:11)
+      at performWorkOnRootViaSchedulerTask (node_modules/react-dom/cjs/react-dom-client.development.js:18957:7)
+      at flushActQueue (node_modules/react/cjs/react.development.js:590:34)
+      at Object.<anonymous>.process.env.NODE_ENV.exports.act (node_modules/react/cjs/react.development.js:884:10)
+      at node_modules/@testing-library/react/dist/act-compat.js:47:25
+      at renderRoot (node_modules/@testing-library/react/dist/pure.js:190:26)
+      at render (node_modules/@testing-library/react/dist/pure.js:292:10)
+      at Object.<anonymous> (src/__tests__/App.test.js:13:42)
+
+    console.error
+      Warning: [antd: Menu] `children` will be removed in next major version. Please use `items` instead.
+
+    [0m [90m 11 |[39m
+     [90m 12 |[39m test([32m'renders learn react link'[39m[33m,[39m () [33m=>[39m {
+    [31m[1m>[22m[39m[90m 13 |[39m   [36mconst[39m { getByText[33m,[39m getByRole } [33m=[39m render([33m<[39m[33mProvider[39m store[33m=[39m{store}[33m>[39m[33m<[39m[33mRouter[39m[33m>[39m[33m<[39m[33mRoute[39m component[33m=[39m{[33mApp[39m} [33m/[39m[33m>[39m[33m<[39m[33m/[39m[33mRouter[39m[33m>[39m[33m<[39m[33m/[39m[33mProvider[39m[33m>[39m)[33m;[39m
+     [90m    |[39m                                          [31m[1m^[22m[39m
+     [90m 14 |[39m   [36mconst[39m linkElement [33m=[39m getByRole([32m'application'[39m)[33m;[39m
+     [90m 15 |[39m   expect(linkElement)[33m.[39mtoBeInTheDocument()[33m;[39m
+     [90m 16 |[39m })[33m;[39m[0m
+
+      at warning (node_modules/rc-util/lib/warning.js:43:15)
+      at call (node_modules/rc-util/lib/warning.js:64:5)
+      at warningOnce (node_modules/rc-util/lib/warning.js:71:3)
+      at warning (node_modules/antd/lib/_util/warning.js:21:29)
+      at node_modules/antd/lib/menu/index.js:71:67
+      at Object.react_stack_bottom_frame (node_modules/react-dom/cjs/react-dom-client.development.js:25904:20)
+      at renderWithHooks (node_modules/react-dom/cjs/react-dom-client.development.js:7662:22)
+      at updateForwardRef (node_modules/react-dom/cjs/react-dom-client.development.js:9724:19)
+      at beginWork (node_modules/react-dom/cjs/react-dom-client.development.js:12117:18)
+      at runWithFiberInDEV (node_modules/react-dom/cjs/react-dom-client.development.js:874:13)
+      at performUnitOfWork (node_modules/react-dom/cjs/react-dom-client.development.js:17641:22)
+      at workLoopSync (node_modules/react-dom/cjs/react-dom-client.development.js:17469:41)
+      at renderRootSync (node_modules/react-dom/cjs/react-dom-client.development.js:17450:11)
+      at performWorkOnRoot (node_modules/react-dom/cjs/react-dom-client.development.js:16504:11)
+      at performWorkOnRootViaSchedulerTask (node_modules/react-dom/cjs/react-dom-client.development.js:18957:7)
+      at flushActQueue (node_modules/react/cjs/react.development.js:590:34)
+      at Object.<anonymous>.process.env.NODE_ENV.exports.act (node_modules/react/cjs/react.development.js:884:10)
+      at node_modules/@testing-library/react/dist/act-compat.js:47:25
+      at renderRoot (node_modules/@testing-library/react/dist/pure.js:190:26)
+      at render (node_modules/@testing-library/react/dist/pure.js:292:10)
+      at Object.<anonymous> (src/__tests__/App.test.js:13:42)
+
+    console.error
+      Accessing element.ref was removed in React 19. ref is now a regular prop. It will be removed from the JSX Element type in a future release.
+
+    [0m [90m 11 |[39m
+     [90m 12 |[39m test([32m'renders learn react link'[39m[33m,[39m () [33m=>[39m {
+    [31m[1m>[22m[39m[90m 13 |[39m   [36mconst[39m { getByText[33m,[39m getByRole } [33m=[39m render([33m<[39m[33mProvider[39m store[33m=[39m{store}[33m>[39m[33m<[39m[33mRouter[39m[33m>[39m[33m<[39m[33mRoute[39m component[33m=[39m{[33mApp[39m} [33m/[39m[33m>[39m[33m<[39m[33m/[39m[33mRouter[39m[33m>[39m[33m<[39m[33m/[39m[33mProvider[39m[33m>[39m)[33m;[39m
+     [90m    |[39m                                          [31m[1m^[22m[39m
+     [90m 14 |[39m   [36mconst[39m linkElement [33m=[39m getByRole([32m'application'[39m)[33m;[39m
+     [90m 15 |[39m   expect(linkElement)[33m.[39mtoBeInTheDocument()[33m;[39m
+     [90m 16 |[39m })[33m;[39m[0m
+
+      at Object.elementRefGetterWithDeprecationWarning (node_modules/react/cjs/react.development.js:194:17)
+      at Trigger.render (node_modules/rc-trigger/lib/index.js:762:73)
+      at Object.react_stack_bottom_frame (node_modules/react-dom/cjs/react-dom-client.development.js:25917:29)
+      at updateClassComponent (node_modules/react-dom/cjs/react-dom-client.development.js:10719:25)
+      at beginWork (node_modules/react-dom/cjs/react-dom-client.development.js:11792:13)
+      at runWithFiberInDEV (node_modules/react-dom/cjs/react-dom-client.development.js:874:13)
+      at performUnitOfWork (node_modules/react-dom/cjs/react-dom-client.development.js:17641:22)
+      at workLoopSync (node_modules/react-dom/cjs/react-dom-client.development.js:17469:41)
+      at renderRootSync (node_modules/react-dom/cjs/react-dom-client.development.js:17450:11)
+      at performWorkOnRoot (node_modules/react-dom/cjs/react-dom-client.development.js:16504:11)
+      at performWorkOnRootViaSchedulerTask (node_modules/react-dom/cjs/react-dom-client.development.js:18957:7)
+      at flushActQueue (node_modules/react/cjs/react.development.js:590:34)
+      at Object.<anonymous>.process.env.NODE_ENV.exports.act (node_modules/react/cjs/react.development.js:884:10)
+      at node_modules/@testing-library/react/dist/act-compat.js:47:25
+      at renderRoot (node_modules/@testing-library/react/dist/pure.js:190:26)
+      at render (node_modules/@testing-library/react/dist/pure.js:292:10)
+      at Object.<anonymous> (src/__tests__/App.test.js:13:42)
+
+    console.error
+      Warning: [antd: Modal] `visible` will be removed in next major version, please use `open` instead.
+
+    [0m [90m 11 |[39m
+     [90m 12 |[39m test([32m'renders learn react link'[39m[33m,[39m () [33m=>[39m {
+    [31m[1m>[22m[39m[90m 13 |[39m   [36mconst[39m { getByText[33m,[39m getByRole } [33m=[39m render([33m<[39m[33mProvider[39m store[33m=[39m{store}[33m>[39m[33m<[39m[33mRouter[39m[33m>[39m[33m<[39m[33mRoute[39m component[33m=[39m{[33mApp[39m} [33m/[39m[33m>[39m[33m<[39m[33m/[39m[33mRouter[39m[33m>[39m[33m<[39m[33m/[39m[33mProvider[39m[33m>[39m)[33m;[39m
+     [90m    |[39m                                          [31m[1m^[22m[39m
+     [90m 14 |[39m   [36mconst[39m linkElement [33m=[39m getByRole([32m'application'[39m)[33m;[39m
+     [90m 15 |[39m   expect(linkElement)[33m.[39mtoBeInTheDocument()[33m;[39m
+     [90m 16 |[39m })[33m;[39m[0m
+
+      at warning (node_modules/rc-util/lib/warning.js:43:15)
+      at call (node_modules/rc-util/lib/warning.js:64:5)
+      at warningOnce (node_modules/rc-util/lib/warning.js:71:3)
+      at warning (node_modules/antd/lib/_util/warning.js:21:29)
+      at Modal (node_modules/antd/lib/modal/Modal.js:65:67)
+      at Object.react_stack_bottom_frame (node_modules/react-dom/cjs/react-dom-client.development.js:25904:20)
+      at renderWithHooks (node_modules/react-dom/cjs/react-dom-client.development.js:7662:22)
+      at updateFunctionComponent (node_modules/react-dom/cjs/react-dom-client.development.js:10166:19)
+      at beginWork (node_modules/react-dom/cjs/react-dom-client.development.js:11778:18)
+      at runWithFiberInDEV (node_modules/react-dom/cjs/react-dom-client.development.js:874:13)
+      at performUnitOfWork (node_modules/react-dom/cjs/react-dom-client.development.js:17641:22)
+      at workLoopSync (node_modules/react-dom/cjs/react-dom-client.development.js:17469:41)
+      at renderRootSync (node_modules/react-dom/cjs/react-dom-client.development.js:17450:11)
+      at performWorkOnRoot (node_modules/react-dom/cjs/react-dom-client.development.js:16504:11)
+      at performWorkOnRootViaSchedulerTask (node_modules/react-dom/cjs/react-dom-client.development.js:18957:7)
+      at flushActQueue (node_modules/react/cjs/react.development.js:590:34)
+      at Object.<anonymous>.process.env.NODE_ENV.exports.act (node_modules/react/cjs/react.development.js:884:10)
+      at node_modules/@testing-library/react/dist/act-compat.js:47:25
+      at renderRoot (node_modules/@testing-library/react/dist/pure.js:190:26)
+      at render (node_modules/@testing-library/react/dist/pure.js:292:10)
+      at Object.<anonymous> (src/__tests__/App.test.js:13:42)
+
+    console.error
+      Warning: [antd: Modal] `visible` will be removed in next major version, please use `open` instead.
+
+    [0m [90m 11 |[39m
+     [90m 12 |[39m test([32m'renders learn react link'[39m[33m,[39m () [33m=>[39m {
+    [31m[1m>[22m[39m[90m 13 |[39m   [36mconst[39m { getByText[33m,[39m getByRole } [33m=[39m render([33m<[39m[33mProvider[39m store[33m=[39m{store}[33m>[39m[33m<[39m[33mRouter[39m[33m>[39m[33m<[39m[33mRoute[39m component[33m=[39m{[33mApp[39m} [33m/[39m[33m>[39m[33m<[39m[33m/[39m[33mRouter[39m[33m>[39m[33m<[39m[33m/[39m[33mProvider[39m[33m>[39m)[33m;[39m
+     [90m    |[39m                                          [31m[1m^[22m[39m
+     [90m 14 |[39m   [36mconst[39m linkElement [33m=[39m getByRole([32m'application'[39m)[33m;[39m
+     [90m 15 |[39m   expect(linkElement)[33m.[39mtoBeInTheDocument()[33m;[39m
+     [90m 16 |[39m })[33m;[39m[0m
+
+      at warning (node_modules/rc-util/lib/warning.js:43:15)
+      at call (node_modules/rc-util/lib/warning.js:64:5)
+      at warningOnce (node_modules/rc-util/lib/warning.js:71:3)
+      at warning (node_modules/antd/lib/_util/warning.js:21:29)
+      at Modal (node_modules/antd/lib/modal/Modal.js:65:67)
+      at Object.react_stack_bottom_frame (node_modules/react-dom/cjs/react-dom-client.development.js:25904:20)
+      at renderWithHooks (node_modules/react-dom/cjs/react-dom-client.development.js:7662:22)
+      at updateFunctionComponent (node_modules/react-dom/cjs/react-dom-client.development.js:10166:19)
+      at beginWork (node_modules/react-dom/cjs/react-dom-client.development.js:11778:18)
+      at runWithFiberInDEV (node_modules/react-dom/cjs/react-dom-client.development.js:874:13)
+      at performUnitOfWork (node_modules/react-dom/cjs/react-dom-client.development.js:17641:22)
+      at workLoopSync (node_modules/react-dom/cjs/react-dom-client.development.js:17469:41)
+      at renderRootSync (node_modules/react-dom/cjs/react-dom-client.development.js:17450:11)
+      at performWorkOnRoot (node_modules/react-dom/cjs/react-dom-client.development.js:16504:11)
+      at performWorkOnRootViaSchedulerTask (node_modules/react-dom/cjs/react-dom-client.development.js:18957:7)
+      at flushActQueue (node_modules/react/cjs/react.development.js:590:34)
+      at Object.<anonymous>.process.env.NODE_ENV.exports.act (node_modules/react/cjs/react.development.js:884:10)
+      at node_modules/@testing-library/react/dist/act-compat.js:47:25
+      at renderRoot (node_modules/@testing-library/react/dist/pure.js:190:26)
+      at render (node_modules/@testing-library/react/dist/pure.js:292:10)
+      at Object.<anonymous> (src/__tests__/App.test.js:13:42)
+
+    console.error
+      Warning: [antd: Modal] `visible` will be removed in next major version, please use `open` instead.
+
+    [0m [90m 11 |[39m
+     [90m 12 |[39m test([32m'renders learn react link'[39m[33m,[39m () [33m=>[39m {
+    [31m[1m>[22m[39m[90m 13 |[39m   [36mconst[39m { getByText[33m,[39m getByRole } [33m=[39m render([33m<[39m[33mProvider[39m store[33m=[39m{store}[33m>[39m[33m<[39m[33mRouter[39m[33m>[39m[33m<[39m[33mRoute[39m component[33m=[39m{[33mApp[39m} [33m/[39m[33m>[39m[33m<[39m[33m/[39m[33mRouter[39m[33m>[39m[33m<[39m[33m/[39m[33mProvider[39m[33m>[39m)[33m;[39m
+     [90m    |[39m                                          [31m[1m^[22m[39m
+     [90m 14 |[39m   [36mconst[39m linkElement [33m=[39m getByRole([32m'application'[39m)[33m;[39m
+     [90m 15 |[39m   expect(linkElement)[33m.[39mtoBeInTheDocument()[33m;[39m
+     [90m 16 |[39m })[33m;[39m[0m
+
+      at warning (node_modules/rc-util/lib/warning.js:43:15)
+      at call (node_modules/rc-util/lib/warning.js:64:5)
+      at warningOnce (node_modules/rc-util/lib/warning.js:71:3)
+      at warning (node_modules/antd/lib/_util/warning.js:21:29)
+      at Modal (node_modules/antd/lib/modal/Modal.js:65:67)
+      at Object.react_stack_bottom_frame (node_modules/react-dom/cjs/react-dom-client.development.js:25904:20)
+      at renderWithHooks (node_modules/react-dom/cjs/react-dom-client.development.js:7662:22)
+      at updateFunctionComponent (node_modules/react-dom/cjs/react-dom-client.development.js:10166:19)
+      at beginWork (node_modules/react-dom/cjs/react-dom-client.development.js:11778:18)
+      at runWithFiberInDEV (node_modules/react-dom/cjs/react-dom-client.development.js:874:13)
+      at performUnitOfWork (node_modules/react-dom/cjs/react-dom-client.development.js:17641:22)
+      at workLoopSync (node_modules/react-dom/cjs/react-dom-client.development.js:17469:41)
+      at renderRootSync (node_modules/react-dom/cjs/react-dom-client.development.js:17450:11)
+      at performWorkOnRoot (node_modules/react-dom/cjs/react-dom-client.development.js:16504:11)
+      at performWorkOnRootViaSchedulerTask (node_modules/react-dom/cjs/react-dom-client.development.js:18957:7)
+      at flushActQueue (node_modules/react/cjs/react.development.js:590:34)
+      at Object.<anonymous>.process.env.NODE_ENV.exports.act (node_modules/react/cjs/react.development.js:884:10)
+      at node_modules/@testing-library/react/dist/act-compat.js:47:25
+      at renderRoot (node_modules/@testing-library/react/dist/pure.js:190:26)
+      at render (node_modules/@testing-library/react/dist/pure.js:292:10)
+      at Object.<anonymous> (src/__tests__/App.test.js:13:42)
+
+    console.error
+      Warning: Duplicated key '1' used in Menu by path [ncaaf > 1]
+
+      at warning (node_modules/rc-util/lib/warning.js:43:15)
+      at call (node_modules/rc-util/lib/warning.js:64:5)
+      at warningOnce (node_modules/rc-util/lib/warning.js:71:3)
+      at Object.registerPath (node_modules/rc-menu/lib/hooks/useKeyRecords.js:46:28)
+      at node_modules/rc-menu/lib/MenuItem.js:210:15
+      at Object.react_stack_bottom_frame (node_modules/react-dom/cjs/react-dom-client.development.js:25989:20)
+      at runWithFiberInDEV (node_modules/react-dom/cjs/react-dom-client.development.js:874:13)
+      at commitHookEffectListMount (node_modules/react-dom/cjs/react-dom-client.development.js:13249:29)
+      at commitHookPassiveMountEffects (node_modules/react-dom/cjs/react-dom-client.development.js:13336:11)
+      at commitPassiveMountOnFiber (node_modules/react-dom/cjs/react-dom-client.development.js:15484:13)
+      at recursivelyTraversePassiveMountEffects (node_modules/react-dom/cjs/react-dom-client.development.js:15439:11)
+      at commitPassiveMountOnFiber (node_modules/react-dom/cjs/react-dom-client.development.js:15718:11)
+      at recursivelyTraversePassiveMountEffects (node_modules/react-dom/cjs/react-dom-client.development.js:15439:11)
+      at commitPassiveMountOnFiber (node_modules/react-dom/cjs/react-dom-client.development.js:15504:11)
+      at recursivelyTraversePassiveMountEffects (node_modules/react-dom/cjs/react-dom-client.development.js:15439:11)
+      at commitPassiveMountOnFiber (node_modules/react-dom/cjs/react-dom-client.development.js:15476:11)
+      at recursivelyTraversePassiveMountEffects (node_modules/react-dom/cjs/react-dom-client.development.js:15439:11)
+      at commitPassiveMountOnFiber (node_modules/react-dom/cjs/react-dom-client.development.js:15476:11)
+      at recursivelyTraversePassiveMountEffects (node_modules/react-dom/cjs/react-dom-client.development.js:15439:11)
+      at commitPassiveMountOnFiber (node_modules/react-dom/cjs/react-dom-client.development.js:15718:11)
+      at recursivelyTraversePassiveMountEffects (node_modules/react-dom/cjs/react-dom-client.development.js:15439:11)
+      at commitPassiveMountOnFiber (node_modules/react-dom/cjs/react-dom-client.development.js:15504:11)
+      at recursivelyTraversePassiveMountEffects (node_modules/react-dom/cjs/react-dom-client.development.js:15439:11)
+      at commitPassiveMountOnFiber (node_modules/react-dom/cjs/react-dom-client.development.js:15718:11)
+      at recursivelyTraversePassiveMountEffects (node_modules/react-dom/cjs/react-dom-client.development.js:15439:11)
+      at commitPassiveMountOnFiber (node_modules/react-dom/cjs/react-dom-client.development.js:15476:11)
+      at recursivelyTraversePassiveMountEffects (node_modules/react-dom/cjs/react-dom-client.development.js:15439:11)
+      at commitPassiveMountOnFiber (node_modules/react-dom/cjs/react-dom-client.development.js:15718:11)
+      at recursivelyTraversePassiveMountEffects (node_modules/react-dom/cjs/react-dom-client.development.js:15439:11)
+      at commitPassiveMountOnFiber (node_modules/react-dom/cjs/react-dom-client.development.js:15476:11)
+      at recursivelyTraversePassiveMountEffects (node_modules/react-dom/cjs/react-dom-client.development.js:15439:11)
+      at commitPassiveMountOnFiber (node_modules/react-dom/cjs/react-dom-client.development.js:15718:11)
+      at recursivelyTraversePassiveMountEffects (node_modules/react-dom/cjs/react-dom-client.development.js:15439:11)
+      at commitPassiveMountOnFiber (node_modules/react-dom/cjs/react-dom-client.development.js:15718:11)
+      at recursivelyTraversePassiveMountEffects (node_modules/react-dom/cjs/react-dom-client.development.js:15439:11)
+      at commitPassiveMountOnFiber (node_modules/react-dom/cjs/react-dom-client.development.js:15718:11)
+      at recursivelyTraversePassiveMountEffects (node_modules/react-dom/cjs/react-dom-client.development.js:15439:11)
+      at commitPassiveMountOnFiber (node_modules/react-dom/cjs/react-dom-client.development.js:15476:11)
+      at recursivelyTraversePassiveMountEffects (node_modules/react-dom/cjs/react-dom-client.development.js:15439:11)
+      at commitPassiveMountOnFiber (node_modules/react-dom/cjs/react-dom-client.development.js:15718:11)
+      at recursivelyTraversePassiveMountEffects (node_modules/react-dom/cjs/react-dom-client.development.js:15439:11)
+      at commitPassiveMountOnFiber (node_modules/react-dom/cjs/react-dom-client.development.js:15718:11)
+      at recursivelyTraversePassiveMountEffects (node_modules/react-dom/cjs/react-dom-client.development.js:15439:11)
+      at commitPassiveMountOnFiber (node_modules/react-dom/cjs/react-dom-client.development.js:15476:11)
+      at recursivelyTraversePassiveMountEffects (node_modules/react-dom/cjs/react-dom-client.development.js:15439:11)
+      at commitPassiveMountOnFiber (node_modules/react-dom/cjs/react-dom-client.development.js:15718:11)
+      at recursivelyTraversePassiveMountEffects (node_modules/react-dom/cjs/react-dom-client.development.js:15439:11)
+      at commitPassiveMountOnFiber (node_modules/react-dom/cjs/react-dom-client.development.js:15718:11)
+
+    console.error
+      Warning: Duplicated key '2' used in Menu by path [ncaaf > 2]
+
+      at warning (node_modules/rc-util/lib/warning.js:43:15)
+      at call (node_modules/rc-util/lib/warning.js:64:5)
+      at warningOnce (node_modules/rc-util/lib/warning.js:71:3)
+      at Object.registerPath (node_modules/rc-menu/lib/hooks/useKeyRecords.js:46:28)
+      at node_modules/rc-menu/lib/MenuItem.js:210:15
+      at Object.react_stack_bottom_frame (node_modules/react-dom/cjs/react-dom-client.development.js:25989:20)
+      at runWithFiberInDEV (node_modules/react-dom/cjs/react-dom-client.development.js:874:13)
+      at commitHookEffectListMount (node_modules/react-dom/cjs/react-dom-client.development.js:13249:29)
+      at commitHookPassiveMountEffects (node_modules/react-dom/cjs/react-dom-client.development.js:13336:11)
+      at commitPassiveMountOnFiber (node_modules/react-dom/cjs/react-dom-client.development.js:15484:13)
+      at recursivelyTraversePassiveMountEffects (node_modules/react-dom/cjs/react-dom-client.development.js:15439:11)
+      at commitPassiveMountOnFiber (node_modules/react-dom/cjs/react-dom-client.development.js:15718:11)
+      at recursivelyTraversePassiveMountEffects (node_modules/react-dom/cjs/react-dom-client.development.js:15439:11)
+      at commitPassiveMountOnFiber (node_modules/react-dom/cjs/react-dom-client.development.js:15504:11)
+      at recursivelyTraversePassiveMountEffects (node_modules/react-dom/cjs/react-dom-client.development.js:15439:11)
+      at commitPassiveMountOnFiber (node_modules/react-dom/cjs/react-dom-client.development.js:15476:11)
+      at recursivelyTraversePassiveMountEffects (node_modules/react-dom/cjs/react-dom-client.development.js:15439:11)
+      at commitPassiveMountOnFiber (node_modules/react-dom/cjs/react-dom-client.development.js:15476:11)
+      at recursivelyTraversePassiveMountEffects (node_modules/react-dom/cjs/react-dom-client.development.js:15439:11)
+      at commitPassiveMountOnFiber (node_modules/react-dom/cjs/react-dom-client.development.js:15718:11)
+      at recursivelyTraversePassiveMountEffects (node_modules/react-dom/cjs/react-dom-client.development.js:15439:11)
+      at commitPassiveMountOnFiber (node_modules/react-dom/cjs/react-dom-client.development.js:15504:11)
+      at recursivelyTraversePassiveMountEffects (node_modules/react-dom/cjs/react-dom-client.development.js:15439:11)
+      at commitPassiveMountOnFiber (node_modules/react-dom/cjs/react-dom-client.development.js:15718:11)
+      at recursivelyTraversePassiveMountEffects (node_modules/react-dom/cjs/react-dom-client.development.js:15439:11)
+      at commitPassiveMountOnFiber (node_modules/react-dom/cjs/react-dom-client.development.js:15476:11)
+      at recursivelyTraversePassiveMountEffects (node_modules/react-dom/cjs/react-dom-client.development.js:15439:11)
+      at commitPassiveMountOnFiber (node_modules/react-dom/cjs/react-dom-client.development.js:15718:11)
+      at recursivelyTraversePassiveMountEffects (node_modules/react-dom/cjs/react-dom-client.development.js:15439:11)
+      at commitPassiveMountOnFiber (node_modules/react-dom/cjs/react-dom-client.development.js:15476:11)
+      at recursivelyTraversePassiveMountEffects (node_modules/react-dom/cjs/react-dom-client.development.js:15439:11)
+      at commitPassiveMountOnFiber (node_modules/react-dom/cjs/react-dom-client.development.js:15718:11)
+      at recursivelyTraversePassiveMountEffects (node_modules/react-dom/cjs/react-dom-client.development.js:15439:11)
+      at commitPassiveMountOnFiber (node_modules/react-dom/cjs/react-dom-client.development.js:15718:11)
+      at recursivelyTraversePassiveMountEffects (node_modules/react-dom/cjs/react-dom-client.development.js:15439:11)
+      at commitPassiveMountOnFiber (node_modules/react-dom/cjs/react-dom-client.development.js:15718:11)
+      at recursivelyTraversePassiveMountEffects (node_modules/react-dom/cjs/react-dom-client.development.js:15439:11)
+      at commitPassiveMountOnFiber (node_modules/react-dom/cjs/react-dom-client.development.js:15476:11)
+      at recursivelyTraversePassiveMountEffects (node_modules/react-dom/cjs/react-dom-client.development.js:15439:11)
+      at commitPassiveMountOnFiber (node_modules/react-dom/cjs/react-dom-client.development.js:15718:11)
+      at recursivelyTraversePassiveMountEffects (node_modules/react-dom/cjs/react-dom-client.development.js:15439:11)
+      at commitPassiveMountOnFiber (node_modules/react-dom/cjs/react-dom-client.development.js:15718:11)
+      at recursivelyTraversePassiveMountEffects (node_modules/react-dom/cjs/react-dom-client.development.js:15439:11)
+      at commitPassiveMountOnFiber (node_modules/react-dom/cjs/react-dom-client.development.js:15476:11)
+      at recursivelyTraversePassiveMountEffects (node_modules/react-dom/cjs/react-dom-client.development.js:15439:11)
+      at commitPassiveMountOnFiber (node_modules/react-dom/cjs/react-dom-client.development.js:15718:11)
+      at recursivelyTraversePassiveMountEffects (node_modules/react-dom/cjs/react-dom-client.development.js:15439:11)
+      at commitPassiveMountOnFiber (node_modules/react-dom/cjs/react-dom-client.development.js:15718:11)
+
+    console.error
+      Warning: Duplicated key '3' used in Menu by path [ncaaf > 3]
+
+      at warning (node_modules/rc-util/lib/warning.js:43:15)
+      at call (node_modules/rc-util/lib/warning.js:64:5)
+      at warningOnce (node_modules/rc-util/lib/warning.js:71:3)
+      at Object.registerPath (node_modules/rc-menu/lib/hooks/useKeyRecords.js:46:28)
+      at node_modules/rc-menu/lib/MenuItem.js:210:15
+      at Object.react_stack_bottom_frame (node_modules/react-dom/cjs/react-dom-client.development.js:25989:20)
+      at runWithFiberInDEV (node_modules/react-dom/cjs/react-dom-client.development.js:874:13)
+      at commitHookEffectListMount (node_modules/react-dom/cjs/react-dom-client.development.js:13249:29)
+      at commitHookPassiveMountEffects (node_modules/react-dom/cjs/react-dom-client.development.js:13336:11)
+      at commitPassiveMountOnFiber (node_modules/react-dom/cjs/react-dom-client.development.js:15484:13)
+      at recursivelyTraversePassiveMountEffects (node_modules/react-dom/cjs/react-dom-client.development.js:15439:11)
+      at commitPassiveMountOnFiber (node_modules/react-dom/cjs/react-dom-client.development.js:15718:11)
+      at recursivelyTraversePassiveMountEffects (node_modules/react-dom/cjs/react-dom-client.development.js:15439:11)
+      at commitPassiveMountOnFiber (node_modules/react-dom/cjs/react-dom-client.development.js:15504:11)
+      at recursivelyTraversePassiveMountEffects (node_modules/react-dom/cjs/react-dom-client.development.js:15439:11)
+      at commitPassiveMountOnFiber (node_modules/react-dom/cjs/react-dom-client.development.js:15476:11)
+      at recursivelyTraversePassiveMountEffects (node_modules/react-dom/cjs/react-dom-client.development.js:15439:11)
+      at commitPassiveMountOnFiber (node_modules/react-dom/cjs/react-dom-client.development.js:15476:11)
+      at recursivelyTraversePassiveMountEffects (node_modules/react-dom/cjs/react-dom-client.development.js:15439:11)
+      at commitPassiveMountOnFiber (node_modules/react-dom/cjs/react-dom-client.development.js:15718:11)
+      at recursivelyTraversePassiveMountEffects (node_modules/react-dom/cjs/react-dom-client.development.js:15439:11)
+      at commitPassiveMountOnFiber (node_modules/react-dom/cjs/react-dom-client.development.js:15504:11)
+      at recursivelyTraversePassiveMountEffects (node_modules/react-dom/cjs/react-dom-client.development.js:15439:11)
+      at commitPassiveMountOnFiber (node_modules/react-dom/cjs/react-dom-client.development.js:15718:11)
+      at recursivelyTraversePassiveMountEffects (node_modules/react-dom/cjs/react-dom-client.development.js:15439:11)
+      at commitPassiveMountOnFiber (node_modules/react-dom/cjs/react-dom-client.development.js:15476:11)
+      at recursivelyTraversePassiveMountEffects (node_modules/react-dom/cjs/react-dom-client.development.js:15439:11)
+      at commitPassiveMountOnFiber (node_modules/react-dom/cjs/react-dom-client.development.js:15718:11)
+      at recursivelyTraversePassiveMountEffects (node_modules/react-dom/cjs/react-dom-client.development.js:15439:11)
+      at commitPassiveMountOnFiber (node_modules/react-dom/cjs/react-dom-client.development.js:15476:11)
+      at recursivelyTraversePassiveMountEffects (node_modules/react-dom/cjs/react-dom-client.development.js:15439:11)
+      at commitPassiveMountOnFiber (node_modules/react-dom/cjs/react-dom-client.development.js:15718:11)
+      at recursivelyTraversePassiveMountEffects (node_modules/react-dom/cjs/react-dom-client.development.js:15439:11)
+      at commitPassiveMountOnFiber (node_modules/react-dom/cjs/react-dom-client.development.js:15718:11)
+      at recursivelyTraversePassiveMountEffects (node_modules/react-dom/cjs/react-dom-client.development.js:15439:11)
+      at commitPassiveMountOnFiber (node_modules/react-dom/cjs/react-dom-client.development.js:15718:11)
+      at recursivelyTraversePassiveMountEffects (node_modules/react-dom/cjs/react-dom-client.development.js:15439:11)
+      at commitPassiveMountOnFiber (node_modules/react-dom/cjs/react-dom-client.development.js:15476:11)
+      at recursivelyTraversePassiveMountEffects (node_modules/react-dom/cjs/react-dom-client.development.js:15439:11)
+      at commitPassiveMountOnFiber (node_modules/react-dom/cjs/react-dom-client.development.js:15718:11)
+      at recursivelyTraversePassiveMountEffects (node_modules/react-dom/cjs/react-dom-client.development.js:15439:11)
+      at commitPassiveMountOnFiber (node_modules/react-dom/cjs/react-dom-client.development.js:15718:11)
+      at recursivelyTraversePassiveMountEffects (node_modules/react-dom/cjs/react-dom-client.development.js:15439:11)
+      at commitPassiveMountOnFiber (node_modules/react-dom/cjs/react-dom-client.development.js:15476:11)
+      at recursivelyTraversePassiveMountEffects (node_modules/react-dom/cjs/react-dom-client.development.js:15439:11)
+      at commitPassiveMountOnFiber (node_modules/react-dom/cjs/react-dom-client.development.js:15718:11)
+      at recursivelyTraversePassiveMountEffects (node_modules/react-dom/cjs/react-dom-client.development.js:15439:11)
+      at commitPassiveMountOnFiber (node_modules/react-dom/cjs/react-dom-client.development.js:15718:11)
+
+    console.log
+      getCurrentUserError The user is not authenticated
+
+      at App.componentDidMount (src/App.js:136:15)
+
+    console.log
+      sport, year, season, week nfl NaN undefined NaN
+
+      at src/redux/actions/sportActions.js:25:13
+
+  ● renders learn react link
+
+    TypeError: Cannot read properties of undefined (reading 'addListener')
+
+    [0m [90m 11 |[39m
+     [90m 12 |[39m test([32m'renders learn react link'[39m[33m,[39m () [33m=>[39m {
+    [31m[1m>[22m[39m[90m 13 |[39m   [36mconst[39m { getByText[33m,[39m getByRole } [33m=[39m render([33m<[39m[33mProvider[39m store[33m=[39m{store}[33m>[39m[33m<[39m[33mRouter[39m[33m>[39m[33m<[39m[33mRoute[39m component[33m=[39m{[33mApp[39m} [33m/[39m[33m>[39m[33m<[39m[33m/[39m[33mRouter[39m[33m>[39m[33m<[39m[33m/[39m[33mProvider[39m[33m>[39m)[33m;[39m
+     [90m    |[39m                                          [31m[1m^[22m[39m
+     [90m 14 |[39m   [36mconst[39m linkElement [33m=[39m getByRole([32m'application'[39m)[33m;[39m
+     [90m 15 |[39m   expect(linkElement)[33m.[39mtoBeInTheDocument()[33m;[39m
+     [90m 16 |[39m })[33m;[39m[0m
+
+      at node_modules/antd/lib/layout/Sider.js:114:15
+      at Object.react_stack_bottom_frame (node_modules/react-dom/cjs/react-dom-client.development.js:25989:20)
+      at runWithFiberInDEV (node_modules/react-dom/cjs/react-dom-client.development.js:874:13)
+      at commitHookEffectListMount (node_modules/react-dom/cjs/react-dom-client.development.js:13249:29)
+      at commitHookPassiveMountEffects (node_modules/react-dom/cjs/react-dom-client.development.js:13336:11)
+      at commitPassiveMountOnFiber (node_modules/react-dom/cjs/react-dom-client.development.js:15484:13)
+      at recursivelyTraversePassiveMountEffects (node_modules/react-dom/cjs/react-dom-client.development.js:15439:11)
+      at commitPassiveMountOnFiber (node_modules/react-dom/cjs/react-dom-client.development.js:15476:11)
+      at recursivelyTraversePassiveMountEffects (node_modules/react-dom/cjs/react-dom-client.development.js:15439:11)
+      at commitPassiveMountOnFiber (node_modules/react-dom/cjs/react-dom-client.development.js:15718:11)
+      at recursivelyTraversePassiveMountEffects (node_modules/react-dom/cjs/react-dom-client.development.js:15439:11)
+      at commitPassiveMountOnFiber (node_modules/react-dom/cjs/react-dom-client.development.js:15476:11)
+      at recursivelyTraversePassiveMountEffects (node_modules/react-dom/cjs/react-dom-client.development.js:15439:11)
+      at commitPassiveMountOnFiber (node_modules/react-dom/cjs/react-dom-client.development.js:15718:11)
+      at recursivelyTraversePassiveMountEffects (node_modules/react-dom/cjs/react-dom-client.development.js:15439:11)
+      at commitPassiveMountOnFiber (node_modules/react-dom/cjs/react-dom-client.development.js:15718:11)
+      at recursivelyTraversePassiveMountEffects (node_modules/react-dom/cjs/react-dom-client.development.js:15439:11)
+      at commitPassiveMountOnFiber (node_modules/react-dom/cjs/react-dom-client.development.js:15476:11)
+      at recursivelyTraversePassiveMountEffects (node_modules/react-dom/cjs/react-dom-client.development.js:15439:11)
+      at commitPassiveMountOnFiber (node_modules/react-dom/cjs/react-dom-client.development.js:15476:11)
+      at recursivelyTraversePassiveMountEffects (node_modules/react-dom/cjs/react-dom-client.development.js:15439:11)
+      at commitPassiveMountOnFiber (node_modules/react-dom/cjs/react-dom-client.development.js:15718:11)
+      at recursivelyTraversePassiveMountEffects (node_modules/react-dom/cjs/react-dom-client.development.js:15439:11)
+      at commitPassiveMountOnFiber (node_modules/react-dom/cjs/react-dom-client.development.js:15476:11)
+      at recursivelyTraversePassiveMountEffects (node_modules/react-dom/cjs/react-dom-client.development.js:15439:11)
+      at commitPassiveMountOnFiber (node_modules/react-dom/cjs/react-dom-client.development.js:15476:11)
+      at recursivelyTraversePassiveMountEffects (node_modules/react-dom/cjs/react-dom-client.development.js:15439:11)
+      at commitPassiveMountOnFiber (node_modules/react-dom/cjs/react-dom-client.development.js:15718:11)
+      at recursivelyTraversePassiveMountEffects (node_modules/react-dom/cjs/react-dom-client.development.js:15439:11)
+      at commitPassiveMountOnFiber (node_modules/react-dom/cjs/react-dom-client.development.js:15718:11)
+      at recursivelyTraversePassiveMountEffects (node_modules/react-dom/cjs/react-dom-client.development.js:15439:11)
+      at commitPassiveMountOnFiber (node_modules/react-dom/cjs/react-dom-client.development.js:15476:11)
+      at recursivelyTraversePassiveMountEffects (node_modules/react-dom/cjs/react-dom-client.development.js:15439:11)
+      at commitPassiveMountOnFiber (node_modules/react-dom/cjs/react-dom-client.development.js:15476:11)
+      at recursivelyTraversePassiveMountEffects (node_modules/react-dom/cjs/react-dom-client.development.js:15439:11)
+      at commitPassiveMountOnFiber (node_modules/react-dom/cjs/react-dom-client.development.js:15718:11)
+      at recursivelyTraversePassiveMountEffects (node_modules/react-dom/cjs/react-dom-client.development.js:15439:11)
+      at commitPassiveMountOnFiber (node_modules/react-dom/cjs/react-dom-client.development.js:15504:11)
+      at recursivelyTraversePassiveMountEffects (node_modules/react-dom/cjs/react-dom-client.development.js:15439:11)
+      at commitPassiveMountOnFiber (node_modules/react-dom/cjs/react-dom-client.development.js:15718:11)
+      at recursivelyTraversePassiveMountEffects (node_modules/react-dom/cjs/react-dom-client.development.js:15439:11)
+      at commitPassiveMountOnFiber (node_modules/react-dom/cjs/react-dom-client.development.js:15476:11)
+      at recursivelyTraversePassiveMountEffects (node_modules/react-dom/cjs/react-dom-client.development.js:15439:11)
+      at commitPassiveMountOnFiber (node_modules/react-dom/cjs/react-dom-client.development.js:15718:11)
+      at recursivelyTraversePassiveMountEffects (node_modules/react-dom/cjs/react-dom-client.development.js:15439:11)
+      at commitPassiveMountOnFiber (node_modules/react-dom/cjs/react-dom-client.development.js:15718:11)
+      at recursivelyTraversePassiveMountEffects (node_modules/react-dom/cjs/react-dom-client.development.js:15439:11)
+      at commitPassiveMountOnFiber (node_modules/react-dom/cjs/react-dom-client.development.js:15504:11)
+      at recursivelyTraversePassiveMountEffects (node_modules/react-dom/cjs/react-dom-client.development.js:15439:11)
+      at commitPassiveMountOnFiber (node_modules/react-dom/cjs/react-dom-client.development.js:15718:11)
+      at recursivelyTraversePassiveMountEffects (node_modules/react-dom/cjs/react-dom-client.development.js:15439:11)
+      at commitPassiveMountOnFiber (node_modules/react-dom/cjs/react-dom-client.development.js:15718:11)
+      at recursivelyTraversePassiveMountEffects (node_modules/react-dom/cjs/react-dom-client.development.js:15439:11)
+      at commitPassiveMountOnFiber (node_modules/react-dom/cjs/react-dom-client.development.js:15504:11)
+      at recursivelyTraversePassiveMountEffects (node_modules/react-dom/cjs/react-dom-client.development.js:15439:11)
+      at commitPassiveMountOnFiber (node_modules/react-dom/cjs/react-dom-client.development.js:15504:11)
+      at recursivelyTraversePassiveMountEffects (node_modules/react-dom/cjs/react-dom-client.development.js:15439:11)
+      at commitPassiveMountOnFiber (node_modules/react-dom/cjs/react-dom-client.development.js:15718:11)
+      at recursivelyTraversePassiveMountEffects (node_modules/react-dom/cjs/react-dom-client.development.js:15439:11)
+      at commitPassiveMountOnFiber (node_modules/react-dom/cjs/react-dom-client.development.js:15476:11)
+      at recursivelyTraversePassiveMountEffects (node_modules/react-dom/cjs/react-dom-client.development.js:15439:11)
+      at commitPassiveMountOnFiber (node_modules/react-dom/cjs/react-dom-client.development.js:15519:11)
+      at flushPassiveEffects (node_modules/react-dom/cjs/react-dom-client.development.js:18432:9)
+      at flushPendingEffects (node_modules/react-dom/cjs/react-dom-client.development.js:18358:14)
+      at performSyncWorkOnRoot (node_modules/react-dom/cjs/react-dom-client.development.js:18969:11)
+      at flushSyncWorkAcrossRoots_impl (node_modules/react-dom/cjs/react-dom-client.development.js:18814:21)
+      at flushSpawnedWork (node_modules/react-dom/cjs/react-dom-client.development.js:18334:9)
+      at commitRoot (node_modules/react-dom/cjs/react-dom-client.development.js:17955:9)
+      at performWorkOnRoot (node_modules/react-dom/cjs/react-dom-client.development.js:16667:15)
+      at performWorkOnRootViaSchedulerTask (node_modules/react-dom/cjs/react-dom-client.development.js:18957:7)
+      at flushActQueue (node_modules/react/cjs/react.development.js:590:34)
+      at Object.<anonymous>.process.env.NODE_ENV.exports.act (node_modules/react/cjs/react.development.js:884:10)
+      at node_modules/@testing-library/react/dist/act-compat.js:47:25
+      at renderRoot (node_modules/@testing-library/react/dist/pure.js:190:26)
+      at render (node_modules/@testing-library/react/dist/pure.js:292:10)
+      at Object.<anonymous> (src/__tests__/App.test.js:13:42)
+
+Test Suites: 9 failed, 2 passed, 11 total
+Tests:       20 failed, 8 passed, 28 total
+Snapshots:   0 total
+Time:        10.447 s, estimated 11 s
+Ran all test suites.
+error Command failed with exit code 1.
+info Visit https://yarnpkg.com/en/docs/cli/run for documentation about this command.

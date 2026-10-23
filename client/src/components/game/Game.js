@@ -6,7 +6,7 @@ import { withRouter } from 'react-router-dom'
 // Redux Stuff
 import { connect } from 'react-redux'
 import { fetchGame, fetchGameWeekGames, toggleOddsChartType } from '../../redux/actions/gamesActions'
-import { submitPrediction, changeGameScore, changeStakesValue } from '../../redux/actions/predictionsActions'
+import { submitPrediction, changeGameScore, changeStakesValue, submitSurvivorPick } from '../../redux/actions/predictionsActions'
 import { toggleOddsChangeModal } from '../../redux/actions/uiActions'
 import GamePreview from './GamePreview'
 import GameOddsChart from './GameOddsChart'
@@ -46,6 +46,7 @@ const Game = (props) => {
               headerRowArrowClick={props.fetchGameWeekGames}
               handleChangeGameScore={props.changeGameScore}
               handleSubmitPrediction={props.submitPrediction}
+              submitSurvivorPick={props.submitSurvivorPick}
               user={props.user}
               toggleOddsChangeModal={props.toggleOddsChangeModal}
               loadingGame={props.loadingGame}
@@ -96,7 +97,8 @@ const mapActionsToProps = {
   toggleOddsChangeModal,
   submitPrediction,
   changeGameScore,
-  changeStakesValue
+  changeStakesValue,
+  submitSurvivorPick
 }
 
 export default withRouter(connect(mapStateToProps, mapActionsToProps)(Game));

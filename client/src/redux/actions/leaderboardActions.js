@@ -20,9 +20,10 @@ export const fetchLeaderboards = (sport, year, season, week) => async (dispatch)
         let leaderboardResponse = await apiHost.get(`${sport}/leaderboards/${year}/${season}/${week}`, IdToken ? {
             headers: {
                 Authorization: IdToken
-            }
+            },
+            timeout: 30000
         } : {}).json()
-        console.log('leaderboardResponse', leaderboardResponse)
+        console.log('leaderboardResponse Action', leaderboardResponse)
         dispatch({
             type: SET_LEADERBOARDS,
             payload: leaderboardResponse.leaderboards
