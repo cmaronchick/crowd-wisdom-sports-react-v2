@@ -113,4 +113,79 @@ describe('render the game screen', () => {
             expect.objectContaining({ teamCode: 'WAS', label: 'WAS +14', teasedLine: 14, originalLine: 8 }),
         ]))
     })
+
+    test('hides tabs and renders only final predictions for another user', async () => {
+        const sport = { gameWeekData: { week: 1, year: 2024, season: 'reg' } }
+        const predictions = {
+            user: {},
+            comparedUser: {
+                gettingPredictions: false,
+                predictions: [{
+                    gameId: 'game-1',
+                    awayTeam: { code: 'SEA', score: 24 },
+                    homeTeam: { code: 'WAS', score: 17 },
+                    odds: { spread: -3, total: 42 },
+                    predictionScore: 2,
+                    results: { awayTeam: { score: 24 }, homeTeam: { score: 17 } }
+                }],
+            }
+        }
+
+        render(
+            <Router>
+                <Provider store={store}>
+                    <Predictions
+                        user={{ username: 'current-user' }}
+                        predictions={predictions}
+                        games={{ games: { 'game-1': { gameId: 'game-1', status: 'final', awayTeam: { code: 'SEA' }, homeTeam: { code: 'WAS' }, results: { awayTeam: { score: 24 }, homeTeam: { score: 17 } }, odds: { spread: -3, total: 42 } } } }}
+                        sport={sport}
+                        match={{ params: { userId: 'other-user' } }}
+                        setGameWeek={jest.fn()}
+                        getUserPredictions={jest.fn()}
+                        submitTeaser={jest.fn()}
+                    />
+                </Provider>
+            </Router>
+        )
+
+        expect(screen.queryByText(/Pending/i)).not.toBeInTheDocument()
+        expect(screen.queryByText(/Final/i)).not.toBeInTheDocument()
+        expect(await screen.findByText(/SEA/i)).toBeInTheDocument()
+    })
+
+    test('displays a score of zero for final results', async () => {
+        const sport = { gameWeekData: { week: 1, year: 2024, season: 'reg' } }
+        const predictions = {
+            user: {
+                'game-2': {
+                    gameId: 'game-2',
+                    awayTeam: { code: 'NYG', score: 0 },
+                    homeTeam: { code: 'PHI', score: 7 },
+                    odds: { spread: 3, total: 44 },
+                    predictionScore: 0,
+                    results: { awayTeam: { score: 0 }, homeTeam: { score: 7 } }
+                }
+            },
+            comparedUser: { gettingPredictions: false, predictions: [] }
+        }
+
+        render(
+            <Router>
+                <Provider store={store}>
+                    <Predictions
+                        user={{ username: 'current-user' }}
+                        predictions={predictions}
+                        games={{ games: { 'game-2': { gameId: 'game-2', status: 'final', awayTeam: { code: 'NYG' }, homeTeam: { code: 'PHI' }, results: { awayTeam: { score: 0 }, homeTeam: { score: 7 } }, odds: { spread: 3, total: 44 } } } }}
+                        sport={sport}
+                        match={{ params: { userId: 'current-user' } }}
+                        setGameWeek={jest.fn()}
+                        getUserPredictions={jest.fn()}
+                        submitTeaser={jest.fn()}
+                    />
+                </Provider>
+            </Router>
+        )
+
+        expect(screen.getAllByText('0').length).toBeGreaterThan(0)
+    })
 })

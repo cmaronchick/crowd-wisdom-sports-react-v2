@@ -1,3 +1,4 @@
+import './Predictions.less'
 import React, { useEffect, useMemo, useRef, useState } from 'react'
 import { connect } from 'react-redux'
 import { setGameWeek } from '../../redux/actions/sportActions'
@@ -166,6 +167,18 @@ export const Predictions = ({ predictions, user, games, sport, match, setGameWee
     const pendingPredictionCount = (resolvedUserId && comparedPredictions.length > 0) ? pendingComparedPredictions.length : pendingUserPredictions.length
     const finalPredictionCount = (resolvedUserId && comparedPredictions.length > 0) ? finalComparedPredictions.length : finalUserPredictions.length
     const [activePredictionTab, setActivePredictionTab] = useState(() => (pendingPredictionCount > 0 ? 'pending' : 'final'))
+    const shouldShowTabs = isCurrentUserView
+    const shouldShowTeaserControls = isCurrentUserView && activePredictionTab === 'pending'
+    const finalPredictionTable = resolvedUserId && comparedPredictions.length > 0 ? finalComparedPredictions : finalUserPredictions
+    const pendingPredictionTable = resolvedUserId && comparedPredictions.length > 0 ? pendingComparedPredictions : pendingUserPredictions
+
+    const getScoreDisplay = (team) => {
+        if (team?.score === undefined || team?.score === null) {
+            return ''
+        }
+
+        return team.score
+    }
 
     const buildColumns = (tabKey) => {
         const scoreTitle = tabKey === 'final' ? 'Prediction Score' : 'Teaser'
@@ -176,7 +189,7 @@ export const Predictions = ({ predictions, user, games, sport, match, setGameWee
                 dataIndex: 'awayTeam',
                 key: 'gameId',
                 render: (awayTeam) => awayTeam?.code && (
-                    <div>{awayTeam?.code ? (<span>{awayTeam.code}<br /></span>) : 'away'}{awayTeam?.score ? awayTeam.score : ''}</div>
+                    <div>{awayTeam?.code ? (<span>{awayTeam.code}<br /></span>) : 'away'}{getScoreDisplay(awayTeam)}</div>
                 ),
                 fixed: 'left',
                 width: 120,
@@ -185,7 +198,7 @@ export const Predictions = ({ predictions, user, games, sport, match, setGameWee
                 title: 'Home',
                 dataIndex: 'homeTeam',
                 render: (homeTeam) => homeTeam?.code && (
-                    <div>{homeTeam?.code ? (<span>{homeTeam.code}<br /></span>) : 'home'}{homeTeam?.score ? homeTeam.score : ''}</div>
+                    <div>{homeTeam?.code ? (<span>{homeTeam.code}<br /></span>) : 'home'}{getScoreDisplay(homeTeam)}</div>
                 ),
                 fixed: 'left',
                 width: 120,
@@ -207,10 +220,10 @@ export const Predictions = ({ predictions, user, games, sport, match, setGameWee
             {
                 title: scoreTitle,
                 dataIndex: 'predictionScore',
-                render: (predictionScore) => (<div>{predictionScore ? predictionScore : tabKey === 'pending' ? 'Pending' : ''}</div>),
+                render: (predictionScore) => (<div>{predictionScore !== undefined && predictionScore !== null ? predictionScore : tabKey === 'pending' ? 'Pending' : ''}</div>),
                 width: 120,
             },
-            ...(resolvedUserId !== loggedInUserId ? [{
+            ...(tabKey === 'pending' && isCurrentUserView ? [{
                 title: 'Teaser',
                 key: 'teaser',
                 width: 220,
@@ -261,7 +274,13 @@ export const Predictions = ({ predictions, user, games, sport, match, setGameWee
                     expandedRowRender: record => {
                         const game = games.games[record.gameId]
                         console.log('game', game)
-                        const gameResult = game && game.results ? { odds: game.odds, awayTeam: { score: game.results.awayTeam.score }, homeTeam: { score: game.results.homeTeam.score } } : null
+                        const gameResult = game && game.results ? {
+                            odds: game.odds,
+                            awayTeam: { ...game.awayTeam,
+                                score: game.results.awayTeam.score ?? game.results.awayTeam?.score ?? 0 },
+                            homeTeam: { ...game.homeTeam,
+                                score: game.results.homeTeam.score ?? game.results.homeTeam?.score ?? 0 }
+                        } : null
                         const myPrediction = predictions.user[record.gameId]
                         const myColumns = [
                             { title: 'Me', dataIndex: 'odds', key: 'me', className: 'embeddedTableNameColumn', render: () => (<div>Me</div>), fixed: 'left' },
@@ -271,11 +290,12 @@ export const Predictions = ({ predictions, user, games, sport, match, setGameWee
                             { title: tabKey === 'final' ? 'FINAL' : 'PENDING', dataIndex: 'odds', key: 'game', className: 'embeddedTableNameColumn', render: () => (<div>{tabKey === 'final' ? 'FINAL' : 'PENDING'}</div>), fixed: 'left' },
                             ...buildColumns(tabKey)
                         ]
+                        console.log('gameResult', gameResult)
 
                         return game && (
                             <div>
                                 {myPrediction && (<Table showHeader={false} dataSource={[myPrediction]} columns={myColumns} pagination={false} />)}
-                                {gameResult && (<Table showHeader={false} dataSource={[gameResult]} columns={gameColumns} pagination={false} />)}
+                                {gameResult && (<Table className="game-result-table" showHeader={false} dataSource={[gameResult]} columns={gameColumns} pagination={false} />)}
                             </div>
                         )
                     },
@@ -302,45 +322,47 @@ export const Predictions = ({ predictions, user, games, sport, match, setGameWee
     ) : (
         <div>
             <Title>{isCurrentUserView ? 'My' : resolvedUserId} Week {selectedWeek ? selectedWeek : week} Predictions</Title>
-            <div
-                style={{
-                    position: 'sticky',
-                    top: 12,
-                    zIndex: 10,
-                    marginBottom: 16,
-                    display: 'flex',
-                    justifyContent: 'space-between',
-                    alignItems: 'center',
-                    gap: 12,
-                    flexWrap: 'wrap',
-                    marginLeft: 16,
-                    padding: '12px 16px',
-                    background: '#fff',
-                    borderRadius: 8,
-                    boxShadow: '0 2px 8px rgba(0, 0, 0, 0.08)',
-                    border: '1px solid #f0f0f0',
-                }}
-            >
-                <Text strong>{teaserSummary}</Text>
-                {teaserSelections.length >= 2 && (
-                    <div style={{ display: 'flex', alignItems: 'center', gap: 12 }}>
-                        <Select
-                            value={selectedStake}
-                            onChange={setSelectedStake}
-                            options={[25, 50, 100, 200, 500].map((value) => ({ value, label: `${value}` }))}
-                            style={{ width: 120 }}
-                        />
-                        <Button
-                            type="primary"
-                            onClick={handleSubmitTeaser}
-                            loading={submittingTeaser}
-                            disabled={submittingTeaser}
-                        >
-                            {submittingTeaser ? 'Submitting...' : 'Submit Teaser'}
-                        </Button>
-                    </div>
-                )}
-            </div>
+            {shouldShowTeaserControls && (
+                <div
+                    style={{
+                        position: 'sticky',
+                        top: 12,
+                        zIndex: 10,
+                        marginBottom: 16,
+                        display: 'flex',
+                        justifyContent: 'space-between',
+                        alignItems: 'center',
+                        gap: 12,
+                        flexWrap: 'wrap',
+                        marginLeft: 16,
+                        padding: '12px 16px',
+                        background: '#fff',
+                        borderRadius: 8,
+                        boxShadow: '0 2px 8px rgba(0, 0, 0, 0.08)',
+                        border: '1px solid #f0f0f0',
+                    }}
+                >
+                    <Text strong>{teaserSummary}</Text>
+                    {teaserSelections.length >= 2 && (
+                        <div style={{ display: 'flex', alignItems: 'center', gap: 12 }}>
+                            <Select
+                                value={selectedStake}
+                                onChange={setSelectedStake}
+                                options={[25, 50, 100, 200, 500].map((value) => ({ value, label: `${value}` }))}
+                                style={{ width: 120 }}
+                            />
+                            <Button
+                                type="primary"
+                                onClick={handleSubmitTeaser}
+                                loading={submittingTeaser}
+                                disabled={submittingTeaser}
+                            >
+                                {submittingTeaser ? 'Submitting...' : 'Submit Teaser'}
+                            </Button>
+                        </div>
+                    )}
+                </div>
+            )}
 
             <Weeks
                 sport={sport}
@@ -350,21 +372,22 @@ export const Predictions = ({ predictions, user, games, sport, match, setGameWee
                 <div className="oddsRow" style={{ backgroundColor: '#fff', padding: 20 }}>
                     <img role="loading" alt="Predictions loading..." src={StakeIcon} className="loadingIcon" />
                 </div>
-            ) : (<div style={{ marginLeft: 16 }}>
-                <Tabs activeKey={activePredictionTab} onChange={setActivePredictionTab}>
-                    <TabPane tab={`Pending${pendingPredictionCount > 0 ? ` (${pendingPredictionCount})` : ''}`} key="pending">
-                        {resolvedUserId && comparedPredictions.length > 0
-                            ? renderPredictionTable(pendingComparedPredictions, 'pending')
-                            : renderPredictionTable(pendingUserPredictions, 'pending')}
-                    </TabPane>
-                    <TabPane tab={`Final${finalPredictionCount > 0 ? ` (${finalPredictionCount})` : ''}`} key="final">
-                        {resolvedUserId && comparedPredictions.length > 0
-                            ? renderPredictionTable(finalComparedPredictions, 'final')
-                            : renderPredictionTable(finalUserPredictions, 'final')}
-                    </TabPane>
-                </Tabs>
-            </div>
-            )}
+            ) : (shouldShowTabs ? (
+                <div style={{ marginLeft: 16 }}>
+                    <Tabs activeKey={activePredictionTab} onChange={setActivePredictionTab}>
+                        <TabPane tab={`Pending${pendingPredictionCount > 0 ? ` (${pendingPredictionCount})` : ''}`} key="pending">
+                            {renderPredictionTable(pendingPredictionTable, 'pending')}
+                        </TabPane>
+                        <TabPane tab={`Final${finalPredictionCount > 0 ? ` (${finalPredictionCount})` : ''}`} key="final">
+                            {renderPredictionTable(finalPredictionTable, 'final')}
+                        </TabPane>
+                    </Tabs>
+                </div>
+            ) : (
+                <div style={{ marginLeft: 16 }}>
+                    {renderPredictionTable(finalPredictionTable, 'final')}
+                </div>
+            ))}
         </div>
     )
 }
