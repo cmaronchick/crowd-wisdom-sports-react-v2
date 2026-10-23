@@ -5,18 +5,19 @@ const ky = require('ky-universal');
 const busboy = require('busboy');
 const Amplify = require('aws-amplify')
 
-const apiHost = ky.create({prefixUrl: `https://y5f8dr2inb.execute-api.us-west-2.amazonaws.com/dev/`})
+const apiHost = ky.create({prefixUrl: `https://3tsywitgn8.execute-api.us-west-2.amazonaws.com/dev/`})
 const router = express();
 router.use(bodyParser.json()) // for parsing application/json
 router.use(bodyParser.urlencoded({ extended: true })) // for parsing application/x-www-form-urlencoded
 const cors = require('cors')
 router.use(cors())
 
-const { getGameWeek, getGame, getGamesByGameWeek, submitPrediction, getOddsMovement } = require('./handlers/games')
+const { getGameWeek, getGame, getGamesByGameWeek, submitPrediction, getOddsMovement, submitGameUpdate } = require('./handlers/games')
 const { getSportSeason } = require('./handlers/sport')
 const { getLeaderboards, getCrowdLeaderboards } = require('./handlers/leaderboards')
 const { getGroups, getGroup, joinGroup, leaveGroup, createGroup, updateGroup } = require('./handlers/groups')
 const { getExtendedProfile, getUserNotifications, uploadImage, getUserPredictions } = require('./handlers/users')
+const { getCurrentLines, submitWager, getWagers, getSportsbooks, submitTeaser } = require('./handlers/wagers')
 
 const { callOptions} = require('./utils');
 
@@ -28,6 +29,14 @@ router.get('/:sport/games/:year/:season/:gameWeek/live', getOddsMovement)
 router.get('/:sport/games/:year/:season/:gameWeek/game/:gameId', getGame);
 router.get(['/:sport/games', '/:sport/games/:year/:season/:gameWeek'], getGamesByGameWeek);
 router.post('/submitPrediction', submitPrediction)
+router.post('/gameupdate', submitGameUpdate)
+
+// wagering calls
+router.get('/:sport/games/:year/:season/:gameWeek/game/:gameId/currentlines', getCurrentLines)
+router.post('/predictions/wager', submitWager)
+router.post('/predictions/wager/teaser', submitTeaser)
+router.get('/predictions/wager', getWagers)
+router.get('/predictions/wager/sportsbooks', getSportsbooks)
 
 //leaderboards calls
 router.get('/:sport/leaderboards/:year/:season/:week', getLeaderboards)

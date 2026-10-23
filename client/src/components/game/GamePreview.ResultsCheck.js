@@ -24,7 +24,7 @@ import { AimOutlined } from '@ant-design/icons'
   }
   
   export const totalResults = (odds, results, prediction) => {
-    console.log('results, prediction', results, prediction)
+    // console.log('results, prediction', results, prediction)
     return results.awayTeam && results.homeTeam && prediction.awayTeam && prediction.homeTeam ? (((results.awayTeam.score + results.homeTeam.score) > odds.total)
     ? ((prediction.awayTeam.score + prediction.homeTeam.score) > odds.total)
     ? (<span className={`resultTriangle resultWin`}></span>)
