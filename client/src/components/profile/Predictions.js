@@ -88,15 +88,6 @@ export const Predictions = ({ predictions, user, games, sport, match, setGameWee
         if (teaserSelections.length < 2) {
             return
         }
-        setSubmittingTeaser(true)
-        try {
-            await submitTeaser(teaserSelections, selectedStake)
-            setTeaserSelections([])
-        } catch (error) {
-            console.error('handleSubmitTeaserError:', error)
-        } finally {
-            setSubmittingTeaser(false)
-        }
 
         const selectionList = teaserSelections.map((selection) => ({
             ...selection,
@@ -136,10 +127,14 @@ export const Predictions = ({ predictions, user, games, sport, match, setGameWee
             }
         }
 
+        setSubmittingTeaser(true)
         try {
             await submitTeaser(selectionList, teaserObject)
+            setTeaserSelections([])
         } catch (error) {
-            console.error('submit teaser error', error)
+            console.error('handleSubmitTeaserError:', error)
+        } finally {
+            setSubmittingTeaser(false)
         }
     }
     const getPredictionStatus = (record, game) => {
@@ -153,7 +148,9 @@ export const Predictions = ({ predictions, user, games, sport, match, setGameWee
 
     const splitPredictions = (records = []) => records.reduce((grouped, record) => {
         const game = games?.games?.[record.gameId]
-        console.log('record', record, 'game', game)
+        if (process.env.NODE_ENV === 'development') {
+            console.log('Processing record:', record, game)
+        }
         const status = getPredictionStatus(record, game)
         game && grouped[status].push(record)
         return grouped
@@ -228,10 +225,18 @@ export const Predictions = ({ predictions, user, games, sport, match, setGameWee
                             placeholder="Select teaser"
                             allowClear
                             onChange={(value) => {
+                                if (value === '__clear__') {
+                                    toggleTeaserSelection(record, game, null)
+                                    return
+                                }
+
                                 const option = spreadOptions.find((item) => item.id === value)
                                 toggleTeaserSelection(record, game, option)
                             }}
-                            options={spreadOptions.map((option) => ({ value: option.id, label: option.label }))}
+                            options={[
+                                { value: '__clear__', label: 'Remove teaser selection' },
+                                ...spreadOptions.map((option) => ({ value: option.id, label: option.label }))
+                            ]}
                             disabled={!game || spreadOptions.length === 0}
                         />
                     )
@@ -325,8 +330,14 @@ export const Predictions = ({ predictions, user, games, sport, match, setGameWee
                             options={[25, 50, 100, 200, 500].map((value) => ({ value, label: `${value}` }))}
                             style={{ width: 120 }}
                         />
-                        <Button type="primary" onClick={handleSubmitTeaser}
-                        disabled={submittingTeaser}>{submittingTeaser ? 'Submitting...' : 'Submit Teaser'}</Button>
+                        <Button
+                            type="primary"
+                            onClick={handleSubmitTeaser}
+                            loading={submittingTeaser}
+                            disabled={submittingTeaser}
+                        >
+                            {submittingTeaser ? 'Submitting...' : 'Submit Teaser'}
+                        </Button>
                     </div>
                 )}
             </div>
