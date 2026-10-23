@@ -1,0 +1,17 @@
+yarn run v1.22.22
+$ jest
+  console.log
+    { res: { statusCode: 201, body: { post: true } } }
+
+      at log (__tests__/routes.test.js:26:17)
+
+PASS __tests__/routes.test.js
+  Endpoints
+    √ get games (13 ms)
+
+Test Suites: 1 passed, 1 total
+Tests:       1 passed, 1 total
+Snapshots:   0 total
+Time:        2.755 s
+Ran all test suites.
+Done in 3.86s.

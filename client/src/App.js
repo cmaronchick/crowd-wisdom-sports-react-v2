@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import {Auth} from '@aws-amplify/auth'
 
-import ReactGA from 'react-ga'
+import ReactGA from 'react-ga4'
 import { config as analytics } from './constants/analytics'
 
 
@@ -33,11 +33,13 @@ import { getUrlParameters } from './functions/utils'
 // redux stuff
 import store from './redux/store'
 import { LOADING_USER, SET_USER, LOADING_GAMES, LOADING_GAME } from './redux/types'
-import { setSport } from './redux/actions/sportActions'
+import { setSport, fetchSportsbooks } from './redux/actions/sportActions'
 import { toggleOddsChangeModal } from './redux/actions/uiActions'
 
 import { getFacebookUser, getUserDetails } from './redux/actions/userActions'
+import { fetchGameWeekGames } from './redux/actions/gamesActions'
 import Predictions from './components/profile/Predictions';
+import WagerSlip from './components/game/WagerSlip'
 
 const { Footer, Content } = Layout;
 var stateKey = 'amplify_auth_state';
@@ -46,7 +48,7 @@ var stateKey = 'amplify_auth_state';
 const history = createBrowserHistory()
 history.listen(location => {
     ReactGA.set({ page: location.pathname })
-    ReactGA.pageview(location.pathname)
+    ReactGA.ga('send', 'pageview', location.pathname)
 })
 
 const RequireAuth = (props) => {
@@ -89,6 +91,25 @@ class App extends Component {
     }
   }
 
+  syncSportFromPath = (pathname) => {
+    if (!pathname) {
+      return
+    }
+
+    const routeParams = pathname.split('/')
+    const sport = routeParams[1]
+    const year = parseInt(routeParams[3])
+    const season = routeParams[4]
+    const week = parseInt(routeParams[5])
+    const validSports = ['nfl', 'ncaaf', 'ncaam']
+
+    if (validSports.indexOf(sport) > -1) {
+      this.props.setSport(sport, year, season, week)
+    } else if (pathname === '/' || pathname === '') {
+      this.props.setSport('nfl', year, season, week)
+    }
+  }
+
   
 
   handleAmplifyCallback = async (location) => {
@@ -105,9 +126,9 @@ class App extends Component {
   }
 
   async componentDidMount() {
-    if (process.env.NODE_ENV !== 'test') {
+    // if (process.env.NODE_ENV !== 'test') {
       ReactGA.initialize(analytics.trackingId)
-    }
+    // }
     store.dispatch({
       type: LOADING_USER
     })
@@ -132,25 +153,24 @@ class App extends Component {
           attributes: currentUser.attributes
         }
       })
+      const { sport, year, season, week } = store.getState().sport.gameWeekData
+      store.dispatch(fetchGameWeekGames(sport, year, season, week))
+      store.dispatch(getUserDetails(sport, year, season, week))
+      store.dispatch(fetchSportsbooks())
     } catch (getCurrentUserError) {
       console.log('getCurrentUserError', getCurrentUserError)
     }
-    //check pathname for sports variables
-    if (this.props.location.pathname) {
-      let routeParams = this.props.location.pathname.split('/')
-      let sport = routeParams[1]
-      let page = routeParams[2]
-      let year = parseInt(routeParams[3])
-      let season = routeParams[4]
-      let week = parseInt(routeParams[5])
-      this.props.setSport(sport ? sport : 'nfl', year, season, week)
-      // if (page === 'leaderboards') {
-      //   store.dispatch(fetchLeaderboards(sport ? sport : 'nfl', year ? year : 2019, season ? season : 'post', week ? week : 4))
-      // }
-    }
+    this.syncSportFromPath(this.props.location.pathname)
+
     if (window.location.pathname === '/callback' && window.location.search.indexOf('error') === -1) {
       console.log('starting FB login', window.location)
       this.handleAmplifyCallback(window.location)
+    }
+  }
+
+  componentDidUpdate(prevProps) {
+    if (prevProps.location.pathname !== this.props.location.pathname) {
+      this.syncSportFromPath(this.props.location.pathname)
     }
   }
   render() {
@@ -174,10 +194,17 @@ class App extends Component {
                   <Route path="/:sport/groups/:year/:season/group/:groupId" component={Group} />
                   <Route path="/:sport/groups" component={Groups} />
                   <Route path="/:sport/oddsmovement/:year/:season/:gameWeek" component={OddsMovement} />
+
+                  <Route
+                    exact
+                    path="/wagerslip"
+                    render={() => <Redirect to={`/${store.getState().sport.sport || 'nfl'}/wagerslip`} />}
+                  />
+                  <Route path="/:sport/wagerslip" component={WagerSlip} />
                   {/* <Route path="/:sport/games/admin" component={props => 
                     <RequireAuth {...props} user={this.props.user} Component={AdminPage} />}/> */}
                   <Route path="/:sport/games/admin" component={AdminPage}/>
-                  <Route path={["/:sport/predictions/:userId/:year/:season/:selectedWeek", "/:sport/predictions/:userId"]} component={Predictions} />
+                  <Route path={["/:sport/predictions/:userId/:year/:season/:selectedWeek", "/:sport/predictions/:userId", "/:sport/predictions"]} component={Predictions} />
                   <Route path={["/:sport", "/:sport/games","/"]} component={Games} />
                 </Switch>
             </Content>
@@ -211,7 +238,9 @@ const mapStateToProps = (state) => ({
 const mapActionsToProps = {
   getUserDetails,
   toggleOddsChangeModal,
-  setSport
+  setSport,
+  fetchGameWeekGames,
+  fetchSportsbooks
 }
 
 export default connect(mapStateToProps, mapActionsToProps)(App);

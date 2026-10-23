@@ -7,7 +7,7 @@ const { Title } = Typography
 const OddsChangeModal = ({oddsChangeModalShow, toggleOddsChangeModal, oddsChangeModalDetails}) => {
     const { game, prediction } = oddsChangeModalDetails
     return (
-        <Modal visible={oddsChangeModalShow} onOk={() => toggleOddsChangeModal()} onCancel={() => toggleOddsChangeModal()}>
+        <Modal open={oddsChangeModalShow} onOk={() => toggleOddsChangeModal()} onCancel={() => toggleOddsChangeModal()}>
             {game && prediction ? (
                 <Fragment>
                 <Title>Odds Change Details</Title>
