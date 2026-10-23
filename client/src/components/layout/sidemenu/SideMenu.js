@@ -132,6 +132,12 @@ const getMenuItems = (sportData) => {
         ]
     },
     {
+        key: 'predictions',
+        label: 'My Predictions',
+        path: `/${sportKey}/predictions`,
+        icon: <FaChartLine />
+    },
+    {
         key: 'wager-slip',
         label: 'Wager Slip',
         path: `/${sportKey}/wagerslip`,

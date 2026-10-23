@@ -24,9 +24,12 @@ const formatCurrency = (value, styledIcon) => {
 const formatPercent = (value) => `${value >= 0 ? '+' : ''}${value.toFixed(2)}%`;
 
 const wagerBet = (wagerObj, game) => {
-  if (!wagerObj || !game) return null;
+  if (!wagerObj) return null;
   const { wager, prediction } = wagerObj;
-  const { wagerType, spreadTotal, odds } = wager || {};
+  const { wagerType, spreadTotal, odds, legs = [] } = wager || {};
+  if (!game && wagerType !== 'teaser') {
+    return null;
+  }
   if (wagerType === 'spread') {
     return spreadPredictionWager(game, prediction, wagerObj)
   }
@@ -41,6 +44,13 @@ const wagerBet = (wagerObj, game) => {
       return `${prediction.homeTeam.code} ML`;
     }
     return 'TIE';
+  }
+  if (wagerType === 'teaser') {
+    const legText = legs
+      .map((leg) => leg.betText || `${leg.team || leg.participantId || 'Pick'} ${leg.spreadTotal > 0 ? '+' : ''}${leg.spreadTotal}`)
+      .filter(Boolean)
+      .join(' / ');
+    return legText || 'Teaser';
   }
   return null;
 }
@@ -445,7 +455,7 @@ const WagerSlipFilters = ({ yearOptions, seasonOptions, weekOptions, historyScop
           }}>
           Type
         </span>
-        {['ALL', 'MONEYLINE', 'SPREAD', 'TOTAL'].map((filterValue) => (
+        {['ALL', 'MONEYLINE', 'SPREAD', 'TOTAL', 'TEASER'].map((filterValue) => (
           <button
             key={filterValue}
             onClick={() => setHistoryType(filterValue)}
@@ -612,14 +622,16 @@ const WagerSlipList = ({ wagers, gamesData }) => {
                 fontWeight: 700,
                 color: '#c9d1e0',
                 letterSpacing: '0.04em',
-                whiteSpace: 'nowrap',
+                whiteSpace: 'normal',
                 overflow: 'hidden',
                 textOverflow: 'ellipsis',
                 textAlign: 'left',
                 minWidth: 200,
               }}
             >
-              {wager.awayTeam?.code} at {wager.homeTeam?.code}
+              {wager.wager?.wagerType === 'teaser'
+                ? (wager.wager?.legs?.map((leg) => leg.betText || `${leg.team || leg.participantId || 'Pick'} ${leg.spreadTotal > 0 ? '+' : ''}${leg.spreadTotal}`).join(' / ') || 'Teaser Pick')
+                : `${wager.awayTeam?.code || 'Away'} at ${wager.homeTeam?.code || 'Home'}`}
               <p className="bet-type"><span style={{
                 fontFamily: "'DM Mono', monospace",
                 fontSize: '10px',
@@ -946,6 +958,10 @@ const betTypeStyles = {
   moneyline: {
     backgroundColor: '#fb923c',
     color: '#fb923c',
+  },
+  teaser: {
+    backgroundColor: '#a78bfa',
+    color: '#c4b5fd',
   },
 }
 

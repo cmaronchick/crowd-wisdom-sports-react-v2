@@ -135,6 +135,34 @@ const GamePreview = (props) => {
     }
     props.handleSubmitPrediction(props.game.gameId, prediction)
   }
+
+  const handleSubmitSurvivorPick = () => {
+    if (!userPrediction || !userPrediction.awayTeam?.score || !userPrediction.homeTeam?.score) {
+      return
+    }
+
+    const survivorTeamCode = userPrediction.awayTeam.score > userPrediction.homeTeam.score
+      ? game.awayTeam.code
+      : userPrediction.homeTeam.score > userPrediction.awayTeam.score
+        ? game.homeTeam.code
+        : null
+
+    if (!survivorTeamCode) {
+      return
+    }
+
+    const pick = {
+      gameId: game.gameId,
+      survivorTeamCode,
+      predictionId: userPrediction._id || userPrediction.gameId || game.gameId,
+      sport: game.sport,
+      year: game.year,
+      season: game.season,
+      gameWeek: game.gameWeek
+    }
+
+    props.submitSurvivorPick && props.submitSurvivorPick(pick)
+  }
   // console.log('GamePreview props', userPrediction, gameCannotBeUpdated)
       return (
       <Card bodyStyle={{ padding: window.innerWidth < 768 ? 12 : 24 }} title={
@@ -249,6 +277,11 @@ const GamePreview = (props) => {
                         )}
                     </Button>
 
+                        {userPrediction && userPrediction.awayTeam && userPrediction.homeTeam && userPrediction.type === 'user' && (
+                          <Button type="default" onClick={handleSubmitSurvivorPick} className="survivor-button" style={{flex: 1}}>
+                            Survivor Pick
+                          </Button>
+                        )}
                         {userPrediction && userPrediction.awayTeam && userPrediction.homeTeam && userPrediction.type === 'user' && (
                           
                             <Button type="default" onClick={() => props.onOpenWagerModal && props.onOpenWagerModal(game.gameId)} disabled={!game.odds || gameCannotBeUpdated || !user.authenticated || !props.canOpenWagerModal}

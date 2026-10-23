@@ -1,6 +1,7 @@
 import React from 'react';
 import { createRoot } from 'react-dom/client';
 
+import './setupMatchMedia'
 import { BrowserRouter as Router, Route } from 'react-router-dom'
 import './index.css';
 import App from './App';

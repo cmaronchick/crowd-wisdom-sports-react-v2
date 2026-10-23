@@ -8,7 +8,15 @@ import {
     SET_COMPARED_USER_PREDICTIONS,
     LOADING_WAGERS,
     SET_WAGERS,
-    ADD_WAGER
+    ADD_WAGER,
+    SUBMITTING_SURVIVOR_PICK,
+    SUBMITTED_SURVIVOR_PICK,
+    SET_SURVIVOR_PICK_ERROR,
+    CLEAR_SURVIVOR_PICK_ERROR,
+    SUBMITTING_TEASER,
+    SUBMITTED_TEASER,
+    SET_TEASER_ERROR,
+    CLEAR_TEASER_ERROR
 } from '../types'
 
 import { fetchGame } from './gamesActions'
@@ -103,7 +111,13 @@ export const getUserPredictions = (sport, year, season, gameWeek, userId) => asy
     })
     try {
         let currentSession = await Auth.currentSession();
-        let userPredictionResponse = await apiHost.get(`user/predictions?sport=${sport}&year=${year}&season=${season}&week=${gameWeek}&userId=${userId}`)
+        let IdToken = await currentSession.getIdToken().getJwtToken()
+        let userPredictionResponse = await apiHost.get(`user/predictions?sport=${sport}&year=${year}&season=${season}&week=${gameWeek}&userId=${userId}`,{
+            headers: {
+                Authorization: IdToken,
+                'Content-type': 'application/json'
+            }
+        }) 
         let userPredictionResponseJSON = await userPredictionResponse.json()
         console.log(`userPredictionResponseJSON`, userPredictionResponseJSON)
         ReactGA.event({
@@ -187,6 +201,107 @@ export const submitWager = (game, prediction, wager) => async (dispatch) => {
             type: SET_ERRORS,
             payload: wagerError
         })
+    }
+}
+
+export const submitSurvivorPick = (pick) => async (dispatch) => {
+    try {
+        dispatch({ type: SUBMITTING_SURVIVOR_PICK })
+        const currentSession = await Auth.currentSession()
+        const IdToken = await currentSession.getIdToken().getJwtToken()
+        const response = await apiHost.post('predictions/survivorpick', {
+            headers: {
+                'Content-type': 'application/json',
+                Authorization: IdToken
+            },
+            body: JSON.stringify(pick)
+        })
+        const responseJSON = await response.json()
+        dispatch({
+            type: SUBMITTED_SURVIVOR_PICK,
+            payload: pick
+        })
+        dispatch({
+            type: CLEAR_SURVIVOR_PICK_ERROR
+        })
+        return responseJSON
+    } catch (error) {
+        dispatch({
+            type: SET_SURVIVOR_PICK_ERROR,
+            payload: { error: `${error}` }
+        })
+        throw error
+    }
+}
+
+export const submitTeaser = (selections, teaser) => async (dispatch) => {
+    if (!selections || selections.length === 0 || !teaser || Object.keys(teaser).length === 0) {
+        dispatch({
+            type: SET_TEASER_ERROR,
+            payload: 'Sorry, there was an issue submitting your teaser.'
+        })
+        return false
+    }
+
+    dispatch({ type: SUBMITTING_TEASER })
+    dispatch({ type: CLEAR_TEASER_ERROR })
+
+    const predictionsArray = selections.map((selection) => ({
+        awayTeam: selection.prediction?.awayTeam,
+        homeTeam: selection.prediction?.homeTeam,
+        odds: selection.prediction?.odds || selection.game?.odds
+    }))
+
+    const { gameIdsArray, wager, sport, season, year, gameWeek } = teaser
+    const wagerObject = {
+        gameId: null,
+        gameIdsArray,
+        year,
+        sport,
+        gameWeek,
+        season,
+        predictionsArray,
+        wager,
+        submitted: Date.now()
+    }
+
+    try {
+        const currentSession = await Auth.currentSession()
+        const IdToken = await currentSession.getIdToken().getJwtToken()
+        const response = await apiHost.post('predictions/wager/teaser', {
+            headers: {
+                'Content-type': 'application/json',
+                Authorization: IdToken
+            },
+            body: JSON.stringify(wagerObject)
+        })
+        const responseJSON = await response.json()
+
+        if (responseJSON?.errorType) {
+            dispatch({
+                type: SET_TEASER_ERROR,
+                payload: responseJSON.errorType
+            })
+            return responseJSON
+        }
+
+        if (responseJSON?.status === 200) {
+            dispatch({
+                type: ADD_WAGER,
+                payload: wagerObject
+            })
+            dispatch({ type: SUBMITTED_TEASER, payload: wagerObject })
+            dispatch({ type: CLEAR_TEASER_ERROR })
+            return responseJSON
+        }
+
+        return responseJSON
+    } catch (error) {
+        dispatch({
+            type: SET_TEASER_ERROR,
+            payload: { error: `${error}` }
+        })
+        throw error
     }
 }
 

@@ -118,4 +118,35 @@ const getSportsbooks = (req, res) => {
     });
 }
 
-module.exports = { getCurrentLines, submitWager, getWagers, getSportsbooks };
+const submitTeaser = (req, res) => {
+    // if (process.env.NODE_ENV === 'development') {
+        console.log('submitTeaser request body:', req.body)
+    // }
+    return ky.post(`https://3tsywitgn8.execute-api.us-west-2.amazonaws.com/dev/predictions/wager/teaser`, {
+        headers: {
+            Authorization: req.headers.authorization,
+            'Content-type': 'application/json'
+        },
+        body: JSON.stringify(req.body)
+    })
+    .then(response => response.json())
+    .then(data => res.status(200).json(data))
+    .catch(err => {
+        console.error('submitTeaserError:', err);
+        const status = err.response?.status || 500;
+        if (err.response) {
+            return err.response.text()
+                .then((body) => {
+                    try {
+                        return res.status(status).json(JSON.parse(body));
+                    } catch (parseError) {
+                        return res.status(status).json({ message: body || err.message || err });
+                    }
+                })
+                .catch(() => res.status(status).json({ message: err.message || err }));
+        }
+        return res.status(status).json({ message: err.message || err });
+    });
+}
+
+module.exports = { getCurrentLines, submitWager, getWagers, getSportsbooks, submitTeaser };
