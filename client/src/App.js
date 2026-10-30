@@ -204,6 +204,7 @@ class App extends Component {
                   {/* <Route path="/:sport/games/admin" component={props => 
                     <RequireAuth {...props} user={this.props.user} Component={AdminPage} />}/> */}
                   <Route path="/:sport/games/admin" component={AdminPage}/>
+                  <Route path="/:sport/games/:year/:season/:week/admin" component={AdminPage}/>
                   <Route path={["/:sport/predictions/:userId/:year/:season/:selectedWeek", "/:sport/predictions/:userId", "/:sport/predictions"]} component={Predictions} />
                   <Route path={["/:sport", "/:sport/games","/"]} component={Games} />
                 </Switch>

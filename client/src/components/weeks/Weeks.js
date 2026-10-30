@@ -35,7 +35,7 @@ const Weeks = (props) => {
         
             <List.Item key={index}>
               <Link
-                to={`/${sport.sport}/${page}/${year}/${season}/${index + 1}`}
+                to={page === "admin" ? `/${sport.sport}/games/${year}/${season}/${index + 1}/admin` : `/${sport.sport}/${page}/${year}/${season}/${index + 1}`}
                 onClick={() => onWeekClick(index + 1)}
                 className={`week ${(index + 1) === parseInt(week) ? 'selectedWeek' : ''}`}
                 >

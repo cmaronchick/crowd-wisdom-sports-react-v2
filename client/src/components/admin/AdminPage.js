@@ -180,7 +180,7 @@ const AdminPage = (props) => {
                 <SeasonSelector
                     sport={sport.sport} season={sport.gameWeekData.season}
                 />
-                <Weeks onGameWeekClick={fetchGameWeekGames} page="games" />
+                <Weeks onGameWeekClick={fetchGameWeekGames} page="admin" />
             </div>
             {games && Object.keys(games.games).length > 0 && Object.keys(games.games).sort((a,b) => {
                 return games.games[a].startDateTime > games.games[b].startDateTime ? 1 : -1
